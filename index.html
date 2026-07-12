@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#ffffff">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<title>PSX Trade Desk</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Rubik:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="themes.css">
+</head>
+<body data-theme="gemini">
+<header class="app">
+  <a class="brand" href="#/today">PSX <em>Trade Desk</em></a>
+  <nav class="tabs">
+    <a href="#/today" data-nav="today">Today</a>
+    <a href="#/board" data-nav="board">Board</a>
+    <a href="#/strategies" data-nav="strategies">Strategies</a>
+    <a href="#/macro" data-nav="macro">Macro</a>
+    <a href="#/dividends" data-nav="dividends">Dividends</a>
+    <a href="#/calendar" data-nav="calendar">Earnings</a>
+    <a href="#/news" data-nav="news">News</a>
+  </nav>
+  <span id="mkt" class="pill">—</span>
+  <span id="health" class="pill">HEALTH —</span>
+  <span id="regime" class="pill">REGIME —</span>
+  <span id="georisk" class="pill" style="display:none">RISK —</span>
+  <span class="meta" id="updated"></span>
+</header>
+<main id="view"></main>
+<nav class="bottomnav" id="bottomnav">
+  <a href="#/today" data-nav="today"><svg viewBox="0 0 24 24"><path d="M3 12l9-9 9 9M5 10v10h14V10"/></svg><span>Today</span></a>
+  <a href="#/board" data-nav="board"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg><span>Board</span></a>
+  <a href="#/strategies" data-nav="strategies"><svg viewBox="0 0 24 24"><path d="M3 17l6-6 4 4 8-8M21 7v6M21 7h-6"/></svg><span>Strategies</span></a>
+  <a href="#/dividends" data-nav="dividends"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v10M9 9.5c0-1.4 1.3-2 3-2s3 .6 3 2-1.3 2-3 2-3 .6-3 2 1.3 2 3 2 3-.6 3-2"/></svg><span>Income</span></a>
+  <a href="#/news" data-nav="news"><svg viewBox="0 0 24 24"><path d="M4 5h16v14H4zM8 9h8M8 13h8M8 17h5"/></svg><span>News</span></a>
+</nav>
+<script src="app.js"></script>
+</body>
+</html>

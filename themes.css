@@ -1,0 +1,186 @@
+/* PSX Trade Desk — Gemini theme (single, locked).
+   Data polarity colors are CVD-validated; accent is chrome only. */
+
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+.num{font-variant-numeric:tabular-nums}
+table{width:100%;border-collapse:collapse}
+th{text-align:left;font-weight:600}
+.r{text-align:right}
+button{cursor:pointer;font:inherit}
+.clickable{cursor:pointer}
+.empty{text-align:center;padding:16px 0;opacity:.55;font-size:13px}
+header.app{display:flex;align-items:center;gap:10px;flex-wrap:wrap;position:sticky;top:0;z-index:10}
+nav.tabs{display:flex;gap:4px}
+.meta{margin-left:auto;font-size:11.5px;opacity:.6}
+main{display:block}
+.grid-board{display:grid;gap:var(--gap)}
+.cards>*{margin-bottom:var(--gap)}
+h2{margin-bottom:2px}
+.sub{font-size:11.5px;opacity:.55;margin-bottom:12px}
+.statgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:var(--gap)}
+.stat b{display:block;font-size:17px}
+.stat span{font-size:11px;opacity:.6;text-transform:uppercase;letter-spacing:.05em}
+.heat{display:grid;grid-template-columns:repeat(auto-fill,minmax(92px,1fr));gap:5px}
+.cell b{display:block}
+.cell .px{display:none}
+.wire p{padding:7px 0;font-size:12.5px}
+.wire .t{font-size:10.5px;opacity:.5;margin-right:6px}
+.chartwrap{position:relative}
+.chartwrap canvas{width:100%;display:block}
+.ranges{display:flex;gap:4px;margin-bottom:8px}
+.tooltip{position:absolute;pointer-events:none;font-size:11.5px;padding:6px 9px;border-radius:6px;display:none;z-index:5;white-space:nowrap}
+.crumb{font-size:12px;opacity:.6;margin-bottom:10px;display:inline-block}
+.pill{display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600}
+.tag{display:inline-block;padding:1px 8px;border-radius:6px;font-size:10.5px}
+.badge-ok{font-weight:700}
+.tk-head{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:4px}
+.tk-head .sym{font-weight:800}
+.tk-head .px{font-weight:700}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:var(--gap)}
+@media(max-width:900px){.two-col{grid-template-columns:1fr}}
+
+/* ---------- GEMINI · refined editorial, stockanalysis/TradingView-grade ---------- */
+body[data-theme=gemini]{
+  --gap:18px;--up:#0B7A5F;--dn:#BE4126;--accent:#131722;
+  --ink1:#131722;--ink2:#3D434B;--ink3:#5E6672;--line:#E6E9EE;--line2:#F1F3F6;--surf:#FAFBFC;
+  --font-body:"Manrope",ui-sans-serif,system-ui,"Segoe UI",sans-serif;
+  --font-head:"Rubik","Manrope",ui-sans-serif,system-ui,sans-serif;
+  background:#FFFFFF;color:var(--ink1);letter-spacing:-.003em;
+  font-family:var(--font-body);
+}
+body[data-theme=gemini] h2,body[data-theme=gemini] .brand,body[data-theme=gemini] .tk-head .sym,body[data-theme=gemini] .timing b{font-family:var(--font-head)}
+body[data-theme=gemini] main{max-width:1280px;margin:0 auto;padding:24px 24px 60px}
+body[data-theme=gemini] .grid-board{grid-template-columns:1.5fr 1fr;gap:20px}
+@media(max-width:900px){body[data-theme=gemini] .grid-board{grid-template-columns:1fr}}
+body[data-theme=gemini] header.app{background:rgba(255,255,255,.85);backdrop-filter:blur(10px);padding:14px 24px;border-bottom:1px solid var(--line)}
+body[data-theme=gemini] .brand{font-size:16px;font-weight:800;letter-spacing:-.01em}
+body[data-theme=gemini] .brand em{font-style:normal;color:var(--ink3);font-weight:600}
+body[data-theme=gemini] nav.tabs a{padding:7px 15px;font-size:13.5px;font-weight:600;color:var(--ink3);border-radius:8px;transition:.12s}
+body[data-theme=gemini] nav.tabs a:hover{color:var(--ink1);background:var(--line2)}
+body[data-theme=gemini] nav.tabs a.on{color:var(--ink1);background:var(--line)}
+body[data-theme=gemini] .card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:20px 22px;transition:box-shadow .15s}
+body[data-theme=gemini] main>.card,body[data-theme=gemini] main>.two-col{margin-bottom:var(--gap)}
+body[data-theme=gemini] .two-col{gap:var(--gap)}
+body[data-theme=gemini] .card.clickable:hover{box-shadow:0 4px 18px rgba(19,23,34,.07);border-color:#DDE1E6}
+body[data-theme=gemini] h2{font-size:15px;font-weight:700;letter-spacing:-.01em}
+body[data-theme=gemini] .sub{font-size:12px;color:var(--ink3)}
+body[data-theme=gemini] .cell{border:1px solid var(--line);border-radius:10px;padding:10px 11px;transition:.12s}
+body[data-theme=gemini] .cell:hover{border-color:var(--ink3);transform:translateY(-1px)}
+body[data-theme=gemini] .cell b{font-size:13px;font-weight:700}
+body[data-theme=gemini] th{font-size:10.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink3);font-weight:600;padding:7px 8px;border-bottom:1px solid var(--line)}
+body[data-theme=gemini] td{padding:9px 8px;border-bottom:1px solid var(--line2);font-size:13px}
+body[data-theme=gemini] tbody tr{transition:background .1s}
+body[data-theme=gemini] tr:hover td{background:var(--surf)}
+body[data-theme=gemini] .pill{background:var(--line2);color:var(--ink2);font-weight:600;padding:3px 11px}
+body[data-theme=gemini] .pill.ok{background:rgba(15,138,109,.1);color:#0F8A6D}
+body[data-theme=gemini] .pill.bad{background:rgba(206,74,40,.1);color:#CE4A28}
+body[data-theme=gemini] .tag{background:var(--line2);color:var(--ink2);border-radius:6px;padding:2px 9px;font-weight:500}
+body[data-theme=gemini] .ranges button{background:var(--line2);border:none;border-radius:8px;padding:5px 13px;color:var(--ink2);font-weight:600;transition:.12s}
+body[data-theme=gemini] .ranges button:hover{background:var(--line)}
+body[data-theme=gemini] .ranges button.on{background:var(--ink1);color:#fff}
+body[data-theme=gemini] .tooltip{background:var(--ink1);color:#fff;border-radius:8px;box-shadow:0 6px 20px rgba(0,0,0,.18)}
+body[data-theme=gemini] .tk-head .sym{font-size:30px;font-weight:800;letter-spacing:-.02em}
+body[data-theme=gemini] .tk-head .px{font-size:28px;font-weight:600}
+body[data-theme=gemini] .wire p{border-bottom:1px solid var(--line2)}
+body[data-theme=gemini] .crumb{color:var(--ink3);font-weight:600}
+body[data-theme=gemini] .crumb:hover{color:var(--ink1)}
+/* key-facts grid (stockanalysis-style) */
+body[data-theme=gemini] .facts{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:0;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+body[data-theme=gemini] .fact{padding:12px 14px;border-right:1px solid var(--line);border-bottom:1px solid var(--line)}
+body[data-theme=gemini] .fact span{display:block;font-size:11px;color:var(--ink3);margin-bottom:3px}
+body[data-theme=gemini] .fact b{font-size:16px;font-weight:700}
+/* timing banner + calendar */
+body[data-theme=gemini] .timing{display:flex;gap:0;border:1px solid var(--line);border-radius:12px;overflow:hidden;margin-bottom:14px}
+body[data-theme=gemini] .timing>div{flex:1;padding:14px 16px;border-right:1px solid var(--line)}
+body[data-theme=gemini] .timing>div:last-child{border-right:none}
+body[data-theme=gemini] .timing span{display:block;font-size:11px;color:var(--ink3);text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px}
+body[data-theme=gemini] .timing b{font-size:18px;font-weight:700}
+body[data-theme=gemini] .cd{display:inline-block;min-width:26px;padding:2px 8px;border-radius:6px;background:var(--line2);font-weight:700;font-size:12px}
+body[data-theme=gemini] .cd.soon{background:rgba(206,74,40,.12);color:#CE4A28}
+body[data-theme=gemini] .seg{display:flex;align-items:center;gap:10px;margin:30px 0 14px}
+body[data-theme=gemini] main>.seg:first-child{margin-top:4px}
+body[data-theme=gemini] .seg h2{white-space:nowrap}
+body[data-theme=gemini] .seg .ln{flex:1;height:1px;background:var(--line)}
+/* global markets ticker strip */
+body[data-theme=gemini] .gstrip{display:flex;gap:0;overflow-x:auto;border:1px solid var(--line);border-radius:12px;margin-bottom:20px;background:var(--surf)}
+body[data-theme=gemini] .gstrip .gitem{display:flex;flex-direction:column;gap:1px;padding:10px 16px;border-right:1px solid var(--line);white-space:nowrap;min-width:96px}
+body[data-theme=gemini] .gstrip .gitem span{font-size:10.5px;color:var(--ink3)}
+body[data-theme=gemini] .gstrip .gitem b{font-size:14px;font-weight:700}
+body[data-theme=gemini] .gstrip .gitem i{font-size:11.5px;font-style:normal;font-weight:600}
+body[data-theme=gemini] .gstrip:hover{border-color:#DDE1E6}
+
+/* shared polarity + heat tint hooks */
+body .up{color:var(--up)} body .dn{color:var(--dn)}
+
+/* ============ ANIMATIONS (subtle, reduced-motion aware) ============ */
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes barGrow{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+/* page + card entrance: main children stagger in on each route render */
+#view.enter>*{animation:fadeUp .34s cubic-bezier(.22,.61,.36,1) both}
+#view.enter>*:nth-child(1){animation-delay:.02s}
+#view.enter>*:nth-child(2){animation-delay:.06s}
+#view.enter>*:nth-child(3){animation-delay:.10s}
+#view.enter>*:nth-child(4){animation-delay:.14s}
+#view.enter>*:nth-child(5){animation-delay:.18s}
+#view.enter>*:nth-child(n+6){animation-delay:.20s}
+body[data-theme=gemini] .cell{animation:fadeIn .3s both}
+/* press feedback on tappables */
+body[data-theme=gemini] .card.clickable:active,body[data-theme=gemini] .cell:active,
+body[data-theme=gemini] nav.tabs a:active,.bottomnav a:active,body[data-theme=gemini] .ranges button:active{transform:scale(.97)}
+body[data-theme=gemini] .card.clickable,body[data-theme=gemini] .cell,body[data-theme=gemini] tr.clickable{transition:transform .12s ease,box-shadow .15s ease,border-color .15s ease,background .1s ease}
+body[data-theme=gemini] .pill{transition:background .2s ease,color .2s ease}
+/* chart fades in when (re)drawn */
+.chartwrap canvas{animation:fadeIn .3s both}
+@media (prefers-reduced-motion:reduce){
+  #view.enter>*,body[data-theme=gemini] .cell,.chartwrap canvas{animation:none!important}
+  *{transition:none!important}
+}
+
+/* ============ BOTTOM NAV (mobile app bar) ============ */
+.bottomnav{display:none}
+.bottomnav svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+/* ============ MOBILE (≤720px): single column, app chrome ============ */
+@media (max-width:720px){
+  body[data-theme=gemini]{--gap:14px;font-size:14px}
+  body[data-theme=gemini] main{padding:14px 14px calc(76px + env(safe-area-inset-bottom));max-width:100%}
+  /* header: brand + status only; primary nav moves to bottom bar */
+  body[data-theme=gemini] header.app{padding:12px 14px calc(12px);gap:8px;flex-wrap:nowrap;overflow-x:auto;position:sticky;top:0}
+  body[data-theme=gemini] header.app nav.tabs{display:none}
+  body[data-theme=gemini] header.app .meta{display:none}
+  body[data-theme=gemini] .brand{font-size:15px;margin-right:auto;white-space:nowrap}
+  body[data-theme=gemini] header .pill{font-size:10.5px;padding:3px 9px;white-space:nowrap}
+  /* everything stacks */
+  body[data-theme=gemini] .grid-board,body[data-theme=gemini] .two-col{grid-template-columns:1fr!important;gap:var(--gap)}
+  body[data-theme=gemini] main>.card,body[data-theme=gemini] main>.two-col,body[data-theme=gemini] .cards>*{margin-bottom:var(--gap)}
+  body[data-theme=gemini] .card{padding:16px;border-radius:14px}
+  /* tables scroll horizontally inside their card, never break the page */
+  body[data-theme=gemini] .card>table,body[data-theme=gemini] .card table{display:block;overflow-x:auto;white-space:nowrap;-webkit-overflow-scrolling:touch}
+  body[data-theme=gemini] .facts{grid-template-columns:1fr 1fr}
+  body[data-theme=gemini] .statgrid{grid-template-columns:1fr 1fr}
+  body[data-theme=gemini] .heat{grid-template-columns:repeat(3,1fr)}
+  body[data-theme=gemini] .timing{flex-direction:column}
+  body[data-theme=gemini] .timing>div{border-right:none;border-bottom:1px solid var(--line)}
+  body[data-theme=gemini] .tk-head .sym{font-size:24px}
+  body[data-theme=gemini] .tk-head .px{font-size:22px}
+  body[data-theme=gemini] .chartwrap canvas{height:280px!important}
+  /* touch targets */
+  body[data-theme=gemini] .ranges button{padding:8px 14px;font-size:13px}
+  body[data-theme=gemini] tr.clickable td,body[data-theme=gemini] td{padding:11px 8px}
+  /* bottom nav bar */
+  .bottomnav{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:50;
+    background:rgba(255,255,255,.92);backdrop-filter:blur(14px);border-top:1px solid var(--line);
+    padding:6px 4px calc(6px + env(safe-area-inset-bottom));justify-content:space-around}
+  .bottomnav a{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;
+    padding:6px 2px;color:var(--ink3);font-size:10.5px;font-weight:600;min-height:48px;
+    border-radius:10px;transition:color .15s,background .15s}
+  .bottomnav a.on{color:var(--accent)}
+  .bottomnav a.on svg{stroke:var(--accent)}
+}
+@media (max-width:400px){
+  body[data-theme=gemini] .heat{grid-template-columns:repeat(2,1fr)}
+  body[data-theme=gemini] .facts,body[data-theme=gemini] .statgrid{grid-template-columns:1fr 1fr}
+}

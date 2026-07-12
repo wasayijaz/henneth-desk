@@ -1,0 +1,59 @@
+{
+ "updated": "2026-07-12 16:41",
+ "score": 38,
+ "band": "calm",
+ "read": "Risk gauge is calm — the external backdrop is supportive for taking measured long exposure.",
+ "factors": [
+  {
+   "factor": "Conflict / escalation",
+   "value": "2 high-impact macro shocks (10d)",
+   "stress": 56,
+   "read": "geopolitical shocks (oil, conflict, policy) are what hit PSX hardest and fastest",
+   "recent": [
+    {
+     "ts": "2026-07-09",
+     "headline": "Stocks tumble, investors lose Rs474bn as US strikes Iran, ceasefire 'effectively over'",
+     "url": "https://www.dawn.com/news/2013983/stocks-tumble-investors-lose-rs474bn"
+    },
+    {
+     "ts": "2026-07-11",
+     "headline": "Petrol, diesel prices hiked by Rs13.18 and Rs13.80 per litre",
+     "url": "https://mettisglobal.news/Petrol-diesel-prices-hiked-by-Rs138-Rs1318-per-litre-61769"
+    }
+   ]
+  },
+  {
+   "factor": "USD strength (DXY)",
+   "value": "100.97 (+1.2% 1mo)",
+   "stress": 55,
+   "read": "a strong dollar drains capital from frontier markets and pressures the rupee"
+  },
+  {
+   "factor": "Rupee stress (USD/PKR)",
+   "value": "277.77 (-0.1% 1mo)",
+   "stress": 45,
+   "read": "a weakening rupee imports inflation and keeps SBP hawkish — an equity headwind"
+  },
+  {
+   "factor": "Safe-haven (Gold)",
+   "value": "$4113.7 (-2.4% 1mo)",
+   "stress": 40,
+   "read": "gold bid = flight to safety; risk sentiment defensive"
+  },
+  {
+   "factor": "Energy shock (Brent)",
+   "value": "$76.01 (-0.4% 1d, -13.0% 1mo)",
+   "stress": 23,
+   "read": "rising crude widens the import bill, pressures PKR & inflation; helps E&P/refiners only"
+  },
+  {
+   "factor": "Global fear (VIX)",
+   "value": "15.03 (-5.1% 1d)",
+   "stress": 15,
+   "read": "high VIX = global risk-off = foreign outflows from PSX"
+  }
+ ],
+ "sector_pressure": [],
+ "source": "desk composite from free signals (VIX/oil/gold/DXY/PKR/news)",
+ "upgrade_note": "For true Country Instability Index (Pakistan), add a worldmonitor.app API key as WORLDMONITOR_KEY."
+}
