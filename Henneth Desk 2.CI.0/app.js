@@ -22,6 +22,12 @@ const CI_REVEAL_SIDES = Object.freeze(["left", "right", "top", "bottom"]);
 const CI_BACKGROUND_ATTR_RE = /product-background-(\d{2})\.(?:png|webp)$/;
 const CI_BACKGROUND_ASSET_COUNT = 25;
 const CI_MOBILE_QUERY = "(max-width:900px)";
+const PANEL_WIDTHS_KEY = "henneth-ci-panel-widths";
+const PANEL_WIDTH_LIMITS = Object.freeze({
+  left: { min: 200, default: 270 },
+  right: { min: 220, default: 320 },
+  centerMin: 400,
+});
 const RAIL_LINKS = [
   { href: "https://ci.henneth.app/", label: "Company Intelligence", icon: "lucide:building-2", active: true },
   { href: "https://desk.henneth.app/today", label: "Signals", icon: "lucide:activity" },
@@ -81,6 +87,7 @@ const TREE_GROUPS = [
   { key: "strategy", label: "Strategy", routes: [["scenarios", "Scenarios"], ["valuation", "Valuation"], ["guidance", "Guidance"], ["catalysts", "Catalysts"], ["risks", "Risks"], ["quant", "Quant (legacy)"]] },
   { key: "ownership", label: "Ownership & Peers", routes: [["ownership", "Ownership"], ["peers", "Peers"], ["watchlist", "Watchlist"], ["conditional", "Conditional Benchmarks"], ["causal", "Causal Map"], ["coverage", "Coverage"], ["thesis", "Thesis Monitor"], ["monitoring", "Monitoring"], ["operations", "Operations (legacy)"]] },
 ];
+let panelWidthsCache = null;
 let state = {
   session: null,
   data: null,
@@ -161,6 +168,83 @@ function applyDeskScheme(choice) {
   const clearSwitch = () => document.documentElement.removeAttribute("data-scheme-switching");
   requestAnimationFrame(() => requestAnimationFrame(clearSwitch));
   setTimeout(clearSwitch, 150);
+}
+
+function panelRailWidth() {
+  return window.matchMedia("(max-width:1100px)").matches ? 56 : 64;
+}
+
+function defaultPanelWidths() {
+  return {
+    left: window.matchMedia("(max-width:1100px)").matches ? 240 : PANEL_WIDTH_LIMITS.left.default,
+    right: window.matchMedia("(max-width:1100px)").matches ? 270 : PANEL_WIDTH_LIMITS.right.default,
+  };
+}
+
+function maxPanelWidth(side, widths) {
+  const otherSide = side === "left" ? "right" : "left";
+  const otherMin = PANEL_WIDTH_LIMITS[otherSide].min;
+  const other = Math.max(otherMin, Number(widths?.[otherSide]) || defaultPanelWidths()[otherSide]);
+  return Math.max(PANEL_WIDTH_LIMITS[side].min, window.innerWidth - panelRailWidth() - 12 - PANEL_WIDTH_LIMITS.centerMin - other);
+}
+
+function constrainPanelWidths(widths, activeSide) {
+  const defaults = defaultPanelWidths();
+  const next = {
+    left: Math.max(PANEL_WIDTH_LIMITS.left.min, Number(widths?.left) || defaults.left),
+    right: Math.max(PANEL_WIDTH_LIMITS.right.min, Number(widths?.right) || defaults.right),
+  };
+  const maxTotal = Math.max(
+    PANEL_WIDTH_LIMITS.left.min + PANEL_WIDTH_LIMITS.right.min,
+    window.innerWidth - panelRailWidth() - 12 - PANEL_WIDTH_LIMITS.centerMin,
+  );
+  if (next.left + next.right <= maxTotal) return next;
+  const passiveSide = activeSide === "left" ? "right" : activeSide === "right" ? "left" : null;
+  if (passiveSide) {
+    next[passiveSide] = Math.max(PANEL_WIDTH_LIMITS[passiveSide].min, maxTotal - next[activeSide]);
+    next[activeSide] = Math.max(PANEL_WIDTH_LIMITS[activeSide].min, Math.min(next[activeSide], maxTotal - next[passiveSide]));
+    return next;
+  }
+  const leftExtra = next.left - PANEL_WIDTH_LIMITS.left.min;
+  const rightExtra = next.right - PANEL_WIDTH_LIMITS.right.min;
+  const removable = Math.max(1, leftExtra + rightExtra);
+  const overflow = next.left + next.right - maxTotal;
+  next.left = Math.max(PANEL_WIDTH_LIMITS.left.min, Math.round(next.left - overflow * (leftExtra / removable)));
+  next.right = Math.max(PANEL_WIDTH_LIMITS.right.min, maxTotal - next.left);
+  return next;
+}
+
+function panelWidths() {
+  if (!panelWidthsCache) {
+    let saved = null;
+    try { saved = JSON.parse(localStorage.getItem(PANEL_WIDTHS_KEY) || "null"); } catch {}
+    panelWidthsCache = constrainPanelWidths(saved || defaultPanelWidths());
+  } else {
+    panelWidthsCache = constrainPanelWidths(panelWidthsCache);
+  }
+  return { ...panelWidthsCache };
+}
+
+function savePanelWidths(widths) {
+  panelWidthsCache = constrainPanelWidths(widths);
+  try { localStorage.setItem(PANEL_WIDTHS_KEY, JSON.stringify(panelWidthsCache)); } catch {}
+}
+
+function applyPanelWidths(app = $("app")) {
+  if (!app || window.matchMedia(CI_MOBILE_QUERY).matches) return;
+  const widths = panelWidths();
+  app.style.setProperty("--ci-left-panel-width", `${widths.left}px`);
+  app.style.setProperty("--ci-right-panel-width", `${widths.right}px`);
+  updatePanelResizerState(widths);
+}
+
+function updatePanelResizerState(widths = panelWidths()) {
+  document.querySelectorAll("[data-panel-resizer]").forEach(handle => {
+    const side = handle.dataset.panelResizer;
+    handle.setAttribute("aria-valuemin", String(PANEL_WIDTH_LIMITS[side].min));
+    handle.setAttribute("aria-valuemax", String(maxPanelWidth(side, widths)));
+    handle.setAttribute("aria-valuenow", String(Math.round(widths[side])));
+  });
 }
 
 function setAccessState(label, fileLabel) {
@@ -368,6 +452,7 @@ async function askCompany(question) {
 }
 
 function renderGate(message) {
+  document.body.classList.add("gate-open");
   $("signOut").hidden = true;
   syncMobileControls(false);
   setAccessState("Signed out", "private file closed");
@@ -425,10 +510,71 @@ function syncMobileControls(available) {
   $("intelligenceDrawerOpen")?.setAttribute("aria-expanded", app?.classList.contains("mobile-right-open") ? "true" : "false");
 }
 
+function syncDrawerBackdrops() {
+  const app = $("app");
+  const mobile = window.matchMedia(CI_MOBILE_QUERY).matches;
+  const leftOpen = mobile && app?.classList.contains("mobile-left-open");
+  const rightOpen = mobile && app?.classList.contains("mobile-right-open");
+  document.querySelectorAll(".drawer-backdrop").forEach(backdrop => {
+    backdrop.hidden = !((backdrop.classList.contains("company-backdrop") && leftOpen)
+      || (backdrop.classList.contains("intelligence-backdrop") && rightOpen));
+  });
+}
+
+function setPanelWidth(side, value) {
+  const current = panelWidths();
+  current[side] = value;
+  panelWidthsCache = constrainPanelWidths(current, side);
+  applyPanelWidths();
+}
+
+function bindPanelResizers() {
+  document.querySelectorAll("[data-panel-resizer]").forEach(handle => {
+    handle.onpointerdown = event => {
+      if (window.matchMedia(CI_MOBILE_QUERY).matches) return;
+      event.preventDefault();
+      const side = handle.dataset.panelResizer;
+      const startX = event.clientX;
+      const start = panelWidths();
+      document.body.classList.add("resizing-panels");
+      handle.setPointerCapture?.(event.pointerId);
+      const move = moveEvent => {
+        const delta = moveEvent.clientX - startX;
+        setPanelWidth(side, side === "left" ? start.left + delta : start.right - delta);
+      };
+      const done = () => {
+        document.body.classList.remove("resizing-panels");
+        savePanelWidths(panelWidths());
+        handle.removeEventListener("pointermove", move);
+        handle.removeEventListener("pointerup", done);
+        handle.removeEventListener("pointercancel", done);
+      };
+      handle.addEventListener("pointermove", move);
+      handle.addEventListener("pointerup", done);
+      handle.addEventListener("pointercancel", done);
+    };
+    handle.onkeydown = event => {
+      if (!["ArrowLeft", "ArrowRight", "Home", "End"].includes(event.key)) return;
+      event.preventDefault();
+      const side = handle.dataset.panelResizer;
+      const current = panelWidths();
+      if (event.key === "Home") current[side] = PANEL_WIDTH_LIMITS[side].min;
+      else if (event.key === "End") current[side] = maxPanelWidth(side, current);
+      else {
+        const direction = event.key === "ArrowRight" ? 1 : -1;
+        current[side] += (side === "left" ? direction : -direction) * 16;
+      }
+      savePanelWidths(current);
+      applyPanelWidths();
+    };
+  });
+}
+
 function closeMobileDrawers() {
   const app = $("app");
   app?.classList.remove("mobile-left-open", "mobile-right-open");
   document.body.classList.remove("company-drawer-open", "intelligence-drawer-open");
+  syncDrawerBackdrops();
   syncMobileControls(!!state.data);
 }
 
@@ -440,6 +586,7 @@ function openMobileDrawer(kind) {
   app.classList.toggle("mobile-right-open", kind === "intelligence");
   document.body.classList.toggle("company-drawer-open", kind === "company");
   document.body.classList.toggle("intelligence-drawer-open", kind === "intelligence");
+  syncDrawerBackdrops();
   syncMobileControls(!!state.data);
   requestAnimationFrame(() => {
     const selector = kind === "company" ? "#companyDirectory input, #companyDirectory button" : "#companyIntelligenceTree button";
@@ -452,13 +599,16 @@ function railLinkMarkup(item) {
 }
 
 function renderDesk(searchState) {
+  document.body.classList.remove("gate-open");
+  const app = $("app");
+  applyPanelWidths(app);
   const list = rows();
   if (!state.selected && list.length) state.selected = list[0].symbol;
   const row = list.find(r => r.symbol === state.selected) || list[0];
   if (row) state.selected = row.symbol;
   const activeIndex = row ? Math.max(0, (state.data?.tickers || []).findIndex(item => item.symbol === row.symbol)) : -1;
   const visual = row ? companyVisual(row, activeIndex) : null;
-  $("app").innerHTML = `
+  app.innerHTML = `
     <aside class="icon-rail" aria-label="Primary desk navigation">
       <nav class="icon-rail-nav" aria-label="Desk sections">
         ${RAIL_LINKS.map(railLinkMarkup).join("")}
@@ -467,8 +617,8 @@ function renderDesk(searchState) {
       <button class="icon-rail-link" type="button" id="railScheme" title="Change colour scheme"><iconify-icon icon="lucide:sun-moon" aria-hidden="true"></iconify-icon><span class="sr-only">Change colour scheme</span></button>
       <button class="icon-rail-link" type="button" id="railProfile" title="Sign out"><iconify-icon icon="lucide:user-round" aria-hidden="true"></iconify-icon><span class="sr-only">Sign out</span></button>
     </aside>
-    <div class="drawer-backdrop company-backdrop" data-drawer-close="company" aria-hidden="true"></div>
-    <div class="drawer-backdrop intelligence-backdrop" data-drawer-close="intelligence" aria-hidden="true"></div>
+    <div class="drawer-backdrop company-backdrop" data-drawer-close="company" aria-hidden="true" hidden></div>
+    <div class="drawer-backdrop intelligence-backdrop" data-drawer-close="intelligence" aria-hidden="true" hidden></div>
     <aside id="companyDirectory" class="rail" aria-label="Company directory">
       <div class="rail-head"><strong>Company directory</strong><span>${esc(list.length)} shown</span></div>
       <div class="toolbar">
@@ -484,10 +634,15 @@ function renderDesk(searchState) {
       </div>
       <span class="sr-only" role="status" aria-live="polite">${esc(list.length)} companies match.</span>
     </aside>
+    <div class="panel-resizer panel-resizer-left" role="separator" aria-orientation="vertical" aria-label="Resize company directory" tabindex="0" data-panel-resizer="left"></div>
     <section id="companyDetail" class="detail" role="tabpanel" tabindex="-1" aria-label="${row ? `${esc(row.symbol)} company intelligence` : "Company intelligence"}">${row ? detail(row) : `<div class="empty">No company intelligence rows are available yet.</div>`}</section>
+    <div class="panel-resizer panel-resizer-right" role="separator" aria-orientation="vertical" aria-label="Resize intelligence directory" tabindex="0" data-panel-resizer="right"></div>
     <aside id="companyIntelligenceTree" class="tree-panel" aria-label="Company intelligence directory tree">${row ? renderViewNav(row) : `<div class="tree-empty">No directories available.</div>`}</aside>`;
   if ($("companyStatus")) $("companyStatus").textContent = row ? `${row.symbol} · company intelligence` : "Company Intelligence";
+  applyPanelWidths(app);
+  bindPanelResizers();
   syncMobileControls(true);
+  syncDrawerBackdrops();
   $("search").oninput = event => {
     const start = event.target.selectionStart;
     const end = event.target.selectionEnd;
@@ -3190,6 +3345,10 @@ $("signOut").onclick = () => {
 
 $("schemeToggle").onclick = () => applyDeskScheme(SCHEME_CYCLE[deskScheme()]);
 document.addEventListener("click", event => {
+  if (event.target.closest?.("[data-drawer-close]")) {
+    closeMobileDrawers();
+    return;
+  }
   const left = event.target.closest?.("#companyDrawerOpen");
   const right = event.target.closest?.("#intelligenceDrawerOpen");
   if (!left && !right) return;
@@ -3200,8 +3359,12 @@ document.addEventListener("keydown", event => {
   if (event.key === "Escape") closeMobileDrawers();
 });
 window.addEventListener("resize", () => {
-  if (!window.matchMedia(CI_MOBILE_QUERY).matches) closeMobileDrawers();
-  else syncMobileControls(!!state.data);
+  if (!window.matchMedia(CI_MOBILE_QUERY).matches) {
+    closeMobileDrawers();
+    applyPanelWidths();
+  } else {
+    syncMobileControls(!!state.data);
+  }
 });
 applyDeskScheme(deskScheme());
 

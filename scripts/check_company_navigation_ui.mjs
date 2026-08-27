@@ -93,9 +93,17 @@ try {
   assert(index.includes("companyDrawerOpen") && index.includes("intelligenceDrawerOpen"), "mobile header drawer controls exist");
   assert(app.includes("mobile-left-open") && app.includes("mobile-right-open") && app.includes('event.target.closest?.("#companyDrawerOpen")'), "mobile drawer controls use stable delegated app-level state");
   assert(app.includes("closeMobileDrawers()") && app.includes("btn.onclick = () => pick(btn.dataset.symbol)") && app.includes("state.view = btn.dataset.view"), "company/tab selection closes mobile drawers");
+  assert(/class="drawer-backdrop company-backdrop"[^>]*hidden/.test(app) && /class="drawer-backdrop intelligence-backdrop"[^>]*hidden/.test(app), "drawer backdrops are hidden in markup before CSS/runtime enhancement");
+  assert(app.includes("function syncDrawerBackdrops") && app.includes('document.querySelectorAll(".drawer-backdrop")') && app.includes("backdrop.hidden =") && app.includes('event.target.closest?.("[data-drawer-close]")'), "drawer backdrop visibility is controlled by the app state and outside action closes drawers");
+  assert(app.includes("PANEL_WIDTHS_KEY") && app.includes("PANEL_WIDTH_LIMITS") && app.includes("left: { min: 200") && app.includes("right: { min: 220"), "desktop panel resize limits are explicit");
+  assert(app.includes("function bindPanelResizers") && app.includes("onpointerdown") && app.includes("setPointerCapture") && app.includes("data-panel-resizer"), "desktop panel resize handles use pointer dragging");
+  assert(app.includes("function applyPanelWidths") && app.includes("--ci-left-panel-width") && app.includes("--ci-right-panel-width") && app.includes("localStorage.setItem(PANEL_WIDTHS_KEY"), "panel widths are applied through CSS variables and persisted");
+  assert(app.includes('role="separator"') && app.includes('aria-label="Resize company directory"') && app.includes('aria-label="Resize intelligence directory"'), "resize handles are exposed as separators");
+  assert(css.includes("grid-template-columns:64px var(--ci-left-panel-width) 6px minmax(400px,1fr) 6px var(--ci-right-panel-width)") && css.includes(".panel-resizer") && css.includes("cursor:col-resize"), "desktop grid exposes draggable side-panel gutters");
+  assert(css.includes("@media (max-width:900px)") && css.includes(".panel-resizer{display:none}") && css.includes("body.gate-open .workspace{background:transparent}"), "mobile drawers ignore resizers and login background remains visible");
   assert(css.includes("scrollbar-color:transparent transparent") && css.includes(".detail:hover") && css.includes(".tree-panel:focus-within") && css.includes(".list:focus-within"), "panel scrollbars are hidden until hover or focus");
   assert(css.includes(".workspace.mobile-left-open .rail") && css.includes(".workspace.mobile-right-open .tree-panel") && css.includes(".drawer-backdrop"), "mobile drawers are app-state controlled");
-  assert(css.includes(".drawer-backdrop{display:none}"), "mobile drawer backdrops do not consume desktop workspace grid cells");
+  assert(css.includes(".drawer-backdrop{display:none}") && css.includes(".drawer-backdrop[hidden]{display:none!important}"), "mobile drawer backdrops do not consume desktop workspace grid cells");
   assert(css.includes(".viewnav-shell") && css.includes(".research-tools") && css.includes(".company-domain-shell") && css.includes(".blocked-shell") && css.includes(".research-hub-grid"), "navigation/domain CSS");
   for (const row of slice.tickers) {
     assert(row.symbol && row.company_brain?.domains, `${row.symbol || "unknown"}: Company Brain available`);

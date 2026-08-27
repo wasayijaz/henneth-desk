@@ -18,6 +18,9 @@ const assert = (condition, message) => { checks += 1; if (!condition) throw new 
 
 try {
   assert(index.includes('<script src="company_backgrounds.js"></script>') && index.indexOf("company_backgrounds.js") < index.indexOf("app.js"), "background registry loads before app.js");
+  assert(index.includes('<body class="gate-open">') && css.includes('body.gate-open{background:#172a35 url("login-background.webp")') && css.includes("body.gate-open .workspace{background:transparent}") && !css.includes("body:has(.gate)"), "login background uses an explicit first-paint gate class");
+  assert(fs.statSync(path.join(ciRoot, "login-background.webp")).size > 0, "login background asset exists");
+  assert(app.includes('document.body.classList.add("gate-open")') && app.includes('document.body.classList.remove("gate-open")'), "app toggles login background state explicitly");
   assert(app.includes("window.HENNETH_COMPANY_BACKGROUNDS") && app.includes("typeof registry.forSymbol === \"function\""), "app consumes registry global when supplied");
   assert(app.includes("CI_REVEAL_SIDES") && app.includes('"left"') && app.includes('"right"') && app.includes('"top"') && app.includes('"bottom"'), "all four reveal sides available");
   assert(app.includes("function randomRevealSide") && app.includes("crypto?.getRandomValues") && app.includes("new Uint32Array(1)") && app.includes("ciHash(fallbackSeed)") && !app.includes("Math.random"), "reveal side is securely randomized with a stable fallback");
