@@ -27,9 +27,9 @@
  ],
  "summary": {
   "overall_status": "blocked",
-  "requirement_count": 68,
+  "requirement_count": 69,
   "counts": {
-   "complete": 60,
+   "complete": 61,
    "partial": 4,
    "blocked": 4,
    "not_started": 0,
@@ -92,6 +92,7 @@
    "company_navigation_tabs",
    "company_navigation_checker",
    "peer_registry_state",
+   "ownership_source_review_manifest",
    "private_access_boundary",
    "root_state_publication_boundary",
    "ci_global_no_lookahead_gate",
@@ -1735,6 +1736,41 @@
    "blockers": [],
    "next_required_evidence": [
     "International peers remain non-authoritative unless sourced through a retained registry."
+   ]
+  },
+  {
+   "id": "ownership_source_review_manifest",
+   "title": "Ownership source review manifest is retained and review-only",
+   "status": "complete",
+   "evidence": [
+    {
+     "label": "ownership manifest pilot boundary",
+     "path": "config/ownership_source_review_manifest.json",
+     "ok": true,
+     "detail": "20 company rows"
+    },
+    {
+     "label": "review candidate manifest",
+     "path": "config/ownership_source_review_manifest.json",
+     "ok": true,
+     "detail": "98 candidates; 0 activated companies"
+    },
+    {
+     "label": "review-only ownership policy",
+     "path": "config/ownership_source_review_manifest.json",
+     "ok": true,
+     "detail": "all expected markers present"
+    },
+    {
+     "label": "ownership source manifest checker",
+     "path": "scripts/check_ownership_source_manifest.py",
+     "ok": true,
+     "detail": "focused checker path"
+    }
+   ],
+   "blockers": [],
+   "next_required_evidence": [
+    "Page-level extraction, required fields and owner approval before any ownership fact can be activated."
    ]
   },
   {

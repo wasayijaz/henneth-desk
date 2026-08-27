@@ -90,6 +90,7 @@ REQUIREMENT_IDS = (
     "company_navigation_tabs",
     "company_navigation_checker",
     "peer_registry_state",
+    "ownership_source_review_manifest",
     "private_access_boundary",
     "root_state_publication_boundary",
     "ci_global_no_lookahead_gate",
@@ -382,6 +383,7 @@ def build(write: bool = True) -> dict[str, Any]:
     monitoring = load_json(STATE / "company_intel" / "monitoring.json", {})
     guidance = load_json(STATE / "company_intel" / "guidance_contradictions.json", {})
     peer_registry = load_json(STATE / "company_intel" / "peer_registry.json", {})
+    ownership_manifest = load_json(ROOT / "config" / "ownership_source_review_manifest.json", {})
     ci_slice = load_json(CI_SLICE, {})
 
     strict_studies, baseline_available_studies, study_total = strict_baseline_available_count(event_studies)
@@ -404,6 +406,9 @@ def build(write: bool = True) -> dict[str, Any]:
     active_thesis_count = int((management_delivery.get("summary") or {}).get("active_thesis_count") or 0)
     watch_count = int((evidence_watchlist.get("summary") or {}).get("active_watch_count") or 0)
     alert_count = int((monitoring.get("summary") or {}).get("alert_count") or 0)
+    ownership_summary = ownership_manifest.get("summary") or {}
+    ownership_candidate_count = int(ownership_summary.get("candidate_count") or 0)
+    ownership_activated_count = int(ownership_summary.get("activated_company_count") or 0)
     blocked_impact_contract, blocked_impact_scenario_count = _blocked_impact_scenario_count(impact_scenarios, pilot)
 
     rows = [
@@ -1036,6 +1041,31 @@ def build(write: bool = True) -> dict[str, Any]:
                 _check("peer registry checker", "scripts/check_peer_registry.py"),
             ],
             ["International peers remain non-authoritative unless sourced through a retained registry."],
+        ),
+        _row(
+            "ownership_source_review_manifest",
+            "Ownership source review manifest is retained and review-only",
+            [
+                _state(
+                    "ownership manifest pilot boundary",
+                    "config/ownership_source_review_manifest.json",
+                    ownership_manifest.get("pilot_symbols") == pilot and set(ownership_manifest.get("companies") or {}) == set(pilot),
+                    f"{len(ownership_manifest.get('companies') or {})} company rows",
+                ),
+                _state(
+                    "review candidate manifest",
+                    "config/ownership_source_review_manifest.json",
+                    ownership_candidate_count > 0 and ownership_activated_count == 0,
+                    f"{ownership_candidate_count} candidates; {ownership_activated_count} activated companies",
+                ),
+                _contains(
+                    "review-only ownership policy",
+                    "config/ownership_source_review_manifest.json",
+                    ("no_ownership_activation", "no_inference_from_titles_toc_or_activity"),
+                ),
+                _check("ownership source manifest checker", "scripts/check_ownership_source_manifest.py"),
+            ],
+            ["Page-level extraction, required fields and owner approval before any ownership fact can be activated."],
         ),
         _row(
             "private_access_boundary",

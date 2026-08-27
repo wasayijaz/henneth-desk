@@ -55,8 +55,9 @@ def _assert_shape(matrix: dict) -> None:
     ids = [row.get("id") for row in rows]
     if tuple(ids) != builder.REQUIREMENT_IDS:
         _fail("requirement registry mismatch")
-    if len(ids) != 68:
-        _fail("requirement registry must have 68 granular rows")
+    expected_requirement_count = len(builder.REQUIREMENT_IDS)
+    if len(ids) != expected_requirement_count:
+        _fail(f"requirement registry must have {expected_requirement_count} granular rows")
     if len(ids) != len(set(ids)):
         _fail("duplicate requirement id")
     counts = {status: 0 for status in builder.STATUSES}
@@ -118,6 +119,14 @@ def _assert_conservative_statuses(matrix: dict) -> None:
     for row_id in ("private_thesis_live_storage",):
         if by_id[row_id].get("status") == "complete":
             _fail(f"{row_id} cannot be complete from repo evidence alone")
+    ownership_manifest = load_json(ROOT / "config" / "ownership_source_review_manifest.json", {})
+    ownership_summary = ownership_manifest.get("summary") or {}
+    if by_id["ownership_source_review_manifest"].get("status") != "complete":
+        _fail("ownership source review manifest must be credited as a complete review-only source gate")
+    if ownership_summary.get("activated_company_count") != 0:
+        _fail("ownership source review manifest must not activate ownership facts")
+    if set(ownership_manifest.get("companies") or {}) != set(readiness.get("companies") or {}):
+        _fail("ownership source review manifest pilot boundary drifted")
     if by_id["training_owner_receipts"].get("status") != "complete":
         _fail("append-only receipt reconciliation must be credited without claiming future approvals")
     if by_id["impact_scenario_shells"].get("status") != "partial":
