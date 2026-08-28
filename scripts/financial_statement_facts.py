@@ -38,7 +38,12 @@ BALANCE_SHEET_LINE_PATTERNS = {
 }
 
 CASH_FLOW_LINE_PATTERNS = {
-    "operating_cash_flow": r"\b(?:net\s+)?cash\s+(?:generated\s+from|provided\s+by|used\s+in|flows?\s+from)\s+operating\s+activities\b",
+    # Issuers label the load-bearing total in several equivalent ways.  In
+    # particular, consolidated cash-flow statements commonly use
+    # ``Net cash inflow from operating activities``; the prior expression
+    # only recognised ``cash flows from``/``cash generated from`` and thus
+    # missed the actual total row despite valid statement geometry.
+    "operating_cash_flow": r"\b(?:net\s+)?cash\s+(?:generated\s+from|provided\s+by|used\s+in|flows?\s+from|(?:in|out)flow\s+from)\s+operating\s+activities\b",
     "capital_expenditure": r"\b(?:capital\s+expenditure|fixed\s+capital\s+expenditure|(?:purchase|acquisition|additions?)\s+of\s+property,\s+plant\s+and\s+equipment)\b",
     "depreciation_amortization": r"\bdepreciation\s+(?:and|/)\s+amorti[sz]ation\b",
 }
@@ -603,7 +608,11 @@ def _structured_page_facts(doc: dict[str, Any], page_no: int, page_words: list[t
         line_name, label_match = matched
         if line_name == "profit_after_tax_attributable" and _is_non_attributable_pat_row(lines, row):
             continue
-        long_row = line_name in {"profit_after_tax_attributable", "basic_eps"}
+        # Cash-flow totals can sit well below the header (after the opening
+        # section label and several component rows).  Permit a wider bounded
+        # search only for the canonical OCF row; other rows retain the strict
+        # proximity gate so notes/tables cannot borrow a header.
+        long_row = line_name in {"profit_after_tax_attributable", "basic_eps", "operating_cash_flow"}
         headers = _nearest_headers_for_row(header_sets, row, max_distance=500 if long_row else 120)
         if not headers:
             continue
