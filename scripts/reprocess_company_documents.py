@@ -784,12 +784,24 @@ def consume_canonical(registry_path: Path, queue_path: Path, output_root: Path,
             "check_financial_evidence_reconciliation.py",
             "check_financial_truth_qualification.py",
             "check_formal_financial_engines.py",
-            "check_evidence_watchlist.py",
             "check_ci_completion_matrix.py",
             "check_event_studies.py",
             "check_operating_intelligence.py",
         ):
             checker(checker_name)
+        # Several legacy contract checks rebuild their authoritative inputs as
+        # part of their idempotency proof.  Rebuild the dependent CI surface
+        # once more after those checks, then run the aggregate gate against a
+        # coherent final artifact set rather than a stale watchlist/slice.
+        for builder in dependent_ci_builders:
+            builder()
+        evidence_watchlist_builder()
+        for builder in post_watchlist_builders:
+            builder()
+        completion_matrix_builder()
+        ci_builder()
+        if not ci_builder_injected:
+            build_ci_artifact_integrity()
         checker("preflight.py")
     except Exception:
         _restore_snapshot(snapshot)

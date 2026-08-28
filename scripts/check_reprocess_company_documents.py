@@ -855,7 +855,6 @@ def main() -> int:
             "check_financial_evidence_reconciliation.py",
             "check_financial_truth_qualification.py",
             "check_formal_financial_engines.py",
-            "check_evidence_watchlist.py",
             "check_ci_completion_matrix.py",
             "check_event_studies.py",
             "check_operating_intelligence.py",
