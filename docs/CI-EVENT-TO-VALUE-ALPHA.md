@@ -59,7 +59,7 @@ eight reported quarters, load-bearing share-count data, and a real dated event.
 
 | Part | Gate | Status | Visible investor behaviour delivered | Data coverage / unresolved blocker |
 |---|---|---|---|---|
-| 0 | Release integrity | In progress | Every generated private CI artifact is now sealed with a common UTC cutoff, source commit, generator version, and hash manifest; stale or mismatched envelopes fail closed. | Local structural, no-lookahead, artifact-integrity, and focused product checks are green after finalization. A live preview/prod same-commit receipt and owner-auth/runtime smoke evidence still block the gate. |
+| 0 | Release integrity | Deferred by owner | Every generated private CI artifact is now sealed with a common UTC cutoff, source commit, generator version, and hash manifest; stale or mismatched envelopes fail closed. | Preserve the release work for Alpha readiness; do not run live preview/production proof while Part 1 product work continues. |
 | 1 | Model-ready financial truth | In progress | Financial truth is now the authoritative fail-closed gate for formal forecast, valuation, and market-expectations output; legacy three-period readiness is descriptive only. | DGKC has 4/5 annual income triplets, 0/5 OCF, 0/8 direct quarters, and no official share-count tie-out. Approved FY25/Q1/Q3 filings were reached but fail the existing page/text-geometry gates; no facts were promoted. |
 | 2 | Three real operating events | Not started | None | Requires one dated, source-backed event and competing explanations per selected company. |
 | 3 | Sector event models | Not started | None | Requires one deterministic E&P, capacity/hiring, and sales-ramp model contract. |
