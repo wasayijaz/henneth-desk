@@ -38,6 +38,17 @@ MAX_RUN_PAGES = 300
 MIN_NORMALIZED_TEXT_CHARS = 32
 LEGACY_PARSER_REVISION = "legacy_geometry_v1"
 BASE_DPS_HOST = "dps.psx.com.pk"
+
+# The only retained-original escape hatch is this exact, owner-reviewed source.
+# Keep this mapping explicit: do not scan caches or infer alternate paths.
+RETAINED_ORIGINALS: dict[str, dict[str, Any]] = {
+    "psx:260947": {
+        "relative_path": Path(".cache") / "company_intel" / "raw" / "manual" / "260947.pdf",
+        "source_url": "https://dps.psx.com.pk/download/document/260947.pdf",
+        "content_sha256": "1a10091295cf7a815f1910eb418215d501d42b52e39dcbd0b54a53fd1aceaa7d",
+        "page_count": 333,
+    },
+}
 APPROVED_WAVE3_ALLOWLIST: frozenset[str] = frozenset({
     "psx:260947",
     "psx:264230",
@@ -512,6 +523,69 @@ def fetch_verified_pdf(doc: VerifiedDocument, transport: Any, budget: RunBudget,
         allow_oversized_chunk=allow_oversized_chunk)
     return FetchResult(body=raw, content_sha256=content_sha, content_length=len(raw), final_url=final_url,
                        content_type=content_type, page_count=page_count, normalized_chars=normalized_chars)
+
+
+def fetch_retained_original(doc: VerifiedDocument, root: Path, budget: RunBudget,
+                            *, allow_image_only: bool = False,
+                            allow_oversized_chunk: bool = False) -> FetchResult:
+    """Load and re-verify the one explicitly retained original, if approved.
+
+    This is intentionally an exact-ID lookup.  It does not search the cache,
+    accept caller-provided paths, or permit a source without the pinned hash.
+    """
+    spec = RETAINED_ORIGINALS.get(doc.doc_id)
+    if spec is None:
+        raise DegradedDocument("retained_original_not_approved")
+    if doc.url != spec["source_url"] or doc.content_sha256 != spec["content_sha256"]:
+        raise DegradedDocument("retained_source_identity_mismatch")
+    path = root / spec["relative_path"]
+    try:
+        stat = path.stat()
+    except OSError as exc:
+        raise DegradedDocument("retained_original_unavailable") from exc
+    if not path.is_file():
+        raise DegradedDocument("retained_original_unavailable")
+    if stat.st_size > MAX_FILE_BYTES:
+        raise DegradedDocument("retained_file_cap_exceeded")
+    if budget.bytes + stat.st_size > MAX_RUN_BYTES:
+        raise DegradedDocument("retained_run_cap_exceeded")
+    try:
+        raw = path.read_bytes()
+    except OSError as exc:
+        raise DegradedDocument("retained_original_unavailable") from exc
+    if len(raw) != stat.st_size:
+        raise DegradedDocument("retained_original_changed")
+    content_sha = hashlib.sha256(raw).hexdigest()
+    if content_sha != spec["content_sha256"]:
+        raise DegradedDocument("retained_hash_mismatch")
+    if not raw:
+        raise DegradedDocument("empty_body")
+    budget.add_bytes(len(raw))
+    page_count, normalized_chars = _validate_pdf(
+        raw, budget, allow_image_only=allow_image_only,
+        allow_oversized_chunk=allow_oversized_chunk)
+    if page_count != int(spec["page_count"]):
+        raise DegradedDocument("retained_page_count_mismatch")
+    return FetchResult(body=raw, content_sha256=content_sha, content_length=len(raw),
+                       final_url=str(spec["source_url"]), content_type="application/pdf",
+                       page_count=page_count, normalized_chars=normalized_chars)
+
+
+def fetch_with_retained_fallback(doc: VerifiedDocument, transport: Any, budget: RunBudget,
+                                 root: Path, *, allow_image_only: bool = False,
+                                 allow_oversized_chunk: bool = False) -> FetchResult:
+    """Fetch from PSX, falling back only when no network response exists."""
+    try:
+        return fetch_verified_pdf(doc, transport, budget,
+                                  allow_image_only=allow_image_only,
+                                  allow_oversized_chunk=allow_oversized_chunk)
+    except DegradedDocument as exc:
+        reason = str(exc)
+        if not (reason.startswith("transport_error:") or reason == "http_status_0"):
+            raise
+        return fetch_retained_original(doc, root, budget,
+                                       allow_image_only=allow_image_only,
+                                       allow_oversized_chunk=allow_oversized_chunk)
 
 
 def _load_receipts(path: Path) -> dict[str, Any]:
@@ -1084,7 +1158,9 @@ def run_reprocess(
         for doc in docs:
             if diagnose:
                 try:
-                    fetched = fetch_verified_pdf(doc, transport, budget)
+                    fetched = fetch_with_retained_fallback(
+                        doc, transport, budget, root,
+                        allow_oversized_chunk=(doc.doc_id == "psx:260947"))
                     results.append(_diagnose_document(doc, fetched))
                 except DegradedDocument as exc:
                     results.append({"doc_id": doc.doc_id, "status": "degraded", "reason": str(exc)})
@@ -1095,8 +1171,9 @@ def run_reprocess(
                 continue
             try:
                 oversized = doc.doc_id == "psx:260947"
-                fetched = fetch_verified_pdf(doc, transport, budget,
-                                             allow_oversized_chunk=oversized)
+                fetched = fetch_with_retained_fallback(
+                    doc, transport, budget, root,
+                    allow_oversized_chunk=oversized)
                 fetched_docs.append((doc, fetched))
                 if successful_receipt_exists(receipts, doc.doc_id, fetched.content_sha256, PARSER_VERSION, PARSER_REVISION):
                     results.append({"doc_id": doc.doc_id, "status": "skipped_idempotent_after_fetch",

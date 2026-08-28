@@ -1337,6 +1337,76 @@ def main() -> int:
         out = _run(mismatch, ["psx:111"], {"psx:111": good_pdf}, manifest=mismatch_manifest)[0]
         assert out["results"][0]["reason"] == "known_receipt_hash_mismatch"
 
+        # Offline transport fallback is bounded to the exact owner-retained annual report.
+        retained_doc = next(
+            doc for doc in resolved if doc.doc_id == "psx:260947"
+        )
+        original_spec = dict(r.RETAINED_ORIGINALS["psx:260947"])
+        assert original_spec["source_url"] == "https://dps.psx.com.pk/download/document/260947.pdf"
+        assert original_spec["content_sha256"] == "1a10091295cf7a815f1910eb418215d501d42b52e39dcbd0b54a53fd1aceaa7d"
+        assert original_spec["page_count"] == 333
+        retained_fixture = root / "retained_fixture.pdf"
+        retained_fixture.write_bytes(good_pdf)
+        r.RETAINED_ORIGINALS["psx:260947"] = {
+            **original_spec,
+            "relative_path": retained_fixture,
+            "content_sha256": good_sha,
+            "page_count": 2,
+        }
+        retained_doc = r.VerifiedDocument(
+            doc_id=retained_doc.doc_id, numeric_id=retained_doc.numeric_id,
+            row=retained_doc.row, url=retained_doc.url, tickers=retained_doc.tickers,
+            content_sha256=good_sha, manifest=retained_doc.manifest,
+        )
+
+        class NoResponseTransport:
+            def __init__(self) -> None:
+                self.calls: list[str] = []
+
+            def get(self, url: str, **_: Any) -> Any:
+                self.calls.append(url)
+                raise ConnectionError("offline fixture")
+
+        offline_transport = NoResponseTransport()
+        retained_budget = r.RunBudget()
+        retained = r.fetch_with_retained_fallback(
+            retained_doc, offline_transport, retained_budget, repo_root,
+        )
+        assert retained.content_sha256 == good_sha
+        assert retained.page_count == 2
+        assert offline_transport.calls == [retained_doc.url]
+
+        # A modified retained file is rejected by its pinned manifest hash.
+        bad_retained = root / "bad_retained.pdf"
+        bad_retained.write_bytes(b"%PDF-not-the-approved-original")
+        r.RETAINED_ORIGINALS["psx:260947"] = {
+            **r.RETAINED_ORIGINALS["psx:260947"],
+            "relative_path": bad_retained,
+        }
+        try:
+            try:
+                r.fetch_retained_original(retained_doc, repo_root, r.RunBudget(),
+                                          allow_oversized_chunk=True)
+            except r.DegradedDocument as exc:
+                assert str(exc) == "retained_hash_mismatch"
+            else:
+                raise AssertionError("modified retained original was accepted")
+        finally:
+            r.RETAINED_ORIGINALS["psx:260947"] = original_spec
+
+        # Non-approved IDs never perform a filesystem lookup or use the retained path.
+        nonapproved = r.VerifiedDocument(
+            doc_id="psx:264230", numeric_id="264230", row={},
+            url="https://dps.psx.com.pk/download/document/264230.pdf", tickers=["DGKC"],
+            content_sha256="0" * 64,
+        )
+        try:
+            r.fetch_retained_original(nonapproved, root, r.RunBudget())
+        except r.DegradedDocument as exc:
+            assert str(exc) == "retained_original_not_approved"
+        else:
+            raise AssertionError("non-approved document used retained fallback")
+
         # Cleanup boundary/path escape.
         try:
             r.safe_cleanup(root, root)
