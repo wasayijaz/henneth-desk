@@ -23,19 +23,19 @@ PARSER_REVISION = "block_geometry_v5"
 # They are blockers, not receipts: no canonical state was committed for them.
 APPROVED_BLOCKED_OUTCOMES: dict[str, dict[str, str]] = {
     "psx:260947": {
-        "gate": "transport_network",
-        "reason": "transport_error_connection",
-        "next_required_evidence": "Successful exact-ID transport of the retained official DGKC FY2025 annual filing through the existing PSX path; no parser or cap change is authorized.",
+        "gate": "transport_page_count",
+        "reason": "file_page_cap_exceeded",
+        "next_required_evidence": "Official DGKC FY2025 annual source that remains within the current 120-page PSX page cap, or an owner-approved page-cap/source-policy change.",
     },
     "psx:264120": {
-        "gate": "transport_network",
-        "reason": "transport_error_connection",
-        "next_required_evidence": "Successful exact-ID transport of the retained official DGKC Q1 FY2026 filing through the existing PSX path; no parser or cap change is authorized.",
+        "gate": "parser_text_geometry",
+        "reason": "unsupported_image_only",
+        "next_required_evidence": "Official DGKC Q1 FY2026 filing with extractable text/geometry inside the existing PSX caps, or an owner-approved parser policy change.",
     },
     "psx:275807": {
-        "gate": "transport_network",
-        "reason": "transport_error_connection",
-        "next_required_evidence": "Successful exact-ID transport of the retained official DGKC Q3 FY2026 filing through the existing PSX path; no parser or cap change is authorized.",
+        "gate": "parser_text_geometry",
+        "reason": "unsupported_image_only",
+        "next_required_evidence": "Official DGKC Q3 FY2026 filing with extractable text/geometry inside the existing PSX caps, or an owner-approved parser policy change.",
     },
 }
 

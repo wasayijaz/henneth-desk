@@ -49,7 +49,8 @@
   "company_count": 1,
   "required_for_input_readiness_count": 0,
   "blocked_reasons": [
-   "transport_error_connection"
+   "file_page_cap_exceeded",
+   "unsupported_image_only"
   ]
  },
  "companies": {
@@ -66,7 +67,7 @@
    "required_blocked_document_count": 0,
    "blocked_documents": [
     {
-     "blocker_id": "finreblock_07ad49da086e681b90ab",
+     "blocker_id": "finreblock_1c5ed010c391295256a1",
      "document_id": "psx:260947",
      "symbol": "DGKC",
      "period": "2025-06-30",
@@ -83,16 +84,16 @@
      "parser_version": "financial_statement_v2",
      "parser_revision": "block_geometry_v5",
      "status": "blocked_by_current_gate",
-     "gate": "transport_network",
-     "reason": "transport_error_connection",
+     "gate": "transport_page_count",
+     "reason": "file_page_cap_exceeded",
      "canonical_state_committed": false,
      "receipt_written": false,
      "facts_emitted": false,
      "next_status": "not_required_for_current_input_readiness",
-     "next_required_evidence": "Successful exact-ID transport of the retained official DGKC FY2025 annual filing through the existing PSX path; no parser or cap change is authorized."
+     "next_required_evidence": "Official DGKC FY2025 annual source that remains within the current 120-page PSX page cap, or an owner-approved page-cap/source-policy change."
     },
     {
-     "blocker_id": "finreblock_173599b038e8ea77596b",
+     "blocker_id": "finreblock_93d8112b2659a2b3d33b",
      "document_id": "psx:264120",
      "symbol": "DGKC",
      "period": "2025-09-30",
@@ -109,16 +110,16 @@
      "parser_version": "financial_statement_v2",
      "parser_revision": "block_geometry_v5",
      "status": "blocked_by_current_gate",
-     "gate": "transport_network",
-     "reason": "transport_error_connection",
+     "gate": "parser_text_geometry",
+     "reason": "unsupported_image_only",
      "canonical_state_committed": false,
      "receipt_written": false,
      "facts_emitted": false,
      "next_status": "not_required_for_current_input_readiness",
-     "next_required_evidence": "Successful exact-ID transport of the retained official DGKC Q1 FY2026 filing through the existing PSX path; no parser or cap change is authorized."
+     "next_required_evidence": "Official DGKC Q1 FY2026 filing with extractable text/geometry inside the existing PSX caps, or an owner-approved parser policy change."
     },
     {
-     "blocker_id": "finreblock_7ac35955d252516ae1ae",
+     "blocker_id": "finreblock_376712789c4529ee60cb",
      "document_id": "psx:275807",
      "symbol": "DGKC",
      "period": "2026-03-31",
@@ -135,20 +136,20 @@
      "parser_version": "financial_statement_v2",
      "parser_revision": "block_geometry_v5",
      "status": "blocked_by_current_gate",
-     "gate": "transport_network",
-     "reason": "transport_error_connection",
+     "gate": "parser_text_geometry",
+     "reason": "unsupported_image_only",
      "canonical_state_committed": false,
      "receipt_written": false,
      "facts_emitted": false,
      "next_status": "not_required_for_current_input_readiness",
-     "next_required_evidence": "Successful exact-ID transport of the retained official DGKC Q3 FY2026 filing through the existing PSX path; no parser or cap change is authorized."
+     "next_required_evidence": "Official DGKC Q3 FY2026 filing with extractable text/geometry inside the existing PSX caps, or an owner-approved parser policy change."
     }
    ]
   }
  },
  "blocked_documents": [
   {
-   "blocker_id": "finreblock_07ad49da086e681b90ab",
+   "blocker_id": "finreblock_1c5ed010c391295256a1",
    "document_id": "psx:260947",
    "symbol": "DGKC",
    "period": "2025-06-30",
@@ -165,16 +166,16 @@
    "parser_version": "financial_statement_v2",
    "parser_revision": "block_geometry_v5",
    "status": "blocked_by_current_gate",
-   "gate": "transport_network",
-   "reason": "transport_error_connection",
+   "gate": "transport_page_count",
+   "reason": "file_page_cap_exceeded",
    "canonical_state_committed": false,
    "receipt_written": false,
    "facts_emitted": false,
    "next_status": "not_required_for_current_input_readiness",
-   "next_required_evidence": "Successful exact-ID transport of the retained official DGKC FY2025 annual filing through the existing PSX path; no parser or cap change is authorized."
+   "next_required_evidence": "Official DGKC FY2025 annual source that remains within the current 120-page PSX page cap, or an owner-approved page-cap/source-policy change."
   },
   {
-   "blocker_id": "finreblock_173599b038e8ea77596b",
+   "blocker_id": "finreblock_93d8112b2659a2b3d33b",
    "document_id": "psx:264120",
    "symbol": "DGKC",
    "period": "2025-09-30",
@@ -191,16 +192,16 @@
    "parser_version": "financial_statement_v2",
    "parser_revision": "block_geometry_v5",
    "status": "blocked_by_current_gate",
-   "gate": "transport_network",
-   "reason": "transport_error_connection",
+   "gate": "parser_text_geometry",
+   "reason": "unsupported_image_only",
    "canonical_state_committed": false,
    "receipt_written": false,
    "facts_emitted": false,
    "next_status": "not_required_for_current_input_readiness",
-   "next_required_evidence": "Successful exact-ID transport of the retained official DGKC Q1 FY2026 filing through the existing PSX path; no parser or cap change is authorized."
+   "next_required_evidence": "Official DGKC Q1 FY2026 filing with extractable text/geometry inside the existing PSX caps, or an owner-approved parser policy change."
   },
   {
-   "blocker_id": "finreblock_7ac35955d252516ae1ae",
+   "blocker_id": "finreblock_376712789c4529ee60cb",
    "document_id": "psx:275807",
    "symbol": "DGKC",
    "period": "2026-03-31",
@@ -217,20 +218,20 @@
    "parser_version": "financial_statement_v2",
    "parser_revision": "block_geometry_v5",
    "status": "blocked_by_current_gate",
-   "gate": "transport_network",
-   "reason": "transport_error_connection",
+   "gate": "parser_text_geometry",
+   "reason": "unsupported_image_only",
    "canonical_state_committed": false,
    "receipt_written": false,
    "facts_emitted": false,
    "next_status": "not_required_for_current_input_readiness",
-   "next_required_evidence": "Successful exact-ID transport of the retained official DGKC Q3 FY2026 filing through the existing PSX path; no parser or cap change is authorized."
+   "next_required_evidence": "Official DGKC Q3 FY2026 filing with extractable text/geometry inside the existing PSX caps, or an owner-approved parser policy change."
   }
  ],
  "_meta": {
   "generator_version": "ci_artifact_integrity_v1",
-  "source_commit_sha": "03e15a68735a0d308dfee2cf123fcc4cb79d6c3f",
-  "build_cutoff_at": "2026-08-28T17:53:57Z",
-  "generated_at": "2026-08-28T17:53:57Z",
+  "source_commit_sha": "4b618216067b62082adf73119d9c76e42b7e8057",
+  "build_cutoff_at": "2026-08-28T17:59:21Z",
+  "generated_at": "2026-08-28T17:59:21Z",
   "artifact_path": "state/company_intel/financial_reprocess_blockers.json",
   "timestamp_semantics": {
    "build_cutoff_at": "generation boundary only; not a source-effective or source-published time",
