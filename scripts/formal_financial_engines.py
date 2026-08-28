@@ -1,8 +1,9 @@
 """Source-gated formal forecast, valuation, and expectations formulas.
 
-The formulas here are intentionally small.  They activate only after the
-forecast-readiness contract has accepted the historical financial inputs and
-every forward/market operand is present as an approved, source-labelled record.
+The formulas here are intentionally small.  They activate only after strict
+financial truth is qualified, the forecast-readiness contract has accepted the
+historical financial inputs, and every forward/market operand is present as an
+approved, source-labelled record.
 """
 from __future__ import annotations
 
@@ -118,10 +119,11 @@ def actuals_from_model_inputs(
     return actuals, sorted(set(missing))
 
 
-def _blocked(symbol: str, kind: str, missing: list[str], formula_id: str) -> dict[str, Any]:
+def _blocked(symbol: str, kind: str, missing: list[str], formula_id: str, truth_status: str) -> dict[str, Any]:
     return {
         "symbol": symbol,
         "status": "blocked",
+        "truth_status": truth_status,
         "reason": "missing_source_gated_inputs",
         "missing_requirements": sorted(set(missing)),
         "formula_id": formula_id,
@@ -165,6 +167,7 @@ def build_company_engines(
     cutoff: str | None = None,
 ) -> dict[str, dict[str, Any]]:
     cutoff = iso_date(cutoff) or None
+    truth_status = str(financial_truth_row.get("status") or "missing")
     actuals, missing = actuals_from_model_inputs(model_row, readiness_row, financial_truth_row, cutoff)
     records = approved_records(assumptions, symbol, cutoff)
     forecast_required = set(FORECAST_ASSUMPTIONS + ("shares_out",))
@@ -190,7 +193,7 @@ def build_company_engines(
     margin = record_value("net_margin_pct")
     shares = record_value("shares_out")
     if forecast_missing:
-        outputs["forecast"] = _blocked(symbol, "forecast", forecast_missing, FORECAST_FORMULA_ID)
+        outputs["forecast"] = _blocked(symbol, "forecast", forecast_missing, FORECAST_FORMULA_ID, truth_status)
         forecast_revenue = forecast_pat = forecast_eps = None
         source_refs = []
     elif revenue is None or growth is None or margin is None or shares is None:
@@ -206,6 +209,7 @@ def build_company_engines(
         outputs["forecast"] = {
             "symbol": symbol,
             "status": "computed",
+            "truth_status": truth_status,
             "formula_id": FORECAST_FORMULA_ID,
             "result": {
                 "forecast_revenue": forecast_revenue,
@@ -217,7 +221,7 @@ def build_company_engines(
         }
 
     if valuation_missing or forecast_eps is None:
-        outputs["valuation"] = _blocked(symbol, "valuation", valuation_missing, VALUATION_FORMULA_ID)
+        outputs["valuation"] = _blocked(symbol, "valuation", valuation_missing, VALUATION_FORMULA_ID, truth_status)
     else:
         exit_pe = record_value("exit_pe")
         net_debt = record_value("net_debt")
@@ -233,6 +237,7 @@ def build_company_engines(
         outputs["valuation"] = {
             "symbol": symbol,
             "status": "computed",
+            "truth_status": truth_status,
             "formula_id": VALUATION_FORMULA_ID,
             "result": {
                 "formula_value_per_share": formula_value_per_share,
@@ -245,7 +250,7 @@ def build_company_engines(
         }
 
     if expectations_missing:
-        outputs["market_expectations"] = _blocked(symbol, "market_expectations", expectations_missing, EXPECTATIONS_FORMULA_ID)
+        outputs["market_expectations"] = _blocked(symbol, "market_expectations", expectations_missing, EXPECTATIONS_FORMULA_ID, truth_status)
     else:
         exit_pe = record_value("exit_pe")
         price = record_value("current_price")
@@ -262,6 +267,7 @@ def build_company_engines(
         outputs["market_expectations"] = {
             "symbol": symbol,
             "status": "computed",
+            "truth_status": truth_status,
             "formula_id": EXPECTATIONS_FORMULA_ID,
             "result": {
                 "required_revenue": required_revenue,

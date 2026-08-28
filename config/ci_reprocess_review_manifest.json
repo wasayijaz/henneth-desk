@@ -1,9 +1,10 @@
 {
  "schema_version": 1,
  "manifest_version": "ci_reprocess_review_manifest_v1",
- "manifest_id": "cirestage_21ee1a53a75429a29157",
+ "manifest_id": "cirestage_3c3490fc0ea33e372640",
  "source": {
-  "financial_coverage": "state/company_intel/financial_coverage.json"
+  "financial_coverage": "state/company_intel/financial_coverage.json",
+  "research_index": "state/research_index.json"
  },
  "policy": {
   "owner_review_only": true,
@@ -59,8 +60,8 @@
  ],
  "document_ids": [
   "psx:260947",
-  "psx:264120",
-  "psx:275807"
+  "psx:264230",
+  "psx:275962"
  ],
  "documents": {
   "psx:260947": {
@@ -83,45 +84,43 @@
    "approval_status": "owner_review_required",
    "reason": "metadata-derived approved review candidate for bounded CI filing restage"
   },
-  "psx:264120": {
-   "document_id": "psx:264120",
+  "psx:264230": {
+   "document_id": "psx:264230",
    "symbol": "DGKC",
    "period": "2025-09-30",
    "classification": "financial_results",
-   "title": "FINANCIAL RESULTS FOR THE 1ST QUARTER ENDED SEPTEMBER 30, 2025",
-   "expected_title_pattern": "FINANCIAL RESULTS FOR THE 1ST QUARTER ENDED SEPTEMBER 30, 2025",
-   "published_at": "2025-10-29T15:25:00+05:00",
-   "source_url": "https://dps.psx.com.pk/download/document/264120.pdf",
-   "content_sha256": "3e76c18d4656f241c70d04a6618a1050142cc4a339600ef9e62bdcdc5325073f",
+   "title": "TRANSMISSION OF QUARTERLY REPORT FOR THE PERIOD ENDED SEPTEMBER 30, 2025",
+   "expected_title_pattern": "TRANSMISSION OF QUARTERLY REPORT FOR THE PERIOD ENDED SEPTEMBER 30, 2025",
+   "published_at": "2025-10-30T10:37:00+05:00",
+   "source_url": "https://dps.psx.com.pk/download/document/264230.pdf",
+   "content_sha256": "4672367d4360dba4230cb82fabdfb3c77282132672b521aa66b71dd66ed052ed",
    "content_identity": "retained_hash",
    "safe_period": {
     "period_end": "2025-09-30",
     "period_type": "interim",
-    "source": "title",
-    "matched_text": "QUARTER ENDED SEPTEMBER 30, 2025"
+    "source": "owner_approved_counterpart"
    },
-   "approval_status": "owner_review_required",
-   "reason": "metadata-derived approved review candidate for bounded CI filing restage"
+   "approval_status": "owner_approved",
+   "reason": "owner-approved retained official full-report counterpart for bounded CI filing restage"
   },
-  "psx:275807": {
-   "document_id": "psx:275807",
+  "psx:275962": {
+   "document_id": "psx:275962",
    "symbol": "DGKC",
    "period": "2026-03-31",
    "classification": "financial_results",
-   "title": "Financial Results for the 3rd Quarter ended March 31, 2026",
-   "expected_title_pattern": "Financial Results for the 3rd Quarter ended March 31, 2026",
-   "published_at": "2026-04-29T14:26:00+05:00",
-   "source_url": "https://dps.psx.com.pk/download/document/275807.pdf",
-   "content_sha256": "1ba0e993442e81b60c806dc5484ac6cca70b9df7ba6d1666a6627a5b373eaf9f",
+   "title": "TRANSMISSION OF QUARTERLY REPOR TFOR THE PERIOD ENDED MARCH 31, 2026",
+   "expected_title_pattern": "TRANSMISSION OF QUARTERLY REPOR TFOR THE PERIOD ENDED MARCH 31, 2026",
+   "published_at": "2026-04-30T09:53:00+05:00",
+   "source_url": "https://dps.psx.com.pk/download/document/275962.pdf",
+   "content_sha256": "3ed71d834406122feb7f1ed74a889713abceb8ad0d4336e9facf633c60d0e08b",
    "content_identity": "retained_hash",
    "safe_period": {
     "period_end": "2026-03-31",
     "period_type": "interim",
-    "source": "title",
-    "matched_text": "Quarter ended March 31, 2026"
+    "source": "owner_approved_counterpart"
    },
-   "approval_status": "owner_review_required",
-   "reason": "metadata-derived approved review candidate for bounded CI filing restage"
+   "approval_status": "owner_approved",
+   "reason": "owner-approved retained official full-report counterpart for bounded CI filing restage"
   }
  },
  "summary": {

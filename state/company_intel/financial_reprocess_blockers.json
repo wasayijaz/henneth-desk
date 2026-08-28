@@ -49,8 +49,9 @@
   "company_count": 1,
   "required_for_input_readiness_count": 0,
   "blocked_reasons": [
-   "file_page_cap_exceeded",
-   "unsupported_image_only"
+   "full_repository_preflight_not_clean",
+   "no_qualified_direct_three_month_fact_set",
+   "no_supported_statement_geometry"
   ]
  },
  "companies": {
@@ -67,7 +68,7 @@
    "required_blocked_document_count": 0,
    "blocked_documents": [
     {
-     "blocker_id": "finreblock_1c5ed010c391295256a1",
+     "blocker_id": "finreblock_7e2fd23ba02a3969ab2a",
      "document_id": "psx:260947",
      "symbol": "DGKC",
      "period": "2025-06-30",
@@ -84,72 +85,70 @@
      "parser_version": "financial_statement_v2",
      "parser_revision": "block_geometry_v5",
      "status": "blocked_by_current_gate",
-     "gate": "transport_page_count",
-     "reason": "file_page_cap_exceeded",
+     "gate": "transaction_verification",
+     "reason": "full_repository_preflight_not_clean",
      "canonical_state_committed": false,
      "receipt_written": false,
      "facts_emitted": false,
      "next_status": "not_required_for_current_input_readiness",
-     "next_required_evidence": "Official DGKC FY2025 annual source that remains within the current 120-page PSX page cap, or an owner-approved page-cap/source-policy change."
+     "next_required_evidence": "Resolve the independent generated-state consistency failures, then re-run the already verified original-page-preserving three-chunk restage; do not loosen the 120-page parser cap."
     },
     {
-     "blocker_id": "finreblock_93d8112b2659a2b3d33b",
-     "document_id": "psx:264120",
+     "blocker_id": "finreblock_4f98c198c87c1633afb1",
+     "document_id": "psx:264230",
      "symbol": "DGKC",
      "period": "2025-09-30",
      "classification": "financial_results",
-     "title": "FINANCIAL RESULTS FOR THE 1ST QUARTER ENDED SEPTEMBER 30, 2025",
-     "source_url": "https://dps.psx.com.pk/download/document/264120.pdf",
+     "title": "TRANSMISSION OF QUARTERLY REPORT FOR THE PERIOD ENDED SEPTEMBER 30, 2025",
+     "source_url": "https://dps.psx.com.pk/download/document/264230.pdf",
      "content_identity": "retained_hash",
      "safe_period": {
       "period_end": "2025-09-30",
       "period_type": "interim",
-      "source": "title",
-      "matched_text": "QUARTER ENDED SEPTEMBER 30, 2025"
+      "source": "owner_approved_counterpart"
      },
      "parser_version": "financial_statement_v2",
      "parser_revision": "block_geometry_v5",
      "status": "blocked_by_current_gate",
-     "gate": "parser_text_geometry",
-     "reason": "unsupported_image_only",
+     "gate": "qualified_fact_coverage",
+     "reason": "no_qualified_direct_three_month_fact_set",
      "canonical_state_committed": false,
      "receipt_written": false,
      "facts_emitted": false,
      "next_status": "not_required_for_current_input_readiness",
-     "next_required_evidence": "Official DGKC Q1 FY2026 filing with extractable text/geometry inside the existing PSX caps, or an owner-approved parser policy change."
+     "next_required_evidence": "A retained official DGKC Q1 FY2026 statement that yields a consolidated, direct three-month Revenue/PAT/EPS fact set under the existing parser; OCR is not approved for this tranche."
     },
     {
-     "blocker_id": "finreblock_376712789c4529ee60cb",
-     "document_id": "psx:275807",
+     "blocker_id": "finreblock_e86e1e10a2a471ce093c",
+     "document_id": "psx:275962",
      "symbol": "DGKC",
      "period": "2026-03-31",
      "classification": "financial_results",
-     "title": "Financial Results for the 3rd Quarter ended March 31, 2026",
-     "source_url": "https://dps.psx.com.pk/download/document/275807.pdf",
+     "title": "TRANSMISSION OF QUARTERLY REPOR TFOR THE PERIOD ENDED MARCH 31, 2026",
+     "source_url": "https://dps.psx.com.pk/download/document/275962.pdf",
      "content_identity": "retained_hash",
      "safe_period": {
       "period_end": "2026-03-31",
       "period_type": "interim",
-      "source": "title",
-      "matched_text": "Quarter ended March 31, 2026"
+      "source": "owner_approved_counterpart"
      },
      "parser_version": "financial_statement_v2",
      "parser_revision": "block_geometry_v5",
      "status": "blocked_by_current_gate",
-     "gate": "parser_text_geometry",
-     "reason": "unsupported_image_only",
+     "gate": "parser_statement_geometry",
+     "reason": "no_supported_statement_geometry",
      "canonical_state_committed": false,
      "receipt_written": false,
      "facts_emitted": false,
      "next_status": "not_required_for_current_input_readiness",
-     "next_required_evidence": "Official DGKC Q3 FY2026 filing with extractable text/geometry inside the existing PSX caps, or an owner-approved parser policy change."
+     "next_required_evidence": "A retained official DGKC Q3 FY2026 report whose consolidated statement geometry is supported by the existing parser; do not OCR or promote audit-only output."
     }
    ]
   }
  },
  "blocked_documents": [
   {
-   "blocker_id": "finreblock_1c5ed010c391295256a1",
+   "blocker_id": "finreblock_7e2fd23ba02a3969ab2a",
    "document_id": "psx:260947",
    "symbol": "DGKC",
    "period": "2025-06-30",
@@ -166,76 +165,63 @@
    "parser_version": "financial_statement_v2",
    "parser_revision": "block_geometry_v5",
    "status": "blocked_by_current_gate",
-   "gate": "transport_page_count",
-   "reason": "file_page_cap_exceeded",
+   "gate": "transaction_verification",
+   "reason": "full_repository_preflight_not_clean",
    "canonical_state_committed": false,
    "receipt_written": false,
    "facts_emitted": false,
    "next_status": "not_required_for_current_input_readiness",
-   "next_required_evidence": "Official DGKC FY2025 annual source that remains within the current 120-page PSX page cap, or an owner-approved page-cap/source-policy change."
+   "next_required_evidence": "Resolve the independent generated-state consistency failures, then re-run the already verified original-page-preserving three-chunk restage; do not loosen the 120-page parser cap."
   },
   {
-   "blocker_id": "finreblock_93d8112b2659a2b3d33b",
-   "document_id": "psx:264120",
+   "blocker_id": "finreblock_4f98c198c87c1633afb1",
+   "document_id": "psx:264230",
    "symbol": "DGKC",
    "period": "2025-09-30",
    "classification": "financial_results",
-   "title": "FINANCIAL RESULTS FOR THE 1ST QUARTER ENDED SEPTEMBER 30, 2025",
-   "source_url": "https://dps.psx.com.pk/download/document/264120.pdf",
+   "title": "TRANSMISSION OF QUARTERLY REPORT FOR THE PERIOD ENDED SEPTEMBER 30, 2025",
+   "source_url": "https://dps.psx.com.pk/download/document/264230.pdf",
    "content_identity": "retained_hash",
    "safe_period": {
     "period_end": "2025-09-30",
     "period_type": "interim",
-    "source": "title",
-    "matched_text": "QUARTER ENDED SEPTEMBER 30, 2025"
+    "source": "owner_approved_counterpart"
    },
    "parser_version": "financial_statement_v2",
    "parser_revision": "block_geometry_v5",
    "status": "blocked_by_current_gate",
-   "gate": "parser_text_geometry",
-   "reason": "unsupported_image_only",
+   "gate": "qualified_fact_coverage",
+   "reason": "no_qualified_direct_three_month_fact_set",
    "canonical_state_committed": false,
    "receipt_written": false,
    "facts_emitted": false,
    "next_status": "not_required_for_current_input_readiness",
-   "next_required_evidence": "Official DGKC Q1 FY2026 filing with extractable text/geometry inside the existing PSX caps, or an owner-approved parser policy change."
+   "next_required_evidence": "A retained official DGKC Q1 FY2026 statement that yields a consolidated, direct three-month Revenue/PAT/EPS fact set under the existing parser; OCR is not approved for this tranche."
   },
   {
-   "blocker_id": "finreblock_376712789c4529ee60cb",
-   "document_id": "psx:275807",
+   "blocker_id": "finreblock_e86e1e10a2a471ce093c",
+   "document_id": "psx:275962",
    "symbol": "DGKC",
    "period": "2026-03-31",
    "classification": "financial_results",
-   "title": "Financial Results for the 3rd Quarter ended March 31, 2026",
-   "source_url": "https://dps.psx.com.pk/download/document/275807.pdf",
+   "title": "TRANSMISSION OF QUARTERLY REPOR TFOR THE PERIOD ENDED MARCH 31, 2026",
+   "source_url": "https://dps.psx.com.pk/download/document/275962.pdf",
    "content_identity": "retained_hash",
    "safe_period": {
     "period_end": "2026-03-31",
     "period_type": "interim",
-    "source": "title",
-    "matched_text": "Quarter ended March 31, 2026"
+    "source": "owner_approved_counterpart"
    },
    "parser_version": "financial_statement_v2",
    "parser_revision": "block_geometry_v5",
    "status": "blocked_by_current_gate",
-   "gate": "parser_text_geometry",
-   "reason": "unsupported_image_only",
+   "gate": "parser_statement_geometry",
+   "reason": "no_supported_statement_geometry",
    "canonical_state_committed": false,
    "receipt_written": false,
    "facts_emitted": false,
    "next_status": "not_required_for_current_input_readiness",
-   "next_required_evidence": "Official DGKC Q3 FY2026 filing with extractable text/geometry inside the existing PSX caps, or an owner-approved parser policy change."
+   "next_required_evidence": "A retained official DGKC Q3 FY2026 report whose consolidated statement geometry is supported by the existing parser; do not OCR or promote audit-only output."
   }
- ],
- "_meta": {
-  "generator_version": "ci_artifact_integrity_v1",
-  "source_commit_sha": "4b618216067b62082adf73119d9c76e42b7e8057",
-  "build_cutoff_at": "2026-08-28T17:59:21Z",
-  "generated_at": "2026-08-28T17:59:21Z",
-  "artifact_path": "state/company_intel/financial_reprocess_blockers.json",
-  "timestamp_semantics": {
-   "build_cutoff_at": "generation boundary only; not a source-effective or source-published time",
-   "generated_at": "artifact generation time only; not a source-effective or source-published time"
-  }
- }
+ ]
 }

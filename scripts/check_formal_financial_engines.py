@@ -132,6 +132,8 @@ def assert_synthetic_ready() -> None:
     for name, product in row.items():
         if product["status"] != "computed" or len(product["provenance"]) != expected_provenance[name]:
             fail("computed product missing provenance")
+        if product.get("truth_status") != "qualified":
+            fail("computed product did not expose qualified financial-truth status")
         assert_clean_language(product)
         assert_finite(product)
 
@@ -154,6 +156,9 @@ def assert_blocks() -> None:
         if observed != computed:
             fail(f"{name} computed {sorted(observed)}, expected {sorted(computed)}")
         for product, payload in row.items():
+            expected_truth = financial_truth.get("status") or "missing"
+            if payload.get("truth_status") != expected_truth:
+                fail(f"{name} {product} exposed stale financial truth status")
             if product not in computed and payload["result"] is not None:
                 fail(f"{name} blocked product carried a result")
             if name == "red_financial_truth" and "financial_truth_qualified" not in payload.get("missing_requirements", []):
@@ -200,6 +205,8 @@ def assert_temp_builder_ready() -> None:
             forecasts, valuations, expectations = builder.build()
             if forecasts["summary"]["computed_company_count"] != 1:
                 fail("temp builder did not compute forecast")
+            if forecasts["companies"]["MLCF"].get("truth_status") != "qualified":
+                fail("temp builder did not carry qualified truth status into forecasts")
             if valuations["companies"]["MLCF"]["result"]["formula_enterprise_value"] != 1150.0:
                 fail("temp builder valuation mismatch")
             if expectations["companies"]["MLCF"]["status"] != "computed":

@@ -72,6 +72,16 @@ def _seed_canonical_state(root: Path, doc_ids: list[str]) -> None:
     _write_json(state / "company_intel" / "financial_model_inputs.json", {
         "schema_version": 1, "pilot_symbols": pilot, "companies": {sym: {"status": "fixture"} for sym in pilot}
     })
+    _write_json(state / "company_intel" / "financial_evidence_reconciliation.json", {
+        "schema_version": 1, "pilot_symbols": pilot, "companies": {sym: {"status": "fixture"} for sym in pilot}
+    })
+    _write_json(state / "company_intel" / "financial_truth_qualification.json", {
+        "schema_version": 1, "pilot_symbols": pilot, "companies": {sym: {"status": "red"} for sym in pilot}
+    })
+    for name in ("financial_forecasts", "formal_valuations", "market_expectations"):
+        _write_json(state / "company_intel" / f"{name}.json", {
+            "schema_version": 1, "pilot_symbols": pilot, "companies": {sym: {"status": "stale"} for sym in pilot}
+        })
     _write_json(root / "ci_slice.json", {"meta": {"count": 20}, "tickers": [{"symbol": sym} for sym in pilot]})
     _write_json(state / "company_event_ledger.json", {"companies": {}})
     _write_json(state / "company_intel" / "source_registry.json", {"tickers": {sym: {"status": "ok"} for sym in pilot}})
@@ -204,7 +214,9 @@ def _fixture(root: Path, doc_ids: list[str], *, hashes: dict[str, str] | None = 
 
 def _run(root: Path, doc_ids: list[str], bodies: dict[str, bytes], *, manifest: Path,
          consume: bool = False, _consumer=None, cache_root: Path | None = None,
-         _model_builder=None, _ci_builder=None, _checker=None) -> tuple[dict[str, Any], FakeTransport]:
+         _model_builder=None, _reconciliation_builder=None, _truth_builder=None,
+         _formal_builder=None, _completion_matrix_builder=None,
+         _ci_builder=None, _checker=None) -> tuple[dict[str, Any], FakeTransport]:
     responses = {}
     for doc_id, body in bodies.items():
         numeric = doc_id.split(":", 1)[1]
@@ -226,6 +238,10 @@ def _run(root: Path, doc_ids: list[str], bodies: dict[str, bytes], *, manifest: 
         expected_allowlist=frozenset(doc_ids),
         ci_slice_path=root / "ci_slice.json",
         _model_builder=_model_builder,
+        _reconciliation_builder=_reconciliation_builder,
+        _truth_builder=_truth_builder,
+        _formal_builder=_formal_builder,
+        _completion_matrix_builder=_completion_matrix_builder,
         _ci_builder=_ci_builder,
         _checker=_checker,
     )
@@ -260,11 +276,57 @@ def _good_builders(root: Path):
             "companies": {sym: {"status": "fixture"} for sym in pilot},
         })
 
+    def reconciliation_builder() -> None:
+        pilot = json.loads((root / "state" / "company_profiles.json").read_text(encoding="utf-8"))["pilot"]["symbols"]
+        model = json.loads((root / "state" / "company_intel" / "financial_model_inputs.json").read_text(encoding="utf-8"))
+        _write_json(root / "state" / "company_intel" / "financial_evidence_reconciliation.json", {
+            "schema_version": 1,
+            "pilot_symbols": pilot,
+            "companies": {sym: {"status": "reconciled", "model_status": (model.get("companies") or {}).get(sym, {}).get("status")} for sym in pilot},
+        })
+
+    def truth_builder() -> None:
+        pilot = json.loads((root / "state" / "company_profiles.json").read_text(encoding="utf-8"))["pilot"]["symbols"]
+        reconciliation = json.loads((root / "state" / "company_intel" / "financial_evidence_reconciliation.json").read_text(encoding="utf-8"))
+        _write_json(root / "state" / "company_intel" / "financial_truth_qualification.json", {
+            "schema_version": 1,
+            "pilot_symbols": pilot,
+            "companies": {sym: {"status": "qualified", "from_reconciliation": (reconciliation.get("companies") or {}).get(sym, {}).get("status")} for sym in pilot},
+        })
+
+    def formal_builder() -> None:
+        pilot = json.loads((root / "state" / "company_profiles.json").read_text(encoding="utf-8"))["pilot"]["symbols"]
+        truth = json.loads((root / "state" / "company_intel" / "financial_truth_qualification.json").read_text(encoding="utf-8"))
+        for name in ("financial_forecasts", "formal_valuations", "market_expectations"):
+            _write_json(root / "state" / "company_intel" / f"{name}.json", {
+                "schema_version": 1,
+                "pilot_symbols": pilot,
+                "companies": {sym: {"status": "blocked_pending_owner_approved_assumptions", "truth_status": (truth.get("companies") or {}).get(sym, {}).get("status")} for sym in pilot},
+            })
+
+    def completion_matrix_builder() -> None:
+        pilot = json.loads((root / "state" / "company_profiles.json").read_text(encoding="utf-8"))["pilot"]["symbols"]
+        truth = json.loads((root / "state" / "company_intel" / "financial_truth_qualification.json").read_text(encoding="utf-8"))
+        _write_json(root / "state" / "company_intel" / "completion_matrix.json", {
+            "schema_version": 2,
+            "pilot_symbols": pilot,
+            "companies": {sym: {"truth_status": (truth.get("companies") or {}).get(sym, {}).get("status")} for sym in pilot},
+        })
+
     def ci_builder() -> None:
         pilot = json.loads((root / "state" / "company_profiles.json").read_text(encoding="utf-8"))["pilot"]["symbols"]
-        _write_json(root / "ci_slice.json", {"meta": {"count": len(pilot)}, "tickers": [{"symbol": sym} for sym in pilot]})
+        truth = json.loads((root / "state" / "company_intel" / "financial_truth_qualification.json").read_text(encoding="utf-8"))
+        valuations = json.loads((root / "state" / "company_intel" / "formal_valuations.json").read_text(encoding="utf-8"))
+        completion = json.loads((root / "state" / "company_intel" / "completion_matrix.json").read_text(encoding="utf-8"))
+        _write_json(root / "ci_slice.json", {"meta": {"count": len(pilot)}, "tickers": [
+            {"symbol": sym,
+             "financial_truth_qualification": (truth.get("companies") or {}).get(sym),
+             "formal_valuations": (valuations.get("companies") or {}).get(sym),
+             "completion_matrix": (completion.get("companies") or {}).get(sym)}
+            for sym in pilot
+        ]})
 
-    return model_builder, ci_builder, lambda _name: None
+    return model_builder, reconciliation_builder, truth_builder, formal_builder, completion_matrix_builder, ci_builder, lambda _name: None
 
 
 def _bad_zero_model_builder(root: Path):
@@ -417,7 +479,7 @@ def main() -> int:
         # Validation/stage-only writes no success receipt; only fixed durable consume can receipt.
         ok = root / "ok"
         manifest = _fixture(ok, ["psx:111", "psx:222"], full_canonical=True)
-        good_model, good_ci, good_checker = _good_builders(ok)
+        good_model, good_reconcile, good_truth, good_formal, good_completion, good_ci, good_checker = _good_builders(ok)
         shared_before = {
             p: p.read_bytes()
             for p in [ok / "state" / "research_index.json", ok / "state" / "document_synthesis_queue.json",
@@ -451,15 +513,24 @@ def main() -> int:
         assert scoped_queue["parser_version"] == r.PARSER_VERSION
         assert scoped_queue["parser_revision"] == r.PARSER_REVISION
         before_hash = hashlib.sha256((ok / "state" / "research_index.json").read_bytes()).hexdigest()
+        repo_raw_reprocess = repo_root / ".cache" / "company_intel" / "raw" / "reprocess"
+        repo_stage_reprocess = repo_root / ".cache" / "company_intel" / "reprocess"
+        before_repo_raw = sorted(str(path) for path in repo_raw_reprocess.glob("*")) if repo_raw_reprocess.exists() else []
+        before_repo_stage = sorted(str(path) for path in repo_stage_reprocess.glob("*")) if repo_stage_reprocess.exists() else []
         result, transport = _run(ok, ["psx:111", "psx:222"], {"psx:111": good_pdf, "psx:222": second_pdf},
                                  manifest=manifest, consume=True, cache_root=repo_root,
-                                 _model_builder=good_model, _ci_builder=good_ci, _checker=good_checker)
+                                 _model_builder=good_model, _reconciliation_builder=good_reconcile,
+                                 _truth_builder=good_truth, _formal_builder=good_formal,
+                                 _completion_matrix_builder=good_completion,
+                                 _ci_builder=good_ci, _checker=good_checker)
         assert result["status"] == "ok"
         assert set(row["status"] for row in result["results"]).issubset({"committed", "processed_unsupported"})
         assert not any((ok / ".cache" / "company_intel" / "raw" / "reprocess").glob("*"))
         assert not any((ok / ".cache" / "company_intel" / "reprocess").glob("*"))
-        assert not any((repo_root / ".cache" / "company_intel" / "raw" / "reprocess").glob("*"))
-        assert not any((repo_root / ".cache" / "company_intel" / "reprocess").glob("*"))
+        after_repo_raw = sorted(str(path) for path in repo_raw_reprocess.glob("*")) if repo_raw_reprocess.exists() else []
+        after_repo_stage = sorted(str(path) for path in repo_stage_reprocess.glob("*")) if repo_stage_reprocess.exists() else []
+        assert after_repo_raw == before_repo_raw
+        assert after_repo_stage == before_repo_stage
         docs_payload = json.loads((ok / "state" / "company_documents.json").read_text(encoding="utf-8"))
         for doc_id in ["psx:111", "psx:222"]:
             assert docs_payload["documents"][doc_id]["content_sha256"]
@@ -666,7 +737,7 @@ def main() -> int:
 
         no_stamp = root / "no_stamp_consume"
         _fixture(no_stamp, ["psx:111"], full_canonical=True)
-        no_stamp_model, no_stamp_ci, no_stamp_checker = _good_builders(no_stamp)
+        no_stamp_model, no_stamp_reconcile, no_stamp_truth, no_stamp_formal, no_stamp_completion, no_stamp_ci, no_stamp_checker = _good_builders(no_stamp)
         expected_doc = r.VerifiedDocument(
             doc_id="psx:111",
             numeric_id="111",
@@ -711,7 +782,9 @@ def main() -> int:
             committed = r.consume_canonical(no_stamp / "registry.json", no_stamp / "queue.json",
                                             no_stamp / "stage", [(expected_doc, expected_fetch)],
                                             state_root=no_stamp / "state", ci_slice_path=no_stamp / "ci_slice.json",
-                                            model_builder=no_stamp_model, ci_builder=no_stamp_ci,
+                                            model_builder=no_stamp_model, reconciliation_builder=no_stamp_reconcile,
+                                            truth_builder=no_stamp_truth, formal_builder=no_stamp_formal,
+                                            completion_matrix_builder=no_stamp_completion, ci_builder=no_stamp_ci,
                                             checker=no_stamp_checker)
         finally:
             document_intelligence.run = original_run
@@ -722,7 +795,7 @@ def main() -> int:
         # Active canonical transactions run full preflight without recursively invoking this self-check.
         tx = root / "transaction_preflight_isolation"
         _fixture(tx, ["psx:111"], full_canonical=True)
-        tx_model, tx_ci, _ = _good_builders(tx)
+        tx_model, tx_reconcile, tx_truth, tx_formal, tx_completion, tx_ci, _ = _good_builders(tx)
 
         def current_writer(*, output_path: Path, ledger_path: Path, queue_path: Path, series_path: Path, **_: Any) -> int:
             docs_payload = json.loads(output_path.read_text(encoding="utf-8")) if output_path.exists() else {"documents": {}}
@@ -754,7 +827,12 @@ def main() -> int:
 
         def fake_checker_run(cmd, **kwargs):
             name = Path(str(cmd[-1])).name
-            checker_calls.append((name, (kwargs.get("env") or {}).get("HENNETH_REPROCESS_TRANSACTION")))
+            env = kwargs.get("env") or {}
+            checker_calls.append((
+                name,
+                env.get("HENNETH_REPROCESS_TRANSACTION")
+                or env.get("HENNETH_CI_PRODUCT_CONTRACTS_VERIFIED_BY_PREFLIGHT"),
+            ))
             return Completed()
 
         document_intelligence.run = current_writer
@@ -763,15 +841,29 @@ def main() -> int:
             r.consume_canonical(tx / "registry.json", tx / "queue.json", tx / "stage",
                                 [(expected_doc, expected_fetch)], state_root=tx / "state",
                                 ci_slice_path=tx / "ci_slice.json",
-                                model_builder=tx_model, ci_builder=tx_ci)
+                                model_builder=tx_model, reconciliation_builder=tx_reconcile,
+                                truth_builder=tx_truth, formal_builder=tx_formal,
+                                completion_matrix_builder=tx_completion, ci_builder=tx_ci)
         finally:
             document_intelligence.run = original_run
             r.subprocess.run = original_subprocess_run
         assert ("preflight.py", "1") in checker_calls, checker_calls
-        assert all(flag is None for name, flag in checker_calls if name != "preflight.py"), checker_calls
-        assert {name for name, _ in checker_calls} >= {
-            "check_financial_model_inputs.py", "check_event_studies.py", "check_operating_intelligence.py", "preflight.py"
-        }
+        assert ("check_ci_completion_matrix.py", "1") in checker_calls, checker_calls
+        assert all(flag is None for name, flag in checker_calls if name not in {"check_ci_completion_matrix.py", "preflight.py"}), checker_calls
+        assert [name for name, _ in checker_calls] == [
+            "check_financial_model_inputs.py",
+            "check_financial_evidence_reconciliation.py",
+            "check_financial_truth_qualification.py",
+            "check_formal_financial_engines.py",
+            "check_evidence_watchlist.py",
+            "check_ci_completion_matrix.py",
+            "check_event_studies.py",
+            "check_operating_intelligence.py",
+            "preflight.py",
+        ], checker_calls
+        tx_slice = json.loads((tx / "ci_slice.json").read_text(encoding="utf-8"))
+        assert {row["financial_truth_qualification"]["status"] for row in tx_slice["tickers"]} == {"qualified"}
+        assert {row["formal_valuations"]["truth_status"] for row in tx_slice["tickers"]} == {"qualified"}
 
         # Normal preflight still invokes the reprocess self-check; only the transaction-local flag skips it.
         import os
@@ -802,7 +894,7 @@ def main() -> int:
         # A non-reprocess preflight failure still rolls back every canonical snapshot byte-for-byte.
         fail_tx = root / "transaction_preflight_failure"
         _fixture(fail_tx, ["psx:111"], full_canonical=True)
-        fail_model, fail_ci, _ = _good_builders(fail_tx)
+        fail_model, fail_reconcile, fail_truth, fail_formal, fail_completion, fail_ci, _ = _good_builders(fail_tx)
         before_docs = (fail_tx / "state" / "company_documents.json").read_bytes()
         before_model = (fail_tx / "state" / "company_intel" / "financial_model_inputs.json").read_bytes()
         before_slice = (fail_tx / "ci_slice.json").read_bytes()
@@ -821,7 +913,9 @@ def main() -> int:
                 r.consume_canonical(fail_tx / "registry.json", fail_tx / "queue.json", fail_tx / "stage",
                                     [(expected_doc, expected_fetch)], state_root=fail_tx / "state",
                                     ci_slice_path=fail_tx / "ci_slice.json",
-                                    model_builder=fail_model, ci_builder=fail_ci)
+                                    model_builder=fail_model, reconciliation_builder=fail_reconcile,
+                                    truth_builder=fail_truth, formal_builder=fail_formal,
+                                    completion_matrix_builder=fail_completion, ci_builder=fail_ci)
             except RuntimeError as exc:
                 assert "forced non-reprocess preflight failure" in str(exc)
             else:
@@ -836,9 +930,12 @@ def main() -> int:
         # Revision-aware idempotency: same hash+same revision skips; legacy no-revision receipt does not.
         idem = root / "idem"
         idem_manifest = _fixture(idem, ["psx:111"], hashes={"psx:111": good_sha}, full_canonical=True)
-        idem_model, idem_ci, idem_checker = _good_builders(idem)
+        idem_model, idem_reconcile, idem_truth, idem_formal, idem_completion, idem_ci, idem_checker = _good_builders(idem)
         _run(idem, ["psx:111"], {"psx:111": good_pdf}, manifest=idem_manifest, consume=True, cache_root=repo_root,
-             _model_builder=idem_model, _ci_builder=idem_ci, _checker=idem_checker)
+             _model_builder=idem_model, _reconciliation_builder=idem_reconcile,
+             _truth_builder=idem_truth, _formal_builder=idem_formal,
+             _completion_matrix_builder=idem_completion,
+             _ci_builder=idem_ci, _checker=idem_checker)
         first_receipts = _receipt_text(idem)
         result, transport = _run(idem, ["psx:111"], {"psx:111": good_pdf}, manifest=idem_manifest)
         assert result["results"][0]["status"] == "skipped_idempotent"
@@ -859,10 +956,13 @@ def main() -> int:
                 "status": "processed_unsupported",
             }],
         })
-        legacy_model, legacy_ci, legacy_checker = _good_builders(legacy)
+        legacy_model, legacy_reconcile, legacy_truth, legacy_formal, legacy_completion, legacy_ci, legacy_checker = _good_builders(legacy)
         result, transport = _run(legacy, ["psx:111"], {"psx:111": good_pdf}, manifest=legacy_manifest,
-                                consume=True, cache_root=repo_root,
-                                _model_builder=legacy_model, _ci_builder=legacy_ci, _checker=legacy_checker)
+                                 consume=True, cache_root=repo_root,
+                                 _model_builder=legacy_model, _reconciliation_builder=legacy_reconcile,
+                                 _truth_builder=legacy_truth, _formal_builder=legacy_formal,
+                                 _completion_matrix_builder=legacy_completion,
+                                 _ci_builder=legacy_ci, _checker=legacy_checker)
         assert transport.calls, "legacy no-revision receipt incorrectly blocked new parser revision"
         receipts = json.loads(_receipt_text(legacy))["receipts"]
         assert len(receipts) == 2
@@ -873,9 +973,12 @@ def main() -> int:
         assert transport.calls == []
         unknown = root / "unknown_hash"
         unknown_manifest = _fixture(unknown, ["psx:111"], full_canonical=True)
-        unknown_model, unknown_ci, unknown_checker = _good_builders(unknown)
+        unknown_model, unknown_reconcile, unknown_truth, unknown_formal, unknown_completion, unknown_ci, unknown_checker = _good_builders(unknown)
         _run(unknown, ["psx:111"], {"psx:111": good_pdf}, manifest=unknown_manifest, consume=True, cache_root=repo_root,
-             _model_builder=unknown_model, _ci_builder=unknown_ci, _checker=unknown_checker)
+             _model_builder=unknown_model, _reconciliation_builder=unknown_reconcile,
+             _truth_builder=unknown_truth, _formal_builder=unknown_formal,
+             _completion_matrix_builder=unknown_completion,
+             _ci_builder=unknown_ci, _checker=unknown_checker)
         result, transport = _run(unknown, ["psx:111"], {"psx:111": good_pdf}, manifest=unknown_manifest)
         assert result["results"][0]["status"] == "skipped_idempotent"
         assert transport.calls == [], "prior receipt hash did not short-circuit future network"
@@ -991,20 +1094,25 @@ def main() -> int:
         else:
             raise AssertionError("uncommitted consumer result was accepted")
         assert _receipt_text(crash) == ""
-        crash_model, crash_ci, crash_checker = _good_builders(crash)
+        crash_model, crash_reconcile, crash_truth, crash_formal, crash_completion, crash_ci, crash_checker = _good_builders(crash)
         _run(crash, ["psx:111"], {"psx:111": good_pdf}, manifest=crash_manifest, consume=True, cache_root=repo_root,
-             _model_builder=crash_model, _ci_builder=crash_ci, _checker=crash_checker)
+             _model_builder=crash_model, _reconciliation_builder=crash_reconcile,
+             _truth_builder=crash_truth, _formal_builder=crash_formal,
+             _completion_matrix_builder=crash_completion,
+             _ci_builder=crash_ci, _checker=crash_checker)
         assert len(json.loads(_receipt_text(crash))["receipts"]) == 1
 
         zero_model = root / "zero_model"
         zero_manifest = _fixture(zero_model, ["psx:111"], full_canonical=True)
         before_model = (zero_model / "state" / "company_intel" / "financial_model_inputs.json").read_bytes()
         before_slice = (zero_model / "ci_slice.json").read_bytes()
-        _, zero_ci, zero_checker = _good_builders(zero_model)
+        _, zero_reconcile, zero_truth, zero_formal, zero_completion, zero_ci, zero_checker = _good_builders(zero_model)
         try:
             _run(zero_model, ["psx:111"], {"psx:111": good_pdf}, manifest=zero_manifest,
                  consume=True, cache_root=repo_root,
                  _model_builder=_bad_zero_model_builder(zero_model),
+                 _reconciliation_builder=zero_reconcile, _truth_builder=zero_truth,
+                 _formal_builder=zero_formal, _completion_matrix_builder=zero_completion,
                  _ci_builder=zero_ci, _checker=zero_checker)
         except RuntimeError:
             pass
@@ -1061,7 +1169,7 @@ def main() -> int:
         _write_json(publish_fail / "state" / "company_event_ledger.json", {"sentinel": True})
         before_docs = (publish_fail / "state" / "company_documents.json").read_bytes()
         before_ledger = (publish_fail / "state" / "company_event_ledger.json").read_bytes()
-        publish_model, publish_ci, publish_checker = _good_builders(publish_fail)
+        publish_model, publish_reconcile, publish_truth, publish_formal, publish_completion, publish_ci, publish_checker = _good_builders(publish_fail)
         original_replace = r._atomic_replace_file
         replace_count = {"n": 0}
 
@@ -1076,7 +1184,10 @@ def main() -> int:
             try:
                 _run(publish_fail, ["psx:111"], {"psx:111": good_pdf},
                      manifest=publish_manifest, consume=True, cache_root=repo_root,
-                     _model_builder=publish_model, _ci_builder=publish_ci, _checker=publish_checker)
+                     _model_builder=publish_model, _reconciliation_builder=publish_reconcile,
+                     _truth_builder=publish_truth, _formal_builder=publish_formal,
+                     _completion_matrix_builder=publish_completion,
+                     _ci_builder=publish_ci, _checker=publish_checker)
             except RuntimeError:
                 pass
             else:

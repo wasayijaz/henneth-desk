@@ -27,6 +27,7 @@ from urllib.parse import urljoin, urlparse
 
 from financial_statement_facts import diagnose_page_records, PARSER_VERSION, PARSER_REVISION
 from psx_data import ROOT, STATE, load_json, save_json
+from pdf_chunking import SourceIdentity, split_pdf, ChunkRecord
 
 MAX_DOCUMENT_IDS = 5
 MAX_REDIRECTS = 4
@@ -39,8 +40,8 @@ LEGACY_PARSER_REVISION = "legacy_geometry_v1"
 BASE_DPS_HOST = "dps.psx.com.pk"
 APPROVED_WAVE3_ALLOWLIST: frozenset[str] = frozenset({
     "psx:260947",
-    "psx:264120",
-    "psx:275807",
+    "psx:264230",
+    "psx:275962",
 })
 
 DOCUMENT_ID_RE = re.compile(r"^psx:(\d+)$")
@@ -71,9 +72,24 @@ CANONICAL_RELATIVE_PATHS = (
     Path("document_synthesis_queue.json"),
     Path("company_financial_series.json"),
     Path("company_intel") / "financial_model_inputs.json",
+    Path("company_intel") / "financial_evidence_reconciliation.json",
+    Path("company_intel") / "financial_truth_qualification.json",
+    Path("company_intel") / "financial_forecasts.json",
+    Path("company_intel") / "formal_valuations.json",
+    Path("company_intel") / "market_expectations.json",
+    Path("company_intel") / "evidence_watchlist.json",
     Path("company_intel") / "cement_operating_series.json",
 )
 CI_SLICE_PATH = ROOT / "Henneth Desk 2.CI.0" / "data" / "company_intelligence.json"
+CI_ARTIFACT_INTEGRITY_EXCLUDED_STATE_NAMES = {
+    "artifact_integrity.json",
+    "backfill_cursor.json",
+    "cursors.json",
+    "reprocess_receipts.json",
+    "supabase_archive_receipt.json",
+    "private_thesis_storage_receipt.json",
+    "release_integrity_receipt.json",
+}
 
 
 class UnsafeInput(ValueError):
@@ -82,6 +98,36 @@ class UnsafeInput(ValueError):
 
 class DegradedDocument(RuntimeError):
     """One document could not be safely transported; the run should continue and exit 0."""
+
+
+def chunk_verified_oversized_pdf(doc: "VerifiedDocument", fetched: "FetchResult",
+                                 output_dir: Path, *, expected_page_count: int | None = None,
+                                 period_end: str | None = None) -> list[ChunkRecord]:
+    """Chunk one verified oversized source for canonical extraction.
+
+    This is intentionally separate from the normal 120-page transport gate:
+    the source has already passed byte/hash/type checks, and only the temporary
+    parser units are opened.  The global cap is unchanged; all facts retain the
+    original source identity and page numbers.
+    """
+    page_count = int(expected_page_count or fetched.page_count)
+    identity = SourceIdentity(
+        document_id=doc.doc_id,
+        title=str(doc.row.get("title") or doc.row.get("digest") or ""),
+        source_url=doc.url,
+        content_sha256=fetched.content_sha256,
+        published_at=doc.row.get("published_at") or doc.row.get("date"),
+        available_on=doc.row.get("available_on"),
+        page_count=page_count,
+    )
+    source_path = output_dir / f"{doc.doc_id.replace(':', '_')}_{fetched.content_sha256[:16]}_source.pdf"
+    source_path.write_bytes(fetched.body)
+    chunks_dir = output_dir / "chunks"
+    records = split_pdf(source_path, chunks_dir, identity)
+    # The canonical extraction seam consumes the records and maps parser pages
+    # back to source pages.  The enclosing reprocess transaction removes the
+    # source/chunk directory after the consumer and receipt have completed.
+    return records
 
 
 @dataclass(frozen=True)
@@ -348,7 +394,8 @@ def _validate_redirect_url(doc: VerifiedDocument, base_url: str, location: str) 
     return f"https://{BASE_DPS_HOST}{parsed.path}"
 
 
-def _validate_pdf(body: bytes, budget: RunBudget, *, allow_image_only: bool = False) -> tuple[int, int]:
+def _validate_pdf(body: bytes, budget: RunBudget, *, allow_image_only: bool = False,
+                  allow_oversized_chunk: bool = False) -> tuple[int, int]:
     if not body.startswith(b"%PDF-"):
         raise DegradedDocument("pdf_magic_mismatch")
     try:
@@ -360,7 +407,7 @@ def _validate_pdf(body: bytes, budget: RunBudget, *, allow_image_only: bool = Fa
             page_count = len(pdf)
             if page_count < 1:
                 raise DegradedDocument("empty_pdf")
-            if page_count > MAX_FILE_PAGES:
+            if page_count > MAX_FILE_PAGES and not allow_oversized_chunk:
                 raise DegradedDocument("file_page_cap_exceeded")
             normalized = ""
             for page in pdf:
@@ -369,7 +416,8 @@ def _validate_pdf(body: bytes, budget: RunBudget, *, allow_image_only: bool = Fa
         raise
     except Exception as exc:
         raise DegradedDocument(f"pdf_open_failed:{type(exc).__name__}") from exc
-    budget.add_pages(page_count)
+    if not (allow_oversized_chunk and page_count > MAX_FILE_PAGES):
+        budget.add_pages(page_count)
     normalized_chars = len(_clean_text(normalized))
     if normalized_chars < MIN_NORMALIZED_TEXT_CHARS and not allow_image_only:
         raise DegradedDocument("unsupported_image_only")
@@ -377,7 +425,8 @@ def _validate_pdf(body: bytes, budget: RunBudget, *, allow_image_only: bool = Fa
 
 
 def fetch_verified_pdf(doc: VerifiedDocument, transport: Any, budget: RunBudget,
-                       *, allow_image_only: bool = False) -> FetchResult:
+                       *, allow_image_only: bool = False,
+                       allow_oversized_chunk: bool = False) -> FetchResult:
     url = doc.url
     response = None
     for hop in range(MAX_REDIRECTS + 1):
@@ -426,7 +475,9 @@ def fetch_verified_pdf(doc: VerifiedDocument, transport: Any, budget: RunBudget,
     content_sha = hashlib.sha256(raw).hexdigest()
     if doc.content_sha256 and content_sha != doc.content_sha256:
         raise DegradedDocument("known_receipt_hash_mismatch")
-    page_count, normalized_chars = _validate_pdf(raw, budget, allow_image_only=allow_image_only)
+    page_count, normalized_chars = _validate_pdf(
+        raw, budget, allow_image_only=allow_image_only,
+        allow_oversized_chunk=allow_oversized_chunk)
     return FetchResult(body=raw, content_sha256=content_sha, content_length=len(raw), final_url=final_url,
                        content_type=content_type, page_count=page_count, normalized_chars=normalized_chars)
 
@@ -517,7 +568,22 @@ def _restore_snapshot(snapshot: dict[Path, bytes | None]) -> None:
 
 
 def _snapshot_paths(state_root: Path, ci_slice_path: Path = CI_SLICE_PATH) -> list[Path]:
-    return [state_root / rel for rel in CANONICAL_RELATIVE_PATHS] + [ci_slice_path]
+    paths = [state_root / rel for rel in CANONICAL_RELATIVE_PATHS]
+    ci_dir = state_root / "company_intel"
+    if ci_dir.exists():
+        paths.extend(
+            path for path in sorted(ci_dir.glob("*.json"))
+            if path.name not in CI_ARTIFACT_INTEGRITY_EXCLUDED_STATE_NAMES
+        )
+    paths.append(ci_slice_path)
+    deduped: list[Path] = []
+    seen: set[Path] = set()
+    for path in paths:
+        key = path.resolve()
+        if key not in seen:
+            deduped.append(path)
+            seen.add(key)
+    return deduped
 
 
 def _copy_canonical_to_work(state_root: Path, work_state: Path) -> None:
@@ -554,9 +620,12 @@ def _verified_commits(state_root: Path, fetched_docs: list[tuple[VerifiedDocumen
 
 def _run_checker(script_name: str) -> None:
     env = None
-    if script_name == "preflight.py":
+    if script_name in {"check_ci_completion_matrix.py", "preflight.py"}:
         env = dict(os.environ)
-        env["HENNETH_REPROCESS_TRANSACTION"] = "1"
+        if script_name == "check_ci_completion_matrix.py":
+            env["HENNETH_CI_PRODUCT_CONTRACTS_VERIFIED_BY_PREFLIGHT"] = "1"
+        if script_name == "preflight.py":
+            env["HENNETH_REPROCESS_TRANSACTION"] = "1"
     result = subprocess.run([sys.executable, str(ROOT / "scripts" / script_name)],
                             cwd=str(ROOT), stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
                             text=True, timeout=120, env=env)
@@ -574,6 +643,15 @@ def _validate_canonical_boundaries(state_root: Path, before_counts: dict[str, in
     model_companies = model_inputs.get("companies") if isinstance(model_inputs, dict) else None
     if not isinstance(model_companies, dict) or sorted(model_companies) != pilot:
         raise RuntimeError("financial_model_inputs boundary does not match exact 20-company pilot")
+    truth = load_json(state_root / "company_intel" / "financial_truth_qualification.json", {})
+    truth_companies = truth.get("companies") if isinstance(truth, dict) else None
+    if not isinstance(truth_companies, dict) or sorted(truth_companies) != pilot:
+        raise RuntimeError("financial_truth_qualification boundary does not match exact 20-company pilot")
+    for name in ("financial_forecasts", "formal_valuations", "market_expectations"):
+        payload = load_json(state_root / "company_intel" / f"{name}.json", {})
+        companies = payload.get("companies") if isinstance(payload, dict) else None
+        if not isinstance(companies, dict) or sorted(companies) != pilot:
+            raise RuntimeError(f"{name} boundary does not match exact 20-company pilot")
     series = load_json(state_root / "company_financial_series.json", {})
     series_tickers = series.get("tickers") if isinstance(series, dict) else None
     if not isinstance(series_tickers, dict) or len(series_tickers) < before_counts.get("series_tickers", 0):
@@ -603,12 +681,22 @@ def consume_canonical(registry_path: Path, queue_path: Path, output_root: Path,
                       *, state_root: Path = STATE,
                       ci_slice_path: Path = CI_SLICE_PATH,
                       model_builder: Callable[[], Any] | None = None,
+                      reconciliation_builder: Callable[[], Any] | None = None,
+                      truth_builder: Callable[[], Any] | None = None,
+                      formal_builder: Callable[[], Any] | None = None,
+                      evidence_watchlist_builder: Callable[[], Any] | None = None,
+                      completion_matrix_builder: Callable[[], Any] | None = None,
                       ci_builder: Callable[[], Any] | None = None,
                       checker: Callable[[str], None] | None = None) -> dict[str, Any]:
     """Consume scoped inputs through existing owners under one restoreable transaction."""
 
     from document_intelligence import run as run_document_intelligence
     from build_financial_model_inputs import build as build_model_inputs
+    from build_financial_evidence_reconciliation import build as build_reconciliation
+    from build_financial_truth_qualification import build as build_financial_truth
+    from build_formal_financial_engines import build as build_formal_engines
+    from build_evidence_watchlist import build as build_evidence_watchlist
+    from build_ci_completion_matrix import build as build_ci_completion_matrix
 
     work_state = output_root / "canonical_state"
     if work_state.exists():
@@ -632,7 +720,17 @@ def consume_canonical(registry_path: Path, queue_path: Path, output_root: Path,
         raise RuntimeError("canonical consume did not durably verify every requested document")
     snapshot = {path: _read_bytes(path) for path in _snapshot_paths(state_root, ci_slice_path)}
     before_counts = _canonical_counts(state_root)
+    ci_builder_injected = ci_builder is not None
     model_builder = model_builder or build_model_inputs
+    reconciliation_builder = reconciliation_builder or build_reconciliation
+    truth_builder = truth_builder or build_financial_truth
+    formal_builder = formal_builder or build_formal_engines
+    evidence_watchlist_builder = evidence_watchlist_builder or (
+        (lambda: None) if ci_builder_injected else build_evidence_watchlist
+    )
+    completion_matrix_builder = completion_matrix_builder or (
+        (lambda: None) if ci_builder_injected else build_ci_completion_matrix
+    )
     if ci_builder is None:
         from build_ci_slice import build as build_ci_slice
         ci_builder = build_ci_slice
@@ -643,9 +741,23 @@ def consume_canonical(registry_path: Path, queue_path: Path, output_root: Path,
             if (work_state / rel).exists():
                 _atomic_replace_file(work_state / rel, state_root / rel)
         model_builder()
+        reconciliation_builder()
+        truth_builder()
+        formal_builder()
+        evidence_watchlist_builder()
+        completion_matrix_builder()
         ci_builder()
         _validate_canonical_boundaries(state_root, before_counts, ci_slice_path)
-        for checker_name in ("check_financial_model_inputs.py", "check_event_studies.py", "check_operating_intelligence.py"):
+        for checker_name in (
+            "check_financial_model_inputs.py",
+            "check_financial_evidence_reconciliation.py",
+            "check_financial_truth_qualification.py",
+            "check_formal_financial_engines.py",
+            "check_evidence_watchlist.py",
+            "check_ci_completion_matrix.py",
+            "check_event_studies.py",
+            "check_operating_intelligence.py",
+        ):
             checker(checker_name)
         checker("preflight.py")
     except Exception:
@@ -671,7 +783,8 @@ def safe_cleanup(path: Path, allowed_parent: Path) -> None:
         shutil.rmtree(resolved)
 
 
-def _write_scoped_inputs(stage_dir: Path, raw_dir: Path, docs: list[tuple[VerifiedDocument, FetchResult]]) -> tuple[Path, Path]:
+def _write_scoped_inputs(stage_dir: Path, raw_dir: Path, docs: list[tuple[VerifiedDocument, FetchResult]],
+                         chunk_records: dict[str, list[ChunkRecord]] | None = None) -> tuple[Path, Path]:
     registry: dict[str, Any] = {"schema_version": 1, "documents": {}, "_meta": {
         "source": "reprocess_company_documents scoped exact-ID restage",
         "full_text_retained": False,
@@ -710,12 +823,33 @@ def _write_scoped_inputs(stage_dir: Path, raw_dir: Path, docs: list[tuple[Verifi
             "retrieved_at": _utc_stamp(),
             "content_sha256": fetched.content_sha256,
             "content_length": fetched.content_length,
+            "page_count": fetched.page_count,
             "mime_type": "application/pdf",
             "download": {"status": "verified", "checked_at": _utc_stamp(), "error": None},
         })
+        chunks = (chunk_records or {}).get(doc.doc_id) or []
+        if chunks:
+            row["chunked_source"] = True
+            row["source_page_count"] = sum(item.page_count for item in chunks)
+            row["chunk_ranges"] = [
+                {"source_page_start": item.source_page_start,
+                 "source_page_end": item.source_page_end,
+                 "page_count": item.page_count,
+                 "chunk_sha256": item.chunk_sha256}
+                for item in chunks
+            ]
         registry["documents"][doc.doc_id] = row
-        queue.append({"doc_id": doc.doc_id, "path": str(raw_path), "content_sha256": fetched.content_sha256,
-                      "parser_version": PARSER_VERSION, "parser_revision": PARSER_REVISION})
+        queue_row = {"doc_id": doc.doc_id, "path": str(raw_path), "content_sha256": fetched.content_sha256,
+                     "parser_version": PARSER_VERSION, "parser_revision": PARSER_REVISION}
+        if chunks:
+            queue_row.update({
+                "chunk_paths": [r.chunk_path for r in chunks],
+                "chunk_page_offsets": [r.source_page_offset for r in chunks],
+                "chunk_hashes": [r.chunk_sha256 for r in chunks],
+                "source_page_count": sum(r.page_count for r in chunks),
+                "source_document_id": doc.doc_id,
+            })
+        queue.append(queue_row)
     registry_path = stage_dir / "registry.json"
     queue_path = stage_dir / "queue.json"
     save_json(registry_path, registry)
@@ -776,6 +910,11 @@ def run_reprocess(
     expected_allowlist: frozenset[str] = APPROVED_WAVE3_ALLOWLIST,
     ci_slice_path: Path = CI_SLICE_PATH,
     _model_builder: Callable[[], Any] | None = None,
+    _reconciliation_builder: Callable[[], Any] | None = None,
+    _truth_builder: Callable[[], Any] | None = None,
+    _formal_builder: Callable[[], Any] | None = None,
+    _evidence_watchlist_builder: Callable[[], Any] | None = None,
+    _completion_matrix_builder: Callable[[], Any] | None = None,
     _ci_builder: Callable[[], Any] | None = None,
     _checker: Callable[[str], None] | None = None,
 ) -> dict[str, Any]:
@@ -798,6 +937,7 @@ def run_reprocess(
     results: list[dict[str, Any]] = []
     fetched_docs: list[tuple[VerifiedDocument, FetchResult]] = []
     pending_docs: list[tuple[VerifiedDocument, FetchResult]] = []
+    chunk_records_by_doc: dict[str, list[ChunkRecord]] = {}
     try:
         for doc in docs:
             if diagnose:
@@ -812,7 +952,9 @@ def run_reprocess(
                 results.append({"doc_id": doc.doc_id, "status": "skipped_idempotent"})
                 continue
             try:
-                fetched = fetch_verified_pdf(doc, transport, budget)
+                oversized = doc.doc_id == "psx:260947"
+                fetched = fetch_verified_pdf(doc, transport, budget,
+                                             allow_oversized_chunk=oversized)
                 fetched_docs.append((doc, fetched))
                 if successful_receipt_exists(receipts, doc.doc_id, fetched.content_sha256, PARSER_VERSION, PARSER_REVISION):
                     results.append({"doc_id": doc.doc_id, "status": "skipped_idempotent_after_fetch",
@@ -821,6 +963,14 @@ def run_reprocess(
                     pending_docs.append((doc, fetched))
                     results.append({"doc_id": doc.doc_id, "status": "validated",
                                     "content_sha256": fetched.content_sha256})
+                    if oversized and fetched.page_count > MAX_FILE_PAGES:
+                        chunk_records_by_doc[doc.doc_id] = chunk_verified_oversized_pdf(
+                            doc, fetched, raw_dir, expected_page_count=fetched.page_count)
+                        results[-1].update({
+                            "chunk_count": len(chunk_records_by_doc[doc.doc_id]),
+                            "chunk_ranges": [[r.source_page_start, r.source_page_end]
+                                             for r in chunk_records_by_doc[doc.doc_id]],
+                        })
             except DegradedDocument as exc:
                 results.append({"doc_id": doc.doc_id, "status": "degraded", "reason": str(exc)})
         if diagnose:
@@ -838,13 +988,18 @@ def run_reprocess(
                 "receipt_written": False,
             }
         if pending_docs:
-            registry_path, queue_path = _write_scoped_inputs(stage_dir, raw_dir, pending_docs)
+            registry_path, queue_path = _write_scoped_inputs(
+                stage_dir, raw_dir, pending_docs, chunk_records_by_doc)
             if _consumer is not None:
                 consumer = _consumer
             elif consume:
                 consumer = lambda a, b, c, d: consume_canonical(
                     a, b, c, d, state_root=state_root, ci_slice_path=ci_slice_path,
-                    model_builder=_model_builder, ci_builder=_ci_builder, checker=_checker)
+                    model_builder=_model_builder, reconciliation_builder=_reconciliation_builder,
+                    truth_builder=_truth_builder, formal_builder=_formal_builder,
+                    evidence_watchlist_builder=_evidence_watchlist_builder,
+                    completion_matrix_builder=_completion_matrix_builder,
+                    ci_builder=_ci_builder, checker=_checker)
             else:
                 consumer = None
             if consumer is None:
@@ -889,6 +1044,14 @@ def run_reprocess(
                     "page_count": fetched.page_count,
                     "content_type": fetched.content_type,
                     "transport": "exact_id_reprocess",
+                    "chunked_source": bool(chunk_records_by_doc.get(doc.doc_id)),
+                    "chunk_ranges": [
+                        {"source_page_start": r.source_page_start,
+                         "source_page_end": r.source_page_end,
+                         "page_count": r.page_count,
+                         "chunk_sha256": r.chunk_sha256}
+                        for r in chunk_records_by_doc.get(doc.doc_id, [])
+                    ],
                     "raw_retained": False,
                     "canonical_state_committed": True,
                 })

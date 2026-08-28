@@ -1,7 +1,7 @@
-"""Build the owner-review CI document restage manifest from coverage metadata.
+"""Build the owner-review CI document restage manifest from retained metadata.
 
-The manifest is deliberately metadata-only. It reads only
-state/company_intel/financial_coverage.json, never downloads or opens a PDF,
+The manifest is deliberately metadata-only. It reads retained coverage plus
+explicit owner-approved official PSX full-report counterparts, never downloads or opens a PDF,
 and never writes canonical state or restage receipts.
 """
 from __future__ import annotations
@@ -15,6 +15,7 @@ from psx_data import ROOT, STATE, load_json, save_json
 
 OUT = ROOT / "config" / "ci_reprocess_review_manifest.json"
 COVERAGE_PATH = STATE / "company_intel" / "financial_coverage.json"
+RESEARCH_INDEX_PATH = STATE / "research_index.json"
 MANIFEST_VERSION = "ci_reprocess_review_manifest_v1"
 PILOT_COUNT = 20
 PSX_DPS_PDF_RE = re.compile(r"^https://dps\.psx\.com\.pk/download/document/(\d+)\.pdf$")
@@ -37,15 +38,17 @@ APPROVED_REVIEW_SLOTS: tuple[dict[str, Any], ...] = (
         "symbol": "DGKC",
         "period": "2025-09-30",
         "classification": "financial_results",
-        "title_pattern": r"FINANCIAL RESULTS FOR THE 1ST QUARTER ENDED SEPTEMBER 30, 2025",
+        "title_pattern": r"TRANSMISSION OF QUARTERLY REPORT FOR THE PERIOD ENDED SEPTEMBER 30, 2025",
         "require_retained_hash": True,
+        "source_document_id": "psx:264230",
     },
     {
         "symbol": "DGKC",
         "period": "2026-03-31",
         "classification": "financial_results",
-        "title_pattern": r"Financial Results for the 3rd Quarter ended March 31, 2026",
+        "title_pattern": r"TRANSMISSION OF QUARTERLY REPOR TFOR THE PERIOD ENDED MARCH 31, 2026",
         "require_retained_hash": True,
+        "source_document_id": "psx:275962",
     },
 )
 
@@ -99,11 +102,32 @@ def _candidate_docs(coverage: dict[str, Any], symbol: str) -> list[dict[str, Any
     return [doc for doc in docs if isinstance(doc, dict)]
 
 
-def _resolve_slot(coverage: dict[str, Any], slot: dict[str, Any]) -> dict[str, Any]:
+def _resolve_slot(coverage: dict[str, Any], slot: dict[str, Any], research_index: dict[str, Any]) -> dict[str, Any]:
     symbol = str(slot["symbol"])
     period = str(slot["period"])
     classification = str(slot["classification"])
     pattern = str(slot["title_pattern"])
+    explicit_id = _document_id(slot.get("source_document_id"))
+    if explicit_id:
+        row = (research_index.get("documents") or {}).get(explicit_id) or {}
+        doc_id = _document_id(row.get("id") or row.get("official_document_id"))
+        title = _text(row.get("title"))
+        source_url = _official_pdf_url(explicit_id, row.get("url"))
+        content_sha256 = str(row.get("content_sha256") or "").lower() or None
+        if (doc_id != explicit_id or row.get("source") != "PSX DPS" or row.get("source_type") != "filing"
+                or symbol not in (row.get("tickers") or []) or not source_url
+                or not re.search(pattern, title, re.I)
+                or (content_sha256 and not SHA256_RE.fullmatch(content_sha256))
+                or (slot.get("require_retained_hash") and not content_sha256)):
+            raise ValueError(f"{symbol} {period}: explicit approved counterpart metadata is invalid")
+        return {
+            "document_id": explicit_id, "symbol": symbol, "period": period,
+            "classification": classification, "title": title,
+            "expected_title_pattern": pattern, "published_at": row.get("published_at"),
+            "source_url": source_url, "content_sha256": content_sha256,
+            "content_identity": "retained_hash", "safe_period": {"period_end": period, "period_type": "interim", "source": "owner_approved_counterpart"},
+            "approval_status": "owner_approved", "reason": "owner-approved retained official full-report counterpart for bounded CI filing restage",
+        }
     matches = []
     for doc in _candidate_docs(coverage, symbol):
         doc_id = _document_id(doc.get("document_id"))
@@ -146,13 +170,14 @@ def _resolve_slot(coverage: dict[str, Any], slot: dict[str, Any]) -> dict[str, A
     }
 
 
-def build_manifest(coverage: dict[str, Any] | None = None) -> dict[str, Any]:
+def build_manifest(coverage: dict[str, Any] | None = None, research_index: dict[str, Any] | None = None) -> dict[str, Any]:
     coverage = coverage or load_json(COVERAGE_PATH, {})
+    research_index = research_index or load_json(RESEARCH_INDEX_PATH, {})
     _assert_metadata_only(coverage)
     pilot = list(coverage.get("pilot_symbols") or [])
     if len(pilot) != PILOT_COUNT or len(set(pilot)) != PILOT_COUNT:
         raise ValueError("financial coverage pilot scope must be exactly 20 unique symbols")
-    docs = [_resolve_slot(coverage, slot) for slot in APPROVED_REVIEW_SLOTS]
+    docs = [_resolve_slot(coverage, slot, research_index) for slot in APPROVED_REVIEW_SLOTS]
     ids = [doc["document_id"] for doc in docs]
     if len(ids) != len(set(ids)):
         raise ValueError("metadata-derived restage manifest contains duplicate document IDs")
@@ -163,6 +188,7 @@ def build_manifest(coverage: dict[str, Any] | None = None) -> dict[str, Any]:
         "manifest_id": _stable_id("cirestage", MANIFEST_VERSION, *ids),
         "source": {
             "financial_coverage": "state/company_intel/financial_coverage.json",
+            "research_index": "state/research_index.json",
         },
         "policy": {
             "owner_review_only": True,

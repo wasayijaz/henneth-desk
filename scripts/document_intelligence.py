@@ -15,7 +15,7 @@ from pathlib import Path
 from typing import Any
 
 from document_events import extract_events
-from document_extract import extract_entry, stable_doc_id
+from document_extract import extract_entry, extract_chunked_local, stable_doc_id
 from document_ledger import OUT as LEDGER_OUT, append_events
 from document_queue import OUT as QUEUE_OUT, build_queue
 from financial_series import normalize_fact
@@ -139,8 +139,19 @@ def run(index_path: Path = STATE / "research_index.json", output_path: Path = OU
             continue
         try:
             local_path = _safe_path(local_path)
-            extracted = extract_entry({"path": local_path, "text": inline,
-                                       "media_type": entry.get("mime_type") or entry.get("media_type")})
+            transient_row = transient.get(doc_hint) if doc_hint else None
+            chunk_paths = transient_row.get("chunk_paths") if isinstance(transient_row, dict) else None
+            if isinstance(chunk_paths, list) and chunk_paths:
+                safe_chunks = [_safe_path(str(path)) for path in chunk_paths]
+                offsets = [int(v) for v in (transient_row.get("chunk_page_offsets") or [])]
+                hashes = [str(v) for v in (transient_row.get("chunk_hashes") or [])]
+                extracted = extract_chunked_local(safe_chunks, offsets, hashes)
+                # The chunks are transport units; canonical source identity is
+                # the retained original hash, never the synthetic path hash.
+                extracted["content_sha256"] = str(entry.get("content_sha256") or transient_row.get("content_sha256") or "")
+            else:
+                extracted = extract_entry({"path": local_path, "text": inline,
+                                           "media_type": entry.get("mime_type") or entry.get("media_type")})
             # Terra's hash is the ingestion hash.  Use it when present, but keep
             # our local hash for integrity diagnostics if bytes differ.
             content_sha = str(entry.get("content_sha256") or extracted["content_sha256"])

@@ -46,7 +46,9 @@ function main() {
 
   assert(app.includes("${renderFinancialCoverage(r)}"), "Financial Coverage panel is inside Financial Baseline");
   assert(app.includes("function renderFinancialCoverage(r)"), "Financial Coverage renderer exists");
-  const block = app.slice(app.indexOf("function renderFinancialCoverage"), app.indexOf("function renderFinancialBaseline"));
+  const coverageStart = app.indexOf("function renderFinancialCoverage");
+  const coverageEnd = app.indexOf("function renderFinancialTruthQualification");
+  const block = app.slice(coverageStart, coverageEnd);
   assert(block.includes("r.financial_coverage"), "renderer reads row.financial_coverage");
   assert(block.includes("coverage.status"), "status is displayed");
   assert(block.includes("indexed_official_financial_doc_count"), "indexed official doc count is displayed");

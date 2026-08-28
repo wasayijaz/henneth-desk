@@ -69,6 +69,49 @@ def extract_local(path: str | Path) -> dict[str, Any]:
             "media_type": media, "path": str(p)}
 
 
+def extract_chunked_local(paths: list[str | Path], page_offsets: list[int] | None = None,
+                          chunk_hashes: list[str] | None = None) -> dict[str, Any]:
+    """Extract parser-sized PDFs as one transient source with original pages.
+
+    ``page_offsets`` is zero-based and maps each chunk's local page one-to-one
+    to the original source page.  The chunks must already have been verified by
+    the bounded chunk transport; this helper does not create durable artifacts.
+    """
+    if not paths:
+        raise ValueError("chunked document needs at least one path")
+    offsets = list(page_offsets or [0] * len(paths))
+    if len(offsets) != len(paths) or any(int(v) < 0 for v in offsets):
+        raise ValueError("chunk page offsets must align with paths")
+    hashes = list(chunk_hashes or [])
+    if hashes and len(hashes) != len(paths):
+        raise ValueError("chunk hashes must align with paths")
+    pages: list[str] = []
+    words: list[list[tuple]] = []
+    page_records: list[dict[str, Any]] = []
+    for chunk_index, (path, offset) in enumerate(zip(paths, offsets)):
+        extracted = extract_local(path)
+        if extracted.get("media_type") != "application/pdf":
+            raise ValueError("chunked extraction accepts PDF paths only")
+        if hashes:
+            if extracted["content_sha256"] != str(hashes[chunk_index]).lower():
+                raise ValueError("chunk content hash mismatch")
+        for local, (text, page_words) in enumerate(zip(extracted["pages"], extracted["words"]), 1):
+            original = int(offset) + local
+            pages.append(text)
+            words.append(page_words)
+            page_records.append({
+                "page": original,
+                "text": text,
+                "words": page_words,
+                "width": 0.0,
+                "height": 0.0,
+            })
+    raw_hash = hashlib.sha256("|".join(str(Path(p).resolve()) for p in paths).encode("utf-8")).hexdigest()
+    return {"text": "\n".join(pages), "pages": pages, "page_records": page_records,
+            "words": words, "content_sha256": raw_hash, "media_type": "application/pdf",
+            "path": None}
+
+
 def extract_entry(entry: dict[str, Any]) -> dict[str, Any]:
     """Extract an inbox entry from ``path``/``local_path`` or inline ``text``."""
     path = entry.get("local_path") or entry.get("path")
