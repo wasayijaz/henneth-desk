@@ -52,9 +52,6 @@ STEPS = [
     # Deterministic market operands for the formal engines. Emits only objective current_price
     # and shares_out records from retained dated state; forward assumptions remain owner-approved.
     "build_financial_engine_assumptions.py",
-    # Source-gated algebra only: stays blocked until qualified actuals and approved,
-    # dated assumptions exist. Must precede the CI audit and generated private slice.
-    "build_formal_financial_engines.py",
     "build_financial_evidence_reconciliation.py",
     # Historical reported deltas only; this does not enter the formal-engine path.
     "build_earnings_bridges.py",
@@ -62,9 +59,13 @@ STEPS = [
     # it never activates financial_model_inputs, forecasts, valuations, or market expectations.
     "build_cement_operating_series.py",
     "cement_historical_reconciliation.py",
-    # Strict retained-evidence qualification scorecard. It selects no facts and
-    # never activates a formal engine; it only records the next evidence gates.
+    # Strict retained-evidence qualification is the authoritative formal-engine
+    # activation gate. It must precede engine output so a stale prior-cycle
+    # qualification result cannot activate forecasts, valuations, or expectations.
     "build_financial_truth_qualification.py",
+    # Source-gated algebra only: stays blocked until current financial truth and
+    # approved, dated assumptions exist.
+    "build_formal_financial_engines.py",
     # Compact issuer-source health index and relationship graph for the private CI surface.
     "build_source_qa.py",
     # Compact CI knowledge graph over official documents, events, facts and issuer sources.

@@ -29,13 +29,15 @@
  "source": {
   "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
   "forecast_readiness": "state/company_intel/forecast_readiness.json",
+  "financial_truth_qualification": "state/company_intel/financial_truth_qualification.json",
   "financial_engine_assumptions": "state/company_intel/financial_engine_assumptions.json"
  },
  "policy": {
   "research_only": true,
   "no_advice": true,
   "no_output_without_approved_source_labelled_assumptions": true,
-  "no_audit_only_financial_facts": true
+  "no_audit_only_financial_facts": true,
+  "financial_truth_is_authoritative_activation_gate": true
  },
  "summary": {
   "company_count": 20,
@@ -50,7 +52,8 @@
    "missing_requirements": [
     "approved_exit_pe",
     "approved_net_margin_pct",
-    "approved_revenue_growth_pct"
+    "approved_revenue_growth_pct",
+    "financial_truth_qualified"
    ],
    "formula_id": "formal_market_expectations.reverse_growth.v1",
    "result": null,
@@ -72,6 +75,7 @@
     "approved_net_margin_pct",
     "approved_revenue_growth_pct",
     "financial_model_inputs_ready",
+    "financial_truth_qualified",
     "forecast_readiness_input_ready"
    ],
    "formula_id": "formal_market_expectations.reverse_growth.v1",
@@ -94,6 +98,7 @@
     "approved_net_margin_pct",
     "approved_revenue_growth_pct",
     "financial_model_inputs_ready",
+    "financial_truth_qualified",
     "forecast_readiness_input_ready"
    ],
    "formula_id": "formal_market_expectations.reverse_growth.v1",
@@ -111,7 +116,8 @@
    "missing_requirements": [
     "approved_exit_pe",
     "approved_net_margin_pct",
-    "approved_revenue_growth_pct"
+    "approved_revenue_growth_pct",
+    "financial_truth_qualified"
    ],
    "formula_id": "formal_market_expectations.reverse_growth.v1",
    "result": null,
@@ -133,6 +139,7 @@
     "approved_net_margin_pct",
     "approved_revenue_growth_pct",
     "financial_model_inputs_ready",
+    "financial_truth_qualified",
     "forecast_readiness_input_ready"
    ],
    "formula_id": "formal_market_expectations.reverse_growth.v1",
@@ -155,6 +162,7 @@
     "approved_net_margin_pct",
     "approved_revenue_growth_pct",
     "financial_model_inputs_ready",
+    "financial_truth_qualified",
     "forecast_readiness_input_ready"
    ],
    "formula_id": "formal_market_expectations.reverse_growth.v1",
@@ -177,6 +185,7 @@
     "approved_net_margin_pct",
     "approved_revenue_growth_pct",
     "financial_model_inputs_ready",
+    "financial_truth_qualified",
     "forecast_readiness_input_ready"
    ],
    "formula_id": "formal_market_expectations.reverse_growth.v1",
@@ -196,6 +205,7 @@
     "approved_net_margin_pct",
     "approved_revenue_growth_pct",
     "financial_model_inputs_ready",
+    "financial_truth_qualified",
     "forecast_readiness_input_ready"
    ],
    "formula_id": "formal_market_expectations.reverse_growth.v1",
@@ -218,6 +228,7 @@
     "approved_net_margin_pct",
     "approved_revenue_growth_pct",
     "financial_model_inputs_ready",
+    "financial_truth_qualified",
     "forecast_readiness_input_ready"
    ],
    "formula_id": "formal_market_expectations.reverse_growth.v1",
@@ -240,6 +251,7 @@
     "approved_net_margin_pct",
     "approved_revenue_growth_pct",
     "financial_model_inputs_ready",
+    "financial_truth_qualified",
     "forecast_readiness_input_ready"
    ],
    "formula_id": "formal_market_expectations.reverse_growth.v1",
@@ -262,6 +274,7 @@
     "approved_net_margin_pct",
     "approved_revenue_growth_pct",
     "financial_model_inputs_ready",
+    "financial_truth_qualified",
     "forecast_readiness_input_ready"
    ],
    "formula_id": "formal_market_expectations.reverse_growth.v1",
@@ -284,6 +297,7 @@
     "approved_net_margin_pct",
     "approved_revenue_growth_pct",
     "financial_model_inputs_ready",
+    "financial_truth_qualified",
     "forecast_readiness_input_ready"
    ],
    "formula_id": "formal_market_expectations.reverse_growth.v1",
@@ -306,6 +320,7 @@
     "approved_net_margin_pct",
     "approved_revenue_growth_pct",
     "financial_model_inputs_ready",
+    "financial_truth_qualified",
     "forecast_readiness_input_ready"
    ],
    "formula_id": "formal_market_expectations.reverse_growth.v1",
@@ -328,6 +343,7 @@
     "approved_net_margin_pct",
     "approved_revenue_growth_pct",
     "financial_model_inputs_ready",
+    "financial_truth_qualified",
     "forecast_readiness_input_ready"
    ],
    "formula_id": "formal_market_expectations.reverse_growth.v1",
@@ -350,6 +366,7 @@
     "approved_net_margin_pct",
     "approved_revenue_growth_pct",
     "financial_model_inputs_ready",
+    "financial_truth_qualified",
     "forecast_readiness_input_ready"
    ],
    "formula_id": "formal_market_expectations.reverse_growth.v1",
@@ -372,6 +389,7 @@
     "approved_net_margin_pct",
     "approved_revenue_growth_pct",
     "financial_model_inputs_ready",
+    "financial_truth_qualified",
     "forecast_readiness_input_ready"
    ],
    "formula_id": "formal_market_expectations.reverse_growth.v1",
@@ -394,6 +412,7 @@
     "approved_net_margin_pct",
     "approved_revenue_growth_pct",
     "financial_model_inputs_ready",
+    "financial_truth_qualified",
     "forecast_readiness_input_ready"
    ],
    "formula_id": "formal_market_expectations.reverse_growth.v1",
@@ -416,6 +435,7 @@
     "approved_net_margin_pct",
     "approved_revenue_growth_pct",
     "financial_model_inputs_ready",
+    "financial_truth_qualified",
     "forecast_readiness_input_ready"
    ],
    "formula_id": "formal_market_expectations.reverse_growth.v1",
@@ -438,6 +458,7 @@
     "approved_net_margin_pct",
     "approved_revenue_growth_pct",
     "financial_model_inputs_ready",
+    "financial_truth_qualified",
     "forecast_readiness_input_ready"
    ],
    "formula_id": "formal_market_expectations.reverse_growth.v1",
@@ -460,6 +481,7 @@
     "approved_net_margin_pct",
     "approved_revenue_growth_pct",
     "financial_model_inputs_ready",
+    "financial_truth_qualified",
     "forecast_readiness_input_ready"
    ],
    "formula_id": "formal_market_expectations.reverse_growth.v1",
@@ -473,9 +495,9 @@
  },
  "_meta": {
   "generator_version": "ci_artifact_integrity_v1",
-  "source_commit_sha": "9ea9f8984db3ecdc371fa9102103a85898d5180b",
-  "build_cutoff_at": "2026-08-28T17:15:05Z",
-  "generated_at": "2026-08-28T17:15:05Z",
+  "source_commit_sha": "03e15a68735a0d308dfee2cf123fcc4cb79d6c3f",
+  "build_cutoff_at": "2026-08-28T17:53:57Z",
+  "generated_at": "2026-08-28T17:53:57Z",
   "artifact_path": "state/company_intel/market_expectations.json",
   "timestamp_semantics": {
    "build_cutoff_at": "generation boundary only; not a source-effective or source-published time",

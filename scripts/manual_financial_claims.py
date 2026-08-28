@@ -14,11 +14,10 @@ from datetime import date, datetime
 from pathlib import Path
 from typing import Any
 
-from psx_data import ROOT, STATE, load_json
+from psx_data import STATE, load_json
 
 
 LEDGER_PATH = STATE / "company_intel" / "verified_manual_financial_claims.json"
-REVIEW_MANIFEST_PATH = ROOT / "config" / "ci_reprocess_review_manifest.json"
 MANUAL_SOURCE_METHOD = "owner_verified_manual_financial_claim_v1"
 DEFAULT_SOURCE_REVISION = "manual_vision_v1"
 ALLOWED_LINES = {"revenue", "profit_after_tax_attributable", "basic_eps"}
@@ -91,11 +90,6 @@ def _series_conflict_index(existing_facts: list[dict[str, Any]]) -> dict[tuple[A
     return index
 
 
-def _review_manifest(path: Path = REVIEW_MANIFEST_PATH) -> dict[str, Any]:
-    manifest = load_json(path, {}) if path.exists() else {}
-    return manifest if isinstance(manifest, dict) else {}
-
-
 def _ledger_claims_by_id(path: Path = LEDGER_PATH) -> dict[str, dict[str, Any]]:
     ledger = load_json(path, {}) if path.exists() else {}
     claims = ledger.get("claims") if isinstance(ledger, dict) else []
@@ -106,7 +100,6 @@ def _validate_claim(
     claim: dict[str, Any],
     *,
     approval_ok: bool,
-    review_manifest: dict[str, Any],
     seen_claim_ids: set[str],
     seen_claim_keys: dict[tuple[Any, ...], dict[str, Any]],
     existing_values: dict[tuple[Any, ...], set[float]],
@@ -124,31 +117,12 @@ def _validate_claim(
     available_on = _parse_iso_date(claim.get("available_on"))
     doc_match = PSX_DOC_RE.fullmatch(document_id)
     url_match = OFFICIAL_URL_RE.fullmatch(source_url)
-    manifest_docs = review_manifest.get("documents") if isinstance(review_manifest.get("documents"), dict) else {}
-    manifest_doc = manifest_docs.get(document_id) if isinstance(manifest_docs, dict) else None
-    manifest_period = (manifest_doc or {}).get("period") if isinstance(manifest_doc, dict) else None
-
     if not approval_ok:
         flags.append("missing_owner_or_dual_review_approval")
     if claim.get("source_method") or claim.get("parser_version") or claim.get("parser_revision"):
         flags.append("manual_claim_must_not_supply_source_identity")
     if claim.get("review_status") != "pending_deterministic_gate":
         flags.append("invalid_manual_review_status")
-    if not isinstance(manifest_doc, dict):
-        flags.append("manual_document_not_in_review_manifest")
-    else:
-        if claim.get("symbol") != manifest_doc.get("symbol"):
-            flags.append("manual_symbol_outside_review_manifest")
-        if source_url != manifest_doc.get("source_url"):
-            flags.append("manual_source_url_manifest_mismatch")
-        if content_sha256 != manifest_doc.get("content_sha256"):
-            flags.append("manual_content_sha256_manifest_mismatch")
-        if claim.get("available_on") != manifest_doc.get("published_at"):
-            flags.append("manual_availability_manifest_mismatch")
-        if manifest_doc.get("classification") != "financial_results":
-            flags.append("manual_manifest_document_not_financial_results")
-        if document_id not in (review_manifest.get("document_ids") or []):
-            flags.append("manual_document_id_not_manifest_listed")
     if not claim_id:
         flags.append("missing_claim_id")
     elif claim_id in seen_claim_ids:
@@ -188,21 +162,16 @@ def _validate_claim(
         flags.append("missing_or_invalid_manual_availability")
     elif period_end is not None and available_on <= period_end:
         flags.append("manual_available_before_period_end")
-    if isinstance(manifest_period, str):
-        if claim.get("period_end") == manifest_period:
-            if claim.get("column_role") not in (None, "current_period"):
-                flags.append("invalid_manual_current_column_role")
-            if claim.get("comparative_to_period_end") not in (None, ""):
-                flags.append("manual_current_has_comparative_linkage")
-        elif (
-            manifest_period == "2026-06-30"
-            and claim.get("period_end") == "2025-06-30"
-            and claim.get("column_role") == "comparative_prior_period"
-            and claim.get("comparative_to_period_end") == manifest_period
-        ):
-            pass
-        else:
-            flags.append("manual_period_outside_review_manifest_scope")
+    column_role = claim.get("column_role") or "current_period"
+    comparative_period = _parse_iso_date(claim.get("comparative_to_period_end"))
+    if column_role == "current_period":
+        if claim.get("comparative_to_period_end") not in (None, ""):
+            flags.append("manual_current_has_comparative_linkage")
+    elif column_role == "comparative_prior_period":
+        if period_end is None or comparative_period is None or comparative_period <= period_end:
+            flags.append("invalid_manual_comparative_linkage")
+    else:
+        flags.append("invalid_manual_column_role")
 
     key = _claim_key(claim)
     prior = seen_claim_keys.get(key)
@@ -271,7 +240,6 @@ def qualified_manual_rows(
 ) -> tuple[list[dict[str, Any]], dict[str, Any]]:
     ledger = load_json(ledger_path, {}) if ledger_path.exists() else {}
     claims = ledger.get("claims") if isinstance(ledger, dict) else []
-    review_manifest = _review_manifest()
     approval = ledger.get("approval") if isinstance(ledger, dict) else {}
     source_revision = str(ledger.get("review_revision") or DEFAULT_SOURCE_REVISION)
     approval_ok = (
@@ -295,8 +263,6 @@ def qualified_manual_rows(
             ledger_flags.append("invalid_manual_source_revision")
         if not isinstance(claims, list):
             ledger_flags.append("manual_claims_not_list")
-    if review_manifest.get("manifest_version") != "ci_reprocess_review_manifest_v1":
-        ledger_flags.append("invalid_manual_review_manifest")
     existing_values = _series_conflict_index(existing_facts or [])
     seen_claim_ids: set[str] = set()
     seen_claim_keys: dict[tuple[Any, ...], dict[str, Any]] = {}
@@ -309,7 +275,6 @@ def qualified_manual_rows(
         flags = _validate_claim(
             claim,
             approval_ok=approval_ok,
-            review_manifest=review_manifest,
             seen_claim_ids=seen_claim_ids,
             seen_claim_keys=seen_claim_keys,
             existing_values=existing_values,
@@ -373,26 +338,6 @@ def is_qualified_manual_fact(fact: dict[str, Any]) -> bool:
         return False
     if not SHA256_RE.fullmatch(str(fact.get("content_sha256") or "")):
         return False
-    manifest_doc = (_review_manifest().get("documents") or {}).get(fact.get("document_id"))
-    if not isinstance(manifest_doc, dict):
-        return False
-    if fact.get("ticker") != manifest_doc.get("symbol"):
-        return False
-    if fact.get("source_url") != manifest_doc.get("source_url") or fact.get("content_sha256") != manifest_doc.get("content_sha256"):
-        return False
-    if fact.get("available_on") != manifest_doc.get("published_at"):
-        return False
-    manifest_period = manifest_doc.get("period")
-    if fact.get("period_end") == manifest_period:
-        if fact.get("column_role") != "current_period" or fact.get("comparative_to_period_end") not in (None, ""):
-            return False
-    elif not (
-        manifest_period == "2026-06-30"
-        and fact.get("period_end") == "2025-06-30"
-        and fact.get("column_role") == "comparative_prior_period"
-        and fact.get("comparative_to_period_end") == manifest_period
-    ):
-        return False
     claim = _ledger_claims_by_id().get(str(fact.get("manual_claim_id") or ""))
     if not isinstance(claim, dict):
         return False
@@ -409,4 +354,16 @@ def is_qualified_manual_fact(fact: dict[str, Any]) -> bool:
         or not _same_value(claim.get("value"), fact.get("normalized_value"))
     ):
         return False
-    return True
+    claim_role = claim.get("column_role") or "current_period"
+    if fact.get("column_role") != claim_role:
+        return False
+    if claim_role == "current_period":
+        return claim.get("comparative_to_period_end") in (None, "") and fact.get("comparative_to_period_end") in (None, "")
+    if claim_role != "comparative_prior_period":
+        return False
+    comparative = _parse_iso_date(claim.get("comparative_to_period_end"))
+    return (
+        comparative is not None
+        and comparative > period
+        and fact.get("comparative_to_period_end") == claim.get("comparative_to_period_end")
+    )

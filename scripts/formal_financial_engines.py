@@ -89,8 +89,17 @@ def _latest(observations: Mapping[str, Any], line: str, cutoff: str | None) -> d
     return sorted(rows, key=lambda row: (str(row.get("period_end") or ""), str(row.get("fact_id") or "")))[-1] if rows else None
 
 
-def actuals_from_model_inputs(model_row: Mapping[str, Any], readiness_row: Mapping[str, Any], cutoff: str | None) -> tuple[dict[str, Any], list[str]]:
+def actuals_from_model_inputs(
+    model_row: Mapping[str, Any],
+    readiness_row: Mapping[str, Any],
+    financial_truth_row: Mapping[str, Any],
+    cutoff: str | None,
+) -> tuple[dict[str, Any], list[str]]:
     missing = []
+    # Forecast readiness describes legacy three-period input coverage.  Strict
+    # financial truth is the authoritative, fail-closed activation gate.
+    if financial_truth_row.get("status") != "qualified":
+        missing.append("financial_truth_qualified")
     if readiness_row.get("status") != "input_ready":
         missing.append("forecast_readiness_input_ready")
     if model_row.get("status") != "ready":
@@ -147,10 +156,16 @@ def _actual_ref(metric: str, row: Mapping[str, Any]) -> dict[str, Any]:
     }
 
 
-def build_company_engines(symbol: str, model_row: Mapping[str, Any], readiness_row: Mapping[str, Any],
-                          assumptions: Mapping[str, Any], cutoff: str | None = None) -> dict[str, dict[str, Any]]:
+def build_company_engines(
+    symbol: str,
+    model_row: Mapping[str, Any],
+    readiness_row: Mapping[str, Any],
+    financial_truth_row: Mapping[str, Any],
+    assumptions: Mapping[str, Any],
+    cutoff: str | None = None,
+) -> dict[str, dict[str, Any]]:
     cutoff = iso_date(cutoff) or None
-    actuals, missing = actuals_from_model_inputs(model_row, readiness_row, cutoff)
+    actuals, missing = actuals_from_model_inputs(model_row, readiness_row, financial_truth_row, cutoff)
     records = approved_records(assumptions, symbol, cutoff)
     forecast_required = set(FORECAST_ASSUMPTIONS + ("shares_out",))
     valuation_required = forecast_required | set(VALUATION_ASSUMPTIONS + ("net_debt",))

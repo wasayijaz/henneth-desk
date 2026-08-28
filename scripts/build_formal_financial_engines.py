@@ -20,6 +20,7 @@ OUT_FORECASTS = STATE / "company_intel" / "financial_forecasts.json"
 OUT_VALUATIONS = STATE / "company_intel" / "formal_valuations.json"
 OUT_EXPECTATIONS = STATE / "company_intel" / "market_expectations.json"
 ASSUMPTIONS = STATE / "company_intel" / "financial_engine_assumptions.json"
+FINANCIAL_TRUTH = STATE / "company_intel" / "financial_truth_qualification.json"
 
 
 def _as_of(*states: dict) -> str | None:
@@ -51,6 +52,7 @@ def _envelope(kind: str, formula_id: str, as_of: str | None, pilot: list[str], c
         "source": {
             "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
             "forecast_readiness": "state/company_intel/forecast_readiness.json",
+            "financial_truth_qualification": "state/company_intel/financial_truth_qualification.json",
             "financial_engine_assumptions": "state/company_intel/financial_engine_assumptions.json",
         },
         "policy": {
@@ -58,6 +60,7 @@ def _envelope(kind: str, formula_id: str, as_of: str | None, pilot: list[str], c
             "no_advice": True,
             "no_output_without_approved_source_labelled_assumptions": True,
             "no_audit_only_financial_facts": True,
+            "financial_truth_is_authoritative_activation_gate": True,
         },
         "summary": {
             "company_count": len(companies),
@@ -72,15 +75,17 @@ def build() -> tuple[dict, dict, dict]:
     profiles = load_json(STATE / "company_profiles.json", {})
     model_inputs = load_json(STATE / "company_intel" / "financial_model_inputs.json", {"companies": {}})
     readiness = load_json(STATE / "company_intel" / "forecast_readiness.json", {"companies": {}})
+    financial_truth = load_json(FINANCIAL_TRUTH, {"companies": {}})
     assumptions = load_json(ASSUMPTIONS, {"records": []})
     pilot = list((profiles.get("pilot") or {}).get("symbols") or model_inputs.get("pilot_symbols") or readiness.get("pilot_symbols") or [])
-    as_of = _as_of(profiles, model_inputs, readiness, assumptions)
+    as_of = _as_of(profiles, model_inputs, readiness, financial_truth, assumptions)
     forecasts, valuations, expectations = {}, {}, {}
     for symbol in pilot:
         built = build_company_engines(
             symbol,
             (model_inputs.get("companies") or {}).get(symbol) or {},
             (readiness.get("companies") or {}).get(symbol) or {},
+            (financial_truth.get("companies") or {}).get(symbol) or {},
             assumptions,
             as_of,
         )

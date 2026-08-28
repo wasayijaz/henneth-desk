@@ -79,8 +79,8 @@ def _assert_forecast_readiness(row: dict, symbol: str) -> None:
     qualified_count = readiness.get("forecast_qualified_period_count")
     if status not in READINESS_STATUSES:
         _fail(f"{symbol}: invalid forecast readiness status {status!r}")
-    if qualified_count != len(row.get("qualified_periods") or []):
-        _fail(f"{symbol}: forecast readiness qualified-count mismatch")
+    if not isinstance(qualified_count, int) or qualified_count < 0:
+        _fail(f"{symbol}: invalid legacy forecast-readiness qualified count")
     if status == "input_ready" and qualified_count < 3:
         _fail(f"{symbol}: input-ready reconciliation lacks three qualified periods")
     if status == "blocked_model_adapter_unavailable" and qualified_count < 3:
@@ -245,6 +245,24 @@ def _synthetic_assertions() -> None:
         _fail("conflicting values were not retained/quarantined")
     if any(record.get("status") != "quarantined" for record in conflict_row.get("facts") or []):
         _fail("conflicting fact rows were not quarantined")
+    noisy_conflict_row = company_reconciliation("MLCF", [
+        _fact(value=100),
+        _fact(value=101, fact_id="revenue-2025-noisy", quality_flags=["taxonomy_noise"]),
+    ], _coverage(), {}, {"status": "blocked_insufficient_qualified_history", "qualified_period_count": 0}, "2026-08-26")
+    if noisy_conflict_row.get("source_conflict_count") != 0 or noisy_conflict_row.get("conflicts"):
+        _fail("quarantined parser noise counted as a blocking source conflict")
+    noisy_statuses = {record.get("source", {}).get("fact_id"): record.get("status") for record in noisy_conflict_row.get("facts") or []}
+    if noisy_statuses.get("revenue-2025-noisy") != "quarantined":
+        _fail("quarantined parser-noise fact disappeared or became eligible")
+    unit_noise_row = company_reconciliation("MLCF", [
+        _fact(value=100),
+        _fact(value=101, fact_id="revenue-2025-unit-noise", currency="USD"),
+    ], _coverage(), {}, {"status": "blocked_insufficient_qualified_history", "qualified_period_count": 0}, "2026-08-26")
+    if unit_noise_row.get("source_conflict_count") != 0 or unit_noise_row.get("conflicts"):
+        _fail("unit/taxonomy noise counted as a blocking source conflict")
+    unit_record = next((record for record in unit_noise_row.get("facts") or [] if record.get("source", {}).get("fact_id") == "revenue-2025-unit-noise"), None)
+    if not unit_record or unit_record.get("status") != "quarantined" or "missing_or_non_pkr_currency" not in (unit_record.get("reasons") or []):
+        _fail("unit-noise fact was not visibly quarantined")
     future_row = company_reconciliation("MLCF", [_fact(available_on="2027-02-01")], _coverage(), {}, {"status": "blocked_insufficient_qualified_history", "qualified_period_count": 0}, "2026-08-26")
     if any(record.get("status") == "eligible" for record in future_row.get("facts") or []):
         _fail("future available_on became eligible")

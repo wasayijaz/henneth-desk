@@ -96,11 +96,20 @@ def ready_assumptions(extra=None) -> dict:
     return {"records": records}
 
 
+def qualified_financial_truth() -> dict:
+    return {"status": "qualified", "financial_tie_out": {"status": "qualified"}}
+
+
+def red_financial_truth() -> dict:
+    return {"status": "not_qualified", "financial_tie_out": {"status": "blocked"}}
+
+
 def assert_synthetic_ready() -> None:
     row = build_company_engines(
         "MLCF",
         ready_model_row(),
         {"status": "input_ready"},
+        qualified_financial_truth(),
         ready_assumptions(),
         "2024-03-01",
     )
@@ -129,23 +138,26 @@ def assert_synthetic_ready() -> None:
 
 def assert_blocks() -> None:
     cases = {
-        "missing_history": ({**ready_model_row(), "status": "partial"}, {"status": "input_ready"}, ready_assumptions(), set()),
-        "missing_readiness": (ready_model_row(), {"status": "blocked"}, ready_assumptions(), set()),
-        "missing_price": (ready_model_row(), {"status": "input_ready"}, {"records": [r for r in ready_assumptions()["records"] if r["metric"] != "current_price"]}, {"forecast", "valuation"}),
-        "missing_share_count": (ready_model_row(), {"status": "input_ready"}, {"records": [r for r in ready_assumptions()["records"] if r["metric"] != "shares_out"]}, set()),
-        "missing_net_debt": (ready_model_row(), {"status": "input_ready"}, {"records": [r for r in ready_assumptions()["records"] if r["metric"] != "net_debt"]}, {"forecast", "market_expectations"}),
-        "unapproved_assumption": (ready_model_row(), {"status": "input_ready"}, {"records": [{**r, "approved": False} if r["metric"] == "exit_pe" else r for r in ready_assumptions()["records"]]}, {"forecast"}),
-        "future_source": (ready_model_row(), {"status": "input_ready"}, {"records": [{**r, "available_on": "2025-01-01"} if r["metric"] == "exit_pe" else r for r in ready_assumptions()["records"]]}, {"forecast"}),
-        "audit_only_actual": ({**ready_model_row(), "observations": {**ready_model_row()["observations"], "revenue": [{**ready_model_row()["observations"]["revenue"][0], "readiness": "audit_only"}]}}, {"status": "input_ready"}, ready_assumptions(), set()),
+        "missing_history": ({**ready_model_row(), "status": "partial"}, {"status": "input_ready"}, qualified_financial_truth(), ready_assumptions(), set()),
+        "missing_readiness": (ready_model_row(), {"status": "blocked"}, qualified_financial_truth(), ready_assumptions(), set()),
+        "missing_price": (ready_model_row(), {"status": "input_ready"}, qualified_financial_truth(), {"records": [r for r in ready_assumptions()["records"] if r["metric"] != "current_price"]}, {"forecast", "valuation"}),
+        "missing_share_count": (ready_model_row(), {"status": "input_ready"}, qualified_financial_truth(), {"records": [r for r in ready_assumptions()["records"] if r["metric"] != "shares_out"]}, set()),
+        "missing_net_debt": (ready_model_row(), {"status": "input_ready"}, qualified_financial_truth(), {"records": [r for r in ready_assumptions()["records"] if r["metric"] != "net_debt"]}, {"forecast", "market_expectations"}),
+        "unapproved_assumption": (ready_model_row(), {"status": "input_ready"}, qualified_financial_truth(), {"records": [{**r, "approved": False} if r["metric"] == "exit_pe" else r for r in ready_assumptions()["records"]]}, {"forecast"}),
+        "future_source": (ready_model_row(), {"status": "input_ready"}, qualified_financial_truth(), {"records": [{**r, "available_on": "2025-01-01"} if r["metric"] == "exit_pe" else r for r in ready_assumptions()["records"]]}, {"forecast"}),
+        "audit_only_actual": ({**ready_model_row(), "observations": {**ready_model_row()["observations"], "revenue": [{**ready_model_row()["observations"]["revenue"][0], "readiness": "audit_only"}]}}, {"status": "input_ready"}, qualified_financial_truth(), ready_assumptions(), set()),
+        "red_financial_truth": (ready_model_row(), {"status": "input_ready"}, red_financial_truth(), ready_assumptions(), set()),
     }
-    for name, (model, readiness, assumptions, computed) in cases.items():
-        row = build_company_engines("MLCF", model, readiness, assumptions, "2024-03-01")
+    for name, (model, readiness, financial_truth, assumptions, computed) in cases.items():
+        row = build_company_engines("MLCF", model, readiness, financial_truth, assumptions, "2024-03-01")
         observed = {product for product, payload in row.items() if payload["status"] == "computed"}
         if observed != computed:
             fail(f"{name} computed {sorted(observed)}, expected {sorted(computed)}")
         for product, payload in row.items():
             if product not in computed and payload["result"] is not None:
                 fail(f"{name} blocked product carried a result")
+            if name == "red_financial_truth" and "financial_truth_qualified" not in payload.get("missing_requirements", []):
+                fail("red financial truth did not fail-close every formal engine")
 
 
 def assert_real_state() -> None:
@@ -171,17 +183,19 @@ def assert_temp_builder_ready() -> None:
     with tempfile.TemporaryDirectory(prefix="henneth-formal-engines-") as td:
         root = Path(td)
         original_state = builder.STATE
-        original_outs = builder.OUT_FORECASTS, builder.OUT_VALUATIONS, builder.OUT_EXPECTATIONS, builder.ASSUMPTIONS
+        original_outs = builder.OUT_FORECASTS, builder.OUT_VALUATIONS, builder.OUT_EXPECTATIONS, builder.ASSUMPTIONS, builder.FINANCIAL_TRUTH
         try:
             builder.STATE = root
             builder.OUT_FORECASTS = root / "company_intel" / "financial_forecasts.json"
             builder.OUT_VALUATIONS = root / "company_intel" / "formal_valuations.json"
             builder.OUT_EXPECTATIONS = root / "company_intel" / "market_expectations.json"
             builder.ASSUMPTIONS = root / "company_intel" / "financial_engine_assumptions.json"
+            builder.FINANCIAL_TRUTH = root / "company_intel" / "financial_truth_qualification.json"
             (root / "company_intel").mkdir(parents=True)
             (root / "company_profiles.json").write_text(json.dumps({"updated": "2024-03-01", "pilot": {"symbols": ["MLCF"]}}), encoding="utf-8")
             (root / "company_intel" / "financial_model_inputs.json").write_text(json.dumps({"companies": {"MLCF": ready_model_row()}}), encoding="utf-8")
             (root / "company_intel" / "forecast_readiness.json").write_text(json.dumps({"companies": {"MLCF": {"status": "input_ready"}}}), encoding="utf-8")
+            (root / "company_intel" / "financial_truth_qualification.json").write_text(json.dumps({"companies": {"MLCF": qualified_financial_truth()}}), encoding="utf-8")
             (root / "company_intel" / "financial_engine_assumptions.json").write_text(json.dumps(ready_assumptions()), encoding="utf-8")
             forecasts, valuations, expectations = builder.build()
             if forecasts["summary"]["computed_company_count"] != 1:
@@ -192,7 +206,7 @@ def assert_temp_builder_ready() -> None:
                 fail("temp builder expectations did not compute")
         finally:
             builder.STATE = original_state
-            builder.OUT_FORECASTS, builder.OUT_VALUATIONS, builder.OUT_EXPECTATIONS, builder.ASSUMPTIONS = original_outs
+            builder.OUT_FORECASTS, builder.OUT_VALUATIONS, builder.OUT_EXPECTATIONS, builder.ASSUMPTIONS, builder.FINANCIAL_TRUTH = original_outs
 
 
 def main() -> None:

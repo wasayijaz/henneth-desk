@@ -217,10 +217,18 @@ def _same_slot_key(fact: dict[str, Any]) -> tuple[Any, ...]:
     )
 
 
-def _conflicts(symbol: str, facts: list[dict[str, Any]]) -> list[dict[str, Any]]:
+def _conflict_eligible_fact(fact: dict[str, Any], as_of: str | None) -> bool:
+    """Only otherwise qualified load-bearing facts can create blocking conflicts."""
+    return (
+        fact.get("line") in ELIGIBLE_LINES
+        and not classification_reasons(fact, as_of)
+    )
+
+
+def _conflicts(symbol: str, facts: list[dict[str, Any]], as_of: str | None = None) -> list[dict[str, Any]]:
     grouped: dict[tuple[Any, ...], list[dict[str, Any]]] = {}
     for fact in facts:
-        if fact.get("line") not in ELIGIBLE_LINES:
+        if not _conflict_eligible_fact(fact, as_of):
             continue
         grouped.setdefault(_same_slot_key(fact), []).append(fact)
     rows = []
@@ -309,7 +317,7 @@ def company_reconciliation(
     coverage_row = coverage_row or {}
     model_row = model_row or {}
     readiness_row = readiness_row or {}
-    conflicts = _conflicts(symbol, facts)
+    conflicts = _conflicts(symbol, facts, as_of)
     conflicted_fact_ids = {
         value.get("fact_id")
         for conflict in conflicts

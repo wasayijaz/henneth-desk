@@ -167,10 +167,13 @@ backend error is rendered.
     formal forecast, valuation and market-expectations products stay blocked until all required
     approvals exist. Private CI assumption drafts are approved only through the manual server-side
     `approve_owner_financial_assumptions.py` append-copy handoff; it is not part of the cloud run.
-26. `build_formal_financial_engines.py` runs after forecast readiness and before the CI completion
-    matrix and private slice. It emits deterministic forecast, valuation and market-expectations
-    products only from qualified actuals plus approved, source-labelled and dated operands;
-    otherwise each product remains explicitly blocked with no numeric result. Its focused checker
+26. `build_financial_truth_qualification.py` runs after reconciliation and before
+    `build_formal_financial_engines.py`. Financial truth is the authoritative fail-closed activation
+    gate: the legacy three-period forecast-readiness status remains descriptive and cannot activate
+    an output. The formal engines run before the CI completion matrix and private slice, emitting
+    deterministic forecast, valuation and market-expectations products only when current qualified
+    financial truth and approved, source-labelled, dated operands are both present; otherwise each
+    product remains explicitly blocked with no numeric result. Its focused checker
     is both part of the cloud sequence and preflight.
 27. `build_ownership_source_manifest.py` emits a review-only candidate list from retained issuer
     and PSX metadata for the exact 20-company pilot. It never downloads or parses a document and

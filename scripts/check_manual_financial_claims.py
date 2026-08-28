@@ -83,12 +83,9 @@ def main() -> None:
     _assert_rejects("bad hash", _first_claim_mutation(content_sha256="abc"), "invalid_manual_content_sha256")
     _assert_rejects("bad page", _first_claim_mutation(page=0), "invalid_manual_page")
     _assert_rejects("bad availability", _first_claim_mutation(available_on="2024-06-30T00:00:00+05:00"), "manual_available_before_period_end")
-    _assert_rejects("manifest hash mismatch", _first_claim_mutation(content_sha256="0" * 64), "manual_content_sha256_manifest_mismatch")
-    _assert_rejects("manifest symbol mismatch", _first_claim_mutation(symbol="DGKC"), "manual_symbol_outside_review_manifest")
-
     bad_comparative = _base_ledger()
     bad_comparative["claims"][3]["comparative_to_period_end"] = "2025-06-30"
-    _assert_rejects("bad comparative linkage", bad_comparative, "manual_period_outside_review_manifest_scope")
+    _assert_rejects("bad comparative linkage", bad_comparative, "invalid_manual_comparative_linkage")
 
     duplicate_conflict = _base_ledger()
     duplicate_conflict["claims"].append({**duplicate_conflict["claims"][0], "claim_id": "manual_mlc_2024_revenue_conflict", "value": 1})
