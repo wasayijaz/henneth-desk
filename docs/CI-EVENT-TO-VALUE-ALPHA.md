@@ -59,6 +59,28 @@ that were actually proven.
 5. Repeat the proven lane for E&P, then sales-led expansion. Extract a shared
    abstraction only after the first case demonstrates it is shared.
 
+### Sector-model boundary
+
+The shared case envelope is deliberately narrow: identity and lifecycle,
+epistemic typing, provenance, point-in-time controls, assumption/run lineage,
+scenario labels, confidence, monitoring, and the case-page sections. Economic
+models remain sector-specific.
+
+- **Cement / industrial:** capacity, utilization, dispatch or production,
+  selling price, fuel/power/freight, maintenance and expansion capex,
+  commissioning ramp, working capital, and financing.
+- **E&P:** working interest/operator status, geological and commercial
+  probabilities, resources/reserves, well and development costs, drilling and
+  first-production timing, hydrocarbon mix/decline, royalty/tax, commodity
+  price/FX, and circular-debt exposure.
+- **Sales-led:** sales/support headcount, compensation and marketing,
+  productivity ramp, channel/geography/customer mix, gross margin, acquisition
+  and retention, and working capital.
+
+No universal driver schema or formula engine is introduced. DGKC establishes a
+concrete cement model first; E&P and sales-led economics are independently
+implemented, with reuse limited to workflow contracts proven across sectors.
+
 ## Current baseline — 2026-08-28
 
 | Area | Retained evidence | Status | Implication for Alpha |
