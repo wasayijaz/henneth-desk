@@ -100,6 +100,38 @@ class DegradedDocument(RuntimeError):
     """One document could not be safely transported; the run should continue and exit 0."""
 
 
+class ReprocessTransactionError(RuntimeError):
+    """A canonical consume transaction failed without writing a success receipt."""
+
+    def __init__(self, stage: str, reason: str, *, rolled_back: bool,
+                 canonical_state_committed: bool = False,
+                 documents: list[dict[str, Any]] | None = None) -> None:
+        self.stage = stage
+        self.reason = _clean_text(reason)[:500]
+        self.rolled_back = bool(rolled_back)
+        self.canonical_state_committed = bool(canonical_state_committed)
+        self.documents = documents or []
+        super().__init__(f"{stage}: {self.reason}")
+
+    def to_result(self, run_id: str | None = None) -> dict[str, Any]:
+        result: dict[str, Any] = {
+            "schema_version": 1,
+            "status": "transaction_failed",
+            "failure_stage": self.stage,
+            "reason": self.reason,
+            "rolled_back": self.rolled_back,
+            "canonical_state_committed": self.canonical_state_committed,
+            "receipt_written": False,
+            "parser_version": PARSER_VERSION,
+            "parser_revision": PARSER_REVISION,
+        }
+        if run_id:
+            result["run_id"] = run_id
+        if self.documents:
+            result["documents"] = self.documents
+        return result
+
+
 def chunk_verified_oversized_pdf(doc: "VerifiedDocument", fetched: "FetchResult",
                                  output_dir: Path, *, expected_page_count: int | None = None,
                                  period_end: str | None = None) -> list[ChunkRecord]:
@@ -676,6 +708,35 @@ def _canonical_counts(state_root: Path) -> dict[str, int]:
     }
 
 
+def _pending_document_diagnostics(
+    pending_docs: list[tuple[VerifiedDocument, FetchResult]],
+    chunk_records: dict[str, list[ChunkRecord]] | None = None,
+) -> list[dict[str, Any]]:
+    rows: list[dict[str, Any]] = []
+    for doc, fetched in pending_docs:
+        chunks = (chunk_records or {}).get(doc.doc_id) or []
+        row: dict[str, Any] = {
+            "doc_id": doc.doc_id,
+            "content_sha256": fetched.content_sha256,
+            "page_count": fetched.page_count,
+            "source_url": doc.url,
+            "receipt": "not_written_transaction_failed",
+        }
+        if chunks:
+            row["chunked_source"] = True
+            row["chunk_ranges"] = [
+                {
+                    "source_page_start": chunk.source_page_start,
+                    "source_page_end": chunk.source_page_end,
+                    "page_count": chunk.page_count,
+                    "chunk_sha256": chunk.chunk_sha256,
+                }
+                for chunk in chunks
+            ]
+        rows.append(row)
+    return rows
+
+
 def consume_canonical(registry_path: Path, queue_path: Path, output_root: Path,
                       fetched_docs: list[tuple[VerifiedDocument, FetchResult]],
                       *, state_root: Path = STATE,
@@ -712,21 +773,31 @@ def consume_canonical(registry_path: Path, queue_path: Path, output_root: Path,
         safe_cleanup(work_state, output_root)
     work_state.mkdir(parents=True, exist_ok=True)
     _copy_canonical_to_work(state_root, work_state)
-    rc = run_document_intelligence(
-        index_path=registry_path,
-        output_path=work_state / "company_documents.json",
-        extraction_queue_path=queue_path,
-        ledger_path=work_state / "company_event_ledger.json",
-        queue_path=work_state / "document_synthesis_queue.json",
-        series_path=work_state / "company_financial_series.json",
-    )
+    stage = "document_intelligence"
+    try:
+        rc = run_document_intelligence(
+            index_path=registry_path,
+            output_path=work_state / "company_documents.json",
+            extraction_queue_path=queue_path,
+            ledger_path=work_state / "company_event_ledger.json",
+            queue_path=work_state / "document_synthesis_queue.json",
+            series_path=work_state / "company_financial_series.json",
+        )
+    except Exception as exc:
+        raise ReprocessTransactionError(stage, str(exc), rolled_back=False) from exc
     if rc != 0:
-        raise RuntimeError(f"document_intelligence returned {rc}")
+        raise ReprocessTransactionError(stage, f"document_intelligence returned {rc}", rolled_back=False)
+    stage = "verify_committed_documents"
     committed = _verified_commits(work_state, fetched_docs)
     expected = {doc.doc_id for doc, _ in fetched_docs}
     observed = {row["doc_id"] for row in committed}
     if observed != expected:
-        raise RuntimeError("canonical consume did not durably verify every requested document")
+        missing = ",".join(sorted(expected - observed))
+        raise ReprocessTransactionError(
+            stage,
+            f"canonical consume did not durably verify every requested document; missing={missing}",
+            rolled_back=False,
+        )
     snapshot = {path: _read_bytes(path) for path in _snapshot_paths(state_root, ci_slice_path)}
     before_counts = _canonical_counts(state_root)
     ci_builder_injected = ci_builder is not None
@@ -763,21 +834,33 @@ def consume_canonical(registry_path: Path, queue_path: Path, output_root: Path,
     try:
         for rel in (Path("company_documents.json"), Path("company_event_ledger.json"),
                     Path("document_synthesis_queue.json"), Path("company_financial_series.json")):
+            stage = f"publish:{rel.as_posix()}"
             if (work_state / rel).exists():
                 _atomic_replace_file(work_state / rel, state_root / rel)
+        stage = "build_financial_model_inputs"
         model_builder()
+        stage = "build_financial_evidence_reconciliation"
         reconciliation_builder()
+        stage = "build_financial_truth_qualification"
         truth_builder()
+        stage = "build_formal_financial_engines"
         formal_builder()
         for builder in dependent_ci_builders:
+            stage = f"build:{getattr(builder, '__module__', 'unknown')}"
             builder()
+        stage = "build_evidence_watchlist"
         evidence_watchlist_builder()
         for builder in post_watchlist_builders:
+            stage = f"build:{getattr(builder, '__module__', 'unknown')}"
             builder()
+        stage = "build_ci_completion_matrix"
         completion_matrix_builder()
+        stage = "build_ci_slice"
         ci_builder()
         if not ci_builder_injected:
+            stage = "build_ci_artifact_integrity"
             build_ci_artifact_integrity()
+        stage = "validate_canonical_boundaries"
         _validate_canonical_boundaries(state_root, before_counts, ci_slice_path)
         for checker_name in (
             "check_financial_model_inputs.py",
@@ -788,24 +871,40 @@ def consume_canonical(registry_path: Path, queue_path: Path, output_root: Path,
             "check_event_studies.py",
             "check_operating_intelligence.py",
         ):
+            stage = f"checker:{checker_name}"
             checker(checker_name)
         # Several legacy contract checks rebuild their authoritative inputs as
         # part of their idempotency proof.  Rebuild the dependent CI surface
         # once more after those checks, then run the aggregate gate against a
         # coherent final artifact set rather than a stale watchlist/slice.
         for builder in dependent_ci_builders:
+            stage = f"rebuild:{getattr(builder, '__module__', 'unknown')}"
             builder()
+        stage = "rebuild_evidence_watchlist"
         evidence_watchlist_builder()
         for builder in post_watchlist_builders:
+            stage = f"rebuild:{getattr(builder, '__module__', 'unknown')}"
             builder()
+        stage = "rebuild_ci_completion_matrix"
         completion_matrix_builder()
+        stage = "rebuild_ci_slice"
         ci_builder()
         if not ci_builder_injected:
+            stage = "rebuild_ci_artifact_integrity"
             build_ci_artifact_integrity()
+        stage = "checker:preflight.py"
         checker("preflight.py")
     except Exception:
+        exc = sys.exc_info()[1]
         _restore_snapshot(snapshot)
-        raise
+        if isinstance(exc, ReprocessTransactionError):
+            raise
+        raise ReprocessTransactionError(
+            stage,
+            str(exc),
+            rolled_back=True,
+            canonical_state_committed=False,
+        ) from exc
     return {"status": "committed", "committed": [
         {"doc_id": row["doc_id"], "content_sha256": row["content_sha256"]}
         for row in committed if row["status"] == "success"
@@ -1061,7 +1160,24 @@ def run_reprocess(
                     "parser_revision": PARSER_REVISION,
                     "limitation": "without a known retained source hash or prior receipt, content identity is only known after fetch; post-fetch duplicates skip extraction/state/receipt churn",
                 }
-            consumer_result = consumer(registry_path, queue_path, stage_dir, pending_docs)
+            try:
+                consumer_result = consumer(registry_path, queue_path, stage_dir, pending_docs)
+            except ReprocessTransactionError as exc:
+                raise ReprocessTransactionError(
+                    exc.stage,
+                    exc.reason,
+                    rolled_back=exc.rolled_back,
+                    canonical_state_committed=exc.canonical_state_committed,
+                    documents=_pending_document_diagnostics(pending_docs, chunk_records_by_doc),
+                ) from exc
+            except Exception as exc:
+                raise ReprocessTransactionError(
+                    "consumer",
+                    str(exc),
+                    rolled_back=False,
+                    canonical_state_committed=False,
+                    documents=_pending_document_diagnostics(pending_docs, chunk_records_by_doc),
+                ) from exc
             processed = (consumer_result.get("processed") if isinstance(consumer_result, dict) else []) or []
             processed_by_doc = {
                 str(item.get("doc_id")): item for item in processed
@@ -1135,6 +1251,9 @@ def main(argv: list[str] | None = None) -> int:
     except UnsafeInput as exc:
         print(f"reprocess_company_documents: unsafe input: {exc}", file=sys.stderr)
         return 2
+    except ReprocessTransactionError as exc:
+        print(json.dumps(exc.to_result(), indent=1, sort_keys=True))
+        return 1
     print(json.dumps(result, indent=1, sort_keys=True))
     return 0
 

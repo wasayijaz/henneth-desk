@@ -915,7 +915,14 @@ def main() -> int:
                                     model_builder=fail_model, reconciliation_builder=fail_reconcile,
                                     truth_builder=fail_truth, formal_builder=fail_formal,
                                     completion_matrix_builder=fail_completion, ci_builder=fail_ci)
-            except RuntimeError as exc:
+            except r.ReprocessTransactionError as exc:
+                assert exc.stage == "checker:preflight.py"
+                assert exc.rolled_back is True
+                diagnostic = exc.to_result("fixture-run")
+                assert diagnostic["status"] == "transaction_failed"
+                assert diagnostic["failure_stage"] == "checker:preflight.py"
+                assert diagnostic["canonical_state_committed"] is False
+                assert diagnostic["receipt_written"] is False
                 assert "forced non-reprocess preflight failure" in str(exc)
             else:
                 raise AssertionError("preflight failure did not abort transaction")
@@ -1113,8 +1120,19 @@ def main() -> int:
                  _reconciliation_builder=zero_reconcile, _truth_builder=zero_truth,
                  _formal_builder=zero_formal, _completion_matrix_builder=zero_completion,
                  _ci_builder=zero_ci, _checker=zero_checker)
-        except RuntimeError:
-            pass
+        except r.ReprocessTransactionError as exc:
+            assert exc.stage == "validate_canonical_boundaries"
+            assert exc.rolled_back is True
+            assert exc.documents == [{
+                "doc_id": "psx:111",
+                "content_sha256": good_sha,
+                "page_count": 2,
+                "source_url": "https://dps.psx.com.pk/download/document/111.pdf",
+                "receipt": "not_written_transaction_failed",
+            }]
+            diagnostic = exc.to_result()
+            assert diagnostic["documents"][0]["receipt"] == "not_written_transaction_failed"
+            assert diagnostic["receipt_written"] is False
         else:
             raise AssertionError("zero-company model output was committed")
         assert (zero_model / "state" / "company_intel" / "financial_model_inputs.json").read_bytes() == before_model
