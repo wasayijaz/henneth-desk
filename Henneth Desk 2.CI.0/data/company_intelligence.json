@@ -1,6 +1,6 @@
 {
  "meta": {
-  "built": "2026-08-28 15:32",
+  "built": "2026-08-28 22:15",
   "source": "Henneth state layer",
   "profile_source": "https://dps.psx.com.pk/company/{symbol}",
   "profile_updated": "2026-08-24 18:30",
@@ -29,9 +29,9 @@
    "source_documents": 317,
    "note": "Every factual edge carries source URL and cited page when available.",
    "generator_version": "ci_artifact_integrity_v1",
-   "source_commit_sha": "6215e1702153903f9174bfec1a90ca64b8ebd58c",
-   "build_cutoff_at": "2026-08-28T15:31:20Z",
-   "generated_at": "2026-08-28T15:31:20Z",
+   "source_commit_sha": "9ea9f8984db3ecdc371fa9102103a85898d5180b",
+   "build_cutoff_at": "2026-08-28T17:03:13Z",
+   "generated_at": "2026-08-28T17:03:13Z",
    "artifact_path": "state/company_intel/company_graph.json",
    "timestamp_semantics": {
     "build_cutoff_at": "generation boundary only; not a source-effective or source-published time",
@@ -44,9 +44,9 @@
    "item_count": 359,
    "note": "Deterministic official-source change digest. Research, not advice.",
    "generator_version": "ci_artifact_integrity_v1",
-   "source_commit_sha": "6215e1702153903f9174bfec1a90ca64b8ebd58c",
-   "build_cutoff_at": "2026-08-28T15:31:20Z",
-   "generated_at": "2026-08-28T15:31:20Z",
+   "source_commit_sha": "9ea9f8984db3ecdc371fa9102103a85898d5180b",
+   "build_cutoff_at": "2026-08-28T17:03:13Z",
+   "generated_at": "2026-08-28T17:03:13Z",
    "artifact_path": "state/company_intel/change_intelligence.json",
    "timestamp_semantics": {
     "build_cutoff_at": "generation boundary only; not a source-effective or source-published time",
@@ -12078,6 +12078,163 @@
      "Forecast and valuation remain blocked."
     ]
    },
+   "financial_truth_qualification": {
+    "symbol": "MLCF",
+    "status": "not_qualified",
+    "qualification_scope": "retained_reported_financial_truth",
+    "annual_income_triplets": {
+     "required": 5,
+     "present": 3,
+     "qualified_periods": [
+      "2026-06-30",
+      "2025-06-30",
+      "2024-06-30"
+     ]
+    },
+    "qualified_reported_quarter_fact_sets": {
+     "required": 8,
+     "present": 0,
+     "qualified_periods": []
+    },
+    "documented_interim_metadata": {
+     "present": 1,
+     "documented_periods": [
+      "2024-12-31"
+     ],
+     "limitation": "Document metadata proves a retained official reporting period, not parsed qualified quarterly financial facts and does not satisfy the eight-quarter gate."
+    },
+    "annual_operating_cash_flow": {
+     "required": 5,
+     "present": 0,
+     "qualified_periods": []
+    },
+    "share_count": {
+     "status": "missing_official_share_count_capital_note_tie_out",
+     "available_on": null,
+     "source": null
+    },
+    "financial_tie_out": {
+     "status": "blocked",
+     "reason": "requires five qualified annual income triplets, eight qualified reported-quarter fact sets, five qualified annual operating-cash-flow periods, an official share-count capital-note tie-out, and no unresolved conflicts"
+    },
+    "operating_lane": {
+     "status": "insufficient_aligned_annual_operating_history",
+     "activation_status": "blocked_insufficient_aligned_annual_operating_history"
+    },
+    "evidence_gaps": [
+     {
+      "requirement": "qualified_annual_income_triplets",
+      "required": 5,
+      "present": 3,
+      "status": "blocked"
+     },
+     {
+      "requirement": "qualified_reported_quarter_fact_sets",
+      "required": 8,
+      "present": 0,
+      "status": "blocked"
+     },
+     {
+      "requirement": "qualified_annual_operating_cash_flow",
+      "required": 5,
+      "present": 0,
+      "status": "blocked"
+     },
+     {
+      "requirement": "official_share_count_capital_note_tie_out",
+      "required": 1,
+      "present": 0,
+      "status": "blocked"
+     },
+     {
+      "requirement": "unresolved_financial_source_conflicts",
+      "required": 0,
+      "present": 4,
+      "status": "blocked"
+     }
+    ],
+    "candidate_documents": [
+     {
+      "document_id": "psx:280589",
+      "title": "MLCF-Financial Results for the year ended June 30, 2026",
+      "published_at": "2026-07-31T08:51:00+05:00",
+      "source_url": "https://dps.psx.com.pk/download/document/280589.pdf",
+      "safe_period": {
+       "period_end": "2026-06-30",
+       "period_type": "annual",
+       "source": "title",
+       "matched_text": "year ended June 30, 2026"
+      },
+      "reason": "retained official document candidate; owner approval is required before any restage"
+     },
+     {
+      "document_id": "psx:275425",
+      "title": "Transmission of Quarterly Financial Statements for the Period Ended 31.03.2026",
+      "published_at": "2026-04-28T10:25:00+05:00",
+      "source_url": "https://dps.psx.com.pk/download/document/275425.pdf",
+      "safe_period": {
+       "period_end": "2026-03-31",
+       "period_type": "unknown",
+       "source": "title",
+       "matched_text": "31.03.2026"
+      },
+      "reason": "retained official document candidate; owner approval is required before any restage"
+     },
+     {
+      "document_id": "psx:274750",
+      "title": "MLCF - Financial Results 31.03.2026",
+      "published_at": "2026-04-22T08:53:00+05:00",
+      "source_url": "https://dps.psx.com.pk/download/document/274750.pdf",
+      "safe_period": {
+       "period_end": "2026-03-31",
+       "period_type": "unknown",
+       "source": "title",
+       "matched_text": "31.03.2026"
+      },
+      "reason": "retained official document candidate; owner approval is required before any restage"
+     },
+     {
+      "document_id": "psx:271712",
+      "title": "MLCF-Transmission of Quarterly Financial Statements for the Period Ended 31.12.2025",
+      "published_at": "2026-03-02T08:46:00+05:00",
+      "source_url": "https://dps.psx.com.pk/download/document/271712.pdf",
+      "safe_period": {
+       "period_end": "2025-12-31",
+       "period_type": "unknown",
+       "source": "title",
+       "matched_text": "31.12.2025"
+      },
+      "reason": "retained official document candidate; owner approval is required before any restage"
+     },
+     {
+      "document_id": "psx:270983",
+      "title": "MLCF-Financial Results as on 31.12.2025",
+      "published_at": "2026-02-25T08:41:00+05:00",
+      "source_url": "https://dps.psx.com.pk/download/document/270983.pdf",
+      "safe_period": {
+       "period_end": "2025-12-31",
+       "period_type": "unknown",
+       "source": "title",
+       "matched_text": "31.12.2025"
+      },
+      "reason": "retained official document candidate; owner approval is required before any restage"
+     }
+    ],
+    "downstream": {
+     "forecast": "blocked_financial_truth_not_qualified",
+     "valuation": "blocked_financial_truth_not_qualified",
+     "market_expectations": "blocked_financial_truth_not_qualified"
+    },
+    "policy": {
+     "raw_financial_values": "not_emitted",
+     "restage": "owner_approval_required",
+     "forecasts": "not_emitted",
+     "valuation": "not_emitted",
+     "market_expectations": "not_emitted"
+    },
+    "candidate_rank": 2,
+    "selection_status": "not_selected"
+   },
    "forecast_readiness": {
     "symbol": "MLCF",
     "status": "input_ready",
@@ -18270,6 +18427,154 @@
      "Forecast and valuation remain blocked."
     ]
    },
+   "financial_truth_qualification": {
+    "symbol": "OGDC",
+    "status": "not_qualified",
+    "qualification_scope": "retained_reported_financial_truth",
+    "annual_income_triplets": {
+     "required": 5,
+     "present": 0,
+     "qualified_periods": []
+    },
+    "qualified_reported_quarter_fact_sets": {
+     "required": 8,
+     "present": 0,
+     "qualified_periods": []
+    },
+    "documented_interim_metadata": {
+     "present": 2,
+     "documented_periods": [
+      "2026-03-31",
+      "2025-09-30"
+     ],
+     "limitation": "Document metadata proves a retained official reporting period, not parsed qualified quarterly financial facts and does not satisfy the eight-quarter gate."
+    },
+    "annual_operating_cash_flow": {
+     "required": 5,
+     "present": 0,
+     "qualified_periods": []
+    },
+    "share_count": {
+     "status": "missing_official_share_count_capital_note_tie_out",
+     "available_on": null,
+     "source": null
+    },
+    "financial_tie_out": {
+     "status": "blocked",
+     "reason": "requires five qualified annual income triplets, eight qualified reported-quarter fact sets, five qualified annual operating-cash-flow periods, an official share-count capital-note tie-out, and no unresolved conflicts"
+    },
+    "operating_lane": {
+     "status": "not_applicable",
+     "activation_status": "not_applicable"
+    },
+    "evidence_gaps": [
+     {
+      "requirement": "qualified_annual_income_triplets",
+      "required": 5,
+      "present": 0,
+      "status": "blocked"
+     },
+     {
+      "requirement": "qualified_reported_quarter_fact_sets",
+      "required": 8,
+      "present": 0,
+      "status": "blocked"
+     },
+     {
+      "requirement": "qualified_annual_operating_cash_flow",
+      "required": 5,
+      "present": 0,
+      "status": "blocked"
+     },
+     {
+      "requirement": "official_share_count_capital_note_tie_out",
+      "required": 1,
+      "present": 0,
+      "status": "blocked"
+     }
+    ],
+    "candidate_documents": [
+     {
+      "document_id": "psx:276351",
+      "title": "Transmission of Quarterly Report for the Period Ended March 31, 2026",
+      "published_at": "2026-04-30T14:48:00+05:00",
+      "source_url": "https://dps.psx.com.pk/download/document/276351.pdf",
+      "safe_period": {
+       "period_end": "2026-03-31",
+       "period_type": "interim",
+       "source": "title",
+       "matched_text": "Period Ended March 31, 2026"
+      },
+      "reason": "retained official document candidate; owner approval is required before any restage"
+     },
+     {
+      "document_id": "psx:275829",
+      "title": "FINANCIAL RESULTS FOR THE PERIOD ENDED MARCH 31 2026",
+      "published_at": "2026-04-29T14:51:00+05:00",
+      "source_url": "https://dps.psx.com.pk/download/document/275829.pdf",
+      "safe_period": {
+       "period_end": "2026-03-31",
+       "period_type": "interim",
+       "source": "title",
+       "matched_text": "PERIOD ENDED MARCH 31 2026"
+      },
+      "reason": "retained official document candidate; owner approval is required before any restage"
+     },
+     {
+      "document_id": "psx:264549",
+      "title": "Transmission of Quarterly Report for the Period Ended September 30, 2025",
+      "published_at": "2025-10-30T15:11:00+05:00",
+      "source_url": "https://dps.psx.com.pk/download/document/264549.pdf",
+      "safe_period": {
+       "period_end": "2025-09-30",
+       "period_type": "interim",
+       "source": "title",
+       "matched_text": "Period Ended September 30, 2025"
+      },
+      "reason": "retained official document candidate; owner approval is required before any restage"
+     },
+     {
+      "document_id": "psx:264119",
+      "title": "Financial Results for the Quarter Ended September 30 2025",
+      "published_at": "2025-10-29T15:24:00+05:00",
+      "source_url": "https://dps.psx.com.pk/download/document/264119.pdf",
+      "safe_period": {
+       "period_end": "2025-09-30",
+       "period_type": "interim",
+       "source": "title",
+       "matched_text": "Quarter Ended September 30 2025"
+      },
+      "reason": "retained official document candidate; owner approval is required before any restage"
+     },
+     {
+      "document_id": "psx:261312",
+      "title": "Transmission of Annual Report for the Year Ended June 30, 2025",
+      "published_at": "2025-10-06T13:47:00+05:00",
+      "source_url": "https://dps.psx.com.pk/download/document/261312.pdf",
+      "safe_period": {
+       "period_end": "2025-06-30",
+       "period_type": "annual",
+       "source": "title",
+       "matched_text": "Year Ended June 30, 2025"
+      },
+      "reason": "retained official document candidate; owner approval is required before any restage"
+     }
+    ],
+    "downstream": {
+     "forecast": "blocked_financial_truth_not_qualified",
+     "valuation": "blocked_financial_truth_not_qualified",
+     "market_expectations": "blocked_financial_truth_not_qualified"
+    },
+    "policy": {
+     "raw_financial_values": "not_emitted",
+     "restage": "owner_approval_required",
+     "forecasts": "not_emitted",
+     "valuation": "not_emitted",
+     "market_expectations": "not_emitted"
+    },
+    "candidate_rank": 16,
+    "selection_status": "not_selected"
+   },
    "forecast_readiness": {
     "symbol": "OGDC",
     "status": "blocked_insufficient_qualified_history",
@@ -23627,6 +23932,126 @@
      "Revenue, PAT, and EPS values were not inferred.",
      "Forecast and valuation remain blocked."
     ]
+   },
+   "financial_truth_qualification": {
+    "symbol": "PPL",
+    "status": "not_qualified",
+    "qualification_scope": "retained_reported_financial_truth",
+    "annual_income_triplets": {
+     "required": 5,
+     "present": 0,
+     "qualified_periods": []
+    },
+    "qualified_reported_quarter_fact_sets": {
+     "required": 8,
+     "present": 0,
+     "qualified_periods": []
+    },
+    "documented_interim_metadata": {
+     "present": 0,
+     "documented_periods": [],
+     "limitation": "Document metadata proves a retained official reporting period, not parsed qualified quarterly financial facts and does not satisfy the eight-quarter gate."
+    },
+    "annual_operating_cash_flow": {
+     "required": 5,
+     "present": 0,
+     "qualified_periods": []
+    },
+    "share_count": {
+     "status": "missing_official_share_count_capital_note_tie_out",
+     "available_on": null,
+     "source": null
+    },
+    "financial_tie_out": {
+     "status": "blocked",
+     "reason": "requires five qualified annual income triplets, eight qualified reported-quarter fact sets, five qualified annual operating-cash-flow periods, an official share-count capital-note tie-out, and no unresolved conflicts"
+    },
+    "operating_lane": {
+     "status": "not_applicable",
+     "activation_status": "not_applicable"
+    },
+    "evidence_gaps": [
+     {
+      "requirement": "qualified_annual_income_triplets",
+      "required": 5,
+      "present": 0,
+      "status": "blocked"
+     },
+     {
+      "requirement": "qualified_reported_quarter_fact_sets",
+      "required": 8,
+      "present": 0,
+      "status": "blocked"
+     },
+     {
+      "requirement": "qualified_annual_operating_cash_flow",
+      "required": 5,
+      "present": 0,
+      "status": "blocked"
+     },
+     {
+      "requirement": "official_share_count_capital_note_tie_out",
+      "required": 1,
+      "present": 0,
+      "status": "blocked"
+     }
+    ],
+    "candidate_documents": [
+     {
+      "document_id": "psx:276156",
+      "title": "Transmission of Quarterly Report for the Period Ended 31 March 2026",
+      "published_at": "2026-04-30T12:38:00+05:00",
+      "source_url": "https://dps.psx.com.pk/download/document/276156.pdf",
+      "safe_period": null,
+      "reason": "retained official document candidate; owner approval is required before any restage"
+     },
+     {
+      "document_id": "psx:275826",
+      "title": "Notice of Interim Dividend 2026-26",
+      "published_at": "2026-04-29T14:48:00+05:00",
+      "source_url": "https://dps.psx.com.pk/download/document/275826.pdf",
+      "safe_period": null,
+      "reason": "retained official document candidate; owner approval is required before any restage"
+     },
+     {
+      "document_id": "psx:275641",
+      "title": "Financial Results for the Quarter Ended 31 March 2026",
+      "published_at": "2026-04-29T10:19:00+05:00",
+      "source_url": "https://dps.psx.com.pk/download/document/275641.pdf",
+      "safe_period": null,
+      "reason": "retained official document candidate; owner approval is required before any restage"
+     },
+     {
+      "document_id": "psx:270567",
+      "title": "Transmission of Quarterly Report for the Period Ended 31 December 2025",
+      "published_at": "2026-02-19T10:35:00+05:00",
+      "source_url": "https://dps.psx.com.pk/download/document/270567.pdf",
+      "safe_period": null,
+      "reason": "retained official document candidate; owner approval is required before any restage"
+     },
+     {
+      "document_id": "psx:270144",
+      "title": "Notice of 2nd Interim Dividend for FY 2025-26",
+      "published_at": "2026-02-13T12:29:00+05:00",
+      "source_url": "https://dps.psx.com.pk/download/document/270144.pdf",
+      "safe_period": null,
+      "reason": "retained official document candidate; owner approval is required before any restage"
+     }
+    ],
+    "downstream": {
+     "forecast": "blocked_financial_truth_not_qualified",
+     "valuation": "blocked_financial_truth_not_qualified",
+     "market_expectations": "blocked_financial_truth_not_qualified"
+    },
+    "policy": {
+     "raw_financial_values": "not_emitted",
+     "restage": "owner_approval_required",
+     "forecasts": "not_emitted",
+     "valuation": "not_emitted",
+     "market_expectations": "not_emitted"
+    },
+    "candidate_rank": 17,
+    "selection_status": "not_selected"
    },
    "forecast_readiness": {
     "symbol": "PPL",
@@ -85213,6 +85638,166 @@
      "Forecast and valuation remain blocked."
     ]
    },
+   "financial_truth_qualification": {
+    "symbol": "DGKC",
+    "status": "not_qualified",
+    "qualification_scope": "retained_reported_financial_truth",
+    "annual_income_triplets": {
+     "required": 5,
+     "present": 4,
+     "qualified_periods": [
+      "2025-06-30",
+      "2024-06-30",
+      "2023-06-30",
+      "2022-06-30"
+     ]
+    },
+    "qualified_reported_quarter_fact_sets": {
+     "required": 8,
+     "present": 0,
+     "qualified_periods": []
+    },
+    "documented_interim_metadata": {
+     "present": 3,
+     "documented_periods": [
+      "2026-03-31",
+      "2025-12-31",
+      "2025-09-30"
+     ],
+     "limitation": "Document metadata proves a retained official reporting period, not parsed qualified quarterly financial facts and does not satisfy the eight-quarter gate."
+    },
+    "annual_operating_cash_flow": {
+     "required": 5,
+     "present": 0,
+     "qualified_periods": []
+    },
+    "share_count": {
+     "status": "missing_official_share_count_capital_note_tie_out",
+     "available_on": null,
+     "source": null
+    },
+    "financial_tie_out": {
+     "status": "blocked",
+     "reason": "requires five qualified annual income triplets, eight qualified reported-quarter fact sets, five qualified annual operating-cash-flow periods, an official share-count capital-note tie-out, and no unresolved conflicts"
+    },
+    "operating_lane": {
+     "status": "audit_only_series_available",
+     "activation_status": "blocked_audit_only_no_model_adapter"
+    },
+    "evidence_gaps": [
+     {
+      "requirement": "qualified_annual_income_triplets",
+      "required": 5,
+      "present": 4,
+      "status": "blocked"
+     },
+     {
+      "requirement": "qualified_reported_quarter_fact_sets",
+      "required": 8,
+      "present": 0,
+      "status": "blocked"
+     },
+     {
+      "requirement": "qualified_annual_operating_cash_flow",
+      "required": 5,
+      "present": 0,
+      "status": "blocked"
+     },
+     {
+      "requirement": "official_share_count_capital_note_tie_out",
+      "required": 1,
+      "present": 0,
+      "status": "blocked"
+     },
+     {
+      "requirement": "unresolved_financial_source_conflicts",
+      "required": 0,
+      "present": 25,
+      "status": "blocked"
+     }
+    ],
+    "candidate_documents": [
+     {
+      "document_id": "psx:275962",
+      "title": "TRANSMISSION OF QUARTERLY REPOR TFOR THE PERIOD ENDED MARCH 31, 2026",
+      "published_at": "2026-04-30T09:53:00+05:00",
+      "source_url": "https://dps.psx.com.pk/download/document/275962.pdf",
+      "safe_period": {
+       "period_end": "2026-03-31",
+       "period_type": "interim",
+       "source": "title",
+       "matched_text": "PERIOD ENDED MARCH 31, 2026"
+      },
+      "reason": "retained official document candidate; owner approval is required before any restage"
+     },
+     {
+      "document_id": "psx:275807",
+      "title": "Financial Results for the 3rd Quarter ended March 31, 2026",
+      "published_at": "2026-04-29T14:26:00+05:00",
+      "source_url": "https://dps.psx.com.pk/download/document/275807.pdf",
+      "safe_period": {
+       "period_end": "2026-03-31",
+       "period_type": "interim",
+       "source": "title",
+       "matched_text": "Quarter ended March 31, 2026"
+      },
+      "reason": "retained official document candidate; owner approval is required before any restage"
+     },
+     {
+      "document_id": "psx:271381",
+      "title": "Transmission of Quarterly Report for the Period Ended December 31, 2025",
+      "published_at": "2026-02-27T10:26:00+05:00",
+      "source_url": "https://dps.psx.com.pk/download/document/271381.pdf",
+      "safe_period": {
+       "period_end": "2025-12-31",
+       "period_type": "interim",
+       "source": "title",
+       "matched_text": "Period Ended December 31, 2025"
+      },
+      "reason": "retained official document candidate; owner approval is required before any restage"
+     },
+     {
+      "document_id": "psx:270881",
+      "title": "Financial Results for the Half Year Ended December 31, 2025",
+      "published_at": "2026-02-23T13:03:00+05:00",
+      "source_url": "https://dps.psx.com.pk/download/document/270881.pdf",
+      "safe_period": {
+       "period_end": "2025-12-31",
+       "period_type": "interim",
+       "source": "title",
+       "matched_text": "Half Year Ended December 31, 2025"
+      },
+      "reason": "retained official document candidate; owner approval is required before any restage"
+     },
+     {
+      "document_id": "psx:264230",
+      "title": "TRANSMISSION OF QUARTERLY REPORT FOR THE PERIOD ENDED SEPTEMBER 30, 2025",
+      "published_at": "2025-10-30T10:37:00+05:00",
+      "source_url": "https://dps.psx.com.pk/download/document/264230.pdf",
+      "safe_period": {
+       "period_end": "2025-09-30",
+       "period_type": "interim",
+       "source": "title",
+       "matched_text": "PERIOD ENDED SEPTEMBER 30, 2025"
+      },
+      "reason": "retained official document candidate; owner approval is required before any restage"
+     }
+    ],
+    "downstream": {
+     "forecast": "blocked_financial_truth_not_qualified",
+     "valuation": "blocked_financial_truth_not_qualified",
+     "market_expectations": "blocked_financial_truth_not_qualified"
+    },
+    "policy": {
+     "raw_financial_values": "not_emitted",
+     "restage": "owner_approval_required",
+     "forecasts": "not_emitted",
+     "valuation": "not_emitted",
+     "market_expectations": "not_emitted"
+    },
+    "candidate_rank": 1,
+    "selection_status": "leading_candidate_not_golden"
+   },
    "forecast_readiness": {
     "symbol": "DGKC",
     "status": "input_ready",
@@ -92611,6 +93196,155 @@
      "Revenue, PAT, and EPS values were not inferred.",
      "Forecast and valuation remain blocked."
     ]
+   },
+   "financial_truth_qualification": {
+    "symbol": "PSO",
+    "status": "not_qualified",
+    "qualification_scope": "retained_reported_financial_truth",
+    "annual_income_triplets": {
+     "required": 5,
+     "present": 0,
+     "qualified_periods": []
+    },
+    "qualified_reported_quarter_fact_sets": {
+     "required": 8,
+     "present": 0,
+     "qualified_periods": []
+    },
+    "documented_interim_metadata": {
+     "present": 3,
+     "documented_periods": [
+      "2026-03-31",
+      "2025-12-31",
+      "2025-09-30"
+     ],
+     "limitation": "Document metadata proves a retained official reporting period, not parsed qualified quarterly financial facts and does not satisfy the eight-quarter gate."
+    },
+    "annual_operating_cash_flow": {
+     "required": 5,
+     "present": 0,
+     "qualified_periods": []
+    },
+    "share_count": {
+     "status": "missing_official_share_count_capital_note_tie_out",
+     "available_on": null,
+     "source": null
+    },
+    "financial_tie_out": {
+     "status": "blocked",
+     "reason": "requires five qualified annual income triplets, eight qualified reported-quarter fact sets, five qualified annual operating-cash-flow periods, an official share-count capital-note tie-out, and no unresolved conflicts"
+    },
+    "operating_lane": {
+     "status": "not_applicable",
+     "activation_status": "not_applicable"
+    },
+    "evidence_gaps": [
+     {
+      "requirement": "qualified_annual_income_triplets",
+      "required": 5,
+      "present": 0,
+      "status": "blocked"
+     },
+     {
+      "requirement": "qualified_reported_quarter_fact_sets",
+      "required": 8,
+      "present": 0,
+      "status": "blocked"
+     },
+     {
+      "requirement": "qualified_annual_operating_cash_flow",
+      "required": 5,
+      "present": 0,
+      "status": "blocked"
+     },
+     {
+      "requirement": "official_share_count_capital_note_tie_out",
+      "required": 1,
+      "present": 0,
+      "status": "blocked"
+     }
+    ],
+    "candidate_documents": [
+     {
+      "document_id": "psx:276065",
+      "title": "Transmission of Quarterly Report for the Period ended March 31, 2026",
+      "published_at": "2026-04-30T11:24:00+05:00",
+      "source_url": "https://dps.psx.com.pk/download/document/276065.pdf",
+      "safe_period": {
+       "period_end": "2026-03-31",
+       "period_type": "interim",
+       "source": "title",
+       "matched_text": "Period ended March 31, 2026"
+      },
+      "reason": "retained official document candidate; owner approval is required before any restage"
+     },
+     {
+      "document_id": "psx:275672",
+      "title": "Financial Results for the Nine Months ended March 31, 2026",
+      "published_at": "2026-04-29T11:43:00+05:00",
+      "source_url": "https://dps.psx.com.pk/download/document/275672.pdf",
+      "safe_period": {
+       "period_end": "2026-03-31",
+       "period_type": "interim",
+       "source": "title",
+       "matched_text": "Nine Months ended March 31, 2026"
+      },
+      "reason": "retained official document candidate; owner approval is required before any restage"
+     },
+     {
+      "document_id": "psx:270316",
+      "title": "Financial Results for the half year ended December 31, 2025",
+      "published_at": "2026-02-17T12:27:00+05:00",
+      "source_url": "https://dps.psx.com.pk/download/document/270316.pdf",
+      "safe_period": {
+       "period_end": "2025-12-31",
+       "period_type": "interim",
+       "source": "title",
+       "matched_text": "half year ended December 31, 2025"
+      },
+      "reason": "retained official document candidate; owner approval is required before any restage"
+     },
+     {
+      "document_id": "psx:264179",
+      "title": "Transmission of Quarterly Report for the period ended September 30, 2025",
+      "published_at": "2025-10-30T08:58:00+05:00",
+      "source_url": "https://dps.psx.com.pk/download/document/264179.pdf",
+      "safe_period": {
+       "period_end": "2025-09-30",
+       "period_type": "interim",
+       "source": "title",
+       "matched_text": "period ended September 30, 2025"
+      },
+      "reason": "retained official document candidate; owner approval is required before any restage"
+     },
+     {
+      "document_id": "psx:263690",
+      "title": "Financial Results for the First Quarter ended September 30, 2025",
+      "published_at": "2025-10-28T12:49:00+05:00",
+      "source_url": "https://dps.psx.com.pk/download/document/263690.pdf",
+      "safe_period": {
+       "period_end": "2025-09-30",
+       "period_type": "interim",
+       "source": "title",
+       "matched_text": "Quarter ended September 30, 2025"
+      },
+      "reason": "retained official document candidate; owner approval is required before any restage"
+     }
+    ],
+    "downstream": {
+     "forecast": "blocked_financial_truth_not_qualified",
+     "valuation": "blocked_financial_truth_not_qualified",
+     "market_expectations": "blocked_financial_truth_not_qualified"
+    },
+    "policy": {
+     "raw_financial_values": "not_emitted",
+     "restage": "owner_approval_required",
+     "forecasts": "not_emitted",
+     "valuation": "not_emitted",
+     "market_expectations": "not_emitted"
+    },
+    "candidate_rank": 19,
+    "selection_status": "not_selected"
    },
    "forecast_readiness": {
     "symbol": "PSO",
@@ -102590,6 +103324,144 @@
      "Forecast and valuation remain blocked."
     ]
    },
+   "financial_truth_qualification": {
+    "symbol": "UBL",
+    "status": "not_qualified",
+    "qualification_scope": "retained_reported_financial_truth",
+    "annual_income_triplets": {
+     "required": 5,
+     "present": 0,
+     "qualified_periods": []
+    },
+    "qualified_reported_quarter_fact_sets": {
+     "required": 8,
+     "present": 0,
+     "qualified_periods": []
+    },
+    "documented_interim_metadata": {
+     "present": 2,
+     "documented_periods": [
+      "2026-03-31",
+      "2025-09-30"
+     ],
+     "limitation": "Document metadata proves a retained official reporting period, not parsed qualified quarterly financial facts and does not satisfy the eight-quarter gate."
+    },
+    "annual_operating_cash_flow": {
+     "required": 5,
+     "present": 0,
+     "qualified_periods": []
+    },
+    "share_count": {
+     "status": "missing_official_share_count_capital_note_tie_out",
+     "available_on": null,
+     "source": null
+    },
+    "financial_tie_out": {
+     "status": "blocked",
+     "reason": "requires five qualified annual income triplets, eight qualified reported-quarter fact sets, five qualified annual operating-cash-flow periods, an official share-count capital-note tie-out, and no unresolved conflicts"
+    },
+    "operating_lane": {
+     "status": "not_applicable",
+     "activation_status": "not_applicable"
+    },
+    "evidence_gaps": [
+     {
+      "requirement": "qualified_annual_income_triplets",
+      "required": 5,
+      "present": 0,
+      "status": "blocked"
+     },
+     {
+      "requirement": "qualified_reported_quarter_fact_sets",
+      "required": 8,
+      "present": 0,
+      "status": "blocked"
+     },
+     {
+      "requirement": "qualified_annual_operating_cash_flow",
+      "required": 5,
+      "present": 0,
+      "status": "blocked"
+     },
+     {
+      "requirement": "official_share_count_capital_note_tie_out",
+      "required": 1,
+      "present": 0,
+      "status": "blocked"
+     }
+    ],
+    "candidate_documents": [
+     {
+      "document_id": "psx:280213",
+      "title": "Financial Results for the Quarter ended 30 June 2026",
+      "published_at": "2026-07-22T11:38:00+05:00",
+      "source_url": "https://dps.psx.com.pk/download/document/280213.pdf",
+      "safe_period": null,
+      "reason": "retained official document candidate; owner approval is required before any restage"
+     },
+     {
+      "document_id": "psx:276395",
+      "title": "Transmission of Quarterly Report for the Period Ended March 31, 2026",
+      "published_at": "2026-04-30T15:04:00+05:00",
+      "source_url": "https://dps.psx.com.pk/download/document/276395.pdf",
+      "safe_period": {
+       "period_end": "2026-03-31",
+       "period_type": "interim",
+       "source": "title",
+       "matched_text": "Period Ended March 31, 2026"
+      },
+      "reason": "retained official document candidate; owner approval is required before any restage"
+     },
+     {
+      "document_id": "psx:274158",
+      "title": "Financial Results for the Quarter ended March 31, 2026",
+      "published_at": "2026-04-15T11:03:00+05:00",
+      "source_url": "https://dps.psx.com.pk/download/document/274158.pdf",
+      "safe_period": {
+       "period_end": "2026-03-31",
+       "period_type": "interim",
+       "source": "title",
+       "matched_text": "Quarter ended March 31, 2026"
+      },
+      "reason": "retained official document candidate; owner approval is required before any restage"
+     },
+     {
+      "document_id": "psx:271999",
+      "title": "Transmission of Annual Report for the Year Ended December 31, 2025",
+      "published_at": "2026-03-04T11:51:00+05:00",
+      "source_url": "https://dps.psx.com.pk/download/document/271999.pdf",
+      "safe_period": {
+       "period_end": "2025-12-31",
+       "period_type": "annual",
+       "source": "title",
+       "matched_text": "Year Ended December 31, 2025"
+      },
+      "reason": "retained official document candidate; owner approval is required before any restage"
+     },
+     {
+      "document_id": "psx:271010",
+      "title": "Financial Results for the Year Ended 31 December 2025",
+      "published_at": "2026-02-25T11:04:00+05:00",
+      "source_url": "https://dps.psx.com.pk/download/document/271010.pdf",
+      "safe_period": null,
+      "reason": "retained official document candidate; owner approval is required before any restage"
+     }
+    ],
+    "downstream": {
+     "forecast": "blocked_financial_truth_not_qualified",
+     "valuation": "blocked_financial_truth_not_qualified",
+     "market_expectations": "blocked_financial_truth_not_qualified"
+    },
+    "policy": {
+     "raw_financial_values": "not_emitted",
+     "restage": "owner_approval_required",
+     "forecasts": "not_emitted",
+     "valuation": "not_emitted",
+     "market_expectations": "not_emitted"
+    },
+    "candidate_rank": 20,
+    "selection_status": "not_selected"
+   },
    "forecast_readiness": {
     "symbol": "UBL",
     "status": "blocked_insufficient_qualified_history",
@@ -108733,6 +109605,134 @@
      "Revenue, PAT, and EPS values were not inferred.",
      "Forecast and valuation remain blocked."
     ]
+   },
+   "financial_truth_qualification": {
+    "symbol": "FFC",
+    "status": "not_qualified",
+    "qualification_scope": "retained_reported_financial_truth",
+    "annual_income_triplets": {
+     "required": 5,
+     "present": 0,
+     "qualified_periods": []
+    },
+    "qualified_reported_quarter_fact_sets": {
+     "required": 8,
+     "present": 0,
+     "qualified_periods": []
+    },
+    "documented_interim_metadata": {
+     "present": 2,
+     "documented_periods": [
+      "2025-09-30",
+      "2025-06-30"
+     ],
+     "limitation": "Document metadata proves a retained official reporting period, not parsed qualified quarterly financial facts and does not satisfy the eight-quarter gate."
+    },
+    "annual_operating_cash_flow": {
+     "required": 5,
+     "present": 0,
+     "qualified_periods": []
+    },
+    "share_count": {
+     "status": "missing_official_share_count_capital_note_tie_out",
+     "available_on": null,
+     "source": null
+    },
+    "financial_tie_out": {
+     "status": "blocked",
+     "reason": "requires five qualified annual income triplets, eight qualified reported-quarter fact sets, five qualified annual operating-cash-flow periods, an official share-count capital-note tie-out, and no unresolved conflicts"
+    },
+    "operating_lane": {
+     "status": "not_applicable",
+     "activation_status": "not_applicable"
+    },
+    "evidence_gaps": [
+     {
+      "requirement": "qualified_annual_income_triplets",
+      "required": 5,
+      "present": 0,
+      "status": "blocked"
+     },
+     {
+      "requirement": "qualified_reported_quarter_fact_sets",
+      "required": 8,
+      "present": 0,
+      "status": "blocked"
+     },
+     {
+      "requirement": "qualified_annual_operating_cash_flow",
+      "required": 5,
+      "present": 0,
+      "status": "blocked"
+     },
+     {
+      "requirement": "official_share_count_capital_note_tie_out",
+      "required": 1,
+      "present": 0,
+      "status": "blocked"
+     }
+    ],
+    "candidate_documents": [
+     {
+      "document_id": "psx:280460",
+      "title": "Financial Results for the Quarter Ended 30 Jun 2026",
+      "published_at": "2026-07-29T12:18:00+05:00",
+      "source_url": "https://dps.psx.com.pk/download/document/280460.pdf",
+      "safe_period": null,
+      "reason": "retained official document candidate; owner approval is required before any restage"
+     },
+     {
+      "document_id": "psx:276333",
+      "title": "Transmission of Quarterly Report for the Period Ended 31 Mar 2026",
+      "published_at": "2026-04-30T14:41:00+05:00",
+      "source_url": "https://dps.psx.com.pk/download/document/276333.pdf",
+      "safe_period": null,
+      "reason": "retained official document candidate; owner approval is required before any restage"
+     },
+     {
+      "document_id": "psx:275721",
+      "title": "Financial Results for the Quarter Ended March 31. 2026",
+      "published_at": "2026-04-29T12:42:00+05:00",
+      "source_url": "https://dps.psx.com.pk/download/document/275721.pdf",
+      "safe_period": null,
+      "reason": "retained official document candidate; owner approval is required before any restage"
+     },
+     {
+      "document_id": "psx:270829",
+      "title": "Transmission of Annual Report for the Year Ended 31 December 2025",
+      "published_at": "2026-02-23T09:46:00+05:00",
+      "source_url": "https://dps.psx.com.pk/download/document/270829.pdf",
+      "safe_period": {
+       "period_end": null,
+       "period_type": "annual",
+       "source": "metadata",
+       "matched_text": "annual_report"
+      },
+      "reason": "retained official document candidate; owner approval is required before any restage"
+     },
+     {
+      "document_id": "psx:269389",
+      "title": "Financial Results for the Year Ended 31 Dec 2025",
+      "published_at": "2026-01-29T13:20:00+05:00",
+      "source_url": "https://dps.psx.com.pk/download/document/269389.pdf",
+      "safe_period": null,
+      "reason": "retained official document candidate; owner approval is required before any restage"
+     }
+    ],
+    "downstream": {
+     "forecast": "blocked_financial_truth_not_qualified",
+     "valuation": "blocked_financial_truth_not_qualified",
+     "market_expectations": "blocked_financial_truth_not_qualified"
+    },
+    "policy": {
+     "raw_financial_values": "not_emitted",
+     "restage": "owner_approval_required",
+     "forecasts": "not_emitted",
+     "valuation": "not_emitted",
+     "market_expectations": "not_emitted"
+    },
+    "candidate_rank": 8,
+    "selection_status": "not_selected"
    },
    "forecast_readiness": {
     "symbol": "FFC",
@@ -143906,6 +144906,140 @@
      "Forecast and valuation remain blocked."
     ]
    },
+   "financial_truth_qualification": {
+    "symbol": "LUCK",
+    "status": "not_qualified",
+    "qualification_scope": "retained_reported_financial_truth",
+    "annual_income_triplets": {
+     "required": 5,
+     "present": 2,
+     "qualified_periods": [
+      "2025-06-30",
+      "2024-06-30"
+     ]
+    },
+    "qualified_reported_quarter_fact_sets": {
+     "required": 8,
+     "present": 0,
+     "qualified_periods": []
+    },
+    "documented_interim_metadata": {
+     "present": 0,
+     "documented_periods": [],
+     "limitation": "Document metadata proves a retained official reporting period, not parsed qualified quarterly financial facts and does not satisfy the eight-quarter gate."
+    },
+    "annual_operating_cash_flow": {
+     "required": 5,
+     "present": 0,
+     "qualified_periods": []
+    },
+    "share_count": {
+     "status": "missing_official_share_count_capital_note_tie_out",
+     "available_on": null,
+     "source": null
+    },
+    "financial_tie_out": {
+     "status": "blocked",
+     "reason": "requires five qualified annual income triplets, eight qualified reported-quarter fact sets, five qualified annual operating-cash-flow periods, an official share-count capital-note tie-out, and no unresolved conflicts"
+    },
+    "operating_lane": {
+     "status": "missing_retained_cement_operating_history",
+     "activation_status": "blocked_missing_retained_cement_operating_history"
+    },
+    "evidence_gaps": [
+     {
+      "requirement": "qualified_annual_income_triplets",
+      "required": 5,
+      "present": 2,
+      "status": "blocked"
+     },
+     {
+      "requirement": "qualified_reported_quarter_fact_sets",
+      "required": 8,
+      "present": 0,
+      "status": "blocked"
+     },
+     {
+      "requirement": "qualified_annual_operating_cash_flow",
+      "required": 5,
+      "present": 0,
+      "status": "blocked"
+     },
+     {
+      "requirement": "official_share_count_capital_note_tie_out",
+      "required": 1,
+      "present": 0,
+      "status": "blocked"
+     },
+     {
+      "requirement": "unresolved_financial_source_conflicts",
+      "required": 0,
+      "present": 21,
+      "status": "blocked"
+     }
+    ],
+    "candidate_documents": [
+     {
+      "document_id": "psx:280930",
+      "title": "Financial Results for the year ended June 30, 2026",
+      "published_at": "2026-08-10T08:00:00+05:00",
+      "source_url": "https://dps.psx.com.pk/download/document/280930.pdf",
+      "safe_period": {
+       "period_end": "2026-06-30",
+       "period_type": "annual",
+       "source": "title",
+       "matched_text": "year ended June 30, 2026"
+      },
+      "reason": "retained official document candidate; owner approval is required before any restage"
+     },
+     {
+      "document_id": "psx:276255",
+      "title": "Transmission of Quarterly Report for the period ended - Marach 31, 2026",
+      "published_at": "2026-04-30T13:41:00+05:00",
+      "source_url": "https://dps.psx.com.pk/download/document/276255.pdf",
+      "safe_period": null,
+      "reason": "retained official document candidate; owner approval is required before any restage"
+     },
+     {
+      "document_id": "psx:275898",
+      "title": "Financial Results for the Quarter Ended - March 31, 2026",
+      "published_at": "2026-04-30T08:00:00+05:00",
+      "source_url": "https://dps.psx.com.pk/download/document/275898.pdf",
+      "safe_period": null,
+      "reason": "retained official document candidate; owner approval is required before any restage"
+     },
+     {
+      "document_id": "psx:271222",
+      "title": "Transmission of Quarterly Report for the period ended - December 31, 2025",
+      "published_at": "2026-02-26T12:49:00+05:00",
+      "source_url": "https://dps.psx.com.pk/download/document/271222.pdf",
+      "safe_period": null,
+      "reason": "retained official document candidate; owner approval is required before any restage"
+     },
+     {
+      "document_id": "psx:269281",
+      "title": "Financial Results for the Quarter Ended - December 31, 2025",
+      "published_at": "2026-01-28T08:00:00+05:00",
+      "source_url": "https://dps.psx.com.pk/download/document/269281.pdf",
+      "safe_period": null,
+      "reason": "retained official document candidate; owner approval is required before any restage"
+     }
+    ],
+    "downstream": {
+     "forecast": "blocked_financial_truth_not_qualified",
+     "valuation": "blocked_financial_truth_not_qualified",
+     "market_expectations": "blocked_financial_truth_not_qualified"
+    },
+    "policy": {
+     "raw_financial_values": "not_emitted",
+     "restage": "owner_approval_required",
+     "forecasts": "not_emitted",
+     "valuation": "not_emitted",
+     "market_expectations": "not_emitted"
+    },
+    "candidate_rank": 3,
+    "selection_status": "not_selected"
+   },
    "forecast_readiness": {
     "symbol": "LUCK",
     "status": "blocked_insufficient_qualified_history",
@@ -150530,6 +151664,155 @@
      "Forecast and valuation remain blocked."
     ]
    },
+   "financial_truth_qualification": {
+    "symbol": "HUBC",
+    "status": "not_qualified",
+    "qualification_scope": "retained_reported_financial_truth",
+    "annual_income_triplets": {
+     "required": 5,
+     "present": 0,
+     "qualified_periods": []
+    },
+    "qualified_reported_quarter_fact_sets": {
+     "required": 8,
+     "present": 0,
+     "qualified_periods": []
+    },
+    "documented_interim_metadata": {
+     "present": 3,
+     "documented_periods": [
+      "2026-03-31",
+      "2025-12-31",
+      "2025-09-30"
+     ],
+     "limitation": "Document metadata proves a retained official reporting period, not parsed qualified quarterly financial facts and does not satisfy the eight-quarter gate."
+    },
+    "annual_operating_cash_flow": {
+     "required": 5,
+     "present": 0,
+     "qualified_periods": []
+    },
+    "share_count": {
+     "status": "missing_official_share_count_capital_note_tie_out",
+     "available_on": null,
+     "source": null
+    },
+    "financial_tie_out": {
+     "status": "blocked",
+     "reason": "requires five qualified annual income triplets, eight qualified reported-quarter fact sets, five qualified annual operating-cash-flow periods, an official share-count capital-note tie-out, and no unresolved conflicts"
+    },
+    "operating_lane": {
+     "status": "not_applicable",
+     "activation_status": "not_applicable"
+    },
+    "evidence_gaps": [
+     {
+      "requirement": "qualified_annual_income_triplets",
+      "required": 5,
+      "present": 0,
+      "status": "blocked"
+     },
+     {
+      "requirement": "qualified_reported_quarter_fact_sets",
+      "required": 8,
+      "present": 0,
+      "status": "blocked"
+     },
+     {
+      "requirement": "qualified_annual_operating_cash_flow",
+      "required": 5,
+      "present": 0,
+      "status": "blocked"
+     },
+     {
+      "requirement": "official_share_count_capital_note_tie_out",
+      "required": 1,
+      "present": 0,
+      "status": "blocked"
+     }
+    ],
+    "candidate_documents": [
+     {
+      "document_id": "psx:275244",
+      "title": "Transmission of Quarterly Report for the Period Ended March 31, 2026",
+      "published_at": "2026-04-27T11:56:00+05:00",
+      "source_url": "https://dps.psx.com.pk/download/document/275244.pdf",
+      "safe_period": {
+       "period_end": "2026-03-31",
+       "period_type": "interim",
+       "source": "title",
+       "matched_text": "Period Ended March 31, 2026"
+      },
+      "reason": "retained official document candidate; owner approval is required before any restage"
+     },
+     {
+      "document_id": "psx:274797",
+      "title": "Financial Results for the Third Quarter Ended March 31, 2026",
+      "published_at": "2026-04-22T10:51:00+05:00",
+      "source_url": "https://dps.psx.com.pk/download/document/274797.pdf",
+      "safe_period": {
+       "period_end": "2026-03-31",
+       "period_type": "interim",
+       "source": "title",
+       "matched_text": "Quarter Ended March 31, 2026"
+      },
+      "reason": "retained official document candidate; owner approval is required before any restage"
+     },
+     {
+      "document_id": "psx:271343",
+      "title": "Transmission of Quarterly Report for the Period Ended December 31, 2025",
+      "published_at": "2026-02-27T09:43:00+05:00",
+      "source_url": "https://dps.psx.com.pk/download/document/271343.pdf",
+      "safe_period": {
+       "period_end": "2025-12-31",
+       "period_type": "interim",
+       "source": "title",
+       "matched_text": "Period Ended December 31, 2025"
+      },
+      "reason": "retained official document candidate; owner approval is required before any restage"
+     },
+     {
+      "document_id": "psx:270923",
+      "title": "Financial Results for the Half Year Ended December 31, 2025",
+      "published_at": "2026-02-24T10:26:00+05:00",
+      "source_url": "https://dps.psx.com.pk/download/document/270923.pdf",
+      "safe_period": {
+       "period_end": "2025-12-31",
+       "period_type": "interim",
+       "source": "title",
+       "matched_text": "Half Year Ended December 31, 2025"
+      },
+      "reason": "retained official document candidate; owner approval is required before any restage"
+     },
+     {
+      "document_id": "psx:264482",
+      "title": "Transmission of Quarterly Report for the Period Ended September 30, 2025",
+      "published_at": "2025-10-30T14:46:00+05:00",
+      "source_url": "https://dps.psx.com.pk/download/document/264482.pdf",
+      "safe_period": {
+       "period_end": "2025-09-30",
+       "period_type": "interim",
+       "source": "title",
+       "matched_text": "Period Ended September 30, 2025"
+      },
+      "reason": "retained official document candidate; owner approval is required before any restage"
+     }
+    ],
+    "downstream": {
+     "forecast": "blocked_financial_truth_not_qualified",
+     "valuation": "blocked_financial_truth_not_qualified",
+     "market_expectations": "blocked_financial_truth_not_qualified"
+    },
+    "policy": {
+     "raw_financial_values": "not_emitted",
+     "restage": "owner_approval_required",
+     "forecasts": "not_emitted",
+     "valuation": "not_emitted",
+     "market_expectations": "not_emitted"
+    },
+    "candidate_rank": 11,
+    "selection_status": "not_selected"
+   },
    "forecast_readiness": {
     "symbol": "HUBC",
     "status": "blocked_insufficient_qualified_history",
@@ -153705,6 +154988,155 @@
      "Revenue, PAT, and EPS values were not inferred.",
      "Forecast and valuation remain blocked."
     ]
+   },
+   "financial_truth_qualification": {
+    "symbol": "PRL",
+    "status": "not_qualified",
+    "qualification_scope": "retained_reported_financial_truth",
+    "annual_income_triplets": {
+     "required": 5,
+     "present": 0,
+     "qualified_periods": []
+    },
+    "qualified_reported_quarter_fact_sets": {
+     "required": 8,
+     "present": 0,
+     "qualified_periods": []
+    },
+    "documented_interim_metadata": {
+     "present": 3,
+     "documented_periods": [
+      "2026-03-31",
+      "2025-12-31",
+      "2025-09-30"
+     ],
+     "limitation": "Document metadata proves a retained official reporting period, not parsed qualified quarterly financial facts and does not satisfy the eight-quarter gate."
+    },
+    "annual_operating_cash_flow": {
+     "required": 5,
+     "present": 0,
+     "qualified_periods": []
+    },
+    "share_count": {
+     "status": "missing_official_share_count_capital_note_tie_out",
+     "available_on": null,
+     "source": null
+    },
+    "financial_tie_out": {
+     "status": "blocked",
+     "reason": "requires five qualified annual income triplets, eight qualified reported-quarter fact sets, five qualified annual operating-cash-flow periods, an official share-count capital-note tie-out, and no unresolved conflicts"
+    },
+    "operating_lane": {
+     "status": "not_applicable",
+     "activation_status": "not_applicable"
+    },
+    "evidence_gaps": [
+     {
+      "requirement": "qualified_annual_income_triplets",
+      "required": 5,
+      "present": 0,
+      "status": "blocked"
+     },
+     {
+      "requirement": "qualified_reported_quarter_fact_sets",
+      "required": 8,
+      "present": 0,
+      "status": "blocked"
+     },
+     {
+      "requirement": "qualified_annual_operating_cash_flow",
+      "required": 5,
+      "present": 0,
+      "status": "blocked"
+     },
+     {
+      "requirement": "official_share_count_capital_note_tie_out",
+      "required": 1,
+      "present": 0,
+      "status": "blocked"
+     }
+    ],
+    "candidate_documents": [
+     {
+      "document_id": "psx:281136",
+      "title": "Financial Results for the Year Ended June 30, 2026",
+      "published_at": "2026-08-13T12:59:00+05:00",
+      "source_url": "https://dps.psx.com.pk/download/document/281136.pdf",
+      "safe_period": {
+       "period_end": "2026-06-30",
+       "period_type": "annual",
+       "source": "title",
+       "matched_text": "Year Ended June 30, 2026"
+      },
+      "reason": "retained official document candidate; owner approval is required before any restage"
+     },
+     {
+      "document_id": "psx:275960",
+      "title": "Transmission of Quarterly Report for the Period Ended March 31, 2026",
+      "published_at": "2026-04-30T09:48:00+05:00",
+      "source_url": "https://dps.psx.com.pk/download/document/275960.pdf",
+      "safe_period": {
+       "period_end": "2026-03-31",
+       "period_type": "interim",
+       "source": "title",
+       "matched_text": "Period Ended March 31, 2026"
+      },
+      "reason": "retained official document candidate; owner approval is required before any restage"
+     },
+     {
+      "document_id": "psx:274659",
+      "title": "Financial Results for the Quarter Ended March 31, 2026",
+      "published_at": "2026-04-21T13:45:00+05:00",
+      "source_url": "https://dps.psx.com.pk/download/document/274659.pdf",
+      "safe_period": {
+       "period_end": "2026-03-31",
+       "period_type": "interim",
+       "source": "title",
+       "matched_text": "Quarter Ended March 31, 2026"
+      },
+      "reason": "retained official document candidate; owner approval is required before any restage"
+     },
+     {
+      "document_id": "psx:271009",
+      "title": "Transmission of Quarterly Report for the Period Ended December 31, 2025",
+      "published_at": "2026-02-25T11:03:00+05:00",
+      "source_url": "https://dps.psx.com.pk/download/document/271009.pdf",
+      "safe_period": {
+       "period_end": "2025-12-31",
+       "period_type": "interim",
+       "source": "title",
+       "matched_text": "Period Ended December 31, 2025"
+      },
+      "reason": "retained official document candidate; owner approval is required before any restage"
+     },
+     {
+      "document_id": "psx:269565",
+      "title": "Financial Results for the Half Year ended December 31, 2025",
+      "published_at": "2026-02-02T13:22:00+05:00",
+      "source_url": "https://dps.psx.com.pk/download/document/269565.pdf",
+      "safe_period": {
+       "period_end": "2025-12-31",
+       "period_type": "interim",
+       "source": "title",
+       "matched_text": "Half Year ended December 31, 2025"
+      },
+      "reason": "retained official document candidate; owner approval is required before any restage"
+     }
+    ],
+    "downstream": {
+     "forecast": "blocked_financial_truth_not_qualified",
+     "valuation": "blocked_financial_truth_not_qualified",
+     "market_expectations": "blocked_financial_truth_not_qualified"
+    },
+    "policy": {
+     "raw_financial_values": "not_emitted",
+     "restage": "owner_approval_required",
+     "forecasts": "not_emitted",
+     "valuation": "not_emitted",
+     "market_expectations": "not_emitted"
+    },
+    "candidate_rank": 18,
+    "selection_status": "not_selected"
    },
    "forecast_readiness": {
     "symbol": "PRL",
@@ -164408,6 +165840,145 @@
      "Forecast and valuation remain blocked."
     ]
    },
+   "financial_truth_qualification": {
+    "symbol": "BOP",
+    "status": "not_qualified",
+    "qualification_scope": "retained_reported_financial_truth",
+    "annual_income_triplets": {
+     "required": 5,
+     "present": 0,
+     "qualified_periods": []
+    },
+    "qualified_reported_quarter_fact_sets": {
+     "required": 8,
+     "present": 0,
+     "qualified_periods": []
+    },
+    "documented_interim_metadata": {
+     "present": 3,
+     "documented_periods": [
+      "2026-03-31",
+      "2025-09-30",
+      "2025-06-30"
+     ],
+     "limitation": "Document metadata proves a retained official reporting period, not parsed qualified quarterly financial facts and does not satisfy the eight-quarter gate."
+    },
+    "annual_operating_cash_flow": {
+     "required": 5,
+     "present": 0,
+     "qualified_periods": []
+    },
+    "share_count": {
+     "status": "missing_official_share_count_capital_note_tie_out",
+     "available_on": null,
+     "source": null
+    },
+    "financial_tie_out": {
+     "status": "blocked",
+     "reason": "requires five qualified annual income triplets, eight qualified reported-quarter fact sets, five qualified annual operating-cash-flow periods, an official share-count capital-note tie-out, and no unresolved conflicts"
+    },
+    "operating_lane": {
+     "status": "not_applicable",
+     "activation_status": "not_applicable"
+    },
+    "evidence_gaps": [
+     {
+      "requirement": "qualified_annual_income_triplets",
+      "required": 5,
+      "present": 0,
+      "status": "blocked"
+     },
+     {
+      "requirement": "qualified_reported_quarter_fact_sets",
+      "required": 8,
+      "present": 0,
+      "status": "blocked"
+     },
+     {
+      "requirement": "qualified_annual_operating_cash_flow",
+      "required": 5,
+      "present": 0,
+      "status": "blocked"
+     },
+     {
+      "requirement": "official_share_count_capital_note_tie_out",
+      "required": 1,
+      "present": 0,
+      "status": "blocked"
+     }
+    ],
+    "candidate_documents": [
+     {
+      "document_id": "psx:281339",
+      "title": "Ballot Paper of Extraordinary General Meeting-2026",
+      "published_at": "2026-08-19T11:15:00+05:00",
+      "source_url": "https://dps.psx.com.pk/download/document/281339.pdf",
+      "safe_period": null,
+      "reason": "retained official document candidate; owner approval is required before any restage"
+     },
+     {
+      "document_id": "psx:278228",
+      "title": "NEWSPAPER ADVERTISEMENTS FOR BOOK CLOSURE OF BOP ADT-1 CAPITAL TFC - 2022 (PERPETUAL) BOPTFC2",
+      "published_at": "2026-06-05T14:32:00+05:00",
+      "source_url": "https://dps.psx.com.pk/download/document/278228.pdf",
+      "safe_period": null,
+      "reason": "retained official document candidate; owner approval is required before any restage"
+     },
+     {
+      "document_id": "psx:276095",
+      "title": "Transmission of Quarterly Financial Statements for the Period Ended March 31, 2026",
+      "published_at": "2026-04-30T11:50:00+05:00",
+      "source_url": "https://dps.psx.com.pk/download/document/276095.pdf",
+      "safe_period": {
+       "period_end": "2026-03-31",
+       "period_type": "interim",
+       "source": "title",
+       "matched_text": "Period Ended March 31, 2026"
+      },
+      "reason": "retained official document candidate; owner approval is required before any restage"
+     },
+     {
+      "document_id": "psx:275329",
+      "title": "FINANCIAL RESULTS FOR THE 1ST QUARTER ENDED MARCH 31, 2026",
+      "published_at": "2026-04-27T14:46:00+05:00",
+      "source_url": "https://dps.psx.com.pk/download/document/275329.pdf",
+      "safe_period": {
+       "period_end": "2026-03-31",
+       "period_type": "interim",
+       "source": "title",
+       "matched_text": "QUARTER ENDED MARCH 31, 2026"
+      },
+      "reason": "retained official document candidate; owner approval is required before any restage"
+     },
+     {
+      "document_id": "psx:272102",
+      "title": "Transmission of Annual Report for the Year Ended 12/31/2025",
+      "published_at": "2026-03-05T12:29:00+05:00",
+      "source_url": "https://dps.psx.com.pk/download/document/272102.pdf",
+      "safe_period": {
+       "period_end": null,
+       "period_type": "annual",
+       "source": "metadata",
+       "matched_text": "annual_report"
+      },
+      "reason": "retained official document candidate; owner approval is required before any restage"
+     }
+    ],
+    "downstream": {
+     "forecast": "blocked_financial_truth_not_qualified",
+     "valuation": "blocked_financial_truth_not_qualified",
+     "market_expectations": "blocked_financial_truth_not_qualified"
+    },
+    "policy": {
+     "raw_financial_values": "not_emitted",
+     "restage": "owner_approval_required",
+     "forecasts": "not_emitted",
+     "valuation": "not_emitted",
+     "market_expectations": "not_emitted"
+    },
+    "candidate_rank": 5,
+    "selection_status": "not_selected"
+   },
    "forecast_readiness": {
     "symbol": "BOP",
     "status": "blocked_insufficient_qualified_history",
@@ -170741,6 +172312,155 @@
      "Forecast and valuation remain blocked."
     ]
    },
+   "financial_truth_qualification": {
+    "symbol": "NBP",
+    "status": "not_qualified",
+    "qualification_scope": "retained_reported_financial_truth",
+    "annual_income_triplets": {
+     "required": 5,
+     "present": 0,
+     "qualified_periods": []
+    },
+    "qualified_reported_quarter_fact_sets": {
+     "required": 8,
+     "present": 0,
+     "qualified_periods": []
+    },
+    "documented_interim_metadata": {
+     "present": 3,
+     "documented_periods": [
+      "2026-03-31",
+      "2025-09-30",
+      "2025-06-30"
+     ],
+     "limitation": "Document metadata proves a retained official reporting period, not parsed qualified quarterly financial facts and does not satisfy the eight-quarter gate."
+    },
+    "annual_operating_cash_flow": {
+     "required": 5,
+     "present": 0,
+     "qualified_periods": []
+    },
+    "share_count": {
+     "status": "missing_official_share_count_capital_note_tie_out",
+     "available_on": null,
+     "source": null
+    },
+    "financial_tie_out": {
+     "status": "blocked",
+     "reason": "requires five qualified annual income triplets, eight qualified reported-quarter fact sets, five qualified annual operating-cash-flow periods, an official share-count capital-note tie-out, and no unresolved conflicts"
+    },
+    "operating_lane": {
+     "status": "not_applicable",
+     "activation_status": "not_applicable"
+    },
+    "evidence_gaps": [
+     {
+      "requirement": "qualified_annual_income_triplets",
+      "required": 5,
+      "present": 0,
+      "status": "blocked"
+     },
+     {
+      "requirement": "qualified_reported_quarter_fact_sets",
+      "required": 8,
+      "present": 0,
+      "status": "blocked"
+     },
+     {
+      "requirement": "qualified_annual_operating_cash_flow",
+      "required": 5,
+      "present": 0,
+      "status": "blocked"
+     },
+     {
+      "requirement": "official_share_count_capital_note_tie_out",
+      "required": 1,
+      "present": 0,
+      "status": "blocked"
+     }
+    ],
+    "candidate_documents": [
+     {
+      "document_id": "psx:275835",
+      "title": "Transmission of Quarterly Report for the Period Ended March 31, 2026",
+      "published_at": "2026-04-29T14:54:00+05:00",
+      "source_url": "https://dps.psx.com.pk/download/document/275835.pdf",
+      "safe_period": {
+       "period_end": "2026-03-31",
+       "period_type": "interim",
+       "source": "title",
+       "matched_text": "Period Ended March 31, 2026"
+      },
+      "reason": "retained official document candidate; owner approval is required before any restage"
+     },
+     {
+      "document_id": "psx:275715",
+      "title": "FINANCIAL RESULTS FOR THE QUARTER ENDED MARCH 31, 2026",
+      "published_at": "2026-04-29T12:33:00+05:00",
+      "source_url": "https://dps.psx.com.pk/download/document/275715.pdf",
+      "safe_period": {
+       "period_end": "2026-03-31",
+       "period_type": "interim",
+       "source": "title",
+       "matched_text": "QUARTER ENDED MARCH 31, 2026"
+      },
+      "reason": "retained official document candidate; owner approval is required before any restage"
+     },
+     {
+      "document_id": "psx:272246",
+      "title": "Transmission of Annual Report for the Year Ended December 31, 2025",
+      "published_at": "2026-03-09T11:56:00+05:00",
+      "source_url": "https://dps.psx.com.pk/download/document/272246.pdf",
+      "safe_period": {
+       "period_end": "2025-12-31",
+       "period_type": "annual",
+       "source": "title",
+       "matched_text": "Year Ended December 31, 2025"
+      },
+      "reason": "retained official document candidate; owner approval is required before any restage"
+     },
+     {
+      "document_id": "psx:270984",
+      "title": "Financial Results For the Year Ended December 31, 2025",
+      "published_at": "2026-02-25T08:48:00+05:00",
+      "source_url": "https://dps.psx.com.pk/download/document/270984.pdf",
+      "safe_period": {
+       "period_end": "2025-12-31",
+       "period_type": "annual",
+       "source": "title",
+       "matched_text": "Year Ended December 31, 2025"
+      },
+      "reason": "retained official document candidate; owner approval is required before any restage"
+     },
+     {
+      "document_id": "psx:263895",
+      "title": "Transmission of Quarterly Report for the Period Ended September 30, 2025",
+      "published_at": "2025-10-29T10:06:00+05:00",
+      "source_url": "https://dps.psx.com.pk/download/document/263895.pdf",
+      "safe_period": {
+       "period_end": "2025-09-30",
+       "period_type": "interim",
+       "source": "title",
+       "matched_text": "Period Ended September 30, 2025"
+      },
+      "reason": "retained official document candidate; owner approval is required before any restage"
+     }
+    ],
+    "downstream": {
+     "forecast": "blocked_financial_truth_not_qualified",
+     "valuation": "blocked_financial_truth_not_qualified",
+     "market_expectations": "blocked_financial_truth_not_qualified"
+    },
+    "policy": {
+     "raw_financial_values": "not_emitted",
+     "restage": "owner_approval_required",
+     "forecasts": "not_emitted",
+     "valuation": "not_emitted",
+     "market_expectations": "not_emitted"
+    },
+    "candidate_rank": 14,
+    "selection_status": "not_selected"
+   },
    "forecast_readiness": {
     "symbol": "NBP",
     "status": "blocked_insufficient_qualified_history",
@@ -175707,6 +177427,156 @@
      "Revenue, PAT, and EPS values were not inferred.",
      "Forecast and valuation remain blocked."
     ]
+   },
+   "financial_truth_qualification": {
+    "symbol": "MEBL",
+    "status": "not_qualified",
+    "qualification_scope": "retained_reported_financial_truth",
+    "annual_income_triplets": {
+     "required": 5,
+     "present": 0,
+     "qualified_periods": []
+    },
+    "qualified_reported_quarter_fact_sets": {
+     "required": 8,
+     "present": 0,
+     "qualified_periods": []
+    },
+    "documented_interim_metadata": {
+     "present": 4,
+     "documented_periods": [
+      "2026-06-30",
+      "2026-03-31",
+      "2025-09-30",
+      "2025-06-30"
+     ],
+     "limitation": "Document metadata proves a retained official reporting period, not parsed qualified quarterly financial facts and does not satisfy the eight-quarter gate."
+    },
+    "annual_operating_cash_flow": {
+     "required": 5,
+     "present": 0,
+     "qualified_periods": []
+    },
+    "share_count": {
+     "status": "missing_official_share_count_capital_note_tie_out",
+     "available_on": null,
+     "source": null
+    },
+    "financial_tie_out": {
+     "status": "blocked",
+     "reason": "requires five qualified annual income triplets, eight qualified reported-quarter fact sets, five qualified annual operating-cash-flow periods, an official share-count capital-note tie-out, and no unresolved conflicts"
+    },
+    "operating_lane": {
+     "status": "not_applicable",
+     "activation_status": "not_applicable"
+    },
+    "evidence_gaps": [
+     {
+      "requirement": "qualified_annual_income_triplets",
+      "required": 5,
+      "present": 0,
+      "status": "blocked"
+     },
+     {
+      "requirement": "qualified_reported_quarter_fact_sets",
+      "required": 8,
+      "present": 0,
+      "status": "blocked"
+     },
+     {
+      "requirement": "qualified_annual_operating_cash_flow",
+      "required": 5,
+      "present": 0,
+      "status": "blocked"
+     },
+     {
+      "requirement": "official_share_count_capital_note_tie_out",
+      "required": 1,
+      "present": 0,
+      "status": "blocked"
+     }
+    ],
+    "candidate_documents": [
+     {
+      "document_id": "psx:281668",
+      "title": "TRANSMISSION OF QUARTERLY REPORT OF MEEZAN BANK LIMITED FOR THE PERIOD ENDED JUNE 30, 2026",
+      "published_at": "2026-08-25T12:10:00+05:00",
+      "source_url": "https://dps.psx.com.pk/download/document/281668.pdf",
+      "safe_period": {
+       "period_end": "2026-06-30",
+       "period_type": "interim",
+       "source": "title",
+       "matched_text": "PERIOD ENDED JUNE 30, 2026"
+      },
+      "reason": "retained official document candidate; owner approval is required before any restage"
+     },
+     {
+      "document_id": "psx:280823",
+      "title": "FINANCIAL RESULTS FOR THE HALF YEAR ENDED JUNE 30, 2026",
+      "published_at": "2026-08-06T13:05:00+05:00",
+      "source_url": "https://dps.psx.com.pk/download/document/280823.pdf",
+      "safe_period": {
+       "period_end": "2026-06-30",
+       "period_type": "interim",
+       "source": "title",
+       "matched_text": "HALF YEAR ENDED JUNE 30, 2026"
+      },
+      "reason": "retained official document candidate; owner approval is required before any restage"
+     },
+     {
+      "document_id": "psx:275643",
+      "title": "TRANSMISSION OF QUARTERLY REPORT OF MEEZAN BANK LIMITED FOR THE PERIOD ENDED MARCH 31, 2026",
+      "published_at": "2026-04-29T10:21:00+05:00",
+      "source_url": "https://dps.psx.com.pk/download/document/275643.pdf",
+      "safe_period": {
+       "period_end": "2026-03-31",
+       "period_type": "interim",
+       "source": "title",
+       "matched_text": "PERIOD ENDED MARCH 31, 2026"
+      },
+      "reason": "retained official document candidate; owner approval is required before any restage"
+     },
+     {
+      "document_id": "psx:275000",
+      "title": "FINANCIAL RESULTS FOR THE QUARTER ENDED MARCH 31, 2026",
+      "published_at": "2026-04-23T13:09:00+05:00",
+      "source_url": "https://dps.psx.com.pk/download/document/275000.pdf",
+      "safe_period": {
+       "period_end": "2026-03-31",
+       "period_type": "interim",
+       "source": "title",
+       "matched_text": "QUARTER ENDED MARCH 31, 2026"
+      },
+      "reason": "retained official document candidate; owner approval is required before any restage"
+     },
+     {
+      "document_id": "psx:272066",
+      "title": "Transmission of Annual Report for the Year Ended December 31, 2025 - Meezan Bank Limited",
+      "published_at": "2026-03-05T11:12:00+05:00",
+      "source_url": "https://dps.psx.com.pk/download/document/272066.pdf",
+      "safe_period": {
+       "period_end": "2025-12-31",
+       "period_type": "annual",
+       "source": "title",
+       "matched_text": "Year Ended December 31, 2025"
+      },
+      "reason": "retained official document candidate; owner approval is required before any restage"
+     }
+    ],
+    "downstream": {
+     "forecast": "blocked_financial_truth_not_qualified",
+     "valuation": "blocked_financial_truth_not_qualified",
+     "market_expectations": "blocked_financial_truth_not_qualified"
+    },
+    "policy": {
+     "raw_financial_values": "not_emitted",
+     "restage": "owner_approval_required",
+     "forecasts": "not_emitted",
+     "valuation": "not_emitted",
+     "market_expectations": "not_emitted"
+    },
+    "candidate_rank": 13,
+    "selection_status": "not_selected"
    },
    "forecast_readiness": {
     "symbol": "MEBL",
@@ -187021,6 +188891,151 @@
      "Forecast and valuation remain blocked."
     ]
    },
+   "financial_truth_qualification": {
+    "symbol": "ATRL",
+    "status": "not_qualified",
+    "qualification_scope": "retained_reported_financial_truth",
+    "annual_income_triplets": {
+     "required": 5,
+     "present": 0,
+     "qualified_periods": []
+    },
+    "qualified_reported_quarter_fact_sets": {
+     "required": 8,
+     "present": 0,
+     "qualified_periods": []
+    },
+    "documented_interim_metadata": {
+     "present": 3,
+     "documented_periods": [
+      "2026-03-31",
+      "2025-12-31",
+      "2025-09-30"
+     ],
+     "limitation": "Document metadata proves a retained official reporting period, not parsed qualified quarterly financial facts and does not satisfy the eight-quarter gate."
+    },
+    "annual_operating_cash_flow": {
+     "required": 5,
+     "present": 0,
+     "qualified_periods": []
+    },
+    "share_count": {
+     "status": "missing_official_share_count_capital_note_tie_out",
+     "available_on": null,
+     "source": null
+    },
+    "financial_tie_out": {
+     "status": "blocked",
+     "reason": "requires five qualified annual income triplets, eight qualified reported-quarter fact sets, five qualified annual operating-cash-flow periods, an official share-count capital-note tie-out, and no unresolved conflicts"
+    },
+    "operating_lane": {
+     "status": "not_applicable",
+     "activation_status": "not_applicable"
+    },
+    "evidence_gaps": [
+     {
+      "requirement": "qualified_annual_income_triplets",
+      "required": 5,
+      "present": 0,
+      "status": "blocked"
+     },
+     {
+      "requirement": "qualified_reported_quarter_fact_sets",
+      "required": 8,
+      "present": 0,
+      "status": "blocked"
+     },
+     {
+      "requirement": "qualified_annual_operating_cash_flow",
+      "required": 5,
+      "present": 0,
+      "status": "blocked"
+     },
+     {
+      "requirement": "official_share_count_capital_note_tie_out",
+      "required": 1,
+      "present": 0,
+      "status": "blocked"
+     },
+     {
+      "requirement": "unresolved_financial_source_conflicts",
+      "required": 0,
+      "present": 6,
+      "status": "blocked"
+     }
+    ],
+    "candidate_documents": [
+     {
+      "document_id": "psx:276353",
+      "title": "TRANSMISSION OF QUARTERLY FINANCIAL STATEMENTS",
+      "published_at": "2026-04-30T14:48:00+05:00",
+      "source_url": "https://dps.psx.com.pk/download/document/276353.pdf",
+      "safe_period": null,
+      "reason": "retained official document candidate; owner approval is required before any restage"
+     },
+     {
+      "document_id": "psx:275863",
+      "title": "FINANCIAL RESULT FOR THE THIRD QUARTER AND NINE MONTHS PERIOD ENDED MARCH 31, 2026",
+      "published_at": "2026-04-29T15:16:00+05:00",
+      "source_url": "https://dps.psx.com.pk/download/document/275863.pdf",
+      "safe_period": {
+       "period_end": "2026-03-31",
+       "period_type": "interim",
+       "source": "title",
+       "matched_text": "PERIOD ENDED MARCH 31, 2026"
+      },
+      "reason": "retained official document candidate; owner approval is required before any restage"
+     },
+     {
+      "document_id": "psx:271401",
+      "title": "Transmission of Quarterly Report for the half year and six months period ended December 31, 2025",
+      "published_at": "2026-02-27T10:42:00+05:00",
+      "source_url": "https://dps.psx.com.pk/download/document/271401.pdf",
+      "safe_period": {
+       "period_end": "2025-12-31",
+       "period_type": "interim",
+       "source": "title",
+       "matched_text": "period ended December 31, 2025"
+      },
+      "reason": "retained official document candidate; owner approval is required before any restage"
+     },
+     {
+      "document_id": "psx:270910",
+      "title": "FINANCIAL RESULTS FOR THE SECOND QUATER ENDED DECEMBER 31, 2025",
+      "published_at": "2026-02-24T09:00:00+05:00",
+      "source_url": "https://dps.psx.com.pk/download/document/270910.pdf",
+      "safe_period": null,
+      "reason": "retained official document candidate; owner approval is required before any restage"
+     },
+     {
+      "document_id": "psx:264643",
+      "title": "Transmission of Quarterly Financial Statements for the period ended September 30, 2025",
+      "published_at": "2025-10-31T08:26:00+05:00",
+      "source_url": "https://dps.psx.com.pk/download/document/264643.pdf",
+      "safe_period": {
+       "period_end": "2025-09-30",
+       "period_type": "interim",
+       "source": "title",
+       "matched_text": "period ended September 30, 2025"
+      },
+      "reason": "retained official document candidate; owner approval is required before any restage"
+     }
+    ],
+    "downstream": {
+     "forecast": "blocked_financial_truth_not_qualified",
+     "valuation": "blocked_financial_truth_not_qualified",
+     "market_expectations": "blocked_financial_truth_not_qualified"
+    },
+    "policy": {
+     "raw_financial_values": "not_emitted",
+     "restage": "owner_approval_required",
+     "forecasts": "not_emitted",
+     "valuation": "not_emitted",
+     "market_expectations": "not_emitted"
+    },
+    "candidate_rank": 4,
+    "selection_status": "not_selected"
+   },
    "forecast_readiness": {
     "symbol": "ATRL",
     "status": "blocked_insufficient_qualified_history",
@@ -191517,6 +193532,156 @@
      "Revenue, PAT, and EPS values were not inferred.",
      "Forecast and valuation remain blocked."
     ]
+   },
+   "financial_truth_qualification": {
+    "symbol": "HBL",
+    "status": "not_qualified",
+    "qualification_scope": "retained_reported_financial_truth",
+    "annual_income_triplets": {
+     "required": 5,
+     "present": 0,
+     "qualified_periods": []
+    },
+    "qualified_reported_quarter_fact_sets": {
+     "required": 8,
+     "present": 0,
+     "qualified_periods": []
+    },
+    "documented_interim_metadata": {
+     "present": 4,
+     "documented_periods": [
+      "2026-06-30",
+      "2026-03-31",
+      "2025-09-30",
+      "2025-06-30"
+     ],
+     "limitation": "Document metadata proves a retained official reporting period, not parsed qualified quarterly financial facts and does not satisfy the eight-quarter gate."
+    },
+    "annual_operating_cash_flow": {
+     "required": 5,
+     "present": 0,
+     "qualified_periods": []
+    },
+    "share_count": {
+     "status": "missing_official_share_count_capital_note_tie_out",
+     "available_on": null,
+     "source": null
+    },
+    "financial_tie_out": {
+     "status": "blocked",
+     "reason": "requires five qualified annual income triplets, eight qualified reported-quarter fact sets, five qualified annual operating-cash-flow periods, an official share-count capital-note tie-out, and no unresolved conflicts"
+    },
+    "operating_lane": {
+     "status": "not_applicable",
+     "activation_status": "not_applicable"
+    },
+    "evidence_gaps": [
+     {
+      "requirement": "qualified_annual_income_triplets",
+      "required": 5,
+      "present": 0,
+      "status": "blocked"
+     },
+     {
+      "requirement": "qualified_reported_quarter_fact_sets",
+      "required": 8,
+      "present": 0,
+      "status": "blocked"
+     },
+     {
+      "requirement": "qualified_annual_operating_cash_flow",
+      "required": 5,
+      "present": 0,
+      "status": "blocked"
+     },
+     {
+      "requirement": "official_share_count_capital_note_tie_out",
+      "required": 1,
+      "present": 0,
+      "status": "blocked"
+     }
+    ],
+    "candidate_documents": [
+     {
+      "document_id": "psx:280734",
+      "title": "Announcement of Financial Results for the Half Year Ended June 30, 2026",
+      "published_at": "2026-08-04T12:54:00+05:00",
+      "source_url": "https://dps.psx.com.pk/download/document/280734.pdf",
+      "safe_period": {
+       "period_end": "2026-06-30",
+       "period_type": "interim",
+       "source": "title",
+       "matched_text": "Half Year Ended June 30, 2026"
+      },
+      "reason": "retained official document candidate; owner approval is required before any restage"
+     },
+     {
+      "document_id": "psx:280267",
+      "title": "Board Meeting for Announcement of Financial Results for the Half Year ended June 30, 2026",
+      "published_at": "2026-07-23T14:15:00+05:00",
+      "source_url": "https://dps.psx.com.pk/download/document/280267.pdf",
+      "safe_period": {
+       "period_end": "2026-06-30",
+       "period_type": "interim",
+       "source": "title",
+       "matched_text": "Half Year ended June 30, 2026"
+      },
+      "reason": "retained official document candidate; owner approval is required before any restage"
+     },
+     {
+      "document_id": "psx:275409",
+      "title": "Transmission of Quarterly Report for the Period Ended March 31, 2026",
+      "published_at": "2026-04-28T09:38:00+05:00",
+      "source_url": "https://dps.psx.com.pk/download/document/275409.pdf",
+      "safe_period": {
+       "period_end": "2026-03-31",
+       "period_type": "interim",
+       "source": "title",
+       "matched_text": "Period Ended March 31, 2026"
+      },
+      "reason": "retained official document candidate; owner approval is required before any restage"
+     },
+     {
+      "document_id": "psx:274357",
+      "title": "Announcement of Financial Results for the First Quarter Ended March 31, 2026",
+      "published_at": "2026-04-17T13:20:00+05:00",
+      "source_url": "https://dps.psx.com.pk/download/document/274357.pdf",
+      "safe_period": {
+       "period_end": "2026-03-31",
+       "period_type": "interim",
+       "source": "title",
+       "matched_text": "Quarter Ended March 31, 2026"
+      },
+      "reason": "retained official document candidate; owner approval is required before any restage"
+     },
+     {
+      "document_id": "psx:273762",
+      "title": "Board Meeting for Announcement of Financial Results for the First Quarter Ended March 31, 2026",
+      "published_at": "2026-04-08T10:59:00+05:00",
+      "source_url": "https://dps.psx.com.pk/download/document/273762.pdf",
+      "safe_period": {
+       "period_end": "2026-03-31",
+       "period_type": "interim",
+       "source": "title",
+       "matched_text": "Quarter Ended March 31, 2026"
+      },
+      "reason": "retained official document candidate; owner approval is required before any restage"
+     }
+    ],
+    "downstream": {
+     "forecast": "blocked_financial_truth_not_qualified",
+     "valuation": "blocked_financial_truth_not_qualified",
+     "market_expectations": "blocked_financial_truth_not_qualified"
+    },
+    "policy": {
+     "raw_financial_values": "not_emitted",
+     "restage": "owner_approval_required",
+     "forecasts": "not_emitted",
+     "valuation": "not_emitted",
+     "market_expectations": "not_emitted"
+    },
+    "candidate_rank": 10,
+    "selection_status": "not_selected"
    },
    "forecast_readiness": {
     "symbol": "HBL",
@@ -200807,6 +202972,156 @@
      "Forecast and valuation remain blocked."
     ]
    },
+   "financial_truth_qualification": {
+    "symbol": "MARI",
+    "status": "not_qualified",
+    "qualification_scope": "retained_reported_financial_truth",
+    "annual_income_triplets": {
+     "required": 5,
+     "present": 0,
+     "qualified_periods": []
+    },
+    "qualified_reported_quarter_fact_sets": {
+     "required": 8,
+     "present": 0,
+     "qualified_periods": []
+    },
+    "documented_interim_metadata": {
+     "present": 3,
+     "documented_periods": [
+      "2026-03-31",
+      "2025-12-31",
+      "2025-09-30"
+     ],
+     "limitation": "Document metadata proves a retained official reporting period, not parsed qualified quarterly financial facts and does not satisfy the eight-quarter gate."
+    },
+    "annual_operating_cash_flow": {
+     "required": 5,
+     "present": 0,
+     "qualified_periods": []
+    },
+    "share_count": {
+     "status": "missing_official_share_count_capital_note_tie_out",
+     "available_on": null,
+     "source": null
+    },
+    "financial_tie_out": {
+     "status": "blocked",
+     "reason": "requires five qualified annual income triplets, eight qualified reported-quarter fact sets, five qualified annual operating-cash-flow periods, an official share-count capital-note tie-out, and no unresolved conflicts"
+    },
+    "operating_lane": {
+     "status": "not_applicable",
+     "activation_status": "not_applicable"
+    },
+    "evidence_gaps": [
+     {
+      "requirement": "qualified_annual_income_triplets",
+      "required": 5,
+      "present": 0,
+      "status": "blocked"
+     },
+     {
+      "requirement": "qualified_reported_quarter_fact_sets",
+      "required": 8,
+      "present": 0,
+      "status": "blocked"
+     },
+     {
+      "requirement": "qualified_annual_operating_cash_flow",
+      "required": 5,
+      "present": 0,
+      "status": "blocked"
+     },
+     {
+      "requirement": "official_share_count_capital_note_tie_out",
+      "required": 1,
+      "present": 0,
+      "status": "blocked"
+     },
+     {
+      "requirement": "unresolved_financial_source_conflicts",
+      "required": 0,
+      "present": 3,
+      "status": "blocked"
+     }
+    ],
+    "candidate_documents": [
+     {
+      "document_id": "psx:280901",
+      "title": "Financial Results for the Year Ended 30-06-2026",
+      "published_at": "2026-08-07T14:36:00+05:00",
+      "source_url": "https://dps.psx.com.pk/download/document/280901.pdf",
+      "safe_period": {
+       "period_end": "2026-06-30",
+       "period_type": "annual",
+       "source": "title",
+       "matched_text": "Year Ended 30-06-2026"
+      },
+      "reason": "retained official document candidate; owner approval is required before any restage"
+     },
+     {
+      "document_id": "psx:275583",
+      "title": "Transmission of Quarterly Report for the Period Ended 2026-03-31",
+      "published_at": "2026-04-28T15:21:00+05:00",
+      "source_url": "https://dps.psx.com.pk/download/document/275583.pdf",
+      "safe_period": {
+       "period_end": "2026-03-31",
+       "period_type": "interim",
+       "source": "title",
+       "matched_text": "Period Ended 2026-03-31"
+      },
+      "reason": "retained official document candidate; owner approval is required before any restage"
+     },
+     {
+      "document_id": "psx:274864",
+      "title": "Financial Results for the Nine Months Ended on March 31, 2026",
+      "published_at": "2026-04-22T13:49:00+05:00",
+      "source_url": "https://dps.psx.com.pk/download/document/274864.pdf",
+      "safe_period": null,
+      "reason": "retained official document candidate; owner approval is required before any restage"
+     },
+     {
+      "document_id": "psx:271327",
+      "title": "Transmission of Quarterly Financial Statements for the Period Ended 2025-12-31",
+      "published_at": "2026-02-27T09:03:00+05:00",
+      "source_url": "https://dps.psx.com.pk/download/document/271327.pdf",
+      "safe_period": {
+       "period_end": "2025-12-31",
+       "period_type": "interim",
+       "source": "title",
+       "matched_text": "Period Ended 2025-12-31"
+      },
+      "reason": "retained official document candidate; owner approval is required before any restage"
+     },
+     {
+      "document_id": "psx:269182",
+      "title": "Financial Results for the Six Months Ended December 31, 2025",
+      "published_at": "2026-01-26T13:25:00+05:00",
+      "source_url": "https://dps.psx.com.pk/download/document/269182.pdf",
+      "safe_period": {
+       "period_end": "2025-12-31",
+       "period_type": "interim",
+       "source": "title",
+       "matched_text": "Six Months Ended December 31, 2025"
+      },
+      "reason": "retained official document candidate; owner approval is required before any restage"
+     }
+    ],
+    "downstream": {
+     "forecast": "blocked_financial_truth_not_qualified",
+     "valuation": "blocked_financial_truth_not_qualified",
+     "market_expectations": "blocked_financial_truth_not_qualified"
+    },
+    "policy": {
+     "raw_financial_values": "not_emitted",
+     "restage": "owner_approval_required",
+     "forecasts": "not_emitted",
+     "valuation": "not_emitted",
+     "market_expectations": "not_emitted"
+    },
+    "candidate_rank": 12,
+    "selection_status": "not_selected"
+   },
    "forecast_readiness": {
     "symbol": "MARI",
     "status": "blocked_insufficient_qualified_history",
@@ -205829,6 +208144,156 @@
      "Forecast and valuation remain blocked."
     ]
    },
+   "financial_truth_qualification": {
+    "symbol": "ENGROH",
+    "status": "not_qualified",
+    "qualification_scope": "retained_reported_financial_truth",
+    "annual_income_triplets": {
+     "required": 5,
+     "present": 0,
+     "qualified_periods": []
+    },
+    "qualified_reported_quarter_fact_sets": {
+     "required": 8,
+     "present": 0,
+     "qualified_periods": []
+    },
+    "documented_interim_metadata": {
+     "present": 4,
+     "documented_periods": [
+      "2026-06-30",
+      "2026-03-31",
+      "2025-09-30",
+      "2025-06-30"
+     ],
+     "limitation": "Document metadata proves a retained official reporting period, not parsed qualified quarterly financial facts and does not satisfy the eight-quarter gate."
+    },
+    "annual_operating_cash_flow": {
+     "required": 5,
+     "present": 0,
+     "qualified_periods": []
+    },
+    "share_count": {
+     "status": "missing_official_share_count_capital_note_tie_out",
+     "available_on": null,
+     "source": null
+    },
+    "financial_tie_out": {
+     "status": "blocked",
+     "reason": "requires five qualified annual income triplets, eight qualified reported-quarter fact sets, five qualified annual operating-cash-flow periods, an official share-count capital-note tie-out, and no unresolved conflicts"
+    },
+    "operating_lane": {
+     "status": "not_applicable",
+     "activation_status": "not_applicable"
+    },
+    "evidence_gaps": [
+     {
+      "requirement": "qualified_annual_income_triplets",
+      "required": 5,
+      "present": 0,
+      "status": "blocked"
+     },
+     {
+      "requirement": "qualified_reported_quarter_fact_sets",
+      "required": 8,
+      "present": 0,
+      "status": "blocked"
+     },
+     {
+      "requirement": "qualified_annual_operating_cash_flow",
+      "required": 5,
+      "present": 0,
+      "status": "blocked"
+     },
+     {
+      "requirement": "official_share_count_capital_note_tie_out",
+      "required": 1,
+      "present": 0,
+      "status": "blocked"
+     }
+    ],
+    "candidate_documents": [
+     {
+      "document_id": "psx:281548",
+      "title": "ANNOUNCEMENT OF FINANCIAL RESULTS FOR THE HALF YEAR ENDED JUNE 30, 2026 (CONSOLIDATED AND STANDALONE)",
+      "published_at": "2026-08-21T16:16:00+05:00",
+      "source_url": "https://dps.psx.com.pk/download/document/281548.pdf",
+      "safe_period": {
+       "period_end": "2026-06-30",
+       "period_type": "interim",
+       "source": "title",
+       "matched_text": "HALF YEAR ENDED JUNE 30, 2026"
+      },
+      "reason": "retained official document candidate; owner approval is required before any restage"
+     },
+     {
+      "document_id": "psx:281377",
+      "title": "Board Meeting for the Announcement of Financial Results for the Six Months ended June 30, 2026 (Change in Timing of Board Meeting)",
+      "published_at": "2026-08-19T14:35:00+05:00",
+      "source_url": "https://dps.psx.com.pk/download/document/281377.pdf",
+      "safe_period": {
+       "period_end": "2026-06-30",
+       "period_type": "interim",
+       "source": "title",
+       "matched_text": "Six Months ended June 30, 2026"
+      },
+      "reason": "retained official document candidate; owner approval is required before any restage"
+     },
+     {
+      "document_id": "psx:281002",
+      "title": "Board Meeting for the Announcement of Financial Results for the Six Months ended June 30, 2026",
+      "published_at": "2026-08-11T11:38:00+05:00",
+      "source_url": "https://dps.psx.com.pk/download/document/281002.pdf",
+      "safe_period": {
+       "period_end": "2026-06-30",
+       "period_type": "interim",
+       "source": "title",
+       "matched_text": "Six Months ended June 30, 2026"
+      },
+      "reason": "retained official document candidate; owner approval is required before any restage"
+     },
+     {
+      "document_id": "psx:276212",
+      "title": "Transmission of Quarterly Financial Statements for the Period Ended March 31, 2026",
+      "published_at": "2026-04-30T13:05:00+05:00",
+      "source_url": "https://dps.psx.com.pk/download/document/276212.pdf",
+      "safe_period": {
+       "period_end": "2026-03-31",
+       "period_type": "interim",
+       "source": "title",
+       "matched_text": "Period Ended March 31, 2026"
+      },
+      "reason": "retained official document candidate; owner approval is required before any restage"
+     },
+     {
+      "document_id": "psx:275279",
+      "title": "FINANCIAL RESULTS FOR THE PERIOD ENDED MARCH 31, 2026 (CONSOLIDATED AND STANDALONE)",
+      "published_at": "2026-04-27T13:22:00+05:00",
+      "source_url": "https://dps.psx.com.pk/download/document/275279.pdf",
+      "safe_period": {
+       "period_end": "2026-03-31",
+       "period_type": "interim",
+       "source": "title",
+       "matched_text": "PERIOD ENDED MARCH 31, 2026"
+      },
+      "reason": "retained official document candidate; owner approval is required before any restage"
+     }
+    ],
+    "downstream": {
+     "forecast": "blocked_financial_truth_not_qualified",
+     "valuation": "blocked_financial_truth_not_qualified",
+     "market_expectations": "blocked_financial_truth_not_qualified"
+    },
+    "policy": {
+     "raw_financial_values": "not_emitted",
+     "restage": "owner_approval_required",
+     "forecasts": "not_emitted",
+     "valuation": "not_emitted",
+     "market_expectations": "not_emitted"
+    },
+    "candidate_rank": 7,
+    "selection_status": "not_selected"
+   },
    "forecast_readiness": {
     "symbol": "ENGROH",
     "status": "blocked_insufficient_qualified_history",
@@ -209403,6 +211868,155 @@
      "Forecast and valuation remain blocked."
     ]
    },
+   "financial_truth_qualification": {
+    "symbol": "GAL",
+    "status": "not_qualified",
+    "qualification_scope": "retained_reported_financial_truth",
+    "annual_income_triplets": {
+     "required": 5,
+     "present": 0,
+     "qualified_periods": []
+    },
+    "qualified_reported_quarter_fact_sets": {
+     "required": 8,
+     "present": 0,
+     "qualified_periods": []
+    },
+    "documented_interim_metadata": {
+     "present": 3,
+     "documented_periods": [
+      "2026-03-31",
+      "2025-12-31",
+      "2025-09-30"
+     ],
+     "limitation": "Document metadata proves a retained official reporting period, not parsed qualified quarterly financial facts and does not satisfy the eight-quarter gate."
+    },
+    "annual_operating_cash_flow": {
+     "required": 5,
+     "present": 0,
+     "qualified_periods": []
+    },
+    "share_count": {
+     "status": "missing_official_share_count_capital_note_tie_out",
+     "available_on": null,
+     "source": null
+    },
+    "financial_tie_out": {
+     "status": "blocked",
+     "reason": "requires five qualified annual income triplets, eight qualified reported-quarter fact sets, five qualified annual operating-cash-flow periods, an official share-count capital-note tie-out, and no unresolved conflicts"
+    },
+    "operating_lane": {
+     "status": "not_applicable",
+     "activation_status": "not_applicable"
+    },
+    "evidence_gaps": [
+     {
+      "requirement": "qualified_annual_income_triplets",
+      "required": 5,
+      "present": 0,
+      "status": "blocked"
+     },
+     {
+      "requirement": "qualified_reported_quarter_fact_sets",
+      "required": 8,
+      "present": 0,
+      "status": "blocked"
+     },
+     {
+      "requirement": "qualified_annual_operating_cash_flow",
+      "required": 5,
+      "present": 0,
+      "status": "blocked"
+     },
+     {
+      "requirement": "official_share_count_capital_note_tie_out",
+      "required": 1,
+      "present": 0,
+      "status": "blocked"
+     }
+    ],
+    "candidate_documents": [
+     {
+      "document_id": "psx:275242",
+      "title": "Transmission of Quarterly Report for the Period Ended March 31, 2026",
+      "published_at": "2026-04-27T11:51:00+05:00",
+      "source_url": "https://dps.psx.com.pk/download/document/275242.pdf",
+      "safe_period": {
+       "period_end": "2026-03-31",
+       "period_type": "interim",
+       "source": "title",
+       "matched_text": "Period Ended March 31, 2026"
+      },
+      "reason": "retained official document candidate; owner approval is required before any restage"
+     },
+     {
+      "document_id": "psx:274331",
+      "title": "Financial Results for the Quarter Ended March 31, 2026",
+      "published_at": "2026-04-17T11:28:00+05:00",
+      "source_url": "https://dps.psx.com.pk/download/document/274331.pdf",
+      "safe_period": {
+       "period_end": "2026-03-31",
+       "period_type": "interim",
+       "source": "title",
+       "matched_text": "Quarter Ended March 31, 2026"
+      },
+      "reason": "retained official document candidate; owner approval is required before any restage"
+     },
+     {
+      "document_id": "psx:270463",
+      "title": "Financial Results for the Half Year ended December 31, 2025",
+      "published_at": "2026-02-18T13:36:00+05:00",
+      "source_url": "https://dps.psx.com.pk/download/document/270463.pdf",
+      "safe_period": {
+       "period_end": "2025-12-31",
+       "period_type": "interim",
+       "source": "title",
+       "matched_text": "Half Year ended December 31, 2025"
+      },
+      "reason": "retained official document candidate; owner approval is required before any restage"
+     },
+     {
+      "document_id": "psx:264201",
+      "title": "Transmission of Quarterly Report for the Period Ended 30-09-2025",
+      "published_at": "2025-10-30T09:41:00+05:00",
+      "source_url": "https://dps.psx.com.pk/download/document/264201.pdf",
+      "safe_period": {
+       "period_end": "2025-09-30",
+       "period_type": "unknown",
+       "source": "title",
+       "matched_text": "30-09-2025"
+      },
+      "reason": "retained official document candidate; owner approval is required before any restage"
+     },
+     {
+      "document_id": "psx:262932",
+      "title": "Financial Results for the Quarter Ended September 30, 2025",
+      "published_at": "2025-10-22T12:27:00+05:00",
+      "source_url": "https://dps.psx.com.pk/download/document/262932.pdf",
+      "safe_period": {
+       "period_end": "2025-09-30",
+       "period_type": "interim",
+       "source": "title",
+       "matched_text": "Quarter Ended September 30, 2025"
+      },
+      "reason": "retained official document candidate; owner approval is required before any restage"
+     }
+    ],
+    "downstream": {
+     "forecast": "blocked_financial_truth_not_qualified",
+     "valuation": "blocked_financial_truth_not_qualified",
+     "market_expectations": "blocked_financial_truth_not_qualified"
+    },
+    "policy": {
+     "raw_financial_values": "not_emitted",
+     "restage": "owner_approval_required",
+     "forecasts": "not_emitted",
+     "valuation": "not_emitted",
+     "market_expectations": "not_emitted"
+    },
+    "candidate_rank": 9,
+    "selection_status": "not_selected"
+   },
    "forecast_readiness": {
     "symbol": "GAL",
     "status": "blocked_insufficient_qualified_history",
@@ -212923,6 +215537,155 @@
      "Revenue, PAT, and EPS values were not inferred.",
      "Forecast and valuation remain blocked."
     ]
+   },
+   "financial_truth_qualification": {
+    "symbol": "NRL",
+    "status": "not_qualified",
+    "qualification_scope": "retained_reported_financial_truth",
+    "annual_income_triplets": {
+     "required": 5,
+     "present": 0,
+     "qualified_periods": []
+    },
+    "qualified_reported_quarter_fact_sets": {
+     "required": 8,
+     "present": 0,
+     "qualified_periods": []
+    },
+    "documented_interim_metadata": {
+     "present": 3,
+     "documented_periods": [
+      "2026-03-31",
+      "2025-12-31",
+      "2025-09-30"
+     ],
+     "limitation": "Document metadata proves a retained official reporting period, not parsed qualified quarterly financial facts and does not satisfy the eight-quarter gate."
+    },
+    "annual_operating_cash_flow": {
+     "required": 5,
+     "present": 0,
+     "qualified_periods": []
+    },
+    "share_count": {
+     "status": "missing_official_share_count_capital_note_tie_out",
+     "available_on": null,
+     "source": null
+    },
+    "financial_tie_out": {
+     "status": "blocked",
+     "reason": "requires five qualified annual income triplets, eight qualified reported-quarter fact sets, five qualified annual operating-cash-flow periods, an official share-count capital-note tie-out, and no unresolved conflicts"
+    },
+    "operating_lane": {
+     "status": "not_applicable",
+     "activation_status": "not_applicable"
+    },
+    "evidence_gaps": [
+     {
+      "requirement": "qualified_annual_income_triplets",
+      "required": 5,
+      "present": 0,
+      "status": "blocked"
+     },
+     {
+      "requirement": "qualified_reported_quarter_fact_sets",
+      "required": 8,
+      "present": 0,
+      "status": "blocked"
+     },
+     {
+      "requirement": "qualified_annual_operating_cash_flow",
+      "required": 5,
+      "present": 0,
+      "status": "blocked"
+     },
+     {
+      "requirement": "official_share_count_capital_note_tie_out",
+      "required": 1,
+      "present": 0,
+      "status": "blocked"
+     }
+    ],
+    "candidate_documents": [
+     {
+      "document_id": "psx:276407",
+      "title": "Transmission of Quarterly Report for the Period Ended March 31, 2026",
+      "published_at": "2026-04-30T15:11:00+05:00",
+      "source_url": "https://dps.psx.com.pk/download/document/276407.pdf",
+      "safe_period": {
+       "period_end": "2026-03-31",
+       "period_type": "interim",
+       "source": "title",
+       "matched_text": "Period Ended March 31, 2026"
+      },
+      "reason": "retained official document candidate; owner approval is required before any restage"
+     },
+     {
+      "document_id": "psx:275684",
+      "title": "Financial Results for the Quarter Ended March 31, 2026",
+      "published_at": "2026-04-29T12:04:00+05:00",
+      "source_url": "https://dps.psx.com.pk/download/document/275684.pdf",
+      "safe_period": {
+       "period_end": "2026-03-31",
+       "period_type": "interim",
+       "source": "title",
+       "matched_text": "Quarter Ended March 31, 2026"
+      },
+      "reason": "retained official document candidate; owner approval is required before any restage"
+     },
+     {
+      "document_id": "psx:271649",
+      "title": "Transmission of Quarterly Report for the Period Ended December 31, 2025",
+      "published_at": "2026-03-02T08:00:00+05:00",
+      "source_url": "https://dps.psx.com.pk/download/document/271649.pdf",
+      "safe_period": {
+       "period_end": "2025-12-31",
+       "period_type": "interim",
+       "source": "title",
+       "matched_text": "Period Ended December 31, 2025"
+      },
+      "reason": "retained official document candidate; owner approval is required before any restage"
+     },
+     {
+      "document_id": "psx:270903",
+      "title": "Financial Results for the Half Year Ended December 31, 2025",
+      "published_at": "2026-02-24T08:08:00+05:00",
+      "source_url": "https://dps.psx.com.pk/download/document/270903.pdf",
+      "safe_period": {
+       "period_end": "2025-12-31",
+       "period_type": "interim",
+       "source": "title",
+       "matched_text": "Half Year Ended December 31, 2025"
+      },
+      "reason": "retained official document candidate; owner approval is required before any restage"
+     },
+     {
+      "document_id": "psx:264606",
+      "title": "Transmission of Quarterly Report for the Period Ended September 30, 2025",
+      "published_at": "2025-10-30T15:25:00+05:00",
+      "source_url": "https://dps.psx.com.pk/download/document/264606.pdf",
+      "safe_period": {
+       "period_end": "2025-09-30",
+       "period_type": "interim",
+       "source": "title",
+       "matched_text": "Period Ended September 30, 2025"
+      },
+      "reason": "retained official document candidate; owner approval is required before any restage"
+     }
+    ],
+    "downstream": {
+     "forecast": "blocked_financial_truth_not_qualified",
+     "valuation": "blocked_financial_truth_not_qualified",
+     "market_expectations": "blocked_financial_truth_not_qualified"
+    },
+    "policy": {
+     "raw_financial_values": "not_emitted",
+     "restage": "owner_approval_required",
+     "forecasts": "not_emitted",
+     "valuation": "not_emitted",
+     "market_expectations": "not_emitted"
+    },
+    "candidate_rank": 15,
+    "selection_status": "not_selected"
    },
    "forecast_readiness": {
     "symbol": "NRL",
@@ -227079,6 +229842,132 @@
      "Forecast and valuation remain blocked."
     ]
    },
+   "financial_truth_qualification": {
+    "symbol": "CNERGY",
+    "status": "not_qualified",
+    "qualification_scope": "retained_reported_financial_truth",
+    "annual_income_triplets": {
+     "required": 5,
+     "present": 0,
+     "qualified_periods": []
+    },
+    "qualified_reported_quarter_fact_sets": {
+     "required": 8,
+     "present": 0,
+     "qualified_periods": []
+    },
+    "documented_interim_metadata": {
+     "present": 0,
+     "documented_periods": [],
+     "limitation": "Document metadata proves a retained official reporting period, not parsed qualified quarterly financial facts and does not satisfy the eight-quarter gate."
+    },
+    "annual_operating_cash_flow": {
+     "required": 5,
+     "present": 0,
+     "qualified_periods": []
+    },
+    "share_count": {
+     "status": "missing_official_share_count_capital_note_tie_out",
+     "available_on": null,
+     "source": null
+    },
+    "financial_tie_out": {
+     "status": "blocked",
+     "reason": "requires five qualified annual income triplets, eight qualified reported-quarter fact sets, five qualified annual operating-cash-flow periods, an official share-count capital-note tie-out, and no unresolved conflicts"
+    },
+    "operating_lane": {
+     "status": "not_applicable",
+     "activation_status": "not_applicable"
+    },
+    "evidence_gaps": [
+     {
+      "requirement": "qualified_annual_income_triplets",
+      "required": 5,
+      "present": 0,
+      "status": "blocked"
+     },
+     {
+      "requirement": "qualified_reported_quarter_fact_sets",
+      "required": 8,
+      "present": 0,
+      "status": "blocked"
+     },
+     {
+      "requirement": "qualified_annual_operating_cash_flow",
+      "required": 5,
+      "present": 0,
+      "status": "blocked"
+     },
+     {
+      "requirement": "official_share_count_capital_note_tie_out",
+      "required": 1,
+      "present": 0,
+      "status": "blocked"
+     },
+     {
+      "requirement": "unresolved_financial_source_conflicts",
+      "required": 0,
+      "present": 5,
+      "status": "blocked"
+     }
+    ],
+    "candidate_documents": [
+     {
+      "document_id": "psx:275984",
+      "title": "Transmission of Quarterly Financial Statements for the Period Ended 31st March 2026",
+      "published_at": "2026-04-30T10:18:00+05:00",
+      "source_url": "https://dps.psx.com.pk/download/document/275984.pdf",
+      "safe_period": null,
+      "reason": "retained official document candidate; owner approval is required before any restage"
+     },
+     {
+      "document_id": "psx:275538",
+      "title": "Financial Results for the Quarter Ended 31st March 2026",
+      "published_at": "2026-04-28T14:40:00+05:00",
+      "source_url": "https://dps.psx.com.pk/download/document/275538.pdf",
+      "safe_period": null,
+      "reason": "retained official document candidate; owner approval is required before any restage"
+     },
+     {
+      "document_id": "psx:271370",
+      "title": "Transmission of Quarterly Report for the Period Ended 31st December 2025",
+      "published_at": "2026-02-27T10:16:00+05:00",
+      "source_url": "https://dps.psx.com.pk/download/document/271370.pdf",
+      "safe_period": null,
+      "reason": "retained official document candidate; owner approval is required before any restage"
+     },
+     {
+      "document_id": "psx:270985",
+      "title": "Financial Results for the Quarter Ended 31st December 2025",
+      "published_at": "2026-02-25T09:05:00+05:00",
+      "source_url": "https://dps.psx.com.pk/download/document/270985.pdf",
+      "safe_period": null,
+      "reason": "retained official document candidate; owner approval is required before any restage"
+     },
+     {
+      "document_id": "psx:264507",
+      "title": "Transmission of Quarterly Report for the Period Ended 30th September 2025",
+      "published_at": "2025-10-30T14:57:00+05:00",
+      "source_url": "https://dps.psx.com.pk/download/document/264507.pdf",
+      "safe_period": null,
+      "reason": "retained official document candidate; owner approval is required before any restage"
+     }
+    ],
+    "downstream": {
+     "forecast": "blocked_financial_truth_not_qualified",
+     "valuation": "blocked_financial_truth_not_qualified",
+     "market_expectations": "blocked_financial_truth_not_qualified"
+    },
+    "policy": {
+     "raw_financial_values": "not_emitted",
+     "restage": "owner_approval_required",
+     "forecasts": "not_emitted",
+     "valuation": "not_emitted",
+     "market_expectations": "not_emitted"
+    },
+    "candidate_rank": 6,
+    "selection_status": "not_selected"
+   },
    "forecast_readiness": {
     "symbol": "CNERGY",
     "status": "blocked_insufficient_qualified_history",
@@ -229568,9 +232457,9 @@
  ],
  "_meta": {
   "generator_version": "ci_artifact_integrity_v1",
-  "source_commit_sha": "6215e1702153903f9174bfec1a90ca64b8ebd58c",
-  "build_cutoff_at": "2026-08-28T15:31:45Z",
-  "generated_at": "2026-08-28T15:31:45Z",
+  "source_commit_sha": "9ea9f8984db3ecdc371fa9102103a85898d5180b",
+  "build_cutoff_at": "2026-08-28T17:15:05Z",
+  "generated_at": "2026-08-28T17:15:05Z",
   "artifact_path": "Henneth Desk 2.CI.0/data/company_intelligence.json",
   "timestamp_semantics": {
    "build_cutoff_at": "generation boundary only; not a source-effective or source-published time",

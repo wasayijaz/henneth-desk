@@ -365,7 +365,7 @@ def check_ci_slice():
     # Wave 1 CI seam: the generated slice must exactly reflect the three authoritative
     # state products. This catches a stale slice even when its legacy fields still look valid.
     wave1 = {}
-    for name in ("operating_events", "driver_graphs", "impact_scenarios", "event_studies", "conditional_benchmarks", "causal_foundations", "financial_model_inputs", "financial_evidence_reconciliation", "earnings_bridges", "financial_coverage", "forecast_readiness", "financial_forecasts", "formal_valuations", "market_expectations", "scenario_lab", "company_brains", "thesis_monitoring", "intelligence_confidence", "management_delivery", "guidance_contradictions", "evidence_watchlist", "monitoring", "peer_registry"):
+    for name in ("operating_events", "driver_graphs", "impact_scenarios", "event_studies", "conditional_benchmarks", "causal_foundations", "financial_model_inputs", "financial_evidence_reconciliation", "earnings_bridges", "financial_coverage", "financial_truth_qualification", "forecast_readiness", "financial_forecasts", "formal_valuations", "market_expectations", "scenario_lab", "company_brains", "thesis_monitoring", "intelligence_confidence", "management_delivery", "guidance_contradictions", "evidence_watchlist", "monitoring", "peer_registry"):
         wave_path = os.path.join(STATE, "company_intel", f"{name}.json")
         try:
             with open(wave_path, encoding="utf-8") as f:
@@ -425,6 +425,7 @@ def check_ci_slice():
         financial_reconciliation_state = (wave1.get("financial_evidence_reconciliation", {}).get("companies", {}).get(sym) or {})
         earnings_bridge_state = (wave1.get("earnings_bridges", {}).get("companies", {}).get(sym) or {})
         financial_coverage_state = (wave1.get("financial_coverage", {}).get("companies", {}).get(sym) or {})
+        financial_truth_state = (wave1.get("financial_truth_qualification", {}).get("companies", {}).get(sym) or {})
         forecast_readiness_state = (wave1.get("forecast_readiness", {}).get("companies", {}).get(sym) or {})
         financial_forecast_state = (wave1.get("financial_forecasts", {}).get("companies", {}).get(sym) or {})
         formal_valuation_state = (wave1.get("formal_valuations", {}).get("companies", {}).get(sym) or {})
@@ -476,6 +477,10 @@ def check_ci_slice():
             fail(f"Henneth Desk 2.CI.0/data/company_intelligence.json: {sym} financial_coverage stale/mismatch")
         if not isinstance(row.get("financial_coverage"), dict):
             fail(f"Henneth Desk 2.CI.0/data/company_intelligence.json: {sym} financial_coverage missing/not object")
+        if row.get("financial_truth_qualification") != financial_truth_state:
+            fail(f"Henneth Desk 2.CI.0/data/company_intelligence.json: {sym} financial_truth_qualification stale/mismatch")
+        if not isinstance(row.get("financial_truth_qualification"), dict):
+            fail(f"Henneth Desk 2.CI.0/data/company_intelligence.json: {sym} financial_truth_qualification missing/not object")
         if row.get("forecast_readiness") != forecast_readiness_state:
             fail(f"Henneth Desk 2.CI.0/data/company_intelligence.json: {sym} forecast_readiness stale/mismatch")
         if not isinstance(row.get("forecast_readiness"), dict):
@@ -893,6 +898,18 @@ def check_financial_coverage():
     except Exception as e:
         fail(f"check_financial_coverage.py did not run — {e}")
 
+def check_financial_truth_qualification():
+    path = os.path.join(ROOT, "scripts", "check_financial_truth_qualification.py")
+    if not os.path.exists(path):
+        fail("check_financial_truth_qualification.py missing")
+        return
+    try:
+        result = subprocess.run([sys.executable, path], capture_output=True, text=True, timeout=30)
+        if result.returncode != 0:
+            fail("financial truth qualification check failed — " + ((result.stdout or result.stderr or "")[-500:].strip()))
+    except Exception as e:
+        fail(f"check_financial_truth_qualification.py did not run — {e}")
+
 def check_financial_statement_v2_candidate_queue():
     path = os.path.join(ROOT, "scripts", "check_financial_statement_v2_candidate_queue.py")
     if not os.path.exists(path):
@@ -1072,6 +1089,18 @@ def check_financial_coverage_ui():
             fail("financial coverage UI check failed — " + ((result.stdout or result.stderr or "")[-500:].strip()))
     except Exception as e:
         fail(f"check_financial_coverage_ui.mjs did not run — {e}")
+
+def check_financial_truth_qualification_ui():
+    path = os.path.join(ROOT, "scripts", "check_financial_truth_qualification_ui.mjs")
+    if not os.path.exists(path):
+        fail("check_financial_truth_qualification_ui.mjs missing")
+        return
+    try:
+        result = subprocess.run(["node", path], capture_output=True, text=True, timeout=30)
+        if result.returncode != 0:
+            fail("financial truth qualification UI check failed — " + ((result.stdout or result.stderr or "")[-500:].strip()))
+    except Exception as e:
+        fail(f"check_financial_truth_qualification_ui.mjs did not run — {e}")
 
 def check_historical_reference_cases_ui():
     path = os.path.join(ROOT, "scripts", "check_historical_reference_cases_ui.mjs")
@@ -1373,6 +1402,7 @@ def main():
     check_private_thesis_storage_receipt()
     check_cement_operating_series_ui()
     check_financial_coverage()
+    check_financial_truth_qualification()
     check_financial_statement_v2_candidate_queue()
     check_financial_reprocess_blockers()
     check_forecast_contract()
@@ -1385,6 +1415,7 @@ def main():
     check_earnings_bridges_ui()
     check_forecast_readiness_ui()
     check_financial_coverage_ui()
+    check_financial_truth_qualification_ui()
     check_historical_reference_cases_ui()
     check_financial_evidence_reconciliation_ui()
     check_company_scenario_lab()

@@ -62,6 +62,9 @@ STEPS = [
     # it never activates financial_model_inputs, forecasts, valuations, or market expectations.
     "build_cement_operating_series.py",
     "cement_historical_reconciliation.py",
+    # Strict retained-evidence qualification scorecard. It selects no facts and
+    # never activates a formal engine; it only records the next evidence gates.
+    "build_financial_truth_qualification.py",
     # Compact issuer-source health index and relationship graph for the private CI surface.
     "build_source_qa.py",
     # Compact CI knowledge graph over official documents, events, facts and issuer sources.
@@ -159,6 +162,7 @@ STEPS = [
     "check_causal_foundations.py",
     "check_conditional_benchmarks.py",
     "check_financial_coverage.py",
+    "check_financial_truth_qualification.py",
     "check_financial_statement_v2_candidate_queue.py",
     "check_ci_reprocess_manifest.py",
     "check_financial_reprocess_blockers.py",

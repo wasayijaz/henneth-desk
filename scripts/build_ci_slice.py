@@ -814,6 +814,7 @@ def build():
     causal_foundations = load_json(STATE / "company_intel" / "causal_foundations.json", {"companies": {}})
     financial_model_inputs = load_json(STATE / "company_intel" / "financial_model_inputs.json", {"companies": {}})
     financial_coverage = load_json(STATE / "company_intel" / "financial_coverage.json", {"companies": {}})
+    financial_truth_qualification = load_json(STATE / "company_intel" / "financial_truth_qualification.json", {"companies": {}})
     forecast_readiness = load_json(STATE / "company_intel" / "forecast_readiness.json", {"companies": {}})
     financial_evidence_reconciliation = load_json(STATE / "company_intel" / "financial_evidence_reconciliation.json", {"companies": {}})
     earnings_bridges = load_json(STATE / "company_intel" / "earnings_bridges.json", {"companies": {}})
@@ -913,6 +914,15 @@ def build():
             "qualification_queue": {
                 "status": "blocked_no_candidate_documents",
                 "candidate_documents": [],
+            },
+        }
+        financial_truth_row = financial_truth_qualification.get("companies", {}).get(sym) or {
+            "symbol": sym,
+            "status": "not_generated",
+            "downstream": {
+                "forecast": "blocked_financial_truth_not_qualified",
+                "valuation": "blocked_financial_truth_not_qualified",
+                "market_expectations": "blocked_financial_truth_not_qualified",
             },
         }
         forecast_readiness_row = forecast_readiness.get("companies", {}).get(sym) or {
@@ -1040,6 +1050,7 @@ def build():
             "financial_evidence_reconciliation": financial_reconciliation_row,
             "earnings_bridges": earnings_bridge_row,
             "financial_coverage": financial_coverage_row,
+            "financial_truth_qualification": financial_truth_row,
             "forecast_readiness": forecast_readiness_row,
             "signal_clusters": signal_cluster_row,
             "thesis_monitoring": thesis_row,

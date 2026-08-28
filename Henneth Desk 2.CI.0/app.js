@@ -3193,6 +3193,38 @@ function renderFinancialCoverage(r) {
   </section>`;
 }
 
+function renderFinancialTruthQualification(r) {
+  const truth = r.financial_truth_qualification && typeof r.financial_truth_qualification === "object" && !Array.isArray(r.financial_truth_qualification)
+    ? r.financial_truth_qualification
+    : null;
+  if (!truth) return `<section class="baseline-section financial-coverage-panel"><h3>Financial-truth qualification</h3><div class="empty">Financial-truth qualification is unavailable: not generated.</div></section>`;
+  const annual = truth.annual_income_triplets || {};
+  const quarters = truth.qualified_reported_quarter_fact_sets || {};
+  const documentedInterim = truth.documented_interim_metadata || {};
+  const cashflow = truth.annual_operating_cash_flow || {};
+  const shares = truth.share_count || {};
+  const tieOut = truth.financial_tie_out || {};
+  const documents = Array.isArray(truth.candidate_documents) ? truth.candidate_documents : [];
+  return `<section class="baseline-section financial-coverage-panel" aria-labelledby="financialTruthQualificationTitle">
+    <h3 id="financialTruthQualificationTitle">Financial-truth qualification</h3>
+    <p class="section-note">Read-only backend qualification state. The browser does not qualify facts, infer coverage, promote audit-only evidence, parse documents, restage sources, calculate forecasts, or value the company.</p>
+    <div class="financial-coverage-summary">
+      <div><span>Status</span><b>${esc(truth.status || "unknown")}</b></div>
+      <div><span>Candidate rank</span><b>${esc(truth.candidate_rank ?? "unknown")}</b></div>
+      <div><span>Selection</span><b>${esc(truth.selection_status || "not selected")}</b></div>
+      <div><span>Tie-out</span><b>${esc(tieOut.status || "unknown")}</b></div>
+      <div><span>Forecast</span><b>${esc(truth.downstream?.forecast || "blocked")}</b></div>
+    </div>
+    <div class="financial-coverage-slots">
+      <article><span>Annual income triplets</span><b>${esc(annual.present ?? 0)} / ${esc(annual.required ?? 5)}</b><small>${esc((annual.qualified_periods || []).join(", ") || "none")}</small></article>
+      <article><span>Qualified reported quarters</span><b>${esc(quarters.present ?? 0)} / ${esc(quarters.required ?? 8)}</b><small>${esc((quarters.qualified_periods || []).join(", ") || "none")} · metadata-only docs: ${esc(documentedInterim.present ?? 0)}</small></article>
+      <article><span>Annual operating cash flow</span><b>${esc(cashflow.present ?? 0)} / ${esc(cashflow.required ?? 5)}</b><small>${esc((cashflow.qualified_periods || []).join(", ") || "none")}</small></article>
+    </div>
+    <div class="financial-coverage-audit"><div><span>Shares outstanding</span><b>${esc(shares.status || "unknown")}</b><small>${esc(shares.limitation || "Official capital-note tie-out required.")}</small></div><div><span>Next evidence blocker</span><b>${esc(tieOut.reason || "unknown")}</b><small>Qualification remains intentionally blocked.</small></div></div>
+    <div class="financial-coverage-docs"><span class="kicker">Retained official document candidates</span>${documents.length ? documents.map(doc => `<article><b>${coverageDocLink(doc)}</b><span>${esc(doc.title || "untitled official document")}</span><small>${esc(doc.reason || "owner review required")}</small></article>`).join("") : `<div class="empty">No retained candidate document references were emitted.</div>`}</div>
+  </section>`;
+}
+
 function referenceCaseRows(r) {
   return Array.isArray(r?.historical_reference_cases?.cases) ? r.historical_reference_cases.cases : [];
 }
@@ -3276,7 +3308,7 @@ function renderFinancialBaseline(r) {
   const downstreamCard = (key, label) => `<div><span>${esc(label)}</span><b>${esc(downstream[key] || "blocked_not_implemented")}</b></div>`;
   const row = (line, item) => `<tr><td>${esc(line)}</td><td>${esc(item.period_end || "Unknown")}</td><td>${esc(item.normalized_value ?? item.value ?? "Unknown")}</td><td>${esc(item.currency || "Unknown")} · ${esc(item.unit || "Unknown")} × ${esc(item.unit_multiplier ?? "Unknown")}</td><td>${esc(item.column_role || "Unknown")} · ${esc(item.consolidation || "Unknown")}</td><td>${esc(item.source_url || item.document_id || "No citation")}</td></tr>`;
   const derivedRows = Object.entries(derived).flatMap(([name, values]) => (values || []).map(v => `<tr><td>${esc(name)}</td><td>${esc(v.period_end || "Unknown")}</td><td>${esc(v.value ?? "Unknown")}</td><td>${esc(v.formula_version || "Unknown")}</td><td>${esc((v.source_fact_ids || []).join(", ") || "Unknown")}</td><td>${esc(v.availability || "Unknown")}</td></tr>`)).join("");
-  return `<section class="panel span9 baseline-shell"><span class="kicker">Financial baseline</span><h2>Reported history and deterministic derivations</h2><p class="section-note">Only current parser-version observations are shown. Values, units, citations, and readiness remain exactly as supplied by the financial model input state.</p><div class="baseline-status"><div><span>Readiness</span><b>${esc(readiness)}</b></div><div><span>Driver registry</span><b>${esc(model.registry_version || "qualitative_registry_only")}</b></div>${downstreamCard("forecast", "Forecast")}${downstreamCard("valuation", "Valuation")}${downstreamCard("market_expectations", "Market expectations")}${downstreamCard("scenario_lab", "Scenario Lab")}</div>${model.quality_flags?.length ? `<p class="baseline-warning">Quality flags: ${esc(model.quality_flags.join(", "))}</p>` : ""}${renderFinancialCoverage(r)}${renderHistoricalReferenceCases(r)}<section class="baseline-section"><h3>Reported observations</h3>${observationRows.length ? `<div class="baseline-table"><table><thead><tr><th>Line</th><th>Period</th><th>Value</th><th>Unit</th><th>Role / basis</th><th>Official citation</th></tr></thead><tbody>${observationRows.map(({ line, item }) => row(line, item)).join("")}</tbody></table></div>` : `<div class="empty">No verified model-loadable observations are available.</div>`}</section><section class="baseline-section"><h3>Derived metrics</h3>${derivedRows ? `<div class="baseline-table"><table><thead><tr><th>Metric</th><th>Period</th><th>Value</th><th>Formula</th><th>Operands</th><th>Available on</th></tr></thead><tbody>${derivedRows}</tbody></table></div>` : `<div class="empty">No derived growth or margin outputs are available.</div>`}</section></section>`;
+  return `<section class="panel span9 baseline-shell"><span class="kicker">Financial baseline</span><h2>Reported history and deterministic derivations</h2><p class="section-note">Only current parser-version observations are shown. Values, units, citations, and readiness remain exactly as supplied by the financial model input state.</p><div class="baseline-status"><div><span>Readiness</span><b>${esc(readiness)}</b></div><div><span>Driver registry</span><b>${esc(model.registry_version || "qualitative_registry_only")}</b></div>${downstreamCard("forecast", "Forecast")}${downstreamCard("valuation", "Valuation")}${downstreamCard("market_expectations", "Market expectations")}${downstreamCard("scenario_lab", "Scenario Lab")}</div>${model.quality_flags?.length ? `<p class="baseline-warning">Quality flags: ${esc(model.quality_flags.join(", "))}</p>` : ""}${renderFinancialTruthQualification(r)}${renderFinancialCoverage(r)}${renderHistoricalReferenceCases(r)}<section class="baseline-section"><h3>Reported observations</h3>${observationRows.length ? `<div class="baseline-table"><table><thead><tr><th>Line</th><th>Period</th><th>Value</th><th>Unit</th><th>Role / basis</th><th>Official citation</th></tr></thead><tbody>${observationRows.map(({ line, item }) => row(line, item)).join("")}</tbody></table></div>` : `<div class="empty">No verified model-loadable observations are available.</div>`}</section><section class="baseline-section"><h3>Derived metrics</h3>${derivedRows ? `<div class="baseline-table"><table><thead><tr><th>Metric</th><th>Period</th><th>Value</th><th>Formula</th><th>Operands</th><th>Available on</th></tr></thead><tbody>${derivedRows}</tbody></table></div>` : `<div class="empty">No derived growth or margin outputs are available.</div>`}</section></section>`;
 }
 
 function renderFinancials(r) {
