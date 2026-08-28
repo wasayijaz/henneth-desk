@@ -31,7 +31,7 @@ source-qualified financial, valuation, and current-price-expectations outputs.
   The execution log below records the investor behaviour, data coverage, and
   unresolved blocker before the next part begins.
 
-## Current baseline — 2026-08-27
+## Current baseline — 2026-08-28
 
 | Area | Retained evidence | Status | Implication for Alpha |
 |---|---|---|---|
@@ -40,8 +40,8 @@ source-qualified financial, valuation, and current-price-expectations outputs.
 | Formal engines | `financial_forecasts.json`, `formal_valuations.json`, `market_expectations.json` | Deterministic code exists; 0 computed / 20 | Alpha must prove live outputs for three cases, not merely engine code. |
 | Historical analogue state | `state/company_intel/conditional_benchmarks.json` | 21 dated benchmarks; thin samples remain suppressed | Golden cases need case-specific, cutoff-safe analogue evidence. |
 | Private thesis storage | `private_thesis_storage_receipt.json` | Schema configured; live CRUD/cross-user RLS proof absent | Persisted owner scenarios/theses stay disabled until verified. |
-| CI release integrity | Generated CI state now carries a reproducible build envelope, but checked-in artifacts cannot contain the hash of the commit that contains them | In progress | Part 0 remains gated on exact release-time restamping plus live deployment/auth proof. |
-| Deployment gate | `docs/OPERATIONS.md` describes main-branch publishing; preview-to-production parity is not yet proven | Open | Part 0 must prevent a failing commit reaching production. |
+| CI release integrity | Generated CI state carries a reproducible build envelope; live preview/production proof has not been run | Deferred by owner | Part 0 remains preserved and does not block current Alpha product development. |
+| Financial truth qualification | `financial_truth_qualification.json`; `financial_reprocess_blockers.json` | DGKC leads but is not golden | Four annual income triplets are qualified; OCF, direct quarters, and an official share-count tie-out remain absent. |
 
 ## Golden-company selection register
 
@@ -60,7 +60,7 @@ eight reported quarters, load-bearing share-count data, and a real dated event.
 | Part | Gate | Status | Visible investor behaviour delivered | Data coverage / unresolved blocker |
 |---|---|---|---|---|
 | 0 | Release integrity | In progress | Every generated private CI artifact is now sealed with a common UTC cutoff, source commit, generator version, and hash manifest; stale or mismatched envelopes fail closed. | Local structural, no-lookahead, artifact-integrity, and focused product checks are green after finalization. A live preview/prod same-commit receipt and owner-auth/runtime smoke evidence still block the gate. |
-| 1 | Model-ready financial truth | Not started | None | Three companies unselected; 5-year/8-quarter, tie-out, cash-flow, and share-count coverage unproven. |
+| 1 | Model-ready financial truth | In progress | Financial truth is now the authoritative fail-closed gate for formal forecast, valuation, and market-expectations output; legacy three-period readiness is descriptive only. | DGKC has 4/5 annual income triplets, 0/5 OCF, 0/8 direct quarters, and no official share-count tie-out. Approved FY25/Q1/Q3 filings were reached but fail the existing page/text-geometry gates; no facts were promoted. |
 | 2 | Three real operating events | Not started | None | Requires one dated, source-backed event and competing explanations per selected company. |
 | 3 | Sector event models | Not started | None | Requires one deterministic E&P, capacity/hiring, and sales-ramp model contract. |
 | 4 | Eight-quarter event-to-financial models | Not started | None | Requires complete actuals and source-labelled analyst assumptions. |
@@ -153,3 +153,5 @@ same commit:
 | 2026-08-28 | Scoped the preview job to `ci-production` too, so GitHub can supply the Vercel credentials at the first provider action without making them repository-wide. | Release workflow structural self-test rejects both an unprotected preview and an unprotected promotion. |
 | 2026-08-28 | Replaced expiring static smoke-token inputs with protected owner/non-owner Supabase email/password secrets. The release smoke exchanges each pair for an in-memory password-grant access token using only the existing public URL and publishable key; no token is emitted or stored. | Offline smoke self-test covers the grant request and private-data gate; workflow checker requires all four credential names and rejects obsolete token inputs. |
 | 2026-08-28 | Removed the local `vercel pull` / prebuilt deploy leg from the protected release workflow after the first controlled preview failed on Vercel project-settings retrieval. The workflow now deploys the restamped source tree directly as the immutable preview and still promotes only that verified deployment. | Release workflow checker fails if `vercel pull` or `--prebuilt` returns to this path. |
+| 2026-08-28 | Began Part 1 Wave 1A and made financial truth the authoritative fail-closed gate for formal forecasts, valuations, and market expectations. Legacy forecast readiness cannot activate an output. | Synthetic positive/negative boundary checks, reconciliation checks, preflight, and artifact-integrity verification. |
+| 2026-08-28 | Retried the owner-approved DGKC filings `psx:260947`, `psx:264120`, and `psx:275807` without widening provider, parser, or source policy. | FY25 annual exceeds the 120-page gate; Q1 FY26 and Q3 FY26 are image-only under the current parser. No receipt, fact, or coverage delta was written; blockers are retained in `financial_reprocess_blockers.json`. |
