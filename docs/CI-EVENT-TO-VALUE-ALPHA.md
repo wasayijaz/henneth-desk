@@ -31,6 +31,34 @@ source-qualified financial, valuation, and current-price-expectations outputs.
   The execution log below records the investor behaviour, data coverage, and
   unresolved blocker before the next part begins.
 
+## Active execution order — vertical case lanes
+
+The numbered Parts below remain the completeness checklist and final acceptance
+standard. Development proceeds vertically by case rather than horizontally by
+shared layer: prove a bounded case lane end to end, then reuse only contracts
+that were actually proven.
+
+1. Keep Part 0's local safety floor active: timestamp meanings, no-lookahead,
+   artifact integrity, and secrets/auth invariants. Live release proof remains
+   deferred until the final release gate.
+2. Establish DGKC first-case viability quickly: a dated, authoritative
+   expansion/commissioning observation, credible mechanism, competing
+   hypotheses, and a bounded official-filing availability audit. Create only
+   an `Observed` case seed if the evidence is defensible; otherwise move to the
+   strongest retained industrial alternative rather than expanding research
+   indefinitely.
+3. Take a viable DGKC lane through financial facts, corroboration, cutoff-safe
+   analogues, calibrated scenarios, deterministic eight-quarter modelling,
+   valuation, price-implied expectations, and the minimum real case interface.
+   A provisional case may progress only through `Observed`, `Corroborated`,
+   `Modelled`, and `Validated` until every Part 1 publication gate is met.
+4. Backfill the complete five annual years, eight reported quarters,
+   share-count history, and tie-outs before `Published`; a source receipt is
+   never progress on its own. Non-load-bearing unavailable disclosure may be
+   marked unknown, but load-bearing gaps remain blocking.
+5. Repeat the proven lane for E&P, then sales-led expansion. Extract a shared
+   abstraction only after the first case demonstrates it is shared.
+
 ## Current baseline — 2026-08-28
 
 | Area | Retained evidence | Status | Implication for Alpha |
