@@ -38,11 +38,9 @@ MIN_NORMALIZED_TEXT_CHARS = 32
 LEGACY_PARSER_REVISION = "legacy_geometry_v1"
 BASE_DPS_HOST = "dps.psx.com.pk"
 APPROVED_WAVE3_ALLOWLIST: frozenset[str] = frozenset({
-    "psx:236626",
-    "psx:280589",
-    "psx:280930",
-    "psx:216733",
-    "psx:237525",
+    "psx:260947",
+    "psx:264120",
+    "psx:275807",
 })
 
 DOCUMENT_ID_RE = re.compile(r"^psx:(\d+)$")

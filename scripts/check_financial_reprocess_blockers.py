@@ -71,7 +71,7 @@ def _assert_shape(payload: dict[str, Any]) -> None:
     if ids != list(APPROVED_BLOCKED_OUTCOMES):
         _fail("blocked documents must preserve manifest/allowlist order")
     companies = payload.get("companies") or {}
-    if set(companies) != {"MLCF", "DGKC", "LUCK"}:
+    if set(companies) != {"DGKC"}:
         _fail("unexpected blocker company boundary")
     required_count = 0
     for row in documents:
@@ -93,8 +93,8 @@ def _assert_shape(payload: dict[str, Any]) -> None:
             required_count += 1
     if (payload.get("summary") or {}).get("required_for_input_readiness_count") != required_count:
         _fail("required readiness summary mismatch")
-    if required_count != 1:
-        _fail("current tranche should have exactly one input-readiness blocker")
+    if required_count != 0:
+        _fail("current tranche blockers are not required for legacy input-readiness status")
 
 
 def main() -> int:

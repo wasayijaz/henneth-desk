@@ -27,39 +27,25 @@ FORBIDDEN_VALUE_KEYS = {"normalized_value", "raw_value", "value", "amount", "eps
 # Document IDs are derived from the current retained coverage metadata.
 APPROVED_REVIEW_SLOTS: tuple[dict[str, Any], ...] = (
     {
-        "symbol": "MLCF",
-        "period": "2024-06-30",
+        "symbol": "DGKC",
+        "period": "2025-06-30",
         "classification": "financial_results",
-        "title_pattern": r"Financial Results for the Year Ended 30[.]06[.]2024",
+        "title_pattern": r"TRANSMISSION OF ANNUAL REPORT FOR THE YEAR ENDED JUNE 30, 2025",
         "require_retained_hash": True,
     },
     {
-        "symbol": "MLCF",
-        "period": "2026-06-30",
+        "symbol": "DGKC",
+        "period": "2025-09-30",
         "classification": "financial_results",
-        "title_pattern": r"MLCF-Financial Results for the year ended June 30, 2026",
+        "title_pattern": r"FINANCIAL RESULTS FOR THE 1ST QUARTER ENDED SEPTEMBER 30, 2025",
         "require_retained_hash": True,
     },
     {
-        "symbol": "LUCK",
-        "period": "2026-06-30",
+        "symbol": "DGKC",
+        "period": "2026-03-31",
         "classification": "financial_results",
-        "title_pattern": r"Financial Results for the year ended June 30, 2026",
-        "require_retained_hash": False,
-    },
-    {
-        "symbol": "DGKC",
-        "period": "2023-06-30",
-        "classification": "financial_statement",
-        "title_pattern": r"TRANSMISSION OF ANNUAL REPORT FOR THE YEAR ENDED JUNE 30, 2023",
-        "require_retained_hash": False,
-    },
-    {
-        "symbol": "DGKC",
-        "period": "2024-06-30",
-        "classification": "financial_statement",
-        "title_pattern": r"TRANSMISSION OF ANNUAL REPORT FOR THE YEAR ENDED JUNE 30, 2024",
-        "require_retained_hash": False,
+        "title_pattern": r"Financial Results for the 3rd Quarter ended March 31, 2026",
+        "require_retained_hash": True,
     },
 )
 

@@ -45,122 +45,14 @@
   "CNERGY"
  ],
  "summary": {
-  "document_count": 5,
-  "company_count": 3,
-  "required_for_input_readiness_count": 1,
+  "document_count": 3,
+  "company_count": 1,
+  "required_for_input_readiness_count": 0,
   "blocked_reasons": [
-   "declared_file_cap_exceeded",
-   "file_page_cap_exceeded",
-   "unsupported_image_only"
+   "transport_error_connection"
   ]
  },
  "companies": {
-  "MLCF": {
-   "symbol": "MLCF",
-   "status": "blocked_tranche_reviewed",
-   "readiness": {
-    "forecast_readiness_status": "input_ready",
-    "qualified_period_count": 3,
-    "financial_model_inputs_status": "ready"
-   },
-   "coverage_status": "complete",
-   "blocked_document_count": 2,
-   "required_blocked_document_count": 0,
-   "blocked_documents": [
-    {
-     "blocker_id": "finreblock_87be06bc24c3c94cc1ad",
-     "document_id": "psx:236626",
-     "symbol": "MLCF",
-     "period": "2024-06-30",
-     "classification": "financial_results",
-     "title": "Financial Results for the Year Ended 30.06.2024",
-     "source_url": "https://dps.psx.com.pk/download/document/236626.pdf",
-     "content_identity": "retained_hash",
-     "safe_period": {
-      "period_end": "2024-06-30",
-      "period_type": "annual",
-      "source": "title",
-      "matched_text": "Year Ended 30.06.2024"
-     },
-     "parser_version": "financial_statement_v2",
-     "parser_revision": "block_geometry_v5",
-     "status": "blocked_by_current_gate",
-     "gate": "parser_text_geometry",
-     "reason": "unsupported_image_only",
-     "canonical_state_committed": false,
-     "receipt_written": false,
-     "facts_emitted": false,
-     "next_status": "not_required_for_current_input_readiness",
-     "next_required_evidence": "Official PSX annual filing for MLCF FY2024 with extractable text/geometry inside the existing PSX caps, or an owner-approved parser policy change."
-    },
-    {
-     "blocker_id": "finreblock_d04fe808e08849e7fcdf",
-     "document_id": "psx:280589",
-     "symbol": "MLCF",
-     "period": "2026-06-30",
-     "classification": "financial_results",
-     "title": "MLCF-Financial Results for the year ended June 30, 2026",
-     "source_url": "https://dps.psx.com.pk/download/document/280589.pdf",
-     "content_identity": "retained_hash",
-     "safe_period": {
-      "period_end": "2026-06-30",
-      "period_type": "annual",
-      "source": "title",
-      "matched_text": "year ended June 30, 2026"
-     },
-     "parser_version": "financial_statement_v2",
-     "parser_revision": "block_geometry_v5",
-     "status": "blocked_by_current_gate",
-     "gate": "parser_text_geometry",
-     "reason": "unsupported_image_only",
-     "canonical_state_committed": false,
-     "receipt_written": false,
-     "facts_emitted": false,
-     "next_status": "not_required_for_current_input_readiness",
-     "next_required_evidence": "Official PSX annual filing for MLCF FY2026 with extractable text/geometry inside the existing PSX caps, or an owner-approved parser policy change."
-    }
-   ]
-  },
-  "LUCK": {
-   "symbol": "LUCK",
-   "status": "blocked_tranche_reviewed",
-   "readiness": {
-    "forecast_readiness_status": "blocked_insufficient_qualified_history",
-    "qualified_period_count": 2,
-    "financial_model_inputs_status": "partial"
-   },
-   "coverage_status": "queued_for_qualification",
-   "blocked_document_count": 1,
-   "required_blocked_document_count": 1,
-   "blocked_documents": [
-    {
-     "blocker_id": "finreblock_e60528d61c360c8cae53",
-     "document_id": "psx:280930",
-     "symbol": "LUCK",
-     "period": "2026-06-30",
-     "classification": "financial_results",
-     "title": "Financial Results for the year ended June 30, 2026",
-     "source_url": "https://dps.psx.com.pk/download/document/280930.pdf",
-     "content_identity": "transport_hash_required_before_receipt",
-     "safe_period": {
-      "period_end": "2026-06-30",
-      "period_type": "annual",
-      "source": "title",
-      "matched_text": "year ended June 30, 2026"
-     },
-     "parser_version": "financial_statement_v2",
-     "parser_revision": "block_geometry_v5",
-     "status": "blocked_by_current_gate",
-     "gate": "transport_file_size",
-     "reason": "declared_file_cap_exceeded",
-     "canonical_state_committed": false,
-     "receipt_written": false,
-     "facts_emitted": false,
-     "next_status": "required_for_input_readiness",
-     "next_required_evidence": "Official LUCK FY2026 annual source that remains within the current 12 MiB PSX file cap and v2 text/geometry parser gates."
-    }
-   ]
-  },
   "DGKC": {
    "symbol": "DGKC",
    "status": "blocked_tranche_reviewed",
@@ -170,205 +62,168 @@
     "financial_model_inputs_status": "ready"
    },
    "coverage_status": "complete",
-   "blocked_document_count": 2,
+   "blocked_document_count": 3,
    "required_blocked_document_count": 0,
    "blocked_documents": [
     {
-     "blocker_id": "finreblock_8b56576de1474441fd75",
-     "document_id": "psx:216733",
+     "blocker_id": "finreblock_07ad49da086e681b90ab",
+     "document_id": "psx:260947",
      "symbol": "DGKC",
-     "period": "2023-06-30",
-     "classification": "financial_statement",
-     "title": "TRANSMISSION OF ANNUAL REPORT FOR THE YEAR ENDED JUNE 30, 2023",
-     "source_url": "https://dps.psx.com.pk/download/document/216733.pdf",
-     "content_identity": "transport_hash_required_before_receipt",
+     "period": "2025-06-30",
+     "classification": "financial_results",
+     "title": "TRANSMISSION OF ANNUAL REPORT FOR THE YEAR ENDED JUNE 30, 2025",
+     "source_url": "https://dps.psx.com.pk/download/document/260947.pdf",
+     "content_identity": "retained_hash",
      "safe_period": {
-      "period_end": "2023-06-30",
+      "period_end": "2025-06-30",
       "period_type": "annual",
       "source": "title",
-      "matched_text": "YEAR ENDED JUNE 30, 2023"
+      "matched_text": "YEAR ENDED JUNE 30, 2025"
      },
      "parser_version": "financial_statement_v2",
      "parser_revision": "block_geometry_v5",
      "status": "blocked_by_current_gate",
-     "gate": "transport_page_count",
-     "reason": "file_page_cap_exceeded",
+     "gate": "transport_network",
+     "reason": "transport_error_connection",
      "canonical_state_committed": false,
      "receipt_written": false,
      "facts_emitted": false,
      "next_status": "not_required_for_current_input_readiness",
-     "next_required_evidence": "Official DGKC FY2023 annual source that remains within the current 120-page PSX page cap and v2 text/geometry parser gates."
+     "next_required_evidence": "Successful exact-ID transport of the retained official DGKC FY2025 annual filing through the existing PSX path; no parser or cap change is authorized."
     },
     {
-     "blocker_id": "finreblock_c16e48b6c06222bdc800",
-     "document_id": "psx:237525",
+     "blocker_id": "finreblock_173599b038e8ea77596b",
+     "document_id": "psx:264120",
      "symbol": "DGKC",
-     "period": "2024-06-30",
-     "classification": "financial_statement",
-     "title": "TRANSMISSION OF ANNUAL REPORT FOR THE YEAR ENDED JUNE 30, 2024",
-     "source_url": "https://dps.psx.com.pk/download/document/237525.pdf",
-     "content_identity": "transport_hash_required_before_receipt",
+     "period": "2025-09-30",
+     "classification": "financial_results",
+     "title": "FINANCIAL RESULTS FOR THE 1ST QUARTER ENDED SEPTEMBER 30, 2025",
+     "source_url": "https://dps.psx.com.pk/download/document/264120.pdf",
+     "content_identity": "retained_hash",
      "safe_period": {
-      "period_end": "2024-06-30",
-      "period_type": "annual",
+      "period_end": "2025-09-30",
+      "period_type": "interim",
       "source": "title",
-      "matched_text": "YEAR ENDED JUNE 30, 2024"
+      "matched_text": "QUARTER ENDED SEPTEMBER 30, 2025"
      },
      "parser_version": "financial_statement_v2",
      "parser_revision": "block_geometry_v5",
      "status": "blocked_by_current_gate",
-     "gate": "transport_file_size",
-     "reason": "declared_file_cap_exceeded",
+     "gate": "transport_network",
+     "reason": "transport_error_connection",
      "canonical_state_committed": false,
      "receipt_written": false,
      "facts_emitted": false,
      "next_status": "not_required_for_current_input_readiness",
-     "next_required_evidence": "Official DGKC FY2024 annual source that remains within the current 12 MiB PSX file cap and v2 text/geometry parser gates."
+     "next_required_evidence": "Successful exact-ID transport of the retained official DGKC Q1 FY2026 filing through the existing PSX path; no parser or cap change is authorized."
+    },
+    {
+     "blocker_id": "finreblock_7ac35955d252516ae1ae",
+     "document_id": "psx:275807",
+     "symbol": "DGKC",
+     "period": "2026-03-31",
+     "classification": "financial_results",
+     "title": "Financial Results for the 3rd Quarter ended March 31, 2026",
+     "source_url": "https://dps.psx.com.pk/download/document/275807.pdf",
+     "content_identity": "retained_hash",
+     "safe_period": {
+      "period_end": "2026-03-31",
+      "period_type": "interim",
+      "source": "title",
+      "matched_text": "Quarter ended March 31, 2026"
+     },
+     "parser_version": "financial_statement_v2",
+     "parser_revision": "block_geometry_v5",
+     "status": "blocked_by_current_gate",
+     "gate": "transport_network",
+     "reason": "transport_error_connection",
+     "canonical_state_committed": false,
+     "receipt_written": false,
+     "facts_emitted": false,
+     "next_status": "not_required_for_current_input_readiness",
+     "next_required_evidence": "Successful exact-ID transport of the retained official DGKC Q3 FY2026 filing through the existing PSX path; no parser or cap change is authorized."
     }
    ]
   }
  },
  "blocked_documents": [
   {
-   "blocker_id": "finreblock_87be06bc24c3c94cc1ad",
-   "document_id": "psx:236626",
-   "symbol": "MLCF",
-   "period": "2024-06-30",
+   "blocker_id": "finreblock_07ad49da086e681b90ab",
+   "document_id": "psx:260947",
+   "symbol": "DGKC",
+   "period": "2025-06-30",
    "classification": "financial_results",
-   "title": "Financial Results for the Year Ended 30.06.2024",
-   "source_url": "https://dps.psx.com.pk/download/document/236626.pdf",
+   "title": "TRANSMISSION OF ANNUAL REPORT FOR THE YEAR ENDED JUNE 30, 2025",
+   "source_url": "https://dps.psx.com.pk/download/document/260947.pdf",
    "content_identity": "retained_hash",
    "safe_period": {
-    "period_end": "2024-06-30",
+    "period_end": "2025-06-30",
     "period_type": "annual",
     "source": "title",
-    "matched_text": "Year Ended 30.06.2024"
+    "matched_text": "YEAR ENDED JUNE 30, 2025"
    },
    "parser_version": "financial_statement_v2",
    "parser_revision": "block_geometry_v5",
    "status": "blocked_by_current_gate",
-   "gate": "parser_text_geometry",
-   "reason": "unsupported_image_only",
+   "gate": "transport_network",
+   "reason": "transport_error_connection",
    "canonical_state_committed": false,
    "receipt_written": false,
    "facts_emitted": false,
    "next_status": "not_required_for_current_input_readiness",
-   "next_required_evidence": "Official PSX annual filing for MLCF FY2024 with extractable text/geometry inside the existing PSX caps, or an owner-approved parser policy change."
+   "next_required_evidence": "Successful exact-ID transport of the retained official DGKC FY2025 annual filing through the existing PSX path; no parser or cap change is authorized."
   },
   {
-   "blocker_id": "finreblock_d04fe808e08849e7fcdf",
-   "document_id": "psx:280589",
-   "symbol": "MLCF",
-   "period": "2026-06-30",
+   "blocker_id": "finreblock_173599b038e8ea77596b",
+   "document_id": "psx:264120",
+   "symbol": "DGKC",
+   "period": "2025-09-30",
    "classification": "financial_results",
-   "title": "MLCF-Financial Results for the year ended June 30, 2026",
-   "source_url": "https://dps.psx.com.pk/download/document/280589.pdf",
+   "title": "FINANCIAL RESULTS FOR THE 1ST QUARTER ENDED SEPTEMBER 30, 2025",
+   "source_url": "https://dps.psx.com.pk/download/document/264120.pdf",
    "content_identity": "retained_hash",
    "safe_period": {
-    "period_end": "2026-06-30",
-    "period_type": "annual",
+    "period_end": "2025-09-30",
+    "period_type": "interim",
     "source": "title",
-    "matched_text": "year ended June 30, 2026"
+    "matched_text": "QUARTER ENDED SEPTEMBER 30, 2025"
    },
    "parser_version": "financial_statement_v2",
    "parser_revision": "block_geometry_v5",
    "status": "blocked_by_current_gate",
-   "gate": "parser_text_geometry",
-   "reason": "unsupported_image_only",
+   "gate": "transport_network",
+   "reason": "transport_error_connection",
    "canonical_state_committed": false,
    "receipt_written": false,
    "facts_emitted": false,
    "next_status": "not_required_for_current_input_readiness",
-   "next_required_evidence": "Official PSX annual filing for MLCF FY2026 with extractable text/geometry inside the existing PSX caps, or an owner-approved parser policy change."
+   "next_required_evidence": "Successful exact-ID transport of the retained official DGKC Q1 FY2026 filing through the existing PSX path; no parser or cap change is authorized."
   },
   {
-   "blocker_id": "finreblock_e60528d61c360c8cae53",
-   "document_id": "psx:280930",
-   "symbol": "LUCK",
-   "period": "2026-06-30",
+   "blocker_id": "finreblock_7ac35955d252516ae1ae",
+   "document_id": "psx:275807",
+   "symbol": "DGKC",
+   "period": "2026-03-31",
    "classification": "financial_results",
-   "title": "Financial Results for the year ended June 30, 2026",
-   "source_url": "https://dps.psx.com.pk/download/document/280930.pdf",
-   "content_identity": "transport_hash_required_before_receipt",
+   "title": "Financial Results for the 3rd Quarter ended March 31, 2026",
+   "source_url": "https://dps.psx.com.pk/download/document/275807.pdf",
+   "content_identity": "retained_hash",
    "safe_period": {
-    "period_end": "2026-06-30",
-    "period_type": "annual",
+    "period_end": "2026-03-31",
+    "period_type": "interim",
     "source": "title",
-    "matched_text": "year ended June 30, 2026"
+    "matched_text": "Quarter ended March 31, 2026"
    },
    "parser_version": "financial_statement_v2",
    "parser_revision": "block_geometry_v5",
    "status": "blocked_by_current_gate",
-   "gate": "transport_file_size",
-   "reason": "declared_file_cap_exceeded",
-   "canonical_state_committed": false,
-   "receipt_written": false,
-   "facts_emitted": false,
-   "next_status": "required_for_input_readiness",
-   "next_required_evidence": "Official LUCK FY2026 annual source that remains within the current 12 MiB PSX file cap and v2 text/geometry parser gates."
-  },
-  {
-   "blocker_id": "finreblock_8b56576de1474441fd75",
-   "document_id": "psx:216733",
-   "symbol": "DGKC",
-   "period": "2023-06-30",
-   "classification": "financial_statement",
-   "title": "TRANSMISSION OF ANNUAL REPORT FOR THE YEAR ENDED JUNE 30, 2023",
-   "source_url": "https://dps.psx.com.pk/download/document/216733.pdf",
-   "content_identity": "transport_hash_required_before_receipt",
-   "safe_period": {
-    "period_end": "2023-06-30",
-    "period_type": "annual",
-    "source": "title",
-    "matched_text": "YEAR ENDED JUNE 30, 2023"
-   },
-   "parser_version": "financial_statement_v2",
-   "parser_revision": "block_geometry_v5",
-   "status": "blocked_by_current_gate",
-   "gate": "transport_page_count",
-   "reason": "file_page_cap_exceeded",
+   "gate": "transport_network",
+   "reason": "transport_error_connection",
    "canonical_state_committed": false,
    "receipt_written": false,
    "facts_emitted": false,
    "next_status": "not_required_for_current_input_readiness",
-   "next_required_evidence": "Official DGKC FY2023 annual source that remains within the current 120-page PSX page cap and v2 text/geometry parser gates."
-  },
-  {
-   "blocker_id": "finreblock_c16e48b6c06222bdc800",
-   "document_id": "psx:237525",
-   "symbol": "DGKC",
-   "period": "2024-06-30",
-   "classification": "financial_statement",
-   "title": "TRANSMISSION OF ANNUAL REPORT FOR THE YEAR ENDED JUNE 30, 2024",
-   "source_url": "https://dps.psx.com.pk/download/document/237525.pdf",
-   "content_identity": "transport_hash_required_before_receipt",
-   "safe_period": {
-    "period_end": "2024-06-30",
-    "period_type": "annual",
-    "source": "title",
-    "matched_text": "YEAR ENDED JUNE 30, 2024"
-   },
-   "parser_version": "financial_statement_v2",
-   "parser_revision": "block_geometry_v5",
-   "status": "blocked_by_current_gate",
-   "gate": "transport_file_size",
-   "reason": "declared_file_cap_exceeded",
-   "canonical_state_committed": false,
-   "receipt_written": false,
-   "facts_emitted": false,
-   "next_status": "not_required_for_current_input_readiness",
-   "next_required_evidence": "Official DGKC FY2024 annual source that remains within the current 12 MiB PSX file cap and v2 text/geometry parser gates."
+   "next_required_evidence": "Successful exact-ID transport of the retained official DGKC Q3 FY2026 filing through the existing PSX path; no parser or cap change is authorized."
   }
- ],
- "_meta": {
-  "generator_version": "ci_artifact_integrity_v1",
-  "source_commit_sha": "9ea9f8984db3ecdc371fa9102103a85898d5180b",
-  "build_cutoff_at": "2026-08-28T17:15:05Z",
-  "generated_at": "2026-08-28T17:15:05Z",
-  "artifact_path": "state/company_intel/financial_reprocess_blockers.json",
-  "timestamp_semantics": {
-   "build_cutoff_at": "generation boundary only; not a source-effective or source-published time",
-   "generated_at": "artifact generation time only; not a source-effective or source-published time"
-  }
- }
+ ]
 }

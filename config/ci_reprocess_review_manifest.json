@@ -1,7 +1,7 @@
 {
  "schema_version": 1,
  "manifest_version": "ci_reprocess_review_manifest_v1",
- "manifest_id": "cirestage_ac0f903948bd7c9cc506",
+ "manifest_id": "cirestage_21ee1a53a75429a29157",
  "source": {
   "financial_coverage": "state/company_intel/financial_coverage.json"
  },
@@ -39,153 +39,97 @@
  ],
  "approved_review_slots": [
   {
-   "symbol": "MLCF",
-   "period": "2024-06-30",
+   "symbol": "DGKC",
+   "period": "2025-06-30",
    "classification": "financial_results",
    "require_retained_hash": true
   },
   {
-   "symbol": "MLCF",
-   "period": "2026-06-30",
+   "symbol": "DGKC",
+   "period": "2025-09-30",
    "classification": "financial_results",
    "require_retained_hash": true
   },
   {
-   "symbol": "LUCK",
-   "period": "2026-06-30",
+   "symbol": "DGKC",
+   "period": "2026-03-31",
    "classification": "financial_results",
-   "require_retained_hash": false
-  },
-  {
-   "symbol": "DGKC",
-   "period": "2023-06-30",
-   "classification": "financial_statement",
-   "require_retained_hash": false
-  },
-  {
-   "symbol": "DGKC",
-   "period": "2024-06-30",
-   "classification": "financial_statement",
-   "require_retained_hash": false
+   "require_retained_hash": true
   }
  ],
  "document_ids": [
-  "psx:236626",
-  "psx:280589",
-  "psx:280930",
-  "psx:216733",
-  "psx:237525"
+  "psx:260947",
+  "psx:264120",
+  "psx:275807"
  ],
  "documents": {
-  "psx:236626": {
-   "document_id": "psx:236626",
-   "symbol": "MLCF",
-   "period": "2024-06-30",
+  "psx:260947": {
+   "document_id": "psx:260947",
+   "symbol": "DGKC",
+   "period": "2025-06-30",
    "classification": "financial_results",
-   "title": "Financial Results for the Year Ended 30.06.2024",
-   "expected_title_pattern": "Financial Results for the Year Ended 30[.]06[.]2024",
-   "published_at": "2024-09-11T09:09:00+05:00",
-   "source_url": "https://dps.psx.com.pk/download/document/236626.pdf",
-   "content_sha256": "98d81e613a6ebaa06757442f7239bf7471315bca6c7e70dff8052f0af3ec91bf",
+   "title": "TRANSMISSION OF ANNUAL REPORT FOR THE YEAR ENDED JUNE 30, 2025",
+   "expected_title_pattern": "TRANSMISSION OF ANNUAL REPORT FOR THE YEAR ENDED JUNE 30, 2025",
+   "published_at": "2025-10-03T11:05:00+05:00",
+   "source_url": "https://dps.psx.com.pk/download/document/260947.pdf",
+   "content_sha256": "1a10091295cf7a815f1910eb418215d501d42b52e39dcbd0b54a53fd1aceaa7d",
    "content_identity": "retained_hash",
    "safe_period": {
-    "period_end": "2024-06-30",
+    "period_end": "2025-06-30",
     "period_type": "annual",
     "source": "title",
-    "matched_text": "Year Ended 30.06.2024"
+    "matched_text": "YEAR ENDED JUNE 30, 2025"
    },
    "approval_status": "owner_review_required",
    "reason": "metadata-derived approved review candidate for bounded CI filing restage"
   },
-  "psx:280589": {
-   "document_id": "psx:280589",
-   "symbol": "MLCF",
-   "period": "2026-06-30",
+  "psx:264120": {
+   "document_id": "psx:264120",
+   "symbol": "DGKC",
+   "period": "2025-09-30",
    "classification": "financial_results",
-   "title": "MLCF-Financial Results for the year ended June 30, 2026",
-   "expected_title_pattern": "MLCF-Financial Results for the year ended June 30, 2026",
-   "published_at": "2026-07-31T08:51:00+05:00",
-   "source_url": "https://dps.psx.com.pk/download/document/280589.pdf",
-   "content_sha256": "c9c7771eaa6a7fc75f6468318218ec85dd7d947637294e6dab9b19c3067ef696",
+   "title": "FINANCIAL RESULTS FOR THE 1ST QUARTER ENDED SEPTEMBER 30, 2025",
+   "expected_title_pattern": "FINANCIAL RESULTS FOR THE 1ST QUARTER ENDED SEPTEMBER 30, 2025",
+   "published_at": "2025-10-29T15:25:00+05:00",
+   "source_url": "https://dps.psx.com.pk/download/document/264120.pdf",
+   "content_sha256": "3e76c18d4656f241c70d04a6618a1050142cc4a339600ef9e62bdcdc5325073f",
    "content_identity": "retained_hash",
    "safe_period": {
-    "period_end": "2026-06-30",
-    "period_type": "annual",
+    "period_end": "2025-09-30",
+    "period_type": "interim",
     "source": "title",
-    "matched_text": "year ended June 30, 2026"
+    "matched_text": "QUARTER ENDED SEPTEMBER 30, 2025"
    },
    "approval_status": "owner_review_required",
    "reason": "metadata-derived approved review candidate for bounded CI filing restage"
   },
-  "psx:280930": {
-   "document_id": "psx:280930",
-   "symbol": "LUCK",
-   "period": "2026-06-30",
+  "psx:275807": {
+   "document_id": "psx:275807",
+   "symbol": "DGKC",
+   "period": "2026-03-31",
    "classification": "financial_results",
-   "title": "Financial Results for the year ended June 30, 2026",
-   "expected_title_pattern": "Financial Results for the year ended June 30, 2026",
-   "published_at": "2026-08-10T08:00:00+05:00",
-   "source_url": "https://dps.psx.com.pk/download/document/280930.pdf",
-   "content_sha256": null,
-   "content_identity": "transport_hash_required_before_receipt",
+   "title": "Financial Results for the 3rd Quarter ended March 31, 2026",
+   "expected_title_pattern": "Financial Results for the 3rd Quarter ended March 31, 2026",
+   "published_at": "2026-04-29T14:26:00+05:00",
+   "source_url": "https://dps.psx.com.pk/download/document/275807.pdf",
+   "content_sha256": "1ba0e993442e81b60c806dc5484ac6cca70b9df7ba6d1666a6627a5b373eaf9f",
+   "content_identity": "retained_hash",
    "safe_period": {
-    "period_end": "2026-06-30",
-    "period_type": "annual",
+    "period_end": "2026-03-31",
+    "period_type": "interim",
     "source": "title",
-    "matched_text": "year ended June 30, 2026"
-   },
-   "approval_status": "owner_review_required",
-   "reason": "metadata-derived approved review candidate for bounded CI filing restage"
-  },
-  "psx:216733": {
-   "document_id": "psx:216733",
-   "symbol": "DGKC",
-   "period": "2023-06-30",
-   "classification": "financial_statement",
-   "title": "TRANSMISSION OF ANNUAL REPORT FOR THE YEAR ENDED JUNE 30, 2023",
-   "expected_title_pattern": "TRANSMISSION OF ANNUAL REPORT FOR THE YEAR ENDED JUNE 30, 2023",
-   "published_at": "2023-10-05T11:13:00+05:00",
-   "source_url": "https://dps.psx.com.pk/download/document/216733.pdf",
-   "content_sha256": null,
-   "content_identity": "transport_hash_required_before_receipt",
-   "safe_period": {
-    "period_end": "2023-06-30",
-    "period_type": "annual",
-    "source": "title",
-    "matched_text": "YEAR ENDED JUNE 30, 2023"
-   },
-   "approval_status": "owner_review_required",
-   "reason": "metadata-derived approved review candidate for bounded CI filing restage"
-  },
-  "psx:237525": {
-   "document_id": "psx:237525",
-   "symbol": "DGKC",
-   "period": "2024-06-30",
-   "classification": "financial_statement",
-   "title": "TRANSMISSION OF ANNUAL REPORT FOR THE YEAR ENDED JUNE 30, 2024",
-   "expected_title_pattern": "TRANSMISSION OF ANNUAL REPORT FOR THE YEAR ENDED JUNE 30, 2024",
-   "published_at": "2024-09-26T09:59:00+05:00",
-   "source_url": "https://dps.psx.com.pk/download/document/237525.pdf",
-   "content_sha256": null,
-   "content_identity": "transport_hash_required_before_receipt",
-   "safe_period": {
-    "period_end": "2024-06-30",
-    "period_type": "annual",
-    "source": "title",
-    "matched_text": "YEAR ENDED JUNE 30, 2024"
+    "matched_text": "Quarter ended March 31, 2026"
    },
    "approval_status": "owner_review_required",
    "reason": "metadata-derived approved review candidate for bounded CI filing restage"
   }
  },
  "summary": {
-  "document_count": 5,
+  "document_count": 3,
   "symbols": [
-   "DGKC",
-   "LUCK",
-   "MLCF"
+   "DGKC"
   ],
-  "retained_hash_count": 2,
-  "transport_hash_required_count": 3
+  "retained_hash_count": 3,
+  "transport_hash_required_count": 0
  }
 }

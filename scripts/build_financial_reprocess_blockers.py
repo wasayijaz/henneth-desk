@@ -22,30 +22,20 @@ PARSER_REVISION = "block_geometry_v5"
 # reprocess_company_documents.py on the already owner-reviewed Wave 3 tranche.
 # They are blockers, not receipts: no canonical state was committed for them.
 APPROVED_BLOCKED_OUTCOMES: dict[str, dict[str, str]] = {
-    "psx:236626": {
-        "gate": "parser_text_geometry",
-        "reason": "unsupported_image_only",
-        "next_required_evidence": "Official PSX annual filing for MLCF FY2024 with extractable text/geometry inside the existing PSX caps, or an owner-approved parser policy change.",
+    "psx:260947": {
+        "gate": "transport_network",
+        "reason": "transport_error_connection",
+        "next_required_evidence": "Successful exact-ID transport of the retained official DGKC FY2025 annual filing through the existing PSX path; no parser or cap change is authorized.",
     },
-    "psx:280589": {
-        "gate": "parser_text_geometry",
-        "reason": "unsupported_image_only",
-        "next_required_evidence": "Official PSX annual filing for MLCF FY2026 with extractable text/geometry inside the existing PSX caps, or an owner-approved parser policy change.",
+    "psx:264120": {
+        "gate": "transport_network",
+        "reason": "transport_error_connection",
+        "next_required_evidence": "Successful exact-ID transport of the retained official DGKC Q1 FY2026 filing through the existing PSX path; no parser or cap change is authorized.",
     },
-    "psx:280930": {
-        "gate": "transport_file_size",
-        "reason": "declared_file_cap_exceeded",
-        "next_required_evidence": "Official LUCK FY2026 annual source that remains within the current 12 MiB PSX file cap and v2 text/geometry parser gates.",
-    },
-    "psx:216733": {
-        "gate": "transport_page_count",
-        "reason": "file_page_cap_exceeded",
-        "next_required_evidence": "Official DGKC FY2023 annual source that remains within the current 120-page PSX page cap and v2 text/geometry parser gates.",
-    },
-    "psx:237525": {
-        "gate": "transport_file_size",
-        "reason": "declared_file_cap_exceeded",
-        "next_required_evidence": "Official DGKC FY2024 annual source that remains within the current 12 MiB PSX file cap and v2 text/geometry parser gates.",
+    "psx:275807": {
+        "gate": "transport_network",
+        "reason": "transport_error_connection",
+        "next_required_evidence": "Successful exact-ID transport of the retained official DGKC Q3 FY2026 filing through the existing PSX path; no parser or cap change is authorized.",
     },
 }
 
