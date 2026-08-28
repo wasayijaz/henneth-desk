@@ -696,7 +696,16 @@ def consume_canonical(registry_path: Path, queue_path: Path, output_root: Path,
     from build_financial_truth_qualification import build as build_financial_truth
     from build_formal_financial_engines import build as build_formal_engines
     from build_evidence_watchlist import build as build_evidence_watchlist
+    from build_company_brains import build as build_company_brains
+    from build_thesis_monitoring import build as build_thesis_monitoring
+    from build_intelligence_confidence import build as build_intelligence_confidence
+    from build_guidance_contradictions import build as build_guidance_contradictions
+    from build_management_delivery import build as build_management_delivery
+    from build_signal_clusters import build as build_signal_clusters
+    from build_ci_monitoring import build as build_ci_monitoring
+    from build_ci_work_routing_policy import build as build_ci_work_routing_policy
     from build_ci_completion_matrix import build as build_ci_completion_matrix
+    from build_ci_artifact_integrity import build as build_ci_artifact_integrity
 
     work_state = output_root / "canonical_state"
     if work_state.exists():
@@ -734,6 +743,22 @@ def consume_canonical(registry_path: Path, queue_path: Path, output_root: Path,
     if ci_builder is None:
         from build_ci_slice import build as build_ci_slice
         ci_builder = build_ci_slice
+    dependent_ci_builders = (
+        () if ci_builder_injected else (
+            build_company_brains,
+            build_thesis_monitoring,
+            build_intelligence_confidence,
+            build_guidance_contradictions,
+            build_management_delivery,
+            build_signal_clusters,
+        )
+    )
+    post_watchlist_builders = (
+        () if ci_builder_injected else (
+            build_ci_monitoring,
+            build_ci_work_routing_policy,
+        )
+    )
     checker = checker or _run_checker
     try:
         for rel in (Path("company_documents.json"), Path("company_event_ledger.json"),
@@ -744,9 +769,15 @@ def consume_canonical(registry_path: Path, queue_path: Path, output_root: Path,
         reconciliation_builder()
         truth_builder()
         formal_builder()
+        for builder in dependent_ci_builders:
+            builder()
         evidence_watchlist_builder()
+        for builder in post_watchlist_builders:
+            builder()
         completion_matrix_builder()
         ci_builder()
+        if not ci_builder_injected:
+            build_ci_artifact_integrity()
         _validate_canonical_boundaries(state_root, before_counts, ci_slice_path)
         for checker_name in (
             "check_financial_model_inputs.py",
