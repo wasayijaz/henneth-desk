@@ -1,7 +1,7 @@
 {
  "schema_version": 1,
  "delivery_version": "management_delivery_v2",
- "as_of": "2026-08-27T09:31:00+05:00",
+ "as_of": "2026-08-29T16:22:34+05:00",
  "pilot_symbols": [
   "ATRL",
   "BOP",
@@ -1533,9 +1533,9 @@
    "status": "tracked",
    "active_thesis_count": 1,
    "delivery_record_count": 1,
-   "guidance_status": "blocked_no_guidance_objects",
-   "guidance_object_count": 0,
-   "guidance_record_count": 0,
+   "guidance_status": "available",
+   "guidance_object_count": 1,
+   "guidance_record_count": 1,
    "records": [
     {
      "delivery_id": "delivery_6d2f659b5980d16b596a",
@@ -1577,7 +1577,52 @@
      ]
     }
    ],
-   "guidance_records": []
+   "guidance_records": [
+    {
+     "guidance_record_id": "guidance_delivery_bc266fe5ac5342c200c0",
+     "symbol": "MLCF",
+     "guidance_id": "guidance_057b02e44c2d5013714b",
+     "assertion_key": "risks:default_from_counter_parties_kept_minimum:risk_present",
+     "conflict_key": "risks:default_from_counter_parties_kept_minimum",
+     "status": "not_observed",
+     "scorecard_type": "categorical_status_only",
+     "source_guidance": {
+      "available_at": "2026-08-29T16:22:34+05:00",
+      "statement": "default from counter parties is kept to a minimum",
+      "domain": "risks",
+      "modality": "risk_present",
+      "evidence": [
+       {
+        "guidance_id": "guidance_057b02e44c2d5013714b",
+        "document_id": "psx:260032",
+        "source_url": "https://dps.psx.com.pk/download/document/260032.pdf",
+        "page": 51,
+        "content_sha256": "4fdfb4cbd2eee65576cbb89b43334ce0c09a7e5ffd573d5bf93b414029eba6d1",
+        "evidence_sha256": null,
+        "source": "PSX DPS",
+        "available_on": "2026-08-29T16:22:34+05:00"
+       }
+      ]
+     },
+     "matched_guidance": null,
+     "guidance_review": {
+      "reviewed_object_count": 1,
+      "candidate_object_count": 0,
+      "rejected_counts": {
+       "not_first_class_guidance": 1,
+       "not_strictly_later": 0,
+       "self_confirming_source": 0
+      },
+      "match_rule": "same_company_first_class_guidance_strictly_later_non_self_source"
+     },
+     "reasons": [
+      "no later first-class guidance object matched the exact assertion or conflict key"
+     ],
+     "limitations": [
+      "Loose same-company guidance proximity is deliberately ignored."
+     ]
+    }
+   ]
   },
   "NBP": {
    "symbol": "NBP",
@@ -1907,9 +1952,9 @@
  },
  "_meta": {
   "generator_version": "ci_artifact_integrity_v1",
-  "source_commit_sha": "4b618216067b62082adf73119d9c76e42b7e8057",
-  "build_cutoff_at": "2026-08-28T17:59:21Z",
-  "generated_at": "2026-08-28T17:59:21Z",
+  "source_commit_sha": "cd5f8eb512d683a79ec9eef164ec1b2238b952ec",
+  "build_cutoff_at": "2026-08-29T11:26:48Z",
+  "generated_at": "2026-08-29T11:26:48Z",
   "artifact_path": "state/company_intel/management_delivery.json",
   "timestamp_semantics": {
    "build_cutoff_at": "generation boundary only; not a source-effective or source-published time",

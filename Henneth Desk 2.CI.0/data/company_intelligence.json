@@ -1,26 +1,17 @@
 {
  "meta": {
-  "built": "2026-08-29 15:15",
+  "built": "2026-08-29 16:27",
   "source": "Henneth state layer",
   "profile_source": "https://dps.psx.com.pk/company/{symbol}",
   "profile_updated": "2026-08-24 18:30",
   "count": 20,
   "financial_series": {
-   "updated": "2026-08-27 18:17",
+   "updated": "2026-08-29 16:22",
    "source": "state/company_documents.json + current verified extraction",
    "source_documents": 315,
    "rejected_facts": 0,
    "append_only_values": true,
-   "note": "Unknown period, unit, currency and consolidation remain explicit; facts retain source/page evidence.",
-   "manual_claims": {
-    "source": "state/company_intel/verified_manual_financial_claims.json",
-    "source_method": "owner_verified_manual_financial_claim_v1",
-    "source_revision": "manual_vision_v1",
-    "claim_count": 9,
-    "qualified_count": 9,
-    "rejected_count": 0,
-    "rejected_claims": []
-   }
+   "note": "Unknown period, unit, currency and consolidation remain explicit; facts retain source/page evidence."
   },
   "graph": {
    "updated": "2026-08-28 15:20",
@@ -29,9 +20,9 @@
    "source_documents": 317,
    "note": "Every factual edge carries source URL and cited page when available.",
    "generator_version": "ci_artifact_integrity_v1",
-   "source_commit_sha": "73377a5cab88eb859c13375d0166cf58c5f90191",
-   "build_cutoff_at": "2026-08-29T09:43:23Z",
-   "generated_at": "2026-08-29T09:43:23Z",
+   "source_commit_sha": "cd5f8eb512d683a79ec9eef164ec1b2238b952ec",
+   "build_cutoff_at": "2026-08-29T11:26:07Z",
+   "generated_at": "2026-08-29T11:26:07Z",
    "artifact_path": "state/company_intel/company_graph.json",
    "timestamp_semantics": {
     "build_cutoff_at": "generation boundary only; not a source-effective or source-published time",
@@ -44,9 +35,9 @@
    "item_count": 359,
    "note": "Deterministic official-source change digest. Research, not advice.",
    "generator_version": "ci_artifact_integrity_v1",
-   "source_commit_sha": "73377a5cab88eb859c13375d0166cf58c5f90191",
-   "build_cutoff_at": "2026-08-29T09:43:23Z",
-   "generated_at": "2026-08-29T09:43:23Z",
+   "source_commit_sha": "cd5f8eb512d683a79ec9eef164ec1b2238b952ec",
+   "build_cutoff_at": "2026-08-29T11:26:07Z",
+   "generated_at": "2026-08-29T11:26:07Z",
    "artifact_path": "state/company_intel/change_intelligence.json",
    "timestamp_semantics": {
     "build_cutoff_at": "generation boundary only; not a source-effective or source-published time",
@@ -997,6 +988,174 @@
      }
     },
     {
+     "doc_id": "psx:260032",
+     "date": "2025-09-25T12:43:00+05:00",
+     "type": "results",
+     "title": "MLCF Transmission of Annual Financial Statements for the Year Ended 30.06.2025",
+     "url": "https://dps.psx.com.pk/download/document/260032.pdf",
+     "source": "PSX DPS",
+     "status": "ready",
+     "error": null,
+     "content_sha256": "4fdfb4cbd2eee65576cbb89b43334ce0c09a7e5ffd573d5bf93b414029eba6d1",
+     "evidence": [
+      {
+       "page": 2,
+       "text": "alysis 178 Key Operating and Financial Data 179 Statement of Cash Flows Direct Method 180 Results Reported in Interim Financial Statements and Final Accounts 181 Explanation of Negative Change in the Performance against Prior Years 182 Sta…",
+       "source_url": "https://dps.psx.com.pk/download/document/260032.pdf"
+      },
+      {
+       "page": 82,
+       "text": "e year under review, four meetings of the Board of Directors were held in Pakistan and no Board meeting was held outside Pakistan. No casual vacancy occurred in the Board during the year. The attendance of each Director was as under: -",
+       "source_url": "https://dps.psx.com.pk/download/document/260032.pdf"
+      },
+      {
+       "page": 2,
+       "text": "le Advantage 44 Key Performance Indicators (KPIs) 46 Risks and Opportunities 54 Notice of Annual General Meeting 72 Chairman’s Review 74 Directors’ Report to the Shareholders 85 Statement of Compliance with the Code of Corporate Governance…",
+       "source_url": "https://dps.psx.com.pk/download/document/260032.pdf"
+      },
+      {
+       "page": 103,
+       "text": "rnational and local road shows / corporate briefings sessions were held with investors: • Corporate Briefing Session (17th November 2023) The Company has a set mechanism to ensure that all the shareholders are served with notice of annual…",
+       "source_url": "https://dps.psx.com.pk/download/document/260032.pdf"
+      }
+     ],
+     "facts": [
+      {
+       "fact_id": "fact_23724b823396ca2afdbc8df3",
+       "type": "revenue",
+       "raw_value": "68,942,446",
+       "normalized_value": 68942446000.0,
+       "unit": "PKR",
+       "currency": "PKR",
+       "scale_multiplier": null,
+       "evidence": [
+        {
+         "page": 203,
+         "text": "Revenue from contracts with customers - net",
+         "source_url": "https://dps.psx.com.pk/download/document/260032.pdf"
+        }
+       ]
+      },
+      {
+       "fact_id": "fact_06c1c02f8d2feb300a904618",
+       "type": "revenue",
+       "raw_value": "66,452,348",
+       "normalized_value": 66452348000.0,
+       "unit": "PKR",
+       "currency": "PKR",
+       "scale_multiplier": null,
+       "evidence": [
+        {
+         "page": 203,
+         "text": "Revenue from contracts with customers - net",
+         "source_url": "https://dps.psx.com.pk/download/document/260032.pdf"
+        }
+       ]
+      },
+      {
+       "fact_id": "fact_a896fd6bb2abd53dced52806",
+       "type": "gross_profit",
+       "raw_value": "23,746,816",
+       "normalized_value": 23746816000.0,
+       "unit": "PKR",
+       "currency": "PKR",
+       "scale_multiplier": null,
+       "evidence": [
+        {
+         "page": 203,
+         "text": "Gross profit",
+         "source_url": "https://dps.psx.com.pk/download/document/260032.pdf"
+        }
+       ]
+      },
+      {
+       "fact_id": "fact_d32b77c35665cd45bf38b1c9",
+       "type": "gross_profit",
+       "raw_value": "20,964,284",
+       "normalized_value": 20964284000.0,
+       "unit": "PKR",
+       "currency": "PKR",
+       "scale_multiplier": null,
+       "evidence": [
+        {
+         "page": 203,
+         "text": "Gross profit",
+         "source_url": "https://dps.psx.com.pk/download/document/260032.pdf"
+        }
+       ]
+      },
+      {
+       "fact_id": "fact_01d61002682dcceb47c34364",
+       "type": "basic_eps",
+       "raw_value": "16.26",
+       "normalized_value": 16.26,
+       "unit": "PKR/share",
+       "currency": "PKR",
+       "scale_multiplier": null,
+       "evidence": [
+        {
+         "page": 203,
+         "text": "Earnings per share - basic and diluted",
+         "source_url": "https://dps.psx.com.pk/download/document/260032.pdf"
+        }
+       ]
+      },
+      {
+       "fact_id": "fact_ccde8f2ff0cab210fa4ef72f",
+       "type": "basic_eps",
+       "raw_value": "4.98",
+       "normalized_value": 4.98,
+       "unit": "PKR/share",
+       "currency": "PKR",
+       "scale_multiplier": null,
+       "evidence": [
+        {
+         "page": 203,
+         "text": "Earnings per share - basic and diluted",
+         "source_url": "https://dps.psx.com.pk/download/document/260032.pdf"
+        }
+       ]
+      },
+      {
+       "fact_id": "fact_96dc675be30c5c317e7415d0",
+       "type": "operating_cash_flow",
+       "raw_value": "19,316,637",
+       "normalized_value": 19316637000.0,
+       "unit": "PKR",
+       "currency": "PKR",
+       "scale_multiplier": null,
+       "evidence": [
+        {
+         "page": 205,
+         "text": "Net cash inflow from operating activities",
+         "source_url": "https://dps.psx.com.pk/download/document/260032.pdf"
+        }
+       ]
+      },
+      {
+       "fact_id": "fact_3318741e8e46dea627b354df",
+       "type": "operating_cash_flow",
+       "raw_value": "9,496,243",
+       "normalized_value": 9496243000.0,
+       "unit": "PKR",
+       "currency": "PKR",
+       "scale_multiplier": null,
+       "evidence": [
+        {
+         "page": 205,
+         "text": "Net cash inflow from operating activities",
+         "source_url": "https://dps.psx.com.pk/download/document/260032.pdf"
+        }
+       ]
+      }
+     ],
+     "synthesis": {
+      "approval_status": "pending",
+      "synthesis_status": "not_started",
+      "training_mode": true
+     }
+    },
+    {
      "doc_id": "psx:257465",
      "date": "2025-08-07T08:53:00+05:00",
      "type": "results",
@@ -1392,42 +1551,18 @@
       "synthesis_status": "not_started",
       "training_mode": true
      }
-    },
-    {
-     "doc_id": "issuer:6d5543e25ed6b24f2e9f84e6",
-     "date": null,
-     "type": "agm",
-     "title": "Download PDF",
-     "url": "https://www.kmlg.com/mlcfl/wp-content/uploads/2025/09/MLCF-Ballot-Paper-for-AGM-16.10.2025-English.pdf",
-     "source": "Issuer website",
-     "status": "ready",
-     "error": null,
-     "content_sha256": "256245787c98523ab158d544bed6cb66805a744805a0798676c01905c7570c7c",
-     "evidence": [
-      {
-       "page": 2,
-       "text": "LK\u0003^P[O\u0003[OL\u0003WVZ[HS\u0003IHSSV[\u0003MVYT\u0015 3.\u0003 Ballot\u0003paper\u0003should\u0003reach\u0003the\u0003Chairman\u0003one\u0003day\u0003before\u0003AGM\u0003i.e.\u0003on\u0003October\u000315,\u00032025.\u0003Any\u0003postal\u0003ballot\u0003received\u0003 HM[LY\u0003[OPZ\u0003KH[L\u0013\u0003^PSS\u0003UV[\u0003IL\u0003JVUZPKLYLK\u0003MVY\u0003]V[PUN\u0015 \u001b\u0015\u0003 :PNUH[\\YL\u0003VU\u0003IHSSV[\u0003WHWLY\u0003ZOV\\SK\u0003TH…",
-       "source_url": "https://www.kmlg.com/mlcfl/wp-content/uploads/2025/09/MLCF-Ballot-Paper-for-AGM-16.10.2025-English.pdf"
-      }
-     ],
-     "facts": [],
-     "synthesis": {
-      "approval_status": "pending",
-      "synthesis_status": "not_started",
-      "training_mode": true
-     }
     }
    ],
    "financial_series": {
     "coverage": {
-     "source_documents": 7,
-     "fact_count": 77,
+     "source_documents": 8,
+     "fact_count": 148,
      "period_count": 7,
      "missing_required_source": false,
      "missing_period_count": 5,
      "conflict_count": 0,
-     "model_loadable_count": 9,
-     "audit_only_count": 68
+     "model_loadable_count": 23,
+     "audit_only_count": 125
     },
     "conflicts": [],
     "facts": [
@@ -2629,6 +2764,160 @@
        "source_url": "https://dps.psx.com.pk/download/document/263397.pdf",
        "page": 14,
        "text": "istan to which these shares will be transferred. On May 10, 2023, Andalus entered into an agreement with the Company that along with its affiliates, the Company would invest in NHPL, maintaining at least a 66.66% shareholding. The agreemen…"
+      }
+     ]
+    },
+    {
+     "event_id": "evt_d694fc36ca587e24e7a6",
+     "doc_id": "psx:260032",
+     "date": "2025-09-25T12:43:00+05:00",
+     "type": "earnings",
+     "priority_weight": 3,
+     "evidence": [
+      {
+       "source_url": "https://dps.psx.com.pk/download/document/260032.pdf",
+       "page": 2,
+       "text": "alysis 178 Key Operating and Financial Data 179 Statement of Cash Flows Direct Method 180 Results Reported in Interim Financial Statements and Final Accounts 181 Explanation of Negative Change in the Performance against Prior Years 182 Sta…"
+      }
+     ]
+    },
+    {
+     "event_id": "evt_c723a6ca2e42fae8bfa0",
+     "doc_id": "psx:260032",
+     "date": "2025-09-25T12:43:00+05:00",
+     "type": "management_change",
+     "priority_weight": 3,
+     "evidence": [
+      {
+       "source_url": "https://dps.psx.com.pk/download/document/260032.pdf",
+       "page": 55,
+       "text": "x their remuneration. The Board has recommended, as suggested by the Audit Committee, the appointment of M/s. KPMG Taseer Hadi & Co., Chartered Accountants. SPECIAL BUSINESS: 3) To consider and, if deemed fit, pass the following resolution…"
+      }
+     ]
+    },
+    {
+     "event_id": "evt_b16c92ca3055fc9081b6",
+     "doc_id": "psx:260032",
+     "date": "2025-09-25T12:43:00+05:00",
+     "type": "board_meeting",
+     "priority_weight": 3,
+     "evidence": [
+      {
+       "source_url": "https://dps.psx.com.pk/download/document/260032.pdf",
+       "page": 82,
+       "text": "e year under review, four meetings of the Board of Directors were held in Pakistan and no Board meeting was held outside Pakistan. No casual vacancy occurred in the Board during the year. The attendance of each Director was as under: -"
+      }
+     ]
+    },
+    {
+     "event_id": "evt_9d6b98841e1c2f8cab0d",
+     "doc_id": "psx:260032",
+     "date": "2025-09-25T12:43:00+05:00",
+     "type": "rating_change",
+     "priority_weight": 3,
+     "evidence": [
+      {
+       "source_url": "https://dps.psx.com.pk/download/document/260032.pdf",
+       "page": 40,
+       "text": "s that there is no inadequacy in capital structure in the status quo. MLCF maintained its credit rating with long term rating of A and short-term rating of A-1, indicating high credit worthiness and the Company’s ability to settle its fina…"
+      }
+     ]
+    },
+    {
+     "event_id": "evt_91d03a32ef46a8114e3f",
+     "doc_id": "psx:260032",
+     "date": "2025-09-25T12:43:00+05:00",
+     "type": "acquisition",
+     "priority_weight": 4,
+     "evidence": [
+      {
+       "source_url": "https://dps.psx.com.pk/download/document/260032.pdf",
+       "page": 20,
+       "text": "ompany limited by shares. The principal object of MLCL is to buy, sell, hold or otherwise acquire or invest its capital in any sort of financial instruments. MLCL is a subsidiary of KTML. Novacare Hospitals (Private) Limited (“Novacare”) w…"
+      }
+     ]
+    },
+    {
+     "event_id": "evt_75e0a8ae526576595608",
+     "doc_id": "psx:260032",
+     "date": "2025-09-25T12:43:00+05:00",
+     "type": "agm",
+     "priority_weight": 3,
+     "evidence": [
+      {
+       "source_url": "https://dps.psx.com.pk/download/document/260032.pdf",
+       "page": 2,
+       "text": "le Advantage 44 Key Performance Indicators (KPIs) 46 Risks and Opportunities 54 Notice of Annual General Meeting 72 Chairman’s Review 74 Directors’ Report to the Shareholders 85 Statement of Compliance with the Code of Corporate Governance…"
+      }
+     ]
+    },
+    {
+     "event_id": "evt_71b45bbdb5996b7d2b94",
+     "doc_id": "psx:260032",
+     "date": "2025-09-25T12:43:00+05:00",
+     "type": "regulatory_action",
+     "priority_weight": 4,
+     "evidence": [
+      {
+       "source_url": "https://dps.psx.com.pk/download/document/260032.pdf",
+       "page": 64,
+       "text": "any, whichever is higher. Repayment Principal plus mark-up / profit upto October 31, 2026 Penalty @ 3-months KIBOR plus one charges percent in addition to the outstanding amount(s)."
+      }
+     ]
+    },
+    {
+     "event_id": "evt_54631a81a1fbd527f8f3",
+     "doc_id": "psx:260032",
+     "date": "2025-09-25T12:43:00+05:00",
+     "type": "dividend",
+     "priority_weight": 2,
+     "evidence": [
+      {
+       "source_url": "https://dps.psx.com.pk/download/document/260032.pdf",
+       "page": 77,
+       "text": "results by yielding substantial savings in power cost. Moreover, the Company has received dividend of Rs. 6,401 million during the period from its wholly owned subsidiary MLPL. The above factors have impacted post-tax bottom line for the r…"
+      }
+     ]
+    },
+    {
+     "event_id": "evt_377d94804b85d17fe90a",
+     "doc_id": "psx:260032",
+     "date": "2025-09-25T12:43:00+05:00",
+     "type": "credit_event",
+     "priority_weight": 5,
+     "evidence": [
+      {
+       "source_url": "https://dps.psx.com.pk/download/document/260032.pdf",
+       "page": 51,
+       "text": "e. Strong follow up and adherence to procedures and credit terms ensures that the risk of default from counter parties is kept to a minimum. Adequate steps are taken for any dispute that may arise."
+      }
+     ]
+    },
+    {
+     "event_id": "evt_310a445ce6dd58451fec",
+     "doc_id": "psx:260032",
+     "date": "2025-09-25T12:43:00+05:00",
+     "type": "briefing",
+     "priority_weight": 3,
+     "evidence": [
+      {
+       "source_url": "https://dps.psx.com.pk/download/document/260032.pdf",
+       "page": 103,
+       "text": "rnational and local road shows / corporate briefings sessions were held with investors: • Corporate Briefing Session (17th November 2023) The Company has a set mechanism to ensure that all the shareholders are served with notice of annual…"
+      }
+     ]
+    },
+    {
+     "event_id": "evt_03365f3586a002660b17",
+     "doc_id": "psx:260032",
+     "date": "2025-09-25T12:43:00+05:00",
+     "type": "contract",
+     "priority_weight": 3,
+     "evidence": [
+      {
+       "source_url": "https://dps.psx.com.pk/download/document/260032.pdf",
+       "page": 20,
+       "text": "a company in Pakistan to which these shares will be transferred. On May 10, 2023, Andalus entered into an agreement with the Holding Company that along with its affiliates, Holding Company would invest in NHPL, maintaining at least a 66.66…"
       }
      ]
     },
@@ -7239,7 +7528,156 @@
        "readiness": "model_loadable"
       }
      ],
-     "gross_profit": [],
+     "gross_profit": [
+      {
+       "series_id": "series_3f20808beae24b8d5461a105",
+       "ticker": "MLCF",
+       "metric": "gross_profit",
+       "parser_version": "financial_statement_v2",
+       "line": "gross_profit",
+       "parser_revision": "block_geometry_v5",
+       "available_on": "2025-09-25",
+       "published_at": "2025-09-25T12:43:00+05:00",
+       "retrieved_at": "2026-08-29T11:22:34Z",
+       "statement_type": "income_statement",
+       "reported_label": "Gross profit",
+       "duration_months": 12,
+       "column_role": "comparative_prior_period",
+       "comparative_to_period_end": "2025-06-30",
+       "period_end": "2024-06-30",
+       "period_type": "annual",
+       "consolidation": "consolidated",
+       "currency": "PKR",
+       "unit": "PKR",
+       "unit_multiplier": 1000,
+       "raw_value": "22,430,465",
+       "normalized_value": 22430465000.0,
+       "document_id": "psx:260032",
+       "fact_id": "fact_5b4105146e3bc5c1baf23213",
+       "content_sha256": "4fdfb4cbd2eee65576cbb89b43334ce0c09a7e5ffd573d5bf93b414029eba6d1",
+       "source_url": "https://dps.psx.com.pk/download/document/260032.pdf",
+       "evidence": [
+        {
+         "page": 293,
+         "text": "Gross profit",
+         "source_url": "https://dps.psx.com.pk/download/document/260032.pdf"
+        }
+       ],
+       "quality_flags": [],
+       "readiness": "model_loadable"
+      },
+      {
+       "series_id": "series_833d7d4f957129edc6adcdc5",
+       "ticker": "MLCF",
+       "metric": "gross_profit",
+       "parser_version": "financial_statement_v2",
+       "line": "gross_profit",
+       "parser_revision": "block_geometry_v5",
+       "available_on": "2025-09-25",
+       "published_at": "2025-09-25T12:43:00+05:00",
+       "retrieved_at": "2026-08-29T11:22:34Z",
+       "statement_type": "income_statement",
+       "reported_label": "Gross profit",
+       "duration_months": 12,
+       "column_role": "comparative_prior_period",
+       "comparative_to_period_end": "2025-06-30",
+       "period_end": "2024-06-30",
+       "period_type": "annual",
+       "consolidation": "unconsolidated",
+       "currency": "PKR",
+       "unit": "PKR",
+       "unit_multiplier": 1000,
+       "raw_value": "20,964,284",
+       "normalized_value": 20964284000.0,
+       "document_id": "psx:260032",
+       "fact_id": "fact_d32b77c35665cd45bf38b1c9",
+       "content_sha256": "4fdfb4cbd2eee65576cbb89b43334ce0c09a7e5ffd573d5bf93b414029eba6d1",
+       "source_url": "https://dps.psx.com.pk/download/document/260032.pdf",
+       "evidence": [
+        {
+         "page": 203,
+         "text": "Gross profit",
+         "source_url": "https://dps.psx.com.pk/download/document/260032.pdf"
+        }
+       ],
+       "quality_flags": [],
+       "readiness": "model_loadable"
+      },
+      {
+       "series_id": "series_47669377835c0b18f0c4ad28",
+       "ticker": "MLCF",
+       "metric": "gross_profit",
+       "parser_version": "financial_statement_v2",
+       "line": "gross_profit",
+       "parser_revision": "block_geometry_v5",
+       "available_on": "2025-09-25",
+       "published_at": "2025-09-25T12:43:00+05:00",
+       "retrieved_at": "2026-08-29T11:22:34Z",
+       "statement_type": "income_statement",
+       "reported_label": "Gross profit",
+       "duration_months": 12,
+       "column_role": "current_period",
+       "comparative_to_period_end": null,
+       "period_end": "2025-06-30",
+       "period_type": "annual",
+       "consolidation": "consolidated",
+       "currency": "PKR",
+       "unit": "PKR",
+       "unit_multiplier": 1000,
+       "raw_value": "25,441,916",
+       "normalized_value": 25441916000.0,
+       "document_id": "psx:260032",
+       "fact_id": "fact_ef4234ccd5ec9c55674f23d0",
+       "content_sha256": "4fdfb4cbd2eee65576cbb89b43334ce0c09a7e5ffd573d5bf93b414029eba6d1",
+       "source_url": "https://dps.psx.com.pk/download/document/260032.pdf",
+       "evidence": [
+        {
+         "page": 293,
+         "text": "Gross profit",
+         "source_url": "https://dps.psx.com.pk/download/document/260032.pdf"
+        }
+       ],
+       "quality_flags": [],
+       "readiness": "model_loadable"
+      },
+      {
+       "series_id": "series_90eb9fbc1f4744bf22ada6bf",
+       "ticker": "MLCF",
+       "metric": "gross_profit",
+       "parser_version": "financial_statement_v2",
+       "line": "gross_profit",
+       "parser_revision": "block_geometry_v5",
+       "available_on": "2025-09-25",
+       "published_at": "2025-09-25T12:43:00+05:00",
+       "retrieved_at": "2026-08-29T11:22:34Z",
+       "statement_type": "income_statement",
+       "reported_label": "Gross profit",
+       "duration_months": 12,
+       "column_role": "current_period",
+       "comparative_to_period_end": null,
+       "period_end": "2025-06-30",
+       "period_type": "annual",
+       "consolidation": "unconsolidated",
+       "currency": "PKR",
+       "unit": "PKR",
+       "unit_multiplier": 1000,
+       "raw_value": "23,746,816",
+       "normalized_value": 23746816000.0,
+       "document_id": "psx:260032",
+       "fact_id": "fact_a896fd6bb2abd53dced52806",
+       "content_sha256": "4fdfb4cbd2eee65576cbb89b43334ce0c09a7e5ffd573d5bf93b414029eba6d1",
+       "source_url": "https://dps.psx.com.pk/download/document/260032.pdf",
+       "evidence": [
+        {
+         "page": 203,
+         "text": "Gross profit",
+         "source_url": "https://dps.psx.com.pk/download/document/260032.pdf"
+        }
+       ],
+       "quality_flags": [],
+       "readiness": "model_loadable"
+      }
+     ],
      "operating_profit": []
     },
     "derived": {
@@ -7381,6 +7819,120 @@
        ]
       }
      ],
+     "gross_profit_growth_pct": [
+      {
+       "period_end": "2024-06-30",
+       "value": -6.536560878251962,
+       "availability": "2025-09-25",
+       "formula_version": "financial_model_inputs_v1",
+       "source_fact_ids": [
+        "fact_5b4105146e3bc5c1baf23213",
+        "fact_d32b77c35665cd45bf38b1c9"
+       ],
+       "operand_provenance": [
+        {
+         "fact_id": "fact_5b4105146e3bc5c1baf23213",
+         "source_url": "https://dps.psx.com.pk/download/document/260032.pdf",
+         "period_end": "2024-06-30"
+        },
+        {
+         "fact_id": "fact_d32b77c35665cd45bf38b1c9",
+         "source_url": "https://dps.psx.com.pk/download/document/260032.pdf",
+         "period_end": "2024-06-30"
+        }
+       ]
+      },
+      {
+       "period_end": "2025-06-30",
+       "value": 21.358382666443564,
+       "availability": "2025-09-25",
+       "formula_version": "financial_model_inputs_v1",
+       "source_fact_ids": [
+        "fact_d32b77c35665cd45bf38b1c9",
+        "fact_ef4234ccd5ec9c55674f23d0"
+       ],
+       "operand_provenance": [
+        {
+         "fact_id": "fact_d32b77c35665cd45bf38b1c9",
+         "source_url": "https://dps.psx.com.pk/download/document/260032.pdf",
+         "period_end": "2024-06-30"
+        },
+        {
+         "fact_id": "fact_ef4234ccd5ec9c55674f23d0",
+         "source_url": "https://dps.psx.com.pk/download/document/260032.pdf",
+         "period_end": "2025-06-30"
+        }
+       ]
+      },
+      {
+       "period_end": "2025-06-30",
+       "value": -6.66262713861645,
+       "availability": "2025-09-25",
+       "formula_version": "financial_model_inputs_v1",
+       "source_fact_ids": [
+        "fact_ef4234ccd5ec9c55674f23d0",
+        "fact_a896fd6bb2abd53dced52806"
+       ],
+       "operand_provenance": [
+        {
+         "fact_id": "fact_ef4234ccd5ec9c55674f23d0",
+         "source_url": "https://dps.psx.com.pk/download/document/260032.pdf",
+         "period_end": "2025-06-30"
+        },
+        {
+         "fact_id": "fact_a896fd6bb2abd53dced52806",
+         "source_url": "https://dps.psx.com.pk/download/document/260032.pdf",
+         "period_end": "2025-06-30"
+        }
+       ]
+      }
+     ],
+     "gross_margin_pct": [
+      {
+       "period_end": "2024-06-30",
+       "value": 31.547845382378366,
+       "availability": "2025-09-25",
+       "formula_version": "financial_model_inputs_v1",
+       "source_fact_ids": [
+        "fact_d32b77c35665cd45bf38b1c9",
+        "manual_fact_66b17ef9298dc2847c1e5371"
+       ],
+       "operand_provenance": [
+        {
+         "fact_id": "fact_d32b77c35665cd45bf38b1c9",
+         "source_url": "https://dps.psx.com.pk/download/document/260032.pdf",
+         "period_end": "2024-06-30"
+        },
+        {
+         "fact_id": "manual_fact_66b17ef9298dc2847c1e5371",
+         "source_url": "https://dps.psx.com.pk/download/document/236626.pdf",
+         "period_end": "2024-06-30"
+        }
+       ]
+      },
+      {
+       "period_end": "2025-06-30",
+       "value": 34.58912276909027,
+       "availability": "2026-07-31T08:51:00+05:00",
+       "formula_version": "financial_model_inputs_v1",
+       "source_fact_ids": [
+        "fact_a896fd6bb2abd53dced52806",
+        "manual_fact_81f61eff38c0e596815acb84"
+       ],
+       "operand_provenance": [
+        {
+         "fact_id": "fact_a896fd6bb2abd53dced52806",
+         "source_url": "https://dps.psx.com.pk/download/document/260032.pdf",
+         "period_end": "2025-06-30"
+        },
+        {
+         "fact_id": "manual_fact_81f61eff38c0e596815acb84",
+         "source_url": "https://dps.psx.com.pk/download/document/280589.pdf",
+         "period_end": "2025-06-30"
+        }
+       ]
+      }
+     ],
      "pat_margin_pct": [
       {
        "period_end": "2024-06-30",
@@ -7461,9 +8013,9 @@
    "financial_evidence_reconciliation": {
     "symbol": "MLCF",
     "status": "eligible_for_review",
-    "eligible_fact_count": 9,
-    "audit_only_fact_count": 68,
-    "quarantined_fact_count": 0,
+    "eligible_fact_count": 11,
+    "audit_only_fact_count": 125,
+    "quarantined_fact_count": 12,
     "missing_slot_count": 0,
     "source_conflict_count": 0,
     "withheld_future_source_fact_count": 0,
@@ -7503,6 +8055,82 @@
       },
       "evidence_label": "fact_source_reported",
       "confidence": "high"
+     },
+     {
+      "reconciliation_id": "finrec_e4ab3fc071ae04cb84b3",
+      "evidence_id": "finev_7ec999483e5d6fa83b77",
+      "symbol": "MLCF",
+      "metric": "basic_eps",
+      "period_end": "2024-06-30",
+      "period_type": "annual",
+      "duration_months": 12,
+      "statement_type": "income_statement",
+      "consolidation": "unconsolidated",
+      "currency": "PKR",
+      "unit": "PKR/share",
+      "unit_multiplier": 1,
+      "raw_value": "4.98",
+      "normalized_value": 4.98,
+      "status": "quarantined",
+      "reasons": [
+       "missing_or_nonconsolidated_basis"
+      ],
+      "source": {
+       "document_id": "psx:260032",
+       "fact_id": "fact_ccde8f2ff0cab210fa4ef72f",
+       "content_sha256": "4fdfb4cbd2eee65576cbb89b43334ce0c09a7e5ffd573d5bf93b414029eba6d1",
+       "source_url": "https://dps.psx.com.pk/download/document/260032.pdf",
+       "source": "PSX DPS",
+       "page": 203,
+       "text": "Earnings per share - basic and diluted",
+       "available_on": "2025-09-25",
+       "published_at": "2025-09-25T12:43:00+05:00",
+       "retrieved_at": "2026-08-29T11:22:34Z"
+      },
+      "parser": {
+       "version": "financial_statement_v2",
+       "revision": "block_geometry_v5"
+      },
+      "evidence_label": "unknown",
+      "confidence": "low"
+     },
+     {
+      "reconciliation_id": "finrec_215edfc9718ac2c5f07b",
+      "evidence_id": "finev_d9592482b7b097c9bdf6",
+      "symbol": "MLCF",
+      "metric": "basic_eps",
+      "period_end": "2025-06-30",
+      "period_type": "annual",
+      "duration_months": 12,
+      "statement_type": "income_statement",
+      "consolidation": "unconsolidated",
+      "currency": "PKR",
+      "unit": "PKR/share",
+      "unit_multiplier": 1,
+      "raw_value": "16.26",
+      "normalized_value": 16.26,
+      "status": "quarantined",
+      "reasons": [
+       "missing_or_nonconsolidated_basis"
+      ],
+      "source": {
+       "document_id": "psx:260032",
+       "fact_id": "fact_01d61002682dcceb47c34364",
+       "content_sha256": "4fdfb4cbd2eee65576cbb89b43334ce0c09a7e5ffd573d5bf93b414029eba6d1",
+       "source_url": "https://dps.psx.com.pk/download/document/260032.pdf",
+       "source": "PSX DPS",
+       "page": 203,
+       "text": "Earnings per share - basic and diluted",
+       "available_on": "2025-09-25",
+       "published_at": "2025-09-25T12:43:00+05:00",
+       "retrieved_at": "2026-08-29T11:22:34Z"
+      },
+      "parser": {
+       "version": "financial_statement_v2",
+       "revision": "block_geometry_v5"
+      },
+      "evidence_label": "unknown",
+      "confidence": "low"
      },
      {
       "reconciliation_id": "finrec_c3c28570a6563c23897d",
@@ -7575,6 +8203,466 @@
       },
       "evidence_label": "fact_source_reported",
       "confidence": "high"
+     },
+     {
+      "reconciliation_id": "finrec_af20b0924a8b1d8989b7",
+      "evidence_id": "finev_b4eb94c9fd60b07b4996",
+      "symbol": "MLCF",
+      "metric": "change_pct",
+      "period_end": "2025-06-30",
+      "period_type": "annual",
+      "duration_months": null,
+      "statement_type": null,
+      "consolidation": "unknown",
+      "currency": null,
+      "unit": "percent",
+      "unit_multiplier": 1,
+      "raw_value": "3.75",
+      "normalized_value": 3.75,
+      "status": "audit_only",
+      "reasons": [
+       "legacy_extractor_not_model_eligible",
+       "legacy_parser_revision_quarantine",
+       "missing_consolidation_basis",
+       "missing_or_non_pkr_currency",
+       "missing_or_nonconsolidated_basis",
+       "not_income_statement",
+       "not_twelve_month_annual",
+       "outside_required_earnings_bridge_metric_set",
+       "readiness_is_audit_only",
+       "unqualified_financial_fact_source"
+      ],
+      "source": {
+       "document_id": "psx:260032",
+       "fact_id": "fact_2685d18e7b0b398d9416",
+       "content_sha256": "4fdfb4cbd2eee65576cbb89b43334ce0c09a7e5ffd573d5bf93b414029eba6d1",
+       "source_url": "https://dps.psx.com.pk/download/document/260032.pdf",
+       "source": "PSX DPS",
+       "page": 182,
+       "text": "(Loss) After Tax 17,036,374 24.71% 5,272,527 7.93% 11,763,847 472.43% • Overall turnover increased by 3.75%, it includes negative volumetric growth and positive impact of increase in retention prices. • Gross Profit increased from precedin…",
+       "available_on": "2025-09-25",
+       "published_at": "2025-09-25T12:43:00+05:00",
+       "retrieved_at": "2026-08-29T11:22:34Z"
+      },
+      "parser": {
+       "version": null,
+       "revision": null
+      },
+      "evidence_label": "stale_source",
+      "confidence": "low"
+     },
+     {
+      "reconciliation_id": "finrec_fdaebaa2a3326378adc3",
+      "evidence_id": "finev_9ce2d227c09ffa3b012a",
+      "symbol": "MLCF",
+      "metric": "change_pct",
+      "period_end": "2025-06-30",
+      "period_type": "annual",
+      "duration_months": null,
+      "statement_type": null,
+      "consolidation": "consolidated",
+      "currency": null,
+      "unit": "percent",
+      "unit_multiplier": 1,
+      "raw_value": "3.31",
+      "normalized_value": 3.31,
+      "status": "audit_only",
+      "reasons": [
+       "legacy_extractor_not_model_eligible",
+       "legacy_parser_revision_quarantine",
+       "missing_or_non_pkr_currency",
+       "not_income_statement",
+       "not_twelve_month_annual",
+       "outside_required_earnings_bridge_metric_set",
+       "readiness_is_audit_only",
+       "unqualified_financial_fact_source"
+      ],
+      "source": {
+       "document_id": "psx:260032",
+       "fact_id": "fact_3dd063c341c78b8d7899",
+       "content_sha256": "4fdfb4cbd2eee65576cbb89b43334ce0c09a7e5ffd573d5bf93b414029eba6d1",
+       "source_url": "https://dps.psx.com.pk/download/document/260032.pdf",
+       "source": "PSX DPS",
+       "page": 76,
+       "text": ",654 million against Rs. 66,452 million in the previous year. The top line of the Company increased by 3.31% mainly due to an improvement in selling prices in the local market. Increase in selling prices is mainly due to high inflationary…",
+       "available_on": "2025-09-25",
+       "published_at": "2025-09-25T12:43:00+05:00",
+       "retrieved_at": "2026-08-29T11:22:34Z"
+      },
+      "parser": {
+       "version": null,
+       "revision": null
+      },
+      "evidence_label": "stale_source",
+      "confidence": "low"
+     },
+     {
+      "reconciliation_id": "finrec_81a66753d9e569bf397d",
+      "evidence_id": "finev_0809fa2184209d5a9d15",
+      "symbol": "MLCF",
+      "metric": "change_pct",
+      "period_end": "2025-06-30",
+      "period_type": "annual",
+      "duration_months": null,
+      "statement_type": null,
+      "consolidation": "consolidated",
+      "currency": null,
+      "unit": "percent",
+      "unit_multiplier": 1,
+      "raw_value": "1.31",
+      "normalized_value": 1.31,
+      "status": "audit_only",
+      "reasons": [
+       "legacy_extractor_not_model_eligible",
+       "legacy_parser_revision_quarantine",
+       "missing_or_non_pkr_currency",
+       "not_income_statement",
+       "not_twelve_month_annual",
+       "outside_required_earnings_bridge_metric_set",
+       "readiness_is_audit_only",
+       "unqualified_financial_fact_source"
+      ],
+      "source": {
+       "document_id": "psx:260032",
+       "fact_id": "fact_454048dfe8ad9bcb209f",
+       "content_sha256": "4fdfb4cbd2eee65576cbb89b43334ce0c09a7e5ffd573d5bf93b414029eba6d1",
+       "source_url": "https://dps.psx.com.pk/download/document/260032.pdf",
+       "source": "PSX DPS",
+       "page": 76,
+       "text": "4,014,856 4,068,218 (53,362) -1.31% Total cement sales volume of 4,014,856 tons depicts a decrease of 1.31% over 4,068,218 tons sold during last year. The domestic sales volume declined to 3,746,775 tons registering a decrease of 3.71% but…",
+       "available_on": "2025-09-25",
+       "published_at": "2025-09-25T12:43:00+05:00",
+       "retrieved_at": "2026-08-29T11:22:34Z"
+      },
+      "parser": {
+       "version": null,
+       "revision": null
+      },
+      "evidence_label": "stale_source",
+      "confidence": "low"
+     },
+     {
+      "reconciliation_id": "finrec_c8941db1cf0e2a0cbac7",
+      "evidence_id": "finev_7078701da67193b1a48e",
+      "symbol": "MLCF",
+      "metric": "change_pct",
+      "period_end": "2025-06-30",
+      "period_type": "annual",
+      "duration_months": null,
+      "statement_type": null,
+      "consolidation": "unknown",
+      "currency": null,
+      "unit": "percent",
+      "unit_multiplier": 1,
+      "raw_value": "1",
+      "normalized_value": 1,
+      "status": "audit_only",
+      "reasons": [
+       "legacy_extractor_not_model_eligible",
+       "legacy_parser_revision_quarantine",
+       "missing_consolidation_basis",
+       "missing_or_non_pkr_currency",
+       "missing_or_nonconsolidated_basis",
+       "not_income_statement",
+       "not_twelve_month_annual",
+       "outside_required_earnings_bridge_metric_set",
+       "readiness_is_audit_only",
+       "unqualified_financial_fact_source"
+      ],
+      "source": {
+       "document_id": "psx:260032",
+       "fact_id": "fact_4c5ad4fe1f1d43594b88",
+       "content_sha256": "4fdfb4cbd2eee65576cbb89b43334ce0c09a7e5ffd573d5bf93b414029eba6d1",
+       "source_url": "https://dps.psx.com.pk/download/document/260032.pdf",
+       "source": "PSX DPS",
+       "page": 178,
+       "text": "the impact on cost of production would have been as follow: 2025 2024 Rs. ‘000’ Rs. ‘000’ Increase of 1% in exchange rate 76,947 101,428 Decrease of 1% in exchange rate (76,947) (101,428) The management constantly monitors the internationa…",
+       "available_on": "2025-09-25",
+       "published_at": "2025-09-25T12:43:00+05:00",
+       "retrieved_at": "2026-08-29T11:22:34Z"
+      },
+      "parser": {
+       "version": null,
+       "revision": null
+      },
+      "evidence_label": "stale_source",
+      "confidence": "low"
+     },
+     {
+      "reconciliation_id": "finrec_79f4278ff4f219d41fe8",
+      "evidence_id": "finev_83df1e04a434a6756cb2",
+      "symbol": "MLCF",
+      "metric": "change_pct",
+      "period_end": "2025-06-30",
+      "period_type": "annual",
+      "duration_months": null,
+      "statement_type": null,
+      "consolidation": "consolidated",
+      "currency": null,
+      "unit": "percent",
+      "unit_multiplier": 1,
+      "raw_value": "51.23",
+      "normalized_value": 51.23,
+      "status": "audit_only",
+      "reasons": [
+       "legacy_extractor_not_model_eligible",
+       "legacy_parser_revision_quarantine",
+       "missing_or_non_pkr_currency",
+       "not_income_statement",
+       "not_twelve_month_annual",
+       "outside_required_earnings_bridge_metric_set",
+       "readiness_is_audit_only",
+       "unqualified_financial_fact_source"
+      ],
+      "source": {
+       "document_id": "psx:260032",
+       "fact_id": "fact_70f6bebe7808086531fd",
+       "content_sha256": "4fdfb4cbd2eee65576cbb89b43334ce0c09a7e5ffd573d5bf93b414029eba6d1",
+       "source_url": "https://dps.psx.com.pk/download/document/260032.pdf",
+       "source": "PSX DPS",
+       "page": 76,
+       "text": "in housing sector mainly on account of higher taxes thereon. The Company’s export volume increased by 51.23% to reach 268,081 metric tons from 177,263 metric tons in previous year due to improved demand. Cement exports to the rest of the w…",
+       "available_on": "2025-09-25",
+       "published_at": "2025-09-25T12:43:00+05:00",
+       "retrieved_at": "2026-08-29T11:22:34Z"
+      },
+      "parser": {
+       "version": null,
+       "revision": null
+      },
+      "evidence_label": "stale_source",
+      "confidence": "low"
+     },
+     {
+      "reconciliation_id": "finrec_33b829fcafcb30d94a9b",
+      "evidence_id": "finev_04912a71da3ba52f078c",
+      "symbol": "MLCF",
+      "metric": "change_pct",
+      "period_end": "2025-06-30",
+      "period_type": "annual",
+      "duration_months": null,
+      "statement_type": null,
+      "consolidation": "consolidated",
+      "currency": null,
+      "unit": "percent",
+      "unit_multiplier": 1,
+      "raw_value": "3.71",
+      "normalized_value": 3.71,
+      "status": "audit_only",
+      "reasons": [
+       "legacy_extractor_not_model_eligible",
+       "legacy_parser_revision_quarantine",
+       "missing_or_non_pkr_currency",
+       "not_income_statement",
+       "not_twelve_month_annual",
+       "outside_required_earnings_bridge_metric_set",
+       "readiness_is_audit_only",
+       "unqualified_financial_fact_source"
+      ],
+      "source": {
+       "document_id": "psx:260032",
+       "fact_id": "fact_98528792472944a64467",
+       "content_sha256": "4fdfb4cbd2eee65576cbb89b43334ce0c09a7e5ffd573d5bf93b414029eba6d1",
+       "source_url": "https://dps.psx.com.pk/download/document/260032.pdf",
+       "source": "PSX DPS",
+       "page": 76,
+       "text": "sold during last year. The domestic sales volume declined to 3,746,775 tons registering a decrease of 3.71% but exports sales volume up from 177,263 to 268,081 tons, increased by 51.23% from last financial year. During the financial year 2…",
+       "available_on": "2025-09-25",
+       "published_at": "2025-09-25T12:43:00+05:00",
+       "retrieved_at": "2026-08-29T11:22:34Z"
+      },
+      "parser": {
+       "version": null,
+       "revision": null
+      },
+      "evidence_label": "stale_source",
+      "confidence": "low"
+     },
+     {
+      "reconciliation_id": "finrec_9c100e811c6fb28648c9",
+      "evidence_id": "finev_a9f6fabcc73c9263e7f5",
+      "symbol": "MLCF",
+      "metric": "change_pct",
+      "period_end": "2025-06-30",
+      "period_type": "annual",
+      "duration_months": null,
+      "statement_type": null,
+      "consolidation": "consolidated",
+      "currency": null,
+      "unit": "percent",
+      "unit_multiplier": 1,
+      "raw_value": "66.24",
+      "normalized_value": 66.24,
+      "status": "audit_only",
+      "reasons": [
+       "legacy_extractor_not_model_eligible",
+       "legacy_parser_revision_quarantine",
+       "missing_or_non_pkr_currency",
+       "not_income_statement",
+       "not_twelve_month_annual",
+       "outside_required_earnings_bridge_metric_set",
+       "readiness_is_audit_only",
+       "unqualified_financial_fact_source"
+      ],
+      "source": {
+       "document_id": "psx:260032",
+       "fact_id": "fact_abc85bf04ce51cd72714",
+       "content_sha256": "4fdfb4cbd2eee65576cbb89b43334ce0c09a7e5ffd573d5bf93b414029eba6d1",
+       "source_url": "https://dps.psx.com.pk/download/document/260032.pdf",
+       "source": "PSX DPS",
+       "page": 77,
+       "text": "he above factors have impacted post-tax bottom line for the reporting year to register an increase of 66.24% at a profit of Rs. 11,503 million against consolidated profit of Rs. 6,920 million in the bottom line for corresponding year. The…",
+       "available_on": "2025-09-25",
+       "published_at": "2025-09-25T12:43:00+05:00",
+       "retrieved_at": "2026-08-29T11:22:34Z"
+      },
+      "parser": {
+       "version": null,
+       "revision": null
+      },
+      "evidence_label": "stale_source",
+      "confidence": "low"
+     },
+     {
+      "reconciliation_id": "finrec_4d0f52d9f20f2a146224",
+      "evidence_id": "finev_3abbb6f2d461b6026ae3",
+      "symbol": "MLCF",
+      "metric": "change_pct",
+      "period_end": "2025-06-30",
+      "period_type": "annual",
+      "duration_months": null,
+      "statement_type": null,
+      "consolidation": "unknown",
+      "currency": null,
+      "unit": "percent",
+      "unit_multiplier": 1,
+      "raw_value": "1",
+      "normalized_value": 1,
+      "status": "audit_only",
+      "reasons": [
+       "legacy_extractor_not_model_eligible",
+       "legacy_parser_revision_quarantine",
+       "missing_consolidation_basis",
+       "missing_or_non_pkr_currency",
+       "missing_or_nonconsolidated_basis",
+       "not_income_statement",
+       "not_twelve_month_annual",
+       "outside_required_earnings_bridge_metric_set",
+       "readiness_is_audit_only",
+       "unqualified_financial_fact_source"
+      ],
+      "source": {
+       "document_id": "psx:260032",
+       "fact_id": "fact_c88aca1a90747463a479",
+       "content_sha256": "4fdfb4cbd2eee65576cbb89b43334ce0c09a7e5ffd573d5bf93b414029eba6d1",
+       "source_url": "https://dps.psx.com.pk/download/document/260032.pdf",
+       "source": "PSX DPS",
+       "page": 178,
+       "text": "n as follow: 2025 2024 Rs. ‘000’ Rs. ‘000’ Increase of 1% in exchange rate 76,947 101,428 Decrease of 1% in exchange rate (76,947) (101,428) The management constantly monitors the international coal prices and exchange rates. The managemen…",
+       "available_on": "2025-09-25",
+       "published_at": "2025-09-25T12:43:00+05:00",
+       "retrieved_at": "2026-08-29T11:22:34Z"
+      },
+      "parser": {
+       "version": null,
+       "revision": null
+      },
+      "evidence_label": "stale_source",
+      "confidence": "low"
+     },
+     {
+      "reconciliation_id": "finrec_980145d315219bbe4d5b",
+      "evidence_id": "finev_1a23af8488293e20260f",
+      "symbol": "MLCF",
+      "metric": "change_pct",
+      "period_end": "2025-06-30",
+      "period_type": "annual",
+      "duration_months": null,
+      "statement_type": null,
+      "consolidation": "unknown",
+      "currency": null,
+      "unit": "percent",
+      "unit_multiplier": 1,
+      "raw_value": "10",
+      "normalized_value": 10,
+      "status": "audit_only",
+      "reasons": [
+       "legacy_extractor_not_model_eligible",
+       "legacy_parser_revision_quarantine",
+       "missing_consolidation_basis",
+       "missing_or_non_pkr_currency",
+       "missing_or_nonconsolidated_basis",
+       "not_income_statement",
+       "not_twelve_month_annual",
+       "outside_required_earnings_bridge_metric_set",
+       "readiness_is_audit_only",
+       "unqualified_financial_fact_source"
+      ],
+      "source": {
+       "document_id": "psx:260032",
+       "fact_id": "fact_de2d38566dcea2e7f905",
+       "content_sha256": "4fdfb4cbd2eee65576cbb89b43334ce0c09a7e5ffd573d5bf93b414029eba6d1",
+       "source_url": "https://dps.psx.com.pk/download/document/260032.pdf",
+       "source": "PSX DPS",
+       "page": 273,
+       "text": "y’s equity. The analysis is based on the assumption that the KSE-100 index had increased/ decreased by 10% with all other variables held constant and all the Company’s equity investments moved according to the historical correlation with t…",
+       "available_on": "2025-09-25",
+       "published_at": "2025-09-25T12:43:00+05:00",
+       "retrieved_at": "2026-08-29T11:22:34Z"
+      },
+      "parser": {
+       "version": null,
+       "revision": null
+      },
+      "evidence_label": "stale_source",
+      "confidence": "low"
+     },
+     {
+      "reconciliation_id": "finrec_1690d8ce2f6178964e76",
+      "evidence_id": "finev_2c08d9c468ca7610e1aa",
+      "symbol": "MLCF",
+      "metric": "change_pct",
+      "period_end": "2025-06-30",
+      "period_type": "annual",
+      "duration_months": null,
+      "statement_type": null,
+      "consolidation": "unknown",
+      "currency": null,
+      "unit": "percent",
+      "unit_multiplier": 1,
+      "raw_value": "2.7",
+      "normalized_value": 2.7,
+      "status": "audit_only",
+      "reasons": [
+       "legacy_extractor_not_model_eligible",
+       "legacy_parser_revision_quarantine",
+       "missing_consolidation_basis",
+       "missing_or_non_pkr_currency",
+       "missing_or_nonconsolidated_basis",
+       "not_income_statement",
+       "not_twelve_month_annual",
+       "outside_required_earnings_bridge_metric_set",
+       "readiness_is_audit_only",
+       "unqualified_financial_fact_source"
+      ],
+      "source": {
+       "document_id": "psx:260032",
+       "fact_id": "fact_e2c8a878bc234c11f18e",
+       "content_sha256": "4fdfb4cbd2eee65576cbb89b43334ce0c09a7e5ffd573d5bf93b414029eba6d1",
+       "source_url": "https://dps.psx.com.pk/download/document/260032.pdf",
+       "source": "PSX DPS",
+       "page": 157,
+       "text": "Projections Despite a challenging macroeconomic backdrop marked by sluggish national GDP growth of 2.7% in FY 2025 falling short of government expectations MLCF outperformed through robust operational execution. The Company achieved PKR 68…",
+       "available_on": "2025-09-25",
+       "published_at": "2025-09-25T12:43:00+05:00",
+       "retrieved_at": "2026-08-29T11:22:34Z"
+      },
+      "parser": {
+       "version": null,
+       "revision": null
+      },
+      "evidence_label": "stale_source",
+      "confidence": "low"
      },
      {
       "reconciliation_id": "finrec_ce9d316dc6cdd7880a7d",
@@ -7920,6 +9008,50 @@
       "confidence": "low"
      },
      {
+      "reconciliation_id": "finrec_30cf9a1747e151ad498f",
+      "evidence_id": "finev_3201fb2ce239aa94bd70",
+      "symbol": "MLCF",
+      "metric": "dividend",
+      "period_end": "2025-06-30",
+      "period_type": "annual",
+      "duration_months": null,
+      "statement_type": null,
+      "consolidation": "consolidated",
+      "currency": "PKR",
+      "unit": "PKR/share",
+      "unit_multiplier": 1,
+      "raw_value": "6",
+      "normalized_value": 6,
+      "status": "audit_only",
+      "reasons": [
+       "legacy_extractor_not_model_eligible",
+       "legacy_parser_revision_quarantine",
+       "not_income_statement",
+       "not_twelve_month_annual",
+       "outside_required_earnings_bridge_metric_set",
+       "readiness_is_audit_only",
+       "unqualified_financial_fact_source"
+      ],
+      "source": {
+       "document_id": "psx:260032",
+       "fact_id": "fact_d5c19001c3550e3457b2",
+       "content_sha256": "4fdfb4cbd2eee65576cbb89b43334ce0c09a7e5ffd573d5bf93b414029eba6d1",
+       "source_url": "https://dps.psx.com.pk/download/document/260032.pdf",
+       "source": "PSX DPS",
+       "page": 77,
+       "text": "results by yielding substantial savings in power cost. Moreover, the Company has received dividend of Rs. 6,401 million during the period from its wholly owned subsidiary MLPL. The above factors have impacted post-tax bottom line for the r…",
+       "available_on": "2025-09-25",
+       "published_at": "2025-09-25T12:43:00+05:00",
+       "retrieved_at": "2026-08-29T11:22:34Z"
+      },
+      "parser": {
+       "version": null,
+       "revision": null
+      },
+      "evidence_label": "stale_source",
+      "confidence": "low"
+     },
+     {
       "reconciliation_id": "finrec_6b89d697bbe6a727ce56",
       "evidence_id": "finev_a602b77a285c9c78e31e",
       "symbol": "MLCF",
@@ -8110,6 +9242,326 @@
       "confidence": "low"
      },
      {
+      "reconciliation_id": "finrec_2faa717ffce6445f78af",
+      "evidence_id": "finev_6d5b62e24b910b98d691",
+      "symbol": "MLCF",
+      "metric": "gross_profit",
+      "period_end": "2024-06-30",
+      "period_type": "annual",
+      "duration_months": 12,
+      "statement_type": "income_statement",
+      "consolidation": "consolidated",
+      "currency": "PKR",
+      "unit": "PKR",
+      "unit_multiplier": 1000,
+      "raw_value": "22,430,465",
+      "normalized_value": 22430465000.0,
+      "status": "quarantined",
+      "reasons": [
+       "outside_required_earnings_bridge_metric_set"
+      ],
+      "source": {
+       "document_id": "psx:260032",
+       "fact_id": "fact_5b4105146e3bc5c1baf23213",
+       "content_sha256": "4fdfb4cbd2eee65576cbb89b43334ce0c09a7e5ffd573d5bf93b414029eba6d1",
+       "source_url": "https://dps.psx.com.pk/download/document/260032.pdf",
+       "source": "PSX DPS",
+       "page": 293,
+       "text": "Gross profit",
+       "available_on": "2025-09-25",
+       "published_at": "2025-09-25T12:43:00+05:00",
+       "retrieved_at": "2026-08-29T11:22:34Z"
+      },
+      "parser": {
+       "version": "financial_statement_v2",
+       "revision": "block_geometry_v5"
+      },
+      "evidence_label": "unknown",
+      "confidence": "low"
+     },
+     {
+      "reconciliation_id": "finrec_a5945566c1908991a953",
+      "evidence_id": "finev_d0302d6e1759a3783d8d",
+      "symbol": "MLCF",
+      "metric": "gross_profit",
+      "period_end": "2024-06-30",
+      "period_type": "annual",
+      "duration_months": 12,
+      "statement_type": "income_statement",
+      "consolidation": "unconsolidated",
+      "currency": "PKR",
+      "unit": "PKR",
+      "unit_multiplier": 1000,
+      "raw_value": "20,964,284",
+      "normalized_value": 20964284000.0,
+      "status": "quarantined",
+      "reasons": [
+       "missing_or_nonconsolidated_basis",
+       "outside_required_earnings_bridge_metric_set"
+      ],
+      "source": {
+       "document_id": "psx:260032",
+       "fact_id": "fact_d32b77c35665cd45bf38b1c9",
+       "content_sha256": "4fdfb4cbd2eee65576cbb89b43334ce0c09a7e5ffd573d5bf93b414029eba6d1",
+       "source_url": "https://dps.psx.com.pk/download/document/260032.pdf",
+       "source": "PSX DPS",
+       "page": 203,
+       "text": "Gross profit",
+       "available_on": "2025-09-25",
+       "published_at": "2025-09-25T12:43:00+05:00",
+       "retrieved_at": "2026-08-29T11:22:34Z"
+      },
+      "parser": {
+       "version": "financial_statement_v2",
+       "revision": "block_geometry_v5"
+      },
+      "evidence_label": "unknown",
+      "confidence": "low"
+     },
+     {
+      "reconciliation_id": "finrec_32c5a657aacf56908808",
+      "evidence_id": "finev_f26fb57a5ea1a5782969",
+      "symbol": "MLCF",
+      "metric": "gross_profit",
+      "period_end": "2025-06-30",
+      "period_type": "annual",
+      "duration_months": 12,
+      "statement_type": "income_statement",
+      "consolidation": "unconsolidated",
+      "currency": "PKR",
+      "unit": "PKR",
+      "unit_multiplier": 1000,
+      "raw_value": "23,746,816",
+      "normalized_value": 23746816000.0,
+      "status": "quarantined",
+      "reasons": [
+       "missing_or_nonconsolidated_basis",
+       "outside_required_earnings_bridge_metric_set"
+      ],
+      "source": {
+       "document_id": "psx:260032",
+       "fact_id": "fact_a896fd6bb2abd53dced52806",
+       "content_sha256": "4fdfb4cbd2eee65576cbb89b43334ce0c09a7e5ffd573d5bf93b414029eba6d1",
+       "source_url": "https://dps.psx.com.pk/download/document/260032.pdf",
+       "source": "PSX DPS",
+       "page": 203,
+       "text": "Gross profit",
+       "available_on": "2025-09-25",
+       "published_at": "2025-09-25T12:43:00+05:00",
+       "retrieved_at": "2026-08-29T11:22:34Z"
+      },
+      "parser": {
+       "version": "financial_statement_v2",
+       "revision": "block_geometry_v5"
+      },
+      "evidence_label": "unknown",
+      "confidence": "low"
+     },
+     {
+      "reconciliation_id": "finrec_2e9cbfd9e984789f4ced",
+      "evidence_id": "finev_f77836ce0a8149de1e91",
+      "symbol": "MLCF",
+      "metric": "gross_profit",
+      "period_end": "2025-06-30",
+      "period_type": "annual",
+      "duration_months": 12,
+      "statement_type": "income_statement",
+      "consolidation": "consolidated",
+      "currency": "PKR",
+      "unit": "PKR",
+      "unit_multiplier": 1000,
+      "raw_value": "25,441,916",
+      "normalized_value": 25441916000.0,
+      "status": "quarantined",
+      "reasons": [
+       "outside_required_earnings_bridge_metric_set"
+      ],
+      "source": {
+       "document_id": "psx:260032",
+       "fact_id": "fact_ef4234ccd5ec9c55674f23d0",
+       "content_sha256": "4fdfb4cbd2eee65576cbb89b43334ce0c09a7e5ffd573d5bf93b414029eba6d1",
+       "source_url": "https://dps.psx.com.pk/download/document/260032.pdf",
+       "source": "PSX DPS",
+       "page": 293,
+       "text": "Gross profit",
+       "available_on": "2025-09-25",
+       "published_at": "2025-09-25T12:43:00+05:00",
+       "retrieved_at": "2026-08-29T11:22:34Z"
+      },
+      "parser": {
+       "version": "financial_statement_v2",
+       "revision": "block_geometry_v5"
+      },
+      "evidence_label": "unknown",
+      "confidence": "low"
+     },
+     {
+      "reconciliation_id": "finrec_d0f2d2d2d2469d07f219",
+      "evidence_id": "finev_c7d9b398f63b57bde3a6",
+      "symbol": "MLCF",
+      "metric": "operating_cash_flow",
+      "period_end": "2024-06-30",
+      "period_type": "annual",
+      "duration_months": 12,
+      "statement_type": "cash_flow_statement",
+      "consolidation": "unconsolidated",
+      "currency": "PKR",
+      "unit": "PKR",
+      "unit_multiplier": 1000,
+      "raw_value": "9,496,243",
+      "normalized_value": 9496243000.0,
+      "status": "quarantined",
+      "reasons": [
+       "invalid_structured_statement_type",
+       "missing_or_nonconsolidated_basis",
+       "not_income_statement",
+       "outside_required_earnings_bridge_metric_set",
+       "unsupported_structured_line"
+      ],
+      "source": {
+       "document_id": "psx:260032",
+       "fact_id": "fact_3318741e8e46dea627b354df",
+       "content_sha256": "4fdfb4cbd2eee65576cbb89b43334ce0c09a7e5ffd573d5bf93b414029eba6d1",
+       "source_url": "https://dps.psx.com.pk/download/document/260032.pdf",
+       "source": "PSX DPS",
+       "page": 205,
+       "text": "Net cash inflow from operating activities",
+       "available_on": "2025-09-25",
+       "published_at": "2025-09-25T12:43:00+05:00",
+       "retrieved_at": "2026-08-29T11:22:34Z"
+      },
+      "parser": {
+       "version": "financial_statement_v2",
+       "revision": "block_geometry_v5"
+      },
+      "evidence_label": "unknown",
+      "confidence": "low"
+     },
+     {
+      "reconciliation_id": "finrec_66660220416df046b34b",
+      "evidence_id": "finev_87e371d4c0ea2f28216e",
+      "symbol": "MLCF",
+      "metric": "operating_cash_flow",
+      "period_end": "2024-06-30",
+      "period_type": "annual",
+      "duration_months": 12,
+      "statement_type": "cash_flow_statement",
+      "consolidation": "consolidated",
+      "currency": "PKR",
+      "unit": "PKR",
+      "unit_multiplier": 1000,
+      "raw_value": "12,781,233",
+      "normalized_value": 12781233000.0,
+      "status": "quarantined",
+      "reasons": [
+       "invalid_structured_statement_type",
+       "not_income_statement",
+       "outside_required_earnings_bridge_metric_set",
+       "unsupported_structured_line"
+      ],
+      "source": {
+       "document_id": "psx:260032",
+       "fact_id": "fact_e734cb5efbe875cb1ce73b18",
+       "content_sha256": "4fdfb4cbd2eee65576cbb89b43334ce0c09a7e5ffd573d5bf93b414029eba6d1",
+       "source_url": "https://dps.psx.com.pk/download/document/260032.pdf",
+       "source": "PSX DPS",
+       "page": 295,
+       "text": "Net cash inflow from operating activities",
+       "available_on": "2025-09-25",
+       "published_at": "2025-09-25T12:43:00+05:00",
+       "retrieved_at": "2026-08-29T11:22:34Z"
+      },
+      "parser": {
+       "version": "financial_statement_v2",
+       "revision": "block_geometry_v5"
+      },
+      "evidence_label": "unknown",
+      "confidence": "low"
+     },
+     {
+      "reconciliation_id": "finrec_d87636784fb70d0b4bdd",
+      "evidence_id": "finev_68e6fbe350c6bfc4365e",
+      "symbol": "MLCF",
+      "metric": "operating_cash_flow",
+      "period_end": "2025-06-30",
+      "period_type": "annual",
+      "duration_months": 12,
+      "statement_type": "cash_flow_statement",
+      "consolidation": "consolidated",
+      "currency": "PKR",
+      "unit": "PKR",
+      "unit_multiplier": 1000,
+      "raw_value": "19,120,528",
+      "normalized_value": 19120528000.0,
+      "status": "quarantined",
+      "reasons": [
+       "invalid_structured_statement_type",
+       "not_income_statement",
+       "outside_required_earnings_bridge_metric_set",
+       "unsupported_structured_line"
+      ],
+      "source": {
+       "document_id": "psx:260032",
+       "fact_id": "fact_6e4ef4e4cd617379f6fd5aa8",
+       "content_sha256": "4fdfb4cbd2eee65576cbb89b43334ce0c09a7e5ffd573d5bf93b414029eba6d1",
+       "source_url": "https://dps.psx.com.pk/download/document/260032.pdf",
+       "source": "PSX DPS",
+       "page": 295,
+       "text": "Net cash inflow from operating activities",
+       "available_on": "2025-09-25",
+       "published_at": "2025-09-25T12:43:00+05:00",
+       "retrieved_at": "2026-08-29T11:22:34Z"
+      },
+      "parser": {
+       "version": "financial_statement_v2",
+       "revision": "block_geometry_v5"
+      },
+      "evidence_label": "unknown",
+      "confidence": "low"
+     },
+     {
+      "reconciliation_id": "finrec_b5e950dccaf9624e172a",
+      "evidence_id": "finev_783bce7d9cdbbe2b6813",
+      "symbol": "MLCF",
+      "metric": "operating_cash_flow",
+      "period_end": "2025-06-30",
+      "period_type": "annual",
+      "duration_months": 12,
+      "statement_type": "cash_flow_statement",
+      "consolidation": "unconsolidated",
+      "currency": "PKR",
+      "unit": "PKR",
+      "unit_multiplier": 1000,
+      "raw_value": "19,316,637",
+      "normalized_value": 19316637000.0,
+      "status": "quarantined",
+      "reasons": [
+       "invalid_structured_statement_type",
+       "missing_or_nonconsolidated_basis",
+       "not_income_statement",
+       "outside_required_earnings_bridge_metric_set",
+       "unsupported_structured_line"
+      ],
+      "source": {
+       "document_id": "psx:260032",
+       "fact_id": "fact_96dc675be30c5c317e7415d0",
+       "content_sha256": "4fdfb4cbd2eee65576cbb89b43334ce0c09a7e5ffd573d5bf93b414029eba6d1",
+       "source_url": "https://dps.psx.com.pk/download/document/260032.pdf",
+       "source": "PSX DPS",
+       "page": 205,
+       "text": "Net cash inflow from operating activities",
+       "available_on": "2025-09-25",
+       "published_at": "2025-09-25T12:43:00+05:00",
+       "retrieved_at": "2026-08-29T11:22:34Z"
+      },
+      "parser": {
+       "version": "financial_statement_v2",
+       "revision": "block_geometry_v5"
+      },
+      "evidence_label": "unknown",
+      "confidence": "low"
+     },
+     {
       "reconciliation_id": "finrec_459710338559fc659fc7",
       "evidence_id": "finev_de659980b56b6178d5f5",
       "symbol": "MLCF",
@@ -8251,6 +9703,1047 @@
        "revision": null
       },
       "evidence_label": "missing_required_source",
+      "confidence": "low"
+     },
+     {
+      "reconciliation_id": "finrec_8ee88da057e2e575c8c7",
+      "evidence_id": "finev_14907042594e49ef610f",
+      "symbol": "MLCF",
+      "metric": "profit",
+      "period_end": "2025-06-30",
+      "period_type": "annual",
+      "duration_months": null,
+      "statement_type": null,
+      "consolidation": "unknown",
+      "currency": "PKR",
+      "unit": "reported",
+      "unit_multiplier": 1,
+      "raw_value": "17,036,374",
+      "normalized_value": 17036374,
+      "status": "audit_only",
+      "reasons": [
+       "legacy_extractor_not_model_eligible",
+       "legacy_parser_revision_quarantine",
+       "missing_consolidation_basis",
+       "missing_or_nonconsolidated_basis",
+       "not_income_statement",
+       "not_twelve_month_annual",
+       "outside_required_earnings_bridge_metric_set",
+       "readiness_is_audit_only",
+       "unqualified_financial_fact_source"
+      ],
+      "source": {
+       "document_id": "psx:260032",
+       "fact_id": "fact_016fba04eaed7d7f4fb9",
+       "content_sha256": "4fdfb4cbd2eee65576cbb89b43334ce0c09a7e5ffd573d5bf93b414029eba6d1",
+       "source_url": "https://dps.psx.com.pk/download/document/260032.pdf",
+       "source": "PSX DPS",
+       "page": 82,
+       "text": "y (standalone) for the year is as under: - DESCRIPTION 2025 2024 -----Rs. in ‘000’------- Profit After tax 17,036,374 5,272,527 Dividend - - Balance Transferred to Retained Earnings 17,036,374 5,272,527 LEADERSHIP STRUCTURE COMPOSITION OF…",
+       "available_on": "2025-09-25",
+       "published_at": "2025-09-25T12:43:00+05:00",
+       "retrieved_at": "2026-08-29T11:22:34Z"
+      },
+      "parser": {
+       "version": null,
+       "revision": null
+      },
+      "evidence_label": "stale_source",
+      "confidence": "low"
+     },
+     {
+      "reconciliation_id": "finrec_606342e0a2939a1b069a",
+      "evidence_id": "finev_6647a8811a3a8d30063a",
+      "symbol": "MLCF",
+      "metric": "profit",
+      "period_end": "2025-06-30",
+      "period_type": "annual",
+      "duration_months": null,
+      "statement_type": null,
+      "consolidation": "unknown",
+      "currency": "PKR",
+      "unit": "reported",
+      "unit_multiplier": 1,
+      "raw_value": "4,678,939",
+      "normalized_value": 4678939,
+      "status": "audit_only",
+      "reasons": [
+       "legacy_extractor_not_model_eligible",
+       "legacy_parser_revision_quarantine",
+       "missing_consolidation_basis",
+       "missing_or_nonconsolidated_basis",
+       "not_income_statement",
+       "not_twelve_month_annual",
+       "outside_required_earnings_bridge_metric_set",
+       "readiness_is_audit_only",
+       "unqualified_financial_fact_source"
+      ],
+      "source": {
+       "document_id": "psx:260032",
+       "fact_id": "fact_0b466dc9fb54647742b5",
+       "content_sha256": "4fdfb4cbd2eee65576cbb89b43334ce0c09a7e5ffd573d5bf93b414029eba6d1",
+       "source_url": "https://dps.psx.com.pk/download/document/260032.pdf",
+       "source": "PSX DPS",
+       "page": 181,
+       "text": "upees ‘000 % Rupees ‘000 % Net turnover 15,719,838 34,747,988 51,379,114 68,942,446 Gross Profit 4,678,939 29.76% 11,817,407 34.01% 17,015,797 33.12% 23,746,816 34.44% Operating Profit 2,609,633 16.60% 8,754,490 25.19% 17,105,295 33.29% 25…",
+       "available_on": "2025-09-25",
+       "published_at": "2025-09-25T12:43:00+05:00",
+       "retrieved_at": "2026-08-29T11:22:34Z"
+      },
+      "parser": {
+       "version": null,
+       "revision": null
+      },
+      "evidence_label": "stale_source",
+      "confidence": "low"
+     },
+     {
+      "reconciliation_id": "finrec_5e3dc2a028b2ef5a08b9",
+      "evidence_id": "finev_68147520d795a8f7bf5b",
+      "symbol": "MLCF",
+      "metric": "profit",
+      "period_end": "2025-06-30",
+      "period_type": "annual",
+      "duration_months": null,
+      "statement_type": null,
+      "consolidation": "unconsolidated",
+      "currency": "PKR",
+      "unit": "reported",
+      "unit_multiplier": 1,
+      "raw_value": "57,389,001",
+      "normalized_value": 57389001,
+      "status": "audit_only",
+      "reasons": [
+       "legacy_extractor_not_model_eligible",
+       "legacy_parser_revision_quarantine",
+       "missing_or_nonconsolidated_basis",
+       "not_income_statement",
+       "not_twelve_month_annual",
+       "outside_required_earnings_bridge_metric_set",
+       "readiness_is_audit_only",
+       "unqualified_financial_fact_source"
+      ],
+      "source": {
+       "document_id": "psx:260032",
+       "fact_id": "fact_12346d6f7cc6ed781968",
+       "content_sha256": "4fdfb4cbd2eee65576cbb89b43334ce0c09a7e5ffd573d5bf93b414029eba6d1",
+       "source_url": "https://dps.psx.com.pk/download/document/260032.pdf",
+       "source": "PSX DPS",
+       "page": 179,
+       "text": "475,626 10,475,626 10,733,462 10,983,462 10,983,462 10,983,462 Reserves & Un-appropriated Profit 57,389,001 38,125,058 32,310,664 27,115,586 23,469,104 16,722,039 Surplus on Revaluation of PPE 3,596,965 4,015,224 1,868,989 2,459,967 3,089,…",
+       "available_on": "2025-09-25",
+       "published_at": "2025-09-25T12:43:00+05:00",
+       "retrieved_at": "2026-08-29T11:22:34Z"
+      },
+      "parser": {
+       "version": null,
+       "revision": null
+      },
+      "evidence_label": "stale_source",
+      "confidence": "low"
+     },
+     {
+      "reconciliation_id": "finrec_f1f912131505f417e038",
+      "evidence_id": "finev_69896e949ef7d305a15e",
+      "symbol": "MLCF",
+      "metric": "profit",
+      "period_end": "2025-06-30",
+      "period_type": "annual",
+      "duration_months": null,
+      "statement_type": null,
+      "consolidation": "unknown",
+      "currency": "PKR",
+      "unit": "reported",
+      "unit_multiplier": 1000,
+      "raw_value": "30",
+      "normalized_value": 30000,
+      "status": "audit_only",
+      "reasons": [
+       "legacy_extractor_not_model_eligible",
+       "legacy_parser_revision_quarantine",
+       "missing_consolidation_basis",
+       "missing_or_nonconsolidated_basis",
+       "not_income_statement",
+       "not_twelve_month_annual",
+       "outside_required_earnings_bridge_metric_set",
+       "readiness_is_audit_only",
+       "unqualified_financial_fact_source"
+      ],
+      "source": {
+       "document_id": "psx:260032",
+       "fact_id": "fact_1cfc4cfb1638975838d4",
+       "content_sha256": "4fdfb4cbd2eee65576cbb89b43334ce0c09a7e5ffd573d5bf93b414029eba6d1",
+       "source_url": "https://dps.psx.com.pk/download/document/260032.pdf",
+       "source": "PSX DPS",
+       "page": 202,
+       "text": "ts 28 11,102,413 4,220,262 Short term deposits and prepayments 29 688,697 963,478 Accrued profit 30 42,880 20,333 Other receivables 31 70,152 132,093 Advance income tax 32 - 227,415 Cash and bank balances 33 1,615,481 1,133,412 35,752,604…",
+       "available_on": "2025-09-25",
+       "published_at": "2025-09-25T12:43:00+05:00",
+       "retrieved_at": "2026-08-29T11:22:34Z"
+      },
+      "parser": {
+       "version": null,
+       "revision": null
+      },
+      "evidence_label": "stale_source",
+      "confidence": "low"
+     },
+     {
+      "reconciliation_id": "finrec_a9d1f42bdb8eaf2445e7",
+      "evidence_id": "finev_dba88dbcd244f6c4e637",
+      "symbol": "MLCF",
+      "metric": "profit",
+      "period_end": "2025-06-30",
+      "period_type": "annual",
+      "duration_months": null,
+      "statement_type": null,
+      "consolidation": "unknown",
+      "currency": "PKR",
+      "unit": "reported",
+      "unit_multiplier": 1000,
+      "raw_value": "42,880",
+      "normalized_value": 42880000,
+      "status": "audit_only",
+      "reasons": [
+       "legacy_extractor_not_model_eligible",
+       "legacy_parser_revision_quarantine",
+       "missing_consolidation_basis",
+       "missing_or_nonconsolidated_basis",
+       "not_income_statement",
+       "not_twelve_month_annual",
+       "outside_required_earnings_bridge_metric_set",
+       "readiness_is_audit_only",
+       "unqualified_financial_fact_source"
+      ],
+      "source": {
+       "document_id": "psx:260032",
+       "fact_id": "fact_26810c4fce79ecb3b2a2",
+       "content_sha256": "4fdfb4cbd2eee65576cbb89b43334ce0c09a7e5ffd573d5bf93b414029eba6d1",
+       "source_url": "https://dps.psx.com.pk/download/document/260032.pdf",
+       "source": "PSX DPS",
+       "page": 275,
+       "text": "term investments 484,500 384,500 Margins and short term deposits 654,761 686,456 Accrued profit 42,880 20,333 Other receivables 70,152 132,093 Cash at bank 1,608,350 1,127,985 7,569,711 6,655,643 Financial assets at fair value through prof…",
+       "available_on": "2025-09-25",
+       "published_at": "2025-09-25T12:43:00+05:00",
+       "retrieved_at": "2026-08-29T11:22:34Z"
+      },
+      "parser": {
+       "version": null,
+       "revision": null
+      },
+      "evidence_label": "stale_source",
+      "confidence": "low"
+     },
+     {
+      "reconciliation_id": "finrec_67bb9dd816a799a9437c",
+      "evidence_id": "finev_f8972615ea7b491f9c61",
+      "symbol": "MLCF",
+      "metric": "profit",
+      "period_end": "2025-06-30",
+      "period_type": "annual",
+      "duration_months": null,
+      "statement_type": null,
+      "consolidation": "consolidated",
+      "currency": "PKR",
+      "unit": "reported",
+      "unit_multiplier": 1000000,
+      "raw_value": "25,442",
+      "normalized_value": 25442000000,
+      "status": "audit_only",
+      "reasons": [
+       "legacy_extractor_not_model_eligible",
+       "legacy_parser_revision_quarantine",
+       "not_income_statement",
+       "not_twelve_month_annual",
+       "outside_required_earnings_bridge_metric_set",
+       "readiness_is_audit_only",
+       "unqualified_financial_fact_source"
+      ],
+      "source": {
+       "document_id": "psx:260032",
+       "fact_id": "fact_27e8c74b067702dde63a",
+       "content_sha256": "4fdfb4cbd2eee65576cbb89b43334ce0c09a7e5ffd573d5bf93b414029eba6d1",
+       "source_url": "https://dps.psx.com.pk/download/document/260032.pdf",
+       "source": "PSX DPS",
+       "page": 286,
+       "text": "are as follows: June 30, June 30, 2025 2024 (Rupees in million) Sales 68,654 66,452 Gross Profit 25,442 22,430 Profit from operations 19,108 14,219 Financial charges - Net 1,978 3,412 Profit after tax 11,503 6,920 ------------- (Rupees) --…",
+       "available_on": "2025-09-25",
+       "published_at": "2025-09-25T12:43:00+05:00",
+       "retrieved_at": "2026-08-29T11:22:34Z"
+      },
+      "parser": {
+       "version": null,
+       "revision": null
+      },
+      "evidence_label": "stale_source",
+      "confidence": "low"
+     },
+     {
+      "reconciliation_id": "finrec_82c0dd439fd9f50f6c75",
+      "evidence_id": "finev_ae59ebaf83d06e0e21a0",
+      "symbol": "MLCF",
+      "metric": "profit",
+      "period_end": "2025-06-30",
+      "period_type": "annual",
+      "duration_months": null,
+      "statement_type": null,
+      "consolidation": "unknown",
+      "currency": "PKR",
+      "unit": "reported",
+      "unit_multiplier": 1,
+      "raw_value": "7,416,418",
+      "normalized_value": 7416418,
+      "status": "audit_only",
+      "reasons": [
+       "legacy_extractor_not_model_eligible",
+       "legacy_parser_revision_quarantine",
+       "missing_consolidation_basis",
+       "missing_or_nonconsolidated_basis",
+       "not_income_statement",
+       "not_twelve_month_annual",
+       "outside_required_earnings_bridge_metric_set",
+       "readiness_is_audit_only",
+       "unqualified_financial_fact_source"
+      ],
+      "source": {
+       "document_id": "psx:260032",
+       "fact_id": "fact_397eb0d3fb8f1b099f07",
+       "content_sha256": "4fdfb4cbd2eee65576cbb89b43334ce0c09a7e5ffd573d5bf93b414029eba6d1",
+       "source_url": "https://dps.psx.com.pk/download/document/260032.pdf",
+       "source": "PSX DPS",
+       "page": 63,
+       "text": "15,828,420 Current assets 18,978,912 Revenue 59,414,125 Gross Profit 9,802,378 Operating Profit 7,416,418 Net Profit 2,749,816 Earnings per share (Rs.) 10.21",
+       "available_on": "2025-09-25",
+       "published_at": "2025-09-25T12:43:00+05:00",
+       "retrieved_at": "2026-08-29T11:22:34Z"
+      },
+      "parser": {
+       "version": null,
+       "revision": null
+      },
+      "evidence_label": "stale_source",
+      "confidence": "low"
+     },
+     {
+      "reconciliation_id": "finrec_ebab12f560f6bc1d89cd",
+      "evidence_id": "finev_715788f6c25228ba4b15",
+      "symbol": "MLCF",
+      "metric": "profit",
+      "period_end": "2025-06-30",
+      "period_type": "annual",
+      "duration_months": null,
+      "statement_type": null,
+      "consolidation": "unknown",
+      "currency": "PKR",
+      "unit": "reported",
+      "unit_multiplier": 1000,
+      "raw_value": "24,187,950",
+      "normalized_value": 24187950000,
+      "status": "audit_only",
+      "reasons": [
+       "conflicting_consolidation_labels",
+       "legacy_extractor_not_model_eligible",
+       "legacy_parser_revision_quarantine",
+       "missing_or_nonconsolidated_basis",
+       "not_income_statement",
+       "not_twelve_month_annual",
+       "outside_required_earnings_bridge_metric_set",
+       "readiness_is_audit_only",
+       "unqualified_financial_fact_source"
+      ],
+      "source": {
+       "document_id": "psx:260032",
+       "fact_id": "fact_45bcfea41e7aa782f939",
+       "content_sha256": "4fdfb4cbd2eee65576cbb89b43334ce0c09a7e5ffd573d5bf93b414029eba6d1",
+       "source_url": "https://dps.psx.com.pk/download/document/260032.pdf",
+       "source": "PSX DPS",
+       "page": 75,
+       "text": "66,452,348 2,490,098 3.75% Gross Profit 23,746,816 20,964,284 2,782,532 13.27% Operating Profit 24,187,950 12,952,043 11,235,907 86.75% Finance Cost - Net 2,523,713 4,020,595 (1,496,882) -37.23% Profit Before Taxation 21,664,237 8,931,448…",
+       "available_on": "2025-09-25",
+       "published_at": "2025-09-25T12:43:00+05:00",
+       "retrieved_at": "2026-08-29T11:22:34Z"
+      },
+      "parser": {
+       "version": null,
+       "revision": null
+      },
+      "evidence_label": "stale_source",
+      "confidence": "low"
+     },
+     {
+      "reconciliation_id": "finrec_96cdfea5ccf735198de2",
+      "evidence_id": "finev_7aced067ed8a81ad4300",
+      "symbol": "MLCF",
+      "metric": "profit",
+      "period_end": "2025-06-30",
+      "period_type": "annual",
+      "duration_months": null,
+      "statement_type": null,
+      "consolidation": "consolidated",
+      "currency": "PKR",
+      "unit": "reported",
+      "unit_multiplier": 1000000,
+      "raw_value": "11,503 m",
+      "normalized_value": 11503000000,
+      "status": "audit_only",
+      "reasons": [
+       "legacy_extractor_not_model_eligible",
+       "legacy_parser_revision_quarantine",
+       "not_income_statement",
+       "not_twelve_month_annual",
+       "outside_required_earnings_bridge_metric_set",
+       "readiness_is_audit_only",
+       "unqualified_financial_fact_source"
+      ],
+      "source": {
+       "document_id": "psx:260032",
+       "fact_id": "fact_6ff3fcca412325534d77",
+       "content_sha256": "4fdfb4cbd2eee65576cbb89b43334ce0c09a7e5ffd573d5bf93b414029eba6d1",
+       "source_url": "https://dps.psx.com.pk/download/document/260032.pdf",
+       "source": "PSX DPS",
+       "page": 77,
+       "text": "pacted post-tax bottom line for the reporting year to register an increase of 66.24% at a profit of Rs. 11,503 million against consolidated profit of Rs. 6,920 million in the bottom line for corresponding year. The State Bank of Pakistan h…",
+       "available_on": "2025-09-25",
+       "published_at": "2025-09-25T12:43:00+05:00",
+       "retrieved_at": "2026-08-29T11:22:34Z"
+      },
+      "parser": {
+       "version": null,
+       "revision": null
+      },
+      "evidence_label": "stale_source",
+      "confidence": "low"
+     },
+     {
+      "reconciliation_id": "finrec_530ecfc27f1e9a2c88cd",
+      "evidence_id": "finev_d374bb1b5fb9db88b0eb",
+      "symbol": "MLCF",
+      "metric": "profit",
+      "period_end": "2025-06-30",
+      "period_type": "annual",
+      "duration_months": null,
+      "statement_type": null,
+      "consolidation": "unknown",
+      "currency": "PKR",
+      "unit": "reported",
+      "unit_multiplier": 1000,
+      "raw_value": "25,441,916",
+      "normalized_value": 25441916000,
+      "status": "audit_only",
+      "reasons": [
+       "conflicting_consolidation_labels",
+       "legacy_extractor_not_model_eligible",
+       "legacy_parser_revision_quarantine",
+       "missing_or_nonconsolidated_basis",
+       "not_income_statement",
+       "not_twelve_month_annual",
+       "outside_required_earnings_bridge_metric_set",
+       "readiness_is_audit_only",
+       "unqualified_financial_fact_source"
+      ],
+      "source": {
+       "document_id": "psx:260032",
+       "fact_id": "fact_7be8ff89f487eaf76541",
+       "content_sha256": "4fdfb4cbd2eee65576cbb89b43334ce0c09a7e5ffd573d5bf93b414029eba6d1",
+       "source_url": "https://dps.psx.com.pk/download/document/260032.pdf",
+       "source": "PSX DPS",
+       "page": 75,
+       "text": "t %age (Rupees in thousand) Net Sales Revenue 68,653,999 66,452,348 2,201,651 3.31% Gross Profit 25,441,916 22,430,465 3,011,451 13.43% Operating Profit 19,107,711 14,218,570 4,889,141 34.39% Finance Cost - Net 1,977,933 3,412,463 (1,434,5…",
+       "available_on": "2025-09-25",
+       "published_at": "2025-09-25T12:43:00+05:00",
+       "retrieved_at": "2026-08-29T11:22:34Z"
+      },
+      "parser": {
+       "version": null,
+       "revision": null
+      },
+      "evidence_label": "stale_source",
+      "confidence": "low"
+     },
+     {
+      "reconciliation_id": "finrec_353b5bf444725d8c6e0c",
+      "evidence_id": "finev_38ce95b3830a80901304",
+      "symbol": "MLCF",
+      "metric": "profit",
+      "period_end": "2025-06-30",
+      "period_type": "annual",
+      "duration_months": null,
+      "statement_type": null,
+      "consolidation": "unknown",
+      "currency": "PKR",
+      "unit": "reported",
+      "unit_multiplier": 1000,
+      "raw_value": "23,746,816",
+      "normalized_value": 23746816000,
+      "status": "audit_only",
+      "reasons": [
+       "conflicting_consolidation_labels",
+       "legacy_extractor_not_model_eligible",
+       "legacy_parser_revision_quarantine",
+       "missing_or_nonconsolidated_basis",
+       "not_income_statement",
+       "not_twelve_month_annual",
+       "outside_required_earnings_bridge_metric_set",
+       "readiness_is_audit_only",
+       "unqualified_financial_fact_source"
+      ],
+      "source": {
+       "document_id": "psx:260032",
+       "fact_id": "fact_8909b39da704f1c94af8",
+       "content_sha256": "4fdfb4cbd2eee65576cbb89b43334ce0c09a7e5ffd573d5bf93b414029eba6d1",
+       "source_url": "https://dps.psx.com.pk/download/document/260032.pdf",
+       "source": "PSX DPS",
+       "page": 75,
+       "text": "t %age (Rupees in thousand) Net Sales Revenue 68,942,446 66,452,348 2,490,098 3.75% Gross Profit 23,746,816 20,964,284 2,782,532 13.27% Operating Profit 24,187,950 12,952,043 11,235,907 86.75% Finance Cost - Net 2,523,713 4,020,595 (1,496,…",
+       "available_on": "2025-09-25",
+       "published_at": "2025-09-25T12:43:00+05:00",
+       "retrieved_at": "2026-08-29T11:22:34Z"
+      },
+      "parser": {
+       "version": null,
+       "revision": null
+      },
+      "evidence_label": "stale_source",
+      "confidence": "low"
+     },
+     {
+      "reconciliation_id": "finrec_eb7cc806b59b908b6228",
+      "evidence_id": "finev_153b5f6179779bc20096",
+      "symbol": "MLCF",
+      "metric": "profit",
+      "period_end": "2025-06-30",
+      "period_type": "annual",
+      "duration_months": null,
+      "statement_type": null,
+      "consolidation": "unknown",
+      "currency": "PKR",
+      "unit": "reported",
+      "unit_multiplier": 1,
+      "raw_value": "2,609,633",
+      "normalized_value": 2609633,
+      "status": "audit_only",
+      "reasons": [
+       "legacy_extractor_not_model_eligible",
+       "legacy_parser_revision_quarantine",
+       "missing_consolidation_basis",
+       "missing_or_nonconsolidated_basis",
+       "not_income_statement",
+       "not_twelve_month_annual",
+       "outside_required_earnings_bridge_metric_set",
+       "readiness_is_audit_only",
+       "unqualified_financial_fact_source"
+      ],
+      "source": {
+       "document_id": "psx:260032",
+       "fact_id": "fact_93fc93d244204ee29594",
+       "content_sha256": "4fdfb4cbd2eee65576cbb89b43334ce0c09a7e5ffd573d5bf93b414029eba6d1",
+       "source_url": "https://dps.psx.com.pk/download/document/260032.pdf",
+       "source": "PSX DPS",
+       "page": 181,
+       "text": "s Profit 4,678,939 29.76% 11,817,407 34.01% 17,015,797 33.12% 23,746,816 34.44% Operating Profit 2,609,633 16.60% 8,754,490 25.19% 17,105,295 33.29% 25,219,025 36.58% Net Profit Before Tax 1,702,153 10.83% 6,237,221 17.95% 14,979,857 29.16…",
+       "available_on": "2025-09-25",
+       "published_at": "2025-09-25T12:43:00+05:00",
+       "retrieved_at": "2026-08-29T11:22:34Z"
+      },
+      "parser": {
+       "version": null,
+       "revision": null
+      },
+      "evidence_label": "stale_source",
+      "confidence": "low"
+     },
+     {
+      "reconciliation_id": "finrec_4a55bc3efd9dc727318d",
+      "evidence_id": "finev_0230f87491879b4ba15f",
+      "symbol": "MLCF",
+      "metric": "profit",
+      "period_end": "2025-06-30",
+      "period_type": "annual",
+      "duration_months": null,
+      "statement_type": null,
+      "consolidation": "unknown",
+      "currency": "PKR",
+      "unit": "reported",
+      "unit_multiplier": 1000,
+      "raw_value": "19,107,711",
+      "normalized_value": 19107711000,
+      "status": "audit_only",
+      "reasons": [
+       "conflicting_consolidation_labels",
+       "legacy_extractor_not_model_eligible",
+       "legacy_parser_revision_quarantine",
+       "missing_or_nonconsolidated_basis",
+       "not_income_statement",
+       "not_twelve_month_annual",
+       "outside_required_earnings_bridge_metric_set",
+       "readiness_is_audit_only",
+       "unqualified_financial_fact_source"
+      ],
+      "source": {
+       "document_id": "psx:260032",
+       "fact_id": "fact_974a22e3caed52398538",
+       "content_sha256": "4fdfb4cbd2eee65576cbb89b43334ce0c09a7e5ffd573d5bf93b414029eba6d1",
+       "source_url": "https://dps.psx.com.pk/download/document/260032.pdf",
+       "source": "PSX DPS",
+       "page": 75,
+       "text": "66,452,348 2,201,651 3.31% Gross Profit 25,441,916 22,430,465 3,011,451 13.43% Operating Profit 19,107,711 14,218,570 4,889,141 34.39% Finance Cost - Net 1,977,933 3,412,463 (1,434,530) -42.04% Profit Before Taxation 16,368,707 10,806,107…",
+       "available_on": "2025-09-25",
+       "published_at": "2025-09-25T12:43:00+05:00",
+       "retrieved_at": "2026-08-29T11:22:34Z"
+      },
+      "parser": {
+       "version": null,
+       "revision": null
+      },
+      "evidence_label": "stale_source",
+      "confidence": "low"
+     },
+     {
+      "reconciliation_id": "finrec_fb0e1dc79eb137fa4ee3",
+      "evidence_id": "finev_f98d3d61494294945e9d",
+      "symbol": "MLCF",
+      "metric": "profit",
+      "period_end": "2025-06-30",
+      "period_type": "annual",
+      "duration_months": null,
+      "statement_type": null,
+      "consolidation": "consolidated",
+      "currency": "PKR",
+      "unit": "reported",
+      "unit_multiplier": 1000,
+      "raw_value": "2025",
+      "normalized_value": 2025000,
+      "status": "audit_only",
+      "reasons": [
+       "legacy_extractor_not_model_eligible",
+       "legacy_parser_revision_quarantine",
+       "not_income_statement",
+       "not_twelve_month_annual",
+       "outside_required_earnings_bridge_metric_set",
+       "readiness_is_audit_only",
+       "unqualified_financial_fact_source"
+      ],
+      "source": {
+       "document_id": "psx:260032",
+       "fact_id": "fact_a071690f13dbea1a26aa",
+       "content_sha256": "4fdfb4cbd2eee65576cbb89b43334ce0c09a7e5ffd573d5bf93b414029eba6d1",
+       "source_url": "https://dps.psx.com.pk/download/document/260032.pdf",
+       "source": "PSX DPS",
+       "page": 370,
+       "text": "consolidated post-tax profit for the year would have been, as follows: Impact on post-tax profit 2025 2024 (Rupees in thousand) USD/PKR exchange rate - PKR weakened (101,462) (14,189) USD/PKR exchange rate - PKR strengthened 101,462 14,189…",
+       "available_on": "2025-09-25",
+       "published_at": "2025-09-25T12:43:00+05:00",
+       "retrieved_at": "2026-08-29T11:22:34Z"
+      },
+      "parser": {
+       "version": null,
+       "revision": null
+      },
+      "evidence_label": "stale_source",
+      "confidence": "low"
+     },
+     {
+      "reconciliation_id": "finrec_df4cfb22cb9d2fc5ea62",
+      "evidence_id": "finev_24070dbe3b3d36a11f20",
+      "symbol": "MLCF",
+      "metric": "profit",
+      "period_end": "2025-06-30",
+      "period_type": "annual",
+      "duration_months": null,
+      "statement_type": null,
+      "consolidation": "unknown",
+      "currency": "PKR",
+      "unit": "reported",
+      "unit_multiplier": 1,
+      "raw_value": "2,749,816",
+      "normalized_value": 2749816,
+      "status": "audit_only",
+      "reasons": [
+       "legacy_extractor_not_model_eligible",
+       "legacy_parser_revision_quarantine",
+       "missing_consolidation_basis",
+       "missing_or_nonconsolidated_basis",
+       "not_income_statement",
+       "not_twelve_month_annual",
+       "outside_required_earnings_bridge_metric_set",
+       "readiness_is_audit_only",
+       "unqualified_financial_fact_source"
+      ],
+      "source": {
+       "document_id": "psx:260032",
+       "fact_id": "fact_b52d05c2b73907099216",
+       "content_sha256": "4fdfb4cbd2eee65576cbb89b43334ce0c09a7e5ffd573d5bf93b414029eba6d1",
+       "source_url": "https://dps.psx.com.pk/download/document/260032.pdf",
+       "source": "PSX DPS",
+       "page": 63,
+       "text": "ssets 18,978,912 Revenue 59,414,125 Gross Profit 9,802,378 Operating Profit 7,416,418 Net Profit 2,749,816 Earnings per share (Rs.) 10.21",
+       "available_on": "2025-09-25",
+       "published_at": "2025-09-25T12:43:00+05:00",
+       "retrieved_at": "2026-08-29T11:22:34Z"
+      },
+      "parser": {
+       "version": null,
+       "revision": null
+      },
+      "evidence_label": "stale_source",
+      "confidence": "low"
+     },
+     {
+      "reconciliation_id": "finrec_49ce4942bc825ca04e9d",
+      "evidence_id": "finev_0153988eb0a26bad2073",
+      "symbol": "MLCF",
+      "metric": "profit",
+      "period_end": "2025-06-30",
+      "period_type": "annual",
+      "duration_months": null,
+      "statement_type": null,
+      "consolidation": "unknown",
+      "currency": "PKR",
+      "unit": "reported",
+      "unit_multiplier": 1,
+      "raw_value": "9,802,378",
+      "normalized_value": 9802378,
+      "status": "audit_only",
+      "reasons": [
+       "legacy_extractor_not_model_eligible",
+       "legacy_parser_revision_quarantine",
+       "missing_consolidation_basis",
+       "missing_or_nonconsolidated_basis",
+       "not_income_statement",
+       "not_twelve_month_annual",
+       "outside_required_earnings_bridge_metric_set",
+       "readiness_is_audit_only",
+       "unqualified_financial_fact_source"
+      ],
+      "source": {
+       "document_id": "psx:260032",
+       "fact_id": "fact_beb4f7c9d347b8b5b590",
+       "content_sha256": "4fdfb4cbd2eee65576cbb89b43334ce0c09a7e5ffd573d5bf93b414029eba6d1",
+       "source_url": "https://dps.psx.com.pk/download/document/260032.pdf",
+       "source": "PSX DPS",
+       "page": 63,
+       "text": "982,372 Current liabilities 15,828,420 Current assets 18,978,912 Revenue 59,414,125 Gross Profit 9,802,378 Operating Profit 7,416,418 Net Profit 2,749,816 Earnings per share (Rs.) 10.21",
+       "available_on": "2025-09-25",
+       "published_at": "2025-09-25T12:43:00+05:00",
+       "retrieved_at": "2026-08-29T11:22:34Z"
+      },
+      "parser": {
+       "version": null,
+       "revision": null
+      },
+      "evidence_label": "stale_source",
+      "confidence": "low"
+     },
+     {
+      "reconciliation_id": "finrec_441ef4156590eb504a95",
+      "evidence_id": "finev_4b6ab28dff87477fedf1",
+      "symbol": "MLCF",
+      "metric": "profit",
+      "period_end": "2025-06-30",
+      "period_type": "annual",
+      "duration_months": null,
+      "statement_type": null,
+      "consolidation": "consolidated",
+      "currency": "PKR",
+      "unit": "reported",
+      "unit_multiplier": 1000000,
+      "raw_value": "6,920 m",
+      "normalized_value": 6920000000,
+      "status": "audit_only",
+      "reasons": [
+       "legacy_extractor_not_model_eligible",
+       "legacy_parser_revision_quarantine",
+       "not_income_statement",
+       "not_twelve_month_annual",
+       "outside_required_earnings_bridge_metric_set",
+       "readiness_is_audit_only",
+       "unqualified_financial_fact_source"
+      ],
+      "source": {
+       "document_id": "psx:260032",
+       "fact_id": "fact_c28a18ecdb34aa096f49",
+       "content_sha256": "4fdfb4cbd2eee65576cbb89b43334ce0c09a7e5ffd573d5bf93b414029eba6d1",
+       "source_url": "https://dps.psx.com.pk/download/document/260032.pdf",
+       "source": "PSX DPS",
+       "page": 77,
+       "text": "to register an increase of 66.24% at a profit of Rs. 11,503 million against consolidated profit of Rs. 6,920 million in the bottom line for corresponding year. The State Bank of Pakistan has significantly reduced interest rates, lowering f…",
+       "available_on": "2025-09-25",
+       "published_at": "2025-09-25T12:43:00+05:00",
+       "retrieved_at": "2026-08-29T11:22:34Z"
+      },
+      "parser": {
+       "version": null,
+       "revision": null
+      },
+      "evidence_label": "stale_source",
+      "confidence": "low"
+     },
+     {
+      "reconciliation_id": "finrec_60efca3c33606c1a4798",
+      "evidence_id": "finev_5de233edeb3484636ecb",
+      "symbol": "MLCF",
+      "metric": "profit",
+      "period_end": "2025-06-30",
+      "period_type": "annual",
+      "duration_months": null,
+      "statement_type": null,
+      "consolidation": "consolidated",
+      "currency": "PKR",
+      "unit": "reported",
+      "unit_multiplier": 1000000,
+      "raw_value": "11,503",
+      "normalized_value": 11503000000,
+      "status": "audit_only",
+      "reasons": [
+       "legacy_extractor_not_model_eligible",
+       "legacy_parser_revision_quarantine",
+       "not_income_statement",
+       "not_twelve_month_annual",
+       "outside_required_earnings_bridge_metric_set",
+       "readiness_is_audit_only",
+       "unqualified_financial_fact_source"
+      ],
+      "source": {
+       "document_id": "psx:260032",
+       "fact_id": "fact_c2ae2b75e9a5cda3e934",
+       "content_sha256": "4fdfb4cbd2eee65576cbb89b43334ce0c09a7e5ffd573d5bf93b414029eba6d1",
+       "source_url": "https://dps.psx.com.pk/download/document/260032.pdf",
+       "source": "PSX DPS",
+       "page": 286,
+       "text": "it 25,442 22,430 Profit from operations 19,108 14,219 Financial charges - Net 1,978 3,412 Profit after tax 11,503 6,920 ------------- (Rupees) ------------- Earnings per share – basic and diluted 10.98 6.51 SUBSIDIARY COMPANY MAPLE LEAF PO…",
+       "available_on": "2025-09-25",
+       "published_at": "2025-09-25T12:43:00+05:00",
+       "retrieved_at": "2026-08-29T11:22:34Z"
+      },
+      "parser": {
+       "version": null,
+       "revision": null
+      },
+      "evidence_label": "stale_source",
+      "confidence": "low"
+     },
+     {
+      "reconciliation_id": "finrec_4c0b5f3c10f6b1a480f8",
+      "evidence_id": "finev_8da3722bbc83ce6486eb",
+      "symbol": "MLCF",
+      "metric": "profit",
+      "period_end": "2025-06-30",
+      "period_type": "annual",
+      "duration_months": null,
+      "statement_type": null,
+      "consolidation": "consolidated",
+      "currency": "PKR",
+      "unit": "reported",
+      "unit_multiplier": 1000000,
+      "raw_value": "2,132 m",
+      "normalized_value": 2132000000,
+      "status": "audit_only",
+      "reasons": [
+       "legacy_extractor_not_model_eligible",
+       "legacy_parser_revision_quarantine",
+       "not_income_statement",
+       "not_twelve_month_annual",
+       "outside_required_earnings_bridge_metric_set",
+       "readiness_is_audit_only",
+       "unqualified_financial_fact_source"
+      ],
+      "source": {
+       "document_id": "psx:260032",
+       "fact_id": "fact_c73ae1894f090234e55c",
+       "content_sha256": "4fdfb4cbd2eee65576cbb89b43334ce0c09a7e5ffd573d5bf93b414029eba6d1",
+       "source_url": "https://dps.psx.com.pk/download/document/260032.pdf",
+       "source": "PSX DPS",
+       "page": 77,
+       "text": "76 to other income. MLPL has earned net profit of Rs. 2,132 million during the financial year 2024-25. During the year, MLPL operations have favorably impacted consolidated results by yielding substantial saving",
+       "available_on": "2025-09-25",
+       "published_at": "2025-09-25T12:43:00+05:00",
+       "retrieved_at": "2026-08-29T11:22:34Z"
+      },
+      "parser": {
+       "version": null,
+       "revision": null
+      },
+      "evidence_label": "stale_source",
+      "confidence": "low"
+     },
+     {
+      "reconciliation_id": "finrec_ce141c01977e9df4000a",
+      "evidence_id": "finev_f3bec98d45142891afef",
+      "symbol": "MLCF",
+      "metric": "profit",
+      "period_end": "2025-06-30",
+      "period_type": "annual",
+      "duration_months": null,
+      "statement_type": null,
+      "consolidation": "consolidated",
+      "currency": "PKR",
+      "unit": "reported",
+      "unit_multiplier": 1000000,
+      "raw_value": "25,442 m",
+      "normalized_value": 25442000000,
+      "status": "audit_only",
+      "reasons": [
+       "legacy_extractor_not_model_eligible",
+       "legacy_parser_revision_quarantine",
+       "not_income_statement",
+       "not_twelve_month_annual",
+       "outside_required_earnings_bridge_metric_set",
+       "readiness_is_audit_only",
+       "unqualified_financial_fact_source"
+      ],
+      "source": {
+       "document_id": "psx:260032",
+       "fact_id": "fact_cf091989ec8c49e1872e",
+       "content_sha256": "4fdfb4cbd2eee65576cbb89b43334ce0c09a7e5ffd573d5bf93b414029eba6d1",
+       "source_url": "https://dps.psx.com.pk/download/document/260032.pdf",
+       "source": "PSX DPS",
+       "page": 76,
+       "text": "rementioned factors influencing production costs, the Company achieved consolidated gross profit of Rs. 25,442 million during the year, a 13.43% increase from Rs.22,430 million in the last year. The Company recorded consolidated pre-tax pr…",
+       "available_on": "2025-09-25",
+       "published_at": "2025-09-25T12:43:00+05:00",
+       "retrieved_at": "2026-08-29T11:22:34Z"
+      },
+      "parser": {
+       "version": null,
+       "revision": null
+      },
+      "evidence_label": "stale_source",
+      "confidence": "low"
+     },
+     {
+      "reconciliation_id": "finrec_c09203161c9106121076",
+      "evidence_id": "finev_eb405c008227a7709d62",
+      "symbol": "MLCF",
+      "metric": "profit",
+      "period_end": "2025-06-30",
+      "period_type": "annual",
+      "duration_months": null,
+      "statement_type": null,
+      "consolidation": "unknown",
+      "currency": "PKR",
+      "unit": "reported",
+      "unit_multiplier": 1,
+      "raw_value": "1,041,387",
+      "normalized_value": 1041387,
+      "status": "audit_only",
+      "reasons": [
+       "legacy_extractor_not_model_eligible",
+       "legacy_parser_revision_quarantine",
+       "missing_consolidation_basis",
+       "missing_or_nonconsolidated_basis",
+       "not_income_statement",
+       "not_twelve_month_annual",
+       "outside_required_earnings_bridge_metric_set",
+       "readiness_is_audit_only",
+       "unqualified_financial_fact_source"
+      ],
+      "source": {
+       "document_id": "psx:260032",
+       "fact_id": "fact_da8cbab7a725f623d22a",
+       "content_sha256": "4fdfb4cbd2eee65576cbb89b43334ce0c09a7e5ffd573d5bf93b414029eba6d1",
+       "source_url": "https://dps.psx.com.pk/download/document/260032.pdf",
+       "source": "PSX DPS",
+       "page": 181,
+       "text": "ofit Before Tax 1,702,153 10.83% 6,237,221 17.95% 14,979,857 29.16% 21,664,237 31.42% Net Profit After Tax 1,041,387 6.62% 4,268,926 12.29% 12,118,386 23.59% 17,036,374 24.71% Debt Equity Ratio 12,842,284 19:81 14,468,057 20:80 15,029,383…",
+       "available_on": "2025-09-25",
+       "published_at": "2025-09-25T12:43:00+05:00",
+       "retrieved_at": "2026-08-29T11:22:34Z"
+      },
+      "parser": {
+       "version": null,
+       "revision": null
+      },
+      "evidence_label": "stale_source",
+      "confidence": "low"
+     },
+     {
+      "reconciliation_id": "finrec_b5d82d094712cf283c59",
+      "evidence_id": "finev_3b281dd940b37e248aec",
+      "symbol": "MLCF",
+      "metric": "profit",
+      "period_end": "2025-06-30",
+      "period_type": "annual",
+      "duration_months": null,
+      "statement_type": null,
+      "consolidation": "unknown",
+      "currency": "PKR",
+      "unit": "reported",
+      "unit_multiplier": 1000000,
+      "raw_value": "11,503",
+      "normalized_value": 11503000000,
+      "status": "audit_only",
+      "reasons": [
+       "legacy_extractor_not_model_eligible",
+       "legacy_parser_revision_quarantine",
+       "missing_consolidation_basis",
+       "missing_or_nonconsolidated_basis",
+       "not_income_statement",
+       "not_twelve_month_annual",
+       "outside_required_earnings_bridge_metric_set",
+       "readiness_is_audit_only",
+       "unqualified_financial_fact_source"
+      ],
+      "source": {
+       "document_id": "psx:260032",
+       "fact_id": "fact_df7195c24f0740d8d393",
+       "content_sha256": "4fdfb4cbd2eee65576cbb89b43334ce0c09a7e5ffd573d5bf93b414029eba6d1",
+       "source_url": "https://dps.psx.com.pk/download/document/260032.pdf",
+       "source": "PSX DPS",
+       "page": 165,
+       "text": "gain on investment: Actual Budget 2025 2025 (Rs. In Million) Net Sales 68,942 69,324 Net Profit 11,503 7,965 Earnings per share (Rupee) 10.98 7.52 PROSPECTS OF THE ENTITY INCLUDING TARGETS FOR FINANCIAL AND NON-FINANCIAL MEASURES Prospects…",
+       "available_on": "2025-09-25",
+       "published_at": "2025-09-25T12:43:00+05:00",
+       "retrieved_at": "2026-08-29T11:22:34Z"
+      },
+      "parser": {
+       "version": null,
+       "revision": null
+      },
+      "evidence_label": "stale_source",
+      "confidence": "low"
+     },
+     {
+      "reconciliation_id": "finrec_fdbdce556d1a73036a8a",
+      "evidence_id": "finev_4cfdd65c08bb59785ce8",
+      "symbol": "MLCF",
+      "metric": "profit",
+      "period_end": "2025-06-30",
+      "period_type": "annual",
+      "duration_months": null,
+      "statement_type": null,
+      "consolidation": "consolidated",
+      "currency": "PKR",
+      "unit": "reported",
+      "unit_multiplier": 1000000,
+      "raw_value": "16,369 m",
+      "normalized_value": 16369000000,
+      "status": "audit_only",
+      "reasons": [
+       "legacy_extractor_not_model_eligible",
+       "legacy_parser_revision_quarantine",
+       "not_income_statement",
+       "not_twelve_month_annual",
+       "outside_required_earnings_bridge_metric_set",
+       "readiness_is_audit_only",
+       "unqualified_financial_fact_source"
+      ],
+      "source": {
+       "document_id": "psx:260032",
+       "fact_id": "fact_f25674276b7f057e0861",
+       "content_sha256": "4fdfb4cbd2eee65576cbb89b43334ce0c09a7e5ffd573d5bf93b414029eba6d1",
+       "source_url": "https://dps.psx.com.pk/download/document/260032.pdf",
+       "source": "PSX DPS",
+       "page": 76,
+       "text": "crease from Rs.22,430 million in the last year. The Company recorded consolidated pre-tax profit of Rs. 16,369 million for the financial year 2024- 25, a 51.48% increase from Rs. 10,806 million in the last year. Consolidated taxation amoun…",
+       "available_on": "2025-09-25",
+       "published_at": "2025-09-25T12:43:00+05:00",
+       "retrieved_at": "2026-08-29T11:22:34Z"
+      },
+      "parser": {
+       "version": null,
+       "revision": null
+      },
+      "evidence_label": "stale_source",
       "confidence": "low"
      },
      {
@@ -9601,6 +12094,1180 @@
       },
       "evidence_label": "fact_source_reported",
       "confidence": "high"
+     },
+     {
+      "reconciliation_id": "finrec_a71ec7aac69f1d7b7998",
+      "evidence_id": "finev_a7174b06afbdaf6b927a",
+      "symbol": "MLCF",
+      "metric": "revenue",
+      "period_end": "2024-06-30",
+      "period_type": "annual",
+      "duration_months": 12,
+      "statement_type": "income_statement",
+      "consolidation": "unconsolidated",
+      "currency": "PKR",
+      "unit": "PKR",
+      "unit_multiplier": 1000,
+      "raw_value": "66,452,348",
+      "normalized_value": 66452348000.0,
+      "status": "quarantined",
+      "reasons": [
+       "missing_or_nonconsolidated_basis"
+      ],
+      "source": {
+       "document_id": "psx:260032",
+       "fact_id": "fact_06c1c02f8d2feb300a904618",
+       "content_sha256": "4fdfb4cbd2eee65576cbb89b43334ce0c09a7e5ffd573d5bf93b414029eba6d1",
+       "source_url": "https://dps.psx.com.pk/download/document/260032.pdf",
+       "source": "PSX DPS",
+       "page": 203,
+       "text": "Revenue from contracts with customers - net",
+       "available_on": "2025-09-25",
+       "published_at": "2025-09-25T12:43:00+05:00",
+       "retrieved_at": "2026-08-29T11:22:34Z"
+      },
+      "parser": {
+       "version": "financial_statement_v2",
+       "revision": "block_geometry_v5"
+      },
+      "evidence_label": "unknown",
+      "confidence": "low"
+     },
+     {
+      "reconciliation_id": "finrec_ccd5faf2570f624b554d",
+      "evidence_id": "finev_921fad4dd0cb403f5769",
+      "symbol": "MLCF",
+      "metric": "revenue",
+      "period_end": "2024-06-30",
+      "period_type": "annual",
+      "duration_months": 12,
+      "statement_type": "income_statement",
+      "consolidation": "consolidated",
+      "currency": "PKR",
+      "unit": "PKR",
+      "unit_multiplier": 1000,
+      "raw_value": "66,452,348",
+      "normalized_value": 66452348000.0,
+      "status": "eligible",
+      "reasons": [],
+      "source": {
+       "document_id": "psx:260032",
+       "fact_id": "fact_394f42ea6daa2044e4ad6dac",
+       "content_sha256": "4fdfb4cbd2eee65576cbb89b43334ce0c09a7e5ffd573d5bf93b414029eba6d1",
+       "source_url": "https://dps.psx.com.pk/download/document/260032.pdf",
+       "source": "PSX DPS",
+       "page": 293,
+       "text": "Revenue from contracts with customers - net",
+       "available_on": "2025-09-25",
+       "published_at": "2025-09-25T12:43:00+05:00",
+       "retrieved_at": "2026-08-29T11:22:34Z"
+      },
+      "parser": {
+       "version": "financial_statement_v2",
+       "revision": "block_geometry_v5"
+      },
+      "evidence_label": "fact_source_reported",
+      "confidence": "high"
+     },
+     {
+      "reconciliation_id": "finrec_40abe7a68a4ada648b75",
+      "evidence_id": "finev_199c0248b5c262f7eab8",
+      "symbol": "MLCF",
+      "metric": "revenue",
+      "period_end": "2025-06-30",
+      "period_type": "annual",
+      "duration_months": null,
+      "statement_type": null,
+      "consolidation": "unknown",
+      "currency": "PKR",
+      "unit": "reported",
+      "unit_multiplier": 1000,
+      "raw_value": "99,521,338",
+      "normalized_value": 99521338000,
+      "status": "audit_only",
+      "reasons": [
+       "legacy_extractor_not_model_eligible",
+       "legacy_parser_revision_quarantine",
+       "missing_consolidation_basis",
+       "missing_or_nonconsolidated_basis",
+       "not_income_statement",
+       "not_twelve_month_annual",
+       "readiness_is_audit_only",
+       "unqualified_financial_fact_source"
+      ],
+      "source": {
+       "document_id": "psx:260032",
+       "fact_id": "fact_0129c130e45c61e19f13",
+       "content_sha256": "4fdfb4cbd2eee65576cbb89b43334ce0c09a7e5ffd573d5bf93b414029eba6d1",
+       "source_url": "https://dps.psx.com.pk/download/document/260032.pdf",
+       "source": "PSX DPS",
+       "page": 261,
+       "text": "025 2024 (Rupees in thousand) 34. REVENUE FROM CONTRACTS WITH CUSTOMERS - NET Gross local sales 99,521,338 88,609,781 Less: Federal excise duty (14,953,624) (7,763,020) Sales tax (16,843,945) (15,088,469) Discount and others (1,687,479) (1…",
+       "available_on": "2025-09-25",
+       "published_at": "2025-09-25T12:43:00+05:00",
+       "retrieved_at": "2026-08-29T11:22:34Z"
+      },
+      "parser": {
+       "version": null,
+       "revision": null
+      },
+      "evidence_label": "stale_source",
+      "confidence": "low"
+     },
+     {
+      "reconciliation_id": "finrec_78e764709aef54bc5ad4",
+      "evidence_id": "finev_1d4395ade2f15e695662",
+      "symbol": "MLCF",
+      "metric": "revenue",
+      "period_end": "2025-06-30",
+      "period_type": "annual",
+      "duration_months": null,
+      "statement_type": null,
+      "consolidation": "consolidated",
+      "currency": "PKR",
+      "unit": "reported",
+      "unit_multiplier": 1000000,
+      "raw_value": "68,654 m",
+      "normalized_value": 68654000000,
+      "status": "audit_only",
+      "reasons": [
+       "legacy_extractor_not_model_eligible",
+       "legacy_parser_revision_quarantine",
+       "not_income_statement",
+       "not_twelve_month_annual",
+       "readiness_is_audit_only",
+       "unqualified_financial_fact_source"
+      ],
+      "source": {
+       "document_id": "psx:260032",
+       "fact_id": "fact_0e815975b0e3a1290acd",
+       "content_sha256": "4fdfb4cbd2eee65576cbb89b43334ce0c09a7e5ffd573d5bf93b414029eba6d1",
+       "source_url": "https://dps.psx.com.pk/download/document/260032.pdf",
+       "source": "PSX DPS",
+       "page": 76,
+       "text": "75 annual report 2025 During the year 2024-25, the Company recorded net consolidated sales of Rs. 68,654 million against Rs. 66,452 million in the previous year. The top line of the Company increased by 3.31% mainly due to an improvement i…",
+       "available_on": "2025-09-25",
+       "published_at": "2025-09-25T12:43:00+05:00",
+       "retrieved_at": "2026-08-29T11:22:34Z"
+      },
+      "parser": {
+       "version": null,
+       "revision": null
+      },
+      "evidence_label": "stale_source",
+      "confidence": "low"
+     },
+     {
+      "reconciliation_id": "finrec_6f18cf2d087a2798ad1a",
+      "evidence_id": "finev_341688002985f13be0dc",
+      "symbol": "MLCF",
+      "metric": "revenue",
+      "period_end": "2025-06-30",
+      "period_type": "annual",
+      "duration_months": null,
+      "statement_type": null,
+      "consolidation": "consolidated",
+      "currency": "PKR",
+      "unit": "reported",
+      "unit_multiplier": 1000000,
+      "raw_value": "68,654",
+      "normalized_value": 68654000000,
+      "status": "audit_only",
+      "reasons": [
+       "legacy_extractor_not_model_eligible",
+       "legacy_parser_revision_quarantine",
+       "not_income_statement",
+       "not_twelve_month_annual",
+       "readiness_is_audit_only",
+       "unqualified_financial_fact_source"
+      ],
+      "source": {
+       "document_id": "psx:260032",
+       "fact_id": "fact_11dfd845f74de8ed57e5",
+       "content_sha256": "4fdfb4cbd2eee65576cbb89b43334ce0c09a7e5ffd573d5bf93b414029eba6d1",
+       "source_url": "https://dps.psx.com.pk/download/document/260032.pdf",
+       "source": "PSX DPS",
+       "page": 286,
+       "text": "l group financial results are as follows: June 30, June 30, 2025 2024 (Rupees in million) Sales 68,654 66,452 Gross Profit 25,442 22,430 Profit from operations 19,108 14,219 Financial charges - Net 1,978 3,412 Profit after tax 11,503 6,920…",
+       "available_on": "2025-09-25",
+       "published_at": "2025-09-25T12:43:00+05:00",
+       "retrieved_at": "2026-08-29T11:22:34Z"
+      },
+      "parser": {
+       "version": null,
+       "revision": null
+      },
+      "evidence_label": "stale_source",
+      "confidence": "low"
+     },
+     {
+      "reconciliation_id": "finrec_5cd9f3096030d907b134",
+      "evidence_id": "finev_7259d497ea52389e772e",
+      "symbol": "MLCF",
+      "metric": "revenue",
+      "period_end": "2025-06-30",
+      "period_type": "annual",
+      "duration_months": null,
+      "statement_type": null,
+      "consolidation": "unknown",
+      "currency": "PKR",
+      "unit": "reported",
+      "unit_multiplier": 1000,
+      "raw_value": "99,232,891",
+      "normalized_value": 99232891000,
+      "status": "audit_only",
+      "reasons": [
+       "legacy_extractor_not_model_eligible",
+       "legacy_parser_revision_quarantine",
+       "missing_consolidation_basis",
+       "missing_or_nonconsolidated_basis",
+       "not_income_statement",
+       "not_twelve_month_annual",
+       "readiness_is_audit_only",
+       "unqualified_financial_fact_source"
+      ],
+      "source": {
+       "document_id": "psx:260032",
+       "fact_id": "fact_188ccf89962b53a75ac8",
+       "content_sha256": "4fdfb4cbd2eee65576cbb89b43334ce0c09a7e5ffd573d5bf93b414029eba6d1",
+       "source_url": "https://dps.psx.com.pk/download/document/260032.pdf",
+       "source": "PSX DPS",
+       "page": 355,
+       "text": "025 2024 (Rupees in thousand) 33. REVENUE FROM CONTRACTS WITH CUSTOMERS - NET Gross local sales 99,232,891 88,609,781 Less: Federal excise duty (14,953,624) (7,763,020) Sales tax (16,843,945) (15,088,469) Discount and others (1,687,479) (1…",
+       "available_on": "2025-09-25",
+       "published_at": "2025-09-25T12:43:00+05:00",
+       "retrieved_at": "2026-08-29T11:22:34Z"
+      },
+      "parser": {
+       "version": null,
+       "revision": null
+      },
+      "evidence_label": "stale_source",
+      "confidence": "low"
+     },
+     {
+      "reconciliation_id": "finrec_4c44016857ccaf6bcadc",
+      "evidence_id": "finev_8c46ca96e7a226b6c6c6",
+      "symbol": "MLCF",
+      "metric": "revenue",
+      "period_end": "2025-06-30",
+      "period_type": "annual",
+      "duration_months": 12,
+      "statement_type": "income_statement",
+      "consolidation": "unconsolidated",
+      "currency": "PKR",
+      "unit": "PKR",
+      "unit_multiplier": 1000,
+      "raw_value": "68,942,446",
+      "normalized_value": 68942446000.0,
+      "status": "quarantined",
+      "reasons": [
+       "missing_or_nonconsolidated_basis"
+      ],
+      "source": {
+       "document_id": "psx:260032",
+       "fact_id": "fact_23724b823396ca2afdbc8df3",
+       "content_sha256": "4fdfb4cbd2eee65576cbb89b43334ce0c09a7e5ffd573d5bf93b414029eba6d1",
+       "source_url": "https://dps.psx.com.pk/download/document/260032.pdf",
+       "source": "PSX DPS",
+       "page": 203,
+       "text": "Revenue from contracts with customers - net",
+       "available_on": "2025-09-25",
+       "published_at": "2025-09-25T12:43:00+05:00",
+       "retrieved_at": "2026-08-29T11:22:34Z"
+      },
+      "parser": {
+       "version": "financial_statement_v2",
+       "revision": "block_geometry_v5"
+      },
+      "evidence_label": "unknown",
+      "confidence": "low"
+     },
+     {
+      "reconciliation_id": "finrec_d1a58ad15178566077b4",
+      "evidence_id": "finev_9c4003ded1af1ae519dc",
+      "symbol": "MLCF",
+      "metric": "revenue",
+      "period_end": "2025-06-30",
+      "period_type": "annual",
+      "duration_months": null,
+      "statement_type": null,
+      "consolidation": "unknown",
+      "currency": "PKR",
+      "unit": "reported",
+      "unit_multiplier": 1,
+      "raw_value": "59,414,125",
+      "normalized_value": 59414125,
+      "status": "audit_only",
+      "reasons": [
+       "legacy_extractor_not_model_eligible",
+       "legacy_parser_revision_quarantine",
+       "missing_consolidation_basis",
+       "missing_or_nonconsolidated_basis",
+       "not_income_statement",
+       "not_twelve_month_annual",
+       "readiness_is_audit_only",
+       "unqualified_financial_fact_source"
+      ],
+      "source": {
+       "document_id": "psx:260032",
+       "fact_id": "fact_28e7e65c2a23d3abb6ac",
+       "content_sha256": "4fdfb4cbd2eee65576cbb89b43334ce0c09a7e5ffd573d5bf93b414029eba6d1",
+       "source_url": "https://dps.psx.com.pk/download/document/260032.pdf",
+       "source": "PSX DPS",
+       "page": 63,
+       "text": ",289,378 Total Equity 31,982,372 Current liabilities 15,828,420 Current assets 18,978,912 Revenue 59,414,125 Gross Profit 9,802,378 Operating Profit 7,416,418 Net Profit 2,749,816 Earnings per share (Rs.) 10.21",
+       "available_on": "2025-09-25",
+       "published_at": "2025-09-25T12:43:00+05:00",
+       "retrieved_at": "2026-08-29T11:22:34Z"
+      },
+      "parser": {
+       "version": null,
+       "revision": null
+      },
+      "evidence_label": "stale_source",
+      "confidence": "low"
+     },
+     {
+      "reconciliation_id": "finrec_cafe0b217d6b65e27301",
+      "evidence_id": "finev_3836cdda8bd75ea3683d",
+      "symbol": "MLCF",
+      "metric": "revenue",
+      "period_end": "2025-06-30",
+      "period_type": "annual",
+      "duration_months": null,
+      "statement_type": null,
+      "consolidation": "consolidated",
+      "currency": "PKR",
+      "unit": "reported",
+      "unit_multiplier": 1000,
+      "raw_value": "43,212,083",
+      "normalized_value": 43212083000,
+      "status": "audit_only",
+      "reasons": [
+       "legacy_extractor_not_model_eligible",
+       "legacy_parser_revision_quarantine",
+       "not_income_statement",
+       "not_twelve_month_annual",
+       "readiness_is_audit_only",
+       "unqualified_financial_fact_source"
+      ],
+      "source": {
+       "document_id": "psx:260032",
+       "fact_id": "fact_2f82f60b6ff9a00832a4",
+       "content_sha256": "4fdfb4cbd2eee65576cbb89b43334ce0c09a7e5ffd573d5bf93b414029eba6d1",
+       "source_url": "https://dps.psx.com.pk/download/document/260032.pdf",
+       "source": "PSX DPS",
+       "page": 356,
+       "text": "the year 486,769 675,151 At end of the year (714,645) (486,769) (227,876) 188,382 Cost of sales 43,212,083 44,021,883 34.1 Raw materials consumed At beginning of the year 229,148 121,609 Add: Purchases and extractions made including royalt…",
+       "available_on": "2025-09-25",
+       "published_at": "2025-09-25T12:43:00+05:00",
+       "retrieved_at": "2026-08-29T11:22:34Z"
+      },
+      "parser": {
+       "version": null,
+       "revision": null
+      },
+      "evidence_label": "stale_source",
+      "confidence": "low"
+     },
+     {
+      "reconciliation_id": "finrec_156247a8e07da8b74a19",
+      "evidence_id": "finev_61e7acc6da81f03c50f0",
+      "symbol": "MLCF",
+      "metric": "revenue",
+      "period_end": "2025-06-30",
+      "period_type": "annual",
+      "duration_months": null,
+      "statement_type": null,
+      "consolidation": "unknown",
+      "currency": "PKR",
+      "unit": "reported",
+      "unit_multiplier": 1,
+      "raw_value": "68,942,446",
+      "normalized_value": 68942446,
+      "status": "audit_only",
+      "reasons": [
+       "legacy_extractor_not_model_eligible",
+       "legacy_parser_revision_quarantine",
+       "missing_consolidation_basis",
+       "missing_or_nonconsolidated_basis",
+       "not_income_statement",
+       "not_twelve_month_annual",
+       "readiness_is_audit_only",
+       "unqualified_financial_fact_source"
+      ],
+      "source": {
+       "document_id": "psx:260032",
+       "fact_id": "fact_330d943bccb37844d100",
+       "content_sha256": "4fdfb4cbd2eee65576cbb89b43334ce0c09a7e5ffd573d5bf93b414029eba6d1",
+       "source_url": "https://dps.psx.com.pk/download/document/260032.pdf",
+       "source": "PSX DPS",
+       "page": 182,
+       "text": "Ended 30-06-2025 Year Ended 30-06-2024 YOY Variance Rs. ‘000 % Rs. ‘000 % Rs. ‘000 % Net Turnover 68,942,446 66,452,348 2,490,098 Gross Profit / (Loss) 23,746,816 34.44% 20,964,284 31.55% 2,782,532 111.74% Operationg Profit / (Loss) 25,219…",
+       "available_on": "2025-09-25",
+       "published_at": "2025-09-25T12:43:00+05:00",
+       "retrieved_at": "2026-08-29T11:22:34Z"
+      },
+      "parser": {
+       "version": null,
+       "revision": null
+      },
+      "evidence_label": "stale_source",
+      "confidence": "low"
+     },
+     {
+      "reconciliation_id": "finrec_afe16938adf3571e169f",
+      "evidence_id": "finev_2efa1615ea1a74895997",
+      "symbol": "MLCF",
+      "metric": "revenue",
+      "period_end": "2025-06-30",
+      "period_type": "annual",
+      "duration_months": null,
+      "statement_type": null,
+      "consolidation": "unknown",
+      "currency": "PKR",
+      "unit": "reported",
+      "unit_multiplier": 1,
+      "raw_value": "13,546,928",
+      "normalized_value": 13546928,
+      "status": "audit_only",
+      "reasons": [
+       "legacy_extractor_not_model_eligible",
+       "legacy_parser_revision_quarantine",
+       "missing_consolidation_basis",
+       "missing_or_nonconsolidated_basis",
+       "not_income_statement",
+       "not_twelve_month_annual",
+       "readiness_is_audit_only",
+       "unqualified_financial_fact_source"
+      ],
+      "source": {
+       "document_id": "psx:260032",
+       "fact_id": "fact_3320dd682c30df1a9e3d",
+       "content_sha256": "4fdfb4cbd2eee65576cbb89b43334ce0c09a7e5ffd573d5bf93b414029eba6d1",
+       "source_url": "https://dps.psx.com.pk/download/document/260032.pdf",
+       "source": "PSX DPS",
+       "page": 67,
+       "text": ",981,089 Total equity 18,996,089 Current liabilities 13,394,780 Current assets 35,527,984 Revenue 13,546,928 Profit from operations 12,922,851 Profit after taxation 8,637,247 Earnings Per Share Rs. 28.65",
+       "available_on": "2025-09-25",
+       "published_at": "2025-09-25T12:43:00+05:00",
+       "retrieved_at": "2026-08-29T11:22:34Z"
+      },
+      "parser": {
+       "version": null,
+       "revision": null
+      },
+      "evidence_label": "stale_source",
+      "confidence": "low"
+     },
+     {
+      "reconciliation_id": "finrec_12631c3f6890fff67a6f",
+      "evidence_id": "finev_24a8943bdaf901aa52f8",
+      "symbol": "MLCF",
+      "metric": "revenue",
+      "period_end": "2025-06-30",
+      "period_type": "annual",
+      "duration_months": null,
+      "statement_type": null,
+      "consolidation": "unconsolidated",
+      "currency": "PKR",
+      "unit": "reported",
+      "unit_multiplier": 1,
+      "raw_value": "4,014,856",
+      "normalized_value": 4014856,
+      "status": "audit_only",
+      "reasons": [
+       "legacy_extractor_not_model_eligible",
+       "legacy_parser_revision_quarantine",
+       "missing_or_nonconsolidated_basis",
+       "not_income_statement",
+       "not_twelve_month_annual",
+       "readiness_is_audit_only",
+       "unqualified_financial_fact_source"
+      ],
+      "source": {
+       "document_id": "psx:260032",
+       "fact_id": "fact_3a9bc8f3fbf67ff8c188",
+       "content_sha256": "4fdfb4cbd2eee65576cbb89b43334ce0c09a7e5ffd573d5bf93b414029eba6d1",
+       "source_url": "https://dps.psx.com.pk/download/document/260032.pdf",
+       "source": "PSX DPS",
+       "page": 179,
+       "text": "(M. Tons) Cement: Production 4,019,935 4,051,726 4,253,451 4,741,944 4,994,594 5,196,304 Sales 4,014,856 4,068,218 4,273,444 4,759,428 5,023,444 5,201,820 Sales (Rs. 000) Gross Sales ( Local + Export-Discount) 101,146,851 89,701,037 82,836…",
+       "available_on": "2025-09-25",
+       "published_at": "2025-09-25T12:43:00+05:00",
+       "retrieved_at": "2026-08-29T11:22:34Z"
+      },
+      "parser": {
+       "version": null,
+       "revision": null
+      },
+      "evidence_label": "stale_source",
+      "confidence": "low"
+     },
+     {
+      "reconciliation_id": "finrec_b1a1e417e9d0bf8d4900",
+      "evidence_id": "finev_81ad47c0c0134b85b234",
+      "symbol": "MLCF",
+      "metric": "revenue",
+      "period_end": "2025-06-30",
+      "period_type": "annual",
+      "duration_months": null,
+      "statement_type": null,
+      "consolidation": "unknown",
+      "currency": "PKR",
+      "unit": "reported",
+      "unit_multiplier": 1000,
+      "raw_value": "68,942,446",
+      "normalized_value": 68942446000,
+      "status": "audit_only",
+      "reasons": [
+       "conflicting_consolidation_labels",
+       "legacy_extractor_not_model_eligible",
+       "legacy_parser_revision_quarantine",
+       "missing_or_nonconsolidated_basis",
+       "not_income_statement",
+       "not_twelve_month_annual",
+       "readiness_is_audit_only",
+       "unqualified_financial_fact_source"
+      ],
+      "source": {
+       "document_id": "psx:260032",
+       "fact_id": "fact_4154994d98e612d7e19e",
+       "content_sha256": "4fdfb4cbd2eee65576cbb89b43334ce0c09a7e5ffd573d5bf93b414029eba6d1",
+       "source_url": "https://dps.psx.com.pk/download/document/260032.pdf",
+       "source": "PSX DPS",
+       "page": 75,
+       "text": "66% Year Ended July to June Variance 2025 2024 Amount %age (Rupees in thousand) Net Sales Revenue 68,942,446 66,452,348 2,490,098 3.75% Gross Profit 23,746,816 20,964,284 2,782,532 13.27% Operating Profit 24,187,950 12,952,043 11,235,907 8…",
+       "available_on": "2025-09-25",
+       "published_at": "2025-09-25T12:43:00+05:00",
+       "retrieved_at": "2026-08-29T11:22:34Z"
+      },
+      "parser": {
+       "version": null,
+       "revision": null
+      },
+      "evidence_label": "stale_source",
+      "confidence": "low"
+     },
+     {
+      "reconciliation_id": "finrec_30c79c6345d7c8ec9d64",
+      "evidence_id": "finev_5025cd24c60b736e2498",
+      "symbol": "MLCF",
+      "metric": "revenue",
+      "period_end": "2025-06-30",
+      "period_type": "annual",
+      "duration_months": 12,
+      "statement_type": "income_statement",
+      "consolidation": "consolidated",
+      "currency": "PKR",
+      "unit": "PKR",
+      "unit_multiplier": 1000,
+      "raw_value": "68,653,999",
+      "normalized_value": 68653999000.0,
+      "status": "eligible",
+      "reasons": [],
+      "source": {
+       "document_id": "psx:260032",
+       "fact_id": "fact_418ac80a7d5cbc105b272259",
+       "content_sha256": "4fdfb4cbd2eee65576cbb89b43334ce0c09a7e5ffd573d5bf93b414029eba6d1",
+       "source_url": "https://dps.psx.com.pk/download/document/260032.pdf",
+       "source": "PSX DPS",
+       "page": 293,
+       "text": "Revenue from contracts with customers - net",
+       "available_on": "2025-09-25",
+       "published_at": "2025-09-25T12:43:00+05:00",
+       "retrieved_at": "2026-08-29T11:22:34Z"
+      },
+      "parser": {
+       "version": "financial_statement_v2",
+       "revision": "block_geometry_v5"
+      },
+      "evidence_label": "fact_source_reported",
+      "confidence": "high"
+     },
+     {
+      "reconciliation_id": "finrec_90a56327ac662b89783a",
+      "evidence_id": "finev_bad7ddcdba953d5cb0c7",
+      "symbol": "MLCF",
+      "metric": "revenue",
+      "period_end": "2025-06-30",
+      "period_type": "annual",
+      "duration_months": null,
+      "statement_type": null,
+      "consolidation": "unconsolidated",
+      "currency": "PKR",
+      "unit": "reported",
+      "unit_multiplier": 1,
+      "raw_value": "68,942,446",
+      "normalized_value": 68942446,
+      "status": "audit_only",
+      "reasons": [
+       "legacy_extractor_not_model_eligible",
+       "legacy_parser_revision_quarantine",
+       "missing_or_nonconsolidated_basis",
+       "not_income_statement",
+       "not_twelve_month_annual",
+       "readiness_is_audit_only",
+       "unqualified_financial_fact_source"
+      ],
+      "source": {
+       "document_id": "psx:260032",
+       "fact_id": "fact_43f72afe5e4b6b0c2f42",
+       "content_sha256": "4fdfb4cbd2eee65576cbb89b43334ce0c09a7e5ffd573d5bf93b414029eba6d1",
+       "source_url": "https://dps.psx.com.pk/download/document/260032.pdf",
+       "source": "PSX DPS",
+       "page": 179,
+       "text": "31,729 8,060,518 8,027,602 Commission 406,836 397,200 355,676 275,582 233,060 226,643 Net Sales 68,942,446 66,452,348 62,075,258 48,519,622 35,538,301 29,117,734 Profitability (Rs. 000) Gross Profit/(Loss) 23,746,816 20,964,284 18,173,353…",
+       "available_on": "2025-09-25",
+       "published_at": "2025-09-25T12:43:00+05:00",
+       "retrieved_at": "2026-08-29T11:22:34Z"
+      },
+      "parser": {
+       "version": null,
+       "revision": null
+      },
+      "evidence_label": "stale_source",
+      "confidence": "low"
+     },
+     {
+      "reconciliation_id": "finrec_a4cd33f22864b4b1259b",
+      "evidence_id": "finev_93eaf0e5a7e980b5938e",
+      "symbol": "MLCF",
+      "metric": "revenue",
+      "period_end": "2025-06-30",
+      "period_type": "annual",
+      "duration_months": null,
+      "statement_type": null,
+      "consolidation": "unconsolidated",
+      "currency": null,
+      "unit": "reported",
+      "unit_multiplier": 1,
+      "raw_value": "45.72",
+      "normalized_value": 45.72,
+      "status": "audit_only",
+      "reasons": [
+       "legacy_extractor_not_model_eligible",
+       "legacy_parser_revision_quarantine",
+       "missing_currency",
+       "missing_or_non_pkr_currency",
+       "missing_or_nonconsolidated_basis",
+       "not_income_statement",
+       "not_twelve_month_annual",
+       "readiness_is_audit_only",
+       "unqualified_financial_fact_source"
+      ],
+      "source": {
+       "document_id": "psx:260032",
+       "fact_id": "fact_4fbcaecf36b60ffeedc8",
+       "content_sha256": "4fdfb4cbd2eee65576cbb89b43334ce0c09a7e5ffd573d5bf93b414029eba6d1",
+       "source_url": "https://dps.psx.com.pk/download/document/260032.pdf",
+       "source": "PSX DPS",
+       "page": 175,
+       "text": "2.36% -0.49% Net Profit to Sales 24.71% 7.93% 7.24% 7.47% 17.60% -16.63% EBITDA Margin to Sales 45.72% 28.85% 26.54% 26.24% 35.52% 3.67% Operating leverage ratio 24.81 1.26 1.23 0.04 -21.95 -15.10 Return on Equity 23.84% 10.02% 10.00% 8.94…",
+       "available_on": "2025-09-25",
+       "published_at": "2025-09-25T12:43:00+05:00",
+       "retrieved_at": "2026-08-29T11:22:34Z"
+      },
+      "parser": {
+       "version": null,
+       "revision": null
+      },
+      "evidence_label": "stale_source",
+      "confidence": "low"
+     },
+     {
+      "reconciliation_id": "finrec_636c20d4ff61bbf7fa09",
+      "evidence_id": "finev_2a2695dc706657a73e4c",
+      "symbol": "MLCF",
+      "metric": "revenue",
+      "period_end": "2025-06-30",
+      "period_type": "annual",
+      "duration_months": null,
+      "statement_type": null,
+      "consolidation": "unknown",
+      "currency": "PKR",
+      "unit": "reported",
+      "unit_multiplier": 1000,
+      "raw_value": "65,629,454",
+      "normalized_value": 65629454000,
+      "status": "audit_only",
+      "reasons": [
+       "legacy_extractor_not_model_eligible",
+       "legacy_parser_revision_quarantine",
+       "missing_consolidation_basis",
+       "missing_or_nonconsolidated_basis",
+       "not_income_statement",
+       "not_twelve_month_annual",
+       "readiness_is_audit_only",
+       "unqualified_financial_fact_source"
+      ],
+      "source": {
+       "document_id": "psx:260032",
+       "fact_id": "fact_5884b0f2090d9054cb68",
+       "content_sha256": "4fdfb4cbd2eee65576cbb89b43334ce0c09a7e5ffd573d5bf93b414029eba6d1",
+       "source_url": "https://dps.psx.com.pk/download/document/260032.pdf",
+       "source": "PSX DPS",
+       "page": 261,
+       "text": "1,687,479) (1,200,134) Commission (406,836) (397,200) (33,891,884) (24,448,823) Net local sales 65,629,454 64,160,958 Export sales 3,312,992 2,291,390 68,942,446 66,452,348 34.1 Disaggregated revenue information Type of customers Governmen…",
+       "available_on": "2025-09-25",
+       "published_at": "2025-09-25T12:43:00+05:00",
+       "retrieved_at": "2026-08-29T11:22:34Z"
+      },
+      "parser": {
+       "version": null,
+       "revision": null
+      },
+      "evidence_label": "stale_source",
+      "confidence": "low"
+     },
+     {
+      "reconciliation_id": "finrec_c7bf84c0d540e430146f",
+      "evidence_id": "finev_b23f4d7df52eb3ffb2ea",
+      "symbol": "MLCF",
+      "metric": "revenue",
+      "period_end": "2025-06-30",
+      "period_type": "annual",
+      "duration_months": null,
+      "statement_type": null,
+      "consolidation": "unconsolidated",
+      "currency": "PKR",
+      "unit": "reported",
+      "unit_multiplier": 1000,
+      "raw_value": "45,195,630",
+      "normalized_value": 45195630000,
+      "status": "audit_only",
+      "reasons": [
+       "legacy_extractor_not_model_eligible",
+       "legacy_parser_revision_quarantine",
+       "missing_or_nonconsolidated_basis",
+       "not_income_statement",
+       "not_twelve_month_annual",
+       "readiness_is_audit_only",
+       "unqualified_financial_fact_source"
+      ],
+      "source": {
+       "document_id": "psx:260032",
+       "fact_id": "fact_5bb4fa78d1682157695e",
+       "content_sha256": "4fdfb4cbd2eee65576cbb89b43334ce0c09a7e5ffd573d5bf93b414029eba6d1",
+       "source_url": "https://dps.psx.com.pk/download/document/260032.pdf",
+       "source": "PSX DPS",
+       "page": 262,
+       "text": "the year 508,686 694,271 At end of the year (784,126) (508,686) (275,440) 185,585 Cost of sales 45,195,630 45,488,064 35.1 Raw materials consumed At beginning of the year 229,148 121,609 Add: Purchases and extraction made including royalty…",
+       "available_on": "2025-09-25",
+       "published_at": "2025-09-25T12:43:00+05:00",
+       "retrieved_at": "2026-08-29T11:22:34Z"
+      },
+      "parser": {
+       "version": null,
+       "revision": null
+      },
+      "evidence_label": "stale_source",
+      "confidence": "low"
+     },
+     {
+      "reconciliation_id": "finrec_96c6e41a9d1f6c255b73",
+      "evidence_id": "finev_115999e22263a912048c",
+      "symbol": "MLCF",
+      "metric": "revenue",
+      "period_end": "2025-06-30",
+      "period_type": "annual",
+      "duration_months": null,
+      "statement_type": null,
+      "consolidation": "unknown",
+      "currency": "PKR",
+      "unit": "reported",
+      "unit_multiplier": 1000,
+      "raw_value": "3,312,992",
+      "normalized_value": 3312992000,
+      "status": "audit_only",
+      "reasons": [
+       "legacy_extractor_not_model_eligible",
+       "legacy_parser_revision_quarantine",
+       "missing_consolidation_basis",
+       "missing_or_nonconsolidated_basis",
+       "not_income_statement",
+       "not_twelve_month_annual",
+       "readiness_is_audit_only",
+       "unqualified_financial_fact_source"
+      ],
+      "source": {
+       "document_id": "psx:260032",
+       "fact_id": "fact_5bcb59406ea93fadb1b3",
+       "content_sha256": "4fdfb4cbd2eee65576cbb89b43334ce0c09a7e5ffd573d5bf93b414029eba6d1",
+       "source_url": "https://dps.psx.com.pk/download/document/260032.pdf",
+       "source": "PSX DPS",
+       "page": 261,
+       "text": "406,836) (397,200) (33,891,884) (24,448,823) Net local sales 65,629,454 64,160,958 Export sales 3,312,992 2,291,390 68,942,446 66,452,348 34.1 Disaggregated revenue information Type of customers Government customers 713 2,896 Non-governmen…",
+       "available_on": "2025-09-25",
+       "published_at": "2025-09-25T12:43:00+05:00",
+       "retrieved_at": "2026-08-29T11:22:34Z"
+      },
+      "parser": {
+       "version": null,
+       "revision": null
+      },
+      "evidence_label": "stale_source",
+      "confidence": "low"
+     },
+     {
+      "reconciliation_id": "finrec_4a8bc5c4ec2274642597",
+      "evidence_id": "finev_8a2fbd0ca0476da14ea5",
+      "symbol": "MLCF",
+      "metric": "revenue",
+      "period_end": "2025-06-30",
+      "period_type": "annual",
+      "duration_months": null,
+      "statement_type": null,
+      "consolidation": "unknown",
+      "currency": "PKR",
+      "unit": "reported",
+      "unit_multiplier": 1000000,
+      "raw_value": "68,942",
+      "normalized_value": 68942000000,
+      "status": "audit_only",
+      "reasons": [
+       "legacy_extractor_not_model_eligible",
+       "legacy_parser_revision_quarantine",
+       "missing_consolidation_basis",
+       "missing_or_nonconsolidated_basis",
+       "not_income_statement",
+       "not_twelve_month_annual",
+       "readiness_is_audit_only",
+       "unqualified_financial_fact_source"
+      ],
+      "source": {
+       "document_id": "psx:260032",
+       "fact_id": "fact_8a4a137c41a484ca2a27",
+       "content_sha256": "4fdfb4cbd2eee65576cbb89b43334ce0c09a7e5ffd573d5bf93b414029eba6d1",
+       "source_url": "https://dps.psx.com.pk/download/document/260032.pdf",
+       "source": "PSX DPS",
+       "page": 165,
+       "text": "and gain on investment. Following are the main highlights: 2025 2024 (Rs. In Million) Net Sales 68,942 66,452 Net Profit/ (Loss) 11,503 6,920 Earnings/(Loss) per share (Rupee) 10.98 6.51 Budgeted Results: The sales decreased as compared to…",
+       "available_on": "2025-09-25",
+       "published_at": "2025-09-25T12:43:00+05:00",
+       "retrieved_at": "2026-08-29T11:22:34Z"
+      },
+      "parser": {
+       "version": null,
+       "revision": null
+      },
+      "evidence_label": "stale_source",
+      "confidence": "low"
+     },
+     {
+      "reconciliation_id": "finrec_22a839ab3f3cc64b5c72",
+      "evidence_id": "finev_b5fdfc5e91f9d54c3ae6",
+      "symbol": "MLCF",
+      "metric": "revenue",
+      "period_end": "2025-06-30",
+      "period_type": "annual",
+      "duration_months": null,
+      "statement_type": null,
+      "consolidation": "unconsolidated",
+      "currency": "PKR",
+      "unit": "reported",
+      "unit_multiplier": 1000,
+      "raw_value": "35",
+      "normalized_value": 35000,
+      "status": "audit_only",
+      "reasons": [
+       "legacy_extractor_not_model_eligible",
+       "legacy_parser_revision_quarantine",
+       "missing_or_nonconsolidated_basis",
+       "not_income_statement",
+       "not_twelve_month_annual",
+       "readiness_is_audit_only",
+       "unqualified_financial_fact_source"
+      ],
+      "source": {
+       "document_id": "psx:260032",
+       "fact_id": "fact_8c301b4e769de6280dde",
+       "content_sha256": "4fdfb4cbd2eee65576cbb89b43334ce0c09a7e5ffd573d5bf93b414029eba6d1",
+       "source_url": "https://dps.psx.com.pk/download/document/260032.pdf",
+       "source": "PSX DPS",
+       "page": 203,
+       "text": "nd) Restated Revenue from contracts with customers - net 34 68,942,446 66,452,348 Cost of sales 35 (45,195,630) (45,488,064) Gross profit 23,746,816 20,964,284 Selling and distribution expenses 36 (4,123,754) (5,471,808) Administrative exp…",
+       "available_on": "2025-09-25",
+       "published_at": "2025-09-25T12:43:00+05:00",
+       "retrieved_at": "2026-08-29T11:22:34Z"
+      },
+      "parser": {
+       "version": null,
+       "revision": null
+      },
+      "evidence_label": "stale_source",
+      "confidence": "low"
+     },
+     {
+      "reconciliation_id": "finrec_c61e0cbb558dfd7104d2",
+      "evidence_id": "finev_d7438ac1983ebcaf4d62",
+      "symbol": "MLCF",
+      "metric": "revenue",
+      "period_end": "2025-06-30",
+      "period_type": "annual",
+      "duration_months": null,
+      "statement_type": null,
+      "consolidation": "unknown",
+      "currency": "PKR",
+      "unit": "reported",
+      "unit_multiplier": 1,
+      "raw_value": "15,719,838",
+      "normalized_value": 15719838,
+      "status": "audit_only",
+      "reasons": [
+       "legacy_extractor_not_model_eligible",
+       "legacy_parser_revision_quarantine",
+       "missing_consolidation_basis",
+       "missing_or_nonconsolidated_basis",
+       "not_income_statement",
+       "not_twelve_month_annual",
+       "readiness_is_audit_only",
+       "unqualified_financial_fact_source"
+      ],
+      "source": {
+       "document_id": "psx:260032",
+       "fact_id": "fact_8cea6b371a55786698f3",
+       "content_sha256": "4fdfb4cbd2eee65576cbb89b43334ce0c09a7e5ffd573d5bf93b414029eba6d1",
+       "source_url": "https://dps.psx.com.pk/download/document/260032.pdf",
+       "source": "PSX DPS",
+       "page": 181,
+       "text": "4 Ended 31-03-2025 30-06-2025 Rupees ‘000 % Rupees ‘000 % Rupees ‘000 % Rupees ‘000 % Net turnover 15,719,838 34,747,988 51,379,114 68,942,446 Gross Profit 4,678,939 29.76% 11,817,407 34.01% 17,015,797 33.12% 23,746,816 34.44% Operating Pr…",
+       "available_on": "2025-09-25",
+       "published_at": "2025-09-25T12:43:00+05:00",
+       "retrieved_at": "2026-08-29T11:22:34Z"
+      },
+      "parser": {
+       "version": null,
+       "revision": null
+      },
+      "evidence_label": "stale_source",
+      "confidence": "low"
+     },
+     {
+      "reconciliation_id": "finrec_e498dff957ef50412d9d",
+      "evidence_id": "finev_50d517dfcbadd0fdd35d",
+      "symbol": "MLCF",
+      "metric": "revenue",
+      "period_end": "2025-06-30",
+      "period_type": "annual",
+      "duration_months": null,
+      "statement_type": null,
+      "consolidation": "unknown",
+      "currency": "PKR",
+      "unit": "reported",
+      "unit_multiplier": 1000,
+      "raw_value": "65,341,007",
+      "normalized_value": 65341007000,
+      "status": "audit_only",
+      "reasons": [
+       "legacy_extractor_not_model_eligible",
+       "legacy_parser_revision_quarantine",
+       "missing_consolidation_basis",
+       "missing_or_nonconsolidated_basis",
+       "not_income_statement",
+       "not_twelve_month_annual",
+       "readiness_is_audit_only",
+       "unqualified_financial_fact_source"
+      ],
+      "source": {
+       "document_id": "psx:260032",
+       "fact_id": "fact_9be9fbdb5d7738ebf580",
+       "content_sha256": "4fdfb4cbd2eee65576cbb89b43334ce0c09a7e5ffd573d5bf93b414029eba6d1",
+       "source_url": "https://dps.psx.com.pk/download/document/260032.pdf",
+       "source": "PSX DPS",
+       "page": 355,
+       "text": "1,687,479) (1,200,134) Commission (406,836) (397,200) (33,891,884) (24,448,823) Net local sales 65,341,007 64,160,958 Export sales 3,312,992 2,291,390 68,653,999 66,452,348 33.1 Disaggregation of revenue Type of customers Government custom…",
+       "available_on": "2025-09-25",
+       "published_at": "2025-09-25T12:43:00+05:00",
+       "retrieved_at": "2026-08-29T11:22:34Z"
+      },
+      "parser": {
+       "version": null,
+       "revision": null
+      },
+      "evidence_label": "stale_source",
+      "confidence": "low"
+     },
+     {
+      "reconciliation_id": "finrec_b970e0de54e26717b74f",
+      "evidence_id": "finev_5cdddec61578091d850c",
+      "symbol": "MLCF",
+      "metric": "revenue",
+      "period_end": "2025-06-30",
+      "period_type": "annual",
+      "duration_months": null,
+      "statement_type": null,
+      "consolidation": "unknown",
+      "currency": "PKR",
+      "unit": "reported",
+      "unit_multiplier": 1000,
+      "raw_value": "68,653,999",
+      "normalized_value": 68653999000,
+      "status": "audit_only",
+      "reasons": [
+       "conflicting_consolidation_labels",
+       "legacy_extractor_not_model_eligible",
+       "legacy_parser_revision_quarantine",
+       "missing_or_nonconsolidated_basis",
+       "not_income_statement",
+       "not_twelve_month_annual",
+       "readiness_is_audit_only",
+       "unqualified_financial_fact_source"
+      ],
+      "source": {
+       "document_id": "psx:260032",
+       "fact_id": "fact_9fe2159529fe1c946ea7",
+       "content_sha256": "4fdfb4cbd2eee65576cbb89b43334ce0c09a7e5ffd573d5bf93b414029eba6d1",
+       "source_url": "https://dps.psx.com.pk/download/document/260032.pdf",
+       "source": "PSX DPS",
+       "page": 75,
+       "text": ": - Year Ended July to June Variance 2025 2024 Amount %age (Rupees in thousand) Net Sales Revenue 68,653,999 66,452,348 2,201,651 3.31% Gross Profit 25,441,916 22,430,465 3,011,451 13.43% Operating Profit 19,107,711 14,218,570 4,889,141 34…",
+       "available_on": "2025-09-25",
+       "published_at": "2025-09-25T12:43:00+05:00",
+       "retrieved_at": "2026-08-29T11:22:34Z"
+      },
+      "parser": {
+       "version": null,
+       "revision": null
+      },
+      "evidence_label": "stale_source",
+      "confidence": "low"
+     },
+     {
+      "reconciliation_id": "finrec_1045b652df1f67c23985",
+      "evidence_id": "finev_701db94e9490e20184cf",
+      "symbol": "MLCF",
+      "metric": "revenue",
+      "period_end": "2025-06-30",
+      "period_type": "annual",
+      "duration_months": null,
+      "statement_type": null,
+      "consolidation": "unconsolidated",
+      "currency": null,
+      "unit": "reported",
+      "unit_multiplier": 1,
+      "raw_value": "24.71",
+      "normalized_value": 24.71,
+      "status": "audit_only",
+      "reasons": [
+       "legacy_extractor_not_model_eligible",
+       "legacy_parser_revision_quarantine",
+       "missing_currency",
+       "missing_or_non_pkr_currency",
+       "missing_or_nonconsolidated_basis",
+       "not_income_statement",
+       "not_twelve_month_annual",
+       "readiness_is_audit_only",
+       "unqualified_financial_fact_source"
+      ],
+      "source": {
+       "document_id": "psx:260032",
+       "fact_id": "fact_c58a289b219ffdb76a69",
+       "content_sha256": "4fdfb4cbd2eee65576cbb89b43334ce0c09a7e5ffd573d5bf93b414029eba6d1",
+       "source_url": "https://dps.psx.com.pk/download/document/260032.pdf",
+       "source": "PSX DPS",
+       "page": 175,
+       "text": "bility Ratios: Gross Profit ratio 34.44% 31.55% 29.28% 26.74% 22.36% -0.49% Net Profit to Sales 24.71% 7.93% 7.24% 7.47% 17.60% -16.63% EBITDA Margin to Sales 45.72% 28.85% 26.54% 26.24% 35.52% 3.67% Operating leverage ratio 24.81 1.26 1.2…",
+       "available_on": "2025-09-25",
+       "published_at": "2025-09-25T12:43:00+05:00",
+       "retrieved_at": "2026-08-29T11:22:34Z"
+      },
+      "parser": {
+       "version": null,
+       "revision": null
+      },
+      "evidence_label": "stale_source",
+      "confidence": "low"
+     },
+     {
+      "reconciliation_id": "finrec_ec35eb3985f39a5b9876",
+      "evidence_id": "finev_7f057e761a0b77ac7334",
+      "symbol": "MLCF",
+      "metric": "revenue",
+      "period_end": "2025-06-30",
+      "period_type": "annual",
+      "duration_months": null,
+      "statement_type": null,
+      "consolidation": "unconsolidated",
+      "currency": null,
+      "unit": "reported",
+      "unit_multiplier": 1,
+      "raw_value": "0.28",
+      "normalized_value": 0.28,
+      "status": "audit_only",
+      "reasons": [
+       "legacy_extractor_not_model_eligible",
+       "legacy_parser_revision_quarantine",
+       "missing_currency",
+       "missing_or_non_pkr_currency",
+       "missing_or_nonconsolidated_basis",
+       "not_income_statement",
+       "not_twelve_month_annual",
+       "readiness_is_audit_only",
+       "unqualified_financial_fact_source"
+      ],
+      "source": {
+       "document_id": "psx:260032",
+       "fact_id": "fact_d4dd1eef92bb5a257151",
+       "content_sha256": "4fdfb4cbd2eee65576cbb89b43334ce0c09a7e5ffd573d5bf93b414029eba6d1",
+       "source_url": "https://dps.psx.com.pk/download/document/260032.pdf",
+       "source": "PSX DPS",
+       "page": 175,
+       "text": "42 Cash to Current Liabilities 0.07 0.06 0.05 0.05 0.04 0.07 Cash flow from Operations to Sales 0.28 0.14 0.32 0.17 0.18 (0.03) Cash flow to capital expenditure 45.58 3.06 2.22 0.53 1.99 (1.10) Cash flow coverage ratio 1.33 0.49 1.02 0.33…",
+       "available_on": "2025-09-25",
+       "published_at": "2025-09-25T12:43:00+05:00",
+       "retrieved_at": "2026-08-29T11:22:34Z"
+      },
+      "parser": {
+       "version": null,
+       "revision": null
+      },
+      "evidence_label": "stale_source",
+      "confidence": "low"
+     },
+     {
+      "reconciliation_id": "finrec_7e20a55b7e0035c3d5d4",
+      "evidence_id": "finev_939236a63973ac569d1f",
+      "symbol": "MLCF",
+      "metric": "revenue",
+      "period_end": "2025-06-30",
+      "period_type": "annual",
+      "duration_months": null,
+      "statement_type": null,
+      "consolidation": "consolidated",
+      "currency": "PKR",
+      "unit": "reported",
+      "unit_multiplier": 1000,
+      "raw_value": "34",
+      "normalized_value": 34000,
+      "status": "audit_only",
+      "reasons": [
+       "legacy_extractor_not_model_eligible",
+       "legacy_parser_revision_quarantine",
+       "not_income_statement",
+       "not_twelve_month_annual",
+       "readiness_is_audit_only",
+       "unqualified_financial_fact_source"
+      ],
+      "source": {
+       "document_id": "psx:260032",
+       "fact_id": "fact_ec249494aa8a9de454e0",
+       "content_sha256": "4fdfb4cbd2eee65576cbb89b43334ce0c09a7e5ffd573d5bf93b414029eba6d1",
+       "source_url": "https://dps.psx.com.pk/download/document/260032.pdf",
+       "source": "PSX DPS",
+       "page": 293,
+       "text": "nd) Restated Revenue from contracts with customers - net 33 68,653,999 66,452,348 Cost of sales 34 (43,212,083) (44,021,883) Gross profit 25,441,916 22,430,465 Selling and distribution expenses 35 (4,133,510) (5,471,808) Administrative exp…",
+       "available_on": "2025-09-25",
+       "published_at": "2025-09-25T12:43:00+05:00",
+       "retrieved_at": "2026-08-29T11:22:34Z"
+      },
+      "parser": {
+       "version": null,
+       "revision": null
+      },
+      "evidence_label": "stale_source",
+      "confidence": "low"
      },
      {
       "reconciliation_id": "finrec_0f5f8f9f4d3fff9d42b1",
@@ -11475,12 +15142,12 @@
      {
       "document_id": "psx:260032",
       "title": "MLCF Transmission of Annual Financial Statements for the Year Ended 30.06.2025",
-      "doc_type": "financial_statement",
-      "classification": "financial_statement",
+      "doc_type": "results",
+      "classification": "financial_results",
       "published_at": "2025-09-25T12:43:00+05:00",
       "source_url": "https://dps.psx.com.pk/download/document/260032.pdf",
-      "status": null,
-      "content_sha256": null,
+      "status": "ready",
+      "content_sha256": "4fdfb4cbd2eee65576cbb89b43334ce0c09a7e5ffd573d5bf93b414029eba6d1",
       "safe_period": {
        "period_end": "2025-06-30",
        "period_type": "annual",
@@ -11755,26 +15422,26 @@
      "quality_flags": []
     },
     "audit_only_series": {
-     "audit_only_fact_count": 68,
+     "audit_only_fact_count": 125,
      "audit_only_metrics": [
       {
        "metric": "change_pct",
-       "fact_count": 7
+       "fact_count": 17
       },
       {
        "metric": "dividend",
-       "fact_count": 4
+       "fact_count": 5
       },
       {
        "metric": "profit",
-       "fact_count": 26
+       "fact_count": 49
       },
       {
        "metric": "revenue",
-       "fact_count": 31
+       "fact_count": 54
       }
      ],
-     "model_loadable_count": 9,
+     "model_loadable_count": 23,
      "note": "Audit-only facts are retained as coverage signals only and are not promoted into required values."
     },
     "qualification_queue": {
@@ -12484,8 +16151,8 @@
         "raw_facts": {
          "status": "ready",
          "model_version": null,
-         "observation_count": 9,
-         "derived_count": 9,
+         "observation_count": 13,
+         "derived_count": 14,
          "quality_flags": []
         },
         "normalized_score": 100,
@@ -12845,9 +16512,9 @@
     "status": "tracked",
     "active_thesis_count": 1,
     "delivery_record_count": 1,
-    "guidance_status": "blocked_no_guidance_objects",
-    "guidance_object_count": 0,
-    "guidance_record_count": 0,
+    "guidance_status": "available",
+    "guidance_object_count": 1,
+    "guidance_record_count": 1,
     "records": [
      {
       "delivery_id": "delivery_6d2f659b5980d16b596a",
@@ -12889,20 +16556,92 @@
       ]
      }
     ],
-    "guidance_records": []
+    "guidance_records": [
+     {
+      "guidance_record_id": "guidance_delivery_bc266fe5ac5342c200c0",
+      "symbol": "MLCF",
+      "guidance_id": "guidance_057b02e44c2d5013714b",
+      "assertion_key": "risks:default_from_counter_parties_kept_minimum:risk_present",
+      "conflict_key": "risks:default_from_counter_parties_kept_minimum",
+      "status": "not_observed",
+      "scorecard_type": "categorical_status_only",
+      "source_guidance": {
+       "available_at": "2026-08-29T16:22:34+05:00",
+       "statement": "default from counter parties is kept to a minimum",
+       "domain": "risks",
+       "modality": "risk_present",
+       "evidence": [
+        {
+         "guidance_id": "guidance_057b02e44c2d5013714b",
+         "document_id": "psx:260032",
+         "source_url": "https://dps.psx.com.pk/download/document/260032.pdf",
+         "page": 51,
+         "content_sha256": "4fdfb4cbd2eee65576cbb89b43334ce0c09a7e5ffd573d5bf93b414029eba6d1",
+         "evidence_sha256": null,
+         "source": "PSX DPS",
+         "available_on": "2026-08-29T16:22:34+05:00"
+        }
+       ]
+      },
+      "matched_guidance": null,
+      "guidance_review": {
+       "reviewed_object_count": 1,
+       "candidate_object_count": 0,
+       "rejected_counts": {
+        "not_first_class_guidance": 1,
+        "not_strictly_later": 0,
+        "self_confirming_source": 0
+       },
+       "match_rule": "same_company_first_class_guidance_strictly_later_non_self_source"
+      },
+      "reasons": [
+       "no later first-class guidance object matched the exact assertion or conflict key"
+      ],
+      "limitations": [
+       "Loose same-company guidance proximity is deliberately ignored."
+      ]
+     }
+    ]
    },
    "guidance_contradictions": {
     "symbol": "MLCF",
-    "status": "no_guidance_objects",
+    "status": "available",
     "guidance_count": 0,
-    "risk_count": 0,
-    "object_count": 0,
+    "risk_count": 1,
+    "object_count": 1,
     "contradiction_count": 0,
-    "objects": [],
+    "objects": [
+     {
+      "guidance_id": "guidance_057b02e44c2d5013714b",
+      "symbol": "MLCF",
+      "domain": "risks",
+      "assertion_type": "stated_risk",
+      "status": "eligible",
+      "statement": "default from counter parties is kept to a minimum",
+      "modality": "risk_present",
+      "topic_key": "default_from_counter_parties_kept_minimum",
+      "assertion_key": "risks:default_from_counter_parties_kept_minimum:risk_present",
+      "conflict_key": "risks:default_from_counter_parties_kept_minimum",
+      "evidence": {
+       "document_id": "psx:260032",
+       "source_url": "https://dps.psx.com.pk/download/document/260032.pdf",
+       "source": "PSX DPS",
+       "page": 51,
+       "available_on": "2026-08-29T16:22:34+05:00",
+       "content_sha256": "4fdfb4cbd2eee65576cbb89b43334ce0c09a7e5ffd573d5bf93b414029eba6d1",
+       "evidence_sha256": null,
+       "text": "e. Strong follow up and adherence to procedures and credit terms ensures that the risk of default from counter parties is kept to a minimum. Adequate steps are taken for any dispute that may arise."
+      },
+      "policy": {
+       "same_company_official_evidence": true,
+       "numeric_forecast": false,
+       "valuation": false,
+       "advice": false
+      }
+     }
+    ],
     "contradictions": [],
-    "unknowns": [
-     "no_retained_official_evidence_with_strict_guidance_assertion_shape"
-    ]
+    "unknowns": []
    },
    "evidence_watchlist": {
     "symbol": "MLCF",
@@ -13079,7 +16818,7 @@
      },
      "watch_status": "active_watch",
      "active_watch_count": 1,
-     "guidance_status": "no_guidance_objects",
+     "guidance_status": "available",
      "guidance_contradiction_count": 0
     },
     "alerts": [
@@ -13887,7 +17626,7 @@
       "symbol": "MLCF",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-28 15:26",
+       "as_of": "2026-08-29T11:22:34Z",
        "source": {
         "company_financial_series": "state/company_financial_series.json",
         "financial_coverage": "state/company_intel/financial_coverage.json",
@@ -14187,7 +17926,7 @@
       "symbol": "MLCF",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-27T09:31:00+05:00",
+       "as_of": "2026-08-29T16:22:34+05:00",
        "source": {
         "company_documents": "state/company_documents.json"
        },
@@ -14204,10 +17943,10 @@
       },
       "row_metadata": {
        "symbol": "MLCF",
-       "status": "no_guidance_objects",
+       "status": "available",
        "guidance_count": 0,
-       "risk_count": 0,
-       "object_count": 0,
+       "risk_count": 1,
+       "object_count": 1,
        "contradiction_count": 0
       }
      },
@@ -14219,7 +17958,7 @@
       "symbol": "MLCF",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-27T09:31:00+05:00",
+       "as_of": "2026-08-29T16:22:34+05:00",
        "source": {
         "thesis_monitoring": "state/company_intel/thesis_monitoring.json",
         "signal_clusters": "state/company_intel/signal_clusters.json",
@@ -14244,11 +17983,11 @@
       "row_metadata": {
        "symbol": "MLCF",
        "status": "tracked",
-       "guidance_status": "blocked_no_guidance_objects",
+       "guidance_status": "available",
        "active_thesis_count": 1,
        "delivery_record_count": 1,
-       "guidance_object_count": 0,
-       "guidance_record_count": 0
+       "guidance_object_count": 1,
+       "guidance_record_count": 1
       }
      },
      "intelligence_confidence": {
@@ -15054,7 +18793,7 @@
    },
    "intelligence": {
     "document_count": 30,
-    "event_count": 19,
+    "event_count": 30,
     "change_count": 0,
     "financial_fact_count": 40,
     "graph_node_count": 61,
@@ -15074,7 +18813,7 @@
     "causal_row_count": 8,
     "financial_model_status": "ready",
     "financial_reconciliation_status": "eligible_for_review",
-    "financial_reconciliation_eligible_facts": 9,
+    "financial_reconciliation_eligible_facts": 11,
     "financial_reconciliation_missing_slots": 0,
     "financial_reconciliation_conflicts": 0,
     "financial_coverage_status": "complete",
@@ -15087,7 +18826,7 @@
     "management_delivery_records": 1,
     "intelligence_case_count": 1,
     "mlcf_pioc_readiness_manifest_status": "blocked_missing_inputs",
-    "guidance_object_count": 0,
+    "guidance_object_count": 1,
     "guidance_contradiction_count": 0,
     "evidence_watchlist_status": "active_watch",
     "monitoring_status": "healthy",
@@ -19363,7 +23102,7 @@
       "symbol": "OGDC",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-28 15:26",
+       "as_of": "2026-08-29T11:22:34Z",
        "source": {
         "company_financial_series": "state/company_financial_series.json",
         "financial_coverage": "state/company_intel/financial_coverage.json",
@@ -19682,7 +23421,7 @@
       "symbol": "OGDC",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-27T09:31:00+05:00",
+       "as_of": "2026-08-29T16:22:34+05:00",
        "source": {
         "company_documents": "state/company_documents.json"
        },
@@ -19714,7 +23453,7 @@
       "symbol": "OGDC",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-27T09:31:00+05:00",
+       "as_of": "2026-08-29T16:22:34+05:00",
        "source": {
         "thesis_monitoring": "state/company_intel/thesis_monitoring.json",
         "signal_clusters": "state/company_intel/signal_clusters.json",
@@ -25372,7 +29111,7 @@
       "symbol": "PPL",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-28 15:26",
+       "as_of": "2026-08-29T11:22:34Z",
        "source": {
         "company_financial_series": "state/company_financial_series.json",
         "financial_coverage": "state/company_intel/financial_coverage.json",
@@ -25691,7 +29430,7 @@
       "symbol": "PPL",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-27T09:31:00+05:00",
+       "as_of": "2026-08-29T16:22:34+05:00",
        "source": {
         "company_documents": "state/company_documents.json"
        },
@@ -25723,7 +29462,7 @@
       "symbol": "PPL",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-27T09:31:00+05:00",
+       "as_of": "2026-08-29T16:22:34+05:00",
        "source": {
         "thesis_monitoring": "state/company_intel/thesis_monitoring.json",
         "signal_clusters": "state/company_intel/signal_clusters.json",
@@ -86439,7 +90178,7 @@
       "symbol": "DGKC",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-28 15:26",
+       "as_of": "2026-08-29T11:22:34Z",
        "source": {
         "company_financial_series": "state/company_financial_series.json",
         "financial_coverage": "state/company_intel/financial_coverage.json",
@@ -86739,7 +90478,7 @@
       "symbol": "DGKC",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-27T09:31:00+05:00",
+       "as_of": "2026-08-29T16:22:34+05:00",
        "source": {
         "company_documents": "state/company_documents.json"
        },
@@ -86771,7 +90510,7 @@
       "symbol": "DGKC",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-27T09:31:00+05:00",
+       "as_of": "2026-08-29T16:22:34+05:00",
        "source": {
         "thesis_monitoring": "state/company_intel/thesis_monitoring.json",
         "signal_clusters": "state/company_intel/signal_clusters.json",
@@ -91800,7 +95539,7 @@
       "symbol": "PSO",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-28 15:26",
+       "as_of": "2026-08-29T11:22:34Z",
        "source": {
         "company_financial_series": "state/company_financial_series.json",
         "financial_coverage": "state/company_intel/financial_coverage.json",
@@ -92119,7 +95858,7 @@
       "symbol": "PSO",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-27T09:31:00+05:00",
+       "as_of": "2026-08-29T16:22:34+05:00",
        "source": {
         "company_documents": "state/company_documents.json"
        },
@@ -92151,7 +95890,7 @@
       "symbol": "PSO",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-27T09:31:00+05:00",
+       "as_of": "2026-08-29T16:22:34+05:00",
        "source": {
         "thesis_monitoring": "state/company_intel/thesis_monitoring.json",
         "signal_clusters": "state/company_intel/signal_clusters.json",
@@ -103709,7 +107448,7 @@
       "symbol": "UBL",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-28 15:26",
+       "as_of": "2026-08-29T11:22:34Z",
        "source": {
         "company_financial_series": "state/company_financial_series.json",
         "financial_coverage": "state/company_intel/financial_coverage.json",
@@ -104028,7 +107767,7 @@
       "symbol": "UBL",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-27T09:31:00+05:00",
+       "as_of": "2026-08-29T16:22:34+05:00",
        "source": {
         "company_documents": "state/company_documents.json"
        },
@@ -104060,7 +107799,7 @@
       "symbol": "UBL",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-27T09:31:00+05:00",
+       "as_of": "2026-08-29T16:22:34+05:00",
        "source": {
         "thesis_monitoring": "state/company_intel/thesis_monitoring.json",
         "signal_clusters": "state/company_intel/signal_clusters.json",
@@ -108231,7 +111970,7 @@
       "symbol": "FFC",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-28 15:26",
+       "as_of": "2026-08-29T11:22:34Z",
        "source": {
         "company_financial_series": "state/company_financial_series.json",
         "financial_coverage": "state/company_intel/financial_coverage.json",
@@ -108550,7 +112289,7 @@
       "symbol": "FFC",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-27T09:31:00+05:00",
+       "as_of": "2026-08-29T16:22:34+05:00",
        "source": {
         "company_documents": "state/company_documents.json"
        },
@@ -108582,7 +112321,7 @@
       "symbol": "FFC",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-27T09:31:00+05:00",
+       "as_of": "2026-08-29T16:22:34+05:00",
        "source": {
         "thesis_monitoring": "state/company_intel/thesis_monitoring.json",
         "signal_clusters": "state/company_intel/signal_clusters.json",
@@ -109956,50 +113695,11 @@
      "period_count": 11,
      "missing_required_source": false,
      "missing_period_count": 222,
-     "conflict_count": 2,
+     "conflict_count": 0,
      "model_loadable_count": 42,
      "audit_only_count": 418
     },
-    "conflicts": [
-     {
-      "conflict_id": "conf_4f922fe5840ad56f0845",
-      "metric": "basic_eps",
-      "period_end": "2024-06-30",
-      "period_type": "annual",
-      "consolidation": "unconsolidated",
-      "series_ids": [
-       "series_2225fbf6e58ee4960cd94cc0",
-       "series_475286cafda8588b10924841"
-      ],
-      "reason": "multiple evidenced values share the same period and basis"
-     },
-     {
-      "conflict_id": "conf_ba7b89980de87651d00d",
-      "metric": "revenue",
-      "period_end": "2024-06-30",
-      "period_type": "annual",
-      "consolidation": "unconsolidated",
-      "series_ids": [
-       "series_0b974390ea61c15536c0acf8",
-       "series_100e49192142f8bfc706b756",
-       "series_16b026dbc32193caffd976a6",
-       "series_196e6ea620c8a91de2f331c5",
-       "series_1d57a23ff3bb9134f1853f95",
-       "series_481be256c764cb7b31c826e8",
-       "series_5bd8da672fed990f0431469e",
-       "series_70da1715608d649a8a83c3fd",
-       "series_780a12b84be5b270ddc50146",
-       "series_7bd2333f282b053b59b5d48e",
-       "series_9dabcf9aed1f1fadaefcfde9",
-       "series_a1ff67cb6464a014f330e30c",
-       "series_be0a6f33ac3b5d99ee73c8f4",
-       "series_c383c519da7f84ca8c812b97",
-       "series_d8dcd31776353bb1eef3330c",
-       "series_f3a324b24cbefa943603d891"
-      ],
-      "reason": "multiple evidenced values share the same period and basis"
-     }
-    ],
+    "conflicts": [],
     "facts": [
      {
       "series_id": "series_f0cabac8b79c4efb23b3a200",
@@ -143409,7 +147109,7 @@
       "symbol": "LUCK",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-28 15:26",
+       "as_of": "2026-08-29T11:22:34Z",
        "source": {
         "company_financial_series": "state/company_financial_series.json",
         "financial_coverage": "state/company_intel/financial_coverage.json",
@@ -143719,7 +147419,7 @@
       "symbol": "LUCK",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-27T09:31:00+05:00",
+       "as_of": "2026-08-29T16:22:34+05:00",
        "source": {
         "company_documents": "state/company_documents.json"
        },
@@ -143751,7 +147451,7 @@
       "symbol": "LUCK",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-27T09:31:00+05:00",
+       "as_of": "2026-08-29T16:22:34+05:00",
        "source": {
         "thesis_monitoring": "state/company_intel/thesis_monitoring.json",
         "signal_clusters": "state/company_intel/signal_clusters.json",
@@ -149554,7 +153254,7 @@
       "symbol": "HUBC",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-28 15:26",
+       "as_of": "2026-08-29T11:22:34Z",
        "source": {
         "company_financial_series": "state/company_financial_series.json",
         "financial_coverage": "state/company_intel/financial_coverage.json",
@@ -149873,7 +153573,7 @@
       "symbol": "HUBC",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-27T09:31:00+05:00",
+       "as_of": "2026-08-29T16:22:34+05:00",
        "source": {
         "company_documents": "state/company_documents.json"
        },
@@ -149905,7 +153605,7 @@
       "symbol": "HUBC",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-27T09:31:00+05:00",
+       "as_of": "2026-08-29T16:22:34+05:00",
        "source": {
         "thesis_monitoring": "state/company_intel/thesis_monitoring.json",
         "signal_clusters": "state/company_intel/signal_clusters.json",
@@ -152834,7 +156534,7 @@
       "symbol": "PRL",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-28 15:26",
+       "as_of": "2026-08-29T11:22:34Z",
        "source": {
         "company_financial_series": "state/company_financial_series.json",
         "financial_coverage": "state/company_intel/financial_coverage.json",
@@ -153153,7 +156853,7 @@
       "symbol": "PRL",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-27T09:31:00+05:00",
+       "as_of": "2026-08-29T16:22:34+05:00",
        "source": {
         "company_documents": "state/company_documents.json"
        },
@@ -153185,7 +156885,7 @@
       "symbol": "PRL",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-27T09:31:00+05:00",
+       "as_of": "2026-08-29T16:22:34+05:00",
        "source": {
         "thesis_monitoring": "state/company_intel/thesis_monitoring.json",
         "signal_clusters": "state/company_intel/signal_clusters.json",
@@ -164134,7 +167834,7 @@
       "symbol": "BOP",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-28 15:26",
+       "as_of": "2026-08-29T11:22:34Z",
        "source": {
         "company_financial_series": "state/company_financial_series.json",
         "financial_coverage": "state/company_intel/financial_coverage.json",
@@ -164453,7 +168153,7 @@
       "symbol": "BOP",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-27T09:31:00+05:00",
+       "as_of": "2026-08-29T16:22:34+05:00",
        "source": {
         "company_documents": "state/company_documents.json"
        },
@@ -164485,7 +168185,7 @@
       "symbol": "BOP",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-27T09:31:00+05:00",
+       "as_of": "2026-08-29T16:22:34+05:00",
        "source": {
         "thesis_monitoring": "state/company_intel/thesis_monitoring.json",
         "signal_clusters": "state/company_intel/signal_clusters.json",
@@ -170322,7 +174022,7 @@
       "symbol": "NBP",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-28 15:26",
+       "as_of": "2026-08-29T11:22:34Z",
        "source": {
         "company_financial_series": "state/company_financial_series.json",
         "financial_coverage": "state/company_intel/financial_coverage.json",
@@ -170641,7 +174341,7 @@
       "symbol": "NBP",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-27T09:31:00+05:00",
+       "as_of": "2026-08-29T16:22:34+05:00",
        "source": {
         "company_documents": "state/company_documents.json"
        },
@@ -170673,7 +174373,7 @@
       "symbol": "NBP",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-27T09:31:00+05:00",
+       "as_of": "2026-08-29T16:22:34+05:00",
        "source": {
         "thesis_monitoring": "state/company_intel/thesis_monitoring.json",
         "signal_clusters": "state/company_intel/signal_clusters.json",
@@ -175366,7 +179066,7 @@
       "symbol": "MEBL",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-28 15:26",
+       "as_of": "2026-08-29T11:22:34Z",
        "source": {
         "company_financial_series": "state/company_financial_series.json",
         "financial_coverage": "state/company_intel/financial_coverage.json",
@@ -175685,7 +179385,7 @@
       "symbol": "MEBL",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-27T09:31:00+05:00",
+       "as_of": "2026-08-29T16:22:34+05:00",
        "source": {
         "company_documents": "state/company_documents.json"
        },
@@ -175717,7 +179417,7 @@
       "symbol": "MEBL",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-27T09:31:00+05:00",
+       "as_of": "2026-08-29T16:22:34+05:00",
        "source": {
         "thesis_monitoring": "state/company_intel/thesis_monitoring.json",
         "signal_clusters": "state/company_intel/signal_clusters.json",
@@ -186787,7 +190487,7 @@
       "symbol": "ATRL",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-28 15:26",
+       "as_of": "2026-08-29T11:22:34Z",
        "source": {
         "company_financial_series": "state/company_financial_series.json",
         "financial_coverage": "state/company_intel/financial_coverage.json",
@@ -187106,7 +190806,7 @@
       "symbol": "ATRL",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-27T09:31:00+05:00",
+       "as_of": "2026-08-29T16:22:34+05:00",
        "source": {
         "company_documents": "state/company_documents.json"
        },
@@ -187138,7 +190838,7 @@
       "symbol": "ATRL",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-27T09:31:00+05:00",
+       "as_of": "2026-08-29T16:22:34+05:00",
        "source": {
         "thesis_monitoring": "state/company_intel/thesis_monitoring.json",
         "signal_clusters": "state/company_intel/signal_clusters.json",
@@ -191363,7 +195063,7 @@
       "symbol": "HBL",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-28 15:26",
+       "as_of": "2026-08-29T11:22:34Z",
        "source": {
         "company_financial_series": "state/company_financial_series.json",
         "financial_coverage": "state/company_intel/financial_coverage.json",
@@ -191682,7 +195382,7 @@
       "symbol": "HBL",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-27T09:31:00+05:00",
+       "as_of": "2026-08-29T16:22:34+05:00",
        "source": {
         "company_documents": "state/company_documents.json"
        },
@@ -191714,7 +195414,7 @@
       "symbol": "HBL",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-27T09:31:00+05:00",
+       "as_of": "2026-08-29T16:22:34+05:00",
        "source": {
         "thesis_monitoring": "state/company_intel/thesis_monitoring.json",
         "signal_clusters": "state/company_intel/signal_clusters.json",
@@ -200866,7 +204566,7 @@
       "symbol": "MARI",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-28 15:26",
+       "as_of": "2026-08-29T11:22:34Z",
        "source": {
         "company_financial_series": "state/company_financial_series.json",
         "financial_coverage": "state/company_intel/financial_coverage.json",
@@ -201185,7 +204885,7 @@
       "symbol": "MARI",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-27T09:31:00+05:00",
+       "as_of": "2026-08-29T16:22:34+05:00",
        "source": {
         "company_documents": "state/company_documents.json"
        },
@@ -201217,7 +204917,7 @@
       "symbol": "MARI",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-27T09:31:00+05:00",
+       "as_of": "2026-08-29T16:22:34+05:00",
        "source": {
         "thesis_monitoring": "state/company_intel/thesis_monitoring.json",
         "signal_clusters": "state/company_intel/signal_clusters.json",
@@ -206434,7 +210134,7 @@
       "symbol": "ENGROH",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-28 15:26",
+       "as_of": "2026-08-29T11:22:34Z",
        "source": {
         "company_financial_series": "state/company_financial_series.json",
         "financial_coverage": "state/company_intel/financial_coverage.json",
@@ -206753,7 +210453,7 @@
       "symbol": "ENGROH",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-27T09:31:00+05:00",
+       "as_of": "2026-08-29T16:22:34+05:00",
        "source": {
         "company_documents": "state/company_documents.json"
        },
@@ -206785,7 +210485,7 @@
       "symbol": "ENGROH",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-27T09:31:00+05:00",
+       "as_of": "2026-08-29T16:22:34+05:00",
        "source": {
         "thesis_monitoring": "state/company_intel/thesis_monitoring.json",
         "signal_clusters": "state/company_intel/signal_clusters.json",
@@ -209572,7 +213272,7 @@
       "symbol": "GAL",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-28 15:26",
+       "as_of": "2026-08-29T11:22:34Z",
        "source": {
         "company_financial_series": "state/company_financial_series.json",
         "financial_coverage": "state/company_intel/financial_coverage.json",
@@ -209891,7 +213591,7 @@
       "symbol": "GAL",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-27T09:31:00+05:00",
+       "as_of": "2026-08-29T16:22:34+05:00",
        "source": {
         "company_documents": "state/company_documents.json"
        },
@@ -209923,7 +213623,7 @@
       "symbol": "GAL",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-27T09:31:00+05:00",
+       "as_of": "2026-08-29T16:22:34+05:00",
        "source": {
         "thesis_monitoring": "state/company_intel/thesis_monitoring.json",
         "signal_clusters": "state/company_intel/signal_clusters.json",
@@ -213309,7 +217009,7 @@
       "symbol": "NRL",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-28 15:26",
+       "as_of": "2026-08-29T11:22:34Z",
        "source": {
         "company_financial_series": "state/company_financial_series.json",
         "financial_coverage": "state/company_intel/financial_coverage.json",
@@ -213628,7 +217328,7 @@
       "symbol": "NRL",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-27T09:31:00+05:00",
+       "as_of": "2026-08-29T16:22:34+05:00",
        "source": {
         "company_documents": "state/company_documents.json"
        },
@@ -213660,7 +217360,7 @@
       "symbol": "NRL",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-27T09:31:00+05:00",
+       "as_of": "2026-08-29T16:22:34+05:00",
        "source": {
         "thesis_monitoring": "state/company_intel/thesis_monitoring.json",
         "signal_clusters": "state/company_intel/signal_clusters.json",
@@ -215014,24 +218714,11 @@
      "period_count": 7,
      "missing_required_source": false,
      "missing_period_count": 20,
-     "conflict_count": 1,
+     "conflict_count": 0,
      "model_loadable_count": 16,
      "audit_only_count": 59
     },
-    "conflicts": [
-     {
-      "conflict_id": "conf_3c1a41b1c50907537282",
-      "metric": "tax_expense",
-      "period_end": "2020-06-30",
-      "period_type": "annual",
-      "consolidation": "unconsolidated",
-      "series_ids": [
-       "series_d5f929c2e01fe48559c1457d",
-       "series_d881152cd6d908d638f028ba"
-      ],
-      "reason": "multiple evidenced values share the same period and basis"
-     }
-    ],
+    "conflicts": [],
     "facts": [
      {
       "series_id": "series_5b405fcf4df93968df565c15",
@@ -228159,7 +231846,7 @@
       "symbol": "CNERGY",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-28 15:26",
+       "as_of": "2026-08-29T11:22:34Z",
        "source": {
         "company_financial_series": "state/company_financial_series.json",
         "financial_coverage": "state/company_intel/financial_coverage.json",
@@ -228478,7 +232165,7 @@
       "symbol": "CNERGY",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-27T09:31:00+05:00",
+       "as_of": "2026-08-29T16:22:34+05:00",
        "source": {
         "company_documents": "state/company_documents.json"
        },
@@ -228510,7 +232197,7 @@
       "symbol": "CNERGY",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-27T09:31:00+05:00",
+       "as_of": "2026-08-29T16:22:34+05:00",
        "source": {
         "thesis_monitoring": "state/company_intel/thesis_monitoring.json",
         "signal_clusters": "state/company_intel/signal_clusters.json",
@@ -229157,5 +232844,16 @@
     "retention_days": 90
    }
   }
- ]
+ ],
+ "_meta": {
+  "generator_version": "ci_artifact_integrity_v1",
+  "source_commit_sha": "cd5f8eb512d683a79ec9eef164ec1b2238b952ec",
+  "build_cutoff_at": "2026-08-29T11:26:48Z",
+  "generated_at": "2026-08-29T11:26:48Z",
+  "artifact_path": "Henneth Desk 2.CI.0/data/company_intelligence.json",
+  "timestamp_semantics": {
+   "build_cutoff_at": "generation boundary only; not a source-effective or source-published time",
+   "generated_at": "artifact generation time only; not a source-effective or source-published time"
+  }
+ }
 }

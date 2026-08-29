@@ -175,12 +175,12 @@
     {
      "document_id": "psx:260032",
      "title": "MLCF Transmission of Annual Financial Statements for the Year Ended 30.06.2025",
-     "doc_type": "financial_statement",
-     "classification": "financial_statement",
+     "doc_type": "results",
+     "classification": "financial_results",
      "published_at": "2025-09-25T12:43:00+05:00",
      "source_url": "https://dps.psx.com.pk/download/document/260032.pdf",
-     "status": null,
-     "content_sha256": null,
+     "status": "ready",
+     "content_sha256": "4fdfb4cbd2eee65576cbb89b43334ce0c09a7e5ffd573d5bf93b414029eba6d1",
      "safe_period": {
       "period_end": "2025-06-30",
       "period_type": "annual",
@@ -455,26 +455,26 @@
     "quality_flags": []
    },
    "audit_only_series": {
-    "audit_only_fact_count": 68,
+    "audit_only_fact_count": 125,
     "audit_only_metrics": [
      {
       "metric": "change_pct",
-      "fact_count": 7
+      "fact_count": 17
      },
      {
       "metric": "dividend",
-      "fact_count": 4
+      "fact_count": 5
      },
      {
       "metric": "profit",
-      "fact_count": 26
+      "fact_count": 49
      },
      {
       "metric": "revenue",
-      "fact_count": 31
+      "fact_count": 54
      }
     ],
-    "model_loadable_count": 9,
+    "model_loadable_count": 23,
     "note": "Audit-only facts are retained as coverage signals only and are not promoted into required values."
    },
    "qualification_queue": {
@@ -6665,9 +6665,9 @@
  },
  "_meta": {
   "generator_version": "ci_artifact_integrity_v1",
-  "source_commit_sha": "4b618216067b62082adf73119d9c76e42b7e8057",
-  "build_cutoff_at": "2026-08-28T17:59:21Z",
-  "generated_at": "2026-08-28T17:59:21Z",
+  "source_commit_sha": "cd5f8eb512d683a79ec9eef164ec1b2238b952ec",
+  "build_cutoff_at": "2026-08-29T11:26:48Z",
+  "generated_at": "2026-08-29T11:26:48Z",
   "artifact_path": "state/company_intel/financial_coverage.json",
   "timestamp_semantics": {
    "build_cutoff_at": "generation boundary only; not a source-effective or source-published time",

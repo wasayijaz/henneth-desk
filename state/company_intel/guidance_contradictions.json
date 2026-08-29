@@ -1,7 +1,7 @@
 {
  "schema_version": 1,
  "guidance_version": "guidance_contradictions_v2",
- "as_of": "2026-08-27T09:31:00+05:00",
+ "as_of": "2026-08-29T16:22:34+05:00",
  "pilot_symbols": [
   "ATRL",
   "BOP",
@@ -916,16 +916,43 @@
   },
   "MLCF": {
    "symbol": "MLCF",
-   "status": "no_guidance_objects",
+   "status": "available",
    "guidance_count": 0,
-   "risk_count": 0,
-   "object_count": 0,
+   "risk_count": 1,
+   "object_count": 1,
    "contradiction_count": 0,
-   "objects": [],
+   "objects": [
+    {
+     "guidance_id": "guidance_057b02e44c2d5013714b",
+     "symbol": "MLCF",
+     "domain": "risks",
+     "assertion_type": "stated_risk",
+     "status": "eligible",
+     "statement": "default from counter parties is kept to a minimum",
+     "modality": "risk_present",
+     "topic_key": "default_from_counter_parties_kept_minimum",
+     "assertion_key": "risks:default_from_counter_parties_kept_minimum:risk_present",
+     "conflict_key": "risks:default_from_counter_parties_kept_minimum",
+     "evidence": {
+      "document_id": "psx:260032",
+      "source_url": "https://dps.psx.com.pk/download/document/260032.pdf",
+      "source": "PSX DPS",
+      "page": 51,
+      "available_on": "2026-08-29T16:22:34+05:00",
+      "content_sha256": "4fdfb4cbd2eee65576cbb89b43334ce0c09a7e5ffd573d5bf93b414029eba6d1",
+      "evidence_sha256": null,
+      "text": "e. Strong follow up and adherence to procedures and credit terms ensures that the risk of default from counter parties is kept to a minimum. Adequate steps are taken for any dispute that may arise."
+     },
+     "policy": {
+      "same_company_official_evidence": true,
+      "numeric_forecast": false,
+      "valuation": false,
+      "advice": false
+     }
+    }
+   ],
    "contradictions": [],
-   "unknowns": [
-    "no_retained_official_evidence_with_strict_guidance_assertion_shape"
-   ]
+   "unknowns": []
   },
   "NBP": {
    "symbol": "NBP",
@@ -1075,9 +1102,9 @@
  },
  "_meta": {
   "generator_version": "ci_artifact_integrity_v1",
-  "source_commit_sha": "4b618216067b62082adf73119d9c76e42b7e8057",
-  "build_cutoff_at": "2026-08-28T17:59:21Z",
-  "generated_at": "2026-08-28T17:59:21Z",
+  "source_commit_sha": "cd5f8eb512d683a79ec9eef164ec1b2238b952ec",
+  "build_cutoff_at": "2026-08-29T11:26:48Z",
+  "generated_at": "2026-08-29T11:26:48Z",
   "artifact_path": "state/company_intel/guidance_contradictions.json",
   "timestamp_semantics": {
    "build_cutoff_at": "generation boundary only; not a source-effective or source-published time",

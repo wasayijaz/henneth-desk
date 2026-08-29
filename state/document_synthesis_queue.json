@@ -436,6 +436,20 @@
    "synthesis_status": "not_started"
   },
   {
+   "queue_id": "syn_psx:260032_4fdfb4cbd2ee",
+   "doc_id": "psx:260032",
+   "content_sha256": "4fdfb4cbd2eee65576cbb89b43334ce0c09a7e5ffd573d5bf93b414029eba6d1",
+   "tickers": [
+    "MLCF"
+   ],
+   "doc_type": "results",
+   "priority": 5,
+   "queued_at": "2026-08-29 16:22",
+   "approval_status": "pending",
+   "training_mode": true,
+   "synthesis_status": "not_started"
+  },
+  {
    "queue_id": "syn_issuer:a8f1eabc2c63d1a541e2f1ee_40750752892b",
    "doc_id": "issuer:a8f1eabc2c63d1a541e2f1ee",
    "content_sha256": "40750752892b1c5063d54854ad54e460d484c0778cbdb39d64211db71426e046",
@@ -2777,20 +2791,6 @@
    "queue_id": "syn_issuer:4686a85ab75cfd51b17ff810_911dc06138e8",
    "doc_id": "issuer:4686a85ab75cfd51b17ff810",
    "content_sha256": "911dc06138e835fe0bdd585f0473088c47e07756d9b679743d998304991743ca",
-   "tickers": [
-    "HBL"
-   ],
-   "doc_type": "other",
-   "priority": 0,
-   "queued_at": "2026-08-18 03:24",
-   "approval_status": "pending",
-   "training_mode": true,
-   "synthesis_status": "not_started"
-  },
-  {
-   "queue_id": "syn_issuer:55b8428d62759970964ee793_8e96d8145dd4",
-   "doc_id": "issuer:55b8428d62759970964ee793",
-   "content_sha256": "8e96d8145dd4b475e93b6df66582a2c94edc2e1666f889c28e6c1f3abd1636cc",
    "tickers": [
     "HBL"
    ],
@@ -7226,12 +7226,26 @@
    "approval_status": "pending",
    "training_mode": true,
    "synthesis_status": "not_started"
+  },
+  {
+   "queue_id": "syn_psx:260032_4fdfb4cbd2ee",
+   "doc_id": "psx:260032",
+   "content_sha256": "4fdfb4cbd2eee65576cbb89b43334ce0c09a7e5ffd573d5bf93b414029eba6d1",
+   "tickers": [
+    "MLCF"
+   ],
+   "doc_type": "results",
+   "priority": 5,
+   "queued_at": "2026-08-29 16:22",
+   "approval_status": "pending",
+   "training_mode": true,
+   "synthesis_status": "not_started"
   }
  ],
  "_meta": {
-  "updated": "2026-08-27 09:32",
+  "updated": "2026-08-29 16:22",
   "pending": 200,
-  "overflow": 103,
+  "overflow": 104,
   "retention_max": 200,
   "training_mode": true,
   "approved_receipts": 13,

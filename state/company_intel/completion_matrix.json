@@ -1,6 +1,6 @@
 {
  "schema_version": 2,
- "as_of": "2026-08-27 21:16",
+ "as_of": "2026-08-28 15:26",
  "scope": "Company Intelligence product completion audit",
  "source_policy": "retained repo/state evidence only; no fetching, model calls, SQL, publish, deploy, or source mutation",
  "pilot_symbols": [
@@ -1101,7 +1101,7 @@
      "label": "conflict/missing-slot summary",
      "path": "state/company_intel/financial_evidence_reconciliation.json",
      "ok": true,
-     "detail": "{'company_count': 20, 'eligible_fact_count': 41, 'audit_only_fact_count': 932, 'quarantined_fact_count': 575, 'missing_slot_count': 159, 'source_conflict_count': 64, 'withheld_future_source_fact_count': 18, 'forecast_ready_company_count': 2}"
+     "detail": "{'company_count': 20, 'eligible_fact_count': 43, 'audit_only_fact_count': 1518, 'quarantined_fact_count': 76, 'missing_slot_count': 159, 'source_conflict_count': 0, 'withheld_future_source_fact_count': 0, 'forecast_ready_company_count': 2}"
     },
     {
      "label": "reconciliation checker",
@@ -1898,9 +1898,9 @@
  ],
  "_meta": {
   "generator_version": "ci_artifact_integrity_v1",
-  "source_commit_sha": "4b618216067b62082adf73119d9c76e42b7e8057",
-  "build_cutoff_at": "2026-08-28T17:59:21Z",
-  "generated_at": "2026-08-28T17:59:21Z",
+  "source_commit_sha": "cd5f8eb512d683a79ec9eef164ec1b2238b952ec",
+  "build_cutoff_at": "2026-08-29T11:26:48Z",
+  "generated_at": "2026-08-29T11:26:48Z",
   "artifact_path": "state/company_intel/completion_matrix.json",
   "timestamp_semantics": {
    "build_cutoff_at": "generation boundary only; not a source-effective or source-published time",
