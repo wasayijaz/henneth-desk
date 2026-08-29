@@ -206,6 +206,10 @@ def validate_workflow(workflow: dict[str, Any]) -> list[str]:
         errors.append("steps: missing generated Company Intelligence artifact build")
     else:
         required_ci_builders = (
+            "python scripts/build_financial_evidence_reconciliation.py",
+            "python scripts/build_financial_truth_qualification.py",
+            "python scripts/build_formal_financial_engines.py",
+            "python scripts/build_company_brains.py",
             "python scripts/build_ci_completion_matrix.py",
             "python scripts/build_ci_slice.py",
             "python scripts/build_ci_artifact_integrity.py",
@@ -213,6 +217,31 @@ def validate_workflow(workflow: dict[str, Any]) -> list[str]:
         for command in required_ci_builders:
             if command not in ci_build_run:
                 errors.append(f"steps: CI artifact build missing {command}")
+        order_pairs = (
+            (
+                "python scripts/build_financial_evidence_reconciliation.py",
+                "python scripts/build_financial_truth_qualification.py",
+                "steps: financial truth qualification must be rebuilt after financial evidence reconciliation",
+            ),
+            (
+                "python scripts/build_financial_truth_qualification.py",
+                "python scripts/build_formal_financial_engines.py",
+                "steps: formal financial engines must be rebuilt after financial truth qualification",
+            ),
+            (
+                "python scripts/build_formal_financial_engines.py",
+                "python scripts/build_company_brains.py",
+                "steps: Company Brain must be rebuilt after formal financial engines",
+            ),
+            (
+                "python scripts/build_company_brains.py",
+                "python scripts/build_ci_completion_matrix.py",
+                "steps: completion matrix must be rebuilt after Company Brain",
+            ),
+        )
+        for before, after, message in order_pairs:
+            if before in ci_build_run and after in ci_build_run and ci_build_run.find(before) > ci_build_run.find(after):
+                errors.append(message)
         if (
             "python scripts/build_ci_completion_matrix.py" in ci_build_run
             and "python scripts/build_ci_slice.py" in ci_build_run
@@ -291,6 +320,10 @@ jobs:
           subprocess.run([\"node\", \"-c\", str(path)], check=True)
       - name: Build generated Company Intelligence artifacts
         run: |
+          python scripts/build_financial_evidence_reconciliation.py
+          python scripts/build_financial_truth_qualification.py
+          python scripts/build_formal_financial_engines.py
+          python scripts/build_company_brains.py
           python scripts/build_ci_completion_matrix.py
           python scripts/build_ci_slice.py
           python scripts/build_ci_artifact_integrity.py
@@ -319,6 +352,26 @@ def self_test() -> int:
     errors = validate_workflow(parse_workflow(missing_cutoff))
     if not any("explicit UTC" in error for error in errors):
         print("self-test failed: missing build cutoff was accepted")
+        return 1
+    stale_financial_order = VALID_FIXTURE.replace(
+        "          python scripts/build_financial_truth_qualification.py\n"
+        "          python scripts/build_formal_financial_engines.py\n",
+        "          python scripts/build_formal_financial_engines.py\n"
+        "          python scripts/build_financial_truth_qualification.py\n",
+    )
+    errors = validate_workflow(parse_workflow(stale_financial_order))
+    if not any("formal financial engines" in error for error in errors):
+        print("self-test failed: stale financial engine order was accepted")
+        return 1
+    stale_brain_order = VALID_FIXTURE.replace(
+        "          python scripts/build_formal_financial_engines.py\n"
+        "          python scripts/build_company_brains.py\n",
+        "          python scripts/build_company_brains.py\n"
+        "          python scripts/build_formal_financial_engines.py\n",
+    )
+    errors = validate_workflow(parse_workflow(stale_brain_order))
+    if not any("Company Brain" in error for error in errors):
+        print("self-test failed: stale Company Brain order was accepted")
         return 1
     print("self-test: ok")
     return 0
