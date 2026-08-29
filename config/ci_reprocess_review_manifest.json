@@ -1,7 +1,7 @@
 {
  "schema_version": 1,
  "manifest_version": "ci_reprocess_review_manifest_v1",
- "manifest_id": "cirestage_f68456935d9bf33b50f3",
+ "manifest_id": "cirestage_00543939f5068274dcff",
  "source": {
   "financial_coverage": "state/company_intel/financial_coverage.json",
   "research_index": "state/research_index.json"
@@ -46,6 +46,24 @@
    "require_retained_hash": true
   },
   {
+   "symbol": "MLCF",
+   "period": "2025-09-30",
+   "classification": "financial_statement",
+   "require_retained_hash": true
+  },
+  {
+   "symbol": "MLCF",
+   "period": "2025-12-31",
+   "classification": "financial_statement",
+   "require_retained_hash": true
+  },
+  {
+   "symbol": "MLCF",
+   "period": "2026-03-31",
+   "classification": "financial_statement",
+   "require_retained_hash": true
+  },
+  {
    "symbol": "DGKC",
    "period": "2025-06-30",
    "classification": "financial_results",
@@ -66,6 +84,9 @@
  ],
  "document_ids": [
   "psx:260032",
+  "psx:263397",
+  "psx:271712",
+  "psx:275425",
   "psx:260947",
   "psx:264230",
   "psx:275962"
@@ -85,6 +106,63 @@
    "safe_period": {
     "period_end": "2025-06-30",
     "period_type": "annual",
+    "source": "owner_approved_exact_source"
+   },
+   "approval_status": "owner_approved",
+   "reason": "owner-approved retained official full-report counterpart for bounded CI filing restage"
+  },
+  "psx:263397": {
+   "document_id": "psx:263397",
+   "symbol": "MLCF",
+   "period": "2025-09-30",
+   "classification": "financial_statement",
+   "title": "MLCF Transmission of Quarterly Financial Statements for the Period Ended 30.09.2025",
+   "expected_title_pattern": "MLCF Transmission of Quarterly Financial Statements for the Period Ended 30\\.09\\.2025",
+   "published_at": "2025-10-27T10:09:00+05:00",
+   "source_url": "https://dps.psx.com.pk/download/document/263397.pdf",
+   "content_sha256": "a05eeee23485edd71c6c096a606a3b6fd76d6687e13bdaf032f97b59b9cdcc7e",
+   "content_identity": "retained_hash",
+   "safe_period": {
+    "period_end": "2025-09-30",
+    "period_type": "interim",
+    "source": "owner_approved_exact_source"
+   },
+   "approval_status": "owner_approved",
+   "reason": "owner-approved retained official full-report counterpart for bounded CI filing restage"
+  },
+  "psx:271712": {
+   "document_id": "psx:271712",
+   "symbol": "MLCF",
+   "period": "2025-12-31",
+   "classification": "financial_statement",
+   "title": "MLCF-Transmission of Quarterly Financial Statements for the Period Ended 31.12.2025",
+   "expected_title_pattern": "MLCF-Transmission of Quarterly Financial Statements for the Period Ended 31\\.12\\.2025",
+   "published_at": "2026-03-02T08:46:00+05:00",
+   "source_url": "https://dps.psx.com.pk/download/document/271712.pdf",
+   "content_sha256": "f4f9d671658d9c402d650fd3e45bc098bd410084bba7d8fdcf7f8729cf9e5f69",
+   "content_identity": "retained_hash",
+   "safe_period": {
+    "period_end": "2025-12-31",
+    "period_type": "interim",
+    "source": "owner_approved_exact_source"
+   },
+   "approval_status": "owner_approved",
+   "reason": "owner-approved retained official full-report counterpart for bounded CI filing restage"
+  },
+  "psx:275425": {
+   "document_id": "psx:275425",
+   "symbol": "MLCF",
+   "period": "2026-03-31",
+   "classification": "financial_statement",
+   "title": "Transmission of Quarterly Financial Statements for the Period Ended 31.03.2026",
+   "expected_title_pattern": "Transmission of Quarterly Financial Statements for the Period Ended 31\\.03\\.2026",
+   "published_at": "2026-04-28T10:25:00+05:00",
+   "source_url": "https://dps.psx.com.pk/download/document/275425.pdf",
+   "content_sha256": "744a0c710043d6e0a7de36bb99f21ca50f0f9346f6972b957f6733a47deae11f",
+   "content_identity": "retained_hash",
+   "safe_period": {
+    "period_end": "2026-03-31",
+    "period_type": "interim",
     "source": "owner_approved_exact_source"
    },
    "approval_status": "owner_approved",
@@ -150,12 +228,12 @@
   }
  },
  "summary": {
-  "document_count": 4,
+  "document_count": 7,
   "symbols": [
    "DGKC",
    "MLCF"
   ],
-  "retained_hash_count": 4,
+  "retained_hash_count": 7,
   "transport_hash_required_count": 0
  }
 }

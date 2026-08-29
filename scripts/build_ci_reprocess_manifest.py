@@ -36,6 +36,39 @@ APPROVED_REVIEW_SLOTS: tuple[dict[str, Any], ...] = (
         "source_document_id": "psx:260032",
         "source_content_sha256": "4fdfb4cbd2eee65576cbb89b43334ce0c09a7e5ffd573d5bf93b414029eba6d1",
     },
+    # Exact retained full quarterly reports for the selected MLCF case.  This
+    # is a bounded three-period parser-proof tranche, not an assertion that the
+    # results contain qualified standalone three-month financial facts.
+    {
+        "symbol": "MLCF",
+        "period": "2025-09-30",
+        "period_type": "interim",
+        "classification": "financial_statement",
+        "title_pattern": r"MLCF Transmission of Quarterly Financial Statements for the Period Ended 30\.09\.2025",
+        "require_retained_hash": True,
+        "source_document_id": "psx:263397",
+        "source_content_sha256": "a05eeee23485edd71c6c096a606a3b6fd76d6687e13bdaf032f97b59b9cdcc7e",
+    },
+    {
+        "symbol": "MLCF",
+        "period": "2025-12-31",
+        "period_type": "interim",
+        "classification": "financial_statement",
+        "title_pattern": r"MLCF-Transmission of Quarterly Financial Statements for the Period Ended 31\.12\.2025",
+        "require_retained_hash": True,
+        "source_document_id": "psx:271712",
+        "source_content_sha256": "f4f9d671658d9c402d650fd3e45bc098bd410084bba7d8fdcf7f8729cf9e5f69",
+    },
+    {
+        "symbol": "MLCF",
+        "period": "2026-03-31",
+        "period_type": "interim",
+        "classification": "financial_statement",
+        "title_pattern": r"Transmission of Quarterly Financial Statements for the Period Ended 31\.03\.2026",
+        "require_retained_hash": True,
+        "source_document_id": "psx:275425",
+        "source_content_sha256": "744a0c710043d6e0a7de36bb99f21ca50f0f9346f6972b957f6733a47deae11f",
+    },
     {
         "symbol": "DGKC",
         "period": "2025-06-30",
@@ -137,7 +170,7 @@ def _resolve_slot(coverage: dict[str, Any], slot: dict[str, Any], research_index
             "classification": classification, "title": title,
             "expected_title_pattern": pattern, "published_at": row.get("published_at"),
             "source_url": source_url, "content_sha256": content_sha256,
-            "content_identity": "retained_hash", "safe_period": {"period_end": period, "period_type": ("annual" if classification == "financial_statement" else "interim"), "source": ("owner_approved_exact_source" if slot.get("source_content_sha256") else "owner_approved_counterpart")},
+            "content_identity": "retained_hash", "safe_period": {"period_end": period, "period_type": (slot.get("period_type") or ("annual" if classification == "financial_statement" else "interim")), "source": ("owner_approved_exact_source" if slot.get("source_content_sha256") else "owner_approved_counterpart")},
             "approval_status": "owner_approved", "reason": "owner-approved retained official full-report counterpart for bounded CI filing restage",
         }
     matches = []

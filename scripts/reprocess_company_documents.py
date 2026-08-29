@@ -63,8 +63,11 @@ OVERSIZED_CHUNK_POLICIES: dict[str, dict[str, Any]] = {
 }
 APPROVED_WAVE3_ALLOWLIST: frozenset[str] = frozenset({
     "psx:260032",
+    "psx:263397",
     "psx:260947",
     "psx:264230",
+    "psx:271712",
+    "psx:275425",
     "psx:275962",
 })
 
