@@ -138,6 +138,34 @@ def main() -> int:
         assert recovered["companies"]["FFC"]["events"], "ledger was not recovered from durable document"
         recovered_q = json.loads(recovered_queue.read_text(encoding="utf-8"))
         assert recovered_q["queue"], "queue was not recovered from durable document"
+
+        # A verified-capital-note extraction is durable review evidence only.
+        # It must retain the source binding and tie-out, but never become an
+        # approved assumption or activate a financial engine as a side effect.
+        capital_index = root / "capital_research_index.json"
+        capital_output = root / "capital_company_documents.json"
+        capital_candidates = root / "company_intel" / "official_share_capital_candidates.json"
+        capital_text = (
+            "2025 2024 Note (Rupees in thousand) Issued, subscribed and paid-up share capital "
+            "1,047,562,608 ordinary shares of Rs 10 each 5 10,475,626 10,475,626"
+        )
+        capital_index.write_text(json.dumps({"documents": {"psx:999999": {
+            "doc_id": "psx:999999", "official_document_id": "999999", "tickers": ["MLCF"],
+            "title": "MLCF Annual Report", "period_end": "2025-06-30",
+            "published_at": "2025-09-25", "url": "https://dps.psx.com.pk/download/document/999999.pdf",
+            "text": capital_text, "media_type": "text/plain",
+        }}}), encoding="utf-8")
+        run_intelligence(
+            capital_index, capital_output, extraction_queue, root / "capital_ledger.json",
+            root / "capital_queue.json", root / "capital_series.json", capital_candidates,
+        )
+        capital_state = json.loads(capital_candidates.read_text(encoding="utf-8"))
+        assert capital_state["policy"]["candidate_only"] is True
+        assert capital_state["policy"]["does_not_activate_financial_truth"] is True
+        candidate = capital_state["candidates"]
+        assert len(candidate) == 1 and candidate[0]["symbol"] == "MLCF"
+        assert candidate[0]["approved"] is False and candidate[0]["readiness"] == "candidate_only"
+        assert candidate[0]["source"]["id"] == "psx:999999" and candidate[0]["source"]["page"] == 1
     live_series_after = live_series_path.read_bytes() if live_series_path.exists() else None
     assert live_series_after == live_series_before, "offline self-check touched live financial series"
     _validate_state()

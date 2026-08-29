@@ -28,10 +28,15 @@ CANONICAL_ISSUER_PAGE_COUNT = 332
 # authorised capital (which commonly appears immediately above it) from being
 # mistaken for issued shares.
 PAID_UP_ROW = re.compile(
-    r"issued\s*,?\s*subscribed\s+and\s+paid\s+up\s+share\s+capital"
+    r"issued\s*,?\s*subscribed\s+and\s+paid[-\s]+up\s+share\s+capital"
     r"(?P<body>.{0,260}?\d[\d,]*\s+(?:\([^)]{0,40}\)\s+)?ordinary\s+shares\s+of\s+rs\.?\s*10\s+each"
     r".{0,100})",
     re.I,
+)
+TABLE_TOTAL = re.compile(
+    r"(?P<shares>\d{1,3}(?:,\d{3}){2,})\s+"
+    r"(?P<paid_up>\d{1,3}(?:,\d{3})+)\s+"
+    r"\d{1,3}(?:,\d{3})+"
 )
 SHARES_PHRASE = re.compile(
     r"(?P<shares>\d[\d,]*)\s+(?:\([^)]{0,40}\)\s+)?ordinary\s+shares\s+of\s+rs\.?\s*10\s+each",
@@ -58,6 +63,46 @@ def _period_end(doc: dict[str, Any], page_text: str) -> str | None:
     # is issuer-specific, so callers must supply period_end in the verified
     # registry before promoting the candidate.
     return None
+
+
+def _paid_up_pair(match: re.Match[str]) -> tuple[int, int] | None:
+    """Read one explicitly denominated capital row without guessing a value."""
+    phrase = SHARES_PHRASE.search(match.group("body"))
+    if not phrase:
+        return None
+    shares = _number(phrase.group("shares"))
+    tail = match.group("body")[phrase.end():]
+    nominal_thousands = (shares * 10) / 1_000 if shares else 0
+    paid_up_thousands = next(
+        (_number(token) for token in re.findall(r"\d[\d,]*", tail)
+         if (_number(token) or 0) >= nominal_thousands * 0.99),
+        None,
+    )
+    if not shares or not paid_up_thousands:
+        return None
+    return shares, paid_up_thousands
+
+
+def _capital_note_total(text: str, match: re.Match[str]) -> tuple[int, int] | None:
+    """Read a capital-note total row when its denomination is in the header.
+
+    Some official PDFs render each issued-share component with the denomination
+    but render the total line as only ``shares | capital | comparative``.  It is
+    still a safe capital-note tie-out only when the same page has the explicit
+    paid-up heading, stated PKR-thousand scale, and the total arithmetic ties.
+    """
+    body = text[match.end(): match.end() + 2_000]
+    pairs = [
+        (_number(item.group("shares")), _number(item.group("paid_up")))
+        for item in TABLE_TOTAL.finditer(body)
+    ]
+    pairs = [item for item in pairs if item[0] and item[1]]
+    if not pairs:
+        return None
+    # Component rows can also tie individually.  The total must be the largest
+    # explicit share-count row in the same capital-note table.
+    shares, paid_up_thousands = max(pairs, key=lambda item: item[0])
+    return shares, paid_up_thousands
 
 
 def extract_share_capital_evidence(
@@ -95,34 +140,38 @@ def extract_share_capital_evidence(
         match = PAID_UP_ROW.search(text)
         if not match:
             continue
-        phrase = SHARES_PHRASE.search(match.group("body"))
-        if not phrase:
+        if not SCALE.search(text):
             continue
-        shares = _number(phrase.group("shares"))
-        # The note number may sit between the denomination and the two
-        # comparative capital values.  Select the first number large enough to
-        # represent the nominal capital, ignoring that note index.
-        tail = match.group("body")[phrase.end():]
-        nominal_thousands = (shares * 10) / 1_000 if shares else 0
-        paid_up_thousands = next(
-            (_number(token) for token in re.findall(r"\d[\d,]*", tail)
-             if (_number(token) or 0) >= nominal_thousands * 0.99),
-            None,
-        )
-        if not shares or not paid_up_thousands or not SCALE.search(text):
+        # A one-line fact may be available first, but a capital-note total is
+        # the safer result whenever the one-line layout is ambiguous.  Test
+        # each independently; never let a malformed component suppress a
+        # later, arithmetically tied total row.
+        selected_pair: tuple[int, int] | None = None
+        for pair in (_paid_up_pair(match), _capital_note_total(text, match)):
+            if not pair:
+                continue
+            candidate_shares, candidate_paid_up = pair
+            if abs(candidate_shares * 10 - candidate_paid_up * 1_000) <= 1_000:
+                selected_pair = pair
+                break
+        if not selected_pair:
             continue
-        # The report states PKR in thousands.  Permit the stated amount's
-        # normal rounding to the nearest thousand, but never a loose mismatch.
+        shares, paid_up_thousands = selected_pair
         nominal_pkr = shares * 10
         paid_up_pkr = paid_up_thousands * 1_000
-        if abs(nominal_pkr - paid_up_pkr) > 1_000:
-            continue
         page = index + 1
         if page_records and index < len(page_records):
             page = int((page_records[index] or {}).get("page") or page)
         if page < 1:
             continue
-        excerpt = text[max(0, match.start() - 80): min(len(text), match.end() + 100)]
+        # Citation text must contain the selected total when the page uses a
+        # multi-row capital-note table; the heading alone is not reviewable
+        # evidence for the emitted share count.
+        selected_text = f"{shares:,} {paid_up_thousands:,}"
+        selected_offset = text.find(selected_text, match.end())
+        excerpt_start = max(0, (selected_offset if selected_offset >= 0 else match.start()) - 100)
+        excerpt_end = min(len(text), (selected_offset + len(selected_text) if selected_offset >= 0 else match.end()) + 180)
+        excerpt = text[excerpt_start:excerpt_end]
         row = {
             "symbol": str(doc.get("symbol") or (doc.get("tickers") or [None])[0] or "").upper() or None,
             "metric": "shares_out",

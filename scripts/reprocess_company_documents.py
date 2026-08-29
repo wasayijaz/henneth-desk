@@ -95,6 +95,7 @@ CANONICAL_RELATIVE_PATHS = (
     Path("company_event_ledger.json"),
     Path("document_synthesis_queue.json"),
     Path("company_financial_series.json"),
+    Path("company_intel") / "official_share_capital_candidates.json",
     Path("company_intel") / "financial_model_inputs.json",
     Path("company_intel") / "financial_evidence_reconciliation.json",
     Path("company_intel") / "financial_truth_qualification.json",
@@ -936,7 +937,8 @@ def consume_canonical(registry_path: Path, queue_path: Path, output_root: Path,
     checker = checker or _run_checker
     try:
         for rel in (Path("company_documents.json"), Path("company_event_ledger.json"),
-                    Path("document_synthesis_queue.json"), Path("company_financial_series.json")):
+                    Path("document_synthesis_queue.json"), Path("company_financial_series.json"),
+                    Path("company_intel") / "official_share_capital_candidates.json"):
             stage = f"publish:{rel.as_posix()}"
             if (work_state / rel).exists():
                 _atomic_replace_file(work_state / rel, state_root / rel)

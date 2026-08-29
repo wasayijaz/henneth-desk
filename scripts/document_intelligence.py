@@ -22,8 +22,10 @@ from financial_series import normalize_fact
 from financial_statement_facts import _available_on, extract_facts
 from build_financial_series import OUT as SERIES_OUT, merge_rows
 from psx_data import ROOT, STATE, load_json, save_json
+from share_capital import extract_share_capital_evidence
 
 OUT = STATE / "company_documents.json"
+SHARE_CAPITAL_CANDIDATES_OUT = STATE / "company_intel" / "official_share_capital_candidates.json"
 MAX_EVIDENCE = 8
 MAX_BRIEF_EVIDENCE = 32
 MAX_VERSIONS = 5
@@ -100,9 +102,49 @@ def _fact_delta(previous: list[dict[str, Any]], current: list[dict[str, Any]]) -
     return {"added": added[:8], "removed": removed[:8], "changed": changed[:8]}
 
 
+def _merge_share_capital_candidates(
+    prior: dict[str, Any],
+    current: list[dict[str, Any]],
+) -> dict[str, Any]:
+    """Persist only unapproved source-bound capital-note candidates.
+
+    A candidate is evidence for review, not a financial-engine operand.  A
+    reprocessed source replaces only its own prior candidate so a later
+    verified version cannot leave an obsolete same-document value active.
+    """
+    current_keys = {
+        (str((row.get("source") or {}).get("id") or ""), str(row.get("symbol") or ""))
+        for row in current if isinstance(row, dict)
+    }
+    retained = [
+        row for row in prior.get("candidates") or []
+        if isinstance(row, dict)
+        and (str((row.get("source") or {}).get("id") or ""), str(row.get("symbol") or "")) not in current_keys
+    ]
+    candidates = retained + current
+    candidates.sort(key=lambda row: (str(row.get("symbol") or ""), str((row.get("source") or {}).get("id") or "")))
+    return {
+        "schema_version": 1,
+        "source": {"company_documents": "state/company_documents.json"},
+        "policy": {
+            "candidate_only": True,
+            "approved": False,
+            "does_not_activate_financial_truth": True,
+            "owner_approval_required_before_financial_engine_import": True,
+            "no_raw_pdf_or_full_page_text": True,
+        },
+        "summary": {
+            "candidate_count": len(candidates),
+            "candidate_company_count": len({row.get("symbol") for row in candidates if row.get("symbol")}),
+        },
+        "candidates": candidates,
+    }
+
+
 def run(index_path: Path = STATE / "research_index.json", output_path: Path = OUT,
         extraction_queue_path: Path | None = None, ledger_path: Path = LEDGER_OUT,
-        queue_path: Path = QUEUE_OUT, series_path: Path = SERIES_OUT) -> int:
+        queue_path: Path = QUEUE_OUT, series_path: Path = SERIES_OUT,
+        share_capital_candidates_path: Path | None = None) -> int:
     registry = load_json(index_path, {})
     rows = _doc_rows(registry)
     # Terra's raw bytes are intentionally transient and ignored by git.  Join
@@ -117,6 +159,13 @@ def run(index_path: Path = STATE / "research_index.json", output_path: Path = OU
     documents = dict(prior.get("documents") or {})
     processed = failed = staged = 0
     transient_series: list[dict[str, Any]] = []
+    transient_share_capital_candidates: list[dict[str, Any]] = []
+    if share_capital_candidates_path is None:
+        share_capital_candidates_path = (
+            SHARE_CAPITAL_CANDIDATES_OUT if output_path == OUT
+            else output_path.parent / "company_intel" / "official_share_capital_candidates.json"
+        )
+    prior_share_capital_candidates = load_json(share_capital_candidates_path, {"candidates": []})
 
     for key, entry in sorted(rows.items(), key=lambda item: str(item[0])):
         source_id = entry.get("official_document_id") or entry.get("id") or key
@@ -163,7 +212,12 @@ def run(index_path: Path = STATE / "research_index.json", output_path: Path = OU
                 source_url=url, published_at=entry.get("published_at") or entry.get("date"),
                 content_sha256=content_sha)
             v2_doc = {"doc_id": doc_id, "title": title, "source_url": url, "content_sha256": content_sha, "period_end": entry.get("period_end"), "published_at": entry.get("published_at") or entry.get("date"), "retrieved_at": entry.get("retrieved_at"), "available_on": entry.get("available_on")}
+            v2_doc["symbol"] = (_ticks(entry) or [None])[0]
+            v2_doc["page_count"] = len(extracted["pages"])
             v2_facts = extract_facts(v2_doc, extracted["pages"], extracted.get("words"), extracted.get("page_records"))
+            transient_share_capital_candidates.extend(
+                extract_share_capital_evidence(v2_doc, extracted["pages"], extracted.get("page_records"))
+            )
             # Retain geometry-backed facts first.  Legacy extractor claims can
             # be numerous, and a shared evidence cap must never evict the
             # stricter page/table facts that downstream financial models need.
@@ -245,6 +299,11 @@ def run(index_path: Path = STATE / "research_index.json", output_path: Path = OU
     # Do not destroy last-good state if the registry is unavailable or malformed.
     if documents != prior_docs or not output_path.exists():
         save_json(output_path, out)
+    share_capital_state = _merge_share_capital_candidates(
+        prior_share_capital_candidates, transient_share_capital_candidates,
+    )
+    if share_capital_state != prior_share_capital_candidates or not share_capital_candidates_path.exists():
+        save_json(share_capital_candidates_path, share_capital_state)
     # Replay every durable receipt on each run. append_events/build_queue deduplicate, so this
     # repairs a crash after company_documents.json was saved but before either downstream write.
     replay_events = [event for doc in documents.values() for event in (doc.get("events") or [])]
@@ -253,7 +312,11 @@ def run(index_path: Path = STATE / "research_index.json", output_path: Path = OU
     build_queue(documents, path=queue_path)
     if transient_series or not series_path.exists():
         merge_rows(transient_series, output_path=series_path)
-    print(f"document_intelligence: processed={processed} staged={staged} failed={failed} events={len(replay_events)}")
+    print(
+        "document_intelligence: "
+        f"processed={processed} staged={staged} failed={failed} events={len(replay_events)} "
+        f"share_capital_candidates={len(share_capital_state['candidates'])}"
+    )
     return 0
 
 

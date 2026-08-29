@@ -27,6 +27,46 @@ def main() -> int:
     assert row["approved"] is False
     assert row["readiness"] == "candidate_only"
 
+    # MLCF FY2025's retained official PSX annual is a deterministic fixture
+    # for the capital-note path.  The parser must preserve the original
+    # document identity/hash and original one-based page citation while
+    # keeping the result candidate-only until verified restage and owner
+    # approval occur.
+    mlcf_doc = {
+        "doc_id": "psx:260032",
+        "title": "MLCF Transmission of Annual Financial Statements for the Year Ended 30.06.2025",
+        "source_url": "https://dps.psx.com.pk/download/document/260032.pdf",
+        "content_sha256": "4fdfb4cbd2eee65576cbb89b43334ce0c09a7e5ffd573d5bf93b414029eba6d1",
+        "period_end": "2025-06-30",
+        "symbol": "MLCF",
+    }
+    mlcf_page = (
+        "Consolidated Statement of Financial Position 2025 2024 Note "
+        "(Rupees in thousand) Issued, subscribed and paid up share capital "
+        "1,047,562,608 ordinary shares of Rs 10 each 5 10,475,626 10,475,626"
+    )
+    mlcf_rows = extract_share_capital_evidence(mlcf_doc, [mlcf_page], [{"page": 317}])
+    assert len(mlcf_rows) == 1
+    mlcf_row = mlcf_rows[0]
+    assert mlcf_row["symbol"] == "MLCF"
+    assert mlcf_row["value"] == 1_047_562_608
+    assert mlcf_row["paid_up_capital_value"] == 10_475_626
+    assert mlcf_row["paid_up_capital_unit"] == "PKR thousand"
+    assert mlcf_row["source"]["id"] == "psx:260032"
+    assert mlcf_row["source"]["url"] == mlcf_doc["source_url"]
+    assert mlcf_row["source"]["content_sha256"] == mlcf_doc["content_sha256"]
+    assert mlcf_row["source"]["page"] == 317
+    assert "1,047,562,608" in mlcf_row["source"]["text"]
+    assert "10,475,626" in mlcf_row["source"]["text"]
+    assert mlcf_row["approved"] is False
+    assert mlcf_row["readiness"] == "candidate_only"
+    assert mlcf_row["tie_out"]["status"] == "tied_out"
+
+    # A capital note with non-matching nominal arithmetic must fail closed;
+    # it must never become a candidate merely because the share count parses.
+    mlcf_broken = mlcf_page.replace("10,475,626 10,475,626", "10,000,000 10,000,000")
+    assert extract_share_capital_evidence(mlcf_doc, [mlcf_broken], [{"page": 317}]) == []
+
     # Authorised shares must not match: only the issued/paid-up row qualifies.
     authorised = "(Rupees in thousand) Authorised share capital 950,000,000 ordinary shares of Rs 10 each 9,500,000"
     assert extract_share_capital_evidence(doc, [authorised], [{"page": 234}]) == []
