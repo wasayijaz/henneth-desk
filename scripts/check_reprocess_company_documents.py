@@ -864,6 +864,94 @@ def main() -> int:
         assert {row["financial_truth_qualification"]["status"] for row in tx_slice["tickers"]} == {"qualified"}
         assert {row["formal_valuations"]["truth_status"] for row in tx_slice["tickers"]} == {"qualified"}
 
+        # The default transaction finalizer must rebuild source products before the
+        # Company Brain indexes their row metadata. This catches stale Brain refs
+        # such as thesis_monitoring being rebuilt after company_brains.
+        order_tx = root / "transaction_builder_order"
+        _fixture(order_tx, ["psx:111"], full_canonical=True)
+        order_model, order_reconcile, order_truth, order_formal, order_completion, _, _ = _good_builders(order_tx)
+        builder_order: list[str] = []
+
+        def record_builder(name: str, payload: dict[str, Any] | None = None):
+            def build() -> dict[str, Any]:
+                builder_order.append(name)
+                if payload is not None:
+                    _write_json(order_tx / "state" / "company_intel" / f"{name}.json", payload)
+                return payload or {}
+            return build
+
+        def order_ci_builder() -> dict[str, Any]:
+            builder_order.append("build_ci_slice")
+            pilot = json.loads((order_tx / "state" / "company_profiles.json").read_text(encoding="utf-8"))["pilot"]["symbols"]
+            _write_json(order_tx / "ci_slice.json", {"tickers": [{"symbol": sym} for sym in pilot]})
+            return {}
+
+        import build_ci_artifact_integrity
+        import build_ci_monitoring
+        import build_ci_slice
+        import build_ci_work_routing_policy
+        import build_company_brains
+        import build_evidence_watchlist
+        import build_guidance_contradictions
+        import build_intelligence_confidence
+        import build_management_delivery
+        import build_signal_clusters
+        import build_thesis_monitoring
+
+        patch_targets = [
+            (build_signal_clusters, "build", record_builder("build_signal_clusters")),
+            (build_thesis_monitoring, "build", record_builder("build_thesis_monitoring")),
+            (build_intelligence_confidence, "build", record_builder("build_intelligence_confidence")),
+            (build_guidance_contradictions, "build", record_builder("build_guidance_contradictions")),
+            (build_management_delivery, "build", record_builder("build_management_delivery")),
+            (build_company_brains, "build", record_builder("build_company_brains")),
+            (build_evidence_watchlist, "build", record_builder("build_evidence_watchlist")),
+            (build_ci_monitoring, "build", record_builder("build_ci_monitoring")),
+            (build_ci_work_routing_policy, "build", record_builder("build_ci_work_routing_policy")),
+            (build_ci_slice, "build", order_ci_builder),
+            (build_ci_artifact_integrity, "build", record_builder("build_ci_artifact_integrity")),
+        ]
+        originals = [(module, name, getattr(module, name)) for module, name, _ in patch_targets]
+        document_intelligence.run = current_writer
+        try:
+            for module, name, replacement in patch_targets:
+                setattr(module, name, replacement)
+            r.consume_canonical(order_tx / "registry.json", order_tx / "queue.json", order_tx / "stage",
+                                [(expected_doc, expected_fetch)], state_root=order_tx / "state",
+                                ci_slice_path=order_tx / "ci_slice.json",
+                                model_builder=order_model, reconciliation_builder=order_reconcile,
+                                truth_builder=order_truth, formal_builder=order_formal,
+                                completion_matrix_builder=order_completion, checker=lambda _name: None)
+        finally:
+            document_intelligence.run = original_run
+            for module, name, original in originals:
+                setattr(module, name, original)
+        expected_order = [
+            "build_signal_clusters",
+            "build_thesis_monitoring",
+            "build_intelligence_confidence",
+            "build_guidance_contradictions",
+            "build_management_delivery",
+            "build_company_brains",
+            "build_evidence_watchlist",
+            "build_ci_monitoring",
+            "build_ci_work_routing_policy",
+            "build_ci_slice",
+            "build_ci_artifact_integrity",
+            "build_signal_clusters",
+            "build_thesis_monitoring",
+            "build_intelligence_confidence",
+            "build_guidance_contradictions",
+            "build_management_delivery",
+            "build_company_brains",
+            "build_evidence_watchlist",
+            "build_ci_monitoring",
+            "build_ci_work_routing_policy",
+            "build_ci_slice",
+            "build_ci_artifact_integrity",
+        ]
+        assert builder_order == expected_order, builder_order
+
         # Normal preflight still invokes the reprocess self-check; only the transaction-local flag skips it.
         import os
         import preflight

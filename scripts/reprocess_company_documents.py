@@ -890,12 +890,12 @@ def consume_canonical(registry_path: Path, queue_path: Path, output_root: Path,
         ci_builder = build_ci_slice
     dependent_ci_builders = (
         () if ci_builder_injected else (
-            build_company_brains,
+            build_signal_clusters,
             build_thesis_monitoring,
             build_intelligence_confidence,
             build_guidance_contradictions,
             build_management_delivery,
-            build_signal_clusters,
+            build_company_brains,
         )
     )
     post_watchlist_builders = (
