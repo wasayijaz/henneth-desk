@@ -63,8 +63,11 @@
    },
    "annual_operating_cash_flow": {
     "required": 5,
-    "present": 0,
-    "qualified_periods": []
+    "present": 2,
+    "qualified_periods": [
+     "2025-06-30",
+     "2024-06-30"
+    ]
    },
    "share_count": {
     "status": "missing_official_share_count_capital_note_tie_out",
@@ -95,7 +98,7 @@
     {
      "requirement": "qualified_annual_operating_cash_flow",
      "required": 5,
-     "present": 0,
+     "present": 2,
      "status": "blocked"
     },
     {
@@ -2897,9 +2900,9 @@
  },
  "_meta": {
   "generator_version": "ci_artifact_integrity_v1",
-  "source_commit_sha": "cd5f8eb512d683a79ec9eef164ec1b2238b952ec",
-  "build_cutoff_at": "2026-08-29T11:26:48Z",
-  "generated_at": "2026-08-29T11:26:48Z",
+  "source_commit_sha": "e13ddd30676af157a64555ee141579344fe88fe1",
+  "build_cutoff_at": "2026-08-29T11:43:24Z",
+  "generated_at": "2026-08-29T11:43:24Z",
   "artifact_path": "state/company_intel/financial_truth_qualification.json",
   "timestamp_semantics": {
    "build_cutoff_at": "generation boundary only; not a source-effective or source-published time",

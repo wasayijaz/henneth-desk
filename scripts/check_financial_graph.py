@@ -72,6 +72,24 @@ def run() -> None:
     assert row2 and row2["period_end"] == "2024-12-31" and row2["consolidation"] == "unconsolidated", row2
     assert row2["unit_multiplier"] == 1_000 and row2["normalized_value"] == 12_345_000, row2
 
+    cash_doc, cash_fact, cash_pages = _fixture(
+        "ABC Annual Results for year ended 31.12.2025",
+        "CONSOLIDATED STATEMENT OF CASH FLOWS (Rupees in million) Net cash generated from operating activities 12,345",
+    )
+    cash_fact.update({
+        "fact_id": "fact_cash_flow", "fact_type": "operating_cash_flow", "line": "operating_cash_flow",
+        "statement_type": "cash_flow_statement", "period_end": "2025-12-31", "period_type": "annual",
+        "duration_months": 12, "normalized_value": 12_345_000_000, "value": 12_345_000_000,
+        "available_on": "2026-02-02", "published_at": "2026-02-02",
+        "evidence": [{"source_url": cash_doc["source_url"], "page": 1,
+                      "text": "Net cash generated from operating activities 12,345 (Rupees in million)"}],
+    })
+    cash = normalize_fact(cash_doc | {"period": "2025-12-31"}, cash_fact, pages=cash_pages)
+    assert cash and cash["readiness"] == "model_loadable" and cash["statement_type"] == "cash_flow_statement", cash
+    cash_wrong_statement = normalize_fact(cash_doc | {"period": "2025-12-31"},
+                                          {**cash_fact, "statement_type": "income_statement"}, pages=cash_pages)
+    assert cash_wrong_statement and cash_wrong_statement["readiness"] == "audit_only" and "invalid_structured_statement_type" in cash_wrong_statement["quality_flags"], cash_wrong_statement
+
     missing_doc, missing_fact, missing_pages = _fixture("ABC Results", "Revenue 12,345")
     missing_fact = {**missing_fact, "period_end": None, "period_type": "unknown", "readiness": "audit_only"}
     missing = normalize_fact(missing_doc, missing_fact, pages=missing_pages)
@@ -169,6 +187,14 @@ def run() -> None:
                               "metric": "eps", "quality_flags": ["missing_period_end"]})
     assert repaired["unit_multiplier"] == 1 and repaired["normalized_value"] == 12.5
     assert repaired["readiness"] == "audit_only"
+    repaired_ocf = _sanitize_row({
+        "parser_version": "financial_statement_v2", "parser_revision": "block_geometry_v5",
+        "metric": "operating_cash_flow", "line": "operating_cash_flow",
+        "statement_type": "cash_flow_statement", "quality_flags": [
+            "invalid_structured_statement_type", "unsupported_structured_line",
+        ],
+    })
+    assert repaired_ocf["quality_flags"] == [] and repaired_ocf["readiness"] == "model_loadable", repaired_ocf
 
     with tempfile.TemporaryDirectory(prefix="henneth-financial-check-") as temp:
         root = Path(temp)

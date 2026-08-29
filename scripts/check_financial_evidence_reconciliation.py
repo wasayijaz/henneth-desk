@@ -274,6 +274,17 @@ def _synthetic_assertions() -> None:
     for fact in _ready_facts():
         if fact_status(fact, "2026-08-26") != "eligible":
             _fail("clean official fact did not classify eligible")
+    qualified_ocf = _fact(
+        "operating_cash_flow",
+        statement_type="cash_flow_statement",
+        unit="PKR",
+        unit_multiplier=1_000_000,
+    )
+    if fact_status(qualified_ocf, "2026-08-26") != "eligible":
+        _fail("clean consolidated annual operating cash flow did not classify eligible")
+    wrong_ocf_statement = _fact("operating_cash_flow")
+    if fact_status(wrong_ocf_statement, "2026-08-26") == "eligible":
+        _fail("operating cash flow with an income-statement identity became eligible")
     issuer_fact = _issuer_fact()
     if not official_financial_fact_provenance(issuer_fact):
         _fail("qualified issuer fixture did not satisfy shared official provenance")

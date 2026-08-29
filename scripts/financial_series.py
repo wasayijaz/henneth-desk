@@ -37,6 +37,11 @@ _SUFFIX_SCALE = {"thousand": 1_000, "million": 1_000_000, "mn": 1_000_000, "bill
 _STRUCTURED_LINES = {
     "revenue", "gross_profit", "operating_profit", "finance_cost",
     "profit_before_tax", "tax_expense", "profit_after_tax_attributable", "basic_eps",
+    "operating_cash_flow",
+}
+_STRUCTURED_STATEMENT_TYPES = {
+    **{line: "income_statement" for line in _STRUCTURED_LINES if line != "operating_cash_flow"},
+    "operating_cash_flow": "cash_flow_statement",
 }
 _OFFICIAL_PSX_DOCUMENT_RE = re.compile(r"^https://dps\.psx\.com\.pk/download/document/\d+\.pdf$")
 _SHA256_RE = re.compile(r"^[0-9a-f]{64}$", re.I)
@@ -371,7 +376,7 @@ def normalize_fact(doc: dict[str, Any], fact: dict[str, Any], *, pages: Iterable
         if not valid_evidence_page: flags.append("invalid_evidence_page")
         if currency != "PKR": flags.append("invalid_structured_currency")
         if basis not in {"consolidated", "unconsolidated"}: flags.append("invalid_structured_consolidation")
-        if fact.get("statement_type") != "income_statement": flags.append("invalid_structured_statement_type")
+        if fact.get("statement_type") != _STRUCTURED_STATEMENT_TYPES.get(line): flags.append("invalid_structured_statement_type")
         if line not in _STRUCTURED_LINES: flags.append("unsupported_structured_line")
         if metric != line: flags.append("line_fact_type_mismatch")
         if metric in {"basic_eps", "eps"} and (fact.get("unit") != "PKR/share" or multiplier != 1): flags.append("invalid_structured_eps_unit")

@@ -23,6 +23,7 @@ RECONCILIATION_VERSION = "financial_evidence_reconciliation_v1"
 EARNINGS_BRIDGE_VERSION = "earnings_bridge_readiness_v1"
 REQUIRED_STATUS = ("eligible", "audit_only", "quarantined", "missing")
 ELIGIBLE_LINES = tuple(REQUIRED_LINES)
+FINANCIAL_TRUTH_LINES = ELIGIBLE_LINES + ("operating_cash_flow",)
 AUDIT_ONLY_REASONS = {
     "readiness_is_audit_only",
     "legacy_extractor_not_model_eligible",
@@ -128,8 +129,9 @@ def classification_reasons(fact: dict[str, Any], as_of: str | None = None) -> li
     period_end = iso_date(fact.get("period_end"))
     available_on = iso_date(fact.get("available_on"))
     as_of_date = iso_date(as_of)
-    if fact.get("line") not in ELIGIBLE_LINES:
-        reasons.append("outside_required_earnings_bridge_metric_set")
+    line = fact.get("line") or fact.get("metric")
+    if line not in FINANCIAL_TRUTH_LINES:
+        reasons.append("outside_required_financial_truth_metric_set")
     if not qualified_financial_fact_source(fact):
         reasons.append("unqualified_financial_fact_source")
     if fact.get("readiness") == "audit_only":
@@ -144,8 +146,9 @@ def classification_reasons(fact: dict[str, Any], as_of: str | None = None) -> li
         reasons.append("missing_or_nonconsolidated_basis")
     if fact.get("currency") != "PKR":
         reasons.append("missing_or_non_pkr_currency")
-    if fact.get("statement_type") != "income_statement":
-        reasons.append("not_income_statement")
+    expected_statement = "cash_flow_statement" if line == "operating_cash_flow" else "income_statement"
+    if fact.get("statement_type") != expected_statement:
+        reasons.append(f"not_{expected_statement}")
     if period_end is None:
         reasons.append("missing_period_end")
     if available_on is None:
@@ -253,7 +256,7 @@ def _same_slot_key(fact: dict[str, Any]) -> tuple[Any, ...]:
 def _conflict_eligible_fact(fact: dict[str, Any], as_of: str | None) -> bool:
     """Only otherwise qualified load-bearing facts can create blocking conflicts."""
     return (
-        fact.get("line") in ELIGIBLE_LINES
+        (fact.get("line") or fact.get("metric")) in FINANCIAL_TRUTH_LINES
         and not classification_reasons(fact, as_of)
     )
 

@@ -77,6 +77,21 @@ def _sanitize_row(row: dict[str, Any]) -> dict[str, Any]:
     """Repair impossible legacy scaling before quality-based deduplication."""
     clean = dict(row)
     manual_fact = clean.get("source_method") == MANUAL_SOURCE_METHOD
+    # `operating_cash_flow` is a valid geometry-backed cash-flow fact.  Older
+    # rows were tagged before the normalizer admitted cash-flow statements;
+    # clear only those two obsolete classifier flags when every structural
+    # identity field proves this is the same qualified fact type.
+    if (
+        clean.get("parser_version") == "financial_statement_v2"
+        and clean.get("parser_revision") == PARSER_REVISION
+        and clean.get("metric") == "operating_cash_flow"
+        and clean.get("line") == "operating_cash_flow"
+        and clean.get("statement_type") == "cash_flow_statement"
+    ):
+        clean["quality_flags"] = [
+            flag for flag in (clean.get("quality_flags") or [])
+            if flag not in {"invalid_structured_statement_type", "unsupported_structured_line"}
+        ]
     if clean.get("parser_version") != "financial_statement_v2" and not manual_fact:
         flags = list(clean.get("quality_flags") or [])
         clean["quality_flags"] = sorted(set(flags + ["legacy_extractor_not_model_eligible"]))

@@ -1,6 +1,6 @@
 {
  "schema_version": 2,
- "as_of": "2026-08-28 15:26",
+ "as_of": "2026-08-29 16:39",
  "scope": "Company Intelligence product completion audit",
  "source_policy": "retained repo/state evidence only; no fetching, model calls, SQL, publish, deploy, or source mutation",
  "pilot_symbols": [
@@ -492,7 +492,7 @@
      "label": "canonical event rows",
      "path": "state/company_intel/operating_events.json",
      "ok": true,
-     "detail": "68 events"
+     "detail": "69 events"
     }
    ],
    "blockers": [],
@@ -739,7 +739,7 @@
      "label": "explicit blocked numeric-impact contract",
      "path": "state/company_intel/impact_scenarios.json",
      "ok": true,
-     "detail": "204 retained shells with null numeric impacts and explicit missing inputs"
+     "detail": "207 retained shells with null numeric impacts and explicit missing inputs"
     }
    ],
    "blockers": [
@@ -758,7 +758,7 @@
      "label": "event-study state",
      "path": "state/company_intel/event_studies.json",
      "ok": true,
-     "detail": "68 studies for 68 events"
+     "detail": "69 studies for 69 events"
     },
     {
      "label": "pilot boundary",
@@ -781,7 +781,7 @@
      "label": "strict baseline derivation",
      "path": "state/company_intel/event_studies.json",
      "ok": true,
-     "detail": "21/21 baseline-available studies have baseline.selected_date before effective_date; 68 total studies"
+     "detail": "22/22 baseline-available studies have baseline.selected_date before effective_date; 69 total studies"
     },
     {
      "label": "event study checker",
@@ -804,7 +804,7 @@
      "label": "1Q/2Q/4Q/8Q horizons",
      "path": "state/company_intel/event_studies.json",
      "ok": true,
-     "detail": "68/68 studies"
+     "detail": "69/69 studies"
     },
     {
      "label": "raw return limitations",
@@ -827,7 +827,7 @@
      "label": "analogue contract",
      "path": "state/company_intel/event_studies.json",
      "ok": true,
-     "detail": "68/68 studies"
+     "detail": "69/69 studies"
     },
     {
      "label": "thin sample suppression",
@@ -885,13 +885,13 @@
      "label": "dated benchmark count",
      "path": "state/company_intel/conditional_benchmarks.json",
      "ok": true,
-     "detail": "21/21 dated events; 47 undated events excluded by no-lookahead"
+     "detail": "22/22 dated events; 47 undated events excluded by no-lookahead"
     },
     {
      "label": "readiness ledger",
      "path": "state/company_intel/conditional_benchmarks.json",
      "ok": true,
-     "detail": "8 rows with candidates; 1 aggregate-ready; 20 suppressed"
+     "detail": "9 rows with candidates; 1 aggregate-ready; 21 suppressed"
     }
    ],
    "blockers": [],
@@ -920,7 +920,7 @@
      "label": "strict sample readiness",
      "path": "state/company_intel/conditional_benchmarks.json",
      "ok": true,
-     "detail": "11 retained strict candidates; nearest missing mature outcomes to publish: 2"
+     "detail": "13 retained strict candidates; nearest missing mature outcomes to publish: 1"
     },
     {
      "label": "conditional benchmark checker",
@@ -1101,7 +1101,7 @@
      "label": "conflict/missing-slot summary",
      "path": "state/company_intel/financial_evidence_reconciliation.json",
      "ok": true,
-     "detail": "{'company_count': 20, 'eligible_fact_count': 43, 'audit_only_fact_count': 1518, 'quarantined_fact_count': 76, 'missing_slot_count': 159, 'source_conflict_count': 0, 'withheld_future_source_fact_count': 0, 'forecast_ready_company_count': 2}"
+     "detail": "{'company_count': 20, 'eligible_fact_count': 45, 'audit_only_fact_count': 1518, 'quarantined_fact_count': 74, 'missing_slot_count': 159, 'source_conflict_count': 0, 'withheld_future_source_fact_count': 0, 'forecast_ready_company_count': 2}"
     },
     {
      "label": "reconciliation checker",
@@ -1898,9 +1898,9 @@
  ],
  "_meta": {
   "generator_version": "ci_artifact_integrity_v1",
-  "source_commit_sha": "cd5f8eb512d683a79ec9eef164ec1b2238b952ec",
-  "build_cutoff_at": "2026-08-29T11:26:48Z",
-  "generated_at": "2026-08-29T11:26:48Z",
+  "source_commit_sha": "e13ddd30676af157a64555ee141579344fe88fe1",
+  "build_cutoff_at": "2026-08-29T11:43:24Z",
+  "generated_at": "2026-08-29T11:43:24Z",
   "artifact_path": "state/company_intel/completion_matrix.json",
   "timestamp_semantics": {
    "build_cutoff_at": "generation boundary only; not a source-effective or source-published time",

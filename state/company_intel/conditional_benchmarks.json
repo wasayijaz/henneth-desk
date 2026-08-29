@@ -27,7 +27,7 @@
   "MLCF": {
    "symbol": "MLCF",
    "status": "benchmarks_available",
-   "benchmark_count": 3,
+   "benchmark_count": 4,
    "benchmarks": [
     {
      "benchmark_id": "conditional_3113b1593fa6de8d623b",
@@ -124,6 +124,70 @@
          "target_study_id": "study_d7c447a64349aa1b3210",
          "target_event_id": "evt_d7c447a64349aa1b3210"
         }
+       },
+       {
+        "event_id": "evt_a0c390f2010041e1b8f8",
+        "study_id": "study_a0c390f2010041e1b8f8",
+        "symbol": "MLCF",
+        "effective_date": "2025-09-25",
+        "classification": "same_company",
+        "event_type": "contract_tender",
+        "event_subtype": "contract",
+        "sector": "Cement",
+        "outcomes": {
+         "1Q": {
+          "endpoint_date": "2025-12-26",
+          "return_pct": 13.45366579828804,
+          "status": "mature",
+          "reason": null,
+          "provenance": {
+           "history_file": "state/history/MLCF.json",
+           "baseline_date": "2025-09-24",
+           "target_date": "2025-12-25",
+           "endpoint_date": "2025-12-26"
+          }
+         },
+         "2Q": {
+          "endpoint_date": null,
+          "return_pct": null,
+          "status": "unavailable",
+          "reason": "no_ex_ante_endpoint",
+          "provenance": {
+           "history_file": "state/history/MLCF.json",
+           "baseline_date": "2025-09-24",
+           "target_date": "2026-03-25",
+           "endpoint_date": null
+          }
+         },
+         "4Q": {
+          "endpoint_date": null,
+          "return_pct": null,
+          "status": "unavailable",
+          "reason": "no_ex_ante_endpoint",
+          "provenance": {
+           "history_file": "state/history/MLCF.json",
+           "baseline_date": "2025-09-24",
+           "target_date": "2026-09-25",
+           "endpoint_date": null
+          }
+         },
+         "8Q": {
+          "endpoint_date": null,
+          "return_pct": null,
+          "status": "unavailable",
+          "reason": "no_ex_ante_endpoint",
+          "provenance": {
+           "history_file": "state/history/MLCF.json",
+           "baseline_date": "2025-09-24",
+           "target_date": "2027-09-25",
+           "endpoint_date": null
+          }
+         }
+        },
+        "outcome_source": {
+         "target_study_id": "study_d7c447a64349aa1b3210",
+         "target_event_id": "evt_d7c447a64349aa1b3210"
+        }
        }
       ],
       "same_sector_exact": []
@@ -131,11 +195,11 @@
      "candidate_evidence_summary": {
       "evidence_status": "thin_history_present",
       "candidate_counts": {
-       "same_company_exact": 1,
+       "same_company_exact": 2,
        "same_sector_exact": 0
       },
       "mature_horizon_counts": {
-       "1Q": 1,
+       "1Q": 2,
        "2Q": 0,
        "4Q": 0,
        "8Q": 0
@@ -146,15 +210,15 @@
      "readiness_ledger": {
       "status": "needs_more_mature_outcomes",
       "minimum_mature_outcome_sample": 3,
-      "strict_candidate_count": 1,
+      "strict_candidate_count": 2,
       "mature_horizon_counts": {
-       "1Q": 1,
+       "1Q": 2,
        "2Q": 0,
        "4Q": 0,
        "8Q": 0
       },
       "missing_mature_outcomes_to_minimum": {
-       "1Q": 2,
+       "1Q": 1,
        "2Q": 3,
        "4Q": 3,
        "8Q": 3
@@ -162,11 +226,11 @@
       "aggregate_ready_horizons": [],
       "nearest_ready_horizon": "1Q",
       "latest_prior_candidate_date": "2025-10-27",
-      "next_required_evidence": "2 additional mature strict prior exact analogue outcome(s) for 1Q before publishing aggregate statistics."
+      "next_required_evidence": "1 additional mature strict prior exact analogue outcome(s) for 1Q before publishing aggregate statistics."
      },
      "horizon_aggregates": {
       "1Q": {
-       "n": 1,
+       "n": 2,
        "status": "suppressed",
        "reason": "n_lt_3",
        "stats": {
@@ -400,6 +464,214 @@
       ],
       "summary": "Exact event class and retained current-sector context."
      },
+     "status": "candidate_history_present",
+     "matching_policy": {
+      "event_type": "exact",
+      "event_subtype": "exact",
+      "candidate_date": "strictly_before_target",
+      "same_company": "same_symbol",
+      "same_sector": "same_current_sector_other_symbol",
+      "returns": "reuse_target_event_study_analogue_outcomes",
+      "minimum_aggregate_sample": 3
+     },
+     "candidates": {
+      "same_company_exact": [
+       {
+        "event_id": "evt_a0c390f2010041e1b8f8",
+        "study_id": "study_a0c390f2010041e1b8f8",
+        "symbol": "MLCF",
+        "effective_date": "2025-09-25",
+        "classification": "same_company",
+        "event_type": "contract_tender",
+        "event_subtype": "contract",
+        "sector": "Cement",
+        "outcomes": {
+         "1Q": {
+          "endpoint_date": null,
+          "return_pct": null,
+          "status": "unavailable",
+          "reason": "no_ex_ante_endpoint",
+          "provenance": {
+           "history_file": "state/history/MLCF.json",
+           "baseline_date": "2025-09-24",
+           "target_date": "2025-12-25",
+           "endpoint_date": null
+          }
+         },
+         "2Q": {
+          "endpoint_date": null,
+          "return_pct": null,
+          "status": "unavailable",
+          "reason": "no_ex_ante_endpoint",
+          "provenance": {
+           "history_file": "state/history/MLCF.json",
+           "baseline_date": "2025-09-24",
+           "target_date": "2026-03-25",
+           "endpoint_date": null
+          }
+         },
+         "4Q": {
+          "endpoint_date": null,
+          "return_pct": null,
+          "status": "unavailable",
+          "reason": "no_ex_ante_endpoint",
+          "provenance": {
+           "history_file": "state/history/MLCF.json",
+           "baseline_date": "2025-09-24",
+           "target_date": "2026-09-25",
+           "endpoint_date": null
+          }
+         },
+         "8Q": {
+          "endpoint_date": null,
+          "return_pct": null,
+          "status": "unavailable",
+          "reason": "no_ex_ante_endpoint",
+          "provenance": {
+           "history_file": "state/history/MLCF.json",
+           "baseline_date": "2025-09-24",
+           "target_date": "2027-09-25",
+           "endpoint_date": null
+          }
+         }
+        },
+        "outcome_source": {
+         "target_study_id": "study_d9a05d3b01ea6986febe",
+         "target_event_id": "evt_d9a05d3b01ea6986febe"
+        }
+       }
+      ],
+      "same_sector_exact": []
+     },
+     "candidate_evidence_summary": {
+      "evidence_status": "thin_history_present",
+      "candidate_counts": {
+       "same_company_exact": 1,
+       "same_sector_exact": 0
+      },
+      "mature_horizon_counts": {
+       "1Q": 0,
+       "2Q": 0,
+       "4Q": 0,
+       "8Q": 0
+      },
+      "latest_prior_candidate_date": "2025-09-25",
+      "limitation": "Descriptive prior-event evidence only; it is not causal, a forecast, valuation or advice."
+     },
+     "readiness_ledger": {
+      "status": "needs_more_mature_outcomes",
+      "minimum_mature_outcome_sample": 3,
+      "strict_candidate_count": 1,
+      "mature_horizon_counts": {
+       "1Q": 0,
+       "2Q": 0,
+       "4Q": 0,
+       "8Q": 0
+      },
+      "missing_mature_outcomes_to_minimum": {
+       "1Q": 3,
+       "2Q": 3,
+       "4Q": 3,
+       "8Q": 3
+      },
+      "aggregate_ready_horizons": [],
+      "nearest_ready_horizon": "1Q",
+      "latest_prior_candidate_date": "2025-09-25",
+      "next_required_evidence": "3 additional mature strict prior exact analogue outcome(s) for 1Q before publishing aggregate statistics."
+     },
+     "horizon_aggregates": {
+      "1Q": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "stats": {
+        "mean_return_pct": null,
+        "median_return_pct": null,
+        "min_return_pct": null,
+        "max_return_pct": null
+       }
+      },
+      "2Q": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "stats": {
+        "mean_return_pct": null,
+        "median_return_pct": null,
+        "min_return_pct": null,
+        "max_return_pct": null
+       }
+      },
+      "4Q": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "stats": {
+        "mean_return_pct": null,
+        "median_return_pct": null,
+        "min_return_pct": null,
+        "max_return_pct": null
+       }
+      },
+      "8Q": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "stats": {
+        "mean_return_pct": null,
+        "median_return_pct": null,
+        "min_return_pct": null,
+        "max_return_pct": null
+       }
+      }
+     },
+     "blocked_states": {
+      "peer": {
+       "status": "blocked",
+       "reason": "no_peer_registry"
+      },
+      "international": {
+       "status": "blocked",
+       "reason": "no_international_registry"
+      },
+      "financial": {
+       "status": "blocked",
+       "reason": "no_period_aligned_financials"
+      },
+      "causal": {
+       "status": "blocked",
+       "reason": "descriptive_not_causal"
+      },
+      "forecast": {
+       "status": "blocked",
+       "reason": "not_implemented"
+      },
+      "valuation": {
+       "status": "blocked",
+       "reason": "not_implemented"
+      }
+     }
+    },
+    {
+     "benchmark_id": "conditional_2107c0094da180c992d1",
+     "target_event": {
+      "event_id": "evt_a0c390f2010041e1b8f8",
+      "study_id": "study_a0c390f2010041e1b8f8",
+      "symbol": "MLCF",
+      "event_type": "contract_tender",
+      "event_subtype": "contract",
+      "effective_date": "2025-09-25",
+      "sector": "Cement",
+      "description": "a company in Pakistan to which these shares will be transferred. On May 10, 2023, Andalus entered into an agreement with the Holding Company that along with its affiliates, Holding Company would invest in NHPL, maintaining at least a 66.66…"
+     },
+     "context": {
+      "conditions": [
+       "event_type=contract_tender",
+       "event_subtype=contract",
+       "sector=Cement"
+      ],
+      "summary": "Exact event class and retained current-sector context."
+     },
      "status": "no_prior_exact_analogues",
      "matching_policy": {
       "event_type": "exact",
@@ -525,12 +797,12 @@
     }
    ],
    "readiness_summary": {
-    "dated_benchmark_count": 3,
-    "benchmarks_with_candidates": 1,
+    "dated_benchmark_count": 4,
+    "benchmarks_with_candidates": 2,
     "aggregate_ready_benchmark_count": 0,
-    "suppressed_benchmark_count": 3,
-    "total_strict_candidate_count": 1,
-    "minimum_missing_mature_outcomes_to_publish": 2,
+    "suppressed_benchmark_count": 4,
+    "total_strict_candidate_count": 3,
+    "minimum_missing_mature_outcomes_to_publish": 1,
     "event_class_gaps": [
      {
       "event_type": "acquisition_divestment",
@@ -544,11 +816,11 @@
      {
       "event_type": "contract_tender",
       "event_subtype": "contract",
-      "benchmark_count": 2,
-      "candidate_history_present_count": 1,
+      "benchmark_count": 3,
+      "candidate_history_present_count": 2,
       "aggregate_ready_count": 0,
-      "total_strict_candidate_count": 1,
-      "minimum_missing_mature_outcomes_to_publish": 2
+      "total_strict_candidate_count": 3,
+      "minimum_missing_mature_outcomes_to_publish": 1
      }
     ],
     "policy": "Metadata-only readiness; counts are recomputed from strict retained candidates and do not relax no-lookahead or minimum-sample rules."
@@ -4814,12 +5086,12 @@
   }
  },
  "readiness_summary": {
-  "dated_benchmark_count": 21,
-  "benchmarks_with_candidates": 8,
+  "dated_benchmark_count": 22,
+  "benchmarks_with_candidates": 9,
   "aggregate_ready_benchmark_count": 1,
-  "suppressed_benchmark_count": 20,
-  "total_strict_candidate_count": 11,
-  "minimum_missing_mature_outcomes_to_publish": 2,
+  "suppressed_benchmark_count": 21,
+  "total_strict_candidate_count": 13,
+  "minimum_missing_mature_outcomes_to_publish": 1,
   "event_class_gaps": [
    {
     "event_type": "acquisition_divestment",
@@ -4833,11 +5105,11 @@
    {
     "event_type": "contract_tender",
     "event_subtype": "contract",
-    "benchmark_count": 4,
-    "candidate_history_present_count": 2,
+    "benchmark_count": 5,
+    "candidate_history_present_count": 3,
     "aggregate_ready_count": 0,
-    "total_strict_candidate_count": 2,
-    "minimum_missing_mature_outcomes_to_publish": 2
+    "total_strict_candidate_count": 4,
+    "minimum_missing_mature_outcomes_to_publish": 1
    },
    {
     "event_type": "debt_refinancing",
@@ -4883,9 +5155,9 @@
  "as_of": "2026-08-28",
  "_meta": {
   "generator_version": "ci_artifact_integrity_v1",
-  "source_commit_sha": "cd5f8eb512d683a79ec9eef164ec1b2238b952ec",
-  "build_cutoff_at": "2026-08-29T11:26:48Z",
-  "generated_at": "2026-08-29T11:26:48Z",
+  "source_commit_sha": "e13ddd30676af157a64555ee141579344fe88fe1",
+  "build_cutoff_at": "2026-08-29T11:43:24Z",
+  "generated_at": "2026-08-29T11:43:24Z",
   "artifact_path": "state/company_intel/conditional_benchmarks.json",
   "timestamp_semantics": {
    "build_cutoff_at": "generation boundary only; not a source-effective or source-published time",

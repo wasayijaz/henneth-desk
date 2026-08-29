@@ -108,11 +108,12 @@ def _assert_missing_inputs(manifest: dict[str, Any]) -> None:
         raise AssertionError("PIOC model-input absence must be explicit")
     truth = inputs["mlcf_full_financial_truth_gate"]
     present = truth.get("present") or {}
+    truth = ((load_json(STATE / "company_intel" / "financial_truth_qualification.json", {}).get("companies") or {}).get(MLCF) or {})
     expected_present = {
-        "annual_income_triplets": 3,
-        "reported_quarter_fact_sets": 0,
-        "annual_operating_cash_flow": 0,
-        "official_share_count_capital_note_tie_out": 0,
+        "annual_income_triplets": int((truth.get("annual_income_triplets") or {}).get("present") or 0),
+        "reported_quarter_fact_sets": int((truth.get("qualified_reported_quarter_fact_sets") or {}).get("present") or 0),
+        "annual_operating_cash_flow": int((truth.get("annual_operating_cash_flow") or {}).get("present") or 0),
+        "official_share_count_capital_note_tie_out": int((truth.get("share_count") or {}).get("status") == "official_share_count_capital_note_tied_out"),
     }
     if present != expected_present:
         raise AssertionError(f"MLCF financial-truth present counts drifted: {present}")

@@ -7425,14 +7425,27 @@
      "readiness": "audit_only"
     }
    ],
-   "conflicts": [],
+   "conflicts": [
+    {
+     "conflict_id": "conf_3c1a41b1c50907537282",
+     "metric": "tax_expense",
+     "period_end": "2020-06-30",
+     "period_type": "annual",
+     "consolidation": "unconsolidated",
+     "series_ids": [
+      "series_d5f929c2e01fe48559c1457d",
+      "series_d881152cd6d908d638f028ba"
+     ],
+     "reason": "multiple evidenced values share the same period and basis"
+    }
+   ],
    "coverage": {
     "source_documents": 4,
     "fact_count": 75,
     "period_count": 7,
     "missing_required_source": false,
     "missing_period_count": 20,
-    "conflict_count": 0,
+    "conflict_count": 1,
     "model_loadable_count": 16,
     "audit_only_count": 59
    },
@@ -58094,14 +58107,53 @@
      "readiness": "audit_only"
     }
    ],
-   "conflicts": [],
+   "conflicts": [
+    {
+     "conflict_id": "conf_4f922fe5840ad56f0845",
+     "metric": "basic_eps",
+     "period_end": "2024-06-30",
+     "period_type": "annual",
+     "consolidation": "unconsolidated",
+     "series_ids": [
+      "series_2225fbf6e58ee4960cd94cc0",
+      "series_475286cafda8588b10924841"
+     ],
+     "reason": "multiple evidenced values share the same period and basis"
+    },
+    {
+     "conflict_id": "conf_ba7b89980de87651d00d",
+     "metric": "revenue",
+     "period_end": "2024-06-30",
+     "period_type": "annual",
+     "consolidation": "unconsolidated",
+     "series_ids": [
+      "series_0b974390ea61c15536c0acf8",
+      "series_100e49192142f8bfc706b756",
+      "series_16b026dbc32193caffd976a6",
+      "series_196e6ea620c8a91de2f331c5",
+      "series_1d57a23ff3bb9134f1853f95",
+      "series_481be256c764cb7b31c826e8",
+      "series_5bd8da672fed990f0431469e",
+      "series_70da1715608d649a8a83c3fd",
+      "series_780a12b84be5b270ddc50146",
+      "series_7bd2333f282b053b59b5d48e",
+      "series_9dabcf9aed1f1fadaefcfde9",
+      "series_a1ff67cb6464a014f330e30c",
+      "series_be0a6f33ac3b5d99ee73c8f4",
+      "series_c383c519da7f84ca8c812b97",
+      "series_d8dcd31776353bb1eef3330c",
+      "series_f3a324b24cbefa943603d891"
+     ],
+     "reason": "multiple evidenced values share the same period and basis"
+    }
+   ],
    "coverage": {
     "source_documents": 4,
     "fact_count": 460,
     "period_count": 11,
     "missing_required_source": false,
     "missing_period_count": 222,
-    "conflict_count": 0,
+    "conflict_count": 2,
     "model_loadable_count": 42,
     "audit_only_count": 418
    },
@@ -60584,10 +60636,7 @@
        "source_url": "https://dps.psx.com.pk/download/document/260032.pdf"
       }
      ],
-     "quality_flags": [
-      "invalid_structured_statement_type",
-      "unsupported_structured_line"
-     ],
+     "quality_flags": [],
      "readiness": "model_loadable"
     },
     {
@@ -60624,10 +60673,7 @@
        "source_url": "https://dps.psx.com.pk/download/document/260032.pdf"
       }
      ],
-     "quality_flags": [
-      "invalid_structured_statement_type",
-      "unsupported_structured_line"
-     ],
+     "quality_flags": [],
      "readiness": "model_loadable"
     },
     {
@@ -61414,10 +61460,7 @@
        "source_url": "https://dps.psx.com.pk/download/document/260032.pdf"
       }
      ],
-     "quality_flags": [
-      "invalid_structured_statement_type",
-      "unsupported_structured_line"
-     ],
+     "quality_flags": [],
      "readiness": "model_loadable"
     },
     {
@@ -61454,10 +61497,7 @@
        "source_url": "https://dps.psx.com.pk/download/document/260032.pdf"
       }
      ],
-     "quality_flags": [
-      "invalid_structured_statement_type",
-      "unsupported_structured_line"
-     ],
+     "quality_flags": [],
      "readiness": "model_loadable"
     },
     {
@@ -68322,11 +68362,20 @@
   }
  },
  "_meta": {
-  "updated": "2026-08-29 16:22",
+  "updated": "2026-08-29 16:39",
   "source": "state/company_documents.json + current verified extraction",
-  "source_documents": 315,
+  "source_documents": 316,
   "rejected_facts": 0,
   "append_only_values": true,
-  "note": "Unknown period, unit, currency and consolidation remain explicit; facts retain source/page evidence."
+  "note": "Unknown period, unit, currency and consolidation remain explicit; facts retain source/page evidence.",
+  "manual_claims": {
+   "source": "state/company_intel/verified_manual_financial_claims.json",
+   "source_method": "owner_verified_manual_financial_claim_v1",
+   "source_revision": "manual_vision_v1",
+   "claim_count": 9,
+   "qualified_count": 9,
+   "rejected_count": 0,
+   "rejected_claims": []
+  }
  }
 }

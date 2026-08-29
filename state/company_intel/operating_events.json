@@ -1,7 +1,7 @@
 {
  "schema_version": 2,
  "registry_version": "operating_event_registry_v1",
- "as_of": "2026-08-27",
+ "as_of": "2026-08-29",
  "pilot_symbols": [
   "ATRL",
   "BOP",
@@ -2566,6 +2566,44 @@
       }
      ],
      "quality_flags": []
+    },
+    {
+     "event_id": "evt_a0c390f2010041e1b8f8",
+     "company_id": "MLCF",
+     "symbol": "MLCF",
+     "event_type": "contract_tender",
+     "event_subtype": "contract",
+     "intelligence_type": "reported_fact",
+     "priority_weight": 3,
+     "detected_at": "2025-09-25T12:43:00+05:00",
+     "effective_date": "2025-09-25",
+     "expected_completion": null,
+     "business_segment": null,
+     "location": null,
+     "description": "a company in Pakistan to which these shares will be transferred. On May 10, 2023, Andalus entered into an agreement with the Holding Company that along with its affiliates, Holding Company would invest in NHPL, maintaining at least a 66.66…",
+     "source_url": "https://dps.psx.com.pk/download/document/260032.pdf",
+     "source_quality_level": 1,
+     "confidence": 82,
+     "estimated_scale": null,
+     "expected_cost": null,
+     "affected_drivers": [],
+     "expected_lag": null,
+     "historical_analogues": [],
+     "peer_analogues": [],
+     "scenario_ids": [],
+     "financial_model_version": null,
+     "evidence": [
+      {
+       "document_id": "psx:260032",
+       "source": "PSX DPS",
+       "source_url": "https://dps.psx.com.pk/download/document/260032.pdf",
+       "page": 20,
+       "text": "a company in Pakistan to which these shares will be transferred. On May 10, 2023, Andalus entered into an agreement with the Holding Company that along with its affiliates, Holding Company would invest in NHPL, maintaining at least a 66.66…",
+       "content_sha256": "4fdfb4cbd2eee65576cbb89b43334ce0c09a7e5ffd573d5bf93b414029eba6d1",
+       "evidence_sha256": "33365323723d6791438233918f768557ab531b21e149353b1f47ef19545d40ca"
+      }
+     ],
+     "quality_flags": []
     }
    ]
   },
@@ -2930,9 +2968,9 @@
  "source": "state/company_documents.json + state/company_event_ledger.json",
  "_meta": {
   "generator_version": "ci_artifact_integrity_v1",
-  "source_commit_sha": "cd5f8eb512d683a79ec9eef164ec1b2238b952ec",
-  "build_cutoff_at": "2026-08-29T11:26:48Z",
-  "generated_at": "2026-08-29T11:26:48Z",
+  "source_commit_sha": "e13ddd30676af157a64555ee141579344fe88fe1",
+  "build_cutoff_at": "2026-08-29T11:43:24Z",
+  "generated_at": "2026-08-29T11:43:24Z",
   "artifact_path": "state/company_intel/operating_events.json",
   "timestamp_semantics": {
    "build_cutoff_at": "generation boundary only; not a source-effective or source-published time",
