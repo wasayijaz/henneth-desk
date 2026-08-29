@@ -1433,7 +1433,14 @@ def main() -> int:
         out = _run(mismatch, ["psx:111"], {"psx:111": good_pdf}, manifest=mismatch_manifest)[0]
         assert out["results"][0]["reason"] == "known_receipt_hash_mismatch"
 
-        # Offline transport fallback is bounded to the exact owner-retained annual report.
+        # Offline transport fallback is bounded to exact owner-retained annual reports.
+        mlcf_spec = r.RETAINED_ORIGINALS["psx:260032"]
+        assert mlcf_spec == {
+            "relative_path": Path(".cache") / "company_intel" / "raw" / "manual" / "260032.pdf",
+            "source_url": "https://dps.psx.com.pk/download/document/260032.pdf",
+            "content_sha256": "4fdfb4cbd2eee65576cbb89b43334ce0c09a7e5ffd573d5bf93b414029eba6d1",
+            "page_count": 401,
+        }
         retained_doc = next(
             doc for doc in resolved if doc.doc_id == "psx:260947"
         )

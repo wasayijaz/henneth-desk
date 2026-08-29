@@ -39,9 +39,15 @@ MIN_NORMALIZED_TEXT_CHARS = 32
 LEGACY_PARSER_REVISION = "legacy_geometry_v1"
 BASE_DPS_HOST = "dps.psx.com.pk"
 
-# The only retained-original escape hatch is this exact, owner-reviewed source.
+# Retained-original escape hatches are exact, owner-reviewed sources only.
 # Keep this mapping explicit: do not scan caches or infer alternate paths.
 RETAINED_ORIGINALS: dict[str, dict[str, Any]] = {
+    "psx:260032": {
+        "relative_path": Path(".cache") / "company_intel" / "raw" / "manual" / "260032.pdf",
+        "source_url": "https://dps.psx.com.pk/download/document/260032.pdf",
+        "content_sha256": "4fdfb4cbd2eee65576cbb89b43334ce0c09a7e5ffd573d5bf93b414029eba6d1",
+        "page_count": 401,
+    },
     "psx:260947": {
         "relative_path": Path(".cache") / "company_intel" / "raw" / "manual" / "260947.pdf",
         "source_url": "https://dps.psx.com.pk/download/document/260947.pdf",
@@ -552,7 +558,7 @@ def fetch_verified_pdf(doc: VerifiedDocument, transport: Any, budget: RunBudget,
 def fetch_retained_original(doc: VerifiedDocument, root: Path, budget: RunBudget,
                             *, allow_image_only: bool = False,
                             allow_oversized_chunk: bool = False) -> FetchResult:
-    """Load and re-verify the one explicitly retained original, if approved.
+    """Load and re-verify an explicitly retained original, if approved.
 
     This is intentionally an exact-ID lookup.  It does not search the cache,
     accept caller-provided paths, or permit a source without the pinned hash.
