@@ -822,6 +822,7 @@ def build():
     thesis_monitoring = load_json(STATE / "company_intel" / "thesis_monitoring.json", {"companies": {}})
     intelligence_confidence = load_json(STATE / "company_intel" / "intelligence_confidence.json", {"companies": {}})
     intelligence_cases = load_json(STATE / "company_intel" / "intelligence_cases.json", {"companies": {}})
+    mlcf_pioc_readiness_manifest = load_json(STATE / "company_intel" / "mlcf_pioc_readiness_manifest.json", {"companies": {}})
     management_delivery = load_json(STATE / "company_intel" / "management_delivery.json", {"companies": {}})
     guidance_contradictions = load_json(STATE / "company_intel" / "guidance_contradictions.json", {"companies": {}})
     evidence_watchlist = load_json(STATE / "company_intel" / "evidence_watchlist.json", {"companies": {}})
@@ -948,6 +949,12 @@ def build():
             "cases": [],
             "rejection_reasons": ["intelligence_cases_state_missing"],
         }
+        mlcf_pioc_readiness_row = (mlcf_pioc_readiness_manifest.get("companies") or {}).get(sym) or {
+            "symbol": sym,
+            "status": "not_selected",
+            "manifest": None,
+            "blockers": ["mlcf_pioc_readiness_manifest_state_missing"],
+        }
         management_delivery_row = (management_delivery.get("companies") or {}).get(sym)
         guidance_contradictions_row = (guidance_contradictions.get("companies") or {}).get(sym)
         evidence_watchlist_row = (evidence_watchlist.get("companies") or {}).get(sym)
@@ -1064,6 +1071,7 @@ def build():
             "thesis_monitoring": thesis_row,
             "intelligence_confidence": confidence_row,
             "intelligence_cases": intelligence_case_row,
+            "mlcf_pioc_readiness_manifest": mlcf_pioc_readiness_row,
             "management_delivery": management_delivery_row,
             "guidance_contradictions": guidance_contradictions_row,
             "evidence_watchlist": evidence_watchlist_row,
@@ -1114,6 +1122,7 @@ def build():
                 "brain_object_count": (company_brain.get("coverage") or {}).get("object_count", 0),
                 "management_delivery_records": (management_delivery_row or {}).get("delivery_record_count", 0),
                 "intelligence_case_count": (intelligence_case_row or {}).get("case_count", 0),
+                "mlcf_pioc_readiness_manifest_status": (mlcf_pioc_readiness_row or {}).get("status"),
                 "guidance_object_count": (guidance_contradictions_row or {}).get("object_count", 0),
                 "guidance_contradiction_count": (guidance_contradictions_row or {}).get("contradiction_count", 0),
                 "evidence_watchlist_status": (evidence_watchlist_row or {}).get("status"),

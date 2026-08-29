@@ -1,6 +1,6 @@
 {
  "meta": {
-  "built": "2026-08-29 14:43",
+  "built": "2026-08-29 15:15",
   "source": "Henneth state layer",
   "profile_source": "https://dps.psx.com.pk/company/{symbol}",
   "profile_updated": "2026-08-24 18:30",
@@ -30,8 +30,8 @@
    "note": "Every factual edge carries source URL and cited page when available.",
    "generator_version": "ci_artifact_integrity_v1",
    "source_commit_sha": "73377a5cab88eb859c13375d0166cf58c5f90191",
-   "build_cutoff_at": "2026-08-29T09:42:14Z",
-   "generated_at": "2026-08-29T09:42:14Z",
+   "build_cutoff_at": "2026-08-29T09:43:23Z",
+   "generated_at": "2026-08-29T09:43:23Z",
    "artifact_path": "state/company_intel/company_graph.json",
    "timestamp_semantics": {
     "build_cutoff_at": "generation boundary only; not a source-effective or source-published time",
@@ -45,8 +45,8 @@
    "note": "Deterministic official-source change digest. Research, not advice.",
    "generator_version": "ci_artifact_integrity_v1",
    "source_commit_sha": "73377a5cab88eb859c13375d0166cf58c5f90191",
-   "build_cutoff_at": "2026-08-29T09:42:14Z",
-   "generated_at": "2026-08-29T09:42:14Z",
+   "build_cutoff_at": "2026-08-29T09:43:23Z",
+   "generated_at": "2026-08-29T09:43:23Z",
    "artifact_path": "state/company_intel/change_intelligence.json",
    "timestamp_semantics": {
     "build_cutoff_at": "generation boundary only; not a source-effective or source-published time",
@@ -12704,6 +12704,142 @@
     ],
     "rejection_reasons": []
    },
+   "mlcf_pioc_readiness_manifest": {
+    "symbol": "MLCF",
+    "status": "blocked_missing_inputs",
+    "manifest": {
+     "manifest_id": "mlcf_pioc_event_model_readiness_v1",
+     "case_id": "case_mlcf_pioc_control_observed_v1",
+     "case_status": "Observed",
+     "acquirer_symbol": "MLCF",
+     "target_symbol": "PIOC",
+     "status": "blocked_missing_inputs",
+     "as_of": "2026-08-22T21:48:11+05:00",
+     "known_fields": {
+      "target": "Pioneer Cement Limited",
+      "control": "reported control of Pioneer Cement Limited",
+      "offer_shares": "up to 26,623,096 PIOC shares",
+      "offer_percent": "11.72% shares",
+      "spa_percent": "58.03% through Share Purchase Agreement(s)",
+      "offer_price": "PKR 478.43 per share",
+      "timing": "during February 2026",
+      "follow_through": "Pioneer Cement Limited dispatches included in local-market total"
+     },
+     "pilot_status": {
+      "target_symbol": "PIOC",
+      "in_current_ci_pilot": false,
+      "pilot_symbols_source": "state/company_profiles.json",
+      "status": "target_not_in_ci_pilot"
+     },
+     "evidence_refs": [
+      {
+       "event_id": "evt_cb44dc32c91b0c5712a5",
+       "document_id": "psx:267429",
+       "document_title": "MLCF-Material Information to PSX",
+       "document_published_at": "2025-12-18T12:52:00+05:00",
+       "document_retrieved_at": "2026-08-18T01:54:00+05:00",
+       "content_sha256": "98cf83c9a286999c8006a7f73f490248f26694c9edbfc815b3dbd9188ee22a54",
+       "source": "PSX DPS",
+       "source_url": "https://dps.psx.com.pk/download/document/267429.pdf",
+       "page": 3
+      },
+      {
+       "event_id": "evt_25bfb52e721191c7b644",
+       "document_id": "psx:275425",
+       "document_title": "Transmission of Quarterly Financial Statements for the Period Ended 31.03.2026",
+       "document_published_at": "2026-04-28T10:25:00+05:00",
+       "document_retrieved_at": "2026-08-22T21:48:11+05:00",
+       "content_sha256": "744a0c710043d6e0a7de36bb99f21ca50f0f9346f6972b957f6733a47deae11f",
+       "source": "PSX DPS",
+       "source_url": "https://dps.psx.com.pk/download/document/275425.pdf",
+       "page": 4
+      }
+     ],
+     "missing_inputs": [
+      {
+       "input_id": "pioc_ci_pilot_membership",
+       "status": "missing",
+       "required": "target company inside current CI pilot",
+       "present": false,
+       "source_path": "state/company_profiles.json"
+      },
+      {
+       "input_id": "pioc_retained_official_financial_documents",
+       "status": "missing",
+       "required": "retained official target-company financial documents under the CI document source",
+       "present": 0,
+       "source_path": "state/company_documents.json"
+      },
+      {
+       "input_id": "pioc_financial_truth_row",
+       "status": "missing",
+       "required": "target-company financial truth row under the CI pilot boundary",
+       "present": 0,
+       "source_path": "state/company_intel/financial_truth_qualification.json"
+      },
+      {
+       "input_id": "pioc_model_input_row",
+       "status": "missing",
+       "required": "target-company model-input row under the CI pilot boundary",
+       "present": 0,
+       "source_path": "state/company_intel/financial_model_inputs.json"
+      },
+      {
+       "input_id": "mlcf_full_financial_truth_gate",
+       "status": "missing",
+       "required": {
+        "annual_income_triplets": 5,
+        "reported_quarter_fact_sets": 8,
+        "annual_operating_cash_flow": 5,
+        "official_share_count_capital_note_tie_out": 1
+       },
+       "present": {
+        "annual_income_triplets": 3,
+        "reported_quarter_fact_sets": 0,
+        "annual_operating_cash_flow": 0,
+        "official_share_count_capital_note_tie_out": 0
+       },
+       "source_path": "state/company_intel/financial_truth_qualification.json"
+      },
+      {
+       "input_id": "event_specific_incremental_financial_bridge",
+       "status": "missing",
+       "required": [
+        "source-qualified target-company contribution by retained period",
+        "source-qualified acquirer consolidation bridge by retained period",
+        "source-qualified debt and cash position tied to the transaction chain",
+        "official share-capital tie-out after the transaction chain"
+       ],
+       "present": [],
+       "source_paths": [
+        "state/company_intel/intelligence_cases.json",
+        "state/company_intel/financial_evidence_reconciliation.json",
+        "state/company_intel/financial_model_inputs.json"
+       ]
+      },
+      {
+       "input_id": "mlcf_historical_adapter_scope",
+       "status": "insufficient_for_event_model",
+       "required": "event-specific MLCF/PIOC acquisition-control model inputs",
+       "present": {
+        "mlcf_company_model_input_status": "ready",
+        "adapter_version": "cement_actuals_to_formal_engine_inputs_v1",
+        "scope_limitation": "MLCF historical actuals only; not a target-company or transaction-chain model"
+       },
+       "source_path": "state/company_intel/financial_model_inputs.json"
+      }
+     ],
+     "formal_output_policy": {
+      "status": "blocked",
+      "hard_block": true,
+      "accepted_outputs": [],
+      "block_reason": "formal output remains blocked until every missing input is source-qualified and owner-reviewed through existing gates",
+      "no_generic_economic_engine": true,
+      "reported_fields_only": true
+     }
+    },
+    "blockers": []
+   },
    "management_delivery": {
     "symbol": "MLCF",
     "status": "tracked",
@@ -14950,6 +15086,7 @@
     "brain_object_count": 16,
     "management_delivery_records": 1,
     "intelligence_case_count": 1,
+    "mlcf_pioc_readiness_manifest_status": "blocked_missing_inputs",
     "guidance_object_count": 0,
     "guidance_contradiction_count": 0,
     "evidence_watchlist_status": "active_watch",
@@ -18734,6 +18871,14 @@
      "no_selected_observed_case_seed"
     ]
    },
+   "mlcf_pioc_readiness_manifest": {
+    "symbol": "OGDC",
+    "status": "not_selected",
+    "manifest": null,
+    "blockers": [
+     "not_selected_for_mlcf_pioc_manifest"
+    ]
+   },
    "management_delivery": {
     "symbol": "OGDC",
     "status": "no_active_thesis",
@@ -20080,6 +20225,7 @@
     "brain_object_count": 0,
     "management_delivery_records": 0,
     "intelligence_case_count": 0,
+    "mlcf_pioc_readiness_manifest_status": "not_selected",
     "guidance_object_count": 0,
     "guidance_contradiction_count": 0,
     "evidence_watchlist_status": "no_active_watch",
@@ -24488,6 +24634,14 @@
      "no_selected_observed_case_seed"
     ]
    },
+   "mlcf_pioc_readiness_manifest": {
+    "symbol": "PPL",
+    "status": "not_selected",
+    "manifest": null,
+    "blockers": [
+     "not_selected_for_mlcf_pioc_manifest"
+    ]
+   },
    "management_delivery": {
     "symbol": "PPL",
     "status": "tracked",
@@ -26092,6 +26246,7 @@
     "brain_object_count": 2,
     "management_delivery_records": 1,
     "intelligence_case_count": 0,
+    "mlcf_pioc_readiness_manifest_status": "not_selected",
     "guidance_object_count": 0,
     "guidance_contradiction_count": 0,
     "evidence_watchlist_status": "active_watch",
@@ -83675,6 +83830,14 @@
      "no_selected_observed_case_seed"
     ]
    },
+   "mlcf_pioc_readiness_manifest": {
+    "symbol": "DGKC",
+    "status": "not_selected",
+    "manifest": null,
+    "blockers": [
+     "not_selected_for_mlcf_pioc_manifest"
+    ]
+   },
    "management_delivery": {
     "symbol": "DGKC",
     "status": "no_active_thesis",
@@ -87725,6 +87888,7 @@
     "brain_object_count": 58,
     "management_delivery_records": 0,
     "intelligence_case_count": 0,
+    "mlcf_pioc_readiness_manifest_status": "not_selected",
     "guidance_object_count": 10,
     "guidance_contradiction_count": 0,
     "evidence_watchlist_status": "no_active_watch",
@@ -91157,6 +91321,14 @@
      "no_selected_observed_case_seed"
     ]
    },
+   "mlcf_pioc_readiness_manifest": {
+    "symbol": "PSO",
+    "status": "not_selected",
+    "manifest": null,
+    "blockers": [
+     "not_selected_for_mlcf_pioc_manifest"
+    ]
+   },
    "management_delivery": {
     "symbol": "PSO",
     "status": "no_active_thesis",
@@ -92462,6 +92634,7 @@
     "brain_object_count": 0,
     "management_delivery_records": 0,
     "intelligence_case_count": 0,
+    "mlcf_pioc_readiness_manifest_status": "not_selected",
     "guidance_object_count": 0,
     "guidance_contradiction_count": 0,
     "evidence_watchlist_status": "no_active_watch",
@@ -102110,6 +102283,14 @@
      "no_selected_observed_case_seed"
     ]
    },
+   "mlcf_pioc_readiness_manifest": {
+    "symbol": "UBL",
+    "status": "not_selected",
+    "manifest": null,
+    "blockers": [
+     "not_selected_for_mlcf_pioc_manifest"
+    ]
+   },
    "management_delivery": {
     "symbol": "UBL",
     "status": "tracked",
@@ -104455,6 +104636,7 @@
     "brain_object_count": 10,
     "management_delivery_records": 3,
     "intelligence_case_count": 0,
+    "mlcf_pioc_readiness_manifest_status": "not_selected",
     "guidance_object_count": 1,
     "guidance_contradiction_count": 0,
     "evidence_watchlist_status": "active_watch",
@@ -107581,6 +107763,14 @@
      "no_selected_observed_case_seed"
     ]
    },
+   "mlcf_pioc_readiness_manifest": {
+    "symbol": "FFC",
+    "status": "not_selected",
+    "manifest": null,
+    "blockers": [
+     "not_selected_for_mlcf_pioc_manifest"
+    ]
+   },
    "management_delivery": {
     "symbol": "FFC",
     "status": "no_active_thesis",
@@ -108872,6 +109062,7 @@
     "brain_object_count": 0,
     "management_delivery_records": 0,
     "intelligence_case_count": 0,
+    "mlcf_pioc_readiness_manifest_status": "not_selected",
     "guidance_object_count": 0,
     "guidance_contradiction_count": 0,
     "evidence_watchlist_status": "no_active_watch",
@@ -142012,6 +142203,14 @@
      "no_selected_observed_case_seed"
     ]
    },
+   "mlcf_pioc_readiness_manifest": {
+    "symbol": "LUCK",
+    "status": "not_selected",
+    "manifest": null,
+    "blockers": [
+     "not_selected_for_mlcf_pioc_manifest"
+    ]
+   },
    "management_delivery": {
     "symbol": "LUCK",
     "status": "no_active_thesis",
@@ -144121,6 +144320,7 @@
     "brain_object_count": 18,
     "management_delivery_records": 0,
     "intelligence_case_count": 0,
+    "mlcf_pioc_readiness_manifest_status": "not_selected",
     "guidance_object_count": 4,
     "guidance_contradiction_count": 0,
     "evidence_watchlist_status": "no_active_watch",
@@ -148777,6 +148977,14 @@
      "no_selected_observed_case_seed"
     ]
    },
+   "mlcf_pioc_readiness_manifest": {
+    "symbol": "HUBC",
+    "status": "not_selected",
+    "manifest": null,
+    "blockers": [
+     "not_selected_for_mlcf_pioc_manifest"
+    ]
+   },
    "management_delivery": {
     "symbol": "HUBC",
     "status": "no_active_thesis",
@@ -150200,6 +150408,7 @@
     "brain_object_count": 4,
     "management_delivery_records": 0,
     "intelligence_case_count": 0,
+    "mlcf_pioc_readiness_manifest_status": "not_selected",
     "guidance_object_count": 0,
     "guidance_contradiction_count": 0,
     "evidence_watchlist_status": "no_active_watch",
@@ -152125,6 +152334,14 @@
      "no_selected_observed_case_seed"
     ]
    },
+   "mlcf_pioc_readiness_manifest": {
+    "symbol": "PRL",
+    "status": "not_selected",
+    "manifest": null,
+    "blockers": [
+     "not_selected_for_mlcf_pioc_manifest"
+    ]
+   },
    "management_delivery": {
     "symbol": "PRL",
     "status": "no_active_thesis",
@@ -153446,6 +153663,7 @@
     "brain_object_count": 0,
     "management_delivery_records": 0,
     "intelligence_case_count": 0,
+    "mlcf_pioc_readiness_manifest_status": "not_selected",
     "guidance_object_count": 0,
     "guidance_contradiction_count": 0,
     "evidence_watchlist_status": "no_active_watch",
@@ -162987,6 +163205,14 @@
      "no_selected_observed_case_seed"
     ]
    },
+   "mlcf_pioc_readiness_manifest": {
+    "symbol": "BOP",
+    "status": "not_selected",
+    "manifest": null,
+    "blockers": [
+     "not_selected_for_mlcf_pioc_manifest"
+    ]
+   },
    "management_delivery": {
     "symbol": "BOP",
     "status": "no_active_thesis",
@@ -164820,6 +165046,7 @@
     "brain_object_count": 8,
     "management_delivery_records": 0,
     "intelligence_case_count": 0,
+    "mlcf_pioc_readiness_manifest_status": "not_selected",
     "guidance_object_count": 3,
     "guidance_contradiction_count": 0,
     "evidence_watchlist_status": "no_active_watch",
@@ -169504,6 +169731,14 @@
      "no_selected_observed_case_seed"
     ]
    },
+   "mlcf_pioc_readiness_manifest": {
+    "symbol": "NBP",
+    "status": "not_selected",
+    "manifest": null,
+    "blockers": [
+     "not_selected_for_mlcf_pioc_manifest"
+    ]
+   },
    "management_delivery": {
     "symbol": "NBP",
     "status": "no_active_thesis",
@@ -170920,6 +171155,7 @@
     "brain_object_count": 0,
     "management_delivery_records": 0,
     "intelligence_case_count": 0,
+    "mlcf_pioc_readiness_manifest_status": "not_selected",
     "guidance_object_count": 1,
     "guidance_contradiction_count": 0,
     "evidence_watchlist_status": "no_active_watch",
@@ -174649,6 +174885,14 @@
      "no_selected_observed_case_seed"
     ]
    },
+   "mlcf_pioc_readiness_manifest": {
+    "symbol": "MEBL",
+    "status": "not_selected",
+    "manifest": null,
+    "blockers": [
+     "not_selected_for_mlcf_pioc_manifest"
+    ]
+   },
    "management_delivery": {
     "symbol": "MEBL",
     "status": "no_active_thesis",
@@ -175993,6 +176237,7 @@
     "brain_object_count": 0,
     "management_delivery_records": 0,
     "intelligence_case_count": 0,
+    "mlcf_pioc_readiness_manifest_status": "not_selected",
     "guidance_object_count": 0,
     "guidance_contradiction_count": 0,
     "evidence_watchlist_status": "no_active_watch",
@@ -185836,6 +186081,14 @@
      "no_selected_observed_case_seed"
     ]
    },
+   "mlcf_pioc_readiness_manifest": {
+    "symbol": "ATRL",
+    "status": "not_selected",
+    "manifest": null,
+    "blockers": [
+     "not_selected_for_mlcf_pioc_manifest"
+    ]
+   },
    "management_delivery": {
     "symbol": "ATRL",
     "status": "no_active_thesis",
@@ -187404,6 +187657,7 @@
     "brain_object_count": 6,
     "management_delivery_records": 0,
     "intelligence_case_count": 0,
+    "mlcf_pioc_readiness_manifest_status": "not_selected",
     "guidance_object_count": 1,
     "guidance_contradiction_count": 0,
     "evidence_watchlist_status": "no_active_watch",
@@ -190517,6 +190771,14 @@
      "no_selected_observed_case_seed"
     ]
    },
+   "mlcf_pioc_readiness_manifest": {
+    "symbol": "HBL",
+    "status": "not_selected",
+    "manifest": null,
+    "blockers": [
+     "not_selected_for_mlcf_pioc_manifest"
+    ]
+   },
    "management_delivery": {
     "symbol": "HBL",
     "status": "no_active_thesis",
@@ -191930,6 +192192,7 @@
     "brain_object_count": 0,
     "management_delivery_records": 0,
     "intelligence_case_count": 0,
+    "mlcf_pioc_readiness_manifest_status": "not_selected",
     "guidance_object_count": 1,
     "guidance_contradiction_count": 0,
     "evidence_watchlist_status": "no_active_watch",
@@ -199880,6 +200143,14 @@
      "no_selected_observed_case_seed"
     ]
    },
+   "mlcf_pioc_readiness_manifest": {
+    "symbol": "MARI",
+    "status": "not_selected",
+    "manifest": null,
+    "blockers": [
+     "not_selected_for_mlcf_pioc_manifest"
+    ]
+   },
    "management_delivery": {
     "symbol": "MARI",
     "status": "no_active_thesis",
@@ -201473,6 +201744,7 @@
     "brain_object_count": 8,
     "management_delivery_records": 0,
     "intelligence_case_count": 0,
+    "mlcf_pioc_readiness_manifest_status": "not_selected",
     "guidance_object_count": 1,
     "guidance_contradiction_count": 0,
     "evidence_watchlist_status": "no_active_watch",
@@ -205350,6 +205622,14 @@
      "no_selected_observed_case_seed"
     ]
    },
+   "mlcf_pioc_readiness_manifest": {
+    "symbol": "ENGROH",
+    "status": "not_selected",
+    "manifest": null,
+    "blockers": [
+     "not_selected_for_mlcf_pioc_manifest"
+    ]
+   },
    "management_delivery": {
     "symbol": "ENGROH",
     "status": "tracked",
@@ -207026,6 +207306,7 @@
     "brain_object_count": 6,
     "management_delivery_records": 1,
     "intelligence_case_count": 0,
+    "mlcf_pioc_readiness_manifest_status": "not_selected",
     "guidance_object_count": 0,
     "guidance_contradiction_count": 0,
     "evidence_watchlist_status": "active_watch",
@@ -208829,6 +209110,14 @@
      "no_selected_observed_case_seed"
     ]
    },
+   "mlcf_pioc_readiness_manifest": {
+    "symbol": "GAL",
+    "status": "not_selected",
+    "manifest": null,
+    "blockers": [
+     "not_selected_for_mlcf_pioc_manifest"
+    ]
+   },
    "management_delivery": {
     "symbol": "GAL",
     "status": "no_active_thesis",
@@ -210141,6 +210430,7 @@
     "brain_object_count": 0,
     "management_delivery_records": 0,
     "intelligence_case_count": 0,
+    "mlcf_pioc_readiness_manifest_status": "not_selected",
     "guidance_object_count": 0,
     "guidance_contradiction_count": 0,
     "evidence_watchlist_status": "no_active_watch",
@@ -212527,6 +212817,14 @@
      "no_selected_observed_case_seed"
     ]
    },
+   "mlcf_pioc_readiness_manifest": {
+    "symbol": "NRL",
+    "status": "not_selected",
+    "manifest": null,
+    "blockers": [
+     "not_selected_for_mlcf_pioc_manifest"
+    ]
+   },
    "management_delivery": {
     "symbol": "NRL",
     "status": "no_active_thesis",
@@ -213842,6 +214140,7 @@
     "brain_object_count": 0,
     "management_delivery_records": 0,
     "intelligence_case_count": 0,
+    "mlcf_pioc_readiness_manifest_status": "not_selected",
     "guidance_object_count": 0,
     "guidance_contradiction_count": 0,
     "evidence_watchlist_status": "no_active_watch",
@@ -226541,6 +226840,14 @@
      "no_selected_observed_case_seed"
     ]
    },
+   "mlcf_pioc_readiness_manifest": {
+    "symbol": "CNERGY",
+    "status": "not_selected",
+    "manifest": null,
+    "blockers": [
+     "not_selected_for_mlcf_pioc_manifest"
+    ]
+   },
    "management_delivery": {
     "symbol": "CNERGY",
     "status": "no_active_thesis",
@@ -228809,6 +229116,7 @@
     "brain_object_count": 16,
     "management_delivery_records": 0,
     "intelligence_case_count": 0,
+    "mlcf_pioc_readiness_manifest_status": "not_selected",
     "guidance_object_count": 6,
     "guidance_contradiction_count": 0,
     "evidence_watchlist_status": "no_active_watch",
@@ -228849,16 +229157,5 @@
     "retention_days": 90
    }
   }
- ],
- "_meta": {
-  "generator_version": "ci_artifact_integrity_v1",
-  "source_commit_sha": "73377a5cab88eb859c13375d0166cf58c5f90191",
-  "build_cutoff_at": "2026-08-29T09:43:23Z",
-  "generated_at": "2026-08-29T09:43:23Z",
-  "artifact_path": "Henneth Desk 2.CI.0/data/company_intelligence.json",
-  "timestamp_semantics": {
-   "build_cutoff_at": "generation boundary only; not a source-effective or source-published time",
-   "generated_at": "artifact generation time only; not a source-effective or source-published time"
-  }
- }
+ ]
 }
