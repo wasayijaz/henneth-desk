@@ -40,6 +40,14 @@ def warn(msg):
     warns.append(msg)
 
 
+def checker_failure_detail(result, limit=500):
+    """Keep a checker's actual stderr failure visible ahead of its stdout summary."""
+    stderr = str(getattr(result, "stderr", "") or "").strip()
+    stdout = str(getattr(result, "stdout", "") or "").strip()
+    detail = stderr or stdout or "no output"
+    return detail[-limit:]
+
+
 def load(name):
     """Load a state file; None if missing/unparseable (recorded as FAIL by caller)."""
     p = os.path.join(STATE, name)
@@ -1268,7 +1276,7 @@ def check_ci_global_no_lookahead():
     try:
         result = subprocess.run([sys.executable, path], capture_output=True, text=True, timeout=45)
         if result.returncode != 0:
-            fail("CI global no-lookahead check failed — " + ((result.stdout or result.stderr or "")[-500:].strip()))
+            fail("CI global no-lookahead check failed — " + checker_failure_detail(result))
     except Exception as e:
         fail(f"check_ci_global_no_lookahead.py did not run — {e}")
 
@@ -1410,7 +1418,21 @@ def main():
         pass
     ap = argparse.ArgumentParser()
     ap.add_argument("--strict", action="store_true", help="treat warnings as failures")
+    ap.add_argument("--self-test", action="store_true", help="run isolated preflight helper checks")
     args = ap.parse_args()
+
+    if args.self_test:
+        class _Result:
+            stdout = "summary: harmless opaque example"
+            stderr = "failure: actual no-lookahead violation"
+
+        if checker_failure_detail(_Result()) != _Result.stderr:
+            raise SystemExit("preflight self-test failed: stderr must take priority over stdout")
+        _Result.stderr = ""
+        if checker_failure_detail(_Result()) != _Result.stdout:
+            raise SystemExit("preflight self-test failed: stdout fallback missing")
+        print("preflight self-test: PASS")
+        raise SystemExit(0)
     # Capture one explicit UTC cutoff at invocation start.  All generated CI
     # artifacts finalized below share this boundary, regardless of gate duration.
     build_cutoff_at = datetime.now(timezone.utc).replace(microsecond=0).strftime("%Y-%m-%dT%H:%M:%SZ")
