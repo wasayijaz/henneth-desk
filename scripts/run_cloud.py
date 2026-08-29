@@ -77,7 +77,7 @@ STEPS = [
     # Wave 1 Company Intelligence: evidence-backed events, declarative sector drivers,
     # and null-safe Bear/Base/Bull scenarios before the bounded app slice.
     "build_operating_events.py", "build_driver_graphs.py", "impact_engine.py", "build_signal_clusters.py",
-    "build_thesis_monitoring.py", "build_intelligence_confidence.py", "build_guidance_contradictions.py",
+    "build_thesis_monitoring.py", "build_intelligence_confidence.py", "build_intelligence_cases.py", "build_guidance_contradictions.py",
     "build_management_delivery.py",
     "build_evidence_watchlist.py",
     "build_ci_monitoring.py",
@@ -166,6 +166,7 @@ STEPS = [
     "check_financial_truth_qualification.py",
     "check_financial_statement_v2_candidate_queue.py",
     "check_ci_reprocess_manifest.py",
+    "check_intelligence_cases.py",
     "check_financial_reprocess_blockers.py",
     "check_ownership_source_manifest.py",
     "check_forecast_contract.py",

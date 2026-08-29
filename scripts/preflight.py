@@ -365,7 +365,7 @@ def check_ci_slice():
     # Wave 1 CI seam: the generated slice must exactly reflect the three authoritative
     # state products. This catches a stale slice even when its legacy fields still look valid.
     wave1 = {}
-    for name in ("operating_events", "driver_graphs", "impact_scenarios", "event_studies", "conditional_benchmarks", "causal_foundations", "financial_model_inputs", "financial_evidence_reconciliation", "earnings_bridges", "financial_coverage", "financial_truth_qualification", "forecast_readiness", "financial_forecasts", "formal_valuations", "market_expectations", "scenario_lab", "company_brains", "thesis_monitoring", "intelligence_confidence", "management_delivery", "guidance_contradictions", "evidence_watchlist", "monitoring", "peer_registry"):
+    for name in ("operating_events", "driver_graphs", "impact_scenarios", "event_studies", "conditional_benchmarks", "causal_foundations", "financial_model_inputs", "financial_evidence_reconciliation", "earnings_bridges", "financial_coverage", "financial_truth_qualification", "forecast_readiness", "financial_forecasts", "formal_valuations", "market_expectations", "scenario_lab", "company_brains", "thesis_monitoring", "intelligence_confidence", "intelligence_cases", "management_delivery", "guidance_contradictions", "evidence_watchlist", "monitoring", "peer_registry"):
         wave_path = os.path.join(STATE, "company_intel", f"{name}.json")
         try:
             with open(wave_path, encoding="utf-8") as f:
@@ -376,6 +376,7 @@ def check_ci_slice():
     expected_study_total = 0
     thesis_state = wave1.get("thesis_monitoring") or {}
     confidence_state = wave1.get("intelligence_confidence") or {}
+    intelligence_cases_state = wave1.get("intelligence_cases") or {}
     management_delivery_state = wave1.get("management_delivery") or {}
     guidance_contradictions_state = wave1.get("guidance_contradictions") or {}
     evidence_watchlist_state = wave1.get("evidence_watchlist") or {}
@@ -389,6 +390,10 @@ def check_ci_slice():
         fail("state/company_intel/intelligence_confidence.json: pilot boundary mismatch")
     if set(confidence_state.get("companies") or {}) != pilot:
         fail("state/company_intel/intelligence_confidence.json: company boundary mismatch")
+    if set(intelligence_cases_state.get("pilot_symbols") or []) != pilot:
+        fail("state/company_intel/intelligence_cases.json: pilot boundary mismatch")
+    if set(intelligence_cases_state.get("companies") or {}) != pilot:
+        fail("state/company_intel/intelligence_cases.json: company boundary mismatch")
     if set(management_delivery_state.get("pilot_symbols") or []) != pilot:
         fail("state/company_intel/management_delivery.json: pilot boundary mismatch")
     if set(management_delivery_state.get("companies") or {}) != pilot:
@@ -434,6 +439,7 @@ def check_ci_slice():
         company_brain_state = (wave1.get("company_brains", {}).get("companies", {}).get(sym) or {})
         thesis_state_row = (thesis_state.get("companies") or {}).get(sym)
         confidence_state_row = (confidence_state.get("companies") or {}).get(sym)
+        intelligence_case_state_row = (intelligence_cases_state.get("companies") or {}).get(sym)
         management_delivery_state_row = (management_delivery_state.get("companies") or {}).get(sym)
         guidance_contradictions_state_row = (guidance_contradictions_state.get("companies") or {}).get(sym)
         evidence_watchlist_state_row = (evidence_watchlist_state.get("companies") or {}).get(sym)
@@ -509,6 +515,10 @@ def check_ci_slice():
             fail(f"Henneth Desk 2.CI.0/data/company_intelligence.json: {sym} intelligence_confidence stale/mismatch")
         if not isinstance(row.get("intelligence_confidence"), dict):
             fail(f"Henneth Desk 2.CI.0/data/company_intelligence.json: {sym} intelligence_confidence missing/not object")
+        if row.get("intelligence_cases") != intelligence_case_state_row:
+            fail(f"Henneth Desk 2.CI.0/data/company_intelligence.json: {sym} intelligence_cases stale/mismatch")
+        if not isinstance(row.get("intelligence_cases"), dict):
+            fail(f"Henneth Desk 2.CI.0/data/company_intelligence.json: {sym} intelligence_cases missing/not object")
         if row.get("management_delivery") != management_delivery_state_row:
             fail(f"Henneth Desk 2.CI.0/data/company_intelligence.json: {sym} management_delivery stale/mismatch")
         if not isinstance(row.get("management_delivery"), dict):
@@ -673,6 +683,18 @@ def check_intelligence_confidence():
             fail("intelligence confidence check failed — " + ((result.stdout or result.stderr or "")[-500:].strip()))
     except Exception as e:
         fail(f"check_intelligence_confidence.py did not run — {e}")
+
+def check_intelligence_cases():
+    path = os.path.join(ROOT, "scripts", "check_intelligence_cases.py")
+    if not os.path.exists(path):
+        fail("check_intelligence_cases.py missing — intelligence case contract cannot be verified")
+        return
+    try:
+        result = subprocess.run([sys.executable, path], capture_output=True, text=True, timeout=30)
+        if result.returncode != 0:
+            fail("intelligence cases check failed — " + ((result.stdout or result.stderr or "")[-500:].strip()))
+    except Exception as e:
+        fail(f"check_intelligence_cases.py did not run — {e}")
 
 def check_management_delivery():
     path = os.path.join(ROOT, "scripts", "check_management_delivery.py")
@@ -1432,6 +1454,7 @@ def main():
     check_company_theses_security()
     check_company_theses_ui()
     check_intelligence_confidence()
+    check_intelligence_cases()
     check_management_delivery()
     check_guidance_contradictions()
     check_evidence_watchlist()

@@ -1,6 +1,6 @@
 {
  "meta": {
-  "built": "2026-08-28 22:53",
+  "built": "2026-08-29 14:43",
   "source": "Henneth state layer",
   "profile_source": "https://dps.psx.com.pk/company/{symbol}",
   "profile_updated": "2026-08-24 18:30",
@@ -29,9 +29,9 @@
    "source_documents": 317,
    "note": "Every factual edge carries source URL and cited page when available.",
    "generator_version": "ci_artifact_integrity_v1",
-   "source_commit_sha": "9ea9f8984db3ecdc371fa9102103a85898d5180b",
-   "build_cutoff_at": "2026-08-28T17:15:05Z",
-   "generated_at": "2026-08-28T17:15:05Z",
+   "source_commit_sha": "73377a5cab88eb859c13375d0166cf58c5f90191",
+   "build_cutoff_at": "2026-08-29T09:42:14Z",
+   "generated_at": "2026-08-29T09:42:14Z",
    "artifact_path": "state/company_intel/company_graph.json",
    "timestamp_semantics": {
     "build_cutoff_at": "generation boundary only; not a source-effective or source-published time",
@@ -44,9 +44,9 @@
    "item_count": 359,
    "note": "Deterministic official-source change digest. Research, not advice.",
    "generator_version": "ci_artifact_integrity_v1",
-   "source_commit_sha": "9ea9f8984db3ecdc371fa9102103a85898d5180b",
-   "build_cutoff_at": "2026-08-28T17:15:05Z",
-   "generated_at": "2026-08-28T17:15:05Z",
+   "source_commit_sha": "73377a5cab88eb859c13375d0166cf58c5f90191",
+   "build_cutoff_at": "2026-08-29T09:42:14Z",
+   "generated_at": "2026-08-29T09:42:14Z",
    "artifact_path": "state/company_intel/change_intelligence.json",
    "timestamp_semantics": {
     "build_cutoff_at": "generation boundary only; not a source-effective or source-published time",
@@ -55,7 +55,7 @@
   },
   "completion_matrix": {
    "artifact": "state/company_intel/completion_matrix.json",
-   "as_of": "2026-08-27 21:16",
+   "as_of": "2026-08-28 15:26",
    "overall_status": "blocked",
    "requirement_count": 69,
    "complete": 61,
@@ -12560,6 +12560,150 @@
      }
     ]
    },
+   "intelligence_cases": {
+    "symbol": "MLCF",
+    "status": "observed_seed_available",
+    "case_count": 1,
+    "cases": [
+     {
+      "case_id": "case_mlcf_pioc_control_observed_v1",
+      "symbol": "MLCF",
+      "target_symbol": "PIOC",
+      "case_family": "industrial_cement",
+      "case_type": "acquisition_control",
+      "status": "Observed",
+      "epistemic_type": "reported_fact",
+      "as_of": "2026-08-22T21:48:11+05:00",
+      "summary": "Observed official-source seed: MLCF reported a public offer/control transaction for Pioneer Cement, and a later MLCF quarterly filing reported Pioneer Cement dispatches included in local-market totals after the February 2026 acquisition.",
+      "observed_facts": [
+       {
+        "fact_id": "mlcf_pioc_public_offer_control",
+        "source_event_id": "evt_cb44dc32c91b0c5712a5",
+        "document_id": "psx:267429",
+        "event_date": "2025-12-18T12:52:00+05:00",
+        "statement": "MLCF reported a public offer to acquire PIOC shares and control of Pioneer Cement Limited.",
+        "reported_values": [
+         {
+          "label": "public_offer_shares",
+          "value": "up to 26,623,096 PIOC shares"
+         },
+         {
+          "label": "public_offer_percent",
+          "value": "11.72% shares"
+         },
+         {
+          "label": "spa_percent",
+          "value": "58.03% through Share Purchase Agreement(s)"
+         },
+         {
+          "label": "offer_price",
+          "value": "PKR 478.43 per share"
+         }
+        ],
+        "evidence": [
+         {
+          "event_id": "evt_cb44dc32c91b0c5712a5",
+          "document_id": "psx:267429",
+          "document_title": "MLCF-Material Information to PSX",
+          "document_published_at": "2025-12-18T12:52:00+05:00",
+          "document_retrieved_at": "2026-08-18T01:54:00+05:00",
+          "content_sha256": "98cf83c9a286999c8006a7f73f490248f26694c9edbfc815b3dbd9188ee22a54",
+          "source": "PSX DPS",
+          "source_url": "https://dps.psx.com.pk/download/document/267429.pdf",
+          "page": 3,
+          "text": "8904_5, Fax: +9242.38373067 EqnaH: mjgfl@kmlg.earn PUBLIC ANNOUNCEMENT OF PUBLIC OFFER TO ACQUIRE UP TO 26,623,096 SHARES (1.E. 11.72% SHARES) AND CONTROL OF PIONEER CEMENT LIMITED (“PIOC” OR 'TARGrr COMPANY”) BY MAPLE LEAF CEMENT FACrORY…"
+         }
+        ]
+       },
+       {
+        "fact_id": "mlcf_pioc_dispatch_inclusion",
+        "source_event_id": "evt_25bfb52e721191c7b644",
+        "document_id": "psx:275425",
+        "event_date": "2026-04-28T10:25:00+05:00",
+        "statement": "MLCF reported inclusion of Pioneer Cement Limited dispatches in local-market total due to its acquisition during February 2026.",
+        "reported_values": [
+         {
+          "label": "acquisition_timing",
+          "value": "during February 2026"
+         },
+         {
+          "label": "operating_follow_through",
+          "value": "Pioneer Cement Limited dispatches included in local-market total"
+         }
+        ],
+        "evidence": [
+         {
+          "event_id": "evt_25bfb52e721191c7b644",
+          "document_id": "psx:275425",
+          "document_title": "Transmission of Quarterly Financial Statements for the Period Ended 31.03.2026",
+          "document_published_at": "2026-04-28T10:25:00+05:00",
+          "document_retrieved_at": "2026-08-22T21:48:11+05:00",
+          "content_sha256": "744a0c710043d6e0a7de36bb99f21ca50f0f9346f6972b957f6733a47deae11f",
+          "source": "PSX DPS",
+          "source_url": "https://dps.psx.com.pk/download/document/275425.pdf",
+          "page": 4,
+          "text": "in local market and inclusion of Pioneer Cement Limited’s dispatches in total due to its acquisition during the month of February 2026. The export sales volume reduced from 173,489 tons to 78,135 tons, a decline of 54.96% from the previous…"
+         }
+        ]
+       }
+      ],
+      "alternative_readings": [
+       {
+        "alternative_id": "public_offer_not_full_model",
+        "reading": "The December 2025 document is an official offer/control disclosure, not a quantified earnings model.",
+        "status": "retained_as_observed_only",
+        "rejection_condition": "Reject promotion if no later official source preserves acquisition/control or operating inclusion."
+       },
+       {
+        "alternative_id": "dispatch_inclusion_not_financial_impact",
+        "reading": "The April 2026 filing shows operating inclusion after acquisition, but not a standalone PIOC financial impact.",
+        "status": "retained_as_observed_only",
+        "rejection_condition": "Reject modelling if source-qualified incremental revenue, margin, EPS, cash-flow, debt and share-count operands are absent."
+       }
+      ],
+      "promotion_blocks": {
+       "Corroborated": "Blocked: retained evidence is an official MLCF/PSX chain, not independent-originator corroboration.",
+       "Modelled": "Blocked: no source-qualified financial impact model or owner-approved assumptions are attached.",
+       "Published": "Blocked: no forecast, valuation, reverse-expectations output, investor conclusion or release gate is complete."
+      },
+      "policy": {
+       "observed_only": true,
+       "no_forecast": true,
+       "no_valuation": true,
+       "no_market_expectations": true,
+       "no_recommendation": true,
+       "reported_values_only": true
+      },
+      "source_lineage": [
+       {
+        "event_id": "evt_cb44dc32c91b0c5712a5",
+        "document_id": "psx:267429",
+        "document_title": "MLCF-Material Information to PSX",
+        "document_published_at": "2025-12-18T12:52:00+05:00",
+        "document_retrieved_at": "2026-08-18T01:54:00+05:00",
+        "content_sha256": "98cf83c9a286999c8006a7f73f490248f26694c9edbfc815b3dbd9188ee22a54",
+        "source": "PSX DPS",
+        "source_url": "https://dps.psx.com.pk/download/document/267429.pdf",
+        "page": 3,
+        "text": "8904_5, Fax: +9242.38373067 EqnaH: mjgfl@kmlg.earn PUBLIC ANNOUNCEMENT OF PUBLIC OFFER TO ACQUIRE UP TO 26,623,096 SHARES (1.E. 11.72% SHARES) AND CONTROL OF PIONEER CEMENT LIMITED (“PIOC” OR 'TARGrr COMPANY”) BY MAPLE LEAF CEMENT FACrORY…"
+       },
+       {
+        "event_id": "evt_25bfb52e721191c7b644",
+        "document_id": "psx:275425",
+        "document_title": "Transmission of Quarterly Financial Statements for the Period Ended 31.03.2026",
+        "document_published_at": "2026-04-28T10:25:00+05:00",
+        "document_retrieved_at": "2026-08-22T21:48:11+05:00",
+        "content_sha256": "744a0c710043d6e0a7de36bb99f21ca50f0f9346f6972b957f6733a47deae11f",
+        "source": "PSX DPS",
+        "source_url": "https://dps.psx.com.pk/download/document/275425.pdf",
+        "page": 4,
+        "text": "in local market and inclusion of Pioneer Cement Limited’s dispatches in total due to its acquisition during the month of February 2026. The export sales volume reduced from 173,489 tons to 78,135 tons, a decline of 54.96% from the previous…"
+       }
+      ]
+     }
+    ],
+    "rejection_reasons": []
+   },
    "management_delivery": {
     "symbol": "MLCF",
     "status": "tracked",
@@ -13607,7 +13751,7 @@
       "symbol": "MLCF",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-27 21:16",
+       "as_of": "2026-08-28 15:26",
        "source": {
         "company_financial_series": "state/company_financial_series.json",
         "financial_coverage": "state/company_intel/financial_coverage.json",
@@ -13631,7 +13775,7 @@
       },
       "row_metadata": {
        "symbol": "MLCF",
-       "status": "blocked"
+       "status": "eligible_for_review"
       }
      },
      "financial_coverage": {
@@ -13679,7 +13823,7 @@
       "symbol": "MLCF",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-27 21:16",
+       "as_of": "2026-08-28 15:26",
        "source": {
         "company_profiles": "state/company_profiles.json",
         "sectors": "state/sectors.json",
@@ -13728,13 +13872,15 @@
        "source": {
         "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
         "forecast_readiness": "state/company_intel/forecast_readiness.json",
+        "financial_truth_qualification": "state/company_intel/financial_truth_qualification.json",
         "financial_engine_assumptions": "state/company_intel/financial_engine_assumptions.json"
        },
        "policy": {
         "research_only": true,
         "no_advice": true,
         "no_output_without_approved_source_labelled_assumptions": true,
-        "no_audit_only_financial_facts": true
+        "no_audit_only_financial_facts": true,
+        "financial_truth_is_authoritative_activation_gate": true
        },
        "kind": "financial_forecasts",
        "engine_version": "formal_financial_engines_v1",
@@ -13746,7 +13892,8 @@
        "reason": "missing_source_gated_inputs",
        "missing_requirements": [
         "approved_net_margin_pct",
-        "approved_revenue_growth_pct"
+        "approved_revenue_growth_pct",
+        "financial_truth_qualified"
        ],
        "result": null,
        "provenance": [],
@@ -13769,13 +13916,15 @@
        "source": {
         "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
         "forecast_readiness": "state/company_intel/forecast_readiness.json",
+        "financial_truth_qualification": "state/company_intel/financial_truth_qualification.json",
         "financial_engine_assumptions": "state/company_intel/financial_engine_assumptions.json"
        },
        "policy": {
         "research_only": true,
         "no_advice": true,
         "no_output_without_approved_source_labelled_assumptions": true,
-        "no_audit_only_financial_facts": true
+        "no_audit_only_financial_facts": true,
+        "financial_truth_is_authoritative_activation_gate": true
        },
        "kind": "formal_valuations",
        "engine_version": "formal_financial_engines_v1",
@@ -13789,7 +13938,8 @@
         "approved_exit_pe",
         "approved_net_debt",
         "approved_net_margin_pct",
-        "approved_revenue_growth_pct"
+        "approved_revenue_growth_pct",
+        "financial_truth_qualified"
        ],
        "result": null,
        "provenance": [],
@@ -13812,13 +13962,15 @@
        "source": {
         "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
         "forecast_readiness": "state/company_intel/forecast_readiness.json",
+        "financial_truth_qualification": "state/company_intel/financial_truth_qualification.json",
         "financial_engine_assumptions": "state/company_intel/financial_engine_assumptions.json"
        },
        "policy": {
         "research_only": true,
         "no_advice": true,
         "no_output_without_approved_source_labelled_assumptions": true,
-        "no_audit_only_financial_facts": true
+        "no_audit_only_financial_facts": true,
+        "financial_truth_is_authoritative_activation_gate": true
        },
        "kind": "market_expectations",
        "engine_version": "formal_financial_engines_v1",
@@ -13831,7 +13983,8 @@
        "missing_requirements": [
         "approved_exit_pe",
         "approved_net_margin_pct",
-        "approved_revenue_growth_pct"
+        "approved_revenue_growth_pct",
+        "financial_truth_qualified"
        ],
        "result": null,
        "provenance": [],
@@ -14070,7 +14223,8 @@
       "brain_path": "companies/MLCF/domains/forecasts",
       "missing_requirements": [
        "approved_net_margin_pct",
-       "approved_revenue_growth_pct"
+       "approved_revenue_growth_pct",
+       "financial_truth_qualified"
       ]
      },
      "formal_valuations": {
@@ -14095,7 +14249,8 @@
        "approved_exit_pe",
        "approved_net_debt",
        "approved_net_margin_pct",
-       "approved_revenue_growth_pct"
+       "approved_revenue_growth_pct",
+       "financial_truth_qualified"
       ]
      },
      "market_expectations": {
@@ -14119,7 +14274,8 @@
       "missing_requirements": [
        "approved_exit_pe",
        "approved_net_margin_pct",
-       "approved_revenue_growth_pct"
+       "approved_revenue_growth_pct",
+       "financial_truth_qualified"
       ]
      }
     },
@@ -14252,6 +14408,7 @@
    "financial_forecasts": {
     "symbol": "MLCF",
     "status": "blocked",
+    "truth_status": "not_qualified",
     "reason": "missing_source_gated_inputs",
     "missing_requirements": [
      "approved_net_margin_pct",
@@ -14269,6 +14426,7 @@
    "formal_valuations": {
     "symbol": "MLCF",
     "status": "blocked",
+    "truth_status": "not_qualified",
     "reason": "missing_source_gated_inputs",
     "missing_requirements": [
      "approved_exit_pe",
@@ -14288,6 +14446,7 @@
    "market_expectations": {
     "symbol": "MLCF",
     "status": "blocked",
+    "truth_status": "not_qualified",
     "reason": "missing_source_gated_inputs",
     "missing_requirements": [
      "approved_exit_pe",
@@ -14790,6 +14949,7 @@
     "market_expectations_status": "ready_snapshot_reverse_solve",
     "brain_object_count": 16,
     "management_delivery_records": 1,
+    "intelligence_case_count": 1,
     "guidance_object_count": 0,
     "guidance_contradiction_count": 0,
     "evidence_watchlist_status": "active_watch",
@@ -18565,6 +18725,15 @@
     "aggregate_method": null,
     "assessments": []
    },
+   "intelligence_cases": {
+    "symbol": "OGDC",
+    "status": "no_observed_case",
+    "case_count": 0,
+    "cases": [],
+    "rejection_reasons": [
+     "no_selected_observed_case_seed"
+    ]
+   },
    "management_delivery": {
     "symbol": "OGDC",
     "status": "no_active_thesis",
@@ -19049,7 +19218,7 @@
       "symbol": "OGDC",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-27 21:16",
+       "as_of": "2026-08-28 15:26",
        "source": {
         "company_financial_series": "state/company_financial_series.json",
         "financial_coverage": "state/company_intel/financial_coverage.json",
@@ -19121,7 +19290,7 @@
       "symbol": "OGDC",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-27 21:16",
+       "as_of": "2026-08-28 15:26",
        "source": {
         "company_profiles": "state/company_profiles.json",
         "sectors": "state/sectors.json",
@@ -19174,13 +19343,15 @@
        "source": {
         "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
         "forecast_readiness": "state/company_intel/forecast_readiness.json",
+        "financial_truth_qualification": "state/company_intel/financial_truth_qualification.json",
         "financial_engine_assumptions": "state/company_intel/financial_engine_assumptions.json"
        },
        "policy": {
         "research_only": true,
         "no_advice": true,
         "no_output_without_approved_source_labelled_assumptions": true,
-        "no_audit_only_financial_facts": true
+        "no_audit_only_financial_facts": true,
+        "financial_truth_is_authoritative_activation_gate": true
        },
        "kind": "financial_forecasts",
        "engine_version": "formal_financial_engines_v1",
@@ -19197,6 +19368,7 @@
         "approved_net_margin_pct",
         "approved_revenue_growth_pct",
         "financial_model_inputs_ready",
+        "financial_truth_qualified",
         "forecast_readiness_input_ready"
        ],
        "result": null,
@@ -19220,13 +19392,15 @@
        "source": {
         "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
         "forecast_readiness": "state/company_intel/forecast_readiness.json",
+        "financial_truth_qualification": "state/company_intel/financial_truth_qualification.json",
         "financial_engine_assumptions": "state/company_intel/financial_engine_assumptions.json"
        },
        "policy": {
         "research_only": true,
         "no_advice": true,
         "no_output_without_approved_source_labelled_assumptions": true,
-        "no_audit_only_financial_facts": true
+        "no_audit_only_financial_facts": true,
+        "financial_truth_is_authoritative_activation_gate": true
        },
        "kind": "formal_valuations",
        "engine_version": "formal_financial_engines_v1",
@@ -19245,6 +19419,7 @@
         "approved_net_margin_pct",
         "approved_revenue_growth_pct",
         "financial_model_inputs_ready",
+        "financial_truth_qualified",
         "forecast_readiness_input_ready"
        ],
        "result": null,
@@ -19268,13 +19443,15 @@
        "source": {
         "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
         "forecast_readiness": "state/company_intel/forecast_readiness.json",
+        "financial_truth_qualification": "state/company_intel/financial_truth_qualification.json",
         "financial_engine_assumptions": "state/company_intel/financial_engine_assumptions.json"
        },
        "policy": {
         "research_only": true,
         "no_advice": true,
         "no_output_without_approved_source_labelled_assumptions": true,
-        "no_audit_only_financial_facts": true
+        "no_audit_only_financial_facts": true,
+        "financial_truth_is_authoritative_activation_gate": true
        },
        "kind": "market_expectations",
        "engine_version": "formal_financial_engines_v1",
@@ -19292,6 +19469,7 @@
         "approved_net_margin_pct",
         "approved_revenue_growth_pct",
         "financial_model_inputs_ready",
+        "financial_truth_qualified",
         "forecast_readiness_input_ready"
        ],
        "result": null,
@@ -19536,6 +19714,7 @@
        "approved_net_margin_pct",
        "approved_revenue_growth_pct",
        "financial_model_inputs_ready",
+       "financial_truth_qualified",
        "forecast_readiness_input_ready"
       ]
      },
@@ -19566,6 +19745,7 @@
        "approved_net_margin_pct",
        "approved_revenue_growth_pct",
        "financial_model_inputs_ready",
+       "financial_truth_qualified",
        "forecast_readiness_input_ready"
       ]
      },
@@ -19595,6 +19775,7 @@
        "approved_net_margin_pct",
        "approved_revenue_growth_pct",
        "financial_model_inputs_ready",
+       "financial_truth_qualified",
        "forecast_readiness_input_ready"
       ]
      }
@@ -19659,6 +19840,7 @@
    "financial_forecasts": {
     "symbol": "OGDC",
     "status": "blocked",
+    "truth_status": "not_qualified",
     "reason": "missing_source_gated_inputs",
     "missing_requirements": [
      "actual_basic_eps",
@@ -19681,6 +19863,7 @@
    "formal_valuations": {
     "symbol": "OGDC",
     "status": "blocked",
+    "truth_status": "not_qualified",
     "reason": "missing_source_gated_inputs",
     "missing_requirements": [
      "actual_basic_eps",
@@ -19705,6 +19888,7 @@
    "market_expectations": {
     "symbol": "OGDC",
     "status": "blocked",
+    "truth_status": "not_qualified",
     "reason": "missing_source_gated_inputs",
     "missing_requirements": [
      "actual_basic_eps",
@@ -19895,6 +20079,7 @@
     "market_expectations_status": "ready_snapshot_reverse_solve",
     "brain_object_count": 0,
     "management_delivery_records": 0,
+    "intelligence_case_count": 0,
     "guidance_object_count": 0,
     "guidance_contradiction_count": 0,
     "evidence_watchlist_status": "no_active_watch",
@@ -24294,6 +24479,15 @@
      }
     ]
    },
+   "intelligence_cases": {
+    "symbol": "PPL",
+    "status": "no_observed_case",
+    "case_count": 0,
+    "cases": [],
+    "rejection_reasons": [
+     "no_selected_observed_case_seed"
+    ]
+   },
    "management_delivery": {
     "symbol": "PPL",
     "status": "tracked",
@@ -25024,7 +25218,7 @@
       "symbol": "PPL",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-27 21:16",
+       "as_of": "2026-08-28 15:26",
        "source": {
         "company_financial_series": "state/company_financial_series.json",
         "financial_coverage": "state/company_intel/financial_coverage.json",
@@ -25096,7 +25290,7 @@
       "symbol": "PPL",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-27 21:16",
+       "as_of": "2026-08-28 15:26",
        "source": {
         "company_profiles": "state/company_profiles.json",
         "sectors": "state/sectors.json",
@@ -25149,13 +25343,15 @@
        "source": {
         "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
         "forecast_readiness": "state/company_intel/forecast_readiness.json",
+        "financial_truth_qualification": "state/company_intel/financial_truth_qualification.json",
         "financial_engine_assumptions": "state/company_intel/financial_engine_assumptions.json"
        },
        "policy": {
         "research_only": true,
         "no_advice": true,
         "no_output_without_approved_source_labelled_assumptions": true,
-        "no_audit_only_financial_facts": true
+        "no_audit_only_financial_facts": true,
+        "financial_truth_is_authoritative_activation_gate": true
        },
        "kind": "financial_forecasts",
        "engine_version": "formal_financial_engines_v1",
@@ -25172,6 +25368,7 @@
         "approved_net_margin_pct",
         "approved_revenue_growth_pct",
         "financial_model_inputs_ready",
+        "financial_truth_qualified",
         "forecast_readiness_input_ready"
        ],
        "result": null,
@@ -25195,13 +25392,15 @@
        "source": {
         "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
         "forecast_readiness": "state/company_intel/forecast_readiness.json",
+        "financial_truth_qualification": "state/company_intel/financial_truth_qualification.json",
         "financial_engine_assumptions": "state/company_intel/financial_engine_assumptions.json"
        },
        "policy": {
         "research_only": true,
         "no_advice": true,
         "no_output_without_approved_source_labelled_assumptions": true,
-        "no_audit_only_financial_facts": true
+        "no_audit_only_financial_facts": true,
+        "financial_truth_is_authoritative_activation_gate": true
        },
        "kind": "formal_valuations",
        "engine_version": "formal_financial_engines_v1",
@@ -25220,6 +25419,7 @@
         "approved_net_margin_pct",
         "approved_revenue_growth_pct",
         "financial_model_inputs_ready",
+        "financial_truth_qualified",
         "forecast_readiness_input_ready"
        ],
        "result": null,
@@ -25243,13 +25443,15 @@
        "source": {
         "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
         "forecast_readiness": "state/company_intel/forecast_readiness.json",
+        "financial_truth_qualification": "state/company_intel/financial_truth_qualification.json",
         "financial_engine_assumptions": "state/company_intel/financial_engine_assumptions.json"
        },
        "policy": {
         "research_only": true,
         "no_advice": true,
         "no_output_without_approved_source_labelled_assumptions": true,
-        "no_audit_only_financial_facts": true
+        "no_audit_only_financial_facts": true,
+        "financial_truth_is_authoritative_activation_gate": true
        },
        "kind": "market_expectations",
        "engine_version": "formal_financial_engines_v1",
@@ -25267,6 +25469,7 @@
         "approved_net_margin_pct",
         "approved_revenue_growth_pct",
         "financial_model_inputs_ready",
+        "financial_truth_qualified",
         "forecast_readiness_input_ready"
        ],
        "result": null,
@@ -25511,6 +25714,7 @@
        "approved_net_margin_pct",
        "approved_revenue_growth_pct",
        "financial_model_inputs_ready",
+       "financial_truth_qualified",
        "forecast_readiness_input_ready"
       ]
      },
@@ -25541,6 +25745,7 @@
        "approved_net_margin_pct",
        "approved_revenue_growth_pct",
        "financial_model_inputs_ready",
+       "financial_truth_qualified",
        "forecast_readiness_input_ready"
       ]
      },
@@ -25570,6 +25775,7 @@
        "approved_net_margin_pct",
        "approved_revenue_growth_pct",
        "financial_model_inputs_ready",
+       "financial_truth_qualified",
        "forecast_readiness_input_ready"
       ]
      }
@@ -25646,6 +25852,7 @@
    "financial_forecasts": {
     "symbol": "PPL",
     "status": "blocked",
+    "truth_status": "not_qualified",
     "reason": "missing_source_gated_inputs",
     "missing_requirements": [
      "actual_basic_eps",
@@ -25668,6 +25875,7 @@
    "formal_valuations": {
     "symbol": "PPL",
     "status": "blocked",
+    "truth_status": "not_qualified",
     "reason": "missing_source_gated_inputs",
     "missing_requirements": [
      "actual_basic_eps",
@@ -25692,6 +25900,7 @@
    "market_expectations": {
     "symbol": "PPL",
     "status": "blocked",
+    "truth_status": "not_qualified",
     "reason": "missing_source_gated_inputs",
     "missing_requirements": [
      "actual_basic_eps",
@@ -25882,6 +26091,7 @@
     "market_expectations_status": "ready_snapshot_reverse_solve",
     "brain_object_count": 2,
     "management_delivery_records": 1,
+    "intelligence_case_count": 0,
     "guidance_object_count": 0,
     "guidance_contradiction_count": 0,
     "evidence_watchlist_status": "active_watch",
@@ -83456,6 +83666,15 @@
     "aggregate_method": null,
     "assessments": []
    },
+   "intelligence_cases": {
+    "symbol": "DGKC",
+    "status": "no_observed_case",
+    "case_count": 0,
+    "cases": [],
+    "rejection_reasons": [
+     "no_selected_observed_case_seed"
+    ]
+   },
    "management_delivery": {
     "symbol": "DGKC",
     "status": "no_active_thesis",
@@ -86057,7 +86276,7 @@
       "symbol": "DGKC",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-27 21:16",
+       "as_of": "2026-08-28 15:26",
        "source": {
         "company_financial_series": "state/company_financial_series.json",
         "financial_coverage": "state/company_intel/financial_coverage.json",
@@ -86081,7 +86300,7 @@
       },
       "row_metadata": {
        "symbol": "DGKC",
-       "status": "blocked"
+       "status": "eligible_for_review"
       }
      },
      "financial_coverage": {
@@ -86129,7 +86348,7 @@
       "symbol": "DGKC",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-27 21:16",
+       "as_of": "2026-08-28 15:26",
        "source": {
         "company_profiles": "state/company_profiles.json",
         "sectors": "state/sectors.json",
@@ -86178,13 +86397,15 @@
        "source": {
         "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
         "forecast_readiness": "state/company_intel/forecast_readiness.json",
+        "financial_truth_qualification": "state/company_intel/financial_truth_qualification.json",
         "financial_engine_assumptions": "state/company_intel/financial_engine_assumptions.json"
        },
        "policy": {
         "research_only": true,
         "no_advice": true,
         "no_output_without_approved_source_labelled_assumptions": true,
-        "no_audit_only_financial_facts": true
+        "no_audit_only_financial_facts": true,
+        "financial_truth_is_authoritative_activation_gate": true
        },
        "kind": "financial_forecasts",
        "engine_version": "formal_financial_engines_v1",
@@ -86196,7 +86417,8 @@
        "reason": "missing_source_gated_inputs",
        "missing_requirements": [
         "approved_net_margin_pct",
-        "approved_revenue_growth_pct"
+        "approved_revenue_growth_pct",
+        "financial_truth_qualified"
        ],
        "result": null,
        "provenance": [],
@@ -86219,13 +86441,15 @@
        "source": {
         "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
         "forecast_readiness": "state/company_intel/forecast_readiness.json",
+        "financial_truth_qualification": "state/company_intel/financial_truth_qualification.json",
         "financial_engine_assumptions": "state/company_intel/financial_engine_assumptions.json"
        },
        "policy": {
         "research_only": true,
         "no_advice": true,
         "no_output_without_approved_source_labelled_assumptions": true,
-        "no_audit_only_financial_facts": true
+        "no_audit_only_financial_facts": true,
+        "financial_truth_is_authoritative_activation_gate": true
        },
        "kind": "formal_valuations",
        "engine_version": "formal_financial_engines_v1",
@@ -86239,7 +86463,8 @@
         "approved_exit_pe",
         "approved_net_debt",
         "approved_net_margin_pct",
-        "approved_revenue_growth_pct"
+        "approved_revenue_growth_pct",
+        "financial_truth_qualified"
        ],
        "result": null,
        "provenance": [],
@@ -86262,13 +86487,15 @@
        "source": {
         "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
         "forecast_readiness": "state/company_intel/forecast_readiness.json",
+        "financial_truth_qualification": "state/company_intel/financial_truth_qualification.json",
         "financial_engine_assumptions": "state/company_intel/financial_engine_assumptions.json"
        },
        "policy": {
         "research_only": true,
         "no_advice": true,
         "no_output_without_approved_source_labelled_assumptions": true,
-        "no_audit_only_financial_facts": true
+        "no_audit_only_financial_facts": true,
+        "financial_truth_is_authoritative_activation_gate": true
        },
        "kind": "market_expectations",
        "engine_version": "formal_financial_engines_v1",
@@ -86281,7 +86508,8 @@
        "missing_requirements": [
         "approved_exit_pe",
         "approved_net_margin_pct",
-        "approved_revenue_growth_pct"
+        "approved_revenue_growth_pct",
+        "financial_truth_qualified"
        ],
        "result": null,
        "provenance": [],
@@ -86520,7 +86748,8 @@
       "brain_path": "companies/DGKC/domains/forecasts",
       "missing_requirements": [
        "approved_net_margin_pct",
-       "approved_revenue_growth_pct"
+       "approved_revenue_growth_pct",
+       "financial_truth_qualified"
       ]
      },
      "formal_valuations": {
@@ -86545,7 +86774,8 @@
        "approved_exit_pe",
        "approved_net_debt",
        "approved_net_margin_pct",
-       "approved_revenue_growth_pct"
+       "approved_revenue_growth_pct",
+       "financial_truth_qualified"
       ]
      },
      "market_expectations": {
@@ -86569,7 +86799,8 @@
       "missing_requirements": [
        "approved_exit_pe",
        "approved_net_margin_pct",
-       "approved_revenue_growth_pct"
+       "approved_revenue_growth_pct",
+       "financial_truth_qualified"
       ]
      }
     },
@@ -86952,6 +87183,7 @@
    "financial_forecasts": {
     "symbol": "DGKC",
     "status": "blocked",
+    "truth_status": "not_qualified",
     "reason": "missing_source_gated_inputs",
     "missing_requirements": [
      "approved_net_margin_pct",
@@ -86969,6 +87201,7 @@
    "formal_valuations": {
     "symbol": "DGKC",
     "status": "blocked",
+    "truth_status": "not_qualified",
     "reason": "missing_source_gated_inputs",
     "missing_requirements": [
      "approved_exit_pe",
@@ -86988,6 +87221,7 @@
    "market_expectations": {
     "symbol": "DGKC",
     "status": "blocked",
+    "truth_status": "not_qualified",
     "reason": "missing_source_gated_inputs",
     "missing_requirements": [
      "approved_exit_pe",
@@ -87490,6 +87724,7 @@
     "market_expectations_status": "ready_snapshot_reverse_solve",
     "brain_object_count": 58,
     "management_delivery_records": 0,
+    "intelligence_case_count": 0,
     "guidance_object_count": 10,
     "guidance_contradiction_count": 0,
     "evidence_watchlist_status": "no_active_watch",
@@ -90913,6 +91148,15 @@
     "aggregate_method": null,
     "assessments": []
    },
+   "intelligence_cases": {
+    "symbol": "PSO",
+    "status": "no_observed_case",
+    "case_count": 0,
+    "cases": [],
+    "rejection_reasons": [
+     "no_selected_observed_case_seed"
+    ]
+   },
    "management_delivery": {
     "symbol": "PSO",
     "status": "no_active_thesis",
@@ -91384,7 +91628,7 @@
       "symbol": "PSO",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-27 21:16",
+       "as_of": "2026-08-28 15:26",
        "source": {
         "company_financial_series": "state/company_financial_series.json",
         "financial_coverage": "state/company_intel/financial_coverage.json",
@@ -91456,7 +91700,7 @@
       "symbol": "PSO",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-27 21:16",
+       "as_of": "2026-08-28 15:26",
        "source": {
         "company_profiles": "state/company_profiles.json",
         "sectors": "state/sectors.json",
@@ -91509,13 +91753,15 @@
        "source": {
         "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
         "forecast_readiness": "state/company_intel/forecast_readiness.json",
+        "financial_truth_qualification": "state/company_intel/financial_truth_qualification.json",
         "financial_engine_assumptions": "state/company_intel/financial_engine_assumptions.json"
        },
        "policy": {
         "research_only": true,
         "no_advice": true,
         "no_output_without_approved_source_labelled_assumptions": true,
-        "no_audit_only_financial_facts": true
+        "no_audit_only_financial_facts": true,
+        "financial_truth_is_authoritative_activation_gate": true
        },
        "kind": "financial_forecasts",
        "engine_version": "formal_financial_engines_v1",
@@ -91532,6 +91778,7 @@
         "approved_net_margin_pct",
         "approved_revenue_growth_pct",
         "financial_model_inputs_ready",
+        "financial_truth_qualified",
         "forecast_readiness_input_ready"
        ],
        "result": null,
@@ -91555,13 +91802,15 @@
        "source": {
         "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
         "forecast_readiness": "state/company_intel/forecast_readiness.json",
+        "financial_truth_qualification": "state/company_intel/financial_truth_qualification.json",
         "financial_engine_assumptions": "state/company_intel/financial_engine_assumptions.json"
        },
        "policy": {
         "research_only": true,
         "no_advice": true,
         "no_output_without_approved_source_labelled_assumptions": true,
-        "no_audit_only_financial_facts": true
+        "no_audit_only_financial_facts": true,
+        "financial_truth_is_authoritative_activation_gate": true
        },
        "kind": "formal_valuations",
        "engine_version": "formal_financial_engines_v1",
@@ -91580,6 +91829,7 @@
         "approved_net_margin_pct",
         "approved_revenue_growth_pct",
         "financial_model_inputs_ready",
+        "financial_truth_qualified",
         "forecast_readiness_input_ready"
        ],
        "result": null,
@@ -91603,13 +91853,15 @@
        "source": {
         "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
         "forecast_readiness": "state/company_intel/forecast_readiness.json",
+        "financial_truth_qualification": "state/company_intel/financial_truth_qualification.json",
         "financial_engine_assumptions": "state/company_intel/financial_engine_assumptions.json"
        },
        "policy": {
         "research_only": true,
         "no_advice": true,
         "no_output_without_approved_source_labelled_assumptions": true,
-        "no_audit_only_financial_facts": true
+        "no_audit_only_financial_facts": true,
+        "financial_truth_is_authoritative_activation_gate": true
        },
        "kind": "market_expectations",
        "engine_version": "formal_financial_engines_v1",
@@ -91627,6 +91879,7 @@
         "approved_net_margin_pct",
         "approved_revenue_growth_pct",
         "financial_model_inputs_ready",
+        "financial_truth_qualified",
         "forecast_readiness_input_ready"
        ],
        "result": null,
@@ -91871,6 +92124,7 @@
        "approved_net_margin_pct",
        "approved_revenue_growth_pct",
        "financial_model_inputs_ready",
+       "financial_truth_qualified",
        "forecast_readiness_input_ready"
       ]
      },
@@ -91901,6 +92155,7 @@
        "approved_net_margin_pct",
        "approved_revenue_growth_pct",
        "financial_model_inputs_ready",
+       "financial_truth_qualified",
        "forecast_readiness_input_ready"
       ]
      },
@@ -91930,6 +92185,7 @@
        "approved_net_margin_pct",
        "approved_revenue_growth_pct",
        "financial_model_inputs_ready",
+       "financial_truth_qualified",
        "forecast_readiness_input_ready"
       ]
      }
@@ -91966,6 +92222,7 @@
    "financial_forecasts": {
     "symbol": "PSO",
     "status": "blocked",
+    "truth_status": "not_qualified",
     "reason": "missing_source_gated_inputs",
     "missing_requirements": [
      "actual_basic_eps",
@@ -91988,6 +92245,7 @@
    "formal_valuations": {
     "symbol": "PSO",
     "status": "blocked",
+    "truth_status": "not_qualified",
     "reason": "missing_source_gated_inputs",
     "missing_requirements": [
      "actual_basic_eps",
@@ -92012,6 +92270,7 @@
    "market_expectations": {
     "symbol": "PSO",
     "status": "blocked",
+    "truth_status": "not_qualified",
     "reason": "missing_source_gated_inputs",
     "missing_requirements": [
      "actual_basic_eps",
@@ -92202,6 +92461,7 @@
     "market_expectations_status": "ready_snapshot_reverse_solve",
     "brain_object_count": 0,
     "management_delivery_records": 0,
+    "intelligence_case_count": 0,
     "guidance_object_count": 0,
     "guidance_contradiction_count": 0,
     "evidence_watchlist_status": "no_active_watch",
@@ -101841,6 +102101,15 @@
      }
     ]
    },
+   "intelligence_cases": {
+    "symbol": "UBL",
+    "status": "no_observed_case",
+    "case_count": 0,
+    "cases": [],
+    "rejection_reasons": [
+     "no_selected_observed_case_seed"
+    ]
+   },
    "management_delivery": {
     "symbol": "UBL",
     "status": "tracked",
@@ -103259,7 +103528,7 @@
       "symbol": "UBL",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-27 21:16",
+       "as_of": "2026-08-28 15:26",
        "source": {
         "company_financial_series": "state/company_financial_series.json",
         "financial_coverage": "state/company_intel/financial_coverage.json",
@@ -103331,7 +103600,7 @@
       "symbol": "UBL",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-27 21:16",
+       "as_of": "2026-08-28 15:26",
        "source": {
         "company_profiles": "state/company_profiles.json",
         "sectors": "state/sectors.json",
@@ -103384,13 +103653,15 @@
        "source": {
         "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
         "forecast_readiness": "state/company_intel/forecast_readiness.json",
+        "financial_truth_qualification": "state/company_intel/financial_truth_qualification.json",
         "financial_engine_assumptions": "state/company_intel/financial_engine_assumptions.json"
        },
        "policy": {
         "research_only": true,
         "no_advice": true,
         "no_output_without_approved_source_labelled_assumptions": true,
-        "no_audit_only_financial_facts": true
+        "no_audit_only_financial_facts": true,
+        "financial_truth_is_authoritative_activation_gate": true
        },
        "kind": "financial_forecasts",
        "engine_version": "formal_financial_engines_v1",
@@ -103407,6 +103678,7 @@
         "approved_net_margin_pct",
         "approved_revenue_growth_pct",
         "financial_model_inputs_ready",
+        "financial_truth_qualified",
         "forecast_readiness_input_ready"
        ],
        "result": null,
@@ -103430,13 +103702,15 @@
        "source": {
         "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
         "forecast_readiness": "state/company_intel/forecast_readiness.json",
+        "financial_truth_qualification": "state/company_intel/financial_truth_qualification.json",
         "financial_engine_assumptions": "state/company_intel/financial_engine_assumptions.json"
        },
        "policy": {
         "research_only": true,
         "no_advice": true,
         "no_output_without_approved_source_labelled_assumptions": true,
-        "no_audit_only_financial_facts": true
+        "no_audit_only_financial_facts": true,
+        "financial_truth_is_authoritative_activation_gate": true
        },
        "kind": "formal_valuations",
        "engine_version": "formal_financial_engines_v1",
@@ -103455,6 +103729,7 @@
         "approved_net_margin_pct",
         "approved_revenue_growth_pct",
         "financial_model_inputs_ready",
+        "financial_truth_qualified",
         "forecast_readiness_input_ready"
        ],
        "result": null,
@@ -103478,13 +103753,15 @@
        "source": {
         "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
         "forecast_readiness": "state/company_intel/forecast_readiness.json",
+        "financial_truth_qualification": "state/company_intel/financial_truth_qualification.json",
         "financial_engine_assumptions": "state/company_intel/financial_engine_assumptions.json"
        },
        "policy": {
         "research_only": true,
         "no_advice": true,
         "no_output_without_approved_source_labelled_assumptions": true,
-        "no_audit_only_financial_facts": true
+        "no_audit_only_financial_facts": true,
+        "financial_truth_is_authoritative_activation_gate": true
        },
        "kind": "market_expectations",
        "engine_version": "formal_financial_engines_v1",
@@ -103502,6 +103779,7 @@
         "approved_net_margin_pct",
         "approved_revenue_growth_pct",
         "financial_model_inputs_ready",
+        "financial_truth_qualified",
         "forecast_readiness_input_ready"
        ],
        "result": null,
@@ -103746,6 +104024,7 @@
        "approved_net_margin_pct",
        "approved_revenue_growth_pct",
        "financial_model_inputs_ready",
+       "financial_truth_qualified",
        "forecast_readiness_input_ready"
       ]
      },
@@ -103776,6 +104055,7 @@
        "approved_net_margin_pct",
        "approved_revenue_growth_pct",
        "financial_model_inputs_ready",
+       "financial_truth_qualified",
        "forecast_readiness_input_ready"
       ]
      },
@@ -103805,6 +104085,7 @@
        "approved_net_margin_pct",
        "approved_revenue_growth_pct",
        "financial_model_inputs_ready",
+       "financial_truth_qualified",
        "forecast_readiness_input_ready"
       ]
      }
@@ -103934,6 +104215,7 @@
    "financial_forecasts": {
     "symbol": "UBL",
     "status": "blocked",
+    "truth_status": "not_qualified",
     "reason": "missing_source_gated_inputs",
     "missing_requirements": [
      "actual_basic_eps",
@@ -103956,6 +104238,7 @@
    "formal_valuations": {
     "symbol": "UBL",
     "status": "blocked",
+    "truth_status": "not_qualified",
     "reason": "missing_source_gated_inputs",
     "missing_requirements": [
      "actual_basic_eps",
@@ -103980,6 +104263,7 @@
    "market_expectations": {
     "symbol": "UBL",
     "status": "blocked",
+    "truth_status": "not_qualified",
     "reason": "missing_source_gated_inputs",
     "missing_requirements": [
      "actual_basic_eps",
@@ -104170,6 +104454,7 @@
     "market_expectations_status": "ready_snapshot_reverse_solve",
     "brain_object_count": 10,
     "management_delivery_records": 3,
+    "intelligence_case_count": 0,
     "guidance_object_count": 1,
     "guidance_contradiction_count": 0,
     "evidence_watchlist_status": "active_watch",
@@ -107287,6 +107572,15 @@
     "aggregate_method": null,
     "assessments": []
    },
+   "intelligence_cases": {
+    "symbol": "FFC",
+    "status": "no_observed_case",
+    "case_count": 0,
+    "cases": [],
+    "rejection_reasons": [
+     "no_selected_observed_case_seed"
+    ]
+   },
    "management_delivery": {
     "symbol": "FFC",
     "status": "no_active_thesis",
@@ -107747,7 +108041,7 @@
       "symbol": "FFC",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-27 21:16",
+       "as_of": "2026-08-28 15:26",
        "source": {
         "company_financial_series": "state/company_financial_series.json",
         "financial_coverage": "state/company_intel/financial_coverage.json",
@@ -107819,7 +108113,7 @@
       "symbol": "FFC",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-27 21:16",
+       "as_of": "2026-08-28 15:26",
        "source": {
         "company_profiles": "state/company_profiles.json",
         "sectors": "state/sectors.json",
@@ -107872,13 +108166,15 @@
        "source": {
         "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
         "forecast_readiness": "state/company_intel/forecast_readiness.json",
+        "financial_truth_qualification": "state/company_intel/financial_truth_qualification.json",
         "financial_engine_assumptions": "state/company_intel/financial_engine_assumptions.json"
        },
        "policy": {
         "research_only": true,
         "no_advice": true,
         "no_output_without_approved_source_labelled_assumptions": true,
-        "no_audit_only_financial_facts": true
+        "no_audit_only_financial_facts": true,
+        "financial_truth_is_authoritative_activation_gate": true
        },
        "kind": "financial_forecasts",
        "engine_version": "formal_financial_engines_v1",
@@ -107895,6 +108191,7 @@
         "approved_net_margin_pct",
         "approved_revenue_growth_pct",
         "financial_model_inputs_ready",
+        "financial_truth_qualified",
         "forecast_readiness_input_ready"
        ],
        "result": null,
@@ -107918,13 +108215,15 @@
        "source": {
         "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
         "forecast_readiness": "state/company_intel/forecast_readiness.json",
+        "financial_truth_qualification": "state/company_intel/financial_truth_qualification.json",
         "financial_engine_assumptions": "state/company_intel/financial_engine_assumptions.json"
        },
        "policy": {
         "research_only": true,
         "no_advice": true,
         "no_output_without_approved_source_labelled_assumptions": true,
-        "no_audit_only_financial_facts": true
+        "no_audit_only_financial_facts": true,
+        "financial_truth_is_authoritative_activation_gate": true
        },
        "kind": "formal_valuations",
        "engine_version": "formal_financial_engines_v1",
@@ -107943,6 +108242,7 @@
         "approved_net_margin_pct",
         "approved_revenue_growth_pct",
         "financial_model_inputs_ready",
+        "financial_truth_qualified",
         "forecast_readiness_input_ready"
        ],
        "result": null,
@@ -107966,13 +108266,15 @@
        "source": {
         "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
         "forecast_readiness": "state/company_intel/forecast_readiness.json",
+        "financial_truth_qualification": "state/company_intel/financial_truth_qualification.json",
         "financial_engine_assumptions": "state/company_intel/financial_engine_assumptions.json"
        },
        "policy": {
         "research_only": true,
         "no_advice": true,
         "no_output_without_approved_source_labelled_assumptions": true,
-        "no_audit_only_financial_facts": true
+        "no_audit_only_financial_facts": true,
+        "financial_truth_is_authoritative_activation_gate": true
        },
        "kind": "market_expectations",
        "engine_version": "formal_financial_engines_v1",
@@ -107990,6 +108292,7 @@
         "approved_net_margin_pct",
         "approved_revenue_growth_pct",
         "financial_model_inputs_ready",
+        "financial_truth_qualified",
         "forecast_readiness_input_ready"
        ],
        "result": null,
@@ -108234,6 +108537,7 @@
        "approved_net_margin_pct",
        "approved_revenue_growth_pct",
        "financial_model_inputs_ready",
+       "financial_truth_qualified",
        "forecast_readiness_input_ready"
       ]
      },
@@ -108264,6 +108568,7 @@
        "approved_net_margin_pct",
        "approved_revenue_growth_pct",
        "financial_model_inputs_ready",
+       "financial_truth_qualified",
        "forecast_readiness_input_ready"
       ]
      },
@@ -108293,6 +108598,7 @@
        "approved_net_margin_pct",
        "approved_revenue_growth_pct",
        "financial_model_inputs_ready",
+       "financial_truth_qualified",
        "forecast_readiness_input_ready"
       ]
      }
@@ -108326,6 +108632,7 @@
    "financial_forecasts": {
     "symbol": "FFC",
     "status": "blocked",
+    "truth_status": "not_qualified",
     "reason": "missing_source_gated_inputs",
     "missing_requirements": [
      "actual_basic_eps",
@@ -108348,6 +108655,7 @@
    "formal_valuations": {
     "symbol": "FFC",
     "status": "blocked",
+    "truth_status": "not_qualified",
     "reason": "missing_source_gated_inputs",
     "missing_requirements": [
      "actual_basic_eps",
@@ -108372,6 +108680,7 @@
    "market_expectations": {
     "symbol": "FFC",
     "status": "blocked",
+    "truth_status": "not_qualified",
     "reason": "missing_source_gated_inputs",
     "missing_requirements": [
      "actual_basic_eps",
@@ -108562,6 +108871,7 @@
     "market_expectations_status": "ready_snapshot_reverse_solve",
     "brain_object_count": 0,
     "management_delivery_records": 0,
+    "intelligence_case_count": 0,
     "guidance_object_count": 0,
     "guidance_contradiction_count": 0,
     "evidence_watchlist_status": "no_active_watch",
@@ -141693,6 +142003,15 @@
     "aggregate_method": null,
     "assessments": []
    },
+   "intelligence_cases": {
+    "symbol": "LUCK",
+    "status": "no_observed_case",
+    "case_count": 0,
+    "cases": [],
+    "rejection_reasons": [
+     "no_selected_observed_case_seed"
+    ]
+   },
    "management_delivery": {
     "symbol": "LUCK",
     "status": "no_active_thesis",
@@ -142891,7 +143210,7 @@
       "symbol": "LUCK",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-27 21:16",
+       "as_of": "2026-08-28 15:26",
        "source": {
         "company_financial_series": "state/company_financial_series.json",
         "financial_coverage": "state/company_intel/financial_coverage.json",
@@ -142963,7 +143282,7 @@
       "symbol": "LUCK",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-27 21:16",
+       "as_of": "2026-08-28 15:26",
        "source": {
         "company_profiles": "state/company_profiles.json",
         "sectors": "state/sectors.json",
@@ -143016,13 +143335,15 @@
        "source": {
         "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
         "forecast_readiness": "state/company_intel/forecast_readiness.json",
+        "financial_truth_qualification": "state/company_intel/financial_truth_qualification.json",
         "financial_engine_assumptions": "state/company_intel/financial_engine_assumptions.json"
        },
        "policy": {
         "research_only": true,
         "no_advice": true,
         "no_output_without_approved_source_labelled_assumptions": true,
-        "no_audit_only_financial_facts": true
+        "no_audit_only_financial_facts": true,
+        "financial_truth_is_authoritative_activation_gate": true
        },
        "kind": "financial_forecasts",
        "engine_version": "formal_financial_engines_v1",
@@ -143036,6 +143357,7 @@
         "approved_net_margin_pct",
         "approved_revenue_growth_pct",
         "financial_model_inputs_ready",
+        "financial_truth_qualified",
         "forecast_readiness_input_ready"
        ],
        "result": null,
@@ -143059,13 +143381,15 @@
        "source": {
         "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
         "forecast_readiness": "state/company_intel/forecast_readiness.json",
+        "financial_truth_qualification": "state/company_intel/financial_truth_qualification.json",
         "financial_engine_assumptions": "state/company_intel/financial_engine_assumptions.json"
        },
        "policy": {
         "research_only": true,
         "no_advice": true,
         "no_output_without_approved_source_labelled_assumptions": true,
-        "no_audit_only_financial_facts": true
+        "no_audit_only_financial_facts": true,
+        "financial_truth_is_authoritative_activation_gate": true
        },
        "kind": "formal_valuations",
        "engine_version": "formal_financial_engines_v1",
@@ -143081,6 +143405,7 @@
         "approved_net_margin_pct",
         "approved_revenue_growth_pct",
         "financial_model_inputs_ready",
+        "financial_truth_qualified",
         "forecast_readiness_input_ready"
        ],
        "result": null,
@@ -143104,13 +143429,15 @@
        "source": {
         "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
         "forecast_readiness": "state/company_intel/forecast_readiness.json",
+        "financial_truth_qualification": "state/company_intel/financial_truth_qualification.json",
         "financial_engine_assumptions": "state/company_intel/financial_engine_assumptions.json"
        },
        "policy": {
         "research_only": true,
         "no_advice": true,
         "no_output_without_approved_source_labelled_assumptions": true,
-        "no_audit_only_financial_facts": true
+        "no_audit_only_financial_facts": true,
+        "financial_truth_is_authoritative_activation_gate": true
        },
        "kind": "market_expectations",
        "engine_version": "formal_financial_engines_v1",
@@ -143125,6 +143452,7 @@
         "approved_net_margin_pct",
         "approved_revenue_growth_pct",
         "financial_model_inputs_ready",
+        "financial_truth_qualified",
         "forecast_readiness_input_ready"
        ],
        "result": null,
@@ -143366,6 +143694,7 @@
        "approved_net_margin_pct",
        "approved_revenue_growth_pct",
        "financial_model_inputs_ready",
+       "financial_truth_qualified",
        "forecast_readiness_input_ready"
       ]
      },
@@ -143393,6 +143722,7 @@
        "approved_net_margin_pct",
        "approved_revenue_growth_pct",
        "financial_model_inputs_ready",
+       "financial_truth_qualified",
        "forecast_readiness_input_ready"
       ]
      },
@@ -143419,6 +143749,7 @@
        "approved_net_margin_pct",
        "approved_revenue_growth_pct",
        "financial_model_inputs_ready",
+       "financial_truth_qualified",
        "forecast_readiness_input_ready"
       ]
      }
@@ -143559,6 +143890,7 @@
    "financial_forecasts": {
     "symbol": "LUCK",
     "status": "blocked",
+    "truth_status": "not_qualified",
     "reason": "missing_source_gated_inputs",
     "missing_requirements": [
      "approved_net_margin_pct",
@@ -143578,6 +143910,7 @@
    "formal_valuations": {
     "symbol": "LUCK",
     "status": "blocked",
+    "truth_status": "not_qualified",
     "reason": "missing_source_gated_inputs",
     "missing_requirements": [
      "approved_exit_pe",
@@ -143599,6 +143932,7 @@
    "market_expectations": {
     "symbol": "LUCK",
     "status": "blocked",
+    "truth_status": "not_qualified",
     "reason": "missing_source_gated_inputs",
     "missing_requirements": [
      "approved_exit_pe",
@@ -143786,6 +144120,7 @@
     "market_expectations_status": "ready_snapshot_reverse_solve",
     "brain_object_count": 18,
     "management_delivery_records": 0,
+    "intelligence_case_count": 0,
     "guidance_object_count": 4,
     "guidance_contradiction_count": 0,
     "evidence_watchlist_status": "no_active_watch",
@@ -148433,6 +148768,15 @@
     "aggregate_method": null,
     "assessments": []
    },
+   "intelligence_cases": {
+    "symbol": "HUBC",
+    "status": "no_observed_case",
+    "case_count": 0,
+    "cases": [],
+    "rejection_reasons": [
+     "no_selected_observed_case_seed"
+    ]
+   },
    "management_delivery": {
     "symbol": "HUBC",
     "status": "no_active_thesis",
@@ -149002,7 +149346,7 @@
       "symbol": "HUBC",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-27 21:16",
+       "as_of": "2026-08-28 15:26",
        "source": {
         "company_financial_series": "state/company_financial_series.json",
         "financial_coverage": "state/company_intel/financial_coverage.json",
@@ -149074,7 +149418,7 @@
       "symbol": "HUBC",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-27 21:16",
+       "as_of": "2026-08-28 15:26",
        "source": {
         "company_profiles": "state/company_profiles.json",
         "sectors": "state/sectors.json",
@@ -149127,13 +149471,15 @@
        "source": {
         "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
         "forecast_readiness": "state/company_intel/forecast_readiness.json",
+        "financial_truth_qualification": "state/company_intel/financial_truth_qualification.json",
         "financial_engine_assumptions": "state/company_intel/financial_engine_assumptions.json"
        },
        "policy": {
         "research_only": true,
         "no_advice": true,
         "no_output_without_approved_source_labelled_assumptions": true,
-        "no_audit_only_financial_facts": true
+        "no_audit_only_financial_facts": true,
+        "financial_truth_is_authoritative_activation_gate": true
        },
        "kind": "financial_forecasts",
        "engine_version": "formal_financial_engines_v1",
@@ -149150,6 +149496,7 @@
         "approved_net_margin_pct",
         "approved_revenue_growth_pct",
         "financial_model_inputs_ready",
+        "financial_truth_qualified",
         "forecast_readiness_input_ready"
        ],
        "result": null,
@@ -149173,13 +149520,15 @@
        "source": {
         "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
         "forecast_readiness": "state/company_intel/forecast_readiness.json",
+        "financial_truth_qualification": "state/company_intel/financial_truth_qualification.json",
         "financial_engine_assumptions": "state/company_intel/financial_engine_assumptions.json"
        },
        "policy": {
         "research_only": true,
         "no_advice": true,
         "no_output_without_approved_source_labelled_assumptions": true,
-        "no_audit_only_financial_facts": true
+        "no_audit_only_financial_facts": true,
+        "financial_truth_is_authoritative_activation_gate": true
        },
        "kind": "formal_valuations",
        "engine_version": "formal_financial_engines_v1",
@@ -149198,6 +149547,7 @@
         "approved_net_margin_pct",
         "approved_revenue_growth_pct",
         "financial_model_inputs_ready",
+        "financial_truth_qualified",
         "forecast_readiness_input_ready"
        ],
        "result": null,
@@ -149221,13 +149571,15 @@
        "source": {
         "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
         "forecast_readiness": "state/company_intel/forecast_readiness.json",
+        "financial_truth_qualification": "state/company_intel/financial_truth_qualification.json",
         "financial_engine_assumptions": "state/company_intel/financial_engine_assumptions.json"
        },
        "policy": {
         "research_only": true,
         "no_advice": true,
         "no_output_without_approved_source_labelled_assumptions": true,
-        "no_audit_only_financial_facts": true
+        "no_audit_only_financial_facts": true,
+        "financial_truth_is_authoritative_activation_gate": true
        },
        "kind": "market_expectations",
        "engine_version": "formal_financial_engines_v1",
@@ -149245,6 +149597,7 @@
         "approved_net_margin_pct",
         "approved_revenue_growth_pct",
         "financial_model_inputs_ready",
+        "financial_truth_qualified",
         "forecast_readiness_input_ready"
        ],
        "result": null,
@@ -149489,6 +149842,7 @@
        "approved_net_margin_pct",
        "approved_revenue_growth_pct",
        "financial_model_inputs_ready",
+       "financial_truth_qualified",
        "forecast_readiness_input_ready"
       ]
      },
@@ -149519,6 +149873,7 @@
        "approved_net_margin_pct",
        "approved_revenue_growth_pct",
        "financial_model_inputs_ready",
+       "financial_truth_qualified",
        "forecast_readiness_input_ready"
       ]
      },
@@ -149548,6 +149903,7 @@
        "approved_net_margin_pct",
        "approved_revenue_growth_pct",
        "financial_model_inputs_ready",
+       "financial_truth_qualified",
        "forecast_readiness_input_ready"
       ]
      }
@@ -149604,6 +149960,7 @@
    "financial_forecasts": {
     "symbol": "HUBC",
     "status": "blocked",
+    "truth_status": "not_qualified",
     "reason": "missing_source_gated_inputs",
     "missing_requirements": [
      "actual_basic_eps",
@@ -149626,6 +149983,7 @@
    "formal_valuations": {
     "symbol": "HUBC",
     "status": "blocked",
+    "truth_status": "not_qualified",
     "reason": "missing_source_gated_inputs",
     "missing_requirements": [
      "actual_basic_eps",
@@ -149650,6 +150008,7 @@
    "market_expectations": {
     "symbol": "HUBC",
     "status": "blocked",
+    "truth_status": "not_qualified",
     "reason": "missing_source_gated_inputs",
     "missing_requirements": [
      "actual_basic_eps",
@@ -149840,6 +150199,7 @@
     "market_expectations_status": "ready_snapshot_reverse_solve",
     "brain_object_count": 4,
     "management_delivery_records": 0,
+    "intelligence_case_count": 0,
     "guidance_object_count": 0,
     "guidance_contradiction_count": 0,
     "evidence_watchlist_status": "no_active_watch",
@@ -151756,6 +152116,15 @@
     "aggregate_method": null,
     "assessments": []
    },
+   "intelligence_cases": {
+    "symbol": "PRL",
+    "status": "no_observed_case",
+    "case_count": 0,
+    "cases": [],
+    "rejection_reasons": [
+     "no_selected_observed_case_seed"
+    ]
+   },
    "management_delivery": {
     "symbol": "PRL",
     "status": "no_active_thesis",
@@ -152248,7 +152617,7 @@
       "symbol": "PRL",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-27 21:16",
+       "as_of": "2026-08-28 15:26",
        "source": {
         "company_financial_series": "state/company_financial_series.json",
         "financial_coverage": "state/company_intel/financial_coverage.json",
@@ -152320,7 +152689,7 @@
       "symbol": "PRL",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-27 21:16",
+       "as_of": "2026-08-28 15:26",
        "source": {
         "company_profiles": "state/company_profiles.json",
         "sectors": "state/sectors.json",
@@ -152373,13 +152742,15 @@
        "source": {
         "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
         "forecast_readiness": "state/company_intel/forecast_readiness.json",
+        "financial_truth_qualification": "state/company_intel/financial_truth_qualification.json",
         "financial_engine_assumptions": "state/company_intel/financial_engine_assumptions.json"
        },
        "policy": {
         "research_only": true,
         "no_advice": true,
         "no_output_without_approved_source_labelled_assumptions": true,
-        "no_audit_only_financial_facts": true
+        "no_audit_only_financial_facts": true,
+        "financial_truth_is_authoritative_activation_gate": true
        },
        "kind": "financial_forecasts",
        "engine_version": "formal_financial_engines_v1",
@@ -152396,6 +152767,7 @@
         "approved_net_margin_pct",
         "approved_revenue_growth_pct",
         "financial_model_inputs_ready",
+        "financial_truth_qualified",
         "forecast_readiness_input_ready"
        ],
        "result": null,
@@ -152419,13 +152791,15 @@
        "source": {
         "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
         "forecast_readiness": "state/company_intel/forecast_readiness.json",
+        "financial_truth_qualification": "state/company_intel/financial_truth_qualification.json",
         "financial_engine_assumptions": "state/company_intel/financial_engine_assumptions.json"
        },
        "policy": {
         "research_only": true,
         "no_advice": true,
         "no_output_without_approved_source_labelled_assumptions": true,
-        "no_audit_only_financial_facts": true
+        "no_audit_only_financial_facts": true,
+        "financial_truth_is_authoritative_activation_gate": true
        },
        "kind": "formal_valuations",
        "engine_version": "formal_financial_engines_v1",
@@ -152444,6 +152818,7 @@
         "approved_net_margin_pct",
         "approved_revenue_growth_pct",
         "financial_model_inputs_ready",
+        "financial_truth_qualified",
         "forecast_readiness_input_ready"
        ],
        "result": null,
@@ -152467,13 +152842,15 @@
        "source": {
         "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
         "forecast_readiness": "state/company_intel/forecast_readiness.json",
+        "financial_truth_qualification": "state/company_intel/financial_truth_qualification.json",
         "financial_engine_assumptions": "state/company_intel/financial_engine_assumptions.json"
        },
        "policy": {
         "research_only": true,
         "no_advice": true,
         "no_output_without_approved_source_labelled_assumptions": true,
-        "no_audit_only_financial_facts": true
+        "no_audit_only_financial_facts": true,
+        "financial_truth_is_authoritative_activation_gate": true
        },
        "kind": "market_expectations",
        "engine_version": "formal_financial_engines_v1",
@@ -152491,6 +152868,7 @@
         "approved_net_margin_pct",
         "approved_revenue_growth_pct",
         "financial_model_inputs_ready",
+        "financial_truth_qualified",
         "forecast_readiness_input_ready"
        ],
        "result": null,
@@ -152735,6 +153113,7 @@
        "approved_net_margin_pct",
        "approved_revenue_growth_pct",
        "financial_model_inputs_ready",
+       "financial_truth_qualified",
        "forecast_readiness_input_ready"
       ]
      },
@@ -152765,6 +153144,7 @@
        "approved_net_margin_pct",
        "approved_revenue_growth_pct",
        "financial_model_inputs_ready",
+       "financial_truth_qualified",
        "forecast_readiness_input_ready"
       ]
      },
@@ -152794,6 +153174,7 @@
        "approved_net_margin_pct",
        "approved_revenue_growth_pct",
        "financial_model_inputs_ready",
+       "financial_truth_qualified",
        "forecast_readiness_input_ready"
       ]
      }
@@ -152825,6 +153206,7 @@
    "financial_forecasts": {
     "symbol": "PRL",
     "status": "blocked",
+    "truth_status": "not_qualified",
     "reason": "missing_source_gated_inputs",
     "missing_requirements": [
      "actual_basic_eps",
@@ -152847,6 +153229,7 @@
    "formal_valuations": {
     "symbol": "PRL",
     "status": "blocked",
+    "truth_status": "not_qualified",
     "reason": "missing_source_gated_inputs",
     "missing_requirements": [
      "actual_basic_eps",
@@ -152871,6 +153254,7 @@
    "market_expectations": {
     "symbol": "PRL",
     "status": "blocked",
+    "truth_status": "not_qualified",
     "reason": "missing_source_gated_inputs",
     "missing_requirements": [
      "actual_basic_eps",
@@ -153061,6 +153445,7 @@
     "market_expectations_status": "ready_snapshot_reverse_solve",
     "brain_object_count": 0,
     "management_delivery_records": 0,
+    "intelligence_case_count": 0,
     "guidance_object_count": 0,
     "guidance_contradiction_count": 0,
     "evidence_watchlist_status": "no_active_watch",
@@ -162593,6 +162978,15 @@
     "aggregate_method": null,
     "assessments": []
    },
+   "intelligence_cases": {
+    "symbol": "BOP",
+    "status": "no_observed_case",
+    "case_count": 0,
+    "cases": [],
+    "rejection_reasons": [
+     "no_selected_observed_case_seed"
+    ]
+   },
    "management_delivery": {
     "symbol": "BOP",
     "status": "no_active_thesis",
@@ -163514,7 +163908,7 @@
       "symbol": "BOP",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-27 21:16",
+       "as_of": "2026-08-28 15:26",
        "source": {
         "company_financial_series": "state/company_financial_series.json",
         "financial_coverage": "state/company_intel/financial_coverage.json",
@@ -163586,7 +163980,7 @@
       "symbol": "BOP",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-27 21:16",
+       "as_of": "2026-08-28 15:26",
        "source": {
         "company_profiles": "state/company_profiles.json",
         "sectors": "state/sectors.json",
@@ -163639,13 +164033,15 @@
        "source": {
         "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
         "forecast_readiness": "state/company_intel/forecast_readiness.json",
+        "financial_truth_qualification": "state/company_intel/financial_truth_qualification.json",
         "financial_engine_assumptions": "state/company_intel/financial_engine_assumptions.json"
        },
        "policy": {
         "research_only": true,
         "no_advice": true,
         "no_output_without_approved_source_labelled_assumptions": true,
-        "no_audit_only_financial_facts": true
+        "no_audit_only_financial_facts": true,
+        "financial_truth_is_authoritative_activation_gate": true
        },
        "kind": "financial_forecasts",
        "engine_version": "formal_financial_engines_v1",
@@ -163662,6 +164058,7 @@
         "approved_net_margin_pct",
         "approved_revenue_growth_pct",
         "financial_model_inputs_ready",
+        "financial_truth_qualified",
         "forecast_readiness_input_ready"
        ],
        "result": null,
@@ -163685,13 +164082,15 @@
        "source": {
         "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
         "forecast_readiness": "state/company_intel/forecast_readiness.json",
+        "financial_truth_qualification": "state/company_intel/financial_truth_qualification.json",
         "financial_engine_assumptions": "state/company_intel/financial_engine_assumptions.json"
        },
        "policy": {
         "research_only": true,
         "no_advice": true,
         "no_output_without_approved_source_labelled_assumptions": true,
-        "no_audit_only_financial_facts": true
+        "no_audit_only_financial_facts": true,
+        "financial_truth_is_authoritative_activation_gate": true
        },
        "kind": "formal_valuations",
        "engine_version": "formal_financial_engines_v1",
@@ -163710,6 +164109,7 @@
         "approved_net_margin_pct",
         "approved_revenue_growth_pct",
         "financial_model_inputs_ready",
+        "financial_truth_qualified",
         "forecast_readiness_input_ready"
        ],
        "result": null,
@@ -163733,13 +164133,15 @@
        "source": {
         "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
         "forecast_readiness": "state/company_intel/forecast_readiness.json",
+        "financial_truth_qualification": "state/company_intel/financial_truth_qualification.json",
         "financial_engine_assumptions": "state/company_intel/financial_engine_assumptions.json"
        },
        "policy": {
         "research_only": true,
         "no_advice": true,
         "no_output_without_approved_source_labelled_assumptions": true,
-        "no_audit_only_financial_facts": true
+        "no_audit_only_financial_facts": true,
+        "financial_truth_is_authoritative_activation_gate": true
        },
        "kind": "market_expectations",
        "engine_version": "formal_financial_engines_v1",
@@ -163757,6 +164159,7 @@
         "approved_net_margin_pct",
         "approved_revenue_growth_pct",
         "financial_model_inputs_ready",
+        "financial_truth_qualified",
         "forecast_readiness_input_ready"
        ],
        "result": null,
@@ -164001,6 +164404,7 @@
        "approved_net_margin_pct",
        "approved_revenue_growth_pct",
        "financial_model_inputs_ready",
+       "financial_truth_qualified",
        "forecast_readiness_input_ready"
       ]
      },
@@ -164031,6 +164435,7 @@
        "approved_net_margin_pct",
        "approved_revenue_growth_pct",
        "financial_model_inputs_ready",
+       "financial_truth_qualified",
        "forecast_readiness_input_ready"
       ]
      },
@@ -164060,6 +164465,7 @@
        "approved_net_margin_pct",
        "approved_revenue_growth_pct",
        "financial_model_inputs_ready",
+       "financial_truth_qualified",
        "forecast_readiness_input_ready"
       ]
      }
@@ -164174,6 +164580,7 @@
    "financial_forecasts": {
     "symbol": "BOP",
     "status": "blocked",
+    "truth_status": "not_qualified",
     "reason": "missing_source_gated_inputs",
     "missing_requirements": [
      "actual_basic_eps",
@@ -164196,6 +164603,7 @@
    "formal_valuations": {
     "symbol": "BOP",
     "status": "blocked",
+    "truth_status": "not_qualified",
     "reason": "missing_source_gated_inputs",
     "missing_requirements": [
      "actual_basic_eps",
@@ -164220,6 +164628,7 @@
    "market_expectations": {
     "symbol": "BOP",
     "status": "blocked",
+    "truth_status": "not_qualified",
     "reason": "missing_source_gated_inputs",
     "missing_requirements": [
      "actual_basic_eps",
@@ -164410,6 +164819,7 @@
     "market_expectations_status": "ready_snapshot_reverse_solve",
     "brain_object_count": 8,
     "management_delivery_records": 0,
+    "intelligence_case_count": 0,
     "guidance_object_count": 3,
     "guidance_contradiction_count": 0,
     "evidence_watchlist_status": "no_active_watch",
@@ -169085,6 +169495,15 @@
     "aggregate_method": null,
     "assessments": []
    },
+   "intelligence_cases": {
+    "symbol": "NBP",
+    "status": "no_observed_case",
+    "case_count": 0,
+    "cases": [],
+    "rejection_reasons": [
+     "no_selected_observed_case_seed"
+    ]
+   },
    "management_delivery": {
     "symbol": "NBP",
     "status": "no_active_thesis",
@@ -169668,7 +170087,7 @@
       "symbol": "NBP",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-27 21:16",
+       "as_of": "2026-08-28 15:26",
        "source": {
         "company_financial_series": "state/company_financial_series.json",
         "financial_coverage": "state/company_intel/financial_coverage.json",
@@ -169740,7 +170159,7 @@
       "symbol": "NBP",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-27 21:16",
+       "as_of": "2026-08-28 15:26",
        "source": {
         "company_profiles": "state/company_profiles.json",
         "sectors": "state/sectors.json",
@@ -169793,13 +170212,15 @@
        "source": {
         "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
         "forecast_readiness": "state/company_intel/forecast_readiness.json",
+        "financial_truth_qualification": "state/company_intel/financial_truth_qualification.json",
         "financial_engine_assumptions": "state/company_intel/financial_engine_assumptions.json"
        },
        "policy": {
         "research_only": true,
         "no_advice": true,
         "no_output_without_approved_source_labelled_assumptions": true,
-        "no_audit_only_financial_facts": true
+        "no_audit_only_financial_facts": true,
+        "financial_truth_is_authoritative_activation_gate": true
        },
        "kind": "financial_forecasts",
        "engine_version": "formal_financial_engines_v1",
@@ -169816,6 +170237,7 @@
         "approved_net_margin_pct",
         "approved_revenue_growth_pct",
         "financial_model_inputs_ready",
+        "financial_truth_qualified",
         "forecast_readiness_input_ready"
        ],
        "result": null,
@@ -169839,13 +170261,15 @@
        "source": {
         "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
         "forecast_readiness": "state/company_intel/forecast_readiness.json",
+        "financial_truth_qualification": "state/company_intel/financial_truth_qualification.json",
         "financial_engine_assumptions": "state/company_intel/financial_engine_assumptions.json"
        },
        "policy": {
         "research_only": true,
         "no_advice": true,
         "no_output_without_approved_source_labelled_assumptions": true,
-        "no_audit_only_financial_facts": true
+        "no_audit_only_financial_facts": true,
+        "financial_truth_is_authoritative_activation_gate": true
        },
        "kind": "formal_valuations",
        "engine_version": "formal_financial_engines_v1",
@@ -169864,6 +170288,7 @@
         "approved_net_margin_pct",
         "approved_revenue_growth_pct",
         "financial_model_inputs_ready",
+        "financial_truth_qualified",
         "forecast_readiness_input_ready"
        ],
        "result": null,
@@ -169887,13 +170312,15 @@
        "source": {
         "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
         "forecast_readiness": "state/company_intel/forecast_readiness.json",
+        "financial_truth_qualification": "state/company_intel/financial_truth_qualification.json",
         "financial_engine_assumptions": "state/company_intel/financial_engine_assumptions.json"
        },
        "policy": {
         "research_only": true,
         "no_advice": true,
         "no_output_without_approved_source_labelled_assumptions": true,
-        "no_audit_only_financial_facts": true
+        "no_audit_only_financial_facts": true,
+        "financial_truth_is_authoritative_activation_gate": true
        },
        "kind": "market_expectations",
        "engine_version": "formal_financial_engines_v1",
@@ -169911,6 +170338,7 @@
         "approved_net_margin_pct",
         "approved_revenue_growth_pct",
         "financial_model_inputs_ready",
+        "financial_truth_qualified",
         "forecast_readiness_input_ready"
        ],
        "result": null,
@@ -170155,6 +170583,7 @@
        "approved_net_margin_pct",
        "approved_revenue_growth_pct",
        "financial_model_inputs_ready",
+       "financial_truth_qualified",
        "forecast_readiness_input_ready"
       ]
      },
@@ -170185,6 +170614,7 @@
        "approved_net_margin_pct",
        "approved_revenue_growth_pct",
        "financial_model_inputs_ready",
+       "financial_truth_qualified",
        "forecast_readiness_input_ready"
       ]
      },
@@ -170214,6 +170644,7 @@
        "approved_net_margin_pct",
        "approved_revenue_growth_pct",
        "financial_model_inputs_ready",
+       "financial_truth_qualified",
        "forecast_readiness_input_ready"
       ]
      }
@@ -170249,6 +170680,7 @@
    "financial_forecasts": {
     "symbol": "NBP",
     "status": "blocked",
+    "truth_status": "not_qualified",
     "reason": "missing_source_gated_inputs",
     "missing_requirements": [
      "actual_basic_eps",
@@ -170271,6 +170703,7 @@
    "formal_valuations": {
     "symbol": "NBP",
     "status": "blocked",
+    "truth_status": "not_qualified",
     "reason": "missing_source_gated_inputs",
     "missing_requirements": [
      "actual_basic_eps",
@@ -170295,6 +170728,7 @@
    "market_expectations": {
     "symbol": "NBP",
     "status": "blocked",
+    "truth_status": "not_qualified",
     "reason": "missing_source_gated_inputs",
     "missing_requirements": [
      "actual_basic_eps",
@@ -170485,6 +170919,7 @@
     "market_expectations_status": "ready_snapshot_reverse_solve",
     "brain_object_count": 0,
     "management_delivery_records": 0,
+    "intelligence_case_count": 0,
     "guidance_object_count": 1,
     "guidance_contradiction_count": 0,
     "evidence_watchlist_status": "no_active_watch",
@@ -174205,6 +174640,15 @@
     "aggregate_method": null,
     "assessments": []
    },
+   "intelligence_cases": {
+    "symbol": "MEBL",
+    "status": "no_observed_case",
+    "case_count": 0,
+    "cases": [],
+    "rejection_reasons": [
+     "no_selected_observed_case_seed"
+    ]
+   },
    "management_delivery": {
     "symbol": "MEBL",
     "status": "no_active_thesis",
@@ -174678,7 +175122,7 @@
       "symbol": "MEBL",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-27 21:16",
+       "as_of": "2026-08-28 15:26",
        "source": {
         "company_financial_series": "state/company_financial_series.json",
         "financial_coverage": "state/company_intel/financial_coverage.json",
@@ -174750,7 +175194,7 @@
       "symbol": "MEBL",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-27 21:16",
+       "as_of": "2026-08-28 15:26",
        "source": {
         "company_profiles": "state/company_profiles.json",
         "sectors": "state/sectors.json",
@@ -174803,13 +175247,15 @@
        "source": {
         "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
         "forecast_readiness": "state/company_intel/forecast_readiness.json",
+        "financial_truth_qualification": "state/company_intel/financial_truth_qualification.json",
         "financial_engine_assumptions": "state/company_intel/financial_engine_assumptions.json"
        },
        "policy": {
         "research_only": true,
         "no_advice": true,
         "no_output_without_approved_source_labelled_assumptions": true,
-        "no_audit_only_financial_facts": true
+        "no_audit_only_financial_facts": true,
+        "financial_truth_is_authoritative_activation_gate": true
        },
        "kind": "financial_forecasts",
        "engine_version": "formal_financial_engines_v1",
@@ -174826,6 +175272,7 @@
         "approved_net_margin_pct",
         "approved_revenue_growth_pct",
         "financial_model_inputs_ready",
+        "financial_truth_qualified",
         "forecast_readiness_input_ready"
        ],
        "result": null,
@@ -174849,13 +175296,15 @@
        "source": {
         "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
         "forecast_readiness": "state/company_intel/forecast_readiness.json",
+        "financial_truth_qualification": "state/company_intel/financial_truth_qualification.json",
         "financial_engine_assumptions": "state/company_intel/financial_engine_assumptions.json"
        },
        "policy": {
         "research_only": true,
         "no_advice": true,
         "no_output_without_approved_source_labelled_assumptions": true,
-        "no_audit_only_financial_facts": true
+        "no_audit_only_financial_facts": true,
+        "financial_truth_is_authoritative_activation_gate": true
        },
        "kind": "formal_valuations",
        "engine_version": "formal_financial_engines_v1",
@@ -174874,6 +175323,7 @@
         "approved_net_margin_pct",
         "approved_revenue_growth_pct",
         "financial_model_inputs_ready",
+        "financial_truth_qualified",
         "forecast_readiness_input_ready"
        ],
        "result": null,
@@ -174897,13 +175347,15 @@
        "source": {
         "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
         "forecast_readiness": "state/company_intel/forecast_readiness.json",
+        "financial_truth_qualification": "state/company_intel/financial_truth_qualification.json",
         "financial_engine_assumptions": "state/company_intel/financial_engine_assumptions.json"
        },
        "policy": {
         "research_only": true,
         "no_advice": true,
         "no_output_without_approved_source_labelled_assumptions": true,
-        "no_audit_only_financial_facts": true
+        "no_audit_only_financial_facts": true,
+        "financial_truth_is_authoritative_activation_gate": true
        },
        "kind": "market_expectations",
        "engine_version": "formal_financial_engines_v1",
@@ -174921,6 +175373,7 @@
         "approved_net_margin_pct",
         "approved_revenue_growth_pct",
         "financial_model_inputs_ready",
+        "financial_truth_qualified",
         "forecast_readiness_input_ready"
        ],
        "result": null,
@@ -175165,6 +175618,7 @@
        "approved_net_margin_pct",
        "approved_revenue_growth_pct",
        "financial_model_inputs_ready",
+       "financial_truth_qualified",
        "forecast_readiness_input_ready"
       ]
      },
@@ -175195,6 +175649,7 @@
        "approved_net_margin_pct",
        "approved_revenue_growth_pct",
        "financial_model_inputs_ready",
+       "financial_truth_qualified",
        "forecast_readiness_input_ready"
       ]
      },
@@ -175224,6 +175679,7 @@
        "approved_net_margin_pct",
        "approved_revenue_growth_pct",
        "financial_model_inputs_ready",
+       "financial_truth_qualified",
        "forecast_readiness_input_ready"
       ]
      }
@@ -175297,6 +175753,7 @@
    "financial_forecasts": {
     "symbol": "MEBL",
     "status": "blocked",
+    "truth_status": "not_qualified",
     "reason": "missing_source_gated_inputs",
     "missing_requirements": [
      "actual_basic_eps",
@@ -175319,6 +175776,7 @@
    "formal_valuations": {
     "symbol": "MEBL",
     "status": "blocked",
+    "truth_status": "not_qualified",
     "reason": "missing_source_gated_inputs",
     "missing_requirements": [
      "actual_basic_eps",
@@ -175343,6 +175801,7 @@
    "market_expectations": {
     "symbol": "MEBL",
     "status": "blocked",
+    "truth_status": "not_qualified",
     "reason": "missing_source_gated_inputs",
     "missing_requirements": [
      "actual_basic_eps",
@@ -175533,6 +175992,7 @@
     "market_expectations_status": "ready_snapshot_reverse_solve",
     "brain_object_count": 0,
     "management_delivery_records": 0,
+    "intelligence_case_count": 0,
     "guidance_object_count": 0,
     "guidance_contradiction_count": 0,
     "evidence_watchlist_status": "no_active_watch",
@@ -185367,6 +185827,15 @@
     "aggregate_method": null,
     "assessments": []
    },
+   "intelligence_cases": {
+    "symbol": "ATRL",
+    "status": "no_observed_case",
+    "case_count": 0,
+    "cases": [],
+    "rejection_reasons": [
+     "no_selected_observed_case_seed"
+    ]
+   },
    "management_delivery": {
     "symbol": "ATRL",
     "status": "no_active_thesis",
@@ -186065,7 +186534,7 @@
       "symbol": "ATRL",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-27 21:16",
+       "as_of": "2026-08-28 15:26",
        "source": {
         "company_financial_series": "state/company_financial_series.json",
         "financial_coverage": "state/company_intel/financial_coverage.json",
@@ -186137,7 +186606,7 @@
       "symbol": "ATRL",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-27 21:16",
+       "as_of": "2026-08-28 15:26",
        "source": {
         "company_profiles": "state/company_profiles.json",
         "sectors": "state/sectors.json",
@@ -186190,13 +186659,15 @@
        "source": {
         "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
         "forecast_readiness": "state/company_intel/forecast_readiness.json",
+        "financial_truth_qualification": "state/company_intel/financial_truth_qualification.json",
         "financial_engine_assumptions": "state/company_intel/financial_engine_assumptions.json"
        },
        "policy": {
         "research_only": true,
         "no_advice": true,
         "no_output_without_approved_source_labelled_assumptions": true,
-        "no_audit_only_financial_facts": true
+        "no_audit_only_financial_facts": true,
+        "financial_truth_is_authoritative_activation_gate": true
        },
        "kind": "financial_forecasts",
        "engine_version": "formal_financial_engines_v1",
@@ -186213,6 +186684,7 @@
         "approved_net_margin_pct",
         "approved_revenue_growth_pct",
         "financial_model_inputs_ready",
+        "financial_truth_qualified",
         "forecast_readiness_input_ready"
        ],
        "result": null,
@@ -186236,13 +186708,15 @@
        "source": {
         "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
         "forecast_readiness": "state/company_intel/forecast_readiness.json",
+        "financial_truth_qualification": "state/company_intel/financial_truth_qualification.json",
         "financial_engine_assumptions": "state/company_intel/financial_engine_assumptions.json"
        },
        "policy": {
         "research_only": true,
         "no_advice": true,
         "no_output_without_approved_source_labelled_assumptions": true,
-        "no_audit_only_financial_facts": true
+        "no_audit_only_financial_facts": true,
+        "financial_truth_is_authoritative_activation_gate": true
        },
        "kind": "formal_valuations",
        "engine_version": "formal_financial_engines_v1",
@@ -186261,6 +186735,7 @@
         "approved_net_margin_pct",
         "approved_revenue_growth_pct",
         "financial_model_inputs_ready",
+        "financial_truth_qualified",
         "forecast_readiness_input_ready"
        ],
        "result": null,
@@ -186284,13 +186759,15 @@
        "source": {
         "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
         "forecast_readiness": "state/company_intel/forecast_readiness.json",
+        "financial_truth_qualification": "state/company_intel/financial_truth_qualification.json",
         "financial_engine_assumptions": "state/company_intel/financial_engine_assumptions.json"
        },
        "policy": {
         "research_only": true,
         "no_advice": true,
         "no_output_without_approved_source_labelled_assumptions": true,
-        "no_audit_only_financial_facts": true
+        "no_audit_only_financial_facts": true,
+        "financial_truth_is_authoritative_activation_gate": true
        },
        "kind": "market_expectations",
        "engine_version": "formal_financial_engines_v1",
@@ -186308,6 +186785,7 @@
         "approved_net_margin_pct",
         "approved_revenue_growth_pct",
         "financial_model_inputs_ready",
+        "financial_truth_qualified",
         "forecast_readiness_input_ready"
        ],
        "result": null,
@@ -186552,6 +187030,7 @@
        "approved_net_margin_pct",
        "approved_revenue_growth_pct",
        "financial_model_inputs_ready",
+       "financial_truth_qualified",
        "forecast_readiness_input_ready"
       ]
      },
@@ -186582,6 +187061,7 @@
        "approved_net_margin_pct",
        "approved_revenue_growth_pct",
        "financial_model_inputs_ready",
+       "financial_truth_qualified",
        "forecast_readiness_input_ready"
       ]
      },
@@ -186611,6 +187091,7 @@
        "approved_net_margin_pct",
        "approved_revenue_growth_pct",
        "financial_model_inputs_ready",
+       "financial_truth_qualified",
        "forecast_readiness_input_ready"
       ]
      }
@@ -186683,6 +187164,7 @@
    "financial_forecasts": {
     "symbol": "ATRL",
     "status": "blocked",
+    "truth_status": "not_qualified",
     "reason": "missing_source_gated_inputs",
     "missing_requirements": [
      "actual_basic_eps",
@@ -186705,6 +187187,7 @@
    "formal_valuations": {
     "symbol": "ATRL",
     "status": "blocked",
+    "truth_status": "not_qualified",
     "reason": "missing_source_gated_inputs",
     "missing_requirements": [
      "actual_basic_eps",
@@ -186729,6 +187212,7 @@
    "market_expectations": {
     "symbol": "ATRL",
     "status": "blocked",
+    "truth_status": "not_qualified",
     "reason": "missing_source_gated_inputs",
     "missing_requirements": [
      "actual_basic_eps",
@@ -186919,6 +187403,7 @@
     "market_expectations_status": "ready_snapshot_reverse_solve",
     "brain_object_count": 6,
     "management_delivery_records": 0,
+    "intelligence_case_count": 0,
     "guidance_object_count": 1,
     "guidance_contradiction_count": 0,
     "evidence_watchlist_status": "no_active_watch",
@@ -190023,6 +190508,15 @@
     "aggregate_method": null,
     "assessments": []
    },
+   "intelligence_cases": {
+    "symbol": "HBL",
+    "status": "no_observed_case",
+    "case_count": 0,
+    "cases": [],
+    "rejection_reasons": [
+     "no_selected_observed_case_seed"
+    ]
+   },
    "management_delivery": {
     "symbol": "HBL",
     "status": "no_active_thesis",
@@ -190607,7 +191101,7 @@
       "symbol": "HBL",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-27 21:16",
+       "as_of": "2026-08-28 15:26",
        "source": {
         "company_financial_series": "state/company_financial_series.json",
         "financial_coverage": "state/company_intel/financial_coverage.json",
@@ -190679,7 +191173,7 @@
       "symbol": "HBL",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-27 21:16",
+       "as_of": "2026-08-28 15:26",
        "source": {
         "company_profiles": "state/company_profiles.json",
         "sectors": "state/sectors.json",
@@ -190732,13 +191226,15 @@
        "source": {
         "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
         "forecast_readiness": "state/company_intel/forecast_readiness.json",
+        "financial_truth_qualification": "state/company_intel/financial_truth_qualification.json",
         "financial_engine_assumptions": "state/company_intel/financial_engine_assumptions.json"
        },
        "policy": {
         "research_only": true,
         "no_advice": true,
         "no_output_without_approved_source_labelled_assumptions": true,
-        "no_audit_only_financial_facts": true
+        "no_audit_only_financial_facts": true,
+        "financial_truth_is_authoritative_activation_gate": true
        },
        "kind": "financial_forecasts",
        "engine_version": "formal_financial_engines_v1",
@@ -190755,6 +191251,7 @@
         "approved_net_margin_pct",
         "approved_revenue_growth_pct",
         "financial_model_inputs_ready",
+        "financial_truth_qualified",
         "forecast_readiness_input_ready"
        ],
        "result": null,
@@ -190778,13 +191275,15 @@
        "source": {
         "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
         "forecast_readiness": "state/company_intel/forecast_readiness.json",
+        "financial_truth_qualification": "state/company_intel/financial_truth_qualification.json",
         "financial_engine_assumptions": "state/company_intel/financial_engine_assumptions.json"
        },
        "policy": {
         "research_only": true,
         "no_advice": true,
         "no_output_without_approved_source_labelled_assumptions": true,
-        "no_audit_only_financial_facts": true
+        "no_audit_only_financial_facts": true,
+        "financial_truth_is_authoritative_activation_gate": true
        },
        "kind": "formal_valuations",
        "engine_version": "formal_financial_engines_v1",
@@ -190803,6 +191302,7 @@
         "approved_net_margin_pct",
         "approved_revenue_growth_pct",
         "financial_model_inputs_ready",
+        "financial_truth_qualified",
         "forecast_readiness_input_ready"
        ],
        "result": null,
@@ -190826,13 +191326,15 @@
        "source": {
         "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
         "forecast_readiness": "state/company_intel/forecast_readiness.json",
+        "financial_truth_qualification": "state/company_intel/financial_truth_qualification.json",
         "financial_engine_assumptions": "state/company_intel/financial_engine_assumptions.json"
        },
        "policy": {
         "research_only": true,
         "no_advice": true,
         "no_output_without_approved_source_labelled_assumptions": true,
-        "no_audit_only_financial_facts": true
+        "no_audit_only_financial_facts": true,
+        "financial_truth_is_authoritative_activation_gate": true
        },
        "kind": "market_expectations",
        "engine_version": "formal_financial_engines_v1",
@@ -190850,6 +191352,7 @@
         "approved_net_margin_pct",
         "approved_revenue_growth_pct",
         "financial_model_inputs_ready",
+        "financial_truth_qualified",
         "forecast_readiness_input_ready"
        ],
        "result": null,
@@ -191094,6 +191597,7 @@
        "approved_net_margin_pct",
        "approved_revenue_growth_pct",
        "financial_model_inputs_ready",
+       "financial_truth_qualified",
        "forecast_readiness_input_ready"
       ]
      },
@@ -191124,6 +191628,7 @@
        "approved_net_margin_pct",
        "approved_revenue_growth_pct",
        "financial_model_inputs_ready",
+       "financial_truth_qualified",
        "forecast_readiness_input_ready"
       ]
      },
@@ -191153,6 +191658,7 @@
        "approved_net_margin_pct",
        "approved_revenue_growth_pct",
        "financial_model_inputs_ready",
+       "financial_truth_qualified",
        "forecast_readiness_input_ready"
       ]
      }
@@ -191184,6 +191690,7 @@
    "financial_forecasts": {
     "symbol": "HBL",
     "status": "blocked",
+    "truth_status": "not_qualified",
     "reason": "missing_source_gated_inputs",
     "missing_requirements": [
      "actual_basic_eps",
@@ -191206,6 +191713,7 @@
    "formal_valuations": {
     "symbol": "HBL",
     "status": "blocked",
+    "truth_status": "not_qualified",
     "reason": "missing_source_gated_inputs",
     "missing_requirements": [
      "actual_basic_eps",
@@ -191230,6 +191738,7 @@
    "market_expectations": {
     "symbol": "HBL",
     "status": "blocked",
+    "truth_status": "not_qualified",
     "reason": "missing_source_gated_inputs",
     "missing_requirements": [
      "actual_basic_eps",
@@ -191420,6 +191929,7 @@
     "market_expectations_status": "ready_snapshot_reverse_solve",
     "brain_object_count": 0,
     "management_delivery_records": 0,
+    "intelligence_case_count": 0,
     "guidance_object_count": 1,
     "guidance_contradiction_count": 0,
     "evidence_watchlist_status": "no_active_watch",
@@ -199361,6 +199871,15 @@
     "aggregate_method": null,
     "assessments": []
    },
+   "intelligence_cases": {
+    "symbol": "MARI",
+    "status": "no_observed_case",
+    "case_count": 0,
+    "cases": [],
+    "rejection_reasons": [
+     "no_selected_observed_case_seed"
+    ]
+   },
    "management_delivery": {
     "symbol": "MARI",
     "status": "no_active_thesis",
@@ -200076,7 +200595,7 @@
       "symbol": "MARI",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-27 21:16",
+       "as_of": "2026-08-28 15:26",
        "source": {
         "company_financial_series": "state/company_financial_series.json",
         "financial_coverage": "state/company_intel/financial_coverage.json",
@@ -200148,7 +200667,7 @@
       "symbol": "MARI",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-27 21:16",
+       "as_of": "2026-08-28 15:26",
        "source": {
         "company_profiles": "state/company_profiles.json",
         "sectors": "state/sectors.json",
@@ -200201,13 +200720,15 @@
        "source": {
         "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
         "forecast_readiness": "state/company_intel/forecast_readiness.json",
+        "financial_truth_qualification": "state/company_intel/financial_truth_qualification.json",
         "financial_engine_assumptions": "state/company_intel/financial_engine_assumptions.json"
        },
        "policy": {
         "research_only": true,
         "no_advice": true,
         "no_output_without_approved_source_labelled_assumptions": true,
-        "no_audit_only_financial_facts": true
+        "no_audit_only_financial_facts": true,
+        "financial_truth_is_authoritative_activation_gate": true
        },
        "kind": "financial_forecasts",
        "engine_version": "formal_financial_engines_v1",
@@ -200224,6 +200745,7 @@
         "approved_net_margin_pct",
         "approved_revenue_growth_pct",
         "financial_model_inputs_ready",
+        "financial_truth_qualified",
         "forecast_readiness_input_ready"
        ],
        "result": null,
@@ -200247,13 +200769,15 @@
        "source": {
         "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
         "forecast_readiness": "state/company_intel/forecast_readiness.json",
+        "financial_truth_qualification": "state/company_intel/financial_truth_qualification.json",
         "financial_engine_assumptions": "state/company_intel/financial_engine_assumptions.json"
        },
        "policy": {
         "research_only": true,
         "no_advice": true,
         "no_output_without_approved_source_labelled_assumptions": true,
-        "no_audit_only_financial_facts": true
+        "no_audit_only_financial_facts": true,
+        "financial_truth_is_authoritative_activation_gate": true
        },
        "kind": "formal_valuations",
        "engine_version": "formal_financial_engines_v1",
@@ -200272,6 +200796,7 @@
         "approved_net_margin_pct",
         "approved_revenue_growth_pct",
         "financial_model_inputs_ready",
+        "financial_truth_qualified",
         "forecast_readiness_input_ready"
        ],
        "result": null,
@@ -200295,13 +200820,15 @@
        "source": {
         "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
         "forecast_readiness": "state/company_intel/forecast_readiness.json",
+        "financial_truth_qualification": "state/company_intel/financial_truth_qualification.json",
         "financial_engine_assumptions": "state/company_intel/financial_engine_assumptions.json"
        },
        "policy": {
         "research_only": true,
         "no_advice": true,
         "no_output_without_approved_source_labelled_assumptions": true,
-        "no_audit_only_financial_facts": true
+        "no_audit_only_financial_facts": true,
+        "financial_truth_is_authoritative_activation_gate": true
        },
        "kind": "market_expectations",
        "engine_version": "formal_financial_engines_v1",
@@ -200319,6 +200846,7 @@
         "approved_net_margin_pct",
         "approved_revenue_growth_pct",
         "financial_model_inputs_ready",
+        "financial_truth_qualified",
         "forecast_readiness_input_ready"
        ],
        "result": null,
@@ -200563,6 +201091,7 @@
        "approved_net_margin_pct",
        "approved_revenue_growth_pct",
        "financial_model_inputs_ready",
+       "financial_truth_qualified",
        "forecast_readiness_input_ready"
       ]
      },
@@ -200593,6 +201122,7 @@
        "approved_net_margin_pct",
        "approved_revenue_growth_pct",
        "financial_model_inputs_ready",
+       "financial_truth_qualified",
        "forecast_readiness_input_ready"
       ]
      },
@@ -200622,6 +201152,7 @@
        "approved_net_margin_pct",
        "approved_revenue_growth_pct",
        "financial_model_inputs_ready",
+       "financial_truth_qualified",
        "forecast_readiness_input_ready"
       ]
      }
@@ -200702,6 +201233,7 @@
    "financial_forecasts": {
     "symbol": "MARI",
     "status": "blocked",
+    "truth_status": "not_qualified",
     "reason": "missing_source_gated_inputs",
     "missing_requirements": [
      "actual_basic_eps",
@@ -200724,6 +201256,7 @@
    "formal_valuations": {
     "symbol": "MARI",
     "status": "blocked",
+    "truth_status": "not_qualified",
     "reason": "missing_source_gated_inputs",
     "missing_requirements": [
      "actual_basic_eps",
@@ -200748,6 +201281,7 @@
    "market_expectations": {
     "symbol": "MARI",
     "status": "blocked",
+    "truth_status": "not_qualified",
     "reason": "missing_source_gated_inputs",
     "missing_requirements": [
      "actual_basic_eps",
@@ -200938,6 +201472,7 @@
     "market_expectations_status": "ready_snapshot_reverse_solve",
     "brain_object_count": 8,
     "management_delivery_records": 0,
+    "intelligence_case_count": 0,
     "guidance_object_count": 1,
     "guidance_contradiction_count": 0,
     "evidence_watchlist_status": "no_active_watch",
@@ -204806,6 +205341,15 @@
      }
     ]
    },
+   "intelligence_cases": {
+    "symbol": "ENGROH",
+    "status": "no_observed_case",
+    "case_count": 0,
+    "cases": [],
+    "rejection_reasons": [
+     "no_selected_observed_case_seed"
+    ]
+   },
    "management_delivery": {
     "symbol": "ENGROH",
     "status": "tracked",
@@ -205610,7 +206154,7 @@
       "symbol": "ENGROH",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-27 21:16",
+       "as_of": "2026-08-28 15:26",
        "source": {
         "company_financial_series": "state/company_financial_series.json",
         "financial_coverage": "state/company_intel/financial_coverage.json",
@@ -205682,7 +206226,7 @@
       "symbol": "ENGROH",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-27 21:16",
+       "as_of": "2026-08-28 15:26",
        "source": {
         "company_profiles": "state/company_profiles.json",
         "sectors": "state/sectors.json",
@@ -205735,13 +206279,15 @@
        "source": {
         "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
         "forecast_readiness": "state/company_intel/forecast_readiness.json",
+        "financial_truth_qualification": "state/company_intel/financial_truth_qualification.json",
         "financial_engine_assumptions": "state/company_intel/financial_engine_assumptions.json"
        },
        "policy": {
         "research_only": true,
         "no_advice": true,
         "no_output_without_approved_source_labelled_assumptions": true,
-        "no_audit_only_financial_facts": true
+        "no_audit_only_financial_facts": true,
+        "financial_truth_is_authoritative_activation_gate": true
        },
        "kind": "financial_forecasts",
        "engine_version": "formal_financial_engines_v1",
@@ -205758,6 +206304,7 @@
         "approved_net_margin_pct",
         "approved_revenue_growth_pct",
         "financial_model_inputs_ready",
+        "financial_truth_qualified",
         "forecast_readiness_input_ready"
        ],
        "result": null,
@@ -205781,13 +206328,15 @@
        "source": {
         "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
         "forecast_readiness": "state/company_intel/forecast_readiness.json",
+        "financial_truth_qualification": "state/company_intel/financial_truth_qualification.json",
         "financial_engine_assumptions": "state/company_intel/financial_engine_assumptions.json"
        },
        "policy": {
         "research_only": true,
         "no_advice": true,
         "no_output_without_approved_source_labelled_assumptions": true,
-        "no_audit_only_financial_facts": true
+        "no_audit_only_financial_facts": true,
+        "financial_truth_is_authoritative_activation_gate": true
        },
        "kind": "formal_valuations",
        "engine_version": "formal_financial_engines_v1",
@@ -205806,6 +206355,7 @@
         "approved_net_margin_pct",
         "approved_revenue_growth_pct",
         "financial_model_inputs_ready",
+        "financial_truth_qualified",
         "forecast_readiness_input_ready"
        ],
        "result": null,
@@ -205829,13 +206379,15 @@
        "source": {
         "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
         "forecast_readiness": "state/company_intel/forecast_readiness.json",
+        "financial_truth_qualification": "state/company_intel/financial_truth_qualification.json",
         "financial_engine_assumptions": "state/company_intel/financial_engine_assumptions.json"
        },
        "policy": {
         "research_only": true,
         "no_advice": true,
         "no_output_without_approved_source_labelled_assumptions": true,
-        "no_audit_only_financial_facts": true
+        "no_audit_only_financial_facts": true,
+        "financial_truth_is_authoritative_activation_gate": true
        },
        "kind": "market_expectations",
        "engine_version": "formal_financial_engines_v1",
@@ -205853,6 +206405,7 @@
         "approved_net_margin_pct",
         "approved_revenue_growth_pct",
         "financial_model_inputs_ready",
+        "financial_truth_qualified",
         "forecast_readiness_input_ready"
        ],
        "result": null,
@@ -206097,6 +206650,7 @@
        "approved_net_margin_pct",
        "approved_revenue_growth_pct",
        "financial_model_inputs_ready",
+       "financial_truth_qualified",
        "forecast_readiness_input_ready"
       ]
      },
@@ -206127,6 +206681,7 @@
        "approved_net_margin_pct",
        "approved_revenue_growth_pct",
        "financial_model_inputs_ready",
+       "financial_truth_qualified",
        "forecast_readiness_input_ready"
       ]
      },
@@ -206156,6 +206711,7 @@
        "approved_net_margin_pct",
        "approved_revenue_growth_pct",
        "financial_model_inputs_ready",
+       "financial_truth_qualified",
        "forecast_readiness_input_ready"
       ]
      }
@@ -206230,6 +206786,7 @@
    "financial_forecasts": {
     "symbol": "ENGROH",
     "status": "blocked",
+    "truth_status": "not_qualified",
     "reason": "missing_source_gated_inputs",
     "missing_requirements": [
      "actual_basic_eps",
@@ -206252,6 +206809,7 @@
    "formal_valuations": {
     "symbol": "ENGROH",
     "status": "blocked",
+    "truth_status": "not_qualified",
     "reason": "missing_source_gated_inputs",
     "missing_requirements": [
      "actual_basic_eps",
@@ -206276,6 +206834,7 @@
    "market_expectations": {
     "symbol": "ENGROH",
     "status": "blocked",
+    "truth_status": "not_qualified",
     "reason": "missing_source_gated_inputs",
     "missing_requirements": [
      "actual_basic_eps",
@@ -206466,6 +207025,7 @@
     "market_expectations_status": "ready_snapshot_reverse_solve",
     "brain_object_count": 6,
     "management_delivery_records": 1,
+    "intelligence_case_count": 0,
     "guidance_object_count": 0,
     "guidance_contradiction_count": 0,
     "evidence_watchlist_status": "active_watch",
@@ -208260,6 +208820,15 @@
     "aggregate_method": null,
     "assessments": []
    },
+   "intelligence_cases": {
+    "symbol": "GAL",
+    "status": "no_observed_case",
+    "case_count": 0,
+    "cases": [],
+    "rejection_reasons": [
+     "no_selected_observed_case_seed"
+    ]
+   },
    "management_delivery": {
     "symbol": "GAL",
     "status": "no_active_thesis",
@@ -208714,7 +209283,7 @@
       "symbol": "GAL",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-27 21:16",
+       "as_of": "2026-08-28 15:26",
        "source": {
         "company_financial_series": "state/company_financial_series.json",
         "financial_coverage": "state/company_intel/financial_coverage.json",
@@ -208786,7 +209355,7 @@
       "symbol": "GAL",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-27 21:16",
+       "as_of": "2026-08-28 15:26",
        "source": {
         "company_profiles": "state/company_profiles.json",
         "sectors": "state/sectors.json",
@@ -208839,13 +209408,15 @@
        "source": {
         "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
         "forecast_readiness": "state/company_intel/forecast_readiness.json",
+        "financial_truth_qualification": "state/company_intel/financial_truth_qualification.json",
         "financial_engine_assumptions": "state/company_intel/financial_engine_assumptions.json"
        },
        "policy": {
         "research_only": true,
         "no_advice": true,
         "no_output_without_approved_source_labelled_assumptions": true,
-        "no_audit_only_financial_facts": true
+        "no_audit_only_financial_facts": true,
+        "financial_truth_is_authoritative_activation_gate": true
        },
        "kind": "financial_forecasts",
        "engine_version": "formal_financial_engines_v1",
@@ -208862,6 +209433,7 @@
         "approved_net_margin_pct",
         "approved_revenue_growth_pct",
         "financial_model_inputs_ready",
+        "financial_truth_qualified",
         "forecast_readiness_input_ready"
        ],
        "result": null,
@@ -208885,13 +209457,15 @@
        "source": {
         "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
         "forecast_readiness": "state/company_intel/forecast_readiness.json",
+        "financial_truth_qualification": "state/company_intel/financial_truth_qualification.json",
         "financial_engine_assumptions": "state/company_intel/financial_engine_assumptions.json"
        },
        "policy": {
         "research_only": true,
         "no_advice": true,
         "no_output_without_approved_source_labelled_assumptions": true,
-        "no_audit_only_financial_facts": true
+        "no_audit_only_financial_facts": true,
+        "financial_truth_is_authoritative_activation_gate": true
        },
        "kind": "formal_valuations",
        "engine_version": "formal_financial_engines_v1",
@@ -208910,6 +209484,7 @@
         "approved_net_margin_pct",
         "approved_revenue_growth_pct",
         "financial_model_inputs_ready",
+        "financial_truth_qualified",
         "forecast_readiness_input_ready"
        ],
        "result": null,
@@ -208933,13 +209508,15 @@
        "source": {
         "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
         "forecast_readiness": "state/company_intel/forecast_readiness.json",
+        "financial_truth_qualification": "state/company_intel/financial_truth_qualification.json",
         "financial_engine_assumptions": "state/company_intel/financial_engine_assumptions.json"
        },
        "policy": {
         "research_only": true,
         "no_advice": true,
         "no_output_without_approved_source_labelled_assumptions": true,
-        "no_audit_only_financial_facts": true
+        "no_audit_only_financial_facts": true,
+        "financial_truth_is_authoritative_activation_gate": true
        },
        "kind": "market_expectations",
        "engine_version": "formal_financial_engines_v1",
@@ -208957,6 +209534,7 @@
         "approved_net_margin_pct",
         "approved_revenue_growth_pct",
         "financial_model_inputs_ready",
+        "financial_truth_qualified",
         "forecast_readiness_input_ready"
        ],
        "result": null,
@@ -209201,6 +209779,7 @@
        "approved_net_margin_pct",
        "approved_revenue_growth_pct",
        "financial_model_inputs_ready",
+       "financial_truth_qualified",
        "forecast_readiness_input_ready"
       ]
      },
@@ -209231,6 +209810,7 @@
        "approved_net_margin_pct",
        "approved_revenue_growth_pct",
        "financial_model_inputs_ready",
+       "financial_truth_qualified",
        "forecast_readiness_input_ready"
       ]
      },
@@ -209260,6 +209840,7 @@
        "approved_net_margin_pct",
        "approved_revenue_growth_pct",
        "financial_model_inputs_ready",
+       "financial_truth_qualified",
        "forecast_readiness_input_ready"
       ]
      }
@@ -209320,6 +209901,7 @@
    "financial_forecasts": {
     "symbol": "GAL",
     "status": "blocked",
+    "truth_status": "not_qualified",
     "reason": "missing_source_gated_inputs",
     "missing_requirements": [
      "actual_basic_eps",
@@ -209342,6 +209924,7 @@
    "formal_valuations": {
     "symbol": "GAL",
     "status": "blocked",
+    "truth_status": "not_qualified",
     "reason": "missing_source_gated_inputs",
     "missing_requirements": [
      "actual_basic_eps",
@@ -209366,6 +209949,7 @@
    "market_expectations": {
     "symbol": "GAL",
     "status": "blocked",
+    "truth_status": "not_qualified",
     "reason": "missing_source_gated_inputs",
     "missing_requirements": [
      "actual_basic_eps",
@@ -209556,6 +210140,7 @@
     "market_expectations_status": "ready_snapshot_reverse_solve",
     "brain_object_count": 0,
     "management_delivery_records": 0,
+    "intelligence_case_count": 0,
     "guidance_object_count": 0,
     "guidance_contradiction_count": 0,
     "evidence_watchlist_status": "no_active_watch",
@@ -211933,6 +212518,15 @@
     "aggregate_method": null,
     "assessments": []
    },
+   "intelligence_cases": {
+    "symbol": "NRL",
+    "status": "no_observed_case",
+    "case_count": 0,
+    "cases": [],
+    "rejection_reasons": [
+     "no_selected_observed_case_seed"
+    ]
+   },
    "management_delivery": {
     "symbol": "NRL",
     "status": "no_active_thesis",
@@ -212417,7 +213011,7 @@
       "symbol": "NRL",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-27 21:16",
+       "as_of": "2026-08-28 15:26",
        "source": {
         "company_financial_series": "state/company_financial_series.json",
         "financial_coverage": "state/company_intel/financial_coverage.json",
@@ -212489,7 +213083,7 @@
       "symbol": "NRL",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-27 21:16",
+       "as_of": "2026-08-28 15:26",
        "source": {
         "company_profiles": "state/company_profiles.json",
         "sectors": "state/sectors.json",
@@ -212542,13 +213136,15 @@
        "source": {
         "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
         "forecast_readiness": "state/company_intel/forecast_readiness.json",
+        "financial_truth_qualification": "state/company_intel/financial_truth_qualification.json",
         "financial_engine_assumptions": "state/company_intel/financial_engine_assumptions.json"
        },
        "policy": {
         "research_only": true,
         "no_advice": true,
         "no_output_without_approved_source_labelled_assumptions": true,
-        "no_audit_only_financial_facts": true
+        "no_audit_only_financial_facts": true,
+        "financial_truth_is_authoritative_activation_gate": true
        },
        "kind": "financial_forecasts",
        "engine_version": "formal_financial_engines_v1",
@@ -212565,6 +213161,7 @@
         "approved_net_margin_pct",
         "approved_revenue_growth_pct",
         "financial_model_inputs_ready",
+        "financial_truth_qualified",
         "forecast_readiness_input_ready"
        ],
        "result": null,
@@ -212588,13 +213185,15 @@
        "source": {
         "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
         "forecast_readiness": "state/company_intel/forecast_readiness.json",
+        "financial_truth_qualification": "state/company_intel/financial_truth_qualification.json",
         "financial_engine_assumptions": "state/company_intel/financial_engine_assumptions.json"
        },
        "policy": {
         "research_only": true,
         "no_advice": true,
         "no_output_without_approved_source_labelled_assumptions": true,
-        "no_audit_only_financial_facts": true
+        "no_audit_only_financial_facts": true,
+        "financial_truth_is_authoritative_activation_gate": true
        },
        "kind": "formal_valuations",
        "engine_version": "formal_financial_engines_v1",
@@ -212613,6 +213212,7 @@
         "approved_net_margin_pct",
         "approved_revenue_growth_pct",
         "financial_model_inputs_ready",
+        "financial_truth_qualified",
         "forecast_readiness_input_ready"
        ],
        "result": null,
@@ -212636,13 +213236,15 @@
        "source": {
         "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
         "forecast_readiness": "state/company_intel/forecast_readiness.json",
+        "financial_truth_qualification": "state/company_intel/financial_truth_qualification.json",
         "financial_engine_assumptions": "state/company_intel/financial_engine_assumptions.json"
        },
        "policy": {
         "research_only": true,
         "no_advice": true,
         "no_output_without_approved_source_labelled_assumptions": true,
-        "no_audit_only_financial_facts": true
+        "no_audit_only_financial_facts": true,
+        "financial_truth_is_authoritative_activation_gate": true
        },
        "kind": "market_expectations",
        "engine_version": "formal_financial_engines_v1",
@@ -212660,6 +213262,7 @@
         "approved_net_margin_pct",
         "approved_revenue_growth_pct",
         "financial_model_inputs_ready",
+        "financial_truth_qualified",
         "forecast_readiness_input_ready"
        ],
        "result": null,
@@ -212904,6 +213507,7 @@
        "approved_net_margin_pct",
        "approved_revenue_growth_pct",
        "financial_model_inputs_ready",
+       "financial_truth_qualified",
        "forecast_readiness_input_ready"
       ]
      },
@@ -212934,6 +213538,7 @@
        "approved_net_margin_pct",
        "approved_revenue_growth_pct",
        "financial_model_inputs_ready",
+       "financial_truth_qualified",
        "forecast_readiness_input_ready"
       ]
      },
@@ -212963,6 +213568,7 @@
        "approved_net_margin_pct",
        "approved_revenue_growth_pct",
        "financial_model_inputs_ready",
+       "financial_truth_qualified",
        "forecast_readiness_input_ready"
       ]
      }
@@ -212996,6 +213602,7 @@
    "financial_forecasts": {
     "symbol": "NRL",
     "status": "blocked",
+    "truth_status": "not_qualified",
     "reason": "missing_source_gated_inputs",
     "missing_requirements": [
      "actual_basic_eps",
@@ -213018,6 +213625,7 @@
    "formal_valuations": {
     "symbol": "NRL",
     "status": "blocked",
+    "truth_status": "not_qualified",
     "reason": "missing_source_gated_inputs",
     "missing_requirements": [
      "actual_basic_eps",
@@ -213042,6 +213650,7 @@
    "market_expectations": {
     "symbol": "NRL",
     "status": "blocked",
+    "truth_status": "not_qualified",
     "reason": "missing_source_gated_inputs",
     "missing_requirements": [
      "actual_basic_eps",
@@ -213232,6 +213841,7 @@
     "market_expectations_status": "ready_snapshot_reverse_solve",
     "brain_object_count": 0,
     "management_delivery_records": 0,
+    "intelligence_case_count": 0,
     "guidance_object_count": 0,
     "guidance_contradiction_count": 0,
     "evidence_watchlist_status": "no_active_watch",
@@ -225922,6 +226532,15 @@
     "aggregate_method": null,
     "assessments": []
    },
+   "intelligence_cases": {
+    "symbol": "CNERGY",
+    "status": "no_observed_case",
+    "case_count": 0,
+    "cases": [],
+    "rejection_reasons": [
+     "no_selected_observed_case_seed"
+    ]
+   },
    "management_delivery": {
     "symbol": "CNERGY",
     "status": "no_active_thesis",
@@ -227233,7 +227852,7 @@
       "symbol": "CNERGY",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-27 21:16",
+       "as_of": "2026-08-28 15:26",
        "source": {
         "company_financial_series": "state/company_financial_series.json",
         "financial_coverage": "state/company_intel/financial_coverage.json",
@@ -227305,7 +227924,7 @@
       "symbol": "CNERGY",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-27 21:16",
+       "as_of": "2026-08-28 15:26",
        "source": {
         "company_profiles": "state/company_profiles.json",
         "sectors": "state/sectors.json",
@@ -227358,13 +227977,15 @@
        "source": {
         "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
         "forecast_readiness": "state/company_intel/forecast_readiness.json",
+        "financial_truth_qualification": "state/company_intel/financial_truth_qualification.json",
         "financial_engine_assumptions": "state/company_intel/financial_engine_assumptions.json"
        },
        "policy": {
         "research_only": true,
         "no_advice": true,
         "no_output_without_approved_source_labelled_assumptions": true,
-        "no_audit_only_financial_facts": true
+        "no_audit_only_financial_facts": true,
+        "financial_truth_is_authoritative_activation_gate": true
        },
        "kind": "financial_forecasts",
        "engine_version": "formal_financial_engines_v1",
@@ -227381,6 +228002,7 @@
         "approved_net_margin_pct",
         "approved_revenue_growth_pct",
         "financial_model_inputs_ready",
+        "financial_truth_qualified",
         "forecast_readiness_input_ready"
        ],
        "result": null,
@@ -227404,13 +228026,15 @@
        "source": {
         "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
         "forecast_readiness": "state/company_intel/forecast_readiness.json",
+        "financial_truth_qualification": "state/company_intel/financial_truth_qualification.json",
         "financial_engine_assumptions": "state/company_intel/financial_engine_assumptions.json"
        },
        "policy": {
         "research_only": true,
         "no_advice": true,
         "no_output_without_approved_source_labelled_assumptions": true,
-        "no_audit_only_financial_facts": true
+        "no_audit_only_financial_facts": true,
+        "financial_truth_is_authoritative_activation_gate": true
        },
        "kind": "formal_valuations",
        "engine_version": "formal_financial_engines_v1",
@@ -227429,6 +228053,7 @@
         "approved_net_margin_pct",
         "approved_revenue_growth_pct",
         "financial_model_inputs_ready",
+        "financial_truth_qualified",
         "forecast_readiness_input_ready"
        ],
        "result": null,
@@ -227452,13 +228077,15 @@
        "source": {
         "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
         "forecast_readiness": "state/company_intel/forecast_readiness.json",
+        "financial_truth_qualification": "state/company_intel/financial_truth_qualification.json",
         "financial_engine_assumptions": "state/company_intel/financial_engine_assumptions.json"
        },
        "policy": {
         "research_only": true,
         "no_advice": true,
         "no_output_without_approved_source_labelled_assumptions": true,
-        "no_audit_only_financial_facts": true
+        "no_audit_only_financial_facts": true,
+        "financial_truth_is_authoritative_activation_gate": true
        },
        "kind": "market_expectations",
        "engine_version": "formal_financial_engines_v1",
@@ -227476,6 +228103,7 @@
         "approved_net_margin_pct",
         "approved_revenue_growth_pct",
         "financial_model_inputs_ready",
+        "financial_truth_qualified",
         "forecast_readiness_input_ready"
        ],
        "result": null,
@@ -227720,6 +228348,7 @@
        "approved_net_margin_pct",
        "approved_revenue_growth_pct",
        "financial_model_inputs_ready",
+       "financial_truth_qualified",
        "forecast_readiness_input_ready"
       ]
      },
@@ -227750,6 +228379,7 @@
        "approved_net_margin_pct",
        "approved_revenue_growth_pct",
        "financial_model_inputs_ready",
+       "financial_truth_qualified",
        "forecast_readiness_input_ready"
       ]
      },
@@ -227779,6 +228409,7 @@
        "approved_net_margin_pct",
        "approved_revenue_growth_pct",
        "financial_model_inputs_ready",
+       "financial_truth_qualified",
        "forecast_readiness_input_ready"
       ]
      }
@@ -227938,6 +228569,7 @@
    "financial_forecasts": {
     "symbol": "CNERGY",
     "status": "blocked",
+    "truth_status": "not_qualified",
     "reason": "missing_source_gated_inputs",
     "missing_requirements": [
      "actual_basic_eps",
@@ -227960,6 +228592,7 @@
    "formal_valuations": {
     "symbol": "CNERGY",
     "status": "blocked",
+    "truth_status": "not_qualified",
     "reason": "missing_source_gated_inputs",
     "missing_requirements": [
      "actual_basic_eps",
@@ -227984,6 +228617,7 @@
    "market_expectations": {
     "symbol": "CNERGY",
     "status": "blocked",
+    "truth_status": "not_qualified",
     "reason": "missing_source_gated_inputs",
     "missing_requirements": [
      "actual_basic_eps",
@@ -228174,6 +228808,7 @@
     "market_expectations_status": "ready_snapshot_reverse_solve",
     "brain_object_count": 16,
     "management_delivery_records": 0,
+    "intelligence_case_count": 0,
     "guidance_object_count": 6,
     "guidance_contradiction_count": 0,
     "evidence_watchlist_status": "no_active_watch",
@@ -228217,9 +228852,9 @@
  ],
  "_meta": {
   "generator_version": "ci_artifact_integrity_v1",
-  "source_commit_sha": "4b618216067b62082adf73119d9c76e42b7e8057",
-  "build_cutoff_at": "2026-08-28T17:59:21Z",
-  "generated_at": "2026-08-28T17:59:21Z",
+  "source_commit_sha": "73377a5cab88eb859c13375d0166cf58c5f90191",
+  "build_cutoff_at": "2026-08-29T09:43:23Z",
+  "generated_at": "2026-08-29T09:43:23Z",
   "artifact_path": "Henneth Desk 2.CI.0/data/company_intelligence.json",
   "timestamp_semantics": {
    "build_cutoff_at": "generation boundary only; not a source-effective or source-published time",

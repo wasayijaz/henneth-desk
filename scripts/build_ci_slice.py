@@ -821,6 +821,7 @@ def build():
     signal_clusters = load_json(STATE / "company_intel" / "signal_clusters.json", {"companies": {}})
     thesis_monitoring = load_json(STATE / "company_intel" / "thesis_monitoring.json", {"companies": {}})
     intelligence_confidence = load_json(STATE / "company_intel" / "intelligence_confidence.json", {"companies": {}})
+    intelligence_cases = load_json(STATE / "company_intel" / "intelligence_cases.json", {"companies": {}})
     management_delivery = load_json(STATE / "company_intel" / "management_delivery.json", {"companies": {}})
     guidance_contradictions = load_json(STATE / "company_intel" / "guidance_contradictions.json", {"companies": {}})
     evidence_watchlist = load_json(STATE / "company_intel" / "evidence_watchlist.json", {"companies": {}})
@@ -940,6 +941,13 @@ def build():
         signal_cluster_row = signal_clusters.get("companies", {}).get(sym) or {"candidate_count": 0, "eligible_count": 0, "clusterable_count": 0, "rejection_reasons": {}, "clusters": []}
         thesis_row = (thesis_monitoring.get("companies") or {}).get(sym)
         confidence_row = (intelligence_confidence.get("companies") or {}).get(sym)
+        intelligence_case_row = (intelligence_cases.get("companies") or {}).get(sym) or {
+            "symbol": sym,
+            "status": "no_observed_case",
+            "case_count": 0,
+            "cases": [],
+            "rejection_reasons": ["intelligence_cases_state_missing"],
+        }
         management_delivery_row = (management_delivery.get("companies") or {}).get(sym)
         guidance_contradictions_row = (guidance_contradictions.get("companies") or {}).get(sym)
         evidence_watchlist_row = (evidence_watchlist.get("companies") or {}).get(sym)
@@ -1055,6 +1063,7 @@ def build():
             "signal_clusters": signal_cluster_row,
             "thesis_monitoring": thesis_row,
             "intelligence_confidence": confidence_row,
+            "intelligence_cases": intelligence_case_row,
             "management_delivery": management_delivery_row,
             "guidance_contradictions": guidance_contradictions_row,
             "evidence_watchlist": evidence_watchlist_row,
@@ -1104,6 +1113,7 @@ def build():
                 "market_expectations_status": (scenario_lab_row.get("status") or {}).get("market_expectations"),
                 "brain_object_count": (company_brain.get("coverage") or {}).get("object_count", 0),
                 "management_delivery_records": (management_delivery_row or {}).get("delivery_record_count", 0),
+                "intelligence_case_count": (intelligence_case_row or {}).get("case_count", 0),
                 "guidance_object_count": (guidance_contradictions_row or {}).get("object_count", 0),
                 "guidance_contradiction_count": (guidance_contradictions_row or {}).get("contradiction_count", 0),
                 "evidence_watchlist_status": (evidence_watchlist_row or {}).get("status"),

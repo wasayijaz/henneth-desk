@@ -41,6 +41,7 @@ FOCUSED_CHECKS: tuple[str, ...] = (
     "check_company_brain_source_index.py",
     "check_thesis_monitoring.py",
     "check_intelligence_confidence.py",
+    "check_intelligence_cases.py",
     "check_management_delivery.py",
     "check_guidance_contradictions.py",
     "check_ci_global_no_lookahead.py",
