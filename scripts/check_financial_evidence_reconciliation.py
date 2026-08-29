@@ -290,6 +290,20 @@ def _synthetic_assertions() -> None:
     if fact_status(tampered, "2026-08-26") == "eligible":
         _fail("tampered issuer binding became eligible")
 
+    current_fact = _fact(retrieved_at="2026-08-29T11:15:16Z")
+    current_snapshot = build_reconciliation(
+        ["MLCF"],
+        {"tickers": {"MLCF": {"facts": [current_fact, _fact(available_on="2027-02-01", retrieved_at="2026-08-27T00:00:00Z")]}}},
+        {"companies": {"MLCF": _coverage()}},
+        {"companies": {"MLCF": {"status": "ready"}}},
+        {"as_of": "2026-08-28 15:26", "companies": {"MLCF": {"status": "blocked_insufficient_qualified_history", "qualified_period_count": 0}}},
+    )
+    if current_snapshot.get("as_of") != "2026-08-29T11:15:16Z":
+        _fail("newly retrieved fact did not advance reconciliation availability cutoff")
+    current_records = current_snapshot["companies"]["MLCF"]["facts"]
+    if any(record.get("source", {}).get("available_on") == "2027-02-01" for record in current_records):
+        _fail("future available_on fact advanced reconciliation snapshot")
+
 
 def main() -> None:
     expected = builder.build()

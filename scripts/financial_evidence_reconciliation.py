@@ -7,7 +7,7 @@ values, select through conflicts, or activate forecasts/valuations.
 from __future__ import annotations
 
 import hashlib
-from datetime import date
+from datetime import date, datetime, timezone
 from typing import Any
 
 from forecast_contract import (
@@ -49,6 +49,39 @@ def iso_date(value: Any) -> str | None:
         return date.fromisoformat(text[:10]).isoformat()
     except ValueError:
         return None
+
+
+def _retrieved_cutoff(financial_series: dict[str, Any], fallback: Any) -> str | None:
+    """Advance a current reconciliation snapshot to facts actually observed by CI.
+
+    ``available_on`` remains the per-fact publication gate.  It is deliberately
+    excluded here so a future-dated filing cannot advance the snapshot merely
+    by appearing in retained state.  A fact's retained ``retrieved_at`` is the
+    actual Henneth availability boundary for a newly restaged source.
+    """
+    candidates = [str(fallback).strip()] if fallback else []
+    for row in (financial_series.get("tickers") or {}).values():
+        if not isinstance(row, dict):
+            continue
+        for fact in row.get("facts") or []:
+            if isinstance(fact, dict) and fact.get("retrieved_at"):
+                candidates.append(str(fact["retrieved_at"]).strip())
+
+    def key(value: str) -> datetime | None:
+        normalized = value.replace("Z", "+00:00")
+        try:
+            parsed = datetime.fromisoformat(normalized)
+        except ValueError:
+            return None
+        if parsed.tzinfo is not None:
+            return parsed.astimezone(timezone.utc).replace(tzinfo=None)
+        return parsed
+
+    dated = [(value, key(value)) for value in candidates]
+    dated = [(value, parsed) for value, parsed in dated if parsed is not None]
+    if not dated:
+        return str(fallback) if fallback else None
+    return max(dated, key=lambda item: item[1])[0]
 
 
 def _num(value: Any) -> float | int | None:
@@ -380,7 +413,7 @@ def build_reconciliation(
     coverage_rows = financial_coverage.get("companies") or {}
     model_rows = financial_model_inputs.get("companies") or {}
     readiness_rows = forecast_readiness.get("companies") or {}
-    as_of = forecast_readiness.get("as_of")
+    as_of = _retrieved_cutoff(financial_series, forecast_readiness.get("as_of"))
     for symbol in pilot_symbols:
         facts = (series_rows.get(symbol) or {}).get("facts") or []
         companies[symbol] = company_reconciliation(
