@@ -912,14 +912,13 @@ def consume_canonical(registry_path: Path, queue_path: Path, output_root: Path,
     if ci_builder is None:
         from build_ci_slice import build as build_ci_slice
         ci_builder = build_ci_slice
-    dependent_ci_builders = (
+    source_ci_builders = (
         () if ci_builder_injected else (
             build_signal_clusters,
             build_thesis_monitoring,
             build_intelligence_confidence,
             build_guidance_contradictions,
             build_management_delivery,
-            build_company_brains,
         )
     )
     post_watchlist_builders = (
@@ -943,7 +942,7 @@ def consume_canonical(registry_path: Path, queue_path: Path, output_root: Path,
         truth_builder()
         stage = "build_formal_financial_engines"
         formal_builder()
-        for builder in dependent_ci_builders:
+        for builder in source_ci_builders:
             stage = f"build:{getattr(builder, '__module__', 'unknown')}"
             builder()
         stage = "build_evidence_watchlist"
@@ -951,6 +950,9 @@ def consume_canonical(registry_path: Path, queue_path: Path, output_root: Path,
         for builder in post_watchlist_builders:
             stage = f"build:{getattr(builder, '__module__', 'unknown')}"
             builder()
+        if not ci_builder_injected:
+            stage = "build_company_brains"
+            build_company_brains()
         stage = "build_ci_completion_matrix"
         completion_matrix_builder()
         stage = "build_ci_slice"
@@ -965,6 +967,9 @@ def consume_canonical(registry_path: Path, queue_path: Path, output_root: Path,
             "check_financial_evidence_reconciliation.py",
             "check_financial_truth_qualification.py",
             "check_formal_financial_engines.py",
+            "check_company_brains.py",
+            "check_company_brain_formal_engines.py",
+            "check_company_brain_source_index.py",
             "check_ci_completion_matrix.py",
             "check_event_studies.py",
             "check_operating_intelligence.py",
@@ -975,7 +980,7 @@ def consume_canonical(registry_path: Path, queue_path: Path, output_root: Path,
         # part of their idempotency proof.  Rebuild the dependent CI surface
         # once more after those checks, then run the aggregate gate against a
         # coherent final artifact set rather than a stale watchlist/slice.
-        for builder in dependent_ci_builders:
+        for builder in source_ci_builders:
             stage = f"rebuild:{getattr(builder, '__module__', 'unknown')}"
             builder()
         stage = "rebuild_evidence_watchlist"
@@ -983,6 +988,9 @@ def consume_canonical(registry_path: Path, queue_path: Path, output_root: Path,
         for builder in post_watchlist_builders:
             stage = f"rebuild:{getattr(builder, '__module__', 'unknown')}"
             builder()
+        if not ci_builder_injected:
+            stage = "rebuild_company_brains"
+            build_company_brains()
         stage = "rebuild_ci_completion_matrix"
         completion_matrix_builder()
         stage = "rebuild_ci_slice"
