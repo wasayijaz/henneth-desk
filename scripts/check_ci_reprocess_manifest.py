@@ -127,6 +127,17 @@ def _assert_execution_allowlist(expected: dict) -> None:
         _fail("reprocess APPROVED_WAVE3_ALLOWLIST drifted from metadata-derived review manifest")
 
 
+def _assert_exact_oversized_policy(expected: dict) -> None:
+    doc = (expected.get("documents") or {}).get("psx:260032") or {}
+    policy = reprocess.OVERSIZED_CHUNK_POLICIES.get("psx:260032") or {}
+    if doc.get("source_url") != policy.get("source_url"):
+        _fail("MLCF exact source URL drifted from the chunk policy")
+    if doc.get("content_sha256") != policy.get("content_sha256"):
+        _fail("MLCF exact source hash drifted from the chunk policy")
+    if tuple(policy.get("ranges") or ()) != ((1, 120), (121, 240), (241, 360), (361, 401)):
+        _fail("MLCF chunk ranges are not the approved four transport units")
+
+
 def _assert_stale_execution_payloads_fail(expected: dict) -> None:
     good_docs = {}
     for doc_id, doc in (expected.get("documents") or {}).items():
@@ -161,6 +172,7 @@ def main() -> int:
     if _dump(expected) != _dump(expected_again):
         _fail("ci restage manifest builder is not deterministic")
     _assert_manifest_shape(expected)
+    _assert_exact_oversized_policy(expected)
     _assert_no_numeric_facts(expected)
     committed = load_json(OUT, {})
     if _dump(committed) != _dump(expected):

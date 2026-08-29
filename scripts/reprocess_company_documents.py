@@ -49,7 +49,14 @@ RETAINED_ORIGINALS: dict[str, dict[str, Any]] = {
         "page_count": 333,
     },
 }
+# Exact owner-reviewed oversized transport policies. The normal 120-page cap
+# remains the default for every other source.
+OVERSIZED_CHUNK_POLICIES: dict[str, dict[str, Any]] = {
+    "psx:260947": {"source_url": "https://dps.psx.com.pk/download/document/260947.pdf", "content_sha256": "1a10091295cf7a815f1910eb418215d501d42b52e39dcbd0b54a53fd1aceaa7d", "page_count": 333, "ranges": ((1, 111), (112, 222), (223, 333))},
+    "psx:260032": {"source_url": "https://dps.psx.com.pk/download/document/260032.pdf", "content_sha256": "4fdfb4cbd2eee65576cbb89b43334ce0c09a7e5ffd573d5bf93b414029eba6d1", "page_count": 401, "ranges": ((1, 120), (121, 240), (241, 360), (361, 401))},
+}
 APPROVED_WAVE3_ALLOWLIST: frozenset[str] = frozenset({
+    "psx:260032",
     "psx:260947",
     "psx:264230",
     "psx:275962",
@@ -153,7 +160,14 @@ def chunk_verified_oversized_pdf(doc: "VerifiedDocument", fetched: "FetchResult"
     parser units are opened.  The global cap is unchanged; all facts retain the
     original source identity and page numbers.
     """
+    policy = OVERSIZED_CHUNK_POLICIES.get(doc.doc_id)
+    if policy is None:
+        raise DegradedDocument("oversized_chunk_not_approved")
+    if doc.url != policy["source_url"] or fetched.content_sha256 != policy["content_sha256"]:
+        raise DegradedDocument("oversized_source_identity_mismatch")
     page_count = int(expected_page_count or fetched.page_count)
+    if page_count != int(policy["page_count"]):
+        raise DegradedDocument("oversized_page_count_mismatch")
     identity = SourceIdentity(
         document_id=doc.doc_id,
         title=str(doc.row.get("title") or doc.row.get("digest") or ""),
@@ -166,7 +180,7 @@ def chunk_verified_oversized_pdf(doc: "VerifiedDocument", fetched: "FetchResult"
     source_path = output_dir / f"{doc.doc_id.replace(':', '_')}_{fetched.content_sha256[:16]}_source.pdf"
     source_path.write_bytes(fetched.body)
     chunks_dir = output_dir / "chunks"
-    records = split_pdf(source_path, chunks_dir, identity)
+    records = split_pdf(source_path, chunks_dir, identity, ranges=policy["ranges"])
     # The canonical extraction seam consumes the records and maps parser pages
     # back to source pages.  The enclosing reprocess transaction removes the
     # source/chunk directory after the consumer and receipt have completed.
@@ -293,12 +307,18 @@ def load_allowlist(manifest_path: Path | None = None,
                 re.compile(pattern)
             except re.error as exc:
                 raise UnsafeInput(f"{doc_id}: invalid expected_title_pattern") from exc
+            pinned_sha = meta.get("content_sha256")
+            if pinned_sha is not None:
+                pinned_sha = str(pinned_sha).strip().lower()
+                if not re.fullmatch(r"[0-9a-f]{64}", pinned_sha):
+                    raise UnsafeInput(f"{doc_id}: invalid content_sha256")
             allowed[doc_id] = {
                 "doc_id": doc_id,
                 "symbol": symbol.strip().upper(),
                 "company_name": _clean_text(company),
                 "expected_title_pattern": pattern,
                 "period": period.strip(),
+                **({"content_sha256": pinned_sha} if pinned_sha else {}),
             }
     return allowed
 
@@ -381,6 +401,10 @@ def _validate_row(doc_id: str, row: dict[str, Any], key: str, pilot: set[str],
     numeric_id = DOCUMENT_ID_RE.fullmatch(doc_id).group(1)  # type: ignore[union-attr]
     known = row.get("content_sha256")
     known_sha = str(known).lower() if isinstance(known, str) and re.fullmatch(r"[0-9a-fA-F]{64}", known) else None
+    pinned_sha = manifest_meta.get("content_sha256")
+    if pinned_sha and known_sha and pinned_sha != known_sha:
+        raise UnsafeInput(f"{doc_id}: retained metadata hash mismatches exact policy hash")
+    known_sha = pinned_sha or known_sha
     return VerifiedDocument(doc_id=doc_id, numeric_id=numeric_id, row=row, url=url, tickers=tickers,
                             content_sha256=known_sha, manifest=manifest_meta)
 
@@ -1160,7 +1184,7 @@ def run_reprocess(
                 try:
                     fetched = fetch_with_retained_fallback(
                         doc, transport, budget, root,
-                        allow_oversized_chunk=(doc.doc_id == "psx:260947"))
+                        allow_oversized_chunk=(doc.doc_id in OVERSIZED_CHUNK_POLICIES))
                     results.append(_diagnose_document(doc, fetched))
                 except DegradedDocument as exc:
                     results.append({"doc_id": doc.doc_id, "status": "degraded", "reason": str(exc)})
@@ -1170,7 +1194,7 @@ def run_reprocess(
                 results.append({"doc_id": doc.doc_id, "status": "skipped_idempotent"})
                 continue
             try:
-                oversized = doc.doc_id == "psx:260947"
+                oversized = doc.doc_id in OVERSIZED_CHUNK_POLICIES
                 fetched = fetch_with_retained_fallback(
                     doc, transport, budget, root,
                     allow_oversized_chunk=oversized)

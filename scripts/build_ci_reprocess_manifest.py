@@ -28,6 +28,15 @@ FORBIDDEN_VALUE_KEYS = {"normalized_value", "raw_value", "value", "amount", "eps
 # Document IDs are derived from the current retained coverage metadata.
 APPROVED_REVIEW_SLOTS: tuple[dict[str, Any], ...] = (
     {
+        "symbol": "MLCF",
+        "period": "2025-06-30",
+        "classification": "financial_statement",
+        "title_pattern": r"MLCF Transmission of Annual Financial Statements for the Year Ended 30\.06\.2025",
+        "require_retained_hash": True,
+        "source_document_id": "psx:260032",
+        "source_content_sha256": "4fdfb4cbd2eee65576cbb89b43334ce0c09a7e5ffd573d5bf93b414029eba6d1",
+    },
+    {
         "symbol": "DGKC",
         "period": "2025-06-30",
         "classification": "financial_results",
@@ -113,7 +122,10 @@ def _resolve_slot(coverage: dict[str, Any], slot: dict[str, Any], research_index
         doc_id = _document_id(row.get("id") or row.get("official_document_id"))
         title = _text(row.get("title"))
         source_url = _official_pdf_url(explicit_id, row.get("url"))
-        content_sha256 = str(row.get("content_sha256") or "").lower() or None
+        content_sha256 = str(row.get("content_sha256") or slot.get("source_content_sha256") or "").lower() or None
+        pinned_sha = slot.get("source_content_sha256")
+        if pinned_sha and content_sha256 != str(pinned_sha).lower():
+            raise ValueError(f"{symbol} {period}: exact source hash mismatch")
         if (doc_id != explicit_id or row.get("source") != "PSX DPS" or row.get("source_type") != "filing"
                 or symbol not in (row.get("tickers") or []) or not source_url
                 or not re.search(pattern, title, re.I)
@@ -125,7 +137,7 @@ def _resolve_slot(coverage: dict[str, Any], slot: dict[str, Any], research_index
             "classification": classification, "title": title,
             "expected_title_pattern": pattern, "published_at": row.get("published_at"),
             "source_url": source_url, "content_sha256": content_sha256,
-            "content_identity": "retained_hash", "safe_period": {"period_end": period, "period_type": "interim", "source": "owner_approved_counterpart"},
+            "content_identity": "retained_hash", "safe_period": {"period_end": period, "period_type": ("annual" if classification == "financial_statement" else "interim"), "source": ("owner_approved_exact_source" if slot.get("source_content_sha256") else "owner_approved_counterpart")},
             "approval_status": "owner_approved", "reason": "owner-approved retained official full-report counterpart for bounded CI filing restage",
         }
     matches = []

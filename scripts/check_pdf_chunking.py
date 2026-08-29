@@ -73,6 +73,31 @@ def main() -> int:
         with temporary_chunks(source, temp_output, identity, ranges=ranges) as temp_records:
             assert len(temp_records) == 3 and temp_output.exists()
         assert not temp_output.exists()
+
+        # MLCF FY2025 is the sole four-unit 401-page transport exception.
+        mlcf_source = root_path / "mlcf-annual.pdf"
+        mlcf_hash = _fixture(mlcf_source, pages=401)
+        mlcf_identity = SourceIdentity(
+            document_id="psx:260032",
+            title="MLCF Transmission of Annual Financial Statements for the Year Ended 30.06.2025",
+            source_url="https://dps.psx.com.pk/download/document/260032.pdf",
+            content_sha256=mlcf_hash,
+            published_at="2025-09-25T12:43:00+05:00",
+            available_on="2025-09-25",
+            page_count=401,
+        )
+        mlcf_ranges = build_page_ranges(401, preferred_ends=(120, 240, 360, 401))
+        assert mlcf_ranges == [(1, 120), (121, 240), (241, 360), (361, 401)]
+        mlcf_chunks = split_pdf(mlcf_source, root_path / "mlcf-chunks", mlcf_identity,
+                                ranges=mlcf_ranges)
+        assert [(r.source_page_start, r.source_page_end, r.page_count) for r in mlcf_chunks] == [
+            (1, 120, 120), (121, 240, 120), (241, 360, 120), (361, 401, 41)
+        ]
+        mapped_mlcf = map_evidence({"page": 41, "text": "fixture"}, mlcf_chunks[-1])
+        assert mapped_mlcf["page"] == 401
+        assert mapped_mlcf["document_id"] == "psx:260032"
+        assert mapped_mlcf["source_url"] == mlcf_identity.source_url
+        assert mapped_mlcf["content_sha256"] == mlcf_hash
     print("pdf_chunking self-check: ok")
     return 0
 

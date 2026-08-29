@@ -392,6 +392,11 @@ def _verified_facts(root: Path, facts: list[dict[str, Any]]) -> list[dict[str, s
 
 
 def main() -> int:
+    # Exact MLCF annual exception: four parser-sized ranges preserving source pages.
+    mlcf_policy = r.OVERSIZED_CHUNK_POLICIES["psx:260032"]
+    assert mlcf_policy["ranges"] == ((1, 120), (121, 240), (241, 360), (361, 401))
+    assert sum(end - start + 1 for start, end in mlcf_policy["ranges"]) == 401
+    assert mlcf_policy["content_sha256"] == "4fdfb4cbd2eee65576cbb89b43334ce0c09a7e5ffd573d5bf93b414029eba6d1"
     good_pdf = _pdf(
         "Consolidated financial statements for the period ended 2026-06-30\n"
         "Rupees in million\n"

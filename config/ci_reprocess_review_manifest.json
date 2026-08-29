@@ -1,7 +1,7 @@
 {
  "schema_version": 1,
  "manifest_version": "ci_reprocess_review_manifest_v1",
- "manifest_id": "cirestage_3c3490fc0ea33e372640",
+ "manifest_id": "cirestage_f68456935d9bf33b50f3",
  "source": {
   "financial_coverage": "state/company_intel/financial_coverage.json",
   "research_index": "state/research_index.json"
@@ -40,6 +40,12 @@
  ],
  "approved_review_slots": [
   {
+   "symbol": "MLCF",
+   "period": "2025-06-30",
+   "classification": "financial_statement",
+   "require_retained_hash": true
+  },
+  {
    "symbol": "DGKC",
    "period": "2025-06-30",
    "classification": "financial_results",
@@ -59,11 +65,31 @@
   }
  ],
  "document_ids": [
+  "psx:260032",
   "psx:260947",
   "psx:264230",
   "psx:275962"
  ],
  "documents": {
+  "psx:260032": {
+   "document_id": "psx:260032",
+   "symbol": "MLCF",
+   "period": "2025-06-30",
+   "classification": "financial_statement",
+   "title": "MLCF Transmission of Annual Financial Statements for the Year Ended 30.06.2025",
+   "expected_title_pattern": "MLCF Transmission of Annual Financial Statements for the Year Ended 30\\.06\\.2025",
+   "published_at": "2025-09-25T12:43:00+05:00",
+   "source_url": "https://dps.psx.com.pk/download/document/260032.pdf",
+   "content_sha256": "4fdfb4cbd2eee65576cbb89b43334ce0c09a7e5ffd573d5bf93b414029eba6d1",
+   "content_identity": "retained_hash",
+   "safe_period": {
+    "period_end": "2025-06-30",
+    "period_type": "annual",
+    "source": "owner_approved_exact_source"
+   },
+   "approval_status": "owner_approved",
+   "reason": "owner-approved retained official full-report counterpart for bounded CI filing restage"
+  },
   "psx:260947": {
    "document_id": "psx:260947",
    "symbol": "DGKC",
@@ -124,11 +150,12 @@
   }
  },
  "summary": {
-  "document_count": 3,
+  "document_count": 4,
   "symbols": [
-   "DGKC"
+   "DGKC",
+   "MLCF"
   ],
-  "retained_hash_count": 3,
+  "retained_hash_count": 4,
   "transport_hash_required_count": 0
  }
 }
