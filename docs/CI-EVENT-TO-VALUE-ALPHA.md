@@ -41,13 +41,12 @@ that were actually proven.
 1. Keep Part 0's local safety floor active: timestamp meanings, no-lookahead,
    artifact integrity, and secrets/auth invariants. Live release proof remains
    deferred until the final release gate.
-2. Establish DGKC first-case viability quickly: a dated, authoritative
-   expansion/commissioning observation, credible mechanism, competing
-   hypotheses, and a bounded official-filing availability audit. Create only
-   an `Observed` case seed if the evidence is defensible; otherwise move to the
-   strongest retained industrial alternative rather than expanding research
-   indefinitely.
-3. Take a viable DGKC lane through financial facts, corroboration, cutoff-safe
+2. Establish the selected industrial first-case viability quickly: a dated,
+   authoritative observation, credible mechanism, competing hypotheses, and a
+   bounded official-filing availability audit. DGKC's retained expansion lead
+   did not clear this test, so MLCF / Pioneer Cement is the current `Observed`
+   industrial alternative; do not expand research indefinitely.
+3. Take the viable MLCF lane through financial facts, corroboration, cutoff-safe
    analogues, calibrated scenarios, deterministic eight-quarter modelling,
    valuation, price-implied expectations, and the minimum real case interface.
    A provisional case may progress only through `Observed`, `Corroborated`,
@@ -77,11 +76,11 @@ models remain sector-specific.
   productivity ramp, channel/geography/customer mix, gross margin, acquisition
   and retention, and working capital.
 
-No universal driver schema or formula engine is introduced. DGKC establishes a
-concrete cement model first; E&P and sales-led economics are independently
+No universal driver schema or formula engine is introduced. The selected MLCF
+industrial lane establishes the concrete cement/acquisition model; E&P and sales-led economics are independently
 implemented, with reuse limited to workflow contracts proven across sectors.
 
-## Current baseline — 2026-08-28
+## Current baseline — 2026-08-29
 
 | Area | Retained evidence | Status | Implication for Alpha |
 |---|---|---|---|
@@ -91,7 +90,7 @@ implemented, with reuse limited to workflow contracts proven across sectors.
 | Historical analogue state | `state/company_intel/conditional_benchmarks.json` | 21 dated benchmarks; thin samples remain suppressed | Golden cases need case-specific, cutoff-safe analogue evidence. |
 | Private thesis storage | `private_thesis_storage_receipt.json` | Schema configured; live CRUD/cross-user RLS proof absent | Persisted owner scenarios/theses stay disabled until verified. |
 | CI release integrity | Generated CI state carries a reproducible build envelope; live preview/production proof has not been run | Deferred by owner | Part 0 remains preserved and does not block current Alpha product development. |
-| Financial truth qualification | `financial_truth_qualification.json`; `financial_reprocess_blockers.json` | DGKC leads but is not golden | Four annual income triplets are qualified; OCF, direct quarters, and an official share-count tie-out remain absent. |
+| Financial truth qualification | `financial_truth_qualification.json`; `financial_reprocess_blockers.json` | DGKC leads on retained coverage but is not golden; MLCF is the selected industrial case | MLCF has 3/5 annual income triplets and 2/5 consolidated annual OCF periods; it still has 0/8 direct quarters and no owner-approved official share-count tie-out. |
 
 ## Golden-company selection register
 
@@ -110,7 +109,7 @@ eight reported quarters, load-bearing share-count data, and a real dated event.
 | Part | Gate | Status | Visible investor behaviour delivered | Data coverage / unresolved blocker |
 |---|---|---|---|---|
 | 0 | Release integrity | Deferred by owner | Every generated private CI artifact is now sealed with a common UTC cutoff, source commit, generator version, and hash manifest; stale or mismatched envelopes fail closed. | Preserve the release work for Alpha readiness; do not run live preview/production proof while Part 1 product work continues. |
-| 1 | Model-ready financial truth | In progress | Financial truth is now the authoritative fail-closed gate for formal forecast, valuation, and market-expectations output; legacy three-period readiness is descriptive only. | Selected MLCF case: 3/5 annual income triplets, 0/5 OCF, 0/8 direct consolidated quarters, and no share-count tie-out. No owner-approved, hash-bound MLCF/PIOC restage tranche exists. The smallest possible new intake candidate is official MLCF FY25 annual transmission `psx:260032`; its factual delta is unknown until exact hash and geometry verification. |
+| 1 | Model-ready financial truth | In progress | Financial truth is the authoritative fail-closed gate for formal forecast, valuation, and market-expectations output; legacy three-period readiness is descriptive only. | Selected MLCF case: 3/5 annual income triplets, 2/5 consolidated annual OCF, 0/8 direct consolidated quarters, and no owner-approved official share-count tie-out. Official FY25 `psx:260032` is hash-bound and v2-qualified; its capital note now has a source-bound, unapproved candidate path. |
 | 2 | Three real operating events | In progress | MLCF has one `Observed` IntelligenceCase seed for the Pioneer Cement control/acquisition chain, with official PSX page-level citations for the December 2025 offer and April 2026 dispatch inclusion. | It is deliberately not Corroborated, Modelled, Validated, or Published: the observed chain does not yet supply independent corroboration, source-qualified incremental financial impact, or a complete financial-truth gate. |
 | 3 | Sector event models | Not started | None | Requires one deterministic E&P, capacity/hiring, and sales-ramp model contract. |
 | 4 | Eight-quarter event-to-financial models | Not started | None | Requires complete actuals and source-labelled analyst assumptions. |
@@ -209,3 +208,4 @@ same commit:
 | 2026-08-29 | Audited DGKC first-case viability under the vertical-lane rule. | No Observed seed: `evt_c66c444c35780cf5951e` lacks a trusted event date, full context, and resolved subsidiary attribution. Its PP-bag reference stays evidence-only; no inferred date or cement model is permitted. |
 | 2026-08-29 | Added the first narrow IntelligenceCase output: MLCF / Pioneer Cement acquisition-control is `Observed` only. | `psx:267429` p.3 records the dated MLCF offer/control mechanics; `psx:275425` p.4 records PIOC dispatch inclusion after February 2026 acquisition. The case preserves both sources, alternatives, and explicit promotion blocks; it emits no forecast, valuation, expectations, or recommendation. |
 | 2026-08-29 | Completed retained-state financial availability audit for the selected MLCF lane. | No executable filing tranche: PIOC has no retained CI financial document, while MLCF has 3/5 annual income facts and no qualified OCF, quarter, or share-capital coverage. Existing MLCF quarterly transmissions are hash-bound but have unconsolidated/mixed geometry and cannot be promoted. `psx:260032` is the smallest future official annual candidate, subject to owner approval and exact intake gates. |
+| 2026-08-29 | Restaged the verified MLCF FY25 annual and qualified its consolidated annual OCF facts; added a fail-closed capital-note candidate path. | `psx:260032` remains one official source, never double-counted. MLCF now has 3/5 annual income triplets and 2/5 annual consolidated OCF. Its page-317 capital-note candidate carries the source URL, hash, original page, and arithmetic tie-out but remains unapproved and cannot activate financial truth or any formal output. |
