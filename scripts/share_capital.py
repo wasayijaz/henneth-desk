@@ -16,6 +16,14 @@ OFFICIAL_URL = re.compile(r"^https://dps\.psx\.com\.pk/download/document/(\d+)\.
 DOC_ID = re.compile(r"^psx:(\d+)$")
 SHA256 = re.compile(r"^[0-9a-f]{64}$")
 
+# The FY25 DGKC issuer report is the canonical source for the share-count
+# tie-out.  Keep this pair explicit: the retained PSX distributor copy is not
+# independent evidence and must never be accepted or double-counted here.
+CANONICAL_ISSUER_DOC_ID = "issuer:39fe974f6ef82bbeadf83938"
+CANONICAL_ISSUER_URL = "https://www.dgcement.com/financial-reports/DGAnnual2025.pdf"
+CANONICAL_ISSUER_SHA256 = "96ca1120b238541d4916fb1c777614ee6045f30ab130d2f18e8a1fd5c62bdf73"
+CANONICAL_ISSUER_PAGE_COUNT = 332
+
 # Keep the match local to the issued/subscribed/paid-up row.  This prevents
 # authorised capital (which commonly appears immediately above it) from being
 # mistaken for issued shares.
@@ -68,10 +76,17 @@ def extract_share_capital_evidence(
     content_sha256 = str(doc.get("content_sha256") or "").strip().lower()
     doc_match = DOC_ID.fullmatch(doc_id)
     url_match = OFFICIAL_URL.fullmatch(source_url)
-    if not doc_match or not url_match or doc_match.group(1) != url_match.group(1):
+    issuer_pair = doc_id == CANONICAL_ISSUER_DOC_ID and source_url == CANONICAL_ISSUER_URL
+    if (not issuer_pair and (not doc_match or not url_match or doc_match.group(1) != url_match.group(1))):
         return []
     if not SHA256.fullmatch(content_sha256):
         return []
+    if issuer_pair:
+        if content_sha256 != CANONICAL_ISSUER_SHA256:
+            return []
+        declared_pages = doc.get("page_count")
+        if declared_pages is not None and declared_pages != CANONICAL_ISSUER_PAGE_COUNT:
+            return []
     period_end = _period_end(doc, "")
 
     candidates: list[tuple[int, int, dict[str, Any]]] = []
@@ -146,8 +161,19 @@ def extract_share_capital_evidence(
         # over an older/duplicated share-capital note.  Both remain visible in
         # transient extraction, but only the canonical page is a tie-out
         # candidate for qualification.
-        canonical_score = int("consolidated statement of financial position" in text.lower()) * 4
+        # Use word boundaries so ``unconsolidated statement ...`` cannot win
+        # merely because it contains the word ``consolidated`` as a suffix.
+        canonical_score = int(bool(re.search(
+            r"\bconsolidated\s+statement\s+of\s+financial\s+position\b", text, re.I)
+        )) * 4
         canonical_score += int("capital and reserves" in text.lower()) * 2
+        # The numbered issued/paid-up capital note is the strongest tie-out
+        # evidence: unlike the balance-sheet summary it explicitly identifies
+        # the capital-note schedule and share-count columns.
+        canonical_score += int(bool(re.search(
+            r"(?:^|\s)\d{1,2}\.\s+issued\s*,?\s*subscribed\s+and\s+paid\s+up\s+share\s+capital\b",
+            text, re.I,
+        ))) * 20
         candidates.append((canonical_score, page, row))
     if not candidates:
         return []

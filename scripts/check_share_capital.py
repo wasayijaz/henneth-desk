@@ -36,6 +36,44 @@ def main() -> int:
     assert extract_share_capital_evidence(broken, [page]) == []
     mismatch = page.replace("4,381,191 4,381,191", "4,000,000 4,000,000")
     assert extract_share_capital_evidence(doc, [mismatch]) == []
+
+    # The canonical issuer annual is the only permitted FY25 source path.  Its
+    # candidate keeps issuer identity and the original one-based page citation;
+    # the PSX distributor duplicate is intentionally not used as a second row.
+    issuer_doc = {
+        "doc_id": "issuer:39fe974f6ef82bbeadf83938",
+        "title": "DGKC Annual Report 2025",
+        "source_url": "https://www.dgcement.com/financial-reports/DGAnnual2025.pdf",
+        "content_sha256": "96ca1120b238541d4916fb1c777614ee6045f30ab130d2f18e8a1fd5c62bdf73",
+        "period_end": "2025-06-30",
+        "symbol": "DGKC",
+    }
+    issuer_page = (
+        "Consolidated Statement of Financial Position 2025 2024 Note "
+        "(Rupees in thousand) Issued, subscribed and paid up share capital "
+        "438,119,118 ordinary shares of Rs 10 each 5 4,381,191 4,381,191"
+    )
+    issuer_rows = extract_share_capital_evidence(issuer_doc, [issuer_page], [{"page": 254}])
+    assert len(issuer_rows) == 1
+    issuer_row = issuer_rows[0]
+    assert issuer_row["value"] == 438_119_118
+    assert issuer_row["source"]["id"] == issuer_doc["doc_id"]
+    assert issuer_row["source"]["label"] == issuer_doc["title"]
+    assert issuer_row["source"]["url"] == issuer_doc["source_url"]
+    assert issuer_row["source"]["content_sha256"] == issuer_doc["content_sha256"]
+    assert "issued, subscribed and paid up share capital" in issuer_row["source"]["text"].lower()
+    assert issuer_row["source"]["page"] == 254, "consolidated note must beat unconsolidated duplicate"
+    assert issuer_row["approved"] is False and issuer_row["readiness"] == "candidate_only"
+    assert extract_share_capital_evidence(
+        {**issuer_doc, "content_sha256": "0" * 64}, [issuer_page], [{"page": 254}]
+    ) == []
+    assert extract_share_capital_evidence(
+        {**issuer_doc, "page_count": 331}, [issuer_page], [{"page": 254}]
+    ) == []
+    assert extract_share_capital_evidence(
+        {**issuer_doc, "source_url": "https://dps.psx.com.pk/download/document/260947.pdf"},
+        [issuer_page], [{"page": 254}],
+    ) == []
     print("share capital self-check: ok")
     return 0
 
