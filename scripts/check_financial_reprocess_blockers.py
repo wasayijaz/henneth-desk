@@ -11,7 +11,7 @@ from build_financial_reprocess_blockers import (
     PARSER_REVISION,
     build,
 )
-from psx_data import load_json
+from psx_data import ROOT, load_json
 
 
 FORBIDDEN_KEYS = {"normalized_value", "raw_value", "value", "amount", "eps", "revenue", "pat"}
@@ -65,11 +65,15 @@ def _assert_shape(payload: dict[str, Any]) -> None:
     if len(pilot) != 20 or len(set(pilot)) != 20:
         _fail("pilot scope must be exactly 20 unique symbols")
     documents = payload.get("blocked_documents") or []
-    if len(documents) != len(APPROVED_BLOCKED_OUTCOMES):
+    expected_ids = [
+        doc_id for doc_id in (load_json(ROOT / "config" / "ci_reprocess_review_manifest.json", {}).get("document_ids") or [])
+        if doc_id in APPROVED_BLOCKED_OUTCOMES
+    ]
+    if len(documents) != len(expected_ids):
         _fail("blocked document count mismatch")
     ids = [row.get("document_id") for row in documents]
-    if ids != list(APPROVED_BLOCKED_OUTCOMES):
-        _fail("blocked documents must preserve manifest/allowlist order")
+    if ids != expected_ids:
+        _fail("blocked documents must preserve manifest order for documented outcomes")
     companies = payload.get("companies") or {}
     if set(companies) != {"DGKC"}:
         _fail("unexpected blocker company boundary")

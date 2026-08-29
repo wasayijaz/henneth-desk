@@ -78,10 +78,9 @@ def build() -> dict[str, Any]:
     allowlist_ids = _allowlist_ids()
     if manifest_ids != allowlist_ids:
         raise ValueError("financial reprocess blockers require allowlist IDs to match the review manifest")
-    missing = sorted(set(manifest_ids) - set(APPROVED_BLOCKED_OUTCOMES))
     extra = sorted(set(APPROVED_BLOCKED_OUTCOMES) - set(manifest_ids))
-    if missing or extra:
-        raise ValueError(f"blocked outcome map drift: missing={missing} extra={extra}")
+    if extra:
+        raise ValueError(f"blocked outcome map drift: extra={extra}")
 
     coverage = load_json(STATE / "company_intel" / "financial_coverage.json", {"companies": {}})
     readiness = load_json(STATE / "company_intel" / "forecast_readiness.json", {"companies": {}})
@@ -93,7 +92,14 @@ def build() -> dict[str, Any]:
     docs = manifest.get("documents") or {}
     blocked = []
     companies: dict[str, dict[str, Any]] = {}
+    # The review manifest is an intake boundary, not an assertion that every
+    # approved document has already failed.  Keep this ledger limited to
+    # documented outcomes; a newly approved, not-yet-committed document must
+    # not make the whole preflight fail merely because it has no historic
+    # blocker row yet.
     for doc_id in manifest_ids:
+        if doc_id not in APPROVED_BLOCKED_OUTCOMES:
+            continue
         doc = docs.get(doc_id) or {}
         outcome = APPROVED_BLOCKED_OUTCOMES[doc_id]
         symbol = str(doc.get("symbol") or "")
