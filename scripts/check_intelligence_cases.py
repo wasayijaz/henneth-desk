@@ -18,7 +18,9 @@ from build_intelligence_cases import (
     MARI_EVENT_ID,
     MLCF_CASE_ID,
     MLCF_CANONICAL_CONTROL_EVENT_ID,
-    MLCF_CANONICAL_FOLLOW_THROUGH_EVENT_ID,
+    MLCF_FOLLOW_THROUGH_ALIAS_EVENT_ID,
+    MLCF_INDEPENDENT_CANONICAL_EVENT_BINDING,
+    MLCF_LEGACY_ALIAS_EVENT_BINDING,
     OUT,
     PUBLIC_OFFER_DOC_ID,
     PUBLIC_OFFER_EVENT_ID,
@@ -99,15 +101,19 @@ def _assert_mlcf_cement_readiness(case: dict) -> None:
         (primary, MLCF_CANONICAL_CONTROL_EVENT_ID, PUBLIC_OFFER_EVENT_ID, PUBLIC_OFFER_DOC_ID, 3,
          "98cf83c9a286999c8006a7f73f490248f26694c9edbfc815b3dbd9188ee22a54",
          "70a110272f96813a4d6693b596c99d9dbc4c4781d42a519543557a04ec4c581f",
-         "2025-12-18T12:52:00+05:00", "2025-12-18", "2025-12-18"),
-        (follow, MLCF_CANONICAL_FOLLOW_THROUGH_EVENT_ID, FOLLOW_THROUGH_EVENT_ID, FOLLOW_THROUGH_DOC_ID, 4,
+         "2025-12-18T12:52:00+05:00", "2025-12-18", "2025-12-18",
+         MLCF_INDEPENDENT_CANONICAL_EVENT_BINDING),
+        (follow, MLCF_FOLLOW_THROUGH_ALIAS_EVENT_ID, FOLLOW_THROUGH_EVENT_ID, FOLLOW_THROUGH_DOC_ID, 4,
          "744a0c710043d6e0a7de36bb99f21ca50f0f9346f6972b957f6733a47deae11f",
          "725f04c3c6d7f36bbffd6c205d574750f65b8c0546ae9f1b50683fe07b292b66",
-         "2026-04-28T10:25:00+05:00", "2026-04-28", "2026-04-28"),
+         "2026-04-28T10:25:00+05:00", "2026-04-28", "2026-04-28",
+         MLCF_LEGACY_ALIAS_EVENT_BINDING),
     ]
-    for ref, canonical, legacy, doc_id, page, content_hash, evidence_hash, published, effective, available in expected:
+    for ref, canonical, legacy, doc_id, page, content_hash, evidence_hash, published, effective, available, binding in expected:
         if ref.get("canonical_event_id") != canonical or ref.get("legacy_event_id") != legacy:
             raise AssertionError("MLCF canonical/legacy event alias mismatch")
+        if ref.get("canonical_event_id_binding") != binding:
+            raise AssertionError("MLCF canonical event binding label mismatch")
         if ref.get("document_id") != doc_id or ref.get("page") != page:
             raise AssertionError("MLCF cement readiness document/page mismatch")
         if ref.get("content_sha256") != content_hash or ref.get("evidence_sha256") != evidence_hash:
@@ -237,6 +243,39 @@ def _assert_builder_source_mutation_tests() -> None:
         lambda inputs: _ledger_event(inputs, FOLLOW_THROUGH_EVENT_ID)["evidence"][0].__setitem__("text", "changed"),
     )
     _expect_builder_rejects(
+        "bad follow-through independent canonical event",
+        lambda inputs: inputs["operating_events"]["companies"]["MLCF"]["events"].append(
+            {
+                **copy.deepcopy(_operating_event(inputs, MLCF_CANONICAL_CONTROL_EVENT_ID)),
+                "event_id": MLCF_FOLLOW_THROUGH_ALIAS_EVENT_ID,
+            }
+        ),
+    )
+    _expect_builder_rejects(
+        "bad follow-through document id",
+        lambda inputs: _ledger_event(inputs, FOLLOW_THROUGH_EVENT_ID).__setitem__("doc_id", PUBLIC_OFFER_DOC_ID),
+    )
+    _expect_builder_rejects(
+        "bad follow-through content hash",
+        lambda inputs: _document(inputs, FOLLOW_THROUGH_DOC_ID).__setitem__("content_sha256", "0" * 64),
+    )
+    _expect_builder_rejects(
+        "bad follow-through document hash",
+        lambda inputs: _document(inputs, FOLLOW_THROUGH_DOC_ID).__setitem__("local_sha256", "0" * 64),
+    )
+    _expect_builder_rejects(
+        "bad follow-through effective date",
+        lambda inputs: _ledger_event(inputs, FOLLOW_THROUGH_EVENT_ID).__setitem__(
+            "event_date", "2026-04-29T10:25:00+05:00"
+        ),
+    )
+    _expect_builder_rejects(
+        "bad follow-through published date",
+        lambda inputs: _document(inputs, FOLLOW_THROUGH_DOC_ID).__setitem__(
+            "published_at", "2026-04-29T10:25:00+05:00"
+        ),
+    )
+    _expect_builder_rejects(
         "bad original page",
         lambda inputs: _ledger_event(inputs, FOLLOW_THROUGH_EVENT_ID)["evidence"][0].__setitem__("page", 5),
     )
@@ -265,6 +304,28 @@ def _assert_builder_source_mutation_tests() -> None:
     _expect_builder_rejects(
         "bad counter keys",
         lambda inputs: _counter_section(inputs, "annual_operating_cash_flow").__setitem__("extra", "not allowed"),
+    )
+    _expect_builder_rejects(
+        "bad counter period format",
+        lambda inputs: _counter_section(inputs, "annual_income_triplets")["qualified_periods"].__setitem__(
+            0, "2026/06/30"
+        ),
+    )
+    _expect_builder_rejects(
+        "bad counter semantics",
+        lambda inputs: _counter_section(inputs, "annual_income_triplets").__setitem__("required", 6),
+    )
+    _expect_builder_rejects(
+        "bad share-count source",
+        lambda inputs: inputs["financial_truth"]["companies"]["MLCF"]["share_count"].__setitem__("source", "manual"),
+    )
+    _expect_builder_rejects(
+        "bad share-count status",
+        lambda inputs: inputs["financial_truth"]["companies"]["MLCF"]["share_count"].__setitem__("status", "ready"),
+    )
+    _expect_builder_rejects(
+        "bad share-count shape",
+        lambda inputs: inputs["financial_truth"]["companies"]["MLCF"].__setitem__("share_count", []),
     )
 
 
