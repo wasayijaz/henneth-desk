@@ -1,660 +1,671 @@
 {
-  "schema_version": "mari_enp_evidence_readiness_v1",
-  "symbol": "MARI",
-  "event": {
+ "schema_version": "mari_enp_evidence_readiness_v1",
+ "symbol": "MARI",
+ "event": {
+  "event_id": "evt_3d1dae7553f73da60ba3",
+  "document_id": "psx:265594",
+  "effective_date": "2025-11-13",
+  "status": "observed_only",
+  "evidence": [
+   {
+    "event_id": "evt_b25decfc180474cbe066",
+    "event_subtype": "acquisition",
+    "document_id": "psx:260446",
+    "source_url": "https://dps.psx.com.pk/download/document/260446.pdf",
+    "page": 1,
+    "content_sha256": "c13ccb4de58ad005bca106942721490593fe219ff45906c68280ea7856192e42",
+    "evidence_sha256": "dd83c62cb781e2a57f5ae595a7184ea786a3e5890f7f7cc96cd93e23f958a177",
+    "text": "and Clause 5.6.1 (a) of the PSX Regulations, we hereby convey the following information: Acquisition of Working Interest in Peshawar Block (as an Operator) from Hycarbex- American Energ~ We are pleased to inform you that Mari Energies Limi…",
+    "evidence_class": "exact_hash_page_backed"
+   },
+   {
     "event_id": "evt_3d1dae7553f73da60ba3",
+    "event_subtype": "acquisition",
     "document_id": "psx:265594",
-    "effective_date": "2025-11-13",
-    "status": "observed_only",
-    "evidence": [
+    "source_url": "https://dps.psx.com.pk/download/document/265594.pdf",
+    "page": 3,
+    "content_sha256": "cdc3f69157f5e5803238ba347ecb4e96f7297479df87d345739896913de8aae4",
+    "evidence_sha256": "56c298f041bd756cd184e75d122f5a95cc6879f4b5fa037786007948b76d3d83",
+    "text": "The acquisition of these offshore exploration blocks is a part of Company’s long term strategy where it aims to not only find new hydrocarbon resources but also to l",
+    "evidence_class": "exact_hash_page_backed"
+   }
+  ],
+  "exact_hash_page_backed_evidence_count": 2,
+  "numeric_facts_retained": false
+ },
+ "financial_history": {
+  "annual": {
+   "required_count": 5,
+   "model_ready_count": 0,
+   "status": "blocked",
+   "reason": "five aligned annual revenue/PAT/EPS periods are not model-ready",
+   "periods": [
+    {
+     "slot": "annual_period_1",
+     "period_end": "2026-06-30",
+     "required_metrics": [
+      "revenue",
+      "profit_after_tax_attributable",
+      "basic_eps"
+     ],
+     "model_ready_metrics": [],
+     "status": "metadata_lead",
+     "reason": "official document is indexed by title/date, but PDF values were not parsed",
+     "hash_page_fact_count": 0,
+     "facts": [],
+     "document_leads": [
       {
-        "event_id": "evt_b25decfc180474cbe066",
-        "event_subtype": "acquisition",
-        "document_id": "psx:260446",
-        "source_url": "https://dps.psx.com.pk/download/document/260446.pdf",
-        "page": 1,
-        "content_sha256": "c13ccb4de58ad005bca106942721490593fe219ff45906c68280ea7856192e42",
-        "evidence_sha256": "dd83c62cb781e2a57f5ae595a7184ea786a3e5890f7f7cc96cd93e23f958a177",
-        "text": "and Clause 5.6.1 (a) of the PSX Regulations, we hereby convey the following information: Acquisition of Working Interest in Peshawar Block (as an Operator) from Hycarbex- American Energ~ We are pleased to inform you that Mari Energies Limi\u2026",
-        "evidence_class": "exact_hash_page_backed"
-      },
-      {
-        "event_id": "evt_3d1dae7553f73da60ba3",
-        "event_subtype": "acquisition",
-        "document_id": "psx:265594",
-        "source_url": "https://dps.psx.com.pk/download/document/265594.pdf",
-        "page": 3,
-        "content_sha256": "cdc3f69157f5e5803238ba347ecb4e96f7297479df87d345739896913de8aae4",
-        "evidence_sha256": "56c298f041bd756cd184e75d122f5a95cc6879f4b5fa037786007948b76d3d83",
-        "text": "The acquisition of these offshore exploration blocks is a part of Company\u2019s long term strategy where it aims to not only find new hydrocarbon resources but also to l",
-        "evidence_class": "exact_hash_page_backed"
+       "document_id": "psx:280901",
+       "title": "Financial Results for the Year Ended 30-06-2026",
+       "source_url": "https://dps.psx.com.pk/download/document/280901.pdf",
+       "published_at": "2026-08-07T14:36:00+05:00",
+       "content_sha256": null,
+       "safe_period": {
+        "period_end": "2026-06-30",
+        "period_type": "annual",
+        "source": "title",
+        "matched_text": "Year Ended 30-06-2026"
+       },
+       "evidence_class": "metadata_lead"
       }
-    ],
-    "exact_hash_page_backed_evidence_count": 2,
-    "numeric_facts_retained": false
-  },
-  "financial_history": {
-    "annual": {
-      "required_count": 5,
-      "model_ready_count": 0,
-      "status": "blocked",
-      "reason": "five aligned annual revenue/PAT/EPS periods are not model-ready",
-      "periods": [
-        {
-          "slot": "annual_period_1",
-          "period_end": "2026-06-30",
-          "required_metrics": [
-            "revenue",
-            "profit_after_tax_attributable",
-            "basic_eps"
-          ],
-          "model_ready_metrics": [],
-          "status": "metadata_lead",
-          "reason": "official document is indexed by title/date, but PDF values were not parsed",
-          "hash_page_fact_count": 0,
-          "facts": [],
-          "document_leads": [
-            {
-              "document_id": "psx:280901",
-              "title": "Financial Results for the Year Ended 30-06-2026",
-              "source_url": "https://dps.psx.com.pk/download/document/280901.pdf",
-              "published_at": "2026-08-07T14:36:00+05:00",
-              "content_sha256": null,
-              "safe_period": {
-                "period_end": "2026-06-30",
-                "period_type": "annual",
-                "source": "title",
-                "matched_text": "Year Ended 30-06-2026"
-              },
-              "evidence_class": "metadata_lead"
-            }
-          ]
-        },
-        {
-          "slot": "annual_period_2",
-          "period_end": "2025-06-30",
-          "required_metrics": [
-            "revenue",
-            "profit_after_tax_attributable",
-            "basic_eps"
-          ],
-          "model_ready_metrics": [],
-          "status": "metadata_lead",
-          "reason": "official document is indexed by title/date, but PDF values were not parsed",
-          "hash_page_fact_count": 0,
-          "facts": [],
-          "document_leads": [
-            {
-              "document_id": "psx:258895",
-              "title": "Transmission of Annual Financial Statements for the Year Ended June 30, 2025",
-              "source_url": "https://dps.psx.com.pk/download/document/258895.pdf",
-              "published_at": "2025-09-05T09:20:00+05:00",
-              "content_sha256": null,
-              "safe_period": {
-                "period_end": "2025-06-30",
-                "period_type": "annual",
-                "source": "title",
-                "matched_text": "Year Ended June 30, 2025"
-              },
-              "evidence_class": "metadata_lead"
-            }
-          ]
-        },
-        {
-          "slot": "annual_period_3",
-          "period_end": "2024-06-30",
-          "required_metrics": [
-            "revenue",
-            "profit_after_tax_attributable",
-            "basic_eps"
-          ],
-          "model_ready_metrics": [],
-          "status": "audit_only_or_quarantined",
-          "reason": "retained facts have page/hash evidence but are not model-eligible",
-          "hash_page_fact_count": 11,
-          "facts": [
-            {
-              "metric": "change_pct",
-              "value": 15,
-              "unit": "percent",
-              "status": "audit_only",
-              "document_id": "issuer:6735e9d35ffb61088d139964",
-              "page": 160,
-              "content_sha256": "68655d9042f601b17d8d14ef2061006a0a6268364c2504730c83f94420622818",
-              "source_url": "https://www.marienergies.com.pk/wp-content/uploads/2025/09/Annual-Report-2024.pdf",
-              "fact_id": "fact_88dd90569fc636c97616",
-              "evidence_class": "exact_hash_page_backed"
-            },
-            {
-              "metric": "change_pct",
-              "value": 25,
-              "unit": "percent",
-              "status": "audit_only",
-              "document_id": "issuer:6735e9d35ffb61088d139964",
-              "page": 40,
-              "content_sha256": "68655d9042f601b17d8d14ef2061006a0a6268364c2504730c83f94420622818",
-              "source_url": "https://www.marienergies.com.pk/wp-content/uploads/2025/09/Annual-Report-2024.pdf",
-              "fact_id": "fact_f83e18624748107aa72a",
-              "evidence_class": "exact_hash_page_backed"
-            },
-            {
-              "metric": "dividend",
-              "value": 134,
-              "unit": "PKR/share",
-              "status": "audit_only",
-              "document_id": "issuer:6735e9d35ffb61088d139964",
-              "page": 75,
-              "content_sha256": "68655d9042f601b17d8d14ef2061006a0a6268364c2504730c83f94420622818",
-              "source_url": "https://www.marienergies.com.pk/wp-content/uploads/2025/09/Annual-Report-2024.pdf",
-              "fact_id": "fact_679ee91125e17ef792ed",
-              "evidence_class": "exact_hash_page_backed"
-            },
-            {
-              "metric": "dividend",
-              "value": 58,
-              "unit": "PKR/share",
-              "status": "audit_only",
-              "document_id": "issuer:6735e9d35ffb61088d139964",
-              "page": 130,
-              "content_sha256": "68655d9042f601b17d8d14ef2061006a0a6268364c2504730c83f94420622818",
-              "source_url": "https://www.marienergies.com.pk/wp-content/uploads/2025/09/Annual-Report-2024.pdf",
-              "fact_id": "fact_9ec767533a79b8681caf",
-              "evidence_class": "exact_hash_page_backed"
-            },
-            {
-              "metric": "profit",
-              "value": 77290000000.0,
-              "unit": "reported",
-              "status": "audit_only",
-              "document_id": "issuer:6735e9d35ffb61088d139964",
-              "page": 40,
-              "content_sha256": "68655d9042f601b17d8d14ef2061006a0a6268364c2504730c83f94420622818",
-              "source_url": "https://www.marienergies.com.pk/wp-content/uploads/2025/09/Annual-Report-2024.pdf",
-              "fact_id": "fact_5bdb84e152341c1b10ea",
-              "evidence_class": "exact_hash_page_backed"
-            },
-            {
-              "metric": "profit",
-              "value": 77288000000,
-              "unit": "reported",
-              "status": "audit_only",
-              "document_id": "issuer:6735e9d35ffb61088d139964",
-              "page": 124,
-              "content_sha256": "68655d9042f601b17d8d14ef2061006a0a6268364c2504730c83f94420622818",
-              "source_url": "https://www.marienergies.com.pk/wp-content/uploads/2025/09/Annual-Report-2024.pdf",
-              "fact_id": "fact_9a0d5a37c56aca335543",
-              "evidence_class": "exact_hash_page_backed"
-            },
-            {
-              "metric": "revenue",
-              "value": 204604788000,
-              "unit": "reported",
-              "status": "quarantined",
-              "document_id": "issuer:6735e9d35ffb61088d139964",
-              "page": 141,
-              "content_sha256": "68655d9042f601b17d8d14ef2061006a0a6268364c2504730c83f94420622818",
-              "source_url": "https://www.marienergies.com.pk/wp-content/uploads/2025/09/Annual-Report-2024.pdf",
-              "fact_id": "fact_0d1a8db49d94e0a90143",
-              "evidence_class": "exact_hash_page_backed"
-            },
-            {
-              "metric": "revenue",
-              "value": 181829000000,
-              "unit": "reported",
-              "status": "quarantined",
-              "document_id": "issuer:6735e9d35ffb61088d139964",
-              "page": 124,
-              "content_sha256": "68655d9042f601b17d8d14ef2061006a0a6268364c2504730c83f94420622818",
-              "source_url": "https://www.marienergies.com.pk/wp-content/uploads/2025/09/Annual-Report-2024.pdf",
-              "fact_id": "fact_20147bd2388dd73f86bc",
-              "evidence_class": "exact_hash_page_backed"
-            },
-            {
-              "metric": "revenue",
-              "value": 181830000000.0,
-              "unit": "reported",
-              "status": "audit_only",
-              "document_id": "issuer:6735e9d35ffb61088d139964",
-              "page": 40,
-              "content_sha256": "68655d9042f601b17d8d14ef2061006a0a6268364c2504730c83f94420622818",
-              "source_url": "https://www.marienergies.com.pk/wp-content/uploads/2025/09/Annual-Report-2024.pdf",
-              "fact_id": "fact_5bcba8116bf773bbc74d",
-              "evidence_class": "exact_hash_page_backed"
-            },
-            {
-              "metric": "revenue",
-              "value": 33200000.000000004,
-              "unit": "reported",
-              "status": "quarantined",
-              "document_id": "issuer:6735e9d35ffb61088d139964",
-              "page": 66,
-              "content_sha256": "68655d9042f601b17d8d14ef2061006a0a6268364c2504730c83f94420622818",
-              "source_url": "https://www.marienergies.com.pk/wp-content/uploads/2025/09/Annual-Report-2024.pdf",
-              "fact_id": "fact_9ff87524d3f7e78a5507",
-              "evidence_class": "exact_hash_page_backed"
-            },
-            {
-              "metric": "revenue",
-              "value": 23000,
-              "unit": "reported",
-              "status": "quarantined",
-              "document_id": "issuer:6735e9d35ffb61088d139964",
-              "page": 141,
-              "content_sha256": "68655d9042f601b17d8d14ef2061006a0a6268364c2504730c83f94420622818",
-              "source_url": "https://www.marienergies.com.pk/wp-content/uploads/2025/09/Annual-Report-2024.pdf",
-              "fact_id": "fact_eadac4e7ca1d44c34702",
-              "evidence_class": "exact_hash_page_backed"
-            }
-          ],
-          "document_leads": []
-        },
-        {
-          "slot": "annual_period_4",
-          "period_end": "2023-06-30",
-          "required_metrics": [
-            "revenue",
-            "profit_after_tax_attributable",
-            "basic_eps"
-          ],
-          "model_ready_metrics": [],
-          "status": "audit_only_or_quarantined",
-          "reason": "retained facts have page/hash evidence but are not model-eligible",
-          "hash_page_fact_count": 1,
-          "facts": [
-            {
-              "metric": "dividend",
-              "value": 232,
-              "unit": "PKR/share",
-              "status": "audit_only",
-              "document_id": "issuer:6735e9d35ffb61088d139964",
-              "page": 64,
-              "content_sha256": "68655d9042f601b17d8d14ef2061006a0a6268364c2504730c83f94420622818",
-              "source_url": "https://www.marienergies.com.pk/wp-content/uploads/2025/09/Annual-Report-2024.pdf",
-              "fact_id": "fact_360f2b89e00ce9b83909",
-              "evidence_class": "exact_hash_page_backed"
-            }
-          ],
-          "document_leads": []
-        },
-        {
-          "slot": "annual_period_5",
-          "period_end": "2022-06-30",
-          "required_metrics": [
-            "revenue",
-            "profit_after_tax_attributable",
-            "basic_eps"
-          ],
-          "model_ready_metrics": [],
-          "status": "unavailable",
-          "reason": "no retained annual-period evidence",
-          "hash_page_fact_count": 0,
-          "facts": [],
-          "document_leads": []
-        }
-      ]
+     ]
     },
-    "quarterly": {
-      "required_count": 8,
-      "model_ready_count": 0,
-      "status": "blocked",
-      "reason": "eight quarterly revenue/PAT/EPS periods are not retained as model-ready facts",
-      "periods": [
-        {
-          "slot": "quarter_period_1",
-          "period_end": "2024-09-30",
-          "required_metrics": [
-            "revenue",
-            "profit_after_tax_attributable",
-            "basic_eps"
-          ],
-          "status": "unavailable",
-          "reason": "no retained quarterly-period evidence",
-          "facts": [],
-          "document_leads": []
-        },
-        {
-          "slot": "quarter_period_2",
-          "period_end": "2024-12-31",
-          "required_metrics": [
-            "revenue",
-            "profit_after_tax_attributable",
-            "basic_eps"
-          ],
-          "status": "unavailable",
-          "reason": "no retained quarterly-period evidence",
-          "facts": [],
-          "document_leads": []
-        },
-        {
-          "slot": "quarter_period_3",
-          "period_end": "2025-03-31",
-          "required_metrics": [
-            "revenue",
-            "profit_after_tax_attributable",
-            "basic_eps"
-          ],
-          "status": "unavailable",
-          "reason": "no retained quarterly-period evidence",
-          "facts": [],
-          "document_leads": []
-        },
-        {
-          "slot": "quarter_period_4",
-          "period_end": "2025-06-30",
-          "required_metrics": [
-            "revenue",
-            "profit_after_tax_attributable",
-            "basic_eps"
-          ],
-          "status": "unavailable",
-          "reason": "no retained quarterly-period evidence",
-          "facts": [],
-          "document_leads": []
-        },
-        {
-          "slot": "quarter_period_5",
-          "period_end": "2025-09-30",
-          "required_metrics": [
-            "revenue",
-            "profit_after_tax_attributable",
-            "basic_eps"
-          ],
-          "status": "metadata_lead",
-          "reason": "official interim document is indexed, but quarterly values were not parsed",
-          "facts": [],
-          "document_leads": [
-            {
-              "document_id": "psx:bd312748aa6ef5cd050cfc1a",
-              "title": "MARI | Mari Energies Limited Financial Results for the Quarter Ended September 30, 2025",
-              "source_url": null,
-              "published_at": "2025-10-30T14:33:00+05:00",
-              "safe_period": {
-                "period_end": "2025-09-30",
-                "period_type": "interim",
-                "source": "title",
-                "matched_text": "Quarter Ended September 30, 2025"
-              },
-              "evidence_class": "metadata_lead"
-            }
-          ]
-        },
-        {
-          "slot": "quarter_period_6",
-          "period_end": "2025-12-31",
-          "required_metrics": [
-            "revenue",
-            "profit_after_tax_attributable",
-            "basic_eps"
-          ],
-          "status": "metadata_lead",
-          "reason": "official interim document is indexed, but quarterly values were not parsed",
-          "facts": [],
-          "document_leads": [
-            {
-              "document_id": "psx:269182",
-              "title": "Financial Results for the Six Months Ended December 31, 2025",
-              "source_url": "https://dps.psx.com.pk/download/document/269182.pdf",
-              "published_at": "2026-01-26T13:25:00+05:00",
-              "safe_period": {
-                "period_end": "2025-12-31",
-                "period_type": "interim",
-                "source": "title",
-                "matched_text": "Six Months Ended December 31, 2025"
-              },
-              "evidence_class": "metadata_lead"
-            },
-            {
-              "document_id": "psx:271327",
-              "title": "Transmission of Quarterly Financial Statements for the Period Ended 2025-12-31",
-              "source_url": "https://dps.psx.com.pk/download/document/271327.pdf",
-              "published_at": "2026-02-27T09:03:00+05:00",
-              "safe_period": {
-                "period_end": "2025-12-31",
-                "period_type": "interim",
-                "source": "title",
-                "matched_text": "Period Ended 2025-12-31"
-              },
-              "evidence_class": "metadata_lead"
-            }
-          ]
-        },
-        {
-          "slot": "quarter_period_7",
-          "period_end": "2026-03-31",
-          "required_metrics": [
-            "revenue",
-            "profit_after_tax_attributable",
-            "basic_eps"
-          ],
-          "status": "metadata_lead",
-          "reason": "official interim document is indexed, but quarterly values were not parsed",
-          "facts": [],
-          "document_leads": [
-            {
-              "document_id": "psx:275583",
-              "title": "Transmission of Quarterly Report for the Period Ended 2026-03-31",
-              "source_url": "https://dps.psx.com.pk/download/document/275583.pdf",
-              "published_at": "2026-04-28T15:21:00+05:00",
-              "safe_period": {
-                "period_end": "2026-03-31",
-                "period_type": "interim",
-                "source": "title",
-                "matched_text": "Period Ended 2026-03-31"
-              },
-              "evidence_class": "metadata_lead"
-            }
-          ]
-        },
-        {
-          "slot": "quarter_period_8",
-          "period_end": "2026-06-30",
-          "required_metrics": [
-            "revenue",
-            "profit_after_tax_attributable",
-            "basic_eps"
-          ],
-          "status": "unavailable",
-          "reason": "no retained quarterly-period evidence",
-          "facts": [],
-          "document_leads": []
-        }
-      ]
-    }
-  },
-  "share_count": {
-    "status": "metadata_lead",
-    "reason": "retained market-operand record has no official filing page/content hash",
-    "value": 1200000000.0,
-    "unit": "shares",
-    "available_on": "2026-08-24",
-    "approved_scope": "deterministic_market_operand_only",
-    "source": {
-      "id": "henneth_state:fundamentals:MARI:2026-08-24:shares_out",
-      "label": "MARI retained shares-out field from fundamentals state",
-      "path": "state/fundamentals.json",
-      "url": "https://stockanalysis.com/quote/psx/MARI/",
-      "page": null,
-      "content_sha256": null,
-      "evidence_class": "metadata_lead"
-    }
-  },
-  "ep_operands": {
-    "status": "blocked_missing_numeric_operands",
-    "reason": "event evidence contains qualitative excerpts only; no numeric E&P inputs are retained",
-    "items": [
+    {
+     "slot": "annual_period_2",
+     "period_end": "2025-06-30",
+     "required_metrics": [
+      "revenue",
+      "profit_after_tax_attributable",
+      "basic_eps"
+     ],
+     "model_ready_metrics": [],
+     "status": "metadata_lead",
+     "reason": "official document is indexed by title/date, but PDF values were not parsed",
+     "hash_page_fact_count": 0,
+     "facts": [],
+     "document_leads": [
       {
-        "operand": "working_interest_pct",
-        "status": "unavailable",
-        "value": null,
-        "reason": "no retained source-grounded value; do not infer from event metadata",
-        "evidence_refs": []
-      },
-      {
-        "operand": "operator_status",
-        "status": "observed_text_only",
-        "value": "Peshawar Block as an Operator (event excerpt; no numeric working interest)",
-        "reason": "page/hash-backed event excerpt is retained, but no numeric model input is present",
-        "evidence_refs": [
-          {
-            "document_id": "psx:260446",
-            "page": 1,
-            "content_sha256": "c13ccb4de58ad005bca106942721490593fe219ff45906c68280ea7856192e42",
-            "source_url": "https://dps.psx.com.pk/download/document/260446.pdf",
-            "event_id": "evt_b25decfc180474cbe066"
-          },
-          {
-            "document_id": "psx:265594",
-            "page": 3,
-            "content_sha256": "cdc3f69157f5e5803238ba347ecb4e96f7297479df87d345739896913de8aae4",
-            "source_url": "https://dps.psx.com.pk/download/document/265594.pdf",
-            "event_id": "evt_3d1dae7553f73da60ba3"
-          }
-        ]
-      },
-      {
-        "operand": "consideration_pkr",
-        "status": "unavailable",
-        "value": null,
-        "reason": "no retained source-grounded value; do not infer from event metadata",
-        "evidence_refs": []
-      },
-      {
-        "operand": "block_identity",
-        "status": "observed_text_only",
-        "value": "offshore exploration blocks (event excerpt; block names not retained)",
-        "reason": "page/hash-backed event excerpt is retained, but no numeric model input is present",
-        "evidence_refs": [
-          {
-            "document_id": "psx:260446",
-            "page": 1,
-            "content_sha256": "c13ccb4de58ad005bca106942721490593fe219ff45906c68280ea7856192e42",
-            "source_url": "https://dps.psx.com.pk/download/document/260446.pdf",
-            "event_id": "evt_b25decfc180474cbe066"
-          },
-          {
-            "document_id": "psx:265594",
-            "page": 3,
-            "content_sha256": "cdc3f69157f5e5803238ba347ecb4e96f7297479df87d345739896913de8aae4",
-            "source_url": "https://dps.psx.com.pk/download/document/265594.pdf",
-            "event_id": "evt_3d1dae7553f73da60ba3"
-          }
-        ]
-      },
-      {
-        "operand": "exploration_timing",
-        "status": "unavailable",
-        "value": null,
-        "reason": "no retained source-grounded value; do not infer from event metadata",
-        "evidence_refs": []
-      },
-      {
-        "operand": "development_timing",
-        "status": "unavailable",
-        "value": null,
-        "reason": "no retained source-grounded value; do not infer from event metadata",
-        "evidence_refs": []
-      },
-      {
-        "operand": "production_boe",
-        "status": "unavailable",
-        "value": null,
-        "reason": "no retained source-grounded value; do not infer from event metadata",
-        "evidence_refs": []
-      },
-      {
-        "operand": "reserves",
-        "status": "unavailable",
-        "value": null,
-        "reason": "no retained source-grounded value; do not infer from event metadata",
-        "evidence_refs": []
-      },
-      {
-        "operand": "opex_usd_boe",
-        "status": "unavailable",
-        "value": null,
-        "reason": "no retained source-grounded value; do not infer from event metadata",
-        "evidence_refs": []
-      },
-      {
-        "operand": "royalty_pct",
-        "status": "unavailable",
-        "value": null,
-        "reason": "no retained source-grounded value; do not infer from event metadata",
-        "evidence_refs": []
-      },
-      {
-        "operand": "effective_tax_pct",
-        "status": "unavailable",
-        "value": null,
-        "reason": "no retained source-grounded value; do not infer from event metadata",
-        "evidence_refs": []
-      },
-      {
-        "operand": "oil_price_usd_bbl",
-        "status": "unavailable",
-        "value": null,
-        "reason": "no retained source-grounded value; do not infer from event metadata",
-        "evidence_refs": []
-      },
-      {
-        "operand": "gas_price_usd_mmbtu",
-        "status": "unavailable",
-        "value": null,
-        "reason": "no retained source-grounded value; do not infer from event metadata",
-        "evidence_refs": []
-      },
-      {
-        "operand": "gas_mmbtu_per_boe",
-        "status": "unavailable",
-        "value": null,
-        "reason": "no retained source-grounded value; do not infer from event metadata",
-        "evidence_refs": []
-      },
-      {
-        "operand": "fx_pkr_usd",
-        "status": "unavailable",
-        "value": null,
-        "reason": "no retained source-grounded value; do not infer from event metadata",
-        "evidence_refs": []
+       "document_id": "psx:258895",
+       "title": "Transmission of Annual Financial Statements for the Year Ended June 30, 2025",
+       "source_url": "https://dps.psx.com.pk/download/document/258895.pdf",
+       "published_at": "2025-09-05T09:20:00+05:00",
+       "content_sha256": null,
+       "safe_period": {
+        "period_end": "2025-06-30",
+        "period_type": "annual",
+        "source": "title",
+        "matched_text": "Year Ended June 30, 2025"
+       },
+       "evidence_class": "metadata_lead"
       }
-    ]
+     ]
+    },
+    {
+     "slot": "annual_period_3",
+     "period_end": "2024-06-30",
+     "required_metrics": [
+      "revenue",
+      "profit_after_tax_attributable",
+      "basic_eps"
+     ],
+     "model_ready_metrics": [],
+     "status": "audit_only_or_quarantined",
+     "reason": "retained facts have page/hash evidence but are not model-eligible",
+     "hash_page_fact_count": 11,
+     "facts": [
+      {
+       "metric": "change_pct",
+       "value": 15,
+       "unit": "percent",
+       "status": "audit_only",
+       "document_id": "issuer:6735e9d35ffb61088d139964",
+       "page": 160,
+       "content_sha256": "68655d9042f601b17d8d14ef2061006a0a6268364c2504730c83f94420622818",
+       "source_url": "https://www.marienergies.com.pk/wp-content/uploads/2025/09/Annual-Report-2024.pdf",
+       "fact_id": "fact_88dd90569fc636c97616",
+       "evidence_class": "exact_hash_page_backed"
+      },
+      {
+       "metric": "change_pct",
+       "value": 25,
+       "unit": "percent",
+       "status": "audit_only",
+       "document_id": "issuer:6735e9d35ffb61088d139964",
+       "page": 40,
+       "content_sha256": "68655d9042f601b17d8d14ef2061006a0a6268364c2504730c83f94420622818",
+       "source_url": "https://www.marienergies.com.pk/wp-content/uploads/2025/09/Annual-Report-2024.pdf",
+       "fact_id": "fact_f83e18624748107aa72a",
+       "evidence_class": "exact_hash_page_backed"
+      },
+      {
+       "metric": "dividend",
+       "value": 134,
+       "unit": "PKR/share",
+       "status": "audit_only",
+       "document_id": "issuer:6735e9d35ffb61088d139964",
+       "page": 75,
+       "content_sha256": "68655d9042f601b17d8d14ef2061006a0a6268364c2504730c83f94420622818",
+       "source_url": "https://www.marienergies.com.pk/wp-content/uploads/2025/09/Annual-Report-2024.pdf",
+       "fact_id": "fact_679ee91125e17ef792ed",
+       "evidence_class": "exact_hash_page_backed"
+      },
+      {
+       "metric": "dividend",
+       "value": 58,
+       "unit": "PKR/share",
+       "status": "audit_only",
+       "document_id": "issuer:6735e9d35ffb61088d139964",
+       "page": 130,
+       "content_sha256": "68655d9042f601b17d8d14ef2061006a0a6268364c2504730c83f94420622818",
+       "source_url": "https://www.marienergies.com.pk/wp-content/uploads/2025/09/Annual-Report-2024.pdf",
+       "fact_id": "fact_9ec767533a79b8681caf",
+       "evidence_class": "exact_hash_page_backed"
+      },
+      {
+       "metric": "profit",
+       "value": 77290000000.0,
+       "unit": "reported",
+       "status": "audit_only",
+       "document_id": "issuer:6735e9d35ffb61088d139964",
+       "page": 40,
+       "content_sha256": "68655d9042f601b17d8d14ef2061006a0a6268364c2504730c83f94420622818",
+       "source_url": "https://www.marienergies.com.pk/wp-content/uploads/2025/09/Annual-Report-2024.pdf",
+       "fact_id": "fact_5bdb84e152341c1b10ea",
+       "evidence_class": "exact_hash_page_backed"
+      },
+      {
+       "metric": "profit",
+       "value": 77288000000,
+       "unit": "reported",
+       "status": "audit_only",
+       "document_id": "issuer:6735e9d35ffb61088d139964",
+       "page": 124,
+       "content_sha256": "68655d9042f601b17d8d14ef2061006a0a6268364c2504730c83f94420622818",
+       "source_url": "https://www.marienergies.com.pk/wp-content/uploads/2025/09/Annual-Report-2024.pdf",
+       "fact_id": "fact_9a0d5a37c56aca335543",
+       "evidence_class": "exact_hash_page_backed"
+      },
+      {
+       "metric": "revenue",
+       "value": 204604788000,
+       "unit": "reported",
+       "status": "quarantined",
+       "document_id": "issuer:6735e9d35ffb61088d139964",
+       "page": 141,
+       "content_sha256": "68655d9042f601b17d8d14ef2061006a0a6268364c2504730c83f94420622818",
+       "source_url": "https://www.marienergies.com.pk/wp-content/uploads/2025/09/Annual-Report-2024.pdf",
+       "fact_id": "fact_0d1a8db49d94e0a90143",
+       "evidence_class": "exact_hash_page_backed"
+      },
+      {
+       "metric": "revenue",
+       "value": 181829000000,
+       "unit": "reported",
+       "status": "quarantined",
+       "document_id": "issuer:6735e9d35ffb61088d139964",
+       "page": 124,
+       "content_sha256": "68655d9042f601b17d8d14ef2061006a0a6268364c2504730c83f94420622818",
+       "source_url": "https://www.marienergies.com.pk/wp-content/uploads/2025/09/Annual-Report-2024.pdf",
+       "fact_id": "fact_20147bd2388dd73f86bc",
+       "evidence_class": "exact_hash_page_backed"
+      },
+      {
+       "metric": "revenue",
+       "value": 181830000000.0,
+       "unit": "reported",
+       "status": "audit_only",
+       "document_id": "issuer:6735e9d35ffb61088d139964",
+       "page": 40,
+       "content_sha256": "68655d9042f601b17d8d14ef2061006a0a6268364c2504730c83f94420622818",
+       "source_url": "https://www.marienergies.com.pk/wp-content/uploads/2025/09/Annual-Report-2024.pdf",
+       "fact_id": "fact_5bcba8116bf773bbc74d",
+       "evidence_class": "exact_hash_page_backed"
+      },
+      {
+       "metric": "revenue",
+       "value": 33200000.000000004,
+       "unit": "reported",
+       "status": "quarantined",
+       "document_id": "issuer:6735e9d35ffb61088d139964",
+       "page": 66,
+       "content_sha256": "68655d9042f601b17d8d14ef2061006a0a6268364c2504730c83f94420622818",
+       "source_url": "https://www.marienergies.com.pk/wp-content/uploads/2025/09/Annual-Report-2024.pdf",
+       "fact_id": "fact_9ff87524d3f7e78a5507",
+       "evidence_class": "exact_hash_page_backed"
+      },
+      {
+       "metric": "revenue",
+       "value": 23000,
+       "unit": "reported",
+       "status": "quarantined",
+       "document_id": "issuer:6735e9d35ffb61088d139964",
+       "page": 141,
+       "content_sha256": "68655d9042f601b17d8d14ef2061006a0a6268364c2504730c83f94420622818",
+       "source_url": "https://www.marienergies.com.pk/wp-content/uploads/2025/09/Annual-Report-2024.pdf",
+       "fact_id": "fact_eadac4e7ca1d44c34702",
+       "evidence_class": "exact_hash_page_backed"
+      }
+     ],
+     "document_leads": []
+    },
+    {
+     "slot": "annual_period_4",
+     "period_end": "2023-06-30",
+     "required_metrics": [
+      "revenue",
+      "profit_after_tax_attributable",
+      "basic_eps"
+     ],
+     "model_ready_metrics": [],
+     "status": "audit_only_or_quarantined",
+     "reason": "retained facts have page/hash evidence but are not model-eligible",
+     "hash_page_fact_count": 1,
+     "facts": [
+      {
+       "metric": "dividend",
+       "value": 232,
+       "unit": "PKR/share",
+       "status": "audit_only",
+       "document_id": "issuer:6735e9d35ffb61088d139964",
+       "page": 64,
+       "content_sha256": "68655d9042f601b17d8d14ef2061006a0a6268364c2504730c83f94420622818",
+       "source_url": "https://www.marienergies.com.pk/wp-content/uploads/2025/09/Annual-Report-2024.pdf",
+       "fact_id": "fact_360f2b89e00ce9b83909",
+       "evidence_class": "exact_hash_page_backed"
+      }
+     ],
+     "document_leads": []
+    },
+    {
+     "slot": "annual_period_5",
+     "period_end": "2022-06-30",
+     "required_metrics": [
+      "revenue",
+      "profit_after_tax_attributable",
+      "basic_eps"
+     ],
+     "model_ready_metrics": [],
+     "status": "unavailable",
+     "reason": "no retained annual-period evidence",
+     "hash_page_fact_count": 0,
+     "facts": [],
+     "document_leads": []
+    }
+   ]
   },
-  "activation": {
-    "status": "blocked",
-    "kernel_activated": false,
-    "forecast_activated": false,
-    "valuation_activated": false,
-    "market_expectations_activated": false,
-    "reasons": [
-      "no_model_ready_E_and_P_operands",
-      "annual_history_incomplete_or_audit_only",
-      "quarterly_history_not_retained_as_model_ready",
-      "share_count_is_metadata_lead_only"
-    ]
-  },
-  "next_evidence_action": {
-    "priority": "highest_leverage",
-    "status": "needs_owner_approval",
-    "action": "Parse PSX:265594 and PSX:260446 with page-level text and content hashes retained",
-    "expected_unlocks": [
-      "offshore/Peshawar block identity",
-      "working interest and operator status",
-      "consideration terms",
-      "exploration/development timing"
-    ],
-    "why": "These two official event documents are the only retained event leads and currently contain only truncated qualitative excerpts."
-  },
-  "provenance_policy": {
-    "official_event_evidence": "exact_hash_page_backed excerpts are recorded as observed facts only",
-    "financial_facts": "audit_only or quarantined facts remain non-modelable",
-    "metadata_leads": "document/title and shares_out leads are not promoted to source-grounded operands",
-    "unavailable": "missing values are null and must not be inferred"
-  },
-  "source_state": {
-    "operating_events": "state/company_intel/operating_events.json",
-    "financial_evidence_reconciliation": "state/company_intel/financial_evidence_reconciliation.json",
-    "financial_coverage": "state/company_intel/financial_coverage.json",
-    "financial_engine_assumptions": "state/company_intel/financial_engine_assumptions.json",
-    "as_of": "2026-08-27 18:17"
+  "quarterly": {
+   "required_count": 8,
+   "model_ready_count": 0,
+   "status": "blocked",
+   "reason": "eight quarterly revenue/PAT/EPS periods are not retained as model-ready facts",
+   "periods": [
+    {
+     "slot": "quarter_period_1",
+     "period_end": "2024-09-30",
+     "required_metrics": [
+      "revenue",
+      "profit_after_tax_attributable",
+      "basic_eps"
+     ],
+     "status": "unavailable",
+     "reason": "no retained quarterly-period evidence",
+     "facts": [],
+     "document_leads": []
+    },
+    {
+     "slot": "quarter_period_2",
+     "period_end": "2024-12-31",
+     "required_metrics": [
+      "revenue",
+      "profit_after_tax_attributable",
+      "basic_eps"
+     ],
+     "status": "unavailable",
+     "reason": "no retained quarterly-period evidence",
+     "facts": [],
+     "document_leads": []
+    },
+    {
+     "slot": "quarter_period_3",
+     "period_end": "2025-03-31",
+     "required_metrics": [
+      "revenue",
+      "profit_after_tax_attributable",
+      "basic_eps"
+     ],
+     "status": "unavailable",
+     "reason": "no retained quarterly-period evidence",
+     "facts": [],
+     "document_leads": []
+    },
+    {
+     "slot": "quarter_period_4",
+     "period_end": "2025-06-30",
+     "required_metrics": [
+      "revenue",
+      "profit_after_tax_attributable",
+      "basic_eps"
+     ],
+     "status": "unavailable",
+     "reason": "no retained quarterly-period evidence",
+     "facts": [],
+     "document_leads": []
+    },
+    {
+     "slot": "quarter_period_5",
+     "period_end": "2025-09-30",
+     "required_metrics": [
+      "revenue",
+      "profit_after_tax_attributable",
+      "basic_eps"
+     ],
+     "status": "metadata_lead",
+     "reason": "official interim document is indexed, but quarterly values were not parsed",
+     "facts": [],
+     "document_leads": [
+      {
+       "document_id": "psx:bd312748aa6ef5cd050cfc1a",
+       "title": "MARI | Mari Energies Limited Financial Results for the Quarter Ended September 30, 2025",
+       "source_url": null,
+       "published_at": "2025-10-30T14:33:00+05:00",
+       "safe_period": {
+        "period_end": "2025-09-30",
+        "period_type": "interim",
+        "source": "title",
+        "matched_text": "Quarter Ended September 30, 2025"
+       },
+       "evidence_class": "metadata_lead"
+      }
+     ]
+    },
+    {
+     "slot": "quarter_period_6",
+     "period_end": "2025-12-31",
+     "required_metrics": [
+      "revenue",
+      "profit_after_tax_attributable",
+      "basic_eps"
+     ],
+     "status": "metadata_lead",
+     "reason": "official interim document is indexed, but quarterly values were not parsed",
+     "facts": [],
+     "document_leads": [
+      {
+       "document_id": "psx:269182",
+       "title": "Financial Results for the Six Months Ended December 31, 2025",
+       "source_url": "https://dps.psx.com.pk/download/document/269182.pdf",
+       "published_at": "2026-01-26T13:25:00+05:00",
+       "safe_period": {
+        "period_end": "2025-12-31",
+        "period_type": "interim",
+        "source": "title",
+        "matched_text": "Six Months Ended December 31, 2025"
+       },
+       "evidence_class": "metadata_lead"
+      },
+      {
+       "document_id": "psx:271327",
+       "title": "Transmission of Quarterly Financial Statements for the Period Ended 2025-12-31",
+       "source_url": "https://dps.psx.com.pk/download/document/271327.pdf",
+       "published_at": "2026-02-27T09:03:00+05:00",
+       "safe_period": {
+        "period_end": "2025-12-31",
+        "period_type": "interim",
+        "source": "title",
+        "matched_text": "Period Ended 2025-12-31"
+       },
+       "evidence_class": "metadata_lead"
+      }
+     ]
+    },
+    {
+     "slot": "quarter_period_7",
+     "period_end": "2026-03-31",
+     "required_metrics": [
+      "revenue",
+      "profit_after_tax_attributable",
+      "basic_eps"
+     ],
+     "status": "metadata_lead",
+     "reason": "official interim document is indexed, but quarterly values were not parsed",
+     "facts": [],
+     "document_leads": [
+      {
+       "document_id": "psx:275583",
+       "title": "Transmission of Quarterly Report for the Period Ended 2026-03-31",
+       "source_url": "https://dps.psx.com.pk/download/document/275583.pdf",
+       "published_at": "2026-04-28T15:21:00+05:00",
+       "safe_period": {
+        "period_end": "2026-03-31",
+        "period_type": "interim",
+        "source": "title",
+        "matched_text": "Period Ended 2026-03-31"
+       },
+       "evidence_class": "metadata_lead"
+      }
+     ]
+    },
+    {
+     "slot": "quarter_period_8",
+     "period_end": "2026-06-30",
+     "required_metrics": [
+      "revenue",
+      "profit_after_tax_attributable",
+      "basic_eps"
+     ],
+     "status": "unavailable",
+     "reason": "no retained quarterly-period evidence",
+     "facts": [],
+     "document_leads": []
+    }
+   ]
   }
+ },
+ "share_count": {
+  "status": "metadata_lead",
+  "reason": "retained market-operand record has no official filing page/content hash",
+  "value": 1200000000.0,
+  "unit": "shares",
+  "available_on": "2026-08-24",
+  "approved_scope": "deterministic_market_operand_only",
+  "source": {
+   "id": "henneth_state:fundamentals:MARI:2026-08-24:shares_out",
+   "label": "MARI retained shares-out field from fundamentals state",
+   "path": "state/fundamentals.json",
+   "url": "https://stockanalysis.com/quote/psx/MARI/",
+   "page": null,
+   "content_sha256": null,
+   "evidence_class": "metadata_lead"
+  }
+ },
+ "ep_operands": {
+  "status": "blocked_missing_numeric_operands",
+  "reason": "event evidence contains qualitative excerpts only; no numeric E&P inputs are retained",
+  "items": [
+   {
+    "operand": "working_interest_pct",
+    "status": "unavailable",
+    "value": null,
+    "reason": "no retained source-grounded value; do not infer from event metadata",
+    "evidence_refs": []
+   },
+   {
+    "operand": "operator_status",
+    "status": "observed_text_only",
+    "value": "Peshawar Block as an Operator (event excerpt; no numeric working interest)",
+    "reason": "page/hash-backed event excerpt is retained, but no numeric model input is present",
+    "evidence_refs": [
+     {
+      "document_id": "psx:260446",
+      "page": 1,
+      "content_sha256": "c13ccb4de58ad005bca106942721490593fe219ff45906c68280ea7856192e42",
+      "source_url": "https://dps.psx.com.pk/download/document/260446.pdf",
+      "event_id": "evt_b25decfc180474cbe066"
+     },
+     {
+      "document_id": "psx:265594",
+      "page": 3,
+      "content_sha256": "cdc3f69157f5e5803238ba347ecb4e96f7297479df87d345739896913de8aae4",
+      "source_url": "https://dps.psx.com.pk/download/document/265594.pdf",
+      "event_id": "evt_3d1dae7553f73da60ba3"
+     }
+    ]
+   },
+   {
+    "operand": "consideration_pkr",
+    "status": "unavailable",
+    "value": null,
+    "reason": "no retained source-grounded value; do not infer from event metadata",
+    "evidence_refs": []
+   },
+   {
+    "operand": "block_identity",
+    "status": "observed_text_only",
+    "value": "offshore exploration blocks (event excerpt; block names not retained)",
+    "reason": "page/hash-backed event excerpt is retained, but no numeric model input is present",
+    "evidence_refs": [
+     {
+      "document_id": "psx:260446",
+      "page": 1,
+      "content_sha256": "c13ccb4de58ad005bca106942721490593fe219ff45906c68280ea7856192e42",
+      "source_url": "https://dps.psx.com.pk/download/document/260446.pdf",
+      "event_id": "evt_b25decfc180474cbe066"
+     },
+     {
+      "document_id": "psx:265594",
+      "page": 3,
+      "content_sha256": "cdc3f69157f5e5803238ba347ecb4e96f7297479df87d345739896913de8aae4",
+      "source_url": "https://dps.psx.com.pk/download/document/265594.pdf",
+      "event_id": "evt_3d1dae7553f73da60ba3"
+     }
+    ]
+   },
+   {
+    "operand": "exploration_timing",
+    "status": "unavailable",
+    "value": null,
+    "reason": "no retained source-grounded value; do not infer from event metadata",
+    "evidence_refs": []
+   },
+   {
+    "operand": "development_timing",
+    "status": "unavailable",
+    "value": null,
+    "reason": "no retained source-grounded value; do not infer from event metadata",
+    "evidence_refs": []
+   },
+   {
+    "operand": "production_boe",
+    "status": "unavailable",
+    "value": null,
+    "reason": "no retained source-grounded value; do not infer from event metadata",
+    "evidence_refs": []
+   },
+   {
+    "operand": "reserves",
+    "status": "unavailable",
+    "value": null,
+    "reason": "no retained source-grounded value; do not infer from event metadata",
+    "evidence_refs": []
+   },
+   {
+    "operand": "opex_usd_boe",
+    "status": "unavailable",
+    "value": null,
+    "reason": "no retained source-grounded value; do not infer from event metadata",
+    "evidence_refs": []
+   },
+   {
+    "operand": "royalty_pct",
+    "status": "unavailable",
+    "value": null,
+    "reason": "no retained source-grounded value; do not infer from event metadata",
+    "evidence_refs": []
+   },
+   {
+    "operand": "effective_tax_pct",
+    "status": "unavailable",
+    "value": null,
+    "reason": "no retained source-grounded value; do not infer from event metadata",
+    "evidence_refs": []
+   },
+   {
+    "operand": "oil_price_usd_bbl",
+    "status": "unavailable",
+    "value": null,
+    "reason": "no retained source-grounded value; do not infer from event metadata",
+    "evidence_refs": []
+   },
+   {
+    "operand": "gas_price_usd_mmbtu",
+    "status": "unavailable",
+    "value": null,
+    "reason": "no retained source-grounded value; do not infer from event metadata",
+    "evidence_refs": []
+   },
+   {
+    "operand": "gas_mmbtu_per_boe",
+    "status": "unavailable",
+    "value": null,
+    "reason": "no retained source-grounded value; do not infer from event metadata",
+    "evidence_refs": []
+   },
+   {
+    "operand": "fx_pkr_usd",
+    "status": "unavailable",
+    "value": null,
+    "reason": "no retained source-grounded value; do not infer from event metadata",
+    "evidence_refs": []
+   }
+  ]
+ },
+ "activation": {
+  "status": "blocked",
+  "kernel_activated": false,
+  "forecast_activated": false,
+  "valuation_activated": false,
+  "market_expectations_activated": false,
+  "reasons": [
+   "no_model_ready_E_and_P_operands",
+   "annual_history_incomplete_or_audit_only",
+   "quarterly_history_not_retained_as_model_ready",
+   "share_count_is_metadata_lead_only"
+  ]
+ },
+ "next_evidence_action": {
+  "priority": "highest_leverage",
+  "status": "needs_owner_approval",
+  "action": "Parse PSX:265594 and PSX:260446 with page-level text and content hashes retained",
+  "expected_unlocks": [
+   "offshore/Peshawar block identity",
+   "working interest and operator status",
+   "consideration terms",
+   "exploration/development timing"
+  ],
+  "why": "These two official event documents are the only retained event leads and currently contain only truncated qualitative excerpts."
+ },
+ "provenance_policy": {
+  "official_event_evidence": "exact_hash_page_backed excerpts are recorded as observed facts only",
+  "financial_facts": "audit_only or quarantined facts remain non-modelable",
+  "metadata_leads": "document/title and shares_out leads are not promoted to source-grounded operands",
+  "unavailable": "missing values are null and must not be inferred"
+ },
+ "source_state": {
+  "operating_events": "state/company_intel/operating_events.json",
+  "financial_evidence_reconciliation": "state/company_intel/financial_evidence_reconciliation.json",
+  "financial_coverage": "state/company_intel/financial_coverage.json",
+  "financial_engine_assumptions": "state/company_intel/financial_engine_assumptions.json",
+  "as_of": "2026-08-27 18:17"
+ },
+ "_meta": {
+  "generator_version": "ci_artifact_integrity_v1",
+  "source_commit_sha": "f57663a894a9328ee50e6b98f16096b735f86f99",
+  "build_cutoff_at": "2026-08-30T22:03:57Z",
+  "generated_at": "2026-08-30T22:03:57Z",
+  "artifact_path": "state/company_intel/mari_enp_evidence_readiness.json",
+  "timestamp_semantics": {
+   "build_cutoff_at": "generation boundary only; not a source-effective or source-published time",
+   "generated_at": "artifact generation time only; not a source-effective or source-published time"
+  }
+ }
 }

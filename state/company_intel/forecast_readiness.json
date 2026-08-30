@@ -1,7 +1,7 @@
 {
  "schema_version": 1,
  "contract_version": "forecast_readiness_contract_v1",
- "as_of": "2026-08-29 16:39",
+ "as_of": "2026-08-30T22:48:00+05:00",
  "pilot_symbols": [
   "ATRL",
   "BOP",
@@ -72,7 +72,7 @@
   "adapter_unavailable_company_count": 0,
   "insufficient_history_company_count": 18,
   "blocked_company_count": 18,
-  "qualified_fact_company_count": 3
+  "qualified_fact_company_count": 2
  },
  "companies": {
   "ATRL": {
@@ -1767,48 +1767,8 @@
     },
     "historical_reference_cases_are_not_approved_assumptions": true
    },
-   "qualified_period_count": 2,
-   "qualified_periods": [
-    {
-     "period_end": "2024-06-30",
-     "available_on": "2026-08-27",
-     "consolidation": "consolidated",
-     "currency": "PKR",
-     "statement_type": "income_statement",
-     "monetary_unit": "PKR",
-     "monetary_unit_multiplier": 1000,
-     "eps_unit": "PKR/share",
-     "eps_unit_multiplier": 1,
-     "source_fact_ids": {
-      "revenue": "fact_887b900f06e64e3f60d52c27",
-      "profit_after_tax_attributable": "fact_8a1290edd8af69a086e66181",
-      "basic_eps": "fact_bd8c45a2ab01920ae8c5094c"
-     },
-     "document_ids": [
-      "issuer:814f586f0a7a9fb56900185d",
-      "issuer:a4ad80e1b79ef02784142ce8"
-     ]
-    },
-    {
-     "period_end": "2025-06-30",
-     "available_on": "2026-08-27",
-     "consolidation": "consolidated",
-     "currency": "PKR",
-     "statement_type": "income_statement",
-     "monetary_unit": "PKR",
-     "monetary_unit_multiplier": 1000,
-     "eps_unit": "PKR/share",
-     "eps_unit_multiplier": 1,
-     "source_fact_ids": {
-      "revenue": "fact_0d1e26cd6ab3d94ceb02b69d",
-      "profit_after_tax_attributable": "fact_c36f5d4807f30d47432d2f0c",
-      "basic_eps": "fact_f93d0864506a39f18933426d"
-     },
-     "document_ids": [
-      "issuer:814f586f0a7a9fb56900185d"
-     ]
-    }
-   ],
+   "qualified_period_count": 0,
+   "qualified_periods": [],
    "missing_requirements": [
     "three_aligned_annual_revenue_pat_eps_periods"
    ],
@@ -3684,9 +3644,9 @@
  },
  "_meta": {
   "generator_version": "ci_artifact_integrity_v1",
-  "source_commit_sha": "671a59e50c66b10226bc897fbb37862d597147e3",
-  "build_cutoff_at": "2026-08-30T17:58:30Z",
-  "generated_at": "2026-08-30T17:58:30Z",
+  "source_commit_sha": "f57663a894a9328ee50e6b98f16096b735f86f99",
+  "build_cutoff_at": "2026-08-30T22:03:57Z",
+  "generated_at": "2026-08-30T22:03:57Z",
   "artifact_path": "state/company_intel/forecast_readiness.json",
   "timestamp_semantics": {
    "build_cutoff_at": "generation boundary only; not a source-effective or source-published time",

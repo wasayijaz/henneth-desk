@@ -5,8 +5,10 @@ update-live-desk skill locally, and mirrors what GitHub Actions runs in the clou
 Idempotent and safe to re-run. Deep history is skipped for tickers already cached
 (fetch_deep_history only pulls missing ones), so re-runs are fast.
 Usage: python scripts/run_cloud.py"""
+import os
 import subprocess
 import sys
+from datetime import datetime, timezone
 from pathlib import Path
 
 SCRIPTS = Path(__file__).resolve().parent
@@ -152,6 +154,13 @@ STEPS = [
     "build_ci_work_routing_policy.py",
     "build_ownership_source_manifest.py",  # review metadata only; never activates ownership facts
     "build_ci_completion_matrix.py",
+    # Readiness consumes artifact_integrity as a source, while artifact_integrity
+    # seals readiness and the private CI slice. Run a fixed-point sequence with
+    # one UTC cutoff so readiness, slice and the manifest agree byte-for-byte.
+    "build_event_to_value_product_readiness.py",
+    "build_ci_slice.py",
+    "build_ci_artifact_integrity.py",
+    "build_event_to_value_product_readiness.py",
     "build_ci_slice.py",
     # Finalize the complete private CI release as one reproducible UTC-cutoff
     # artifact set. This runs only after every CI producer and the slice.
@@ -168,6 +177,7 @@ STEPS = [
     "check_ci_reprocess_manifest.py",
     "check_intelligence_cases.py",
     "check_mlcf_pioc_readiness_manifest.py",
+    "check_event_to_value_product_readiness.py",
     "check_financial_reprocess_blockers.py",
     "check_ownership_source_manifest.py",
     "check_forecast_contract.py",
@@ -210,9 +220,14 @@ ADVISORY = {"tv_crosscheck.py", "supabase_ci_store.py"}
 
 def main():
     failed = []
+    env = os.environ.copy()
+    env.setdefault(
+        "HENNETH_CI_BUILD_CUTOFF_AT",
+        datetime.now(timezone.utc).replace(microsecond=0).strftime("%Y-%m-%dT%H:%M:%SZ"),
+    )
     for s in STEPS:
         print(f"\n=== {s} ===")
-        r = subprocess.run([sys.executable, str(SCRIPTS / s)])
+        r = subprocess.run([sys.executable, str(SCRIPTS / s)], env=env)
         if r.returncode != 0 and s not in ADVISORY:
             failed.append(s)
             print(f"  ! {s} exited {r.returncode}")
