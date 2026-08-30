@@ -105,6 +105,55 @@ REAL_MISSING_INPUT_STATUSES = {
     "event_specific_incremental_financial_bridge": "missing",
     "mlcf_historical_adapter_scope": "insufficient_for_event_model",
 }
+REAL_MISSING_INPUTS = (
+    {
+        "input_id": "pioc_ci_pilot_membership", "status": "missing",
+        "required": "target company inside current CI pilot", "present": False,
+        "source_path": "state/company_profiles.json",
+    },
+    {
+        "input_id": "pioc_retained_official_financial_documents", "status": "missing",
+        "required": "retained official target-company financial documents under the CI document source", "present": 0,
+        "source_path": "state/company_documents.json",
+    },
+    {
+        "input_id": "pioc_financial_truth_row", "status": "missing",
+        "required": "target-company financial truth row under the CI pilot boundary", "present": 0,
+        "source_path": "state/company_intel/financial_truth_qualification.json",
+    },
+    {
+        "input_id": "pioc_model_input_row", "status": "missing",
+        "required": "target-company model-input row under the CI pilot boundary", "present": 0,
+        "source_path": "state/company_intel/financial_model_inputs.json",
+    },
+    {
+        "input_id": "mlcf_full_financial_truth_gate", "status": "missing",
+        "required": {"annual_income_triplets": 5, "reported_quarter_fact_sets": 8,
+                     "annual_operating_cash_flow": 5, "official_share_count_capital_note_tie_out": 1},
+        "present": {"annual_income_triplets": 3, "reported_quarter_fact_sets": 3,
+                    "annual_operating_cash_flow": 2, "official_share_count_capital_note_tie_out": 0},
+        "source_path": "state/company_intel/financial_truth_qualification.json",
+    },
+    {
+        "input_id": "event_specific_incremental_financial_bridge", "status": "missing",
+        "required": ["source-qualified target-company contribution by retained period",
+                     "source-qualified acquirer consolidation bridge by retained period",
+                     "source-qualified debt and cash position tied to the transaction chain",
+                     "official share-capital tie-out after the transaction chain"],
+        "present": [],
+        "source_paths": ["state/company_intel/intelligence_cases.json",
+                         "state/company_intel/financial_evidence_reconciliation.json",
+                         "state/company_intel/financial_model_inputs.json"],
+    },
+    {
+        "input_id": "mlcf_historical_adapter_scope", "status": "insufficient_for_event_model",
+        "required": "event-specific MLCF/PIOC acquisition-control model inputs",
+        "present": {"mlcf_company_model_input_status": "ready",
+                    "adapter_version": "cement_actuals_to_formal_engine_inputs_v1",
+                    "scope_limitation": "MLCF historical actuals only; not a target-company or transaction-chain model"},
+        "source_path": "state/company_intel/financial_model_inputs.json",
+    },
+)
 FIXTURE_SYMBOL = "MLCF-FIXTURE"
 FIXTURE_EVENT_REF = "fixture:mlcf-pioc-cement-expansion-v1"
 FIXTURE_EFFECTIVE_DATE = "2025-12-31"
@@ -479,16 +528,14 @@ def _manifest_refs(manifest: Mapping[str, Any], path: str) -> tuple[list[dict[st
         violations.append(f"{path}.missing_inputs: must be a non-empty list")
     else:
         missing_statuses: dict[str, str] = {}
+        input_ids: list[str] = []
         for index, row in enumerate(missing_inputs):
             row_path = f"{path}.missing_inputs[{index}]"
             if not isinstance(row, Mapping):
                 violations.append(f"{row_path}: must be a mapping")
                 continue
-            allowed = set(_REAL_MISSING_INPUT_KEYS)
-            if "source_path" in row:
-                allowed.add("source_path")
-            if "source_paths" in row:
-                allowed.add("source_paths")
+            source_key = "source_paths" if "source_paths" in row else "source_path"
+            allowed = set(_REAL_MISSING_INPUT_KEYS) | {source_key}
             violations.extend(_exact_keys(row, allowed, row_path))
             if ("source_path" in row) == ("source_paths" in row):
                 violations.append(f"{row_path}: must carry exactly one source_path/source_paths field")
@@ -496,7 +543,21 @@ def _manifest_refs(manifest: Mapping[str, Any], path: str) -> tuple[list[dict[st
                 violations.append(f"{row_path}: input_id and status must be non-empty strings")
             else:
                 missing_statuses[str(row.get("input_id"))] = str(row.get("status"))
-        if missing_statuses != REAL_MISSING_INPUT_STATUSES:
+                input_ids.append(str(row.get("input_id")))
+            if "required" not in row or row.get("required") in (None, "", [], {}):
+                violations.append(f"{row_path}.required: exact producer requirement is required")
+            if "present" not in row:
+                violations.append(f"{row_path}.present: exact producer presence value is required")
+            source_value = row.get(source_key)
+            if source_key == "source_path" and not _nonempty(source_value):
+                violations.append(f"{row_path}.source_path: must be a non-empty producer path")
+            if source_key == "source_paths" and (
+                not isinstance(source_value, list) or not source_value or any(not _nonempty(item) for item in source_value)
+            ):
+                violations.append(f"{row_path}.source_paths: must be a non-empty list of producer paths")
+            if index < len(REAL_MISSING_INPUTS) and dict(row) != REAL_MISSING_INPUTS[index]:
+                violations.append(f"{row_path}: exact producer-derived missing-input row mismatch")
+        if input_ids != [row["input_id"] for row in REAL_MISSING_INPUTS] or missing_statuses != REAL_MISSING_INPUT_STATUSES:
             violations.append(f"{path}.missing_inputs: retained missing-input checklist mismatch")
     policy = manifest.get("formal_output_policy")
     if not isinstance(policy, Mapping):
@@ -509,6 +570,7 @@ def _manifest_refs(manifest: Mapping[str, Any], path: str) -> tuple[list[dict[st
             or policy.get("accepted_outputs") != []
             or policy.get("no_generic_economic_engine") is not True
             or policy.get("reported_fields_only") is not True
+            or policy.get("block_reason") != "formal output remains blocked until every missing input is source-qualified and owner-reviewed through existing gates"
         ):
             violations.append(f"{path}.formal_output_policy: retained hard-block policy mismatch")
     evidence_refs = manifest.get("evidence_refs")

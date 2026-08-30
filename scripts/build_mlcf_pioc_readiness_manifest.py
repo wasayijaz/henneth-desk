@@ -237,12 +237,29 @@ def _mlcf_manifest(
     }, [], refs
 
 
-def build(write: bool = True) -> dict[str, Any]:
-    profiles = load_json(STATE / "company_profiles.json", {})
-    intelligence_cases = load_json(STATE / "company_intel" / "intelligence_cases.json", {"companies": {}})
-    financial_truth = load_json(STATE / "company_intel" / "financial_truth_qualification.json", {"companies": {}})
-    model_inputs = load_json(STATE / "company_intel" / "financial_model_inputs.json", {"companies": {}})
-    pilot_symbols = list((profiles.get("pilot") or {}).get("symbols") or [])
+def build(
+    write: bool = True,
+    *,
+    intelligence_cases: dict[str, Any] | None = None,
+    financial_truth: dict[str, Any] | None = None,
+    model_inputs: dict[str, Any] | None = None,
+    pilot_symbols: list[str] | None = None,
+) -> dict[str, Any]:
+    """Build the manifest from current producer authorities.
+
+    Callers that already rebuilt the IntelligenceCase can pass that object so
+    readiness is derived from the same in-memory producer result.  Omitted
+    inputs retain the standalone script behaviour for the scheduled builder.
+    """
+    if pilot_symbols is None:
+        profiles = load_json(STATE / "company_profiles.json", {})
+        pilot_symbols = list((profiles.get("pilot") or {}).get("symbols") or [])
+    if intelligence_cases is None:
+        intelligence_cases = load_json(STATE / "company_intel" / "intelligence_cases.json", {"companies": {}})
+    if financial_truth is None:
+        financial_truth = load_json(STATE / "company_intel" / "financial_truth_qualification.json", {"companies": {}})
+    if model_inputs is None:
+        model_inputs = load_json(STATE / "company_intel" / "financial_model_inputs.json", {"companies": {}})
     companies = {symbol: _empty_company(symbol) for symbol in pilot_symbols}
     manifest, blockers, refs = _mlcf_manifest(intelligence_cases, financial_truth, model_inputs, pilot_symbols)
     if MLCF not in companies:

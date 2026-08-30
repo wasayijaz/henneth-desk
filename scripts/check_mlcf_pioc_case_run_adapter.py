@@ -6,6 +6,7 @@ import json
 import math
 import re
 import sys
+from unittest.mock import patch
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -81,6 +82,17 @@ def main() -> None:
           and real["analogue_readiness"]["hard_block"])
     check("real formal reasons authoritative", real["formal_output_readiness"]["blocked_reasons"] == real["blocked_reasons"]
           and real["formal_output_readiness"]["reason"] == real["blocked_reasons"][0])
+    # A checked-in generated manifest is not an input authority.  If a caller
+    # accidentally exposes a forged/stale manifest path, the adapter must not
+    # read it and must still derive the current producer result in-process.
+    original_load_json = adapter.load_json
+    def reject_generated_manifest(path, default=None):
+        if "mlcf_pioc_readiness_manifest" in str(path):
+            raise AssertionError("generated readiness manifest must not be loaded")
+        return original_load_json(path, default)
+    with patch.object(adapter, "load_json", side_effect=reject_generated_manifest):
+        stored_hostile = adapter.build_real_case_run(case, manifest)
+    check("forged stored manifest ignored", validate_case_run(stored_hostile) == [])
     # Every readiness seam is hostile-tested: the adapter must bind to the
     # current producer build, while the contract independently rejects drift.
     readiness_mutations = [
@@ -216,7 +228,12 @@ def main() -> None:
         ("manifest pilot status", lambda x: x["pilot_status"].__setitem__("in_current_ci_pilot", True)),
         ("manifest known field", lambda x: x["known_fields"].__setitem__("offer_price", "PKR 1.00 per share")),
         ("manifest missing input status", lambda x: x["missing_inputs"][0].__setitem__("status", "ready")),
+        ("manifest missing input required", lambda x: x["missing_inputs"][0].__setitem__("required", "forged requirement")),
+        ("manifest missing input present", lambda x: x["missing_inputs"][0].__setitem__("present", True)),
+        ("manifest missing input source path", lambda x: x["missing_inputs"][0].__setitem__("source_path", "state/forged.json")),
+        ("manifest missing input source paths", lambda x: x["missing_inputs"][5].__setitem__("source_paths", ["state/forged.json"])),
         ("manifest output policy", lambda x: x["formal_output_policy"].__setitem__("accepted_outputs", ["valuation"])),
+        ("manifest output policy block reason", lambda x: x["formal_output_policy"].__setitem__("block_reason", "forged")),
     ):
         forged_case = copy.deepcopy(case)
         forged_manifest = copy.deepcopy(manifest)

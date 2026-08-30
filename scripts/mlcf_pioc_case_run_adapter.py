@@ -15,6 +15,7 @@ from typing import Any, Mapping
 import cement_expansion_contract as cement
 import cement_expansion_engine as engine
 import build_intelligence_cases
+import build_mlcf_pioc_readiness_manifest
 from psx_data import STATE, load_json
 from mlcf_pioc_case_run_contract import (
     CASE_ID,
@@ -77,13 +78,25 @@ def build_real_case_run(
     if intelligence_case is not None:
         if not isinstance(intelligence_case, Mapping) or _canonical_json(intelligence_case) != _canonical_json(case):
             raise ValueError("without exact retained source lineage: caller IntelligenceCase is stale or not byte/equality-bound to build(write=False)")
-    authoritative_manifest = (load_json(STATE / "company_intel" / "mlcf_pioc_readiness_manifest.json", {})
-                              .get("companies", {}).get("MLCF", {}).get("manifest"))
+    # Rebuild readiness from the current producer authorities.  The checked-in
+    # generated manifest is an output/cache and must never become authority.
+    profiles = load_json(STATE / "company_profiles.json", {})
+    financial_truth = load_json(STATE / "company_intel" / "financial_truth_qualification.json", {"companies": {}})
+    model_inputs = load_json(STATE / "company_intel" / "financial_model_inputs.json", {"companies": {}})
+    pilot_symbols = list((profiles.get("pilot") or {}).get("symbols") or [])
+    readiness_result = build_mlcf_pioc_readiness_manifest.build(
+        write=False,
+        intelligence_cases=authoritative,
+        financial_truth=financial_truth,
+        model_inputs=model_inputs,
+        pilot_symbols=pilot_symbols,
+    )
+    authoritative_manifest = ((readiness_result.get("companies") or {}).get("MLCF") or {}).get("manifest")
     if not isinstance(authoritative_manifest, Mapping):
-        raise ValueError("authoritative MLCF readiness manifest is unavailable")
+        raise ValueError("authoritative MLCF readiness manifest cannot be derived from current producer state")
     if readiness_manifest is not None:
         if not isinstance(readiness_manifest, Mapping) or _canonical_json(readiness_manifest) != _canonical_json(authoritative_manifest):
-            raise ValueError("without exact retained source lineage: caller readiness manifest is stale or not equality-bound to retained state")
+            raise ValueError("without exact retained source lineage: caller readiness manifest is stale or not equality-bound to current producer authorities")
     manifest = authoritative_manifest
     reasons = _real_block_reasons(case, manifest)
     lineage, lineage_violations = retained_real_source_lineage(case, manifest)
