@@ -133,12 +133,13 @@ def main():
   w(70,45,'2025',3,0), w(130,45,'2024',3,1), w(240,45,'2025',3,2), w(300,45,'2024',3,3),
   w(10,65,'Revenue',4,0), w(70,77,'100',5,0), w(130,77,'90',5,1), w(240,77,'40',5,2), w(300,77,'30',5,3)]
  dual_facts=extract_facts({'doc_id':'psx:dual','title':'Quarterly Financial Results','period_end':'2025-09-30','published_at':'2025-10-01','source_url':'https://dps.psx.com.pk/download/document/5.pdf','content_sha256':'dualhash'},['dual durations'],words=[dual])
- # The geometry parser retains the unambiguous nine-month pair and fails
- # closed on the overlapping three-month headers in this compact synthetic
- # layout.  It must never blend the two duration bands into one observation.
+ # The geometry parser preserves both unambiguous duration pairs.  It must
+ # never collapse direct three-month columns into their cumulative peers.
  assert [_fact_view(f) for f in dual_facts] == [
   {'line':'revenue','raw_value':'100','normalized_value':100000000.0,'period_end':'2025-09-30','duration_months':9,'column_role':'current_period','page':1,'parser_version':PARSER_VERSION,'parser_revision':PARSER_REVISION,'doc_id':'psx:dual','hash':'dualhash','source_url':'https://dps.psx.com.pk/download/document/5.pdf','evidence_page':1,'evidence_source_url':'https://dps.psx.com.pk/download/document/5.pdf','readiness':'model_loadable','flags':[],'basis':'consolidated','scale':1000000,'currency':'PKR'},
   {'line':'revenue','raw_value':'90','normalized_value':90000000.0,'period_end':'2024-09-30','duration_months':9,'column_role':'comparative_prior_period','page':1,'parser_version':PARSER_VERSION,'parser_revision':PARSER_REVISION,'doc_id':'psx:dual','hash':'dualhash','source_url':'https://dps.psx.com.pk/download/document/5.pdf','evidence_page':1,'evidence_source_url':'https://dps.psx.com.pk/download/document/5.pdf','readiness':'model_loadable','flags':[],'basis':'consolidated','scale':1000000,'currency':'PKR'},
+  {'line':'revenue','raw_value':'40','normalized_value':40000000.0,'period_end':'2025-09-30','duration_months':3,'column_role':'current_period','page':1,'parser_version':PARSER_VERSION,'parser_revision':PARSER_REVISION,'doc_id':'psx:dual','hash':'dualhash','source_url':'https://dps.psx.com.pk/download/document/5.pdf','evidence_page':1,'evidence_source_url':'https://dps.psx.com.pk/download/document/5.pdf','readiness':'model_loadable','flags':[],'basis':'consolidated','scale':1000000,'currency':'PKR'},
+  {'line':'revenue','raw_value':'30','normalized_value':30000000.0,'period_end':'2024-09-30','duration_months':3,'column_role':'comparative_prior_period','page':1,'parser_version':PARSER_VERSION,'parser_revision':PARSER_REVISION,'doc_id':'psx:dual','hash':'dualhash','source_url':'https://dps.psx.com.pk/download/document/5.pdf','evidence_page':1,'evidence_source_url':'https://dps.psx.com.pk/download/document/5.pdf','readiness':'model_loadable','flags':[],'basis':'consolidated','scale':1000000,'currency':'PKR'},
  ]; checks += 1
  # Reviewer v4: real-shaped wrapped visual header bands across split line IDs, with
  # duration labels left of the columns and numeric cells split into separate row fragments.

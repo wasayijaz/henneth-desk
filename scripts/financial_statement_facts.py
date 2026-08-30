@@ -297,6 +297,12 @@ def _wrapped_header_descriptors(lines: list[dict[str, Any]], occurrences: list[d
         durations = sorted(duration_band, key=lambda d: d["cx"])
         if len(durations) < 1:
             continue
+        # Distinct cumulative/current groups must occupy distinct visual
+        # ranges.  Overlapping labels are ambiguous synthetic/fragmented
+        # geometry and cannot safely be mapped to year columns.
+        if any(float(left["x1"]) > float(right["x0"])
+               for left, right in zip(durations, durations[1:])):
+            continue
         months = [int(d["months"]) for d in durations]
         if len(set(months)) != len(months):
             continue
