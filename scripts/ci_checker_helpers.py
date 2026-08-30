@@ -44,6 +44,19 @@ def assert_ci_slice_projection(builder: Any, slice_path: Any, symbol: str, field
     if not isinstance(projection, dict):
         raise AssertionError("CI checker builder did not emit a mapping projection")
 
-    rows = {row.get("symbol"): row for row in projection.get("tickers") or []}
-    if rows.get(symbol, {}).get(field) != expected_row:
+    tickers = projection.get("tickers")
+    if not isinstance(tickers, list):
+        raise AssertionError("CI checker projection tickers must be a list")
+    matching_rows: list[dict[str, Any]] = []
+    for row in tickers:
+        if not isinstance(row, dict):
+            raise AssertionError("CI checker projection ticker rows must be mappings")
+        row_symbol = row.get("symbol")
+        if not isinstance(row_symbol, str):
+            raise AssertionError("CI checker projection ticker symbols must be plain strings")
+        if row_symbol == symbol:
+            matching_rows.append(row)
+    if len(matching_rows) != 1:
+        raise AssertionError(f"CI checker projection emitted {len(matching_rows)} rows for target symbol; expected exactly one")
+    if matching_rows[0].get(field) != expected_row:
         raise AssertionError(f"CI slice does not expose the {symbol} {field} row exactly")
