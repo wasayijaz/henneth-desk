@@ -14,18 +14,19 @@ def without_root_meta(value: Any) -> Any:
 
 
 def assert_ci_slice_projection(builder: Any, slice_path: Any, symbol: str, field: str, expected_row: dict[str, Any]) -> None:
-    """Check a CI row through the read-only builder projection, preserving the tracked slice."""
+    """Check a CI row through an in-memory builder capture, preserving the tracked slice."""
     before_exists = slice_path.exists()
     before_bytes = slice_path.read_bytes() if before_exists else None
     before_mtime = slice_path.stat().st_mtime_ns if before_exists else None
     original_save_json = builder.save_json
+    writes: list[tuple[Any, Any]] = []
 
-    def _unexpected_save(*_args: Any, **_kwargs: Any) -> None:
-        raise AssertionError("CI checker projection attempted to call save_json")
+    def _capture_save(path: Any, payload: Any, *_args: Any, **_kwargs: Any) -> None:
+        writes.append((path, payload))
 
-    builder.save_json = _unexpected_save
+    builder.save_json = _capture_save
     try:
-        projection = builder.build(write=False)
+        builder.build()
     finally:
         builder.save_json = original_save_json
 
@@ -34,6 +35,14 @@ def assert_ci_slice_projection(builder: Any, slice_path: Any, symbol: str, field
     after_mtime = slice_path.stat().st_mtime_ns if after_exists else None
     if (before_exists, before_bytes, before_mtime) != (after_exists, after_bytes, after_mtime):
         raise AssertionError("CI checker projection mutated company_intelligence.json")
+
+    if len(writes) != 1:
+        raise AssertionError(f"CI checker builder emitted {len(writes)} save_json calls; expected exactly one")
+    written_path, projection = writes[0]
+    if getattr(written_path, "resolve", lambda: written_path)() != slice_path.resolve():
+        raise AssertionError(f"CI checker builder attempted to write unexpected path: {written_path}")
+    if not isinstance(projection, dict):
+        raise AssertionError("CI checker builder did not emit a mapping projection")
 
     rows = {row.get("symbol"): row for row in projection.get("tickers") or []}
     if rows.get(symbol, {}).get(field) != expected_row:
