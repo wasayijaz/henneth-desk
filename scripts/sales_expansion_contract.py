@@ -23,6 +23,7 @@ _BOUNDED = {
     "gross_margin_pct": (0.0, True, 100.0, True),
     "working_capital_pct_revenue": (0.0, True, 100.0, False),
     "effective_tax_pct": (0.0, True, 100.0, False),
+    "discount_rate_pct_annual": (0.0, False, 100.0, False),
 }
 _POSITIVE = (
     "sales_compensation_usd_annual",
@@ -30,7 +31,6 @@ _POSITIVE = (
     "fx_pkr_usd",
     "initial_investment_pkr",
     "shares_out",
-    "discount_rate_pct_annual",
 )
 _NON_NEGATIVE = ("starting_revenue_pkr", "sales_hires_schedule", "support_hires_schedule",
                  "marketing_spend_pkr_schedule", "productivity_revenue_pkr_per_sales_hire_schedule")
@@ -200,13 +200,16 @@ def validate_case(case: Mapping[str, Any]) -> list[str]:
     if not isinstance(inputs, Mapping):
         violations.append("inputs: must be a mapping of field to provenance record")
         return violations
-    unknown_fields = sorted(set(inputs) - set(_REQUIRED))
+    unknown_fields = sorted((field for field in inputs if field not in _REQUIRED), key=str)
     for field in unknown_fields:
         violations.append(f"{field}: unknown input field")
     for field in _REQUIRED:
         if field not in inputs:
             violations.append(f"{field}: missing required input")
-    for field, record in sorted(inputs.items()):
+    for field, record in sorted(inputs.items(), key=lambda item: str(item[0])):
+        if not isinstance(field, str):
+            violations.append(f"{field}: input field must be a string")
+            continue
         if not isinstance(record, Mapping):
             violations.append(f"{field}: input must be a provenance record mapping")
             continue

@@ -1,6 +1,7 @@
 """Focused deterministic checks for the sales-expansion kernel."""
 from __future__ import annotations
 
+from collections.abc import Mapping
 import copy
 import json
 import math
@@ -56,6 +57,24 @@ def source(value):
         },
         "available_on": "2025-12-31",
     }
+
+
+class ListKeyInputs(Mapping):
+    def __init__(self, base: dict, bad_key: list, bad_value: dict):
+        self._items = list(base.items()) + [(bad_key, bad_value)]
+
+    def __iter__(self):
+        for key, _ in self._items:
+            yield key
+
+    def __len__(self):
+        return len(self._items)
+
+    def __getitem__(self, key):
+        for stored_key, value in self._items:
+            if stored_key == key:
+                return value
+        raise KeyError(key)
 
 
 def assert_violation(name: str, candidate: dict, expected: str) -> None:
@@ -238,7 +257,8 @@ def main() -> None:
         ("gross margin 101", lambda c: c["inputs"]["gross_margin_pct"].update(value=101.0), "gross_margin_pct: must be in [0, 100]"),
         ("working capital 100", lambda c: c["inputs"]["working_capital_pct_revenue"].update(value=100.0), "working_capital_pct_revenue: must be in [0, 100)"),
         ("tax 100", lambda c: c["inputs"]["effective_tax_pct"].update(value=100.0), "effective_tax_pct: must be in [0, 100)"),
-        ("discount zero", lambda c: c["inputs"]["discount_rate_pct_annual"].update(value=0.0), "discount_rate_pct_annual: must be > 0"),
+        ("discount zero", lambda c: c["inputs"]["discount_rate_pct_annual"].update(value=0.0), "discount_rate_pct_annual: must be in (0, 100)"),
+        ("discount 100", lambda c: c["inputs"]["discount_rate_pct_annual"].update(value=100.0), "discount_rate_pct_annual: must be in (0, 100)"),
         ("investment zero", lambda c: c["inputs"]["initial_investment_pkr"].update(value=0.0), "initial_investment_pkr: must be > 0"),
         ("shares zero", lambda c: c["inputs"]["shares_out"].update(value=0.0), "shares_out: must be > 0"),
         ("lookahead", lambda c: c["inputs"]["fx_pkr_usd"].update(available_on="2026-01-01"), "fx_pkr_usd: available_on must be on or before valuation_date"),
@@ -261,6 +281,9 @@ def main() -> None:
         ("non-json", lambda c: c["inputs"].update(extra={"value": {1, 2}}), "unknown input field"),
         ("inputs non-mapping", lambda c: c.update(inputs=[]), "inputs: must be a mapping of field to provenance record"),
         ("record non-mapping", lambda c: c["inputs"].update(fx_pkr_usd=[]), "fx_pkr_usd: input must be a provenance record mapping"),
+        ("integer input key", lambda c: c["inputs"].update({1: analyst(1.0)}), "1: input field must be a string"),
+        ("tuple input key", lambda c: c["inputs"].update({("bad", "key"): analyst(1.0)}), "('bad', 'key'): input field must be a string"),
+        ("list-like input key", lambda c: c.update(inputs=ListKeyInputs(c["inputs"], ["bad", "key"], analyst(1.0))), "['bad', 'key']: input field must be a string"),
     ]
     for name, mutate, expected in mutations:
         candidate = golden_case()
@@ -276,10 +299,31 @@ def main() -> None:
     for name, mutate, expected in (
         ("evaluate rejects top-level extra", lambda c: c.update(caller_prose="you should buy"), "case.caller_prose"),
         ("evaluate rejects huge hires", lambda c: c["inputs"]["sales_hires_schedule"]["value"].__setitem__(0, 10**400), "sales_hires_schedule[0]: must be <="),
+        ("evaluate rejects integer input key", lambda c: c["inputs"].update({1: analyst(1.0)}), "1: input field must be a string"),
+        ("evaluate rejects tuple input key", lambda c: c["inputs"].update({("bad", "key"): analyst(1.0)}), "('bad', 'key'): input field must be a string"),
+        ("evaluate rejects list-like input key", lambda c: c.update(inputs=ListKeyInputs(c["inputs"], ["bad", "key"], analyst(1.0))), "['bad', 'key']: input field must be a string"),
     ):
         candidate = golden_case()
         mutate(candidate)
         assert_rejected_by_evaluate(name, candidate, expected)
+
+    for name, mutate, expected in (
+        ("extreme discount rate bounded", lambda c: c["inputs"]["discount_rate_pct_annual"].update(value=1e308), "discount_rate_pct_annual: must be in (0, 100)"),
+        ("extreme marketing remains finite", lambda c: c["inputs"]["marketing_spend_pkr_schedule"]["value"].__setitem__(0, 1e308), None),
+        ("extreme investment remains finite", lambda c: c["inputs"]["initial_investment_pkr"].update(value=1e308), None),
+        ("extreme shares remains finite", lambda c: c["inputs"]["shares_out"].update(value=1e308), None),
+    ):
+        candidate = golden_case()
+        mutate(candidate)
+        try:
+            output = engine.evaluate_case(candidate)
+        except ValueError as error:
+            check(f"{name} fails cleanly", expected is not None and expected in str(error), str(error))
+        else:
+            check(f"{name} accepted only finite output", expected is None)
+            for key, value in walk(output):
+                if isinstance(value, float):
+                    check(f"{name} finite {key}", math.isfinite(value))
 
     try:
         engine.evaluate_case({"symbol": "EXPAND"})
