@@ -39,7 +39,7 @@ def _day(v: Any):
 def _finite(v: Any): return isinstance(v,(int,float)) and not isinstance(v,bool) and math.isfinite(float(v))
 def _text(v: Any): return isinstance(v,str) and bool(v.strip()) and v.strip().casefold() not in {"unknown","tbd","n/a","none","null"}
 def _closed(m: Mapping[str,Any], keys:set[str], p:str, out:list[str]):
-    for k in m: 
+    for k in m:
         if k not in keys: out.append(f"{p}.{k}: unknown field")
 def _walk_text(v: Any):
     if isinstance(v,str): return v.casefold()
@@ -64,7 +64,7 @@ def _source_errors(s: Any, mode:str, cutoff:date|None, p:str):
     if mode=="real" and s.get("id","").startswith("fixture:"): e.append(f"{p}.id: real mode rejects fixture source")
     return e
 
-def validate_payload(payload: Mapping[str,Any]) -> list[str]:
+def _validate_payload(payload: Mapping[str,Any]) -> list[str]:
     e=[]
     if not isinstance(payload,Mapping): return ["payload: must be a mapping"]
     _closed(payload,ROOT_KEYS,"payload",e)
@@ -164,6 +164,21 @@ def validate_payload(payload: Mapping[str,Any]) -> list[str]:
     try: json.dumps(payload,allow_nan=False,sort_keys=True)
     except (TypeError,ValueError): e.append("payload: JSON must be finite and serializable")
     return sorted(set(e))
+
+
+def validate_payload(payload: Mapping[str,Any]) -> list[str]:
+    """Return deterministic violations for any malformed direct caller input.
+
+    The adapter seals caller payloads before validation, but this exported
+    contract boundary is also fail-closed on its own.  Deliberately malformed
+    mappings (including unhashable identifiers that reach dedupe checks) are
+    reported as one stable structural violation instead of leaking an
+    implementation exception.
+    """
+    try:
+        return _validate_payload(payload)
+    except Exception:
+        return ["payload: malformed or unsafe structure"]
 
 def fingerprint(c: Mapping[str,Any])->str:
     return hashlib.sha256(json.dumps(c,sort_keys=True,separators=(",",":"),allow_nan=False).encode()).hexdigest()
