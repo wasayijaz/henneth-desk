@@ -17,6 +17,7 @@ SCHEMA_VERSION = "mari_enp_evidence_readiness_v1"
 SYMBOL = "MARI"
 EVENT_ID = "evt_3d1dae7553f73da60ba3"
 EVENT_DOCUMENT_ID = "psx:265594"
+EVENT_SOURCE_URL = "https://dps.psx.com.pk/download/document/265594.pdf"
 
 ANNUAL_PERIODS = [
     "2026-06-30",
@@ -69,14 +70,21 @@ def _event_evidence(operating_events: Mapping[str, Any]) -> list[dict[str, Any]]
     # The readiness manifest is for the offshore target only.  Prior-event
     # material (including the Peshawar acquisition) belongs to the analogue
     # product and must never be promoted into this target event's evidence.
-    selected = [event for event in events if event.get("event_id") == EVENT_ID]
+    selected = [
+        event for event in events
+        if event.get("event_id") == EVENT_ID
+        and event.get("source_url") == EVENT_SOURCE_URL
+    ]
     rows: list[dict[str, Any]] = []
     for event in selected:
         for evidence in event.get("evidence") or []:
             # Bind the retained excerpt to both canonical identities.  A
             # malformed target event carrying another document is not target
             # evidence and is therefore omitted rather than relabelled.
-            if evidence.get("document_id") != EVENT_DOCUMENT_ID:
+            if (
+                evidence.get("document_id") != EVENT_DOCUMENT_ID
+                or evidence.get("source_url") != EVENT_SOURCE_URL
+            ):
                 continue
             rows.append(
                 {
