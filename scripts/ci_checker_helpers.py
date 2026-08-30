@@ -15,6 +15,8 @@ def without_root_meta(value: Any) -> Any:
 
 def assert_ci_slice_projection(builder: Any, slice_path: Any, symbol: str, field: str, expected_row: dict[str, Any]) -> None:
     """Check a CI row through an in-memory builder capture, preserving the tracked slice."""
+    if type(symbol) is not str or type(field) is not str:
+        raise AssertionError("CI checker projection symbol and field must be plain strings")
     before_exists = slice_path.exists()
     before_bytes = slice_path.read_bytes() if before_exists else None
     before_mtime = slice_path.stat().st_mtime_ns if before_exists else None
@@ -49,10 +51,10 @@ def assert_ci_slice_projection(builder: Any, slice_path: Any, symbol: str, field
         raise AssertionError("CI checker projection tickers must be a list")
     matching_rows: list[dict[str, Any]] = []
     for row in tickers:
-        if not isinstance(row, dict):
+        if type(row) is not dict:
             raise AssertionError("CI checker projection ticker rows must be mappings")
         row_symbol = row.get("symbol")
-        if not isinstance(row_symbol, str):
+        if type(row_symbol) is not str:
             raise AssertionError("CI checker projection ticker symbols must be plain strings")
         if row_symbol == symbol:
             matching_rows.append(row)
