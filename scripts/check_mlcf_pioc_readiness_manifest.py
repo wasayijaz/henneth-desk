@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import json
 import re
-import subprocess
 import sys
 from pathlib import Path
 from typing import Any
@@ -21,7 +20,8 @@ from build_mlcf_pioc_readiness_manifest import (  # noqa: E402
     PUBLIC_OFFER_FACT_ID,
     build,
 )
-from ci_checker_helpers import without_root_meta  # noqa: E402
+from ci_checker_helpers import assert_ci_slice_projection, without_root_meta  # noqa: E402
+import build_ci_slice as ci_slice_builder  # noqa: E402
 from psx_data import ROOT, STATE, load_json  # noqa: E402
 
 
@@ -184,13 +184,13 @@ def main() -> None:
     if _dump(without_root_meta(state)) != _dump(without_root_meta(build(write=False))):
         raise AssertionError("MLCF/PIOC readiness manifest rebuild is not deterministic")
 
-    result = subprocess.run([sys.executable, str(ROOT / "scripts" / "build_ci_slice.py")], capture_output=True, text=True, timeout=30)
-    if result.returncode != 0:
-        raise AssertionError(result.stdout + result.stderr)
-    slice_state = load_json(ROOT / "Henneth Desk 2.CI.0" / "data" / "company_intelligence.json", {"tickers": []})
-    rows = {row.get("symbol"): row for row in slice_state.get("tickers") or []}
-    if rows.get(MLCF, {}).get("mlcf_pioc_readiness_manifest") != row:
-        raise AssertionError("CI slice does not expose the MLCF/PIOC readiness manifest row exactly")
+    assert_ci_slice_projection(
+        ci_slice_builder,
+        ROOT / "Henneth Desk 2.CI.0" / "data" / "company_intelligence.json",
+        MLCF,
+        "mlcf_pioc_readiness_manifest",
+        row,
+    )
     print("mlcf_pioc_readiness_manifest: PASS (MLCF/PIOC blocked checklist, 2 official citations)")
 
 

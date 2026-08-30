@@ -3,12 +3,12 @@ from __future__ import annotations
 import copy
 import json
 import re
-import subprocess
 import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import build_intelligence_cases as cases_builder
+import build_ci_slice as ci_slice_builder
 from build_intelligence_cases import (
     CASE_PRODUCT_VERSION,
     FOLLOW_THROUGH_DOC_ID,
@@ -25,7 +25,7 @@ from build_intelligence_cases import (
     PUBLIC_OFFER_DOC_ID,
     PUBLIC_OFFER_EVENT_ID,
 )
-from ci_checker_helpers import without_root_meta
+from ci_checker_helpers import assert_ci_slice_projection, without_root_meta
 from psx_data import ROOT, STATE, load_json
 
 
@@ -405,13 +405,13 @@ def main() -> None:
         raise AssertionError("intelligence case rebuild is not deterministic")
     _assert_builder_source_mutation_tests()
 
-    result = subprocess.run([sys.executable, str(ROOT / "scripts" / "build_ci_slice.py")], capture_output=True, text=True, timeout=30)
-    if result.returncode != 0:
-        raise AssertionError(result.stdout + result.stderr)
-    slice_state = load_json(ROOT / "Henneth Desk 2.CI.0" / "data" / "company_intelligence.json", {"tickers": []})
-    rows = {row.get("symbol"): row for row in slice_state.get("tickers") or []}
-    if rows.get("MLCF", {}).get("intelligence_cases") != row:
-        raise AssertionError("CI slice does not expose the MLCF intelligence case row exactly")
+    assert_ci_slice_projection(
+        ci_slice_builder,
+        ROOT / "Henneth Desk 2.CI.0" / "data" / "company_intelligence.json",
+        "MLCF",
+        "intelligence_cases",
+        row,
+    )
     print("intelligence_cases: PASS (MLCF and MARI Observed seeds, 3 official citations)")
 
 
