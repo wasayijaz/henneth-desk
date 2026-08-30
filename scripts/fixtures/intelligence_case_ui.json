@@ -1,0 +1,148 @@
+{
+  "observed_mlcf": {
+    "symbol": "MLCF",
+    "status": "observed_seed_available",
+    "cases": [
+      {
+        "case_id": "case_mlcf_pioc_control_observed_v1",
+        "symbol": "MLCF",
+        "target_symbol": "PIOC",
+        "case_family": "industrial_cement",
+        "case_type": "acquisition_control",
+        "status": "Observed",
+        "epistemic_type": "reported_fact",
+        "summary": "Observed official-source seed: MLCF reported a public offer/control transaction for Pioneer Cement.",
+        "observed_facts": [
+          {
+            "fact_id": "mlcf_pioc_public_offer_control",
+            "statement": "MLCF reported a public offer to acquire PIOC shares.",
+            "reported_values": [
+              {
+                "label": "offer_price",
+                "value": "PKR 478.43 per share"
+              }
+            ],
+            "evidence": [
+              {
+                "document_id": "psx:267429",
+                "page": 3,
+                "source_url": "https://dps.psx.com.pk/download/document/267429.pdf",
+                "text": "PUBLIC OFFER"
+              }
+            ]
+          }
+        ],
+        "alternative_readings": [
+          {
+            "alternative_id": "public_offer_not_full_model",
+            "reading": "Official offer/control disclosure, not a quantified earnings model.",
+            "status": "retained_as_observed_only",
+            "rejection_condition": "Reject modelling if source-qualified operands are absent."
+          }
+        ],
+        "promotion_blocks": {
+          "Corroborated": "Blocked: official MLCF/PSX chain, not independent-originator corroboration.",
+          "Modelled": "Blocked: no source-qualified financial impact model or owner-approved assumptions are attached.",
+          "Published": "Blocked: no forecast, valuation, reverse-expectations output, investor conclusion or release gate is complete."
+        },
+        "policy": {
+          "observed_only": true,
+          "no_forecast": true,
+          "no_valuation": true,
+          "no_market_expectations": true,
+          "no_recommendation": true
+        },
+        "source_lineage": [
+          {
+            "document_id": "psx:267429",
+            "page": 3,
+            "source_url": "https://dps.psx.com.pk/download/document/267429.pdf"
+          }
+        ]
+      }
+    ]
+  },
+  "observed_mari": {
+    "symbol": "MARI",
+    "status": "observed_seed_available",
+    "cases": [
+      {
+        "case_id": "case_mari_offshore_exploration_blocks_observed_v1",
+        "symbol": "MARI",
+        "case_family": "e_and_p",
+        "case_type": "offshore_exploration_block_acquisition",
+        "status": "Observed",
+        "epistemic_type": "reported_fact",
+        "summary": "Observed official-source seed: Mari Energies reported its acquisition of offshore exploration blocks.",
+        "observed_facts": [
+          {
+            "fact_id": "mari_offshore_exploration_blocks_acquisition",
+            "statement": "Mari Energies reported the acquisition of offshore exploration blocks.",
+            "reported_values": [
+              {
+                "label": "stated_purpose",
+                "value": "find new hydrocarbon resources"
+              }
+            ],
+            "evidence": [
+              {
+                "document_id": "psx:265594",
+                "page": 3,
+                "source_url": "https://dps.psx.com.pk/download/document/265594.pdf",
+                "text": "offshore exploration blocks"
+              }
+            ]
+          }
+        ],
+        "alternative_readings": [
+          {
+            "alternative_id": "blocks_not_proved_reserves",
+            "reading": "Block acquisition does not establish reserves or future production.",
+            "status": "retained_as_observed_only",
+            "rejection_condition": "Reject promotion if no official source identifies a development path."
+          }
+        ],
+        "promotion_blocks": {
+          "Corroborated": "Blocked: single official Mari/PSX source.",
+          "Modelled": "Blocked: no source-qualified working interest or financial-model inputs are attached.",
+          "Published": "Blocked: no forecast, valuation, reverse-expectations output, investor conclusion or release gate is complete."
+        },
+        "policy": {
+          "observed_only": true,
+          "no_forecast": true,
+          "no_valuation": true,
+          "no_market_expectations": true,
+          "no_recommendation": true
+        },
+        "source_lineage": [
+          {
+            "document_id": "psx:265594",
+            "page": 3,
+            "source_url": "https://dps.psx.com.pk/download/document/265594.pdf"
+          }
+        ]
+      }
+    ]
+  },
+  "explicit_sections": {
+    "symbol": "MLCF",
+    "cases": [
+      {
+        "case_id": "case_mlcf_pioc_control_observed_v1",
+        "symbol": "MLCF",
+        "status": "Observed",
+        "summary": "Observed seed.",
+        "sections": {
+          "mechanism": {
+            "status": "blocked",
+            "reason": "not_yet_modelled"
+          },
+          "formulas": {
+            "status": "blocked",
+            "reason": "formula_id_not_emitted"
+          }
+        }
+      }
+    ]
+  }
+}

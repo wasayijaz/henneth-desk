@@ -3,6 +3,9 @@
   "buildCommand": "echo static app",
   "outputDirectory": ".",
   "cleanUrls": true,
+  "rewrites": [
+    { "source": "/company/:ticker/intelligence/:case_id", "destination": "/" }
+  ],
   "headers": [
     {
       "source": "/(.*)",
