@@ -13,7 +13,6 @@ const VERCEL = path.join(ROOT, "Henneth Desk 2.CI.0", "vercel.json");
 const SLICE = path.join(ROOT, "Henneth Desk 2.CI.0", "data", "company_intelligence.json");
 const MIDDLEWARE = path.join(ROOT, "Henneth Desk 2.CI.0", "middleware.js");
 const NAV_CHECK = path.join(ROOT, "scripts", "check_company_navigation_ui.mjs");
-const FIXTURE = path.join(ROOT, "scripts", "fixtures", "intelligence_case_ui.json");
 
 let checks = 0;
 const assert = (condition, message) => {
@@ -28,7 +27,7 @@ function loadView() {
   return context.window.HennethIntelligenceCaseView;
 }
 
-function writeFixture() {
+function buildFixture() {
   const fixture = {
     observed_mlcf: {
       symbol: "MLCF",
@@ -109,8 +108,6 @@ function writeFixture() {
       }],
     },
   };
-  fs.mkdirSync(path.dirname(FIXTURE), { recursive: true });
-  fs.writeFileSync(FIXTURE, JSON.stringify(fixture, null, 2) + "\n");
   return fixture;
 }
 
@@ -122,13 +119,17 @@ function main() {
   const middleware = fs.readFileSync(MIDDLEWARE, "utf8");
   const navCheck = fs.readFileSync(NAV_CHECK, "utf8");
   const slice = JSON.parse(fs.readFileSync(SLICE, "utf8"));
-  const fixture = writeFixture();
+  const checker = fs.readFileSync(new URL(import.meta.url), "utf8");
+  const fixture = buildFixture();
   const api = loadView();
 
   assert(index.includes('src="intelligence_case_view.js"'), "index loads case view helper");
   assert(app.includes("function renderIntelligenceCase("), "case renderer present");
   assert(app.includes("applyCaseRouteFromLocation"), "path parser wired");
   assert(app.includes("state.caseRoute"), "case route state present");
+  assert(app.includes("const routeTicker = state.caseRoute?.ticker || null"), "route ticker is preserved");
+  assert(app.includes("allRows.find(item => item && item.symbol === routeTicker)"), "route selects exact company row");
+  assert(app.includes("state.caseRoute ? renderIntelligenceCase(r, state.caseRoute.caseId)"), "case route has render priority");
   const caseBlockStart = app.indexOf("function renderIntelligenceCase(");
   const caseBlockEnd = app.indexOf("function renderIntelligenceConfidence(");
   assert(caseBlockStart >= 0 && caseBlockEnd > caseBlockStart, "case renderer block bounded");
@@ -141,18 +142,18 @@ function main() {
   assert(middleware.includes("CI_OWNER_USER_ID"), "owner gate unchanged");
   assert(!navCheck.includes("intelligence_case"), "navigation checker left untouched");
   assert(app.includes('fetch("data/company_intelligence.json"'), "live surface still reads the private slice");
-  assert(!app.includes("scripts/fixtures/intelligence_case_ui.json"), "live surface does not read UI fixtures");
+  assert(!checker.includes("write" + "FileSync") && !checker.includes("make" + "dirSync"), "checker is read-only");
 
   const parsed = api.parsePath("/company/mlcf/intelligence/case_mlcf_pioc_control_observed_v1");
   assert(parsed.ticker === "MLCF" && parsed.caseId === "case_mlcf_pioc_control_observed_v1", "path parse");
   assert(api.parsePath("/company/MLCF") === null, "non-case path ignored");
 
-  const missing = api.findCase({ symbol: "MLCF" }, "case_mlcf_pioc_control_observed_v1");
+  const missing = api.findCase({ symbol: "MLCF" }, "case_mlcf_pioc_control_observed_v1", "MLCF");
   assert(missing.ok === false && missing.reason === "intelligence_cases_state_missing", "missing state fail-closed");
 
   for (const key of ["observed_mlcf", "observed_mari"]) {
     const row = { symbol: fixture[key].symbol, intelligence_cases: fixture[key] };
-    const found = api.findCase(row, fixture[key].cases[0].case_id);
+    const found = api.findCase(row, fixture[key].cases[0].case_id, fixture[key].symbol);
     assert(found.ok, key + " found");
     const conclusion = api.resolveSection(found.case, "conclusion");
     const evidence = api.resolveSection(found.case, "evidence");
@@ -168,9 +169,28 @@ function main() {
       assert(section.reason && section.reason !== "coming soon" && section.reason !== "placeholder", key + " " + sectionKey + " specific reason");
     }
     assert(api.resolveSection(found.case, "formulas").reason === "formula_id_not_emitted", key + " formula reason");
-    const unknown = api.findCase(row, "case_does_not_exist");
+    const unknown = api.findCase(row, "case_does_not_exist", fixture[key].symbol);
     assert(unknown.ok === false && unknown.reason === "case_not_found", key + " unknown case");
   }
+
+  const mlcfRow = { symbol: "MLCF", intelligence_cases: fixture.observed_mlcf };
+  assert(api.findCase(mlcfRow, fixture.observed_mlcf.cases[0].case_id, "MARI").reason === "ticker_identity_mismatch", "unknown or mismatched ticker fails closed");
+  assert(api.findCase({ symbol: "MLCF", intelligence_cases: { ...fixture.observed_mlcf, symbol: "MARI" } }, fixture.observed_mlcf.cases[0].case_id, "MLCF").reason === "payload_symbol_mismatch", "cross-symbol payload fails closed");
+  const crossSymbolCase = structuredClone(fixture.observed_mlcf);
+  crossSymbolCase.cases[0].symbol = "MARI";
+  assert(api.findCase({ symbol: "MLCF", intelligence_cases: crossSymbolCase }, crossSymbolCase.cases[0].case_id, "MLCF").reason === "case_symbol_mismatch", "cross-symbol case fails closed");
+  const duplicateCases = structuredClone(fixture.observed_mlcf);
+  duplicateCases.cases.push(structuredClone(duplicateCases.cases[0]));
+  assert(api.findCase({ symbol: "MLCF", intelligence_cases: duplicateCases }, duplicateCases.cases[0].case_id, "MLCF").reason === "duplicate_case_id", "duplicate case ids fail closed");
+  const invalidLifecycle = structuredClone(fixture.observed_mlcf);
+  invalidLifecycle.cases[0].status = "Draft";
+  assert(api.findCase({ symbol: "MLCF", intelligence_cases: invalidLifecycle }, invalidLifecycle.cases[0].case_id, "MLCF").reason === "case_lifecycle_invalid", "invalid lifecycle fails closed");
+  const invalidSectionKey = structuredClone(fixture.observed_mlcf);
+  invalidSectionKey.cases[0].sections = { unsupported: { status: "blocked" } };
+  assert(api.findCase({ symbol: "MLCF", intelligence_cases: invalidSectionKey }, invalidSectionKey.cases[0].case_id, "MLCF").reason === "section_key_invalid", "invalid section key fails closed");
+  const invalidSectionStatus = structuredClone(fixture.observed_mlcf);
+  invalidSectionStatus.cases[0].sections = { mechanism: { status: "pending" } };
+  assert(api.findCase({ symbol: "MLCF", intelligence_cases: invalidSectionStatus }, invalidSectionStatus.cases[0].case_id, "MLCF").reason === "section_status_invalid", "invalid section status fails closed");
 
   const explicit = api.resolveSection(fixture.explicit_sections.cases[0], "mechanism");
   assert(explicit.reason === "not_yet_modelled", "explicit section reason preserved");

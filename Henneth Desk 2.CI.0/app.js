@@ -603,9 +603,13 @@ function railLinkMarkup(item) {
 
 function renderDesk(searchState) {
   const list = rows();
-  if (!state.selected && list.length) state.selected = list[0].symbol;
-  const row = list.find(r => r.symbol === state.selected) || list[0];
-  if (row) state.selected = row.symbol;
+  const routeTicker = state.caseRoute?.ticker || null;
+  const allRows = state.data?.tickers || [];
+  const row = routeTicker
+    ? allRows.find(item => item && item.symbol === routeTicker) || null
+    : (state.selected ? list.find(r => r.symbol === state.selected) : null) || list[0] || null;
+  if (routeTicker) state.selected = routeTicker;
+  else if (row) state.selected = row.symbol;
   const activeIndex = row ? Math.max(0, (state.data?.tickers || []).findIndex(item => item.symbol === row.symbol)) : -1;
   const visual = row ? companyVisual(row, activeIndex) : null;
   $("app").innerHTML = `
@@ -635,7 +639,7 @@ function renderDesk(searchState) {
       </div>
       <span class="sr-only" role="status" aria-live="polite">${esc(list.length)} companies match.</span>
     </aside>
-    <section id="companyDetail" class="detail" role="tabpanel" tabindex="-1" aria-label="${row ? `${esc(row.symbol)} company intelligence` : "Company intelligence"}">${row ? detail(row) : `<div class="empty">No company intelligence rows are available yet.</div>`}</section>
+    <section id="companyDetail" class="detail" role="tabpanel" tabindex="-1" aria-label="${row ? `${esc(row.symbol)} company intelligence` : "Company intelligence"}">${state.caseRoute ? renderIntelligenceCase(row, state.caseRoute.caseId) : row ? detail(row) : `<div class="empty">No company intelligence rows are available yet.</div>`}</section>
     <aside id="companyIntelligenceTree" class="tree-panel" aria-label="Company intelligence directory tree">
       <div class="ci-resize-handle ci-resize-right" id="intelligenceResize" role="separator" aria-orientation="vertical" aria-label="Resize intelligence directory"></div>
       ${row ? renderViewNav(row) : `<div class="tree-empty">No directories available.</div>`}
@@ -805,7 +809,8 @@ function detail(r) {
       ${metric("Change digest", intel.change_item_count ?? 0, `${r.change_intelligence?.latest_change_at || "no dated change"}`)}
       ${metric("Graph links", intel.graph_edge_count ?? 0, `${intel.graph_node_count ?? 0} nodes mapped`)}
     </div>
-    ${state.view === "financials" ? renderCompanyFinancials(r)
+    ${state.caseRoute ? renderIntelligenceCase(r, state.caseRoute.caseId)
+      : state.view === "financials" ? renderCompanyFinancials(r)
       : state.view === "earnings" ? renderCompanyEarnings(r)
       : state.view === "business" ? renderCompanyBusiness(r)
       : state.view === "operations" ? renderCompanyOperations(r)
@@ -824,7 +829,6 @@ function detail(r) {
       : state.view === "trends" ? renderFinancials(r)
       : state.view === "baseline" ? renderFinancialBaseline(r)
       : state.view === "forecast" ? renderForecastReadiness(r)
-      : state.caseRoute ? renderIntelligenceCase(r, state.caseRoute.caseId)
       : state.view === "intelligence" ? renderIntelligence(r)
       : state.view === "thesis" ? renderThesisMonitor(r)
       : state.view === "watchlist" ? renderEvidenceWatchlist(r)
@@ -2175,11 +2179,12 @@ function renderCaseSectionBody(section) {
 
 function renderIntelligenceCase(r, caseId) {
   const api = caseViewApi();
-  const lookup = api?.findCase ? api.findCase(r, caseId) : { ok: false, reason: "intelligence_cases_state_missing", payload: { cases: [] }, case: null };
+  const requestedTicker = state.caseRoute?.ticker || r?.symbol || null;
+  const lookup = api?.findCase ? api.findCase(r, caseId, requestedTicker) : { ok: false, reason: "intelligence_cases_state_missing", payload: { cases: [] }, case: null };
   if (!lookup.ok) {
     const title = lookup.reason === "case_not_found" ? "Case not found" : "Intelligence case unavailable";
     const reason = lookup.reason || "intelligence_cases_state_missing";
-    return '<section class="panel span9 blocked-shell case-shell" aria-labelledby="caseTitle"><span class="kicker">Intelligence case</span><h2 id="caseTitle">' + esc(title) + '</h2><p class="section-note">Read-only case surface. Missing objects stay fail-closed. This is research, not advice.</p><div class="blocked-grid"><span>Ticker <b>' + esc(r?.symbol || state.caseRoute?.ticker || "unknown") + '</b></span><span>Requested case <b>' + esc(caseId || "unknown") + '</b></span><span>Reason <b>' + esc(reason) + '</b></span></div><p><button type="button" class="chrome-btn" data-case-close="1">Back to company file</button></p></section>';
+    return '<section class="panel span9 blocked-shell case-shell" aria-labelledby="caseTitle"><span class="kicker">Intelligence case</span><h2 id="caseTitle">' + esc(title) + '</h2><p class="section-note">Read-only case surface. Missing objects stay fail-closed. This is research, not advice.</p><div class="blocked-grid"><span>Ticker <b>' + esc(requestedTicker || "unknown") + '</b></span><span>Requested case <b>' + esc(caseId || "unknown") + '</b></span><span>Reason <b>' + esc(reason) + '</b></span></div><p><button type="button" class="chrome-btn" data-case-close="1">Back to company file</button></p></section>';
   }
   const caseObject = lookup.case;
   const lifecycle = api.LIFECYCLE || ["Observed", "Corroborated", "Modelled", "Validated", "Published"];
