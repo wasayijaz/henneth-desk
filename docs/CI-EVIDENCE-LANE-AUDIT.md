@@ -1,6 +1,6 @@
 # CI evidence-lane audit (retained sources only)
 
-**Audit date:** 2026-08-31 (PKT)  
+**Audit date:** 2026-08-31 (PKT)
 **Scope:** the retained official archive in `state/research_index.json`,
 `state/company_documents.json`, and `state/company_event_ledger.json`. This is a
 documentation-only audit; it does not fetch, parse, restage, or promote any
