@@ -58,6 +58,20 @@ def source(value):
     }
 
 
+def assert_violation(name: str, candidate: dict, expected: str) -> None:
+    violations = contract.validate_case(candidate)
+    check(name, any(expected in violation for violation in violations), repr(violations))
+
+
+def assert_rejected_by_evaluate(name: str, candidate: dict, expected: str) -> None:
+    try:
+        engine.evaluate_case(candidate)
+    except ValueError as error:
+        check(name, expected in str(error), str(error))
+    else:
+        raise AssertionError(f"{name}: evaluate_case should reject invalid case")
+
+
 def golden_case() -> dict:
     return {
         "symbol": "EXPAND",
@@ -125,7 +139,12 @@ def main() -> None:
     check("lineage sorted and complete",
           [row["field"] for row in result["inputs_lineage"]] == sorted(case["inputs"]))
     check("lineage provenance",
-          all(row["label_type"] == "analyst" and row["available_on"] == "2025-12-31"
+          all(set(row) == {"field", "label_type", "analyst_note_id"}
+              and row["label_type"] == "analyst"
+              and row["analyst_note_id"] == "note:sales-expansion:golden"
+              for row in result["inputs_lineage"]))
+    check("lineage omits raw assumptions",
+          all("value" not in row and "available_on" not in row and "analyst_ref" not in row
               for row in result["inputs_lineage"]))
     check("schedule has eight rows",
           len(result["quarterly_schedule"]) == 8
@@ -175,6 +194,23 @@ def main() -> None:
     changed = engine.evaluate_case(case)
     check("input mutation changes hash", changed["run_receipt"]["inputs_sha256"] != result["run_receipt"]["inputs_sha256"])
 
+    sourced = golden_case()
+    sourced["inputs"]["fx_pkr_usd"] = source(280.0)
+    sourced["inputs"]["fx_pkr_usd"]["source_ref"]["as_of"] = "2025-12-30"
+    sourced_result = engine.evaluate_case(sourced)
+    sourced_lineage = next(row for row in sourced_result["inputs_lineage"] if row["field"] == "fx_pkr_usd")
+    check("source lineage identifiers only",
+          sourced_lineage == {
+              "field": "fx_pkr_usd",
+              "label_type": "source",
+              "source_ref_id": "source:sales-expansion:fixture",
+          })
+    sourced_text = json.dumps(sourced_result, sort_keys=True).lower()
+    check("source lineage omits prose and source dates",
+          "retained expansion evidence" not in sourced_text
+          and "https://example.invalid/retained-expansion" not in sourced_text
+          and "2025-12-30" not in sourced_text)
+
     for field in ("fx_pkr_usd", "starting_revenue_pkr"):
         extreme = golden_case()
         extreme["inputs"][field]["value"] = 1e308
@@ -186,11 +222,15 @@ def main() -> None:
             raise AssertionError(f"extreme {field} should fail closed")
 
     mutations = [
+        ("top-level extra", lambda c: c.update(caller_prose="you should buy"), "case.caller_prose: unknown field"),
+        ("root nan", lambda c: c.update(extra_nan=float("nan")), "case: must be JSON-serializable with finite numeric values"),
         ("missing field", lambda c: c["inputs"].pop("gross_margin_pct"), "gross_margin_pct: missing required input"),
         ("bool numeric", lambda c: c["inputs"]["fx_pkr_usd"].update(value=True), "fx_pkr_usd: must be a finite number"),
         ("nan numeric", lambda c: c["inputs"]["fx_pkr_usd"].update(value=float("nan")), "fx_pkr_usd: must be a finite number"),
         ("hire bool", lambda c: c["inputs"]["sales_hires_schedule"]["value"].__setitem__(0, True), "sales_hires_schedule[0]: must be an integer >= 0"),
         ("hire negative", lambda c: c["inputs"]["sales_hires_schedule"]["value"].__setitem__(0, -1), "sales_hires_schedule[0]: must be an integer >= 0"),
+        ("hire huge", lambda c: c["inputs"]["sales_hires_schedule"]["value"].__setitem__(0, 10**400), "sales_hires_schedule[0]: must be <="),
+        ("support huge", lambda c: c["inputs"]["support_hires_schedule"]["value"].__setitem__(0, 10**400), "support_hires_schedule[0]: must be <="),
         ("schedule wrong length", lambda c: c["inputs"]["quarter_ends"].update(value=["2026-03-31"]), "quarter_ends: must be a list of exactly 8 values"),
         ("non-quarter-end", lambda c: c["inputs"]["quarter_ends"]["value"].__setitem__(0, "2026-03-15"), "quarter_ends[0]: must be a quarter-end"),
         ("quarter before valuation", lambda c: c["inputs"]["quarter_ends"]["value"].__setitem__(0, "2025-09-30"), "quarter_ends[0]: must be on or after valuation_date"),
@@ -205,16 +245,41 @@ def main() -> None:
         ("bad label", lambda c: c["inputs"]["fx_pkr_usd"].update(label_type="bad"), "provenance record must carry"),
         ("bad analyst ref", lambda c: c["inputs"]["fx_pkr_usd"].update(analyst_ref={"note_id": "n"}), "provenance record must carry"),
         ("bad source ref", lambda c: c["inputs"]["fx_pkr_usd"].update(label_type="source", source_ref={"id": "i", "label": "l"}), "provenance record must carry"),
+        ("input record extra", lambda c: c["inputs"]["fx_pkr_usd"].update(caller_prose="you should buy"), "fx_pkr_usd.caller_prose: unknown field"),
+        ("source ref extra date", lambda c: c["inputs"]["fx_pkr_usd"].update(label_type="source", source_ref={
+            "id": "i", "label": "l", "url": "https://example.invalid", "date": "2030-01-01",
+        }), "fx_pkr_usd.source_ref.date: unknown field"),
+        ("source ref future as-of", lambda c: c["inputs"]["fx_pkr_usd"].update(label_type="source", source_ref={
+            "id": "i", "label": "l", "url": "https://example.invalid", "as_of": "2026-01-01",
+        }), "fx_pkr_usd.source_ref.as_of: must be on or before valuation_date"),
+        ("source ref malformed as-of", lambda c: c["inputs"]["fx_pkr_usd"].update(label_type="source", source_ref={
+            "id": "i", "label": "l", "url": "https://example.invalid", "as_of": "not-a-date",
+        }), "fx_pkr_usd.source_ref.as_of: must be an ISO date"),
+        ("analyst ref extra", lambda c: c["inputs"]["fx_pkr_usd"]["analyst_ref"].update(memo="forecast"), "fx_pkr_usd.analyst_ref.memo: unknown field"),
         ("case label", lambda c: c.update(case_label="stress"), "case_label: must be one of bear, base, bull"),
         ("unknown nan field", lambda c: c["inputs"].update(extra_nan=analyst(float("nan"))), "extra_nan: unknown input field"),
         ("non-json", lambda c: c["inputs"].update(extra={"value": {1, 2}}), "unknown input field"),
+        ("inputs non-mapping", lambda c: c.update(inputs=[]), "inputs: must be a mapping of field to provenance record"),
+        ("record non-mapping", lambda c: c["inputs"].update(fx_pkr_usd=[]), "fx_pkr_usd: input must be a provenance record mapping"),
     ]
     for name, mutate, expected in mutations:
         candidate = golden_case()
         mutate(candidate)
-        violations = contract.validate_case(candidate)
-        check(f"boundary {name}", any(expected in violation for violation in violations),
-              repr(violations))
+        assert_violation(f"boundary {name}", candidate, expected)
+
+    advice_case = golden_case()
+    advice_case["inputs"]["fx_pkr_usd"]["analyst_ref"]["note"] = "you should buy this forecast"
+    advice_result = engine.evaluate_case(advice_case)
+    advice_text = json.dumps(advice_result, sort_keys=True).lower()
+    check("analyst note advice does not leak", "you should buy" not in advice_text and "forecast" not in advice_text)
+
+    for name, mutate, expected in (
+        ("evaluate rejects top-level extra", lambda c: c.update(caller_prose="you should buy"), "case.caller_prose"),
+        ("evaluate rejects huge hires", lambda c: c["inputs"]["sales_hires_schedule"]["value"].__setitem__(0, 10**400), "sales_hires_schedule[0]: must be <="),
+    ):
+        candidate = golden_case()
+        mutate(candidate)
+        assert_rejected_by_evaluate(name, candidate, expected)
 
     try:
         engine.evaluate_case({"symbol": "EXPAND"})
