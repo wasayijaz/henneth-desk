@@ -1,6 +1,6 @@
 """Build compact observed IntelligenceCase seeds from retained official evidence.
 
-This is intentionally not a generic case engine.  The current product need is
+This is intentionally not a generic case engine. The current product need is
 one cement/industrial and one E&P observed seed. Later statuses or sector
 models must earn their own dedicated builders/checks.
 """
@@ -15,7 +15,8 @@ from psx_data import STATE, load_json, save_json
 
 
 OUT = STATE / "company_intel" / "intelligence_cases.json"
-CASE_PRODUCT_VERSION = "observed_intelligence_case_seed_v2"
+CASE_PRODUCT_VERSION = "observed_intelligence_case_seed_v3"
+LIFECYCLE = ["Observed", "Corroborated", "Modelled", "Validated", "Published"]
 PKT = timezone(timedelta(hours=5))
 
 MLCF_CASE_ID = "case_mlcf_pioc_control_observed_v1"
@@ -59,9 +60,12 @@ MLCF_EXPECTED_SHARE_COUNT_COUNTER = {
 }
 HEX64 = re.compile(r"^[0-9a-f]{64}$", re.I)
 
-MARI_CASE_ID = "case_mari_offshore_exploration_blocks_observed_v1"
-MARI_EVENT_ID = "evt_ddf99590afb6dacddbde"
-MARI_DOC_ID = "psx:265594"
+MARI_CASE_ID = "case_mari_working_interest_observed_v1"
+MARI_EVENT_ID = "evt_eddfcc381018cb0dff43"
+MARI_DOC_ID = "psx:260446"
+MARI_DOC_HASH = "c13ccb4de58ad005bca106942721490593fe219ff45906c68280ea7856192e42"
+MARI_EVIDENCE_SHA256 = "dd83c62cb781e2a57f5ae595a7184ea786a3e5890f7f7cc96cd93e23f958a177"
+MARI_SOURCE_URL = "https://dps.psx.com.pk/download/document/260446.pdf"
 
 
 def _parse_time(value: Any) -> datetime | None:
@@ -116,7 +120,7 @@ def _fail(message: str) -> None:
 
 def _require_equal(label: str, actual: Any, expected: Any) -> None:
     if actual != expected:
-        _fail(f"MLCF source mismatch for {label}: {actual!r}")
+        _fail(f"source mismatch for {label}: {actual!r}")
 
 
 def _require_iso_time(label: str, value: Any, expected: str) -> None:
@@ -129,20 +133,20 @@ def _require_date(label: str, value: Any, expected: str) -> None:
 
 def _require_hex64(label: str, value: Any) -> str:
     if not isinstance(value, str) or not HEX64.fullmatch(value):
-        _fail(f"MLCF invalid 64-character hash for {label}")
+        _fail(f"invalid 64-character hash for {label}")
     return value.lower()
 
 
 def _require_text(label: str, value: Any) -> str:
     if not isinstance(value, str) or not value.strip():
-        _fail(f"MLCF missing source text for {label}")
+        _fail(f"missing source text for {label}")
     return value
 
 
 def _first_evidence(row: dict[str, Any], label: str) -> dict[str, Any]:
     evidence = row.get("evidence")
     if not isinstance(evidence, list) or not evidence or not isinstance(evidence[0], dict):
-        _fail(f"MLCF missing evidence row for {label}")
+        _fail(f"missing evidence row for {label}")
     return evidence[0]
 
 
@@ -282,6 +286,7 @@ def _validate_mlcf_legacy_source(
     _require_equal(f"{legacy_event_id}.doc_id", event.get("doc_id"), doc_id)
     _require_equal(f"{legacy_event_id}.event_type", event.get("event_type"), "acquisition")
     _require_equal(f"{legacy_event_id}.priority_weight", event.get("priority_weight"), 4)
+    _require_equal(f"{legacy_event_id}.tickers", event.get("tickers"), ["MLCF"])
     _require_iso_time(f"{legacy_event_id}.event_date", event.get("event_date"), published_at)
     evidence = _first_evidence(event, legacy_event_id)
     _require_equal(f"{legacy_event_id}.evidence.source_url", evidence.get("source_url"), source_url)
@@ -293,6 +298,7 @@ def _validate_mlcf_legacy_source(
         evidence_sha256,
     )
     _require_equal(f"{doc_id}.doc_id", doc.get("doc_id"), doc_id)
+    _require_equal(f"{doc_id}.tickers", doc.get("tickers"), ["MLCF"])
     _require_equal(f"{doc_id}.source", doc.get("source"), "PSX DPS")
     _require_equal(f"{doc_id}.source_url", doc.get("source_url"), source_url)
     _require_equal(f"{doc_id}.content_sha256", _require_hex64(f"{doc_id}.content_sha256", doc.get("content_sha256")), content_sha256)
@@ -341,6 +347,33 @@ def _validate_mlcf_canonical_control_source(event: dict[str, Any]) -> None:
         _require_hex64("canonical_control.evidence.evidence_sha256", evidence.get("evidence_sha256")),
         MLCF_PRIMARY_CONTROL_EVIDENCE_SHA256,
     )
+
+
+def _validate_mari_source(event: dict[str, Any], doc: dict[str, Any]) -> dict[str, Any]:
+    _require_equal("mari.event_id", event.get("event_id"), MARI_EVENT_ID)
+    _require_equal("mari.doc_id", event.get("doc_id"), MARI_DOC_ID)
+    _require_equal("mari.event_type", event.get("event_type"), "acquisition")
+    _require_equal("mari.priority_weight", event.get("priority_weight"), 4)
+    _require_equal("mari.tickers", event.get("tickers"), ["MARI"])
+    _require_iso_time("mari.event_date", event.get("event_date"), "2025-09-30T10:46:00+05:00")
+    evidence = _first_evidence(event, MARI_EVENT_ID)
+    _require_equal("mari.evidence.source_url", evidence.get("source_url"), MARI_SOURCE_URL)
+    _require_equal("mari.evidence.page", evidence.get("page"), 1)
+    text = _require_text("mari.evidence.text", evidence.get("text"))
+    _require_equal(
+        "mari.evidence_sha256",
+        evidence_hash(MARI_DOC_ID, evidence.get("source_url"), evidence.get("page"), text),
+        MARI_EVIDENCE_SHA256,
+    )
+    _require_equal("mari.doc_id", doc.get("doc_id"), MARI_DOC_ID)
+    _require_equal("mari.doc.tickers", doc.get("tickers"), ["MARI"])
+    _require_equal("mari.doc.source", doc.get("source"), "PSX DPS")
+    _require_equal("mari.doc.source_url", doc.get("source_url"), MARI_SOURCE_URL)
+    _require_equal("mari.doc.content_sha256", _require_hex64("mari.doc.content_sha256", doc.get("content_sha256")), MARI_DOC_HASH)
+    _require_equal("mari.doc.local_sha256", _require_hex64("mari.doc.local_sha256", doc.get("local_sha256")), MARI_DOC_HASH)
+    _require_iso_time("mari.doc.published_at", doc.get("published_at"), "2025-09-30T10:46:00+05:00")
+    _require_equal("mari.doc.available_on", _available_on(doc), "2025-09-30")
+    return _evidence_ref(event, doc)
 
 
 def _mlcf_source_join(
@@ -421,6 +454,7 @@ def _evidence_ref(event: dict[str, Any], doc: dict[str, Any]) -> dict[str, Any]:
         "source_url": evidence.get("source_url") or doc.get("source_url"),
         "page": evidence.get("page"),
         "text": evidence.get("text"),
+        "event_date": _iso_time(event.get("event_date")),
     }
 
 
@@ -431,6 +465,17 @@ def _source_cutoff(refs: list[dict[str, Any]]) -> str:
     ]
     parsed = [value for value in parsed if value is not None]
     return (max(parsed) if parsed else datetime.now(PKT).replace(microsecond=0)).isoformat()
+
+
+def _policy() -> dict[str, bool]:
+    return {
+        "observed_only": True,
+        "no_forecast": True,
+        "no_valuation": True,
+        "no_market_expectations": True,
+        "no_recommendation": True,
+        "reported_values_only": True,
+    }
 
 
 def _empty_company(symbol: str) -> dict[str, Any]:
@@ -541,14 +586,7 @@ def _mlcf_case(
             "Published": "Blocked: no forecast, valuation, reverse-expectations output, investor conclusion or release gate is complete.",
         },
         "cement_input_readiness": readiness,
-        "policy": {
-            "observed_only": True,
-            "no_forecast": True,
-            "no_valuation": True,
-            "no_market_expectations": True,
-            "no_recommendation": True,
-            "reported_values_only": True,
-        },
+        "policy": _policy(),
         "source_lineage": refs,
     }
     return case, [], refs
@@ -559,69 +597,60 @@ def _mari_case(ledger: dict[str, Any], documents: dict[str, Any]) -> tuple[dict[
     document = _document(documents, MARI_DOC_ID)
     missing = []
     if event is None:
-        missing.append("missing_mari_offshore_blocks_event")
+        missing.append("missing_mari_peshawar_working_interest_event")
     if document is None:
-        missing.append("missing_mari_offshore_blocks_document")
+        missing.append("missing_mari_peshawar_working_interest_document")
     if missing:
         return None, missing, []
     assert event is not None and document is not None
-    refs = [_evidence_ref(event, document)]
-    cutoff = _source_cutoff(refs)
+    ref = _validate_mari_source(event, document)
+    cutoff = _source_cutoff([ref])
     case = {
         "case_id": MARI_CASE_ID,
         "symbol": "MARI",
         "case_family": "e_and_p",
-        "case_type": "offshore_exploration_block_acquisition",
+        "case_type": "working_interest_acquisition",
         "status": "Observed",
         "epistemic_type": "reported_fact",
         "as_of": cutoff,
-        "summary": (
-            "Observed official-source seed: Mari Energies reported its acquisition of offshore "
-            "exploration blocks as part of its long-term strategy to find new hydrocarbon resources."
-        ),
+        "summary": "Observed official-source seed: Mari Energies reported acquisition of working interest in Peshawar Block as an operator.",
         "observed_facts": [
             {
-                "fact_id": "mari_offshore_exploration_blocks_acquisition",
+                "fact_id": "mari_peshawar_working_interest_acquisition",
                 "source_event_id": MARI_EVENT_ID,
                 "document_id": MARI_DOC_ID,
                 "event_date": _iso_time(event.get("event_date")),
-                "statement": "Mari Energies reported the acquisition of offshore exploration blocks.",
+                "statement": "Mari Energies reported acquisition of working interest in Peshawar Block as an operator.",
                 "reported_values": [
-                    {"label": "stated_purpose", "value": "find new hydrocarbon resources"},
+                    {"label": "block", "value": "Peshawar Block"},
+                    {"label": "operator_status", "value": "as an Operator"},
                 ],
-                "evidence": refs,
+                "evidence": [ref],
             },
         ],
         "alternative_readings": [
             {
-                "alternative_id": "blocks_not_proved_reserves",
-                "reading": "The reported block acquisition does not establish reserves, a commercial discovery, or future production.",
+                "alternative_id": "working_interest_not_reserves",
+                "reading": "Working-interest acquisition does not establish reserves, a commercial discovery, or future production.",
                 "status": "retained_as_observed_only",
                 "rejection_condition": "Reject promotion if no official source identifies technical results, resource potential, or a development path.",
             },
             {
-                "alternative_id": "strategy_not_execution_schedule",
-                "reading": "The stated long-term exploration strategy does not establish working interest, operator status, cost, timing, or economic terms.",
+                "alternative_id": "operator_status_not_economics",
+                "reading": "The notice does not establish cost, timing, resource, production or project economics.",
                 "status": "retained_as_observed_only",
-                "rejection_condition": "Reject modelling if source-qualified project economics and a qualified company financial history remain absent.",
+                "rejection_condition": "Reject modelling if source-qualified project economics and qualified company financial inputs remain absent.",
             },
         ],
         "promotion_blocks": {
-            "Corroborated": "Blocked: retained evidence is a single official Mari/PSX source and no independent-originator corroboration is attached.",
-            "Modelled": "Blocked: no source-qualified working interest, operator status, cost, timing, resource, production or financial-model inputs are attached.",
+            "Corroborated": "Blocked: retained evidence is a single official MARI/PSX source and no independent-originator corroboration is attached.",
+            "Modelled": "Blocked: no source-qualified financial model or owner-approved assumptions are attached.",
             "Published": "Blocked: no forecast, valuation, reverse-expectations output, investor conclusion or release gate is complete.",
         },
-        "policy": {
-            "observed_only": True,
-            "no_forecast": True,
-            "no_valuation": True,
-            "no_market_expectations": True,
-            "no_recommendation": True,
-            "reported_values_only": True,
-        },
-        "source_lineage": refs,
+        "policy": _policy(),
+        "source_lineage": [ref],
     }
-    return case, [], refs
+    return case, [], [ref]
 
 
 def build(write: bool = True) -> dict[str, Any]:
@@ -665,7 +694,7 @@ def build(write: bool = True) -> dict[str, Any]:
         "as_of": as_of,
         "pilot_symbols": pilot,
         "selected_symbols": ["MARI", "MLCF"],
-        "status_lifecycle": ["Observed", "Corroborated", "Modelled", "Validated", "Published"],
+        "status_lifecycle": LIFECYCLE,
         "policy": {
             "dedicated_observed_seeds_only": True,
             "no_generic_case_engine": True,
@@ -680,9 +709,6 @@ def build(write: bool = True) -> dict[str, Any]:
         "companies": companies,
     }
     if write:
-        existing = load_json(OUT, {}) if OUT.exists() else {}
-        if isinstance(existing.get("_meta"), dict):
-            result["_meta"] = existing["_meta"]
         save_json(OUT, result)
         print(f"intelligence_cases: {result['summary']['observed_case_count']} observed seeds")
     return result

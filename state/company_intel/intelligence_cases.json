@@ -1,6 +1,6 @@
 {
  "schema_version": 1,
- "case_product_version": "observed_intelligence_case_seed_v2",
+ "case_product_version": "observed_intelligence_case_seed_v3",
  "as_of": "2026-08-30T21:42:58+05:00",
  "pilot_symbols": [
   "ATRL",
@@ -143,60 +143,65 @@
    "case_count": 1,
    "cases": [
     {
-     "case_id": "case_mari_offshore_exploration_blocks_observed_v1",
+     "case_id": "case_mari_working_interest_observed_v1",
      "symbol": "MARI",
      "case_family": "e_and_p",
-     "case_type": "offshore_exploration_block_acquisition",
+     "case_type": "working_interest_acquisition",
      "status": "Observed",
      "epistemic_type": "reported_fact",
-     "as_of": "2026-08-22T16:04:00+05:00",
-     "summary": "Observed official-source seed: Mari Energies reported its acquisition of offshore exploration blocks as part of its long-term strategy to find new hydrocarbon resources.",
+     "as_of": "2026-08-25T17:13:00+05:00",
+     "summary": "Observed official-source seed: Mari Energies reported acquisition of working interest in Peshawar Block as an operator.",
      "observed_facts": [
       {
-       "fact_id": "mari_offshore_exploration_blocks_acquisition",
-       "source_event_id": "evt_ddf99590afb6dacddbde",
-       "document_id": "psx:265594",
-       "event_date": "2025-11-13T10:10:00+05:00",
-       "statement": "Mari Energies reported the acquisition of offshore exploration blocks.",
+       "fact_id": "mari_peshawar_working_interest_acquisition",
+       "source_event_id": "evt_eddfcc381018cb0dff43",
+       "document_id": "psx:260446",
+       "event_date": "2025-09-30T10:46:00+05:00",
+       "statement": "Mari Energies reported acquisition of working interest in Peshawar Block as an operator.",
        "reported_values": [
         {
-         "label": "stated_purpose",
-         "value": "find new hydrocarbon resources"
+         "label": "block",
+         "value": "Peshawar Block"
+        },
+        {
+         "label": "operator_status",
+         "value": "as an Operator"
         }
        ],
        "evidence": [
         {
-         "event_id": "evt_ddf99590afb6dacddbde",
-         "document_id": "psx:265594",
+         "event_id": "evt_eddfcc381018cb0dff43",
+         "document_id": "psx:260446",
          "document_title": "Material Information",
-         "document_published_at": "2025-11-13T10:10:00+05:00",
-         "document_retrieved_at": "2026-08-22T16:04:00+05:00",
-         "content_sha256": "cdc3f69157f5e5803238ba347ecb4e96f7297479df87d345739896913de8aae4",
+         "document_published_at": "2025-09-30T10:46:00+05:00",
+         "document_retrieved_at": "2026-08-25T17:13:00+05:00",
+         "content_sha256": "c13ccb4de58ad005bca106942721490593fe219ff45906c68280ea7856192e42",
          "source": "PSX DPS",
-         "source_url": "https://dps.psx.com.pk/download/document/265594.pdf",
-         "page": 3,
-         "text": "The acquisition of these offshore exploration blocks is a part of Company’s long term strategy where it aims to not only find new hydrocarbon resources but also to l"
+         "source_url": "https://dps.psx.com.pk/download/document/260446.pdf",
+         "page": 1,
+         "text": "and Clause 5.6.1 (a) of the PSX Regulations, we hereby convey the following information: Acquisition of Working Interest in Peshawar Block (as an Operator) from Hycarbex- American Energ~ We are pleased to inform you that Mari Energies Limi…",
+         "event_date": "2025-09-30T10:46:00+05:00"
         }
        ]
       }
      ],
      "alternative_readings": [
       {
-       "alternative_id": "blocks_not_proved_reserves",
-       "reading": "The reported block acquisition does not establish reserves, a commercial discovery, or future production.",
+       "alternative_id": "working_interest_not_reserves",
+       "reading": "Working-interest acquisition does not establish reserves, a commercial discovery, or future production.",
        "status": "retained_as_observed_only",
        "rejection_condition": "Reject promotion if no official source identifies technical results, resource potential, or a development path."
       },
       {
-       "alternative_id": "strategy_not_execution_schedule",
-       "reading": "The stated long-term exploration strategy does not establish working interest, operator status, cost, timing, or economic terms.",
+       "alternative_id": "operator_status_not_economics",
+       "reading": "The notice does not establish cost, timing, resource, production or project economics.",
        "status": "retained_as_observed_only",
-       "rejection_condition": "Reject modelling if source-qualified project economics and a qualified company financial history remain absent."
+       "rejection_condition": "Reject modelling if source-qualified project economics and qualified company financial inputs remain absent."
       }
      ],
      "promotion_blocks": {
-      "Corroborated": "Blocked: retained evidence is a single official Mari/PSX source and no independent-originator corroboration is attached.",
-      "Modelled": "Blocked: no source-qualified working interest, operator status, cost, timing, resource, production or financial-model inputs are attached.",
+      "Corroborated": "Blocked: retained evidence is a single official MARI/PSX source and no independent-originator corroboration is attached.",
+      "Modelled": "Blocked: no source-qualified financial model or owner-approved assumptions are attached.",
       "Published": "Blocked: no forecast, valuation, reverse-expectations output, investor conclusion or release gate is complete."
      },
      "policy": {
@@ -209,16 +214,17 @@
      },
      "source_lineage": [
       {
-       "event_id": "evt_ddf99590afb6dacddbde",
-       "document_id": "psx:265594",
+       "event_id": "evt_eddfcc381018cb0dff43",
+       "document_id": "psx:260446",
        "document_title": "Material Information",
-       "document_published_at": "2025-11-13T10:10:00+05:00",
-       "document_retrieved_at": "2026-08-22T16:04:00+05:00",
-       "content_sha256": "cdc3f69157f5e5803238ba347ecb4e96f7297479df87d345739896913de8aae4",
+       "document_published_at": "2025-09-30T10:46:00+05:00",
+       "document_retrieved_at": "2026-08-25T17:13:00+05:00",
+       "content_sha256": "c13ccb4de58ad005bca106942721490593fe219ff45906c68280ea7856192e42",
        "source": "PSX DPS",
-       "source_url": "https://dps.psx.com.pk/download/document/265594.pdf",
-       "page": 3,
-       "text": "The acquisition of these offshore exploration blocks is a part of Company’s long term strategy where it aims to not only find new hydrocarbon resources but also to l"
+       "source_url": "https://dps.psx.com.pk/download/document/260446.pdf",
+       "page": 1,
+       "text": "and Clause 5.6.1 (a) of the PSX Regulations, we hereby convey the following information: Acquisition of Working Interest in Peshawar Block (as an Operator) from Hycarbex- American Energ~ We are pleased to inform you that Mari Energies Limi…",
+       "event_date": "2025-09-30T10:46:00+05:00"
       }
      ]
     }
@@ -285,7 +291,8 @@
          "source": "PSX DPS",
          "source_url": "https://dps.psx.com.pk/download/document/267429.pdf",
          "page": 3,
-         "text": "8904_5, Fax: +9242.38373067 EqnaH: mjgfl@kmlg.earn PUBLIC ANNOUNCEMENT OF PUBLIC OFFER TO ACQUIRE UP TO 26,623,096 SHARES (1.E. 11.72% SHARES) AND CONTROL OF PIONEER CEMENT LIMITED (“PIOC” OR 'TARGrr COMPANY”) BY MAPLE LEAF CEMENT FACrORY…"
+         "text": "8904_5, Fax: +9242.38373067 EqnaH: mjgfl@kmlg.earn PUBLIC ANNOUNCEMENT OF PUBLIC OFFER TO ACQUIRE UP TO 26,623,096 SHARES (1.E. 11.72% SHARES) AND CONTROL OF PIONEER CEMENT LIMITED (“PIOC” OR 'TARGrr COMPANY”) BY MAPLE LEAF CEMENT FACrORY…",
+         "event_date": "2025-12-18T12:52:00+05:00"
         }
        ]
       },
@@ -316,7 +323,8 @@
          "source": "PSX DPS",
          "source_url": "https://dps.psx.com.pk/download/document/275425.pdf",
          "page": 4,
-         "text": "in local market and inclusion of Pioneer Cement Limited’s dispatches in total due to its acquisition during the month of February 2026. The export sales volume reduced from 173,489 tons to 78,135 tons, a decline of 54.96% from the previous…"
+         "text": "in local market and inclusion of Pioneer Cement Limited’s dispatches in total due to its acquisition during the month of February 2026. The export sales volume reduced from 173,489 tons to 78,135 tons, a decline of 54.96% from the previous…",
+         "event_date": "2026-04-28T10:25:00+05:00"
         }
        ]
       }
@@ -485,7 +493,8 @@
        "source": "PSX DPS",
        "source_url": "https://dps.psx.com.pk/download/document/267429.pdf",
        "page": 3,
-       "text": "8904_5, Fax: +9242.38373067 EqnaH: mjgfl@kmlg.earn PUBLIC ANNOUNCEMENT OF PUBLIC OFFER TO ACQUIRE UP TO 26,623,096 SHARES (1.E. 11.72% SHARES) AND CONTROL OF PIONEER CEMENT LIMITED (“PIOC” OR 'TARGrr COMPANY”) BY MAPLE LEAF CEMENT FACrORY…"
+       "text": "8904_5, Fax: +9242.38373067 EqnaH: mjgfl@kmlg.earn PUBLIC ANNOUNCEMENT OF PUBLIC OFFER TO ACQUIRE UP TO 26,623,096 SHARES (1.E. 11.72% SHARES) AND CONTROL OF PIONEER CEMENT LIMITED (“PIOC” OR 'TARGrr COMPANY”) BY MAPLE LEAF CEMENT FACrORY…",
+       "event_date": "2025-12-18T12:52:00+05:00"
       },
       {
        "event_id": "evt_25bfb52e721191c7b644",
@@ -497,7 +506,8 @@
        "source": "PSX DPS",
        "source_url": "https://dps.psx.com.pk/download/document/275425.pdf",
        "page": 4,
-       "text": "in local market and inclusion of Pioneer Cement Limited’s dispatches in total due to its acquisition during the month of February 2026. The export sales volume reduced from 173,489 tons to 78,135 tons, a decline of 54.96% from the previous…"
+       "text": "in local market and inclusion of Pioneer Cement Limited’s dispatches in total due to its acquisition during the month of February 2026. The export sales volume reduced from 173,489 tons to 78,135 tons, a decline of 54.96% from the previous…",
+       "event_date": "2026-04-28T10:25:00+05:00"
       }
      ]
     }
@@ -566,17 +576,6 @@
    "rejection_reasons": [
     "no_selected_observed_case_seed"
    ]
-  }
- },
- "_meta": {
-  "generator_version": "ci_artifact_integrity_v1",
-  "source_commit_sha": "671a59e50c66b10226bc897fbb37862d597147e3",
-  "build_cutoff_at": "2026-08-30T17:58:30Z",
-  "generated_at": "2026-08-30T17:58:30Z",
-  "artifact_path": "state/company_intel/intelligence_cases.json",
-  "timestamp_semantics": {
-   "build_cutoff_at": "generation boundary only; not a source-effective or source-published time",
-   "generated_at": "artifact generation time only; not a source-effective or source-published time"
   }
  }
 }
