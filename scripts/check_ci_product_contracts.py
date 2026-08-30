@@ -156,21 +156,17 @@ def run_checks(
 ) -> list[CheckResult]:
     """Run each explicitly listed checker and return deterministic results."""
     # Temporary fixture roots used by self-test have no CI artifacts. Real checkout runs
-    # execute the same readiness/slice/finalizer fixed-point as CI before and after the
-    # focused checks so checker side effects cannot invalidate the release envelope.
+    # finish with one finalizer + integrity check so checker side effects cannot invalidate
+    # the release envelope.
     if finalize_artifacts is None:
         finalize_artifacts = root.resolve() == ROOT.resolve()
     results: list[CheckResult] = []
     finalize_env: dict[str, str] | None = None
     fixed_point_builders = (
-        "build_event_to_value_product_readiness.py",
-        "build_ci_slice.py",
-        "build_ci_artifact_integrity.py",
-        "build_event_to_value_product_readiness.py",
-        "build_ci_slice.py",
-        "build_ci_artifact_integrity.py",
-        "build_ci_slice.py",
-        "build_ci_artifact_integrity.py",
+            "build_ci_artifact_integrity.py",
+            "build_event_to_value_product_readiness.py",
+            "build_ci_slice.py",
+            "build_ci_artifact_integrity.py",
     )
     if finalize_artifacts:
         finalize_env = os.environ.copy()

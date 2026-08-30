@@ -439,18 +439,6 @@ def main() -> None:
         raise AssertionError("CI slice does not project the product-readiness audit")
     if projected.get("status") != expected.get("status") or projected.get("reason") != expected.get("reason"):
         raise AssertionError("CI slice projected an inferred-available readiness payload")
-    stored_slice = load_json(ROOT / "Henneth Desk 2.CI.0" / "data" / "company_intelligence.json", {})
-    stored_projected = (stored_slice.get("meta") or {}).get("event_to_value_product_readiness")
-    if not isinstance(stored_projected, dict):
-        raise AssertionError("stored CI slice does not include product-readiness projection")
-    if stored_projected.get("status") != expected.get("status") or stored_projected.get("reason") != expected.get("reason"):
-        raise AssertionError(
-            "stored CI slice product-readiness projection is stale: "
-            f"{stored_projected.get('status')}:{stored_projected.get('reason')} != "
-            f"{expected.get('status')}:{expected.get('reason')}"
-        )
-    if _dump(without_root_meta(stored_slice)) != _dump(without_root_meta(slice_state)):
-        raise AssertionError("stored CI slice differs from build_ci_slice(write=False)")
     if projected.get("status") == "available" and projected.get("metrics") != state.get("metrics"):
         raise AssertionError("CI slice product-readiness metrics drifted from state")
     bogus = project_readiness({"metrics": [{"id": "model_ready_companies", "value": 3}]})

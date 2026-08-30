@@ -5,7 +5,6 @@ Writes Henneth Desk 2.CI.0/data/company_intelligence.json from existing state fi
 This is the only data file the CI app reads. It is a private research surface, but it still
 keeps the same rule: every displayed fact traces to the state layer or is marked unknown.
 """
-import os
 import time
 from datetime import date
 from pathlib import Path
@@ -16,13 +15,6 @@ from build_ci_completion_matrix import slice_summary as _completion_matrix_summa
 
 APP_DIR = ROOT / "Henneth Desk 2.CI.0"
 OUT = APP_DIR / "data" / "company_intelligence.json"
-
-
-def _built_timestamp():
-    cutoff = str(os.environ.get("HENNETH_CI_BUILD_CUTOFF_AT") or "").strip()
-    if cutoff.endswith("Z") and "T" in cutoff:
-        return cutoff.replace("T", " ")[:16]
-    return time.strftime("%Y-%m-%d %H:%M")
 
 
 def _num(value):
@@ -1149,7 +1141,7 @@ def build(write=True):
 
     result = {
         "meta": {
-            "built": _built_timestamp(),
+            "built": time.strftime("%Y-%m-%d %H:%M"),
             "source": "Henneth state layer",
             "profile_source": profiles_state.get("source"),
             "profile_updated": profiles_state.get("updated"),
@@ -1172,13 +1164,6 @@ def build(write=True):
     if write:
         save_json(OUT, result)
         print(f"ci_slice: {len(rows)} tickers -> {OUT.relative_to(ROOT)}")
-    else:
-        existing = load_json(OUT, {}) if OUT.exists() else {}
-        existing_meta = existing.get("meta") if isinstance(existing, dict) else None
-        if isinstance(existing_meta, dict) and isinstance(result.get("meta"), dict) and existing_meta.get("built"):
-            result["meta"]["built"] = existing_meta["built"]
-        if isinstance(existing, dict) and isinstance(existing.get("_meta"), dict):
-            result["_meta"] = existing["_meta"]
     return result
 
 

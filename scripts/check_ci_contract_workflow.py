@@ -22,8 +22,6 @@ CI_FIXED_POINT_BUILDERS = (
     "build_event_to_value_product_readiness.py",
     "build_ci_slice.py",
     "build_ci_artifact_integrity.py",
-    "build_ci_slice.py",
-    "build_ci_artifact_integrity.py",
 )
 
 
@@ -386,8 +384,6 @@ jobs:
           python scripts/build_ci_slice.py
           python scripts/build_ci_artifact_integrity.py
           python scripts/build_event_to_value_product_readiness.py
-          python scripts/build_ci_slice.py
-          python scripts/build_ci_artifact_integrity.py
           python scripts/build_ci_slice.py
           python scripts/build_ci_artifact_integrity.py
       - name: Verify finalized artifacts match this commit

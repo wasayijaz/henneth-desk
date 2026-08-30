@@ -2,7 +2,7 @@
  "schema_version": 1,
  "product_version": "event_to_value_product_readiness_v1",
  "kind": "event_to_value_product_readiness",
- "as_of": "2026-08-30T22:27:31Z",
+ "as_of": "2026-08-30T22:03:57Z",
  "status": "blocked",
  "reason": "selected_symbols_not_exactly_three:count=2",
  "policy": {
@@ -27,17 +27,17 @@
  },
  "lineage": {
   "product_version": "event_to_value_product_readiness_v1",
-  "generated_at": "2026-08-30T22:27:31Z",
+  "generated_at": "2026-08-30T22:03:57Z",
   "source_as_of": {
    "intelligence_cases": "2026-08-30T21:42:58+05:00",
-   "financial_truth_qualification": "2026-08-30T22:27:31Z",
+   "financial_truth_qualification": "2026-08-30T22:03:57Z",
    "forecast_readiness": "2026-08-30T22:48:00+05:00",
-   "impact_scenarios": "2026-08-30T22:27:31Z",
+   "impact_scenarios": "2026-08-30T22:03:57Z",
    "financial_forecasts": "2026-08-30",
    "formal_valuations": "2026-08-30",
    "market_expectations": "2026-08-30",
    "thesis_monitoring": "2026-08-30T22:48:38+05:00",
-   "artifact_integrity": "2026-08-30T22:27:31Z",
+   "artifact_integrity": "2026-08-30T22:03:57Z",
    "release_integrity_receipt": "2026-08-28T00:00:00Z"
   },
   "source_schema_version": {
@@ -88,8 +88,8 @@
    "artifact_integrity": null,
    "release_integrity_receipt": "release_integrity_receipt_release_status_not_verified:not_verified"
   },
-  "source_commit_sha": "785630b99baaa71b0bb6c83e7bd7efa02ecadae7",
-  "build_cutoff_at": "2026-08-30T22:27:31Z",
+  "source_commit_sha": "f57663a894a9328ee50e6b98f16096b735f86f99",
+  "build_cutoff_at": "2026-08-30T22:03:57Z",
   "artifact_integrity_status": "available",
   "artifact_integrity_reason": null,
   "artifact_integrity": {
@@ -188,9 +188,9 @@
    "missing_paths": [],
    "extra_paths": [],
    "covered": true,
-   "source_commit_sha": "785630b99baaa71b0bb6c83e7bd7efa02ecadae7",
-   "build_cutoff_at": "2026-08-30T22:27:31Z",
-   "generated_at": "2026-08-30T22:27:31Z",
+   "source_commit_sha": "f57663a894a9328ee50e6b98f16096b735f86f99",
+   "build_cutoff_at": "2026-08-30T22:03:57Z",
+   "generated_at": "2026-08-30T22:03:57Z",
    "hash_status": "verified"
   },
   "selected_symbols": [],
@@ -240,14 +240,14 @@
    "display": null,
    "definition": "Count of selected golden-case companies whose financial_truth_qualification.status is qualified. Unselected companies and forecast-readiness input_ready do not count.",
    "source_path": "state/company_intel/financial_truth_qualification.json",
-   "as_of": "2026-08-30T22:27:31Z",
+   "as_of": "2026-08-30T22:03:57Z",
    "reason": "selected_symbols_not_exactly_three:count=2",
    "notes": [
     "selected_symbols=['MARI', 'MLCF']"
    ],
    "lineage": {
     "source_path": "state/company_intel/financial_truth_qualification.json",
-    "as_of": "2026-08-30T22:27:31Z",
+    "as_of": "2026-08-30T22:03:57Z",
     "status": "blocked",
     "reason": "selected_symbols_not_exactly_three:count=2"
    }
@@ -282,14 +282,14 @@
    "display": null,
    "definition": "Count of selected-symbol impact_scenarios with explicit computed/modelled status, a finite numeric impact, and source/lineage. unmodeled_driver and blocked/not_generated/inferred rows do not count even if a number is present.",
    "source_path": "state/company_intel/impact_scenarios.json",
-   "as_of": "2026-08-30T22:27:31Z",
+   "as_of": "2026-08-30T22:03:57Z",
    "reason": "selected_symbols_not_exactly_three:count=2",
    "notes": [
     "selected_symbols=['MARI', 'MLCF']"
    ],
    "lineage": {
     "source_path": "state/company_intel/impact_scenarios.json",
-    "as_of": "2026-08-30T22:27:31Z",
+    "as_of": "2026-08-30T22:03:57Z",
     "status": "blocked",
     "reason": "selected_symbols_not_exactly_three:count=2"
    }
@@ -429,17 +429,17 @@
    "display": null,
    "definition": "Hashed artifact_integrity rows versus artifact_count. The generated readiness artifact itself must be covered by the sealed manifest.",
    "source_path": "state/company_intel/artifact_integrity.json",
-   "as_of": "2026-08-30T22:27:31Z",
+   "as_of": "2026-08-30T22:03:57Z",
    "reason": null,
    "notes": [
-    "785630b99baaa71b0bb6c83e7bd7efa02ecadae7",
+    "f57663a894a9328ee50e6b98f16096b735f86f99",
     "artifact_count=43",
     "expected_artifact_count=43",
     "state/company_intel/event_to_value_product_readiness.json"
    ],
    "lineage": {
     "source_path": "state/company_intel/artifact_integrity.json",
-    "as_of": "2026-08-30T22:27:31Z",
+    "as_of": "2026-08-30T22:03:57Z",
     "status": "available",
     "reason": null
    }
@@ -487,9 +487,9 @@
  ],
  "_meta": {
   "generator_version": "ci_artifact_integrity_v1",
-  "source_commit_sha": "785630b99baaa71b0bb6c83e7bd7efa02ecadae7",
-  "build_cutoff_at": "2026-08-30T22:27:31Z",
-  "generated_at": "2026-08-30T22:27:31Z",
+  "source_commit_sha": "f57663a894a9328ee50e6b98f16096b735f86f99",
+  "build_cutoff_at": "2026-08-30T22:03:57Z",
+  "generated_at": "2026-08-30T22:03:57Z",
   "artifact_path": "state/company_intel/event_to_value_product_readiness.json",
   "timestamp_semantics": {
    "build_cutoff_at": "generation boundary only; not a source-effective or source-published time",
