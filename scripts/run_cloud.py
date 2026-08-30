@@ -162,6 +162,8 @@ STEPS = [
     "build_ci_artifact_integrity.py",
     "build_event_to_value_product_readiness.py",
     "build_ci_slice.py",
+    "build_ci_artifact_integrity.py",
+    "build_ci_slice.py",
     # Finalize the complete private CI release as one reproducible UTC-cutoff
     # artifact set. This runs only after every CI producer and the slice.
     "build_ci_artifact_integrity.py",
