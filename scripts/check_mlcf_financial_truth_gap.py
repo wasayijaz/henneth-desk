@@ -21,26 +21,21 @@ from mlcf_financial_truth_gap_contract import (
 )
 
 
-def build_case() -> dict[str, object]:
-    root = Path(__file__).resolve().parents[1]
-    def load(relative: str) -> dict[str, object]:
-        return json.loads((root / relative).read_text(encoding="utf-8"))
+def build_case(states: dict[str, dict[str, object]] | None = None) -> dict[str, object]:
+    states = states or _load_states()
     return build_case_from_retained_state(
-        load("state/company_intel/financial_truth_qualification.json"),
-        load("state/company_documents.json"),
-        load("config/ci_reprocess_review_manifest.json"),
-        load("state/research_index.json"),
-        load("state/company_intel/financial_evidence_reconciliation.json"),
+        states["financial_truth"],
+        states["company_documents"],
+        states["review_manifest"],
+        states["research_index"],
+        states["reconciliation"],
         as_of_date="2026-08-31",
     )
 
 
 def _assert_reject(case: dict[str, object], checks: list[str], label: str) -> None:
     try:
-        validate_case(case)
-        authoritative = build_case()
-        if case.get("baseline") != authoritative.get("baseline") or case.get("candidates") != authoritative.get("candidates"):
-            raise ValueError("case differs from retained authoritative state")
+        evaluate_case(case, retained_state=_load_states())
     except ValueError:
         checks.append(label)
         return
@@ -99,11 +94,12 @@ def _contains_forbidden_fields(value: object) -> bool:
 
 def main() -> int:
     checks: list[str] = []
-    case = build_case()
+    states = _load_states()
+    case = build_case(states)
     validate_case(case)
     checks.append("valid fixture")
 
-    result = evaluate_case(case)
+    result = evaluate_case(case, retained_state=states)
     if result["status"] != "blocked" or result["contract_version"] != CONTRACT_VERSION:
         raise AssertionError("result is not a blocked contract result")
     if result["coverage_before"] != result["coverage_after"]:
@@ -115,8 +111,14 @@ def main() -> int:
     if _contains_forbidden_fields(result):
         raise AssertionError("result contains forbidden financial/advice fields")
     checks.append("blocked result")
+    try:
+        evaluate_case(case)
+    except ValueError:
+        checks.append("authority required")
+    else:
+        raise AssertionError("evaluate_case emitted output without authoritative state")
 
-    again = evaluate_case(copy.deepcopy(case))
+    again = evaluate_case(copy.deepcopy(case), retained_state=states)
     if json.dumps(result, sort_keys=True, separators=(",", ":")) != json.dumps(again, sort_keys=True, separators=(",", ":")):
         raise AssertionError("result is not deterministic")
     case["baseline"]["annual_income_triplets"]["present"] = 0
@@ -126,8 +128,13 @@ def main() -> int:
 
     for label, mutate in (
         ("financial coverage drift", lambda s: s["financial_truth"]["companies"]["MLCF"]["annual_income_triplets"].__setitem__("present", 2)),
+        ("annual period drift", lambda s: s["financial_truth"]["companies"]["MLCF"]["annual_income_triplets"]["qualified_periods"].__setitem__(2, "2023-06-30")),
+        ("annual required-count drift", lambda s: s["financial_truth"]["companies"]["MLCF"]["annual_income_triplets"].__setitem__("required", 6)),
         ("required source hash drift", lambda s: s["review_manifest"]["documents"][RETAINED_MLCF_DOCUMENT_IDS[0]].__setitem__("content_sha256", "0" * 64)),
+        ("manifest period drift", lambda s: (s["review_manifest"]["documents"][RETAINED_MLCF_DOCUMENT_IDS[0]].__setitem__("period", "2023-08-31"), s["review_manifest"]["documents"][RETAINED_MLCF_DOCUMENT_IDS[0]]["safe_period"].__setitem__("period_end", "2023-08-31"))),
+        ("manifest source drift", lambda s: s["review_manifest"].__setitem__("source", "EVIL")),
         ("company document drift", lambda s: s["company_documents"]["documents"][RETAINED_MLCF_DOCUMENT_IDS[0]].__setitem__("evidence", [{"page": 1}])),
+        ("unknown parser geometry field", lambda s: s["company_documents"]["documents"][RETAINED_MLCF_DOCUMENT_IDS[0]].__setitem__("parser_geometry", "evil")),
         ("research index drift", lambda s: s["research_index"]["documents"][RETAINED_MLCF_DOCUMENT_IDS[0]].__setitem__("url", "https://example.invalid")),
         ("reconciliation evidence drift", lambda s: s["reconciliation"]["companies"]["MLCF"]["facts"].append({"source": {"document_id": RETAINED_MLCF_DOCUMENT_IDS[0]}})),
     ):
@@ -145,6 +152,7 @@ def main() -> int:
         ("wrong URL", lambda c: c["candidates"][0].__setitem__("source_url", "https://example.invalid")),
         ("wrong hash", lambda c: c["candidates"][0].__setitem__("content_sha256", "0" * 64)),
         ("wrong available date", lambda c: c["candidates"][0].__setitem__("available_on", "2023-10-28")),
+        ("published after as_of", lambda c: c["candidates"][0].__setitem__("published_at", "2027-01-01T00:00:00+05:00")),
         ("lookahead", lambda c: c.__setitem__("as_of_date", "2023-10-26")),
         ("malformed date", lambda c: c["candidates"][0].__setitem__("period_end", "2023-02-30")),
         ("raw bytes promoted", lambda c: c["candidates"][0].__setitem__("raw_retained", True)),
