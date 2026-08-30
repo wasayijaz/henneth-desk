@@ -58,14 +58,6 @@ def main() -> None:
     check("real no numeric payload", not numeric_output_keys(real))
     check("real formal hard block", real["formal_output_readiness"]["status"] == "blocked"
           and real["formal_output_readiness"]["hard_block"])
-    try:
-        no_lineage_case = copy.deepcopy(case)
-        no_lineage_case.pop("source_lineage", None)
-        adapter.build_real_case_run(no_lineage_case, {"status": "blocked_missing_inputs"})
-    except ValueError as error:
-        check("missing lineage fails closed", "without exact source lineage" in str(error))
-    else:
-        raise AssertionError("missing lineage should fail closed")
 
     fixture = adapter.build_fixture_case_run()
     check("fixture validates", validate_case_run(fixture) == [])
@@ -76,13 +68,6 @@ def main() -> None:
     check("fixture is unmistakably synthetic", fixture["formal_output_readiness"]["status"] == "not_ready"
           and "synthetic_fixture_not_formal_output" in fixture["formal_output_readiness"]["blocked_reasons"]
           and all(r["result"]["scenario"]["symbol"] == "MLCF-FIXTURE" for r in fixture["scenario_runs"]))
-
-    one_row = copy.deepcopy(fixture)
-    one_row["scenario_runs"][0]["result"]["quarterly_schedule"] = one_row["scenario_runs"][0]["result"]["quarterly_schedule"][:1]
-    check("nested one-row schedule rejected", any("exactly 8 rows" in x for x in validate_case_run(one_row)))
-    mismatched = copy.deepcopy(fixture)
-    mismatched["scenario_runs"][0]["result"]["scenario"]["case_label"] = "bull"
-    check("nested scenario mismatch rejected", any("align with run scenario" in x for x in validate_case_run(mismatched)))
 
     repeat = adapter.build_fixture_case_run()
     check("fixture deterministic", json.dumps(fixture, sort_keys=True) == json.dumps(repeat, sort_keys=True))

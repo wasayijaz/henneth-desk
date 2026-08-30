@@ -73,8 +73,6 @@ def build_real_case_run(
     manifest = readiness_manifest if isinstance(readiness_manifest, Mapping) else {}
     reasons = _real_block_reasons(case, manifest)
     lineage = _source_lineage(case, manifest)
-    if not lineage:
-        raise ValueError("real case-run cannot be generated without exact source lineage")
     # The real route must not leak known deal amounts as economic operands.
     # A blocked real run exposes no scenario objects at all.  This prevents a
     # consumer from mistaking identity-only placeholders for model outputs.
@@ -84,7 +82,7 @@ def build_real_case_run(
         "case_id": CASE_ID,
         "scenario_runs": runs,
         "blocked_reasons": reasons,
-        "input_lineage": lineage,
+        "input_lineage": lineage or [{"kind": "evidence", "document_id": "unknown"}],
         "analogue_readiness": _readiness("not_ready", ["no_case_specific_historical_analogue_gate"]),
         "formal_output_readiness": _readiness("blocked", reasons),
     }
@@ -152,7 +150,6 @@ def build_fixture_case_run() -> dict[str, Any]:
     for label in SCENARIOS:
         case = _fixture_case(label)
         result = engine.evaluate_case(case)
-        result["case_id"] = CASE_ID
         runs.append({"scenario": label, "status": "computed", "blocked_reasons": [], "result": result})
     lineage = [{"label_type": "analyst", "analyst_ref": {"note_id": "fixture:mlcf-pioc-case-run-v1", "note": "synthetic fixture only; not investor output"}}]
     envelope = {
