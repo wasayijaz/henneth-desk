@@ -2144,7 +2144,14 @@ function renderCaseSectionBody(section) {
     return '<div class="blocked-grid"><span>Status <b>' + esc(section?.status || "blocked") + '</b></span><span>Reason <b>' + esc(section?.reason || "not_yet_modelled") + '</b></span></div>';
   }
   if (section.key === "conclusion") {
-    return '<p>' + esc(section.text || "Unknown") + '</p><p class="section-note">Epistemic type: ' + esc(section.epistemic_type || "reported_fact") + '. Research only — not advice.</p>';
+    const validTypes = Array.isArray(window.HennethIntelligenceCaseView?.EPISTEMIC_TYPES)
+      ? window.HennethIntelligenceCaseView.EPISTEMIC_TYPES
+      : [];
+    const epistemicType = validTypes.includes(section.epistemic_type) ? section.epistemic_type : null;
+    const epistemicNote = epistemicType
+      ? '<p class="section-note">Epistemic type: ' + esc(epistemicType) + '. Research only — not advice.</p>'
+      : '<p class="section-note">Epistemic type not emitted. Research only — not advice.</p>';
+    return '<p>' + esc(section.text || "Unknown") + '</p>' + epistemicNote;
   }
   if (section.key === "evidence") {
     const items = Array.isArray(section.items) ? section.items : [];
