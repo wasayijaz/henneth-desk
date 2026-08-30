@@ -124,7 +124,6 @@ def _validate_int_schedule(field: str, value: Any) -> list[str]:
             violations.append(f"{field}[{index}]: must be an integer >= 0")
     return violations
 
-
 def _validate_number_schedule(field: str, value: Any) -> list[str]:
     violations = _validate_schedule_length(field, value)
     if violations:
@@ -220,4 +219,3 @@ def validate_case(case: Mapping[str, Any]) -> list[str]:
                     if parsed is not None:
                         previous = parsed
     return violations
-
