@@ -21,6 +21,10 @@ PUBLIC_OFFER_EVENT_ID = "evt_cb44dc32c91b0c5712a5"
 FOLLOW_THROUGH_EVENT_ID = "evt_25bfb52e721191c7b644"
 PUBLIC_OFFER_DOC_ID = "psx:267429"
 FOLLOW_THROUGH_DOC_ID = "psx:275425"
+MLCF_CANONICAL_CONTROL_EVENT_ID = "evt_6e9b520a122b8f2d4a59"
+MLCF_LEGACY_CONTROL_EVENT_ID = PUBLIC_OFFER_EVENT_ID
+MLCF_CANONICAL_FOLLOW_THROUGH_EVENT_ID = FOLLOW_THROUGH_EVENT_ID
+MLCF_LEGACY_FOLLOW_THROUGH_EVENT_ID = FOLLOW_THROUGH_EVENT_ID
 
 MARI_CASE_ID = "case_mari_offshore_exploration_blocks_observed_v1"
 MARI_EVENT_ID = "evt_ddf99590afb6dacddbde"
@@ -61,9 +65,118 @@ def _event(ledger: dict[str, Any], symbol: str, event_id: str) -> dict[str, Any]
     return None
 
 
+def _operating_event(operating_events: dict[str, Any], symbol: str, event_id: str) -> dict[str, Any] | None:
+    for event in (((operating_events.get("companies") or {}).get(symbol) or {}).get("events") or []):
+        if isinstance(event, dict) and event.get("event_id") == event_id:
+            return event
+    return None
+
+
 def _document(documents: dict[str, Any], doc_id: str) -> dict[str, Any] | None:
     doc = (documents.get("documents") or {}).get(doc_id)
     return doc if isinstance(doc, dict) else None
+
+
+def _financial_truth_counters() -> dict[str, Any]:
+    qualification = load_json(STATE / "company_intel" / "financial_truth_qualification.json", {})
+    row = (qualification.get("companies") or {}).get("MLCF") or {}
+    annual = row.get("annual_income_triplets") or {}
+    quarters = row.get("qualified_reported_quarter_fact_sets") or {}
+    ocf = row.get("annual_operating_cash_flow") or {}
+    share_count = row.get("share_count") or {}
+    return {
+        "annual_income_triplets": {
+            "required": annual.get("required"),
+            "present": annual.get("present"),
+            "qualified_periods": list(annual.get("qualified_periods") or []),
+        },
+        "qualified_reported_quarter_fact_sets": {
+            "required": quarters.get("required"),
+            "present": quarters.get("present"),
+            "qualified_periods": list(quarters.get("qualified_periods") or []),
+        },
+        "annual_operating_cash_flow": {
+            "required": ocf.get("required"),
+            "present": ocf.get("present"),
+            "qualified_periods": list(ocf.get("qualified_periods") or []),
+        },
+        "share_count": {
+            "status": share_count.get("status"),
+            "available_on": share_count.get("available_on"),
+            "source": share_count.get("source"),
+        },
+    }
+
+
+def _null_kernel_requirements() -> dict[str, dict[str, Any]]:
+    return {
+        field: {
+            "value": None,
+            "source_label": "retained_state_only:no_source_qualified_event_input",
+            "status": "missing_source_bound_input",
+        }
+        for field in (
+            "incremental_revenue_pkr",
+            "incremental_margin_pct",
+            "incremental_eps_pkr",
+            "incremental_operating_cash_flow_pkr",
+            "incremental_debt_pkr",
+            "incremental_share_count",
+            "cement_capacity_units",
+            "commissioning_or_ramp_schedule",
+            "capex_schedule_pkr",
+            "fuel_power_freight_cost_schedule",
+        )
+    }
+
+
+def _cement_input_readiness(refs: list[dict[str, Any]]) -> dict[str, Any]:
+    primary, follow_through = refs
+    if primary.get("event_id") != PUBLIC_OFFER_EVENT_ID or primary.get("document_id") != PUBLIC_OFFER_DOC_ID:
+        raise ValueError("MLCF primary source join mismatch")
+    if follow_through.get("event_id") != FOLLOW_THROUGH_EVENT_ID or follow_through.get("document_id") != FOLLOW_THROUGH_DOC_ID:
+        raise ValueError("MLCF follow-through source join mismatch")
+    return {
+        "status": "observed_only",
+        "kernel_activation": "blocked",
+        "attribution": {
+            "acquirer": "MLCF",
+            "target": "PIOC",
+            "follow_through": "dispatch_inclusion",
+        },
+        "source_join": [
+            {
+                "role": "primary_control",
+                "canonical_event_id": MLCF_CANONICAL_CONTROL_EVENT_ID,
+                "legacy_event_id": MLCF_LEGACY_CONTROL_EVENT_ID,
+                "document_id": primary.get("document_id"),
+                "page": primary.get("page"),
+                "content_sha256": primary.get("content_sha256"),
+                "evidence_sha256": "70a110272f96813a4d6693b596c99d9dbc4c4781d42a519543557a04ec4c581f",
+                "published_at": "2025-12-18T12:52:00+05:00",
+                "effective_date": "2025-12-18",
+                "available_on": "2025-12-18",
+            },
+            {
+                "role": "operating_follow_through",
+                "canonical_event_id": MLCF_CANONICAL_FOLLOW_THROUGH_EVENT_ID,
+                "legacy_event_id": MLCF_LEGACY_FOLLOW_THROUGH_EVENT_ID,
+                "document_id": follow_through.get("document_id"),
+                "page": follow_through.get("page"),
+                "content_sha256": follow_through.get("content_sha256"),
+                "evidence_sha256": "137a01f15530276a63688c01bc7eff20dd4b27154314786149fa9d8b22c21b2f",
+                "published_at": "2026-04-28T10:25:00+05:00",
+                "effective_date": "2026-04-28",
+                "available_on": "2026-04-28",
+            },
+        ],
+        "financial_truth_counters": _financial_truth_counters(),
+        "event_specific_kernel_requirements": _null_kernel_requirements(),
+        "guardrails": {
+            "dispatch_inclusion_not_standalone_pioc_earnings_or_capacity_impact": True,
+            "no_numeric_model_output": True,
+        },
+    }
 
 
 def _evidence_ref(event: dict[str, Any], doc: dict[str, Any]) -> dict[str, Any]:
@@ -101,15 +214,21 @@ def _empty_company(symbol: str) -> dict[str, Any]:
     }
 
 
-def _mlcf_case(ledger: dict[str, Any], documents: dict[str, Any]) -> tuple[dict[str, Any] | None, list[str], list[dict[str, Any]]]:
+def _mlcf_case(
+    ledger: dict[str, Any],
+    documents: dict[str, Any],
+    operating_events: dict[str, Any],
+) -> tuple[dict[str, Any] | None, list[str], list[dict[str, Any]]]:
     public_offer = _event(ledger, "MLCF", PUBLIC_OFFER_EVENT_ID)
     follow_through = _event(ledger, "MLCF", FOLLOW_THROUGH_EVENT_ID)
+    canonical_control = _operating_event(operating_events, "MLCF", MLCF_CANONICAL_CONTROL_EVENT_ID)
     public_offer_doc = _document(documents, PUBLIC_OFFER_DOC_ID)
     follow_through_doc = _document(documents, FOLLOW_THROUGH_DOC_ID)
     missing = []
     for label, value in (
         ("missing_public_offer_event", public_offer),
         ("missing_follow_through_event", follow_through),
+        ("missing_canonical_control_event", canonical_control),
         ("missing_public_offer_document", public_offer_doc),
         ("missing_follow_through_document", follow_through_doc),
     ):
@@ -119,6 +238,15 @@ def _mlcf_case(ledger: dict[str, Any], documents: dict[str, Any]) -> tuple[dict[
         return None, missing, []
     assert public_offer is not None and follow_through is not None
     assert public_offer_doc is not None and follow_through_doc is not None
+    assert canonical_control is not None
+    canonical_evidence = (canonical_control.get("evidence") or [{}])[0]
+    if (
+        canonical_evidence.get("document_id") != PUBLIC_OFFER_DOC_ID
+        or canonical_evidence.get("page") != 3
+        or canonical_evidence.get("content_sha256") != public_offer_doc.get("content_sha256")
+        or canonical_control.get("effective_date") != "2025-12-18"
+    ):
+        raise ValueError("MLCF canonical control source join/hash/page/date mismatch")
     refs = [_evidence_ref(public_offer, public_offer_doc), _evidence_ref(follow_through, follow_through_doc)]
     cutoff = _source_cutoff(refs)
     case = {
@@ -185,6 +313,7 @@ def _mlcf_case(ledger: dict[str, Any], documents: dict[str, Any]) -> tuple[dict[
             "Modelled": "Blocked: no source-qualified financial impact model or owner-approved assumptions are attached.",
             "Published": "Blocked: no forecast, valuation, reverse-expectations output, investor conclusion or release gate is complete.",
         },
+        "cement_input_readiness": _cement_input_readiness(refs),
         "policy": {
             "observed_only": True,
             "no_forecast": True,
@@ -272,9 +401,10 @@ def build(write: bool = True) -> dict[str, Any]:
     profiles = load_json(STATE / "company_profiles.json", {})
     ledger = load_json(STATE / "company_event_ledger.json", {"companies": {}})
     documents = load_json(STATE / "company_documents.json", {"documents": {}})
+    operating_events = load_json(STATE / "company_intel" / "operating_events.json", {"companies": {}})
     pilot = sorted((profiles.get("pilot") or {}).get("symbols") or [])
     companies = {symbol: _empty_company(symbol) for symbol in pilot}
-    mlcf_case, mlcf_rejections, mlcf_refs = _mlcf_case(ledger, documents)
+    mlcf_case, mlcf_rejections, mlcf_refs = _mlcf_case(ledger, documents, operating_events)
     mari_case, mari_rejections, mari_refs = _mari_case(ledger, documents)
     refs = [*mlcf_refs, *mari_refs]
     as_of = _source_cutoff(refs) if refs else datetime.now(PKT).replace(microsecond=0).isoformat()
@@ -323,6 +453,9 @@ def build(write: bool = True) -> dict[str, Any]:
         "companies": companies,
     }
     if write:
+        existing = load_json(OUT, {}) if OUT.exists() else {}
+        if isinstance(existing.get("_meta"), dict):
+            result["_meta"] = existing["_meta"]
         save_json(OUT, result)
         print(f"intelligence_cases: {result['summary']['observed_case_count']} observed seeds")
     return result

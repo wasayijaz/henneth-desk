@@ -15,6 +15,8 @@ from build_intelligence_cases import (
     MARI_DOC_ID,
     MARI_EVENT_ID,
     MLCF_CASE_ID,
+    MLCF_CANONICAL_CONTROL_EVENT_ID,
+    MLCF_CANONICAL_FOLLOW_THROUGH_EVENT_ID,
     OUT,
     PUBLIC_OFFER_DOC_ID,
     PUBLIC_OFFER_EVENT_ID,
@@ -78,6 +80,67 @@ def _assert_evidence(ref: dict, expected_event_id: str, expected_doc_id: str, ex
         raise AssertionError(f"missing evidence text for {expected_doc_id}")
 
 
+def _assert_mlcf_cement_readiness(case: dict) -> None:
+    readiness = case.get("cement_input_readiness") or {}
+    if readiness.get("status") != "observed_only" or readiness.get("kernel_activation") != "blocked":
+        raise AssertionError("MLCF cement readiness must remain observed-only and blocked")
+    if readiness.get("attribution") != {
+        "acquirer": "MLCF",
+        "target": "PIOC",
+        "follow_through": "dispatch_inclusion",
+    }:
+        raise AssertionError("MLCF cement attribution mismatch")
+    joins = readiness.get("source_join") or []
+    if len(joins) != 2:
+        raise AssertionError("MLCF cement readiness requires two source joins")
+    primary, follow = joins
+    expected = [
+        (primary, MLCF_CANONICAL_CONTROL_EVENT_ID, PUBLIC_OFFER_EVENT_ID, PUBLIC_OFFER_DOC_ID, 3,
+         "98cf83c9a286999c8006a7f73f490248f26694c9edbfc815b3dbd9188ee22a54",
+         "70a110272f96813a4d6693b596c99d9dbc4c4781d42a519543557a04ec4c581f",
+         "2025-12-18T12:52:00+05:00", "2025-12-18", "2025-12-18"),
+        (follow, MLCF_CANONICAL_FOLLOW_THROUGH_EVENT_ID, FOLLOW_THROUGH_EVENT_ID, FOLLOW_THROUGH_DOC_ID, 4,
+         "744a0c710043d6e0a7de36bb99f21ca50f0f9346f6972b957f6733a47deae11f",
+         "137a01f15530276a63688c01bc7eff20dd4b27154314786149fa9d8b22c21b2f",
+         "2026-04-28T10:25:00+05:00", "2026-04-28", "2026-04-28"),
+    ]
+    for ref, canonical, legacy, doc_id, page, content_hash, evidence_hash, published, effective, available in expected:
+        if ref.get("canonical_event_id") != canonical or ref.get("legacy_event_id") != legacy:
+            raise AssertionError("MLCF canonical/legacy event alias mismatch")
+        if ref.get("document_id") != doc_id or ref.get("page") != page:
+            raise AssertionError("MLCF cement readiness document/page mismatch")
+        if ref.get("content_sha256") != content_hash or ref.get("evidence_sha256") != evidence_hash:
+            raise AssertionError("MLCF cement readiness hash mismatch")
+        if ref.get("published_at") != published or ref.get("effective_date") != effective or ref.get("available_on") != available:
+            raise AssertionError("MLCF cement readiness date mismatch")
+    counters = readiness.get("financial_truth_counters") or {}
+    for section, required, present, periods in (
+        ("annual_income_triplets", 5, 3, ["2026-06-30", "2025-06-30", "2024-06-30"]),
+        ("qualified_reported_quarter_fact_sets", 8, 3, ["2026-03-31", "2025-12-31", "2025-09-30"]),
+        ("annual_operating_cash_flow", 5, 2, ["2025-06-30", "2024-06-30"]),
+    ):
+        row = counters.get(section) or {}
+        if row.get("required") != required or row.get("present") != present or row.get("qualified_periods") != periods:
+            raise AssertionError(f"MLCF financial counter mismatch: {section}")
+    share = counters.get("share_count") or {}
+    if share.get("status") != "missing_official_share_count_capital_note_tie_out" or share.get("available_on") is not None or share.get("source") is not None:
+        raise AssertionError("MLCF share-count tie-out must remain missing")
+    requirements = readiness.get("event_specific_kernel_requirements") or {}
+    if not requirements or any(
+        not isinstance(record, dict)
+        or record.get("value") is not None
+        or record.get("source_label") != "retained_state_only:no_source_qualified_event_input"
+        or record.get("status") != "missing_source_bound_input"
+        for record in requirements.values()
+    ):
+        raise AssertionError("MLCF event-specific kernel inputs must be source-labelled nulls")
+    if readiness.get("guardrails") != {
+        "dispatch_inclusion_not_standalone_pioc_earnings_or_capacity_impact": True,
+        "no_numeric_model_output": True,
+    }:
+        raise AssertionError("MLCF cement readiness guardrails mismatch")
+
+
 def main() -> None:
     if not OUT.exists():
         raise AssertionError("intelligence_cases.json is missing")
@@ -121,6 +184,7 @@ def main() -> None:
         raise AssertionError("February 2026 acquisition timing was not preserved")
     _assert_evidence(facts["mlcf_pioc_public_offer_control"]["evidence"][0], PUBLIC_OFFER_EVENT_ID, PUBLIC_OFFER_DOC_ID, 3)
     _assert_evidence(facts["mlcf_pioc_dispatch_inclusion"]["evidence"][0], FOLLOW_THROUGH_EVENT_ID, FOLLOW_THROUGH_DOC_ID, 4)
+    _assert_mlcf_cement_readiness(case)
     blocks = case.get("promotion_blocks") or {}
     for status in ("Corroborated", "Modelled", "Published"):
         if status not in blocks:
