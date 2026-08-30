@@ -781,7 +781,7 @@ def _company_brief(brief_state, document_state, sym):
     }
 
 
-def build():
+def build(write: bool = True):
     universe = load_json(STATE / "universe.json", {"symbols": {}}).get("symbols", {})
     quant = load_json(STATE / "quant.json", {"tickers": {}}).get("tickers", {})
     live = load_json(STATE / "live.json", {"tickers": {}}).get("tickers", {})
@@ -832,6 +832,7 @@ def build():
     financial_forecasts = load_json(STATE / "company_intel" / "financial_forecasts.json", {"companies": {}})
     formal_valuations = load_json(STATE / "company_intel" / "formal_valuations.json", {"companies": {}})
     market_expectations = load_json(STATE / "company_intel" / "market_expectations.json", {"companies": {}})
+    intelligence_cases = load_json(STATE / "company_intel" / "intelligence_cases.json", {"companies": {}})
     financial_engine_assumptions = load_json(STATE / "company_intel" / "financial_engine_assumptions.json", {"records": []})
     private_thesis_receipt = load_json(STATE / "company_intel" / "private_thesis_storage_receipt.json", {})
     insider = load_json(STATE / "insider_activity.json", {"symbols": {}})
@@ -976,6 +977,14 @@ def build():
         financial_forecast_row = _formal_engine_product(financial_forecasts, sym, "financial_forecasts")
         formal_valuation_row = _formal_engine_product(formal_valuations, sym, "formal_valuations")
         market_expectation_row = _formal_engine_product(market_expectations, sym, "market_expectations")
+        candidate_case_row = (intelligence_cases.get("companies") or {}).get(sym)
+        intelligence_case_row = candidate_case_row if isinstance(candidate_case_row, dict) and candidate_case_row.get("symbol") == sym else {
+            "symbol": sym,
+            "status": "intelligence_cases_state_missing",
+            "case_count": 0,
+            "cases": [],
+            "rejection_reasons": ["intelligence_cases_state_missing"],
+        }
         historical_reference_cases = _historical_reference_cases(financial_engine_assumptions, sym, source_cutoff)
         assumption_gap_review = _assumption_gap_review(financial_engine_assumptions, sym)
         rows.append({
@@ -1055,6 +1064,7 @@ def build():
             "financial_forecasts": financial_forecast_row,
             "formal_valuations": formal_valuation_row,
             "market_expectations": market_expectation_row,
+            "intelligence_cases": intelligence_case_row,
             "historical_reference_cases": historical_reference_cases,
             "financial_engine_assumption_gaps": assumption_gap_review,
             "intelligence": {
@@ -1109,7 +1119,7 @@ def build():
             "offmarket": _offmarket(offmarket, sym),
         })
 
-    save_json(OUT, {
+    payload = {
         "meta": {
             "built": time.strftime("%Y-%m-%d %H:%M"),
             "source": "Henneth state layer",
@@ -1130,8 +1140,11 @@ def build():
             "note": "Private company-intelligence slice. Research, not advice. No execution or order path.",
         },
         "tickers": rows,
-    })
-    print(f"ci_slice: {len(rows)} tickers -> {OUT.relative_to(ROOT)}")
+    }
+    if write:
+        save_json(OUT, payload)
+        print(f"ci_slice: {len(rows)} tickers -> {OUT.relative_to(ROOT)}")
+    return payload
 
 
 if __name__ == "__main__":

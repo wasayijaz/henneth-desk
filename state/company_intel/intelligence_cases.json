@@ -1,0 +1,455 @@
+{
+ "schema_version": 1,
+ "case_product_version": "observed_intelligence_case_seed_v3",
+ "as_of": "2026-04-28T10:25:00+05:00",
+ "pilot_symbols": [
+  "MLCF",
+  "OGDC",
+  "PPL",
+  "DGKC",
+  "PSO",
+  "UBL",
+  "FFC",
+  "LUCK",
+  "HUBC",
+  "PRL",
+  "BOP",
+  "NBP",
+  "MEBL",
+  "ATRL",
+  "HBL",
+  "MARI",
+  "ENGROH",
+  "GAL",
+  "NRL",
+  "CNERGY"
+ ],
+ "selected_symbols": [
+  "MARI",
+  "MLCF"
+ ],
+ "status_lifecycle": [
+  "Observed",
+  "Corroborated",
+  "Modelled",
+  "Validated",
+  "Published"
+ ],
+ "policy": {
+  "dedicated_observed_seeds_only": true,
+  "no_generic_case_engine": true,
+  "reported_values_only": true,
+  "formal_engines_unchanged": true
+ },
+ "summary": {
+  "company_count": 20,
+  "observed_case_count": 2,
+  "published_case_count": 0
+ },
+ "companies": {
+  "MLCF": {
+   "symbol": "MLCF",
+   "status": "observed_seed_available",
+   "case_count": 1,
+   "cases": [
+    {
+     "case_id": "case_mlcf_pioc_control_observed_v1",
+     "symbol": "MLCF",
+     "target_symbol": "PIOC",
+     "case_family": "industrial_cement",
+     "case_type": "acquisition_control",
+     "status": "Observed",
+     "epistemic_type": "reported_fact",
+     "as_of": "2026-04-28T10:25:00+05:00",
+     "summary": "Observed official-source seed: MLCF reported a public offer/control transaction for Pioneer Cement, and a later MLCF filing reported Pioneer Cement dispatches included in local-market totals after the February 2026 acquisition.",
+     "observed_facts": [
+      {
+       "fact_id": "mlcf_pioc_public_offer_control",
+       "source_event_id": "evt_cb44dc32c91b0c5712a5",
+       "document_id": "psx:267429",
+       "event_date": "2025-12-18T12:52:00+05:00",
+       "statement": "MLCF reported a public offer to acquire PIOC shares and control of Pioneer Cement Limited.",
+       "reported_values": [
+        {
+         "label": "public_offer_shares",
+         "value": "up to 26,623,096 PIOC shares"
+        },
+        {
+         "label": "public_offer_percent",
+         "value": "11.72% shares"
+        },
+        {
+         "label": "spa_percent",
+         "value": "58.03% through Share Purchase Agreement(s)"
+        },
+        {
+         "label": "offer_price",
+         "value": "PKR 478.43 per share"
+        }
+       ],
+       "evidence": [
+        {
+         "event_id": "evt_cb44dc32c91b0c5712a5",
+         "document_id": "psx:267429",
+         "document_title": "MLCF-Material Information to PSX",
+         "document_published_at": "2025-12-18T12:52:00+05:00",
+         "document_retrieved_at": "2026-08-18T01:54:00+05:00",
+         "content_sha256": "98cf83c9a286999c8006a7f73f490248f26694c9edbfc815b3dbd9188ee22a54",
+         "source": "PSX DPS",
+         "source_url": "https://dps.psx.com.pk/download/document/267429.pdf",
+         "page": 3,
+         "text": "8904_5, Fax: +9242.38373067 EqnaH: mjgfl@kmlg.earn PUBLIC ANNOUNCEMENT OF PUBLIC OFFER TO ACQUIRE UP TO 26,623,096 SHARES (1.E. 11.72% SHARES) AND CONTROL OF PIONEER CEMENT LIMITED (“PIOC” OR 'TARGrr COMPANY”) BY MAPLE LEAF CEMENT FACrORY…",
+         "event_date": "2025-12-18T12:52:00+05:00"
+        }
+       ]
+      },
+      {
+       "fact_id": "mlcf_pioc_dispatch_inclusion",
+       "source_event_id": "evt_25bfb52e721191c7b644",
+       "document_id": "psx:275425",
+       "event_date": "2026-04-28T10:25:00+05:00",
+       "statement": "MLCF reported inclusion of Pioneer Cement Limited dispatches in local-market total due to its acquisition during February 2026.",
+       "reported_values": [
+        {
+         "label": "acquisition_timing",
+         "value": "during February 2026"
+        },
+        {
+         "label": "operating_follow_through",
+         "value": "Pioneer Cement Limited dispatches included in local-market total"
+        }
+       ],
+       "evidence": [
+        {
+         "event_id": "evt_25bfb52e721191c7b644",
+         "document_id": "psx:275425",
+         "document_title": "Transmission of Quarterly Financial Statements for the Period Ended 31.03.2026",
+         "document_published_at": "2026-04-28T10:25:00+05:00",
+         "document_retrieved_at": "2026-08-22T21:48:11+05:00",
+         "content_sha256": "744a0c710043d6e0a7de36bb99f21ca50f0f9346f6972b957f6733a47deae11f",
+         "source": "PSX DPS",
+         "source_url": "https://dps.psx.com.pk/download/document/275425.pdf",
+         "page": 4,
+         "text": "in local market and inclusion of Pioneer Cement Limited’s dispatches in total due to its acquisition during the month of February 2026. The export sales volume reduced from 173,489 tons to 78,135 tons, a decline of 54.96% from the previous…",
+         "event_date": "2026-04-28T10:25:00+05:00"
+        }
+       ]
+      }
+     ],
+     "alternative_readings": [
+      {
+       "alternative_id": "public_offer_not_full_model",
+       "reading": "The official offer/control disclosure is not a quantified earnings model.",
+       "status": "retained_as_observed_only",
+       "rejection_condition": "Reject modelling if source-qualified incremental financial operands are absent."
+      },
+      {
+       "alternative_id": "dispatch_inclusion_not_financial_impact",
+       "reading": "The later filing shows operating inclusion, not a standalone PIOC financial impact.",
+       "status": "retained_as_observed_only",
+       "rejection_condition": "Reject modelling if source-qualified revenue, margin, EPS, cash-flow, debt and share-count operands are absent."
+      }
+     ],
+     "promotion_blocks": {
+      "Corroborated": "Blocked: retained evidence is an official MLCF/PSX chain, not independent-originator corroboration.",
+      "Modelled": "Blocked: no source-qualified financial model or owner-approved assumptions are attached.",
+      "Published": "Blocked: no forecast, valuation, reverse-expectations output, investor conclusion or release gate is complete."
+     },
+     "policy": {
+      "observed_only": true,
+      "no_forecast": true,
+      "no_valuation": true,
+      "no_market_expectations": true,
+      "no_recommendation": true,
+      "reported_values_only": true
+     },
+     "source_lineage": [
+      {
+       "event_id": "evt_cb44dc32c91b0c5712a5",
+       "document_id": "psx:267429",
+       "document_title": "MLCF-Material Information to PSX",
+       "document_published_at": "2025-12-18T12:52:00+05:00",
+       "document_retrieved_at": "2026-08-18T01:54:00+05:00",
+       "content_sha256": "98cf83c9a286999c8006a7f73f490248f26694c9edbfc815b3dbd9188ee22a54",
+       "source": "PSX DPS",
+       "source_url": "https://dps.psx.com.pk/download/document/267429.pdf",
+       "page": 3,
+       "text": "8904_5, Fax: +9242.38373067 EqnaH: mjgfl@kmlg.earn PUBLIC ANNOUNCEMENT OF PUBLIC OFFER TO ACQUIRE UP TO 26,623,096 SHARES (1.E. 11.72% SHARES) AND CONTROL OF PIONEER CEMENT LIMITED (“PIOC” OR 'TARGrr COMPANY”) BY MAPLE LEAF CEMENT FACrORY…",
+       "event_date": "2025-12-18T12:52:00+05:00"
+      },
+      {
+       "event_id": "evt_25bfb52e721191c7b644",
+       "document_id": "psx:275425",
+       "document_title": "Transmission of Quarterly Financial Statements for the Period Ended 31.03.2026",
+       "document_published_at": "2026-04-28T10:25:00+05:00",
+       "document_retrieved_at": "2026-08-22T21:48:11+05:00",
+       "content_sha256": "744a0c710043d6e0a7de36bb99f21ca50f0f9346f6972b957f6733a47deae11f",
+       "source": "PSX DPS",
+       "source_url": "https://dps.psx.com.pk/download/document/275425.pdf",
+       "page": 4,
+       "text": "in local market and inclusion of Pioneer Cement Limited’s dispatches in total due to its acquisition during the month of February 2026. The export sales volume reduced from 173,489 tons to 78,135 tons, a decline of 54.96% from the previous…",
+       "event_date": "2026-04-28T10:25:00+05:00"
+      }
+     ]
+    }
+   ],
+   "rejection_reasons": []
+  },
+  "OGDC": {
+   "symbol": "OGDC",
+   "status": "no_observed_case",
+   "case_count": 0,
+   "cases": [],
+   "rejection_reasons": [
+    "no_selected_observed_case_seed"
+   ]
+  },
+  "PPL": {
+   "symbol": "PPL",
+   "status": "no_observed_case",
+   "case_count": 0,
+   "cases": [],
+   "rejection_reasons": [
+    "no_selected_observed_case_seed"
+   ]
+  },
+  "DGKC": {
+   "symbol": "DGKC",
+   "status": "no_observed_case",
+   "case_count": 0,
+   "cases": [],
+   "rejection_reasons": [
+    "no_selected_observed_case_seed"
+   ]
+  },
+  "PSO": {
+   "symbol": "PSO",
+   "status": "no_observed_case",
+   "case_count": 0,
+   "cases": [],
+   "rejection_reasons": [
+    "no_selected_observed_case_seed"
+   ]
+  },
+  "UBL": {
+   "symbol": "UBL",
+   "status": "no_observed_case",
+   "case_count": 0,
+   "cases": [],
+   "rejection_reasons": [
+    "no_selected_observed_case_seed"
+   ]
+  },
+  "FFC": {
+   "symbol": "FFC",
+   "status": "no_observed_case",
+   "case_count": 0,
+   "cases": [],
+   "rejection_reasons": [
+    "no_selected_observed_case_seed"
+   ]
+  },
+  "LUCK": {
+   "symbol": "LUCK",
+   "status": "no_observed_case",
+   "case_count": 0,
+   "cases": [],
+   "rejection_reasons": [
+    "no_selected_observed_case_seed"
+   ]
+  },
+  "HUBC": {
+   "symbol": "HUBC",
+   "status": "no_observed_case",
+   "case_count": 0,
+   "cases": [],
+   "rejection_reasons": [
+    "no_selected_observed_case_seed"
+   ]
+  },
+  "PRL": {
+   "symbol": "PRL",
+   "status": "no_observed_case",
+   "case_count": 0,
+   "cases": [],
+   "rejection_reasons": [
+    "no_selected_observed_case_seed"
+   ]
+  },
+  "BOP": {
+   "symbol": "BOP",
+   "status": "no_observed_case",
+   "case_count": 0,
+   "cases": [],
+   "rejection_reasons": [
+    "no_selected_observed_case_seed"
+   ]
+  },
+  "NBP": {
+   "symbol": "NBP",
+   "status": "no_observed_case",
+   "case_count": 0,
+   "cases": [],
+   "rejection_reasons": [
+    "no_selected_observed_case_seed"
+   ]
+  },
+  "MEBL": {
+   "symbol": "MEBL",
+   "status": "no_observed_case",
+   "case_count": 0,
+   "cases": [],
+   "rejection_reasons": [
+    "no_selected_observed_case_seed"
+   ]
+  },
+  "ATRL": {
+   "symbol": "ATRL",
+   "status": "no_observed_case",
+   "case_count": 0,
+   "cases": [],
+   "rejection_reasons": [
+    "no_selected_observed_case_seed"
+   ]
+  },
+  "HBL": {
+   "symbol": "HBL",
+   "status": "no_observed_case",
+   "case_count": 0,
+   "cases": [],
+   "rejection_reasons": [
+    "no_selected_observed_case_seed"
+   ]
+  },
+  "MARI": {
+   "symbol": "MARI",
+   "status": "observed_seed_available",
+   "case_count": 1,
+   "cases": [
+    {
+     "case_id": "case_mari_working_interest_observed_v1",
+     "symbol": "MARI",
+     "case_family": "e_and_p",
+     "case_type": "working_interest_acquisition",
+     "status": "Observed",
+     "epistemic_type": "reported_fact",
+     "as_of": "2025-09-30T10:46:00+05:00",
+     "summary": "Observed official-source seed: Mari Energies reported acquisition of working interest in Peshawar Block as an operator.",
+     "observed_facts": [
+      {
+       "fact_id": "mari_peshawar_working_interest_acquisition",
+       "source_event_id": "evt_eddfcc381018cb0dff43",
+       "document_id": "psx:260446",
+       "event_date": "2025-09-30T10:46:00+05:00",
+       "statement": "Mari Energies reported acquisition of working interest in Peshawar Block as an operator.",
+       "reported_values": [
+        {
+         "label": "block",
+         "value": "Peshawar Block"
+        },
+        {
+         "label": "operator_status",
+         "value": "as an Operator"
+        }
+       ],
+       "evidence": [
+        {
+         "event_id": "evt_eddfcc381018cb0dff43",
+         "document_id": "psx:260446",
+         "document_title": "Material Information",
+         "document_published_at": "2025-09-30T10:46:00+05:00",
+         "document_retrieved_at": "2026-08-25T17:13:00+05:00",
+         "content_sha256": "c13ccb4de58ad005bca106942721490593fe219ff45906c68280ea7856192e42",
+         "source": "PSX DPS",
+         "source_url": "https://dps.psx.com.pk/download/document/260446.pdf",
+         "page": 1,
+         "text": "and Clause 5.6.1 (a) of the PSX Regulations, we hereby convey the following information: Acquisition of Working Interest in Peshawar Block (as an Operator) from Hycarbex- American Energ~ We are pleased to inform you that Mari Energies Limi…",
+         "event_date": "2025-09-30T10:46:00+05:00"
+        }
+       ]
+      }
+     ],
+     "alternative_readings": [
+      {
+       "alternative_id": "working_interest_not_reserves",
+       "reading": "Working-interest acquisition does not establish reserves, a commercial discovery, or future production.",
+       "status": "retained_as_observed_only",
+       "rejection_condition": "Reject promotion if no official source identifies technical results, resource potential, or a development path."
+      },
+      {
+       "alternative_id": "operator_status_not_economics",
+       "reading": "The notice does not establish cost, timing, resource, production or project economics.",
+       "status": "retained_as_observed_only",
+       "rejection_condition": "Reject modelling if source-qualified project economics and qualified company financial inputs remain absent."
+      }
+     ],
+     "promotion_blocks": {
+      "Corroborated": "Blocked: retained evidence is a single official MARI/PSX source and no independent-originator corroboration is attached.",
+      "Modelled": "Blocked: no source-qualified financial model or owner-approved assumptions are attached.",
+      "Published": "Blocked: no forecast, valuation, reverse-expectations output, investor conclusion or release gate is complete."
+     },
+     "policy": {
+      "observed_only": true,
+      "no_forecast": true,
+      "no_valuation": true,
+      "no_market_expectations": true,
+      "no_recommendation": true,
+      "reported_values_only": true
+     },
+     "source_lineage": [
+      {
+       "event_id": "evt_eddfcc381018cb0dff43",
+       "document_id": "psx:260446",
+       "document_title": "Material Information",
+       "document_published_at": "2025-09-30T10:46:00+05:00",
+       "document_retrieved_at": "2026-08-25T17:13:00+05:00",
+       "content_sha256": "c13ccb4de58ad005bca106942721490593fe219ff45906c68280ea7856192e42",
+       "source": "PSX DPS",
+       "source_url": "https://dps.psx.com.pk/download/document/260446.pdf",
+       "page": 1,
+       "text": "and Clause 5.6.1 (a) of the PSX Regulations, we hereby convey the following information: Acquisition of Working Interest in Peshawar Block (as an Operator) from Hycarbex- American Energ~ We are pleased to inform you that Mari Energies Limi…",
+       "event_date": "2025-09-30T10:46:00+05:00"
+      }
+     ]
+    }
+   ],
+   "rejection_reasons": []
+  },
+  "ENGROH": {
+   "symbol": "ENGROH",
+   "status": "no_observed_case",
+   "case_count": 0,
+   "cases": [],
+   "rejection_reasons": [
+    "no_selected_observed_case_seed"
+   ]
+  },
+  "GAL": {
+   "symbol": "GAL",
+   "status": "no_observed_case",
+   "case_count": 0,
+   "cases": [],
+   "rejection_reasons": [
+    "no_selected_observed_case_seed"
+   ]
+  },
+  "NRL": {
+   "symbol": "NRL",
+   "status": "no_observed_case",
+   "case_count": 0,
+   "cases": [],
+   "rejection_reasons": [
+    "no_selected_observed_case_seed"
+   ]
+  },
+  "CNERGY": {
+   "symbol": "CNERGY",
+   "status": "no_observed_case",
+   "case_count": 0,
+   "cases": [],
+   "rejection_reasons": [
+    "no_selected_observed_case_seed"
+   ]
+  }
+ }
+}
