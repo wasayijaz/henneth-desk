@@ -7,7 +7,7 @@ sys_path=str(ROOT/'scripts')
 import sys; sys.path.insert(0,sys_path)
 from financial_statement_facts import extract_facts, parse_number, stable_id, PARSER_VERSION, PARSER_REVISION
 from forecast_contract import OWNER_ASSUMPTION_OUTPUT_STATUS, qualified_financial_fact_source
-from build_financial_series import _sanitize_row
+from build_financial_series import _assemble, _sanitize_row
 _raw_extract_facts = extract_facts
 def extract_facts(doc, pages, words=None, page_records=None):
  # Geometry fixtures model a primary statement explicitly, matching the
@@ -229,6 +229,16 @@ def main():
  assert parse_number('(2.5)') == -2.5; checks += 1
  repaired_eps=_sanitize_row({'ticker':'DGKC','metric':'basic_eps','line':'basic_eps','parser_version':PARSER_VERSION,'parser_revision':PARSER_REVISION,'readiness':'audit_only','period_end':'2023-06-30','duration_months':12,'period_type':'annual','consolidation':'consolidated','currency':'PKR','statement_type':'income_statement','unit':'PKR/share','unit_multiplier':1,'raw_value':'(8.06)','normalized_value':-8.06,'quality_flags':['unparseable_raw_value'],'document_id':'psx:fixture'})
  assert repaired_eps['normalized_value']==-8.06 and repaired_eps['unit_multiplier']==1 and 'unparseable_raw_value' not in repaired_eps.get('quality_flags',[]) and repaired_eps['readiness']=='model_loadable'; checks += 1
+ # A direct quarter and cumulative interim column share a period end but not a
+ # canonical financial slot. They must coexist without a false conflict.
+ quarter_rows=[]
+ for duration,value in ((3,40_000_000.0),(9,100_000_000.0)):
+  quarter_rows.append({'series_id':f'duration-{duration}','ticker':'MLCF','document_id':'psx:5','metric':'revenue','line':'revenue','parser_version':PARSER_VERSION,'parser_revision':PARSER_REVISION,'period_end':'2025-09-30','period_type':'interim','duration_months':duration,'column_role':'current_period','consolidation':'consolidated','currency':'PKR','statement_type':'income_statement','unit':'PKR','unit_multiplier':1_000_000,'raw_value':str(value/1_000_000),'normalized_value':value,'quality_flags':['conflict'],'source_url':'https://dps.psx.com.pk/download/document/5.pdf','evidence':[{'page':1,'text':'revenue','source_url':'https://dps.psx.com.pk/download/document/5.pdf'}]})
+ duration_series=_assemble({'MLCF':quarter_rows},source_documents=1,rejected=0)['tickers']['MLCF']
+ assert duration_series['conflicts']==[] and all(row['readiness']=='model_loadable' for row in duration_series['facts']); checks += 1
+ real_conflict_rows=[dict(quarter_rows[0]),dict(quarter_rows[0],series_id='same-slot-different-value',raw_value='41',normalized_value=41_000_000.0)]
+ real_conflict_series=_assemble({'MLCF':real_conflict_rows},source_documents=1,rejected=0)['tickers']['MLCF']
+ assert len(real_conflict_series['conflicts'])==1 and all('conflict' in row['quality_flags'] and row['readiness']=='audit_only' for row in real_conflict_series['facts']); checks += 1
  # Availability/no-lookahead and mixed-duration formula contracts.
  available='2024-01-02'; period='2023-12-31'; assert available > period; checks += 1
  assert ('2023-09-30','2023-12-31') != ('2023-12-31','2023-12-31'); checks += 1

@@ -1077,12 +1077,14 @@
    "title": "MLCF-Transmission of Quarterly Financial Statements for the Period Ended 31.12.2025",
    "doc_type": "results",
    "published_at": "2026-03-02T08:46:00+05:00",
-   "retrieved_at": "2026-08-22T16:48:11Z",
+   "retrieved_at": "2026-08-30T15:58:03Z",
+   "available_on": "2026-03-02",
    "source_url": "https://dps.psx.com.pk/download/document/271712.pdf",
    "source": "PSX DPS",
    "content_sha256": "f4f9d671658d9c402d650fd3e45bc098bd410084bba7d8fdcf7f8729cf9e5f69",
    "local_sha256": "f4f9d671658d9c402d650fd3e45bc098bd410084bba7d8fdcf7f8729cf9e5f69",
    "content_length": 2057010,
+   "page_count": 51,
    "media_type": "application/pdf",
    "status": "ready",
    "stale": false,
@@ -1184,164 +1186,388 @@
    ],
    "facts": [
     {
-     "fact_id": "fact_8de804bbbf2f1d2cee98",
-     "doc_id": "psx:271712",
-     "fact_type": "revenue",
-     "raw_value": "35,419 m",
-     "normalized_value": 35419000000,
-     "unit": "reported",
-     "currency": null,
-     "scale_multiplier": 1000000,
-     "tickers": [
-      "MLCF"
-     ],
+     "fact_id": "fact_11380f36619e310733b36608",
+     "parser_version": "financial_statement_v2",
+     "parser_revision": "block_geometry_v5",
+     "document_id": "psx:271712",
+     "source_url": "https://dps.psx.com.pk/download/document/271712.pdf",
+     "content_sha256": "f4f9d671658d9c402d650fd3e45bc098bd410084bba7d8fdcf7f8729cf9e5f69",
+     "page": 10,
      "evidence": [
       {
-       "source_url": "https://dps.psx.com.pk/download/document/271712.pdf",
-       "page": 4,
-       "text": "ended 31st December 2025. During the review period, the Company recorded net consolidated turnover of Rs. 35,419 million, compared to Rs. 34,748 million in the previous period. The Company’s top line increased by 1.93% as a result of 17.10…"
-      }
-     ]
-    },
-    {
-     "fact_id": "fact_91e1d11ac7c6bbd323f7",
-     "doc_id": "psx:271712",
-     "fact_type": "revenue",
-     "raw_value": "15",
-     "normalized_value": 15,
-     "unit": "reported",
-     "currency": null,
-     "scale_multiplier": 1,
-     "tickers": [
-      "MLCF"
-     ],
-     "evidence": [
-      {
-       "source_url": "https://dps.psx.com.pk/download/document/271712.pdf",
        "page": 10,
-       "text": "rom contracts with customers - net 14 35,418,855 34,747,988 18,935,494 19,028,150 Cost of sales 15 (24,404,100) (22,930,581) (12,902,559) (11,889,682) Gross profit 11,014,755 11,817,407 6,032,935 7,138,468 Selling and distribution expenses…"
+       "text": "Revenue from contracts",
+       "source_url": "https://dps.psx.com.pk/download/document/271712.pdf"
       }
-     ]
+     ],
+     "statement_type": "income_statement",
+     "statement_heading": {
+      "type": "income_statement",
+      "basis": null,
+      "bbox": [
+       73.0,
+       57.6,
+       328.7,
+       77.3
+      ]
+     },
+     "line": "revenue",
+     "fact_type": "revenue",
+     "reported_label": "Revenue",
+     "period_end": "2025-12-31",
+     "duration_months": 6,
+     "period_type": "interim",
+     "column_role": "current_period",
+     "comparative_to_period_end": null,
+     "consolidation": "unconsolidated",
+     "currency": "PKR",
+     "scale": 1000,
+     "unit": "PKR",
+     "unit_multiplier": 1000,
+     "value": 35418855000.0,
+     "normalized_value": 35418855000.0,
+     "raw_value": "35,418,855",
+     "quality_flags": [],
+     "readiness": "model_loadable",
+     "available_on": "2026-03-02",
+     "published_at": "2026-03-02T08:46:00+05:00",
+     "retrieved_at": "2026-08-30T15:58:03Z"
     },
     {
-     "fact_id": "fact_1c38563e404903942e1f",
-     "doc_id": "psx:271712",
-     "fact_type": "revenue",
-     "raw_value": "53,753,578",
-     "normalized_value": 53753578,
-     "unit": "reported",
-     "currency": null,
-     "scale_multiplier": 1,
-     "tickers": [
-      "MLCF"
-     ],
+     "fact_id": "fact_9f42e5674cd2dc5ec92e2190",
+     "parser_version": "financial_statement_v2",
+     "parser_revision": "block_geometry_v5",
+     "document_id": "psx:271712",
+     "source_url": "https://dps.psx.com.pk/download/document/271712.pdf",
+     "content_sha256": "f4f9d671658d9c402d650fd3e45bc098bd410084bba7d8fdcf7f8729cf9e5f69",
+     "page": 10,
      "evidence": [
       {
-       "source_url": "https://dps.psx.com.pk/download/document/271712.pdf",
-       "page": 22,
-       "text": "025 2024 14. REVENUE FROM CONTRACTS WITH (Rupees in thousand) CUSTOMERS - NET Gross local sales 53,753,578 49,062,361 Less: - Federal excise duty (8,518,922) (7,231,677) - Sales tax (9,244,173) (8,243,853) - Discounts and others (1,342,976…"
-      }
-     ]
-    },
-    {
-     "fact_id": "fact_3523e8a786c9bf8d2d80",
-     "doc_id": "psx:271712",
-     "fact_type": "revenue",
-     "raw_value": "34,457,678",
-     "normalized_value": 34457678,
-     "unit": "reported",
-     "currency": null,
-     "scale_multiplier": 1,
-     "tickers": [
-      "MLCF"
-     ],
-     "evidence": [
-      {
-       "source_url": "https://dps.psx.com.pk/download/document/271712.pdf",
-       "page": 22,
-       "text": "1,342,976) (553,376) - Commission (189,829) (132,154) (19,295,900) (16,161,060) Net local sales 34,457,678 32,901,301 Export sales 961,177 1,846,687 35,418,855 34,747,988 15. COST OF SALES Raw materials consumed 4,734,185 4,528,365 Packing…"
-      }
-     ]
-    },
-    {
-     "fact_id": "fact_4dd64c658c40f1b8719d",
-     "doc_id": "psx:271712",
-     "fact_type": "revenue",
-     "raw_value": "961,177",
-     "normalized_value": 961177,
-     "unit": "reported",
-     "currency": null,
-     "scale_multiplier": 1,
-     "tickers": [
-      "MLCF"
-     ],
-     "evidence": [
-      {
-       "source_url": "https://dps.psx.com.pk/download/document/271712.pdf",
-       "page": 22,
-       "text": "189,829) (132,154) (19,295,900) (16,161,060) Net local sales 34,457,678 32,901,301 Export sales 961,177 1,846,687 35,418,855 34,747,988 15. COST OF SALES Raw materials consumed 4,734,185 4,528,365 Packing materials consumed 1,782,690 1,680…"
-      }
-     ]
-    },
-    {
-     "fact_id": "fact_38a46605764ec6efc20e",
-     "doc_id": "psx:271712",
-     "fact_type": "revenue",
-     "raw_value": "24,404,100",
-     "normalized_value": 24404100,
-     "unit": "reported",
-     "currency": null,
-     "scale_multiplier": 1,
-     "tickers": [
-      "MLCF"
-     ],
-     "evidence": [
-      {
-       "source_url": "https://dps.psx.com.pk/download/document/271712.pdf",
-       "page": 22,
-       "text": "riod 784,126 508,686 At end of the period (884,846) (834,637) (100,720) (325,951) Cost of sales 24,404,100 22,930,581"
-      }
-     ]
-    },
-    {
-     "fact_id": "fact_9f5ac6147181c7346b97",
-     "doc_id": "psx:271712",
-     "fact_type": "revenue",
-     "raw_value": "35,419",
-     "normalized_value": 35419,
-     "unit": "reported",
-     "currency": null,
-     "scale_multiplier": 1,
-     "tickers": [
-      "MLCF"
-     ],
-     "evidence": [
-      {
-       "source_url": "https://dps.psx.com.pk/download/document/271712.pdf",
-       "page": 29,
-       "text": "as follows: Six month period ended December 31 December 31, 2025 2024 (Rupees in million) Sales 35,419 34,748 Gross Profit 12,157 12,540 Profit from operations 9,266 8,389 Financial charges 542 1,169 Profit after tax 5,846 5,078 (---------…"
-      }
-     ]
-    },
-    {
-     "fact_id": "fact_91e1d11ac7c6bbd323f7",
-     "doc_id": "psx:271712",
-     "fact_type": "revenue",
-     "raw_value": "15",
-     "normalized_value": 15,
-     "unit": "reported",
-     "currency": null,
-     "scale_multiplier": 1,
-     "tickers": [
-      "MLCF"
-     ],
-     "evidence": [
-      {
-       "source_url": "https://dps.psx.com.pk/download/document/271712.pdf",
        "page": 10,
-       "text": "rom contracts with customers - net 14 35,418,855 34,747,988 18,935,494 19,028,150 Cost of sales 15 (24,404,100) (22,930,581) (12,902,559) (11,889,682) Gross profit 11,014,755 11,817,407 6,032,935 7,138,468 Selling and distribution expenses…"
+       "text": "Revenue from contracts",
+       "source_url": "https://dps.psx.com.pk/download/document/271712.pdf"
       }
-     ]
+     ],
+     "statement_type": "income_statement",
+     "statement_heading": {
+      "type": "income_statement",
+      "basis": null,
+      "bbox": [
+       73.0,
+       57.6,
+       328.7,
+       77.3
+      ]
+     },
+     "line": "revenue",
+     "fact_type": "revenue",
+     "reported_label": "Revenue",
+     "period_end": "2024-12-31",
+     "duration_months": 6,
+     "period_type": "interim",
+     "column_role": "comparative_prior_period",
+     "comparative_to_period_end": "2025-12-31",
+     "consolidation": "unconsolidated",
+     "currency": "PKR",
+     "scale": 1000,
+     "unit": "PKR",
+     "unit_multiplier": 1000,
+     "value": 34747988000.0,
+     "normalized_value": 34747988000.0,
+     "raw_value": "34,747,988",
+     "quality_flags": [],
+     "readiness": "model_loadable",
+     "available_on": "2026-03-02",
+     "published_at": "2026-03-02T08:46:00+05:00",
+     "retrieved_at": "2026-08-30T15:58:03Z"
+    },
+    {
+     "fact_id": "fact_57c8279e7d1c7460d0b86e5f",
+     "parser_version": "financial_statement_v2",
+     "parser_revision": "block_geometry_v5",
+     "document_id": "psx:271712",
+     "source_url": "https://dps.psx.com.pk/download/document/271712.pdf",
+     "content_sha256": "f4f9d671658d9c402d650fd3e45bc098bd410084bba7d8fdcf7f8729cf9e5f69",
+     "page": 10,
+     "evidence": [
+      {
+       "page": 10,
+       "text": "Revenue from contracts",
+       "source_url": "https://dps.psx.com.pk/download/document/271712.pdf"
+      }
+     ],
+     "statement_type": "income_statement",
+     "statement_heading": {
+      "type": "income_statement",
+      "basis": null,
+      "bbox": [
+       73.0,
+       57.6,
+       328.7,
+       77.3
+      ]
+     },
+     "line": "revenue",
+     "fact_type": "revenue",
+     "reported_label": "Revenue",
+     "period_end": "2025-12-31",
+     "duration_months": 3,
+     "period_type": "interim",
+     "column_role": "current_period",
+     "comparative_to_period_end": null,
+     "consolidation": "unconsolidated",
+     "currency": "PKR",
+     "scale": 1000,
+     "unit": "PKR",
+     "unit_multiplier": 1000,
+     "value": 18935494000.0,
+     "normalized_value": 18935494000.0,
+     "raw_value": "18,935,494",
+     "quality_flags": [],
+     "readiness": "model_loadable",
+     "available_on": "2026-03-02",
+     "published_at": "2026-03-02T08:46:00+05:00",
+     "retrieved_at": "2026-08-30T15:58:03Z"
+    },
+    {
+     "fact_id": "fact_5ded3592edfd1cd96b681c36",
+     "parser_version": "financial_statement_v2",
+     "parser_revision": "block_geometry_v5",
+     "document_id": "psx:271712",
+     "source_url": "https://dps.psx.com.pk/download/document/271712.pdf",
+     "content_sha256": "f4f9d671658d9c402d650fd3e45bc098bd410084bba7d8fdcf7f8729cf9e5f69",
+     "page": 10,
+     "evidence": [
+      {
+       "page": 10,
+       "text": "Revenue from contracts",
+       "source_url": "https://dps.psx.com.pk/download/document/271712.pdf"
+      }
+     ],
+     "statement_type": "income_statement",
+     "statement_heading": {
+      "type": "income_statement",
+      "basis": null,
+      "bbox": [
+       73.0,
+       57.6,
+       328.7,
+       77.3
+      ]
+     },
+     "line": "revenue",
+     "fact_type": "revenue",
+     "reported_label": "Revenue",
+     "period_end": "2024-12-31",
+     "duration_months": 3,
+     "period_type": "interim",
+     "column_role": "comparative_prior_period",
+     "comparative_to_period_end": "2025-12-31",
+     "consolidation": "unconsolidated",
+     "currency": "PKR",
+     "scale": 1000,
+     "unit": "PKR",
+     "unit_multiplier": 1000,
+     "value": 19028150000.0,
+     "normalized_value": 19028150000.0,
+     "raw_value": "19,028,150",
+     "quality_flags": [],
+     "readiness": "model_loadable",
+     "available_on": "2026-03-02",
+     "published_at": "2026-03-02T08:46:00+05:00",
+     "retrieved_at": "2026-08-30T15:58:03Z"
+    },
+    {
+     "fact_id": "fact_e52c19679ff35746cd8ad3fc",
+     "parser_version": "financial_statement_v2",
+     "parser_revision": "block_geometry_v5",
+     "document_id": "psx:271712",
+     "source_url": "https://dps.psx.com.pk/download/document/271712.pdf",
+     "content_sha256": "f4f9d671658d9c402d650fd3e45bc098bd410084bba7d8fdcf7f8729cf9e5f69",
+     "page": 10,
+     "evidence": [
+      {
+       "page": 10,
+       "text": "Gross profit",
+       "source_url": "https://dps.psx.com.pk/download/document/271712.pdf"
+      }
+     ],
+     "statement_type": "income_statement",
+     "statement_heading": {
+      "type": "income_statement",
+      "basis": null,
+      "bbox": [
+       73.0,
+       57.6,
+       328.7,
+       77.3
+      ]
+     },
+     "line": "gross_profit",
+     "fact_type": "gross_profit",
+     "reported_label": "Gross profit",
+     "period_end": "2025-12-31",
+     "duration_months": 6,
+     "period_type": "interim",
+     "column_role": "current_period",
+     "comparative_to_period_end": null,
+     "consolidation": "unconsolidated",
+     "currency": "PKR",
+     "scale": 1000,
+     "unit": "PKR",
+     "unit_multiplier": 1000,
+     "value": 11014755000.0,
+     "normalized_value": 11014755000.0,
+     "raw_value": "11,014,755",
+     "quality_flags": [],
+     "readiness": "model_loadable",
+     "available_on": "2026-03-02",
+     "published_at": "2026-03-02T08:46:00+05:00",
+     "retrieved_at": "2026-08-30T15:58:03Z"
+    },
+    {
+     "fact_id": "fact_ea2510487a5553ae6769ee93",
+     "parser_version": "financial_statement_v2",
+     "parser_revision": "block_geometry_v5",
+     "document_id": "psx:271712",
+     "source_url": "https://dps.psx.com.pk/download/document/271712.pdf",
+     "content_sha256": "f4f9d671658d9c402d650fd3e45bc098bd410084bba7d8fdcf7f8729cf9e5f69",
+     "page": 10,
+     "evidence": [
+      {
+       "page": 10,
+       "text": "Gross profit",
+       "source_url": "https://dps.psx.com.pk/download/document/271712.pdf"
+      }
+     ],
+     "statement_type": "income_statement",
+     "statement_heading": {
+      "type": "income_statement",
+      "basis": null,
+      "bbox": [
+       73.0,
+       57.6,
+       328.7,
+       77.3
+      ]
+     },
+     "line": "gross_profit",
+     "fact_type": "gross_profit",
+     "reported_label": "Gross profit",
+     "period_end": "2024-12-31",
+     "duration_months": 6,
+     "period_type": "interim",
+     "column_role": "comparative_prior_period",
+     "comparative_to_period_end": "2025-12-31",
+     "consolidation": "unconsolidated",
+     "currency": "PKR",
+     "scale": 1000,
+     "unit": "PKR",
+     "unit_multiplier": 1000,
+     "value": 11817407000.0,
+     "normalized_value": 11817407000.0,
+     "raw_value": "11,817,407",
+     "quality_flags": [],
+     "readiness": "model_loadable",
+     "available_on": "2026-03-02",
+     "published_at": "2026-03-02T08:46:00+05:00",
+     "retrieved_at": "2026-08-30T15:58:03Z"
+    },
+    {
+     "fact_id": "fact_d0eb14e23ea169f6f5ef8c0d",
+     "parser_version": "financial_statement_v2",
+     "parser_revision": "block_geometry_v5",
+     "document_id": "psx:271712",
+     "source_url": "https://dps.psx.com.pk/download/document/271712.pdf",
+     "content_sha256": "f4f9d671658d9c402d650fd3e45bc098bd410084bba7d8fdcf7f8729cf9e5f69",
+     "page": 10,
+     "evidence": [
+      {
+       "page": 10,
+       "text": "Gross profit",
+       "source_url": "https://dps.psx.com.pk/download/document/271712.pdf"
+      }
+     ],
+     "statement_type": "income_statement",
+     "statement_heading": {
+      "type": "income_statement",
+      "basis": null,
+      "bbox": [
+       73.0,
+       57.6,
+       328.7,
+       77.3
+      ]
+     },
+     "line": "gross_profit",
+     "fact_type": "gross_profit",
+     "reported_label": "Gross profit",
+     "period_end": "2025-12-31",
+     "duration_months": 3,
+     "period_type": "interim",
+     "column_role": "current_period",
+     "comparative_to_period_end": null,
+     "consolidation": "unconsolidated",
+     "currency": "PKR",
+     "scale": 1000,
+     "unit": "PKR",
+     "unit_multiplier": 1000,
+     "value": 6032935000.0,
+     "normalized_value": 6032935000.0,
+     "raw_value": "6,032,935",
+     "quality_flags": [],
+     "readiness": "model_loadable",
+     "available_on": "2026-03-02",
+     "published_at": "2026-03-02T08:46:00+05:00",
+     "retrieved_at": "2026-08-30T15:58:03Z"
+    },
+    {
+     "fact_id": "fact_3f65c4a59c8b7a9dcfe50411",
+     "parser_version": "financial_statement_v2",
+     "parser_revision": "block_geometry_v5",
+     "document_id": "psx:271712",
+     "source_url": "https://dps.psx.com.pk/download/document/271712.pdf",
+     "content_sha256": "f4f9d671658d9c402d650fd3e45bc098bd410084bba7d8fdcf7f8729cf9e5f69",
+     "page": 10,
+     "evidence": [
+      {
+       "page": 10,
+       "text": "Gross profit",
+       "source_url": "https://dps.psx.com.pk/download/document/271712.pdf"
+      }
+     ],
+     "statement_type": "income_statement",
+     "statement_heading": {
+      "type": "income_statement",
+      "basis": null,
+      "bbox": [
+       73.0,
+       57.6,
+       328.7,
+       77.3
+      ]
+     },
+     "line": "gross_profit",
+     "fact_type": "gross_profit",
+     "reported_label": "Gross profit",
+     "period_end": "2024-12-31",
+     "duration_months": 3,
+     "period_type": "interim",
+     "column_role": "comparative_prior_period",
+     "comparative_to_period_end": "2025-12-31",
+     "consolidation": "unconsolidated",
+     "currency": "PKR",
+     "scale": 1000,
+     "unit": "PKR",
+     "unit_multiplier": 1000,
+     "value": 7138468000.0,
+     "normalized_value": 7138468000.0,
+     "raw_value": "7,138,468",
+     "quality_flags": [],
+     "readiness": "model_loadable",
+     "available_on": "2026-03-02",
+     "published_at": "2026-03-02T08:46:00+05:00",
+     "retrieved_at": "2026-08-30T15:58:03Z"
     }
    ],
    "versions": [],
@@ -28067,7 +28293,7 @@
   }
  },
  "_meta": {
-  "updated": "2026-08-29 17:17",
+  "updated": "2026-08-30 20:58",
   "processed": 1,
   "staged": 0,
   "failed": 0,

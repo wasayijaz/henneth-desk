@@ -474,7 +474,7 @@
       "fact_count": 57
      }
     ],
-    "model_loadable_count": 31,
+    "model_loadable_count": 65,
     "note": "Audit-only facts are retained as coverage signals only and are not promoted into required values."
    },
    "qualification_queue": {
@@ -2540,14 +2540,14 @@
       "profit_after_tax_attributable",
       "basic_eps"
      ],
-     "present_model_ready_metrics": [
+     "present_model_ready_metrics": [],
+     "missing_metrics": [
       "revenue",
       "profit_after_tax_attributable",
       "basic_eps"
      ],
-     "missing_metrics": [],
      "period_evidence_status": "explicit",
-     "status": "complete"
+     "status": "missing_required_metrics"
     },
     {
      "slot": "annual_period_3",
@@ -2580,12 +2580,8 @@
     ]
    },
    "audit_only_series": {
-    "audit_only_fact_count": 418,
+    "audit_only_fact_count": 420,
     "audit_only_metrics": [
-     {
-      "metric": "basic_eps",
-      "fact_count": 2
-     },
      {
       "metric": "change_pct",
       "fact_count": 84
@@ -2604,18 +2600,18 @@
      },
      {
       "metric": "profit_after_tax_attributable",
-      "fact_count": 6
+      "fact_count": 12
      },
      {
       "metric": "revenue",
-      "fact_count": 192
+      "fact_count": 190
      },
      {
       "metric": "tax_expense",
       "fact_count": 12
      }
     ],
-    "model_loadable_count": 42,
+    "model_loadable_count": 40,
     "note": "Audit-only facts are retained as coverage signals only and are not promoted into required values."
    },
    "qualification_queue": {
@@ -6587,7 +6583,7 @@
     ]
    },
    "audit_only_series": {
-    "audit_only_fact_count": 59,
+    "audit_only_fact_count": 57,
     "audit_only_metrics": [
      {
       "metric": "change_pct",
@@ -6600,13 +6596,9 @@
      {
       "metric": "revenue",
       "fact_count": 34
-     },
-     {
-      "metric": "tax_expense",
-      "fact_count": 2
      }
     ],
-    "model_loadable_count": 16,
+    "model_loadable_count": 18,
     "note": "Audit-only facts are retained as coverage signals only and are not promoted into required values."
    },
    "qualification_queue": {
@@ -6665,9 +6657,9 @@
  },
  "_meta": {
   "generator_version": "ci_artifact_integrity_v1",
-  "source_commit_sha": "2089318cbdd2c23cf692d3143ff9eb583c3903c4",
-  "build_cutoff_at": "2026-08-29T12:19:14Z",
-  "generated_at": "2026-08-29T12:19:14Z",
+  "source_commit_sha": "afeb4e5ac9b41d0e61b8654ac873d906b07eeac2",
+  "build_cutoff_at": "2026-08-30T16:13:07Z",
+  "generated_at": "2026-08-30T16:13:07Z",
   "artifact_path": "state/company_intel/financial_coverage.json",
   "timestamp_semantics": {
    "build_cutoff_at": "generation boundary only; not a source-effective or source-published time",

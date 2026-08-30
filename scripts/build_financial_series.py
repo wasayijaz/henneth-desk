@@ -76,6 +76,12 @@ def _repair_row(row: dict[str, Any]) -> dict[str, Any]:
 def _sanitize_row(row: dict[str, Any]) -> dict[str, Any]:
     """Repair impossible legacy scaling before quality-based deduplication."""
     clean = dict(row)
+    # `conflict` is derived by this builder. Recompute it from the current
+    # canonical slot identity rather than retaining a previous build result.
+    clean["quality_flags"] = [
+        flag for flag in (clean.get("quality_flags") or [])
+        if flag != "conflict"
+    ]
     manual_fact = clean.get("source_method") == MANUAL_SOURCE_METHOD
     # `operating_cash_flow` is a valid geometry-backed cash-flow fact.  Older
     # rows were tagged before the normalizer admitted cash-flow statements;
@@ -186,9 +192,19 @@ def _assemble(rows_by_ticker: dict[str, list[dict[str, Any]]], *, source_documen
             continue
         facts = list(unique.values())
         facts.sort(key=lambda row: (row.get("period_end") or "", row.get("metric") or "", row["series_id"]))
-        groups: dict[tuple[str, str, str], list[dict[str, Any]]] = {}
+        groups: dict[tuple[Any, ...], list[dict[str, Any]]] = {}
         for row in facts:
-            group_key = (str(row.get("metric")), str(row.get("period_end")), str(row.get("period_type")), str(row.get("consolidation")))
+            # A direct three-month result and the cumulative interim result
+            # for the same reporting date are different reported fact slots,
+            # not contradictory values. Keep this identity aligned with the
+            # downstream financial-evidence reconciliation slot contract.
+            group_key = (
+                str(row.get("metric")), str(row.get("period_end")),
+                str(row.get("period_type")), str(row.get("duration_months")),
+                str(row.get("column_role")), str(row.get("consolidation")),
+                str(row.get("currency")), str(row.get("statement_type")),
+                str(row.get("unit")), str(row.get("unit_multiplier")),
+            )
             groups.setdefault(group_key, []).append(row)
         conflicts = []
         for group_key, members in sorted(groups.items()):
@@ -203,16 +219,17 @@ def _assemble(rows_by_ticker: dict[str, list[dict[str, Any]]], *, source_documen
             values = {str((m.get("normalized_value"), m.get("raw_value"))) for m in comparable}
             # Unknown periods/bases are not comparable and must remain visible
             # without being labelled as a conflict.
-            if len(values) <= 1 or group_key[1] in {"None", "unknown"} or group_key[3] in {"None", "unknown"}:
+            if (len(values) <= 1 or group_key[1] in {"None", "unknown"}
+                    or group_key[5] in {"None", "unknown"}):
                 continue
-            conflict_id = "conf_" + hashlib.sha256("|".join(group_key).encode()).hexdigest()[:20]
+            conflict_id = "conf_" + hashlib.sha256("|".join(str(value) for value in group_key).encode()).hexdigest()[:20]
             for member in comparable:
                 member.setdefault("quality_flags", [])
                 member["quality_flags"] = sorted(set(member["quality_flags"] + ["conflict"]))
                 member["readiness"] = "audit_only"
             conflicts.append({"conflict_id": conflict_id, "metric": group_key[0],
                               "period_end": None if group_key[1] == "None" else group_key[1],
-                              "period_type": group_key[2], "consolidation": group_key[3],
+                              "period_type": group_key[2], "consolidation": group_key[5],
                               "series_ids": [m["series_id"] for m in members],
                               "reason": "multiple evidenced values share the same period and basis"})
         metrics: dict[str, list[str]] = {}

@@ -51,8 +51,10 @@
    },
    "qualified_reported_quarter_fact_sets": {
     "required": 8,
-    "present": 0,
-    "qualified_periods": []
+    "present": 1,
+    "qualified_periods": [
+     "2025-12-31"
+    ]
    },
    "documented_interim_metadata": {
     "present": 1,
@@ -92,7 +94,7 @@
     {
      "requirement": "qualified_reported_quarter_fact_sets",
      "required": 8,
-     "present": 0,
+     "present": 1,
      "status": "blocked"
     },
     {
@@ -1024,7 +1026,7 @@
     "valuation": "not_emitted",
     "market_expectations": "not_emitted"
    },
-   "candidate_rank": 8,
+   "candidate_rank": 7,
    "selection_status": "not_selected"
   },
   "LUCK": {
@@ -1033,11 +1035,8 @@
    "qualification_scope": "retained_reported_financial_truth",
    "annual_income_triplets": {
     "required": 5,
-    "present": 2,
-    "qualified_periods": [
-     "2025-06-30",
-     "2024-06-30"
-    ]
+    "present": 0,
+    "qualified_periods": []
    },
    "qualified_reported_quarter_fact_sets": {
     "required": 8,
@@ -1071,7 +1070,7 @@
     {
      "requirement": "qualified_annual_income_triplets",
      "required": 5,
-     "present": 2,
+     "present": 0,
      "status": "blocked"
     },
     {
@@ -1152,7 +1151,7 @@
     "valuation": "not_emitted",
     "market_expectations": "not_emitted"
    },
-   "candidate_rank": 3,
+   "candidate_rank": 11,
    "selection_status": "not_selected"
   },
   "HUBC": {
@@ -1301,7 +1300,7 @@
     "valuation": "not_emitted",
     "market_expectations": "not_emitted"
    },
-   "candidate_rank": 11,
+   "candidate_rank": 10,
    "selection_status": "not_selected"
   },
   "PRL": {
@@ -1589,7 +1588,7 @@
     "valuation": "not_emitted",
     "market_expectations": "not_emitted"
    },
-   "candidate_rank": 5,
+   "candidate_rank": 4,
    "selection_status": "not_selected"
   },
   "NBP": {
@@ -2027,7 +2026,7 @@
     "valuation": "not_emitted",
     "market_expectations": "not_emitted"
    },
-   "candidate_rank": 4,
+   "candidate_rank": 3,
    "selection_status": "not_selected"
   },
   "HBL": {
@@ -2177,7 +2176,7 @@
     "valuation": "not_emitted",
     "market_expectations": "not_emitted"
    },
-   "candidate_rank": 10,
+   "candidate_rank": 9,
    "selection_status": "not_selected"
   },
   "MARI": {
@@ -2471,7 +2470,7 @@
     "valuation": "not_emitted",
     "market_expectations": "not_emitted"
    },
-   "candidate_rank": 7,
+   "candidate_rank": 6,
    "selection_status": "not_selected"
   },
   "GAL": {
@@ -2620,7 +2619,7 @@
     "valuation": "not_emitted",
     "market_expectations": "not_emitted"
    },
-   "candidate_rank": 9,
+   "candidate_rank": 8,
    "selection_status": "not_selected"
   },
   "NRL": {
@@ -2889,7 +2888,7 @@
     "valuation": "not_emitted",
     "market_expectations": "not_emitted"
    },
-   "candidate_rank": 6,
+   "candidate_rank": 5,
    "selection_status": "not_selected"
   }
  },
@@ -2900,9 +2899,9 @@
  },
  "_meta": {
   "generator_version": "ci_artifact_integrity_v1",
-  "source_commit_sha": "e13ddd30676af157a64555ee141579344fe88fe1",
-  "build_cutoff_at": "2026-08-29T11:43:24Z",
-  "generated_at": "2026-08-29T11:43:24Z",
+  "source_commit_sha": "afeb4e5ac9b41d0e61b8654ac873d906b07eeac2",
+  "build_cutoff_at": "2026-08-30T16:13:07Z",
+  "generated_at": "2026-08-30T16:13:07Z",
   "artifact_path": "state/company_intel/financial_truth_qualification.json",
   "timestamp_semantics": {
    "build_cutoff_at": "generation boundary only; not a source-effective or source-published time",

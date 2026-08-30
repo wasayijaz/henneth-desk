@@ -29,8 +29,8 @@
   "overall_status": "blocked",
   "requirement_count": 69,
   "counts": {
-   "complete": 61,
-   "partial": 4,
+   "complete": 60,
+   "partial": 5,
    "blocked": 4,
    "not_started": 0,
    "unknown": 0
@@ -71,7 +71,6 @@
    "causal_foundation_policy",
    "causal_foundation_checker",
    "financial_model_input_state",
-   "financial_parser_contract",
    "financial_coverage_queue",
    "financial_evidence_reconciliation",
    "forecast_readiness_contract",
@@ -1031,7 +1030,7 @@
   {
    "id": "financial_parser_contract",
    "title": "Financial parser contract is fail-closed and fixture-backed",
-   "status": "complete",
+   "status": "partial",
    "evidence": [
     {
      "label": "financial model input checker",
@@ -1048,8 +1047,8 @@
     {
      "label": "current parser revision",
      "path": "scripts/check_financial_model_inputs.py",
-     "ok": true,
-     "detail": "all expected markers present"
+     "ok": false,
+     "detail": "missing markers: financial_statement_v2"
     }
    ],
    "blockers": [],
@@ -1101,7 +1100,7 @@
      "label": "conflict/missing-slot summary",
      "path": "state/company_intel/financial_evidence_reconciliation.json",
      "ok": true,
-     "detail": "{'company_count': 20, 'eligible_fact_count': 45, 'audit_only_fact_count': 1536, 'quarantined_fact_count': 82, 'missing_slot_count': 159, 'source_conflict_count': 0, 'withheld_future_source_fact_count': 0, 'forecast_ready_company_count': 2}"
+     "detail": "{'company_count': 20, 'eligible_fact_count': 42, 'audit_only_fact_count': 1536, 'quarantined_fact_count': 119, 'missing_slot_count': 160, 'source_conflict_count': 0, 'withheld_future_source_fact_count': 0, 'forecast_ready_company_count': 2}"
     },
     {
      "label": "reconciliation checker",
@@ -1898,9 +1897,9 @@
  ],
  "_meta": {
   "generator_version": "ci_artifact_integrity_v1",
-  "source_commit_sha": "2089318cbdd2c23cf692d3143ff9eb583c3903c4",
-  "build_cutoff_at": "2026-08-29T12:19:14Z",
-  "generated_at": "2026-08-29T12:19:14Z",
+  "source_commit_sha": "afeb4e5ac9b41d0e61b8654ac873d906b07eeac2",
+  "build_cutoff_at": "2026-08-30T16:13:07Z",
+  "generated_at": "2026-08-30T16:13:07Z",
   "artifact_path": "state/company_intel/completion_matrix.json",
   "timestamp_semantics": {
    "build_cutoff_at": "generation boundary only; not a source-effective or source-published time",

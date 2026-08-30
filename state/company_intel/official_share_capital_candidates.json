@@ -11,15 +11,50 @@
   "no_raw_pdf_or_full_page_text": true
  },
  "summary": {
-  "candidate_count": 0,
-  "candidate_company_count": 0
+  "candidate_count": 1,
+  "candidate_company_count": 1
  },
- "candidates": [],
+ "candidates": [
+  {
+   "symbol": "MLCF",
+   "metric": "shares_out",
+   "record_type": "official_share_count_capital_note_tie_out_candidate",
+   "approved": false,
+   "approval_scope": "verified_restage_required",
+   "value": 1047562608,
+   "unit": "shares",
+   "paid_up_capital_value": 10475626,
+   "paid_up_capital_unit": "PKR thousand",
+   "denomination_pkr_per_share": 10,
+   "period_end": "2025-12-31",
+   "available_on": null,
+   "published_at": "2026-03-02T08:46:00+05:00",
+   "source": {
+    "id": "psx:271712",
+    "label": "MLCF-Transmission of Quarterly Financial Statements for the Period Ended 31.12.2025",
+    "url": "https://dps.psx.com.pk/download/document/271712.pdf",
+    "content_sha256": "f4f9d671658d9c402d650fd3e45bc098bd410084bba7d8fdcf7f8729cf9e5f69",
+    "page": 31,
+    "text": "000,000) 9.75% redeemable preference shares of Rs 10 each 1,000,000 1,000,000 15,000,000 15,000,000 Issued, subscribed and paid-up share capital 1,047,562,608 (June 30, 2025: 1,047,562,608) Ordinary shares of Rs 10 each 10,475,626 10,475,626 Capital reserves 38,251,784 34,998,282 Revenue reserve: Un-appropriated profit"
+   },
+   "tie_out": {
+    "nominal_pkr": 10475626080,
+    "reported_paid_up_pkr": 10475626000,
+    "rounding_tolerance_pkr": 1000,
+    "status": "tied_out"
+   },
+   "readiness": "candidate_only",
+   "quality_flags": [
+    "requires_verified_restage_and_owner_approval"
+   ],
+   "fact_id": "share_candidate_cc391c1e21c868b37d798f41"
+  }
+ ],
  "_meta": {
   "generator_version": "ci_artifact_integrity_v1",
-  "source_commit_sha": "2089318cbdd2c23cf692d3143ff9eb583c3903c4",
-  "build_cutoff_at": "2026-08-29T12:19:14Z",
-  "generated_at": "2026-08-29T12:19:14Z",
+  "source_commit_sha": "afeb4e5ac9b41d0e61b8654ac873d906b07eeac2",
+  "build_cutoff_at": "2026-08-30T16:13:07Z",
+  "generated_at": "2026-08-30T16:13:07Z",
   "artifact_path": "state/company_intel/official_share_capital_candidates.json",
   "timestamp_semantics": {
    "build_cutoff_at": "generation boundary only; not a source-effective or source-published time",
