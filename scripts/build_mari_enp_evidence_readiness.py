@@ -66,14 +66,18 @@ def _event_evidence(operating_events: Mapping[str, Any]) -> list[dict[str, Any]]
         or operating_events.get(SYMBOL)
         or {}
     ).get("events") or []
-    selected = [
-        event
-        for event in events
-        if event.get("event_id") in {EVENT_ID, "evt_b25decfc180474cbe066"}
-    ]
+    # The readiness manifest is for the offshore target only.  Prior-event
+    # material (including the Peshawar acquisition) belongs to the analogue
+    # product and must never be promoted into this target event's evidence.
+    selected = [event for event in events if event.get("event_id") == EVENT_ID]
     rows: list[dict[str, Any]] = []
     for event in selected:
         for evidence in event.get("evidence") or []:
+            # Bind the retained excerpt to both canonical identities.  A
+            # malformed target event carrying another document is not target
+            # evidence and is therefore omitted rather than relabelled.
+            if evidence.get("document_id") != EVENT_DOCUMENT_ID:
+                continue
             rows.append(
                 {
                     "event_id": event.get("event_id"),
@@ -288,7 +292,6 @@ def _ep_operands(event_evidence: list[dict[str, Any]]) -> dict[str, Any]:
     ]
     observed_text_operands = {
         "block_identity": "offshore exploration blocks (event excerpt; block names not retained)",
-        "operator_status": "Peshawar Block as an Operator (event excerpt; no numeric working interest)",
     }
     items = []
     for operand in EP_OPERANDS:
@@ -378,14 +381,14 @@ def build_manifest(root: Path) -> dict[str, Any]:
         "next_evidence_action": {
             "priority": "highest_leverage",
             "status": "needs_owner_approval",
-            "action": "Parse PSX:265594 and PSX:260446 with page-level text and content hashes retained",
+            "action": "Parse PSX:265594 with page-level text and content hashes retained",
             "expected_unlocks": [
-                "offshore/Peshawar block identity",
-                "working interest and operator status",
+                "offshore block identity",
+                "working interest and operator status from the target document",
                 "consideration terms",
                 "exploration/development timing",
             ],
-            "why": "These two official event documents are the only retained event leads and currently contain only truncated qualitative excerpts.",
+            "why": "The target official event document currently contains only a truncated qualitative excerpt; operator status and working interest remain missing until the target document is parsed.",
         },
         "provenance_policy": {
             "official_event_evidence": "exact_hash_page_backed excerpts are recorded as observed facts only",

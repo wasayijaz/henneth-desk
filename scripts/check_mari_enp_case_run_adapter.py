@@ -97,11 +97,17 @@ def main() -> None:
     missing_rows = [row for row in real["input_lineage"] if row["label_type"] == "missing"]
     check("real source lineage retained",
           {row["source_ref"]["id"] for row in source_rows if row["source_ref"]}
-          == {"psx:260446", "psx:265594"})
+          == {"psx:265594"}
+          and all(row["source_ref"]["event_id"] == adapter.EVENT_ID for row in source_rows))
     check("real missing operand lineage",
           "working_interest_pct" in {row["field"] for row in missing_rows}
           and "consideration_pkr" in {row["field"] for row in missing_rows}
-          and all(row["value"] is None for row in missing_rows))
+          and "operator_status" in {row["field"] for row in missing_rows}
+          and all(row["value"] is None and row["source_ref"] is None for row in missing_rows))
+    check("real target operand lineage",
+          [row["field"] for row in real["input_lineage"]
+           if row["scope"] == "retained_ep_operand" and row["label_type"] == "source"] == ["block_identity"]
+          and next(row for row in real["input_lineage"] if row["field"] == "block_identity")["source_ref"]["id"] == "psx:265594")
     check("real policy gates",
           all(real["policy"].values())
           and real["formal_output_readiness"]["financial_truth_status"] == "not_qualified")
@@ -225,16 +231,63 @@ def main() -> None:
         check(f"contract rejects forged source {field}",
               contract.validate_envelope(forged) != [])
     swapped_operands = copy.deepcopy(real)
-    operand_rows = {
-        row["field"]: row for row in swapped_operands["input_lineage"]
-        if row["scope"] == "retained_ep_operand" and row["label_type"] == "source"
-    }
-    operand_rows["block_identity"]["source_ref"], operand_rows["operator_status"]["source_ref"] = (
-        operand_rows["operator_status"]["source_ref"], operand_rows["block_identity"]["source_ref"]
-    )
-    check("contract rejects cross-row retained operand source swap",
-          any("authoritative source for retained operand" in violation
-              for violation in contract.validate_envelope(swapped_operands)))
+    block_row = next(row for row in swapped_operands["input_lineage"] if row["field"] == "block_identity")
+    operator_row = next(row for row in swapped_operands["input_lineage"] if row["field"] == "operator_status")
+    operator_row["label_type"] = "source"
+    operator_row["value"] = "Peshawar Block as an Operator"
+    operator_row["source_ref"] = copy.deepcopy(block_row["source_ref"])
+    operator_row["available_on"] = block_row["available_on"]
+    check("contract rejects operator source promotion",
+          contract.validate_envelope(swapped_operands) != [])
+    peshawar_operator = copy.deepcopy(real)
+    peshawar_operator_row = next(row for row in peshawar_operator["input_lineage"] if row["field"] == "operator_status")
+    peshawar_operator_row.update({
+        "label_type": "source",
+        "value": "Peshawar Block as an Operator",
+        "available_on": "2025-11-13",
+        "source_ref": {
+            "id": "psx:260446",
+            "label": "prior PSX event evidence",
+            "url": "https://dps.psx.com.pk/download/document/260446.pdf",
+            "page": 1,
+            "content_sha256": "c13ccb4de58ad005bca106942721490593fe219ff45906c68280ea7856192e42",
+            "evidence_sha256": "dd83c62cb781e2a57f5ae595a7184ea786a3e5890f7f7cc96cd93e23f958a177",
+            "event_id": "evt_b25decfc180474cbe066",
+            "date": "2025-11-13",
+        },
+    })
+    check("contract rejects Peshawar operator injection",
+          contract.validate_envelope(peshawar_operator) != [])
+    peshawar_block = copy.deepcopy(real)
+    peshawar_block_row = next(row for row in peshawar_block["input_lineage"] if row["field"] == "block_identity")
+    peshawar_block_row["source_ref"]["id"] = "psx:260446"
+    check("contract rejects Peshawar target-operand injection",
+          contract.validate_envelope(peshawar_block) != [])
+    peshawar_any_operand = copy.deepcopy(real)
+    peshawar_any_row = next(row for row in peshawar_any_operand["input_lineage"] if row["field"] == "working_interest_pct")
+    peshawar_any_row.update({
+        "label_type": "source",
+        "value": 25.0,
+        "available_on": "2025-11-13",
+        "source_ref": {
+            "id": "psx:260446",
+            "label": "prior PSX event evidence",
+            "url": "https://dps.psx.com.pk/download/document/260446.pdf",
+            "page": 1,
+            "content_sha256": "c13ccb4de58ad005bca106942721490593fe219ff45906c68280ea7856192e42",
+            "evidence_sha256": "dd83c62cb781e2a57f5ae595a7184ea786a3e5890f7f7cc96cd93e23f958a177",
+            "event_id": "evt_b25decfc180474cbe066",
+            "date": "2025-11-13",
+        },
+    })
+    check("contract rejects Peshawar injection into any target operand",
+          contract.validate_envelope(peshawar_any_operand) != [])
+    cross_event = copy.deepcopy(real)
+    cross_block = next(row for row in cross_event["input_lineage"] if row["field"] == "block_identity")
+    cross_block["source_ref"]["event_id"] = "evt_b25decfc180474cbe066"
+    check("contract rejects cross-event source binding",
+          any("canonical MARI offshore target event" in violation
+              for violation in contract.validate_envelope(cross_event)))
     duplicate_lineage = copy.deepcopy(real)
     duplicate_lineage["input_lineage"].append(copy.deepcopy(duplicate_lineage["input_lineage"][0]))
     check("contract rejects duplicate lineage row",

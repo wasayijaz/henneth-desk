@@ -36,9 +36,9 @@ def main() -> None:
           and manifest["event"]["event_id"] == builder.EVENT_ID
           and manifest["event"]["document_id"] == "psx:265594")
     event_evidence = manifest["event"]["evidence"]
-    check("two event excerpts are exact hash/page backed",
-          len(event_evidence) == 2
-          and manifest["event"]["exact_hash_page_backed_evidence_count"] == 2
+    check("target event excerpt is exact hash/page backed",
+          len(event_evidence) == 1
+          and manifest["event"]["exact_hash_page_backed_evidence_count"] == 1
           and all(row["evidence_class"] == "exact_hash_page_backed"
                   and row["content_sha256"]
                   and row["page"] is not None
@@ -47,7 +47,8 @@ def main() -> None:
           manifest["event"]["status"] == "observed_only"
           and manifest["event"]["numeric_facts_retained"] is False)
     check("event source ids",
-          {row["document_id"] for row in event_evidence} == {"psx:260446", "psx:265594"})
+          {row["document_id"] for row in event_evidence} == {"psx:265594"}
+          and all(row["event_id"] == builder.EVENT_ID for row in event_evidence))
 
     annual = manifest["financial_history"]["annual"]
     check("five annual slots", len(annual["periods"]) == 5 and annual["required_count"] == 5)
@@ -109,14 +110,21 @@ def main() -> None:
     operands = manifest["ep_operands"]
     check("E&P operands blocked", operands["status"] == "blocked_missing_numeric_operands")
     operand_status = {item["operand"]: item["status"] for item in operands["items"]}
-    check("only qualitative operator/block leads observed",
+    operator = next(item for item in operands["items"] if item["operand"] == "operator_status")
+    check("only target qualitative block lead observed; operator remains missing",
           operand_status["block_identity"] == "observed_text_only"
-          and operand_status["operator_status"] == "observed_text_only"
+          and operand_status["operator_status"] == "unavailable"
+          and operator["value"] is None
+          and operator["evidence_refs"] == []
           and all(
               status == "unavailable"
               for operand, status in operand_status.items()
-              if operand not in {"block_identity", "operator_status"}
+              if operand not in {"block_identity"}
           ))
+    block = next(item for item in operands["items"] if item["operand"] == "block_identity")
+    check("block identity binds target document only",
+          {ref["document_id"] for ref in block["evidence_refs"]} == {"psx:265594"}
+          and all(ref["event_id"] == builder.EVENT_ID for ref in block["evidence_refs"]))
     check("no numeric E&P values retained",
           all(item["value"] is None or item["status"] == "observed_text_only"
               for item in operands["items"]))
@@ -132,7 +140,8 @@ def main() -> None:
           manifest["next_evidence_action"]["priority"] == "highest_leverage"
           and manifest["next_evidence_action"]["status"] == "needs_owner_approval"
           and "265594" in manifest["next_evidence_action"]["action"]
-          and "260446" in manifest["next_evidence_action"]["action"])
+          and "260446" not in manifest["next_evidence_action"]["action"]
+          and "operator status" in manifest["next_evidence_action"]["why"].lower())
 
     repeat = builder.build_manifest(root)
     check("deterministic rebuild",
