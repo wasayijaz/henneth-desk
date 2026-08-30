@@ -20,6 +20,7 @@ from build_event_to_value_product_readiness import (  # noqa: E402
     financial_impact_computed,
     project_readiness,
     _engine_live_count,
+    _integrity_status,
 )
 from ci_checker_helpers import without_root_meta  # noqa: E402
 from psx_data import ROOT, load_json  # noqa: E402
@@ -66,6 +67,16 @@ def _metric_map(result: dict) -> dict[str, dict]:
     return {row["id"]: row for row in result.get("metrics") or [] if isinstance(row, dict) and row.get("id")}
 
 
+def _case_fixture(selected_symbols: list[object]) -> dict[str, object]:
+    return {
+        "schema_version": 1,
+        "kind": "intelligence_cases",
+        "status": "available",
+        "selected_symbols": selected_symbols,
+        "companies": {"MLCF": {}, "MARI": {}, "PSO": {}},
+    }
+
+
 def main() -> None:
     if not OUT.exists():
         raise AssertionError("event_to_value_product_readiness.json is missing")
@@ -108,32 +119,41 @@ def main() -> None:
     if _dump(without_root_meta(state)) != _dump(without_root_meta(rebuilt)):
         raise AssertionError("product readiness rebuild is not deterministic")
 
-    missing = derive_selected_symbols({"selected_symbols": None, "companies": {}}, "available")
+    missing = derive_selected_symbols({**_case_fixture([]), "selected_symbols": None}, "available")
     if missing["reason"] != "selected_symbols_missing":
         raise AssertionError(f"missing selection reason drifted: {missing}")
-    duplicate = derive_selected_symbols({"selected_symbols": ["MLCF", "MARI", "MLCF"], "companies": {"MLCF": {}, "MARI": {}}}, "available")
+    duplicate = derive_selected_symbols(_case_fixture(["MLCF", "MARI", "MLCF"]), "available")
     if duplicate["reason"] != "selected_symbols_duplicate":
         raise AssertionError(f"duplicate selection reason drifted: {duplicate}")
-    non_string = derive_selected_symbols({"selected_symbols": ["MLCF", 7, "MARI"], "companies": {"MLCF": {}, "MARI": {}}}, "available")
+    non_string = derive_selected_symbols(_case_fixture(["MLCF", 7, "MARI"]), "available")
     if non_string["reason"] != "selected_symbols_invalid":
         raise AssertionError(f"non-string selection reason drifted: {non_string}")
-    unknown_symbol = derive_selected_symbols({"selected_symbols": ["MLCF", "MARI", "FAKE"], "companies": {"MLCF": {}, "MARI": {}}}, "available")
+    unknown_symbol = derive_selected_symbols(_case_fixture(["MLCF", "MARI", "FAKE"]), "available")
     if unknown_symbol["reason"] != "selected_symbol_unknown:FAKE":
         raise AssertionError(f"unknown selection reason drifted: {unknown_symbol}")
-    garbage_source = derive_selected_symbols({"status": "garbage", "selected_symbols": ["MLCF", "MARI", "PSO"], "companies": {"MLCF": {}, "MARI": {}, "PSO": {}}}, "available")
+    missing_source_status = derive_selected_symbols({"schema_version": 1, "kind": "intelligence_cases", "selected_symbols": ["MLCF", "MARI", "PSO"], "companies": {"MLCF": {}, "MARI": {}, "PSO": {}}}, "available")
+    if missing_source_status["reason"] != "intelligence_cases_status_missing":
+        raise AssertionError(f"missing source status was accepted: {missing_source_status}")
+    garbage_source = derive_selected_symbols({"schema_version": 1, "kind": "intelligence_cases", "status": "garbage", "selected_symbols": ["MLCF", "MARI", "PSO"], "companies": {"MLCF": {}, "MARI": {}, "PSO": {}}}, "available")
     if not str(garbage_source["reason"]).startswith("intelligence_cases_status_invalid"):
         raise AssertionError(f"garbage source status was accepted: {garbage_source}")
-    not_three = derive_selected_symbols({"selected_symbols": ["MARI", "MLCF"], "companies": {"MARI": {}, "MLCF": {}}}, "available")
+    wrong_kind_source = derive_selected_symbols({"schema_version": 1, "kind": "financial_forecasts", "status": "available", "selected_symbols": ["MLCF", "MARI", "PSO"], "companies": {"MLCF": {}, "MARI": {}, "PSO": {}}}, "available")
+    if not str(wrong_kind_source["reason"]).startswith("intelligence_cases_kind_invalid"):
+        raise AssertionError(f"wrong source kind was accepted: {wrong_kind_source}")
+    not_three = derive_selected_symbols(_case_fixture(["MARI", "MLCF"]), "available")
     if not str(not_three["reason"] or "").startswith("selected_symbols_not_exactly_three"):
         raise AssertionError(f"not-three selection reason drifted: {not_three}")
 
     artifacts = _base_artifacts()
     cases = copy.deepcopy(artifacts["intelligence_cases"][0])
+    cases["kind"] = "intelligence_cases"
+    cases["status"] = "available"
     cases["selected_symbols"] = ["MARI", "MLCF", "PSO"]
     companies = cases.setdefault("companies", {})
     for symbol in ("MARI", "MLCF", "PSO"):
         companies.setdefault(symbol, {"symbol": symbol, "cases": []})
     forecasts = copy.deepcopy(artifacts["financial_forecasts"][0])
+    forecasts["status"] = "available"
     forecasts.setdefault("companies", {})["DGKC"] = {
         "symbol": "DGKC",
         "status": "computed",
@@ -153,25 +173,47 @@ def main() -> None:
     if injected_metrics["live_forecast_outputs"].get("value") != 0:
         raise AssertionError("unselected computed forecast changed live_forecast_outputs")
     bad_engine = {
+        "schema_version": 1,
+        "kind": "financial_forecasts",
         "status": "available",
         "companies": {
-            "MARI": {"symbol": "MARI", "status": "computed", "result": {"eps": "1.2"}, "provenance": [{"run_id": "x"}]},
-            "MLCF": {"symbol": "MLCF", "status": "computed", "result": {"eps": float("nan")}, "provenance": [{"run_id": "x"}]},
-            "PSO": {"symbol": "PSO", "status": "computed", "result": {"eps": 1.2}, "provenance": [{"source": "inferred"}]},
-            "DGKC": {"symbol": "DGKC", "status": "computed", "result": {"eps": 1.2}, "provenance": [{"run_id": "x"}]},
+            "MARI": {"symbol": "MARI", "status": "computed", "result": {"forecast_basic_eps": "1.2"}, "provenance": [{"run_id": "x"}]},
+            "MLCF": {"symbol": "MLCF", "status": "computed", "result": {"forecast_basic_eps": float("nan")}, "provenance": [{"run_id": "x"}]},
+            "PSO": {"symbol": "PSO", "status": "computed", "result": {"forecast_basic_eps": 1.2}, "provenance": [{"source": "inferred"}]},
+            "DGKC": {"symbol": "DGKC", "status": "computed", "result": {"forecast_basic_eps": 1.2}, "provenance": [{"run_id": "x"}]},
         },
     }
-    bad_count, bad_status, bad_reason, bad_notes = _engine_live_count(bad_engine, "available", ["MARI", "MLCF", "PSO"])
+    bad_count, bad_status, bad_reason, bad_notes = _engine_live_count(bad_engine, "available", ["MARI", "MLCF", "PSO"], "financial_forecasts")
     if bad_count != 0 or bad_status != "blocked" or bad_notes:
         raise AssertionError(f"invalid engine rows counted: {bad_count}, {bad_status}, {bad_reason}, {bad_notes}")
+    junk_engine = copy.deepcopy(bad_engine)
+    junk_engine["companies"]["MARI"] = {
+        "symbol": "MARI",
+        "status": "computed",
+        "result": {"junk": 1},
+        "provenance": [{"source_path": "state/company_intel/financial_forecasts.json", "run_id": "test-run"}],
+    }
+    junk_count, junk_status, _, junk_notes = _engine_live_count(junk_engine, "available", ["MARI"], "financial_forecasts")
+    if junk_count != 0 or junk_status != "blocked" or junk_notes:
+        raise AssertionError("junk formal output key must not count as a live engine output")
+    weak_lineage_engine = copy.deepcopy(bad_engine)
+    weak_lineage_engine["companies"]["MARI"] = {
+        "symbol": "MARI",
+        "status": "computed",
+        "result": {"forecast_basic_eps": 1.2},
+        "provenance": [{"run_id": "test-run"}],
+    }
+    weak_count, weak_status, _, weak_notes = _engine_live_count(weak_lineage_engine, "available", ["MARI"], "financial_forecasts")
+    if weak_count != 0 or weak_status != "blocked" or weak_notes:
+        raise AssertionError("run-only engine lineage must not count as a live output")
     good_engine = copy.deepcopy(bad_engine)
     good_engine["companies"]["MARI"] = {
         "symbol": "MARI",
         "status": "computed",
-        "result": {"eps": 1.2},
+        "result": {"forecast_basic_eps": 1.2},
         "provenance": [{"source_path": "state/company_intel/financial_forecasts.json", "run_id": "test-run"}],
     }
-    good_count, good_status, _, good_notes = _engine_live_count(good_engine, "available", ["MARI", "MLCF", "PSO"])
+    good_count, good_status, _, good_notes = _engine_live_count(good_engine, "available", ["MARI", "MLCF", "PSO"], "financial_forecasts")
     if good_count != 1 or good_status != "available" or good_notes != ["MARI"]:
         raise AssertionError(f"valid source-bound engine row was not counted: {good_count}, {good_status}, {good_notes}")
 
@@ -190,6 +232,13 @@ def main() -> None:
     }
     if financial_impact_computed(inferred):
         raise AssertionError("inferred-only computed impact must remain uncounted")
+    source_only = {
+        "impact_status": "computed",
+        "revenue_impact": 1.5,
+        "lineage": {"source_path": "state/company_intel/impact_scenarios.json"},
+    }
+    if financial_impact_computed(source_only):
+        raise AssertionError("source-only computed impact must remain uncounted")
     string_number = {
         "impact_status": "computed",
         "revenue_impact": "1.5",
@@ -214,6 +263,17 @@ def main() -> None:
 
     if not any(rel(path) == READINESS_REL for path in artifact_paths()):
         raise AssertionError("readiness artifact is not in the normal integrity path")
+    import build_event_to_value_product_readiness as readiness_module
+    original_artifact_paths = readiness_module.artifact_paths
+    try:
+        def raise_oserror():
+            raise OSError("simulated missing slice")
+        readiness_module.artifact_paths = raise_oserror
+        _, os_status, os_reason, _, _ = _integrity_status({"artifacts": []})
+    finally:
+        readiness_module.artifact_paths = original_artifact_paths
+    if os_status != "blocked" or os_reason != "artifact_integrity_expected_paths_unavailable:OSError":
+        raise AssertionError(f"artifact path OSError did not fail closed: {os_status}, {os_reason}")
 
     result = subprocess.run([sys.executable, str(ROOT / "scripts" / "build_ci_slice.py")], capture_output=True, text=True, timeout=60)
     if result.returncode != 0:
@@ -235,6 +295,36 @@ def main() -> None:
     projected_garbage = project_readiness(garbage_status)
     if projected_garbage.get("status") != "blocked" or "status_invalid" not in str(projected_garbage.get("reason")):
         raise AssertionError("garbage readiness status must fail closed")
+    wrong_count = copy.deepcopy(state)
+    wrong_count["status"] = "available"
+    wrong_count.setdefault("summary", {})["available_metric_count"] = "0"
+    projected_wrong_count = project_readiness(wrong_count)
+    if projected_wrong_count.get("status") != "blocked" or "available_metric_count" not in str(projected_wrong_count.get("reason")):
+        raise AssertionError("string summary available count must fail closed")
+    missing_count = copy.deepcopy(state)
+    missing_count["status"] = "available"
+    missing_count.setdefault("summary", {}).pop("available_metric_count", None)
+    projected_missing_count = project_readiness(missing_count)
+    if projected_missing_count.get("status") != "blocked" or "available_metric_count" not in str(projected_missing_count.get("reason")):
+        raise AssertionError("missing summary available count must fail closed")
+    all_blocked_available = copy.deepcopy(state)
+    all_blocked_available["status"] = "available"
+    all_blocked_available["reason"] = None
+    for row in all_blocked_available.get("metrics") or []:
+        row["status"] = "blocked"
+        row["reason"] = row.get("reason") or "adversarial_all_blocked"
+        row.setdefault("lineage", {})["status"] = "blocked"
+        row["lineage"]["reason"] = row["reason"]
+    all_blocked_available.setdefault("summary", {})["available_metric_count"] = 0
+    all_blocked_available["summary"]["blocked_metric_count"] = 12
+    all_blocked_available["summary"]["blocked_metric_ids"] = [row["id"] for row in all_blocked_available.get("metrics") or []]
+    all_blocked_available["summary"]["selected_symbols_status"] = "available"
+    all_blocked_available["summary"]["selected_symbols"] = ["MARI", "MLCF", "PSO"]
+    all_blocked_available.setdefault("lineage", {})["selected_symbols_status"] = "available"
+    all_blocked_available["lineage"]["selected_symbols"] = ["MARI", "MLCF", "PSO"]
+    projected_all_blocked_available = project_readiness(all_blocked_available)
+    if projected_all_blocked_available.get("status") != "blocked" or projected_all_blocked_available.get("reason") != "event_to_value_product_readiness_all_metrics_blocked":
+        raise AssertionError("all-blocked metrics must override top-level available")
     duplicate_projection = copy.deepcopy(state)
     duplicate_projection.setdefault("lineage", {})["selected_symbols_status"] = "available"
     duplicate_projection["lineage"]["selected_symbols"] = ["MARI", "MARI", "MLCF"]
@@ -252,6 +342,36 @@ def main() -> None:
     projected_stale = project_readiness(stale_projection)
     if projected_stale.get("status") != "blocked" or not projected_stale.get("reason"):
         raise AssertionError("stale or unsealed projected readiness must fail closed")
+    future_metric = copy.deepcopy(state)
+    future_metric.setdefault("metrics", [])[0]["as_of"] = "2099-01-01T00:00:00Z"
+    projected_future_metric = project_readiness(future_metric)
+    if projected_future_metric.get("status") != "blocked" or "as_of_after_build_cutoff" not in str(projected_future_metric.get("reason")):
+        raise AssertionError("metric as_of after build cutoff must fail closed")
+    bad_metric_lineage = copy.deepcopy(state)
+    bad_metric_lineage.setdefault("metrics", [])[0]["lineage"] = "not-a-lineage-object"
+    projected_bad_metric_lineage = project_readiness(bad_metric_lineage)
+    if projected_bad_metric_lineage.get("status") != "blocked" or "metric_lineage" not in str(projected_bad_metric_lineage.get("reason")):
+        raise AssertionError("metric lineage shape must fail closed")
+    bad_source_maps = copy.deepcopy(state)
+    bad_source_maps["status"] = "available"
+    bad_source_maps["reason"] = None
+    bad_source_maps.setdefault("summary", {})["available_metric_count"] = 1
+    bad_source_maps["summary"]["blocked_metric_count"] = 11
+    bad_source_maps["summary"]["blocked_metric_ids"] = [row["id"] for row in bad_source_maps.get("metrics") or []][1:]
+    bad_source_maps["summary"]["selected_symbols_status"] = "available"
+    bad_source_maps["summary"]["selected_symbols"] = ["MARI", "MLCF", "PSO"]
+    bad_source_maps.setdefault("lineage", {})["selected_symbols_status"] = "available"
+    bad_source_maps["lineage"]["selected_symbols"] = ["MARI", "MLCF", "PSO"]
+    first_metric = (bad_source_maps.get("metrics") or [])[0]
+    first_metric["status"] = "available"
+    first_metric["value"] = 1
+    first_metric["reason"] = None
+    first_metric.setdefault("lineage", {})["status"] = "available"
+    first_metric["lineage"]["reason"] = None
+    bad_source_maps.setdefault("lineage", {}).pop("source_status", None)
+    projected_bad_source_maps = project_readiness(bad_source_maps)
+    if projected_bad_source_maps.get("status") != "blocked" or "source_status" not in str(projected_bad_source_maps.get("reason")):
+        raise AssertionError("missing source_status lineage must fail closed")
     print("event_to_value_product_readiness: PASS (selected-three, computed-status, integrity path, fail-closed projection)")
 
 

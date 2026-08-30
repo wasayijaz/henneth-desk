@@ -5,6 +5,7 @@ compute forecasts/valuations, or invent a passing production gate.
 """
 from __future__ import annotations
 
+from datetime import datetime, timedelta, timezone
 from math import isfinite
 from typing import Any
 
@@ -15,6 +16,20 @@ OUT = STATE / "company_intel" / "event_to_value_product_readiness.json"
 PRODUCT_VERSION = "event_to_value_product_readiness_v1"
 REQUIRED_GOLDEN_COUNT = 3
 READINESS_REL = "state/company_intel/event_to_value_product_readiness.json"
+REQUIRED_METRIC_IDS = (
+    "model_ready_companies",
+    "published_cases",
+    "financially_computed_scenarios",
+    "live_forecast_outputs",
+    "live_valuation_outputs",
+    "live_market_expectation_outputs",
+    "ask_henneth_test_status",
+    "active_thesis_monitoring_cases",
+    "required_output_nulls",
+    "provenance_coverage",
+    "no_lookahead_status",
+    "production_gate_status",
+)
 ALPHA_DENOMINATORS = {
     "model_ready_companies": 3,
     "published_cases": 3,
@@ -35,59 +50,83 @@ SOURCE_PATHS = {
     "artifact_integrity": "state/company_intel/artifact_integrity.json",
     "release_integrity_receipt": "state/company_intel/release_integrity_receipt.json",
 }
+SOURCE_SCHEMA_VERSIONS = {
+    "intelligence_cases": 1,
+    "financial_truth_qualification": "financial_truth_qualification_v1",
+    "forecast_readiness": 1,
+    "impact_scenarios": 1,
+    "financial_forecasts": 1,
+    "formal_valuations": 1,
+    "market_expectations": 1,
+    "thesis_monitoring": 1,
+    "artifact_integrity": 1,
+    "release_integrity_receipt": 1,
+}
+SOURCE_KINDS = {
+    "intelligence_cases": "intelligence_cases",
+    "financial_truth_qualification": "financial_truth_qualification",
+    "forecast_readiness": "forecast_readiness",
+    "impact_scenarios": "impact_scenarios",
+    "financial_forecasts": "financial_forecasts",
+    "formal_valuations": "formal_valuations",
+    "market_expectations": "market_expectations",
+    "thesis_monitoring": "thesis_monitoring",
+    "artifact_integrity": "ci_artifact_integrity_manifest",
+    "release_integrity_receipt": "ci_release_integrity_receipt",
+}
 COMPUTED_SCENARIO_STATUSES = {"computed", "modelled", "modeled"}
 COMPUTED_ENGINE_STATUSES = {"computed"}
 PROJECTED_STATUSES = {"available", "blocked", "unknown", "not_generated"}
-SOURCE_TOP_LEVEL_STATUSES = {
+SOURCE_AVAILABLE_STATUSES = {
     "available",
-    "blocked",
     "degraded",
     "healthy",
     "ok",
     "partial",
-    "unknown",
-    "not_generated",
 }
-FORMAL_OUTPUT_KEYS = (
-    "forecast",
-    "valuation",
-    "market_expectation",
-    "market_expectations",
-    "revenue",
-    "revenue_cagr",
-    "revenue_growth",
-    "ebitda",
-    "eps",
-    "pat",
-    "fcf",
-    "fair_value",
-    "fair_value_per_share",
-    "target_price",
-    "implied_price",
-    "implied_pe",
-    "current_price",
-    "upside_pct",
-    "downside_pct",
-    "gap_pct",
-)
-RUN_LINEAGE_KEYS = {
-    "run_id",
-    "run_at",
-    "generated_at",
-    "build_cutoff_at",
-    "source_commit_sha",
+ENGINE_OUTPUT_KEYS = {
+    "financial_forecasts": {
+        "forecast_revenue",
+        "forecast_profit_after_tax_attributable",
+        "forecast_basic_eps",
+    },
+    "formal_valuations": {
+        "formula_value_per_share",
+        "formula_equity_value",
+        "formula_enterprise_value",
+        "net_debt",
+    },
+    "market_expectations": {
+        "required_revenue",
+        "required_profit_after_tax_attributable",
+        "required_basic_eps",
+        "required_revenue_growth_pct",
+        "assumed_revenue_growth_pct",
+        "expectations_gap_pct",
+    },
+}
+IMPACT_OUTPUT_KEYS = ("revenue_impact", "ebitda_impact", "eps_impact", "fcf_impact", "valuation_impact")
+SOURCE_BOUND_LINEAGE_KEYS = {
     "source_path",
     "artifact_path",
-    "formula_id",
-    "formula_version",
-    "receipt_id",
-    "provenance_id",
     "source_id",
     "source_url",
     "document_id",
     "fact_id",
     "content_sha256",
 }
+RUN_RECEIPT_LINEAGE_KEYS = {
+    "run_id",
+    "run_at",
+    "generated_at",
+    "build_cutoff_at",
+    "source_commit_sha",
+    "formula_id",
+    "formula_version",
+    "receipt_id",
+    "provenance_id",
+}
+COUNT_VALUE_METRIC_IDS = set(ALPHA_DENOMINATORS) | {"active_thesis_monitoring_cases", "required_output_nulls"}
 BLOCKED_SCENARIO_MARKERS = {
     "unmodeled_driver",
     "unmodelled_driver",
@@ -128,12 +167,50 @@ def _status_text(value: Any) -> str:
 def _top_level_status(payload: dict[str, Any] | None) -> str:
     if not isinstance(payload, dict):
         return "not_generated"
-    return _status_text(payload.get("status") or payload.get("schema_status") or "available")
+    return _status_text(payload.get("status"))
 
 
-def _source_status_ok(payload: dict[str, Any] | None) -> bool:
+def _source_contract_reason(name: str, payload: dict[str, Any] | None) -> str | None:
+    if not isinstance(payload, dict):
+        return f"{name}_not_generated"
+    if payload.get("schema_version") != SOURCE_SCHEMA_VERSIONS.get(name):
+        return f"{name}_schema_version_invalid"
+    if not isinstance(payload.get("kind"), str) or not payload.get("kind"):
+        return f"{name}_kind_missing"
+    if payload.get("kind") != SOURCE_KINDS.get(name):
+        return f"{name}_kind_invalid:{payload.get('kind')}"
+    if "status" not in payload:
+        return f"{name}_status_missing"
+    if not isinstance(payload.get("status"), str) or not payload.get("status").strip():
+        return f"{name}_status_invalid:{payload.get('status')!r}"
     status = _top_level_status(payload)
-    return status in SOURCE_TOP_LEVEL_STATUSES and status not in {"blocked", "not_generated", "unknown"}
+    if status not in SOURCE_AVAILABLE_STATUSES:
+        return f"{name}_status_invalid:{status or 'missing'}"
+    return None
+
+
+def _parse_time(value: Any) -> datetime | None:
+    if not isinstance(value, str) or not value.strip():
+        return None
+    text = value.strip()
+    try:
+        if text.endswith("Z"):
+            parsed = datetime.fromisoformat(text.replace("Z", "+00:00"))
+        elif "T" in text or " " in text:
+            parsed = datetime.fromisoformat(text.replace(" ", "T"))
+        else:
+            parsed = datetime.fromisoformat(text[:10])
+    except ValueError:
+        return None
+    if parsed.tzinfo is None:
+        parsed = parsed.replace(tzinfo=timezone(timedelta(hours=5)))
+    return parsed.astimezone(timezone.utc)
+
+
+def _after_cutoff(value: Any, cutoff: Any) -> bool:
+    parsed_value = _parse_time(value)
+    parsed_cutoff = _parse_time(cutoff)
+    return bool(parsed_value and parsed_cutoff and parsed_value > parsed_cutoff)
 
 
 def _metric(
@@ -161,6 +238,12 @@ def _metric(
         "as_of": as_of,
         "reason": reason,
         "notes": notes or [],
+        "lineage": {
+            "source_path": source_path,
+            "as_of": as_of,
+            "status": status,
+            "reason": reason,
+        },
     }
 
 
@@ -169,8 +252,9 @@ def derive_selected_symbols(cases: dict[str, Any] | None, cases_status: str) -> 
     if cases_status != "available" or cases is None:
         reason = "intelligence_cases_not_generated" if cases_status == "not_generated" else "intelligence_cases_blocked"
         return {"status": "not_generated" if cases_status == "not_generated" else "blocked", "symbols": [], "source_path": source_path, "reason": reason}
-    if not _source_status_ok(cases):
-        return {"status": "blocked", "symbols": [], "source_path": source_path, "reason": f"intelligence_cases_status_invalid:{_top_level_status(cases)}"}
+    source_reason = _source_contract_reason("intelligence_cases", cases)
+    if source_reason:
+        return {"status": "blocked", "symbols": [], "source_path": source_path, "reason": source_reason}
     raw = cases.get("selected_symbols")
     if not isinstance(raw, list):
         return {"status": "blocked", "symbols": [], "source_path": source_path, "reason": "selected_symbols_missing"}
@@ -211,32 +295,52 @@ def _finite_number(value: Any) -> bool:
     return isfinite(number)
 
 
-def _has_source_bound_lineage(value: Any) -> bool:
+def _lineage_flags(value: Any) -> tuple[bool, bool]:
     if value in (None, "", [], {}):
-        return False
+        return False, False
     if isinstance(value, str):
-        return False
+        return False, False
     if isinstance(value, list):
-        return any(_has_source_bound_lineage(item) for item in value)
+        source_bound = False
+        run_bound = False
+        for item in value:
+            item_source_bound, item_run_bound = _lineage_flags(item)
+            source_bound = source_bound or item_source_bound
+            run_bound = run_bound or item_run_bound
+        return source_bound, run_bound
     if not isinstance(value, dict):
-        return False
+        return False, False
     source = _status_text(value.get("source"))
     if source in {"inferred", "unknown", "model_guess", "estimated"}:
-        return False
-    if any(value.get(key) for key in RUN_LINEAGE_KEYS):
-        return True
-    return any(_has_source_bound_lineage(value.get(key)) for key in ("run", "receipt", "provenance", "lineage", "sources", "source_facts"))
+        return False, False
+    source_bound = any(value.get(key) for key in SOURCE_BOUND_LINEAGE_KEYS)
+    run_bound = any(value.get(key) for key in RUN_RECEIPT_LINEAGE_KEYS)
+    for key in ("run", "receipt", "provenance", "lineage", "sources", "source_facts"):
+        nested_source_bound, nested_run_bound = _lineage_flags(value.get(key))
+        source_bound = source_bound or nested_source_bound
+        run_bound = run_bound or nested_run_bound
+    return source_bound, run_bound
 
 
-def _has_any_finite_output(row: dict[str, Any]) -> bool:
-    if any(_finite_number(row.get(key)) for key in ("revenue_impact", "ebitda_impact", "eps_impact", "fcf_impact", "valuation_impact")):
-        return True
+def _has_source_bound_lineage(value: Any) -> bool:
+    source_bound, run_bound = _lineage_flags(value)
+    return source_bound and run_bound
+
+
+def _has_finite_impact_output(row: dict[str, Any]) -> bool:
+    return any(_finite_number(row.get(key)) for key in IMPACT_OUTPUT_KEYS)
+
+
+def _has_finite_engine_output(row: dict[str, Any], engine_name: str) -> bool:
     result = row.get("result")
-    if isinstance(result, dict):
-        return any(_finite_number(result.get(key)) for key in FORMAL_OUTPUT_KEYS) or any(
-            _finite_number(value) for value in result.values()
-        )
-    return False
+    if not isinstance(result, dict):
+        return False
+    allowed = ENGINE_OUTPUT_KEYS.get(engine_name)
+    if not allowed:
+        return False
+    if any(key not in allowed for key in result):
+        return False
+    return any(_finite_number(result.get(key)) for key in allowed)
 
 
 def _integrity_status(integrity: dict[str, Any] | None) -> tuple[str | None, str, str | None, list[str], dict[str, Any]]:
@@ -246,6 +350,7 @@ def _integrity_status(integrity: dict[str, Any] | None) -> tuple[str | None, str
     if not isinstance(artifacts_list, list):
         return None, "blocked", "artifact_integrity_artifacts_invalid", [], {}
     hashed = [row for row in artifacts_list if isinstance(row, dict) and row.get("sha256") and row.get("path")]
+    value = f"{len(hashed)}/{len(artifacts_list)}"
     try:
         expected_paths = [rel(path) for path in artifact_paths()]
     except OSError as exc:
@@ -258,7 +363,6 @@ def _integrity_status(integrity: dict[str, Any] | None) -> tuple[str | None, str
         notes.append("missing=" + ",".join(missing[:5]))
     if extra:
         notes.append("extra=" + ",".join(extra[:5]))
-    value = f"{len(hashed)}/{len(artifacts_list)}"
     details = {
         "expected_artifact_count": len(expected_paths),
         "manifest_artifact_count": len(artifacts_list),
@@ -297,14 +401,15 @@ def financial_impact_computed(scenario: dict[str, Any]) -> bool:
     lineage = scenario.get("lineage") or scenario.get("provenance") or scenario.get("run") or scenario.get("receipt") or scenario.get("source")
     if not _has_source_bound_lineage(lineage):
         return False
-    return _has_any_finite_output(scenario)
+    return _has_finite_impact_output(scenario)
 
 
-def _engine_live_count(payload: dict[str, Any] | None, load_status: str, selected: list[str]) -> tuple[int | None, str, str | None, list[str]]:
+def _engine_live_count(payload: dict[str, Any] | None, load_status: str, selected: list[str], engine_name: str) -> tuple[int | None, str, str | None, list[str]]:
     if load_status != "available" or payload is None:
         return None, load_status, "source_artifact_not_generated" if load_status == "not_generated" else "source_artifact_blocked", []
-    if not _source_status_ok(payload):
-        return None, "blocked", f"source_artifact_status_invalid:{_top_level_status(payload)}", []
+    source_reason = _source_contract_reason(engine_name, payload)
+    if source_reason:
+        return None, "blocked", source_reason, []
     computed = 0
     notes: list[str] = []
     companies = payload.get("companies") or {}
@@ -317,7 +422,7 @@ def _engine_live_count(payload: dict[str, Any] | None, load_status: str, selecte
             and _status_text(row.get("status")) in COMPUTED_ENGINE_STATUSES
             and isinstance(row.get("result"), dict)
             and row.get("result")
-            and _has_any_finite_output(row)
+            and _has_finite_engine_output(row, engine_name)
             and _has_source_bound_lineage(row.get("provenance") or row.get("lineage") or row.get("run") or row.get("receipt") or row.get("_meta"))
         ):
             computed += 1
@@ -347,29 +452,121 @@ def _null_required_outputs(
     return nulls, notes
 
 
+def _project_block(payload: dict[str, Any], reason: str, metrics: list[Any] | None = None, summary: dict[str, Any] | None = None, lineage: dict[str, Any] | None = None) -> dict[str, Any]:
+    return {
+        "status": "blocked",
+        "reason": reason,
+        "metrics": metrics or [],
+        "summary": summary or {},
+        "lineage": lineage or {},
+        "policy": payload.get("policy") or {},
+        "product_version": payload.get("product_version"),
+        "as_of": payload.get("as_of"),
+    }
+
+
+def _valid_source_paths(value: Any) -> bool:
+    return (
+        isinstance(value, dict)
+        and set(value) == set(SOURCE_PATHS)
+        and all(isinstance(key, str) and isinstance(path, str) and path == SOURCE_PATHS[key] for key, path in value.items())
+    )
+
+
+def _whole_count(value: Any) -> bool:
+    return isinstance(value, int) and not isinstance(value, bool) and value >= 0
+
+
+def _metric_contract_reason(row: Any, build_cutoff_at: Any) -> str | None:
+    if not isinstance(row, dict):
+        return "event_to_value_product_readiness_metric_invalid"
+    for key in ("id", "label", "status", "definition", "source_path"):
+        if not isinstance(row.get(key), str) or not row.get(key):
+            return f"event_to_value_product_readiness_metric_{key}_invalid"
+    if row.get("id") not in REQUIRED_METRIC_IDS:
+        return f"event_to_value_product_readiness_metric_id_unknown:{row.get('id')}"
+    if row.get("status") not in PROJECTED_STATUSES:
+        return f"event_to_value_product_readiness_metric_status_invalid:{row.get('id')}"
+    if row.get("status") != "available" and not isinstance(row.get("reason"), str):
+        return f"event_to_value_product_readiness_metric_reason_missing:{row.get('id')}"
+    if row.get("source_path") not in set(SOURCE_PATHS.values()) | {"scripts/check_ask_henneth.mjs", "scripts/check_ci_global_no_lookahead.py"}:
+        return f"event_to_value_product_readiness_metric_source_path_invalid:{row.get('id')}"
+    if row.get("as_of") is not None and not isinstance(row.get("as_of"), str):
+        return f"event_to_value_product_readiness_metric_as_of_invalid:{row.get('id')}"
+    if _after_cutoff(row.get("as_of"), build_cutoff_at):
+        return f"event_to_value_product_readiness_metric_as_of_after_build_cutoff:{row.get('id')}"
+    notes = row.get("notes")
+    if notes is not None and (not isinstance(notes, list) or any(not isinstance(note, str) for note in notes)):
+        return f"event_to_value_product_readiness_metric_notes_invalid:{row.get('id')}"
+    value = row.get("value")
+    if row.get("id") in COUNT_VALUE_METRIC_IDS:
+        if value is not None and not _whole_count(value):
+            return f"event_to_value_product_readiness_metric_value_invalid:{row.get('id')}"
+        if row.get("status") == "available" and not _whole_count(value):
+            return f"event_to_value_product_readiness_metric_value_missing:{row.get('id')}"
+    elif row.get("id") == "provenance_coverage":
+        if value is not None and (not isinstance(value, str) or "/" not in value):
+            return "event_to_value_product_readiness_metric_value_invalid:provenance_coverage"
+    elif row.get("id") in {"ask_henneth_test_status", "no_lookahead_status"} and value is not None:
+        return f"event_to_value_product_readiness_metric_value_invalid:{row.get('id')}"
+    elif row.get("id") == "production_gate_status" and value is not None and not isinstance(value, str):
+        return "event_to_value_product_readiness_metric_value_invalid:production_gate_status"
+    denominator = row.get("denominator")
+    if row.get("id") in ALPHA_DENOMINATORS:
+        if denominator != ALPHA_DENOMINATORS[row.get("id")]:
+            return f"event_to_value_product_readiness_metric_denominator_invalid:{row.get('id')}"
+    elif denominator is not None:
+        return f"event_to_value_product_readiness_metric_denominator_invalid:{row.get('id')}"
+    metric_lineage = row.get("lineage")
+    if not isinstance(metric_lineage, dict):
+        return f"event_to_value_product_readiness_metric_lineage_invalid:{row.get('id')}"
+    if metric_lineage.get("source_path") != row.get("source_path"):
+        return f"event_to_value_product_readiness_metric_lineage_source_path_invalid:{row.get('id')}"
+    if metric_lineage.get("as_of") != row.get("as_of"):
+        return f"event_to_value_product_readiness_metric_lineage_as_of_invalid:{row.get('id')}"
+    if metric_lineage.get("status") != row.get("status"):
+        return f"event_to_value_product_readiness_metric_lineage_status_invalid:{row.get('id')}"
+    if metric_lineage.get("reason") != row.get("reason"):
+        return f"event_to_value_product_readiness_metric_lineage_reason_invalid:{row.get('id')}"
+    return None
+
+
 def project_readiness(payload: Any) -> dict[str, Any]:
     if not isinstance(payload, dict) or payload.get("kind") != "event_to_value_product_readiness":
         return {"status": "not_generated", "reason": "event_to_value_product_readiness_not_generated", "metrics": [], "summary": {}, "lineage": {}, "policy": {}, "product_version": None, "as_of": None}
     if payload.get("schema_version") != 1 or payload.get("product_version") != PRODUCT_VERSION:
-        return {"status": "blocked", "reason": "event_to_value_product_readiness_schema_invalid", "metrics": [], "summary": {}, "lineage": {}, "policy": {}, "product_version": payload.get("product_version"), "as_of": payload.get("as_of")}
+        return _project_block(payload, "event_to_value_product_readiness_schema_invalid")
     payload_status = payload.get("status")
     if payload_status not in PROJECTED_STATUSES:
-        return {"status": "blocked", "reason": f"event_to_value_product_readiness_status_invalid:{payload_status}", "metrics": [], "summary": {}, "lineage": {}, "policy": payload.get("policy") or {}, "product_version": payload.get("product_version"), "as_of": payload.get("as_of")}
+        return _project_block(payload, f"event_to_value_product_readiness_status_invalid:{payload_status}")
+    if not _valid_source_paths(payload.get("source_paths")):
+        return _project_block(payload, "event_to_value_product_readiness_source_paths_invalid")
     metrics = payload.get("metrics")
     lineage = payload.get("lineage") if isinstance(payload.get("lineage"), dict) else {}
     summary = payload.get("summary") if isinstance(payload.get("summary"), dict) else {}
     selected = lineage.get("selected_symbols") or summary.get("selected_symbols")
     selected_status = lineage.get("selected_symbols_status") or summary.get("selected_symbols_status")
     if not isinstance(metrics, list) or len(metrics) != 12:
-        return {"status": "blocked", "reason": "event_to_value_product_readiness_metrics_invalid", "metrics": [], "summary": summary, "lineage": lineage, "policy": payload.get("policy") or {}, "product_version": payload.get("product_version"), "as_of": payload.get("as_of")}
+        return _project_block(payload, "event_to_value_product_readiness_metrics_invalid", summary=summary, lineage=lineage)
     metric_ids = [row.get("id") for row in metrics if isinstance(row, dict)]
-    if len(metric_ids) != len(metrics) or len(set(metric_ids)) != len(metrics):
-        return {"status": "blocked", "reason": "event_to_value_product_readiness_metric_ids_invalid", "metrics": [], "summary": summary, "lineage": lineage, "policy": payload.get("policy") or {}, "product_version": payload.get("product_version"), "as_of": payload.get("as_of")}
+    if tuple(metric_ids) != REQUIRED_METRIC_IDS:
+        return _project_block(payload, "event_to_value_product_readiness_metric_ids_invalid", summary=summary, lineage=lineage)
     for row in metrics:
-        if row.get("status") not in PROJECTED_STATUSES:
-            return {"status": "blocked", "reason": f"event_to_value_product_readiness_metric_status_invalid:{row.get('id')}", "metrics": [], "summary": summary, "lineage": lineage, "policy": payload.get("policy") or {}, "product_version": payload.get("product_version"), "as_of": payload.get("as_of")}
-        if row.get("status") != "available" and not row.get("reason"):
-            return {"status": "blocked", "reason": f"event_to_value_product_readiness_metric_reason_missing:{row.get('id')}", "metrics": [], "summary": summary, "lineage": lineage, "policy": payload.get("policy") or {}, "product_version": payload.get("product_version"), "as_of": payload.get("as_of")}
+        reason = _metric_contract_reason(row, lineage.get("build_cutoff_at"))
+        if reason:
+            return _project_block(payload, reason, summary=summary, lineage=lineage)
+    actual_available_count = sum(1 for row in metrics if isinstance(row, dict) and row.get("status") == "available")
+    actual_blocked_ids = [row["id"] for row in metrics if isinstance(row, dict) and row.get("status") != "available"]
+    if summary.get("metric_count") != len(metrics):
+        return _project_block(payload, "event_to_value_product_readiness_metric_count_invalid", metrics, summary, lineage)
+    if not isinstance(summary.get("available_metric_count"), int) or isinstance(summary.get("available_metric_count"), bool):
+        return _project_block(payload, "event_to_value_product_readiness_available_metric_count_invalid", metrics, summary, lineage)
+    if summary.get("available_metric_count") != actual_available_count:
+        return _project_block(payload, "event_to_value_product_readiness_available_metric_count_mismatch", metrics, summary, lineage)
+    if summary.get("blocked_metric_count") != len(actual_blocked_ids):
+        return _project_block(payload, "event_to_value_product_readiness_blocked_metric_count_mismatch", metrics, summary, lineage)
+    if summary.get("blocked_metric_ids") != actual_blocked_ids:
+        return _project_block(payload, "event_to_value_product_readiness_blocked_metric_ids_mismatch", metrics, summary, lineage)
     if (
         selected_status != "available"
         or not isinstance(selected, list)
@@ -377,51 +574,62 @@ def project_readiness(payload: Any) -> dict[str, Any]:
         or any(not isinstance(symbol, str) or not symbol.strip() or symbol != symbol.strip().upper() for symbol in selected)
         or len(set(selected)) != REQUIRED_GOLDEN_COUNT
     ):
-        return {
-            "status": "blocked",
-            "reason": lineage.get("selected_symbols_reason") or summary.get("selected_symbols_reason") or "selected_symbols_not_exactly_three",
-            "metrics": metrics,
-            "summary": summary,
-            "lineage": lineage,
-            "policy": payload.get("policy") or {},
-            "product_version": payload.get("product_version"),
-            "as_of": payload.get("as_of"),
-        }
-    if not lineage.get("source_commit_sha") or not lineage.get("build_cutoff_at") or not lineage.get("generated_at"):
-        return {
-            "status": "blocked",
-            "reason": "event_to_value_product_readiness_lineage_missing",
-            "metrics": metrics,
-            "summary": summary,
-            "lineage": lineage,
-            "policy": payload.get("policy") or {},
-            "product_version": payload.get("product_version"),
-            "as_of": payload.get("as_of"),
-        }
+        return _project_block(payload, lineage.get("selected_symbols_reason") or summary.get("selected_symbols_reason") or "selected_symbols_not_exactly_three", metrics, summary, lineage)
+    if not isinstance(lineage.get("source_commit_sha"), str) or not isinstance(lineage.get("build_cutoff_at"), str) or not isinstance(lineage.get("generated_at"), str):
+        return _project_block(payload, "event_to_value_product_readiness_lineage_missing", metrics, summary, lineage)
+    if _parse_time(lineage.get("generated_at")) is None or _parse_time(lineage.get("build_cutoff_at")) is None:
+        return _project_block(payload, "event_to_value_product_readiness_lineage_timestamp_invalid", metrics, summary, lineage)
+    if _after_cutoff(lineage.get("generated_at"), lineage.get("build_cutoff_at")):
+        return _project_block(payload, "event_to_value_product_readiness_generated_after_build_cutoff", metrics, summary, lineage)
+    source_as_of = lineage.get("source_as_of")
+    if not isinstance(source_as_of, dict) or set(source_as_of) != set(SOURCE_PATHS):
+        return _project_block(payload, "event_to_value_product_readiness_source_as_of_invalid", metrics, summary, lineage)
+    for name, as_of in source_as_of.items():
+        if as_of is not None and not isinstance(as_of, str):
+            return _project_block(payload, f"event_to_value_product_readiness_source_as_of_type_invalid:{name}", metrics, summary, lineage)
+        if _after_cutoff(as_of, lineage.get("build_cutoff_at")):
+            return _project_block(payload, f"event_to_value_product_readiness_source_as_of_after_build_cutoff:{name}", metrics, summary, lineage)
+    source_schema_version = lineage.get("source_schema_version")
+    source_kind = lineage.get("source_kind")
+    source_status = lineage.get("source_status")
+    source_reason = lineage.get("source_reason")
+    if not isinstance(source_schema_version, dict) or set(source_schema_version) != set(SOURCE_PATHS):
+        return _project_block(payload, "event_to_value_product_readiness_source_schema_version_invalid", metrics, summary, lineage)
+    if not isinstance(source_kind, dict) or set(source_kind) != set(SOURCE_PATHS):
+        return _project_block(payload, "event_to_value_product_readiness_source_kind_invalid", metrics, summary, lineage)
+    if not isinstance(source_status, dict) or set(source_status) != set(SOURCE_PATHS):
+        return _project_block(payload, "event_to_value_product_readiness_source_status_invalid", metrics, summary, lineage)
+    if not isinstance(source_reason, dict) or set(source_reason) != set(SOURCE_PATHS):
+        return _project_block(payload, "event_to_value_product_readiness_source_reason_invalid", metrics, summary, lineage)
+    for name, status in source_status.items():
+        if status not in PROJECTED_STATUSES:
+            return _project_block(payload, f"event_to_value_product_readiness_source_status_value_invalid:{name}", metrics, summary, lineage)
+        if status != "available" and not isinstance(source_reason.get(name), str):
+            return _project_block(payload, f"event_to_value_product_readiness_source_reason_missing:{name}", metrics, summary, lineage)
+        if status == "available":
+            if source_schema_version.get(name) != SOURCE_SCHEMA_VERSIONS[name]:
+                return _project_block(payload, f"event_to_value_product_readiness_source_schema_version_value_invalid:{name}", metrics, summary, lineage)
+            if source_kind.get(name) != SOURCE_KINDS[name]:
+                return _project_block(payload, f"event_to_value_product_readiness_source_kind_value_invalid:{name}", metrics, summary, lineage)
+        else:
+            if source_schema_version.get(name) not in (None, SOURCE_SCHEMA_VERSIONS[name]):
+                return _project_block(payload, f"event_to_value_product_readiness_source_schema_version_value_invalid:{name}", metrics, summary, lineage)
+            if source_kind.get(name) not in (None, SOURCE_KINDS[name]):
+                return _project_block(payload, f"event_to_value_product_readiness_source_kind_value_invalid:{name}", metrics, summary, lineage)
+    if actual_available_count == 0:
+        return _project_block(payload, "event_to_value_product_readiness_all_metrics_blocked", metrics, summary, lineage)
+    for key in ("artifact_integrity_status", "artifact_integrity_reason", "artifact_integrity"):
+        if key not in lineage:
+            return _project_block(payload, f"event_to_value_product_readiness_{key}_missing", metrics, summary, lineage)
+    if lineage.get("artifact_integrity_status") not in PROJECTED_STATUSES:
+        return _project_block(payload, "event_to_value_product_readiness_artifact_integrity_status_invalid", metrics, summary, lineage)
+    if lineage.get("artifact_integrity_status") != "available" and not isinstance(lineage.get("artifact_integrity_reason"), str):
+        return _project_block(payload, "event_to_value_product_readiness_artifact_integrity_reason_missing", metrics, summary, lineage)
+    if not isinstance(lineage.get("artifact_integrity"), dict):
+        return _project_block(payload, "event_to_value_product_readiness_artifact_integrity_shape_invalid", metrics, summary, lineage)
     provenance = next((row for row in metrics if isinstance(row, dict) and row.get("id") == "provenance_coverage"), {})
     if provenance.get("status") != "available":
-        return {
-            "status": "blocked",
-            "reason": provenance.get("reason") or "event_to_value_product_readiness_integrity_unsealed",
-            "metrics": metrics,
-            "summary": summary,
-            "lineage": lineage,
-            "policy": payload.get("policy") or {},
-            "product_version": payload.get("product_version"),
-            "as_of": payload.get("as_of"),
-        }
-    available_count = summary.get("available_metric_count")
-    if available_count == 0 and payload_status == "available":
-        return {
-            "status": "blocked",
-            "reason": "event_to_value_product_readiness_all_metrics_blocked",
-            "metrics": metrics,
-            "summary": summary,
-            "lineage": lineage,
-            "policy": payload.get("policy") or {},
-            "product_version": payload.get("product_version"),
-            "as_of": payload.get("as_of"),
-        }
+        return _project_block(payload, provenance.get("reason") or "event_to_value_product_readiness_integrity_unsealed", metrics, summary, lineage)
     return {
         "status": payload_status,
         "reason": payload.get("reason"),
@@ -456,11 +664,24 @@ def build(write: bool = True, artifacts: dict[str, tuple[dict[str, Any] | None, 
     selection = derive_selected_symbols(cases, cases_status)
     selected = selection["symbols"] if selection["status"] == "available" else []
     selected_ready = selection["status"] == "available"
+    source_reasons = {
+        name: (_source_contract_reason(name, payload) if status == "available" else (f"{name}_not_generated" if status == "not_generated" else f"{name}_blocked"))
+        for name, (payload, status) in {
+            "financial_truth_qualification": (truth, truth_status),
+            "forecast_readiness": (forecast_readiness, forecast_ready_status),
+            "impact_scenarios": (scenarios, scenarios_status),
+            "financial_forecasts": (forecasts, forecasts_status),
+            "formal_valuations": (valuations, valuations_status),
+            "market_expectations": (expectations, expectations_status),
+            "thesis_monitoring": (theses, theses_status),
+            "release_integrity_receipt": (receipt, receipt_status),
+        }.items()
+    }
 
     def blocked_selection() -> tuple[None, str, str, list[str]]:
         return None, "blocked", selection["reason"], [f"selected_symbols={selection['symbols']}"]
 
-    if selected_ready and truth_status == "available" and truth is not None:
+    if selected_ready and truth_status == "available" and truth is not None and source_reasons["financial_truth_qualification"] is None:
         qualified = [
             symbol
             for symbol in selected
@@ -473,8 +694,8 @@ def build(write: bool = True, artifacts: dict[str, tuple[dict[str, Any] | None, 
     elif selected_ready:
         model_ready_value, model_ready_status, model_ready_reason, model_ready_notes = (
             None,
-            truth_status,
-            "financial_truth_qualification_not_generated" if truth_status == "not_generated" else "financial_truth_qualification_blocked",
+            "not_generated" if truth_status == "not_generated" else "blocked",
+            source_reasons["financial_truth_qualification"] or "financial_truth_qualification_blocked",
             [],
         )
     else:
@@ -507,7 +728,7 @@ def build(write: bool = True, artifacts: dict[str, tuple[dict[str, Any] | None, 
     else:
         published_value, published_status, published_reason, published_notes = blocked_selection()
 
-    if selected_ready and scenarios_status == "available" and scenarios is not None:
+    if selected_ready and scenarios_status == "available" and scenarios is not None and source_reasons["impact_scenarios"] is None:
         computed_scenarios = 0
         scenario_notes: list[str] = []
         for symbol in selected:
@@ -522,17 +743,17 @@ def build(write: bool = True, artifacts: dict[str, tuple[dict[str, Any] | None, 
     elif selected_ready:
         scenario_value, scenario_status, scenario_reason, scenario_notes = (
             None,
-            scenarios_status,
-            "impact_scenarios_not_generated" if scenarios_status == "not_generated" else "impact_scenarios_blocked",
+            "not_generated" if scenarios_status == "not_generated" else "blocked",
+            source_reasons["impact_scenarios"] or "impact_scenarios_blocked",
             [],
         )
     else:
         scenario_value, scenario_status, scenario_reason, scenario_notes = blocked_selection()
 
     if selected_ready:
-        forecast_count, forecast_status, forecast_reason, forecast_notes = _engine_live_count(forecasts, forecasts_status, selected)
-        valuation_count, valuation_status, valuation_reason, valuation_notes = _engine_live_count(valuations, valuations_status, selected)
-        expectation_count, expectation_status, expectation_reason, expectation_notes = _engine_live_count(expectations, expectations_status, selected)
+        forecast_count, forecast_status, forecast_reason, forecast_notes = _engine_live_count(forecasts, forecasts_status, selected, "financial_forecasts")
+        valuation_count, valuation_status, valuation_reason, valuation_notes = _engine_live_count(valuations, valuations_status, selected, "formal_valuations")
+        expectation_count, expectation_status, expectation_reason, expectation_notes = _engine_live_count(expectations, expectations_status, selected, "market_expectations")
     else:
         forecast_count, forecast_status, forecast_reason, forecast_notes = blocked_selection()
         valuation_count, valuation_status, valuation_reason, valuation_notes = blocked_selection()
@@ -542,7 +763,7 @@ def build(write: bool = True, artifacts: dict[str, tuple[dict[str, Any] | None, 
     ask_reason = "ask_henneth_live_runtime_not_recorded_in_authoritative_ci_state"
     ask_notes = ["Focused contract checkers exist at scripts/check_ask_henneth.mjs, but they are not a live production Ask receipt."]
 
-    if selected_ready and theses_status == "available" and theses is not None:
+    if selected_ready and theses_status == "available" and theses is not None and source_reasons["thesis_monitoring"] is None:
         active_cases = 0
         thesis_notes: list[str] = []
         for symbol in selected:
@@ -558,18 +779,31 @@ def build(write: bool = True, artifacts: dict[str, tuple[dict[str, Any] | None, 
     elif selected_ready:
         thesis_value, thesis_status, thesis_reason, thesis_notes = (
             None,
-            theses_status,
-            "thesis_monitoring_not_generated" if theses_status == "not_generated" else "thesis_monitoring_blocked",
+            "not_generated" if theses_status == "not_generated" else "blocked",
+            source_reasons["thesis_monitoring"] or "thesis_monitoring_blocked",
             [],
         )
     else:
         thesis_value, thesis_status, thesis_reason, thesis_notes = blocked_selection()
 
-    if selected_ready and forecasts_status == "available" and valuations_status == "available" and expectations_status == "available":
+    if (
+        selected_ready
+        and forecasts_status == "available"
+        and valuations_status == "available"
+        and expectations_status == "available"
+        and source_reasons["financial_forecasts"] is None
+        and source_reasons["formal_valuations"] is None
+        and source_reasons["market_expectations"] is None
+    ):
         nulls_value, nulls_notes = _null_required_outputs(forecasts, valuations, expectations, selected)
         nulls_status, nulls_reason = "available", None
     elif selected_ready:
-        nulls_value, nulls_status, nulls_reason, nulls_notes = None, "blocked", "required_output_artifacts_not_all_available", []
+        nulls_value, nulls_status, nulls_reason, nulls_notes = None, "blocked", (
+            source_reasons["financial_forecasts"]
+            or source_reasons["formal_valuations"]
+            or source_reasons["market_expectations"]
+            or "required_output_artifacts_not_all_available"
+        ), []
     else:
         nulls_value, nulls_status, nulls_reason, nulls_notes = blocked_selection()
 
@@ -587,9 +821,9 @@ def build(write: bool = True, artifacts: dict[str, tuple[dict[str, Any] | None, 
     lookahead_reason = "no_lookahead_pass_is_not_stored_as_authoritative_state; scripts/check_ci_global_no_lookahead.py must be run to prove the current tree"
     lookahead_notes = ["Checker exists. This audit does not treat a missing stored receipt as a pass."]
 
-    if receipt_status != "available" or receipt is None:
-        production_status = receipt_status
-        production_reason = "release_integrity_receipt_not_generated" if receipt_status == "not_generated" else "release_integrity_receipt_blocked"
+    if receipt_status != "available" or receipt is None or source_reasons["release_integrity_receipt"] is not None:
+        production_status = "not_generated" if receipt_status == "not_generated" else "blocked"
+        production_reason = source_reasons["release_integrity_receipt"] or ("release_integrity_receipt_not_generated" if receipt_status == "not_generated" else "release_integrity_receipt_blocked")
         production_notes: list[str] = []
         production_value = None
     else:
@@ -619,6 +853,54 @@ def build(write: bool = True, artifacts: dict[str, tuple[dict[str, Any] | None, 
             "thesis_monitoring": _as_of(theses),
             "artifact_integrity": _as_of(integrity),
             "release_integrity_receipt": _as_of(receipt),
+        },
+        "source_schema_version": {
+            "intelligence_cases": (cases or {}).get("schema_version") if cases_status == "available" else None,
+            "financial_truth_qualification": (truth or {}).get("schema_version") if truth_status == "available" else None,
+            "forecast_readiness": (forecast_readiness or {}).get("schema_version") if forecast_ready_status == "available" else None,
+            "impact_scenarios": (scenarios or {}).get("schema_version") if scenarios_status == "available" else None,
+            "financial_forecasts": (forecasts or {}).get("schema_version") if forecasts_status == "available" else None,
+            "formal_valuations": (valuations or {}).get("schema_version") if valuations_status == "available" else None,
+            "market_expectations": (expectations or {}).get("schema_version") if expectations_status == "available" else None,
+            "thesis_monitoring": (theses or {}).get("schema_version") if theses_status == "available" else None,
+            "artifact_integrity": (integrity or {}).get("schema_version") if integrity_status == "available" else None,
+            "release_integrity_receipt": (receipt or {}).get("schema_version") if receipt_status == "available" else None,
+        },
+        "source_kind": {
+            "intelligence_cases": (cases or {}).get("kind") if cases_status == "available" else None,
+            "financial_truth_qualification": (truth or {}).get("kind") if truth_status == "available" else None,
+            "forecast_readiness": (forecast_readiness or {}).get("kind") if forecast_ready_status == "available" else None,
+            "impact_scenarios": (scenarios or {}).get("kind") if scenarios_status == "available" else None,
+            "financial_forecasts": (forecasts or {}).get("kind") if forecasts_status == "available" else None,
+            "formal_valuations": (valuations or {}).get("kind") if valuations_status == "available" else None,
+            "market_expectations": (expectations or {}).get("kind") if expectations_status == "available" else None,
+            "thesis_monitoring": (theses or {}).get("kind") if theses_status == "available" else None,
+            "artifact_integrity": (integrity or {}).get("kind") if integrity_status == "available" else None,
+            "release_integrity_receipt": (receipt or {}).get("kind") if receipt_status == "available" else None,
+        },
+        "source_status": {
+            "intelligence_cases": selection["status"],
+            "financial_truth_qualification": "available" if source_reasons["financial_truth_qualification"] is None else "blocked",
+            "forecast_readiness": "available" if source_reasons["forecast_readiness"] is None else "blocked",
+            "impact_scenarios": "available" if source_reasons["impact_scenarios"] is None else "blocked",
+            "financial_forecasts": "available" if source_reasons["financial_forecasts"] is None else "blocked",
+            "formal_valuations": "available" if source_reasons["formal_valuations"] is None else "blocked",
+            "market_expectations": "available" if source_reasons["market_expectations"] is None else "blocked",
+            "thesis_monitoring": "available" if source_reasons["thesis_monitoring"] is None else "blocked",
+            "artifact_integrity": provenance_status,
+            "release_integrity_receipt": "available" if source_reasons["release_integrity_receipt"] is None else "blocked",
+        },
+        "source_reason": {
+            "intelligence_cases": selection["reason"],
+            "financial_truth_qualification": source_reasons["financial_truth_qualification"],
+            "forecast_readiness": source_reasons["forecast_readiness"],
+            "impact_scenarios": source_reasons["impact_scenarios"],
+            "financial_forecasts": source_reasons["financial_forecasts"],
+            "formal_valuations": source_reasons["formal_valuations"],
+            "market_expectations": source_reasons["market_expectations"],
+            "thesis_monitoring": source_reasons["thesis_monitoring"],
+            "artifact_integrity": provenance_reason,
+            "release_integrity_receipt": source_reasons["release_integrity_receipt"],
         },
         "source_commit_sha": (integrity or {}).get("source_commit_sha") if integrity_status == "available" else None,
         "build_cutoff_at": (integrity or {}).get("build_cutoff_at") if integrity_status == "available" else None,
