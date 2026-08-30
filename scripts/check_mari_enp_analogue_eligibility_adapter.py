@@ -18,6 +18,26 @@ def main() -> None:
     assert all("outcome_return_pct" not in b for b in rr["candidate_bindings"] + fr["candidate_bindings"])
     for p in (real, fixture):
         assert all(k in p for k in ("target_event", "candidate_observations"))
+
+    # The exported validator is independently fail-closed, even when callers
+    # bypass the adapter and provide unhashable/malformed structures directly.
+    direct_malformed = []
+    m = copy.deepcopy(fixture); m["candidate_observations"][0]["horizon"] = ["1Q"]; direct_malformed.append(m)
+    m = copy.deepcopy(fixture); m["candidate_observations"][0]["event_id"] = {"id": "nested"}; direct_malformed.append(m)
+    m = copy.deepcopy(fixture); m["candidate_observations"][0]["source"]["id"] = ["fixture:candidate-1"]; direct_malformed.append(m)
+    m = copy.deepcopy(fixture); m["candidate_observations"][0]["candidate_id"] = {"id": "nested"}; direct_malformed.append(m)
+    m = copy.deepcopy(fixture); m["target_event"]["source"] = ["malformed-source"]; direct_malformed.append(m)
+    m = copy.deepcopy(fixture); m["candidate_observations"] = {"row": "malformed-list"}; direct_malformed.append(m)
+    m = copy.deepcopy(fixture); m["target_event"]["event_id"] = ["malformed-id"]; direct_malformed.append(m)
+    for index, malformed in enumerate(direct_malformed):
+        try:
+            violations = contract.validate_payload(malformed)
+            repeat_violations = contract.validate_payload(malformed)
+        except Exception as exc:  # pragma: no cover - assertion gives context
+            raise AssertionError(f"direct validator raised on malformed case {index}: {exc}") from exc
+        assert isinstance(violations, list) and violations and all(isinstance(v, str) for v in violations)
+        assert violations == repeat_violations
+
     hostile = []
     # Every fixture field is sealed to build_fixture_payload(); any drift must
     # produce the sanitized blocked schema rather than leaking caller values.
@@ -66,6 +86,6 @@ def main() -> None:
         assert "caller prose" not in repr(result) and "evil.invalid" not in repr(result)
     assert adapter.adapt({"mode":"real"})["status"] == "blocked"
     assert adapter.adapt({"mode":"fixture"})["status"] == "blocked"
-    print(f"mari_enp_analogue_eligibility_adapter: PASS ({len(hostile)+6} checks)")
+    print(f"mari_enp_analogue_eligibility_adapter: PASS ({len(hostile)+len(direct_malformed)+6} checks)")
 
 if __name__ == "__main__": main()
