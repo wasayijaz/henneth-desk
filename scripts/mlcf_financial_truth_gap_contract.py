@@ -13,6 +13,19 @@ import re
 from datetime import date, datetime
 from typing import Any
 
+from financial_truth_qualification import (
+    ANNUAL_CASHFLOW_SCOPE,
+    ANNUAL_INCOME_SCOPE,
+    REPORTED_QUARTER_SCOPE,
+    REQUIRED_ANNUAL_METRICS,
+    TARGET_ANNUAL_PERIODS,
+    TARGET_REPORTED_INTERIM_PERIODS,
+    _eligible_cashflow_periods,
+    _facts_by_period,
+    _qualified_quarter_periods,
+)
+from build_ci_reprocess_manifest import APPROVED_REVIEW_SLOTS
+
 
 CONTRACT_VERSION = "mlcf_financial_truth_gap_contract_v2"
 CASE_SCHEMA = "mlcf_financial_truth_gap_case_v1"
@@ -63,6 +76,139 @@ _FORBIDDEN_FIELD_TERMS = {
 _DATE_RE = re.compile(r"\d{4}-\d{2}-\d{2}\Z")
 _HASH_RE = re.compile(r"[0-9a-f]{64}\Z")
 
+
+def _authority_unavailable(path: str) -> None:
+    _fail(path, "immutable authority unavailable")
+
+
+def _build_retained_mlcf_document_authority() -> dict[str, dict[str, str]]:
+    authority: dict[str, dict[str, str]] = {}
+    for slot in APPROVED_REVIEW_SLOTS:
+        if not isinstance(slot, dict):
+            continue
+        document_id = slot.get("source_document_id")
+        if document_id not in RETAINED_MLCF_DOCUMENT_IDS:
+            continue
+        path = f"approved_review_slots.{document_id}"
+        if slot.get("symbol") != "MLCF" or slot.get("classification") != "financial_results":
+            _authority_unavailable(path)
+        if slot.get("period_type") != "interim" or slot.get("require_retained_hash") is not True:
+            _authority_unavailable(path)
+        period = slot.get("period")
+        title_pattern = slot.get("title_pattern")
+        content_sha256 = str(slot.get("source_content_sha256") or "").lower()
+        if not isinstance(period, str) or not isinstance(title_pattern, str) or not _HASH_RE.fullmatch(content_sha256):
+            _authority_unavailable(path)
+        _iso_date(period, f"{path}.period")
+        authority[document_id] = {
+            "document_id": document_id,
+            "symbol": "MLCF",
+            "period_end": period,
+            "period_type": "interim",
+            "expected_title_pattern": title_pattern,
+            "source": SOURCE,
+            "source_url": f"https://dps.psx.com.pk/download/document/{document_id.split(':', 1)[1]}.pdf",
+            "content_sha256": content_sha256,
+            "research_index_hash": document_id,
+        }
+    missing = [document_id for document_id in RETAINED_MLCF_DOCUMENT_IDS if document_id not in authority]
+    if missing:
+        _authority_unavailable("approved_review_slots")
+    return {document_id: authority[document_id] for document_id in RETAINED_MLCF_DOCUMENT_IDS}
+
+_FINANCIAL_TRUTH_TOP_KEYS = {"schema_version", "pilot_symbols", "source", "policy", "selection", "companies", "summary", "_meta"}
+_QUALIFICATION_KEYS = {
+    "annual_income_triplets",
+    "annual_operating_cash_flow",
+    "candidate_documents",
+    "candidate_rank",
+    "documented_interim_metadata",
+    "downstream",
+    "evidence_gaps",
+    "financial_tie_out",
+    "operating_lane",
+    "policy",
+    "qualification_scope",
+    "qualified_reported_quarter_fact_sets",
+    "selection_status",
+    "share_count",
+    "status",
+    "symbol",
+}
+_SHARE_COUNT_KEYS = {"status", "available_on", "source"}
+_FINANCIAL_TIE_OUT_KEYS = {"status", "reason"}
+_DOWNSTREAM_KEYS = {"forecast", "valuation", "market_expectations"}
+_QUALIFICATION_POLICY_KEYS = {"raw_financial_values", "restage", "forecasts", "valuation", "market_expectations"}
+_RECONCILIATION_TOP_KEYS = {
+    "schema_version",
+    "reconciliation_version",
+    "earnings_bridge_version",
+    "pilot_symbols",
+    "as_of",
+    "source",
+    "policy",
+    "summary",
+    "companies",
+    "_meta",
+}
+_RECONCILIATION_COMPANY_KEYS = {
+    "audit_only_fact_count",
+    "conflicts",
+    "eligible_fact_count",
+    "facts",
+    "missing_slot_count",
+    "missing_slots",
+    "qualified_periods",
+    "quarantined_fact_count",
+    "readiness",
+    "source_conflict_count",
+    "status",
+    "symbol",
+    "withheld_future_source_fact_count",
+}
+_RECONCILIATION_FACT_KEYS = {
+    "confidence",
+    "consolidation",
+    "currency",
+    "duration_months",
+    "eligibility_scope",
+    "evidence_id",
+    "evidence_label",
+    "metric",
+    "normalized_value",
+    "parser",
+    "period_end",
+    "period_type",
+    "raw_value",
+    "reasons",
+    "reconciliation_id",
+    "source",
+    "statement_type",
+    "status",
+    "symbol",
+    "unit",
+    "unit_multiplier",
+}
+_RECONCILIATION_FACT_SOURCE_KEYS = {
+    "available_on",
+    "content_sha256",
+    "document_id",
+    "fact_id",
+    "page",
+    "published_at",
+    "retrieved_at",
+    "source",
+    "source_url",
+    "text",
+}
+_REVIEW_TOP_KEYS = {"schema_version", "manifest_version", "manifest_id", "source", "policy", "pilot_symbols", "approved_review_slots", "document_ids", "documents", "summary"}
+_REVIEW_DOCUMENT_KEYS = {"document_id", "symbol", "period", "classification", "title", "expected_title_pattern", "published_at", "source_url", "content_sha256", "content_identity", "safe_period", "approval_status", "reason"}
+_REVIEW_SOURCE = {"financial_coverage": "state/company_intel/financial_coverage.json", "research_index": "state/research_index.json"}
+_COMPANY_DOCUMENT_TOP_KEYS = {"schema_version", "documents", "_meta"}
+_COMPANY_DOCUMENT_KEYS = {"schema_version", "doc_id", "tickers", "title", "doc_type", "published_at", "retrieved_at", "available_on", "source_url", "source", "content_sha256", "local_sha256", "content_length", "page_count", "media_type", "status", "stale", "error", "evidence", "events", "facts", "versions", "brief_evidence", "ledger_changes"}
+_RESEARCH_INDEX_TOP_KEYS = {"documents", "by_ticker", "_meta"}
+_RESEARCH_INDEX_DOCUMENT_KEYS = {"id", "hash", "source", "source_type", "doc_type", "date", "published_at", "tickers", "company_name", "title", "digest", "digest_level", "claims", "url", "source_page", "official_document_id", "omissions"}
+
 def _fail(path: str, message: str) -> None:
     raise ValueError(f"{path}: {message}")
 
@@ -81,6 +227,9 @@ def _iso_date(value: Any, path: str) -> str:
     except ValueError:
         _fail(path, "must be a real calendar date")
     return value
+
+
+RETAINED_MLCF_DOCUMENTS: dict[str, dict[str, str]] = _build_retained_mlcf_document_authority()
 
 
 def _iso_datetime(value: Any, path: str) -> str:
@@ -142,17 +291,14 @@ def _validate_candidate(value: Any, index: int, as_of_date: str) -> dict[str, An
         _fail(path, "must be an object")
     _closed_keys(value, _CANDIDATE_KEYS, path)
     document_id = value.get("document_id")
-    if document_id not in RETAINED_MLCF_DOCUMENT_IDS:
-        _fail(f"{path}.document_id", "is not an approved retained MLCF document")
-    if value.get("symbol") != "MLCF" or value.get("period_type") != "interim" or value.get("source") != SOURCE:
-        _fail(path, "issuer, period type or source is not the retained MLCF scope")
-    if value.get("source_url") != f"https://dps.psx.com.pk/download/document/{document_id.split(':', 1)[1]}.pdf":
-        _fail(f"{path}.source_url", "must be the canonical PSX document URL")
-    if not isinstance(value.get("title"), str) or not value["title"]:
-        _fail(f"{path}.title", "must be present")
+    expected = _expected_document(document_id, f"{path}.document_id")
+    for key in ("symbol", "period_end", "period_type", "source", "source_url", "content_sha256"):
+        _require_equal(value.get(key), expected[key], f"{path}.{key}")
+    if not isinstance(value.get("title"), str) or re.fullmatch(expected["expected_title_pattern"], value["title"]) is None:
+        _fail(f"{path}.title", "does not match immutable approved title authority")
     _iso_datetime(value.get("published_at"), f"{path}.published_at")
     available_on = _iso_date(value.get("available_on"), f"{path}.available_on")
-    if available_on > as_of_date:
+    if available_on > as_of_date or value["published_at"][:10] > as_of_date:
         _fail(path, "candidate is not available by as_of_date")
     if not _HASH_RE.fullmatch(value.get("content_sha256", "")):
         _fail(f"{path}.content_sha256", "must be a lowercase SHA-256")
@@ -197,6 +343,12 @@ def _require_equal(actual: Any, expected: Any, path: str) -> None:
         _fail(path, "does not match retained authoritative state")
 
 
+def _expected_document(document_id: Any, path: str) -> dict[str, str]:
+    if not isinstance(document_id, str) or document_id not in RETAINED_MLCF_DOCUMENTS:
+        _fail(path, "is not an approved retained MLCF document")
+    return RETAINED_MLCF_DOCUMENTS[document_id]
+
+
 def _build_candidate_from_state(
     document_id: str,
     company_documents: dict[str, Any],
@@ -204,12 +356,17 @@ def _build_candidate_from_state(
     research_index: dict[str, Any],
     reconciliation: dict[str, Any],
 ) -> dict[str, Any]:
+    expected = _expected_document(document_id, f"review_manifest.documents.{document_id}.document_id")
     manifest = _state_row((review_manifest.get("documents") or {}).get(document_id), f"review_manifest.documents.{document_id}")
     document = _state_row((company_documents.get("documents") or {}).get(document_id), f"company_documents.documents.{document_id}")
     index = _state_row((research_index.get("documents") or {}).get(document_id), f"research_index.documents.{document_id}")
+    _closed_keys(manifest, _REVIEW_DOCUMENT_KEYS, f"review_manifest.documents.{document_id}")
+    _closed_keys(document, _COMPANY_DOCUMENT_KEYS, f"company_documents.documents.{document_id}")
+    _closed_keys(index, _RESEARCH_INDEX_DOCUMENT_KEYS, f"research_index.documents.{document_id}")
     if manifest.get("approval_status") != "owner_approved" or manifest.get("classification") != "financial_results":
         _fail(f"review_manifest.documents.{document_id}", "source is not an approved financial-results tranche")
     safe_period = _state_row(manifest.get("safe_period"), f"review_manifest.documents.{document_id}.safe_period")
+    _closed_keys(safe_period, {"period_end", "period_type", "source"}, f"review_manifest.documents.{document_id}.safe_period")
     if safe_period.get("period_type") != "interim" or safe_period.get("source") != "owner_approved_exact_source":
         _fail(f"review_manifest.documents.{document_id}.safe_period", "period provenance is not exact")
     for key in ("document_id", "symbol", "period", "title", "published_at", "source_url", "content_sha256"):
@@ -218,14 +375,34 @@ def _build_candidate_from_state(
     _require_equal(manifest.get("document_id"), document_id, f"review_manifest.documents.{document_id}.document_id")
     _require_equal(manifest.get("symbol"), "MLCF", f"review_manifest.documents.{document_id}.symbol")
     _require_equal(safe_period.get("period_end"), manifest.get("period"), f"review_manifest.documents.{document_id}.safe_period.period_end")
+    if manifest.get("expected_title_pattern") != expected["expected_title_pattern"]:
+        _fail(f"review_manifest.documents.{document_id}.expected_title_pattern", "does not match immutable approved title authority")
+    if not isinstance(manifest.get("title"), str) or re.fullmatch(expected["expected_title_pattern"], manifest["title"]) is None:
+        _fail(f"review_manifest.documents.{document_id}.expected_title_pattern", "title does not match the retained exact-title pattern")
+    published_at = _iso_datetime(manifest.get("published_at"), f"review_manifest.documents.{document_id}.published_at")
+    title_date = re.search(r"(?P<day>\d{2})\.(?P<month>\d{2})\.(?P<year>\d{4})", manifest["title"])
+    if not title_date:
+        _fail(f"review_manifest.documents.{document_id}.title", "retained title has no exact reporting period")
+    _require_equal(
+        manifest.get("period"),
+        f"{title_date.group('year')}-{title_date.group('month')}-{title_date.group('day')}",
+        f"review_manifest.documents.{document_id}.period",
+    )
+    for key in ("source_url", "content_sha256"):
+        _require_equal(manifest.get(key), expected[key], f"review_manifest.documents.{document_id}.{key}")
+    _require_equal(manifest.get("period"), expected["period_end"], f"review_manifest.documents.{document_id}.period")
+    _require_equal(manifest.get("content_identity"), "retained_hash", f"review_manifest.documents.{document_id}.content_identity")
     _require_equal(document.get("doc_id"), document_id, f"company_documents.documents.{document_id}.doc_id")
     _require_equal(document.get("tickers"), ["MLCF"], f"company_documents.documents.{document_id}.tickers")
-    for key in ("title", "published_at", "source_url", "content_sha256"):
-        _require_equal(document.get(key), manifest.get(key), f"company_documents.documents.{document_id}.{key}")
+    _require_equal(document.get("doc_type"), "results", f"company_documents.documents.{document_id}.doc_type")
+    _require_equal(document.get("title"), manifest.get("title"), f"company_documents.documents.{document_id}.title")
+    _require_equal(document.get("published_at"), published_at, f"company_documents.documents.{document_id}.published_at")
+    for key in ("source_url", "content_sha256"):
+        _require_equal(document.get(key), expected[key], f"company_documents.documents.{document_id}.{key}")
     _require_equal(document.get("source"), SOURCE, f"company_documents.documents.{document_id}.source")
-    _require_equal(document.get("local_sha256"), manifest.get("content_sha256"), f"company_documents.documents.{document_id}.local_sha256")
-    for key, expected in (("status", "ready"), ("stale", False), ("error", None), ("media_type", "application/pdf"), ("content_length", None)):
-        _require_equal(document.get(key), expected, f"company_documents.documents.{document_id}.{key}")
+    _require_equal(document.get("local_sha256"), expected["content_sha256"], f"company_documents.documents.{document_id}.local_sha256")
+    for key, expected_value in (("status", "ready"), ("stale", False), ("error", None), ("media_type", "application/pdf"), ("content_length", None)):
+        _require_equal(document.get(key), expected_value, f"company_documents.documents.{document_id}.{key}")
     for key in ("evidence", "events", "facts", "versions"):
         _require_equal(document.get(key), [], f"company_documents.documents.{document_id}.{key}")
     for key in ("brief_evidence", "ledger_changes"):
@@ -234,39 +411,43 @@ def _build_candidate_from_state(
     forbidden_document_fields = {"local_path", "raw_path", "raw_bytes", "text", "extracted_text", "parser_version", "parser_revision"}
     if forbidden_document_fields.intersection(document):
         _fail(f"company_documents.documents.{document_id}", "raw/text/parser state drifted into the metadata-only record")
-    for key, expected in (
+    for key, expected_value in (
         ("id", document_id),
+        ("hash", expected["research_index_hash"]),
         ("source", SOURCE),
         ("source_type", "filing"),
         ("doc_type", "financial_results"),
-        ("date", manifest.get("published_at", "")[:10]),
-        ("published_at", manifest.get("published_at")),
+        ("date", published_at[:10]),
+        ("published_at", published_at),
         ("tickers", ["MLCF"]),
         ("title", manifest.get("title")),
-        ("url", manifest.get("source_url")),
+        ("url", expected["source_url"]),
+        ("source_page", "https://dps.psx.com.pk/announcements/companies"),
         ("official_document_id", document_id.split(":", 1)[1]),
     ):
-        _require_equal(index.get(key), expected, f"research_index.documents.{document_id}.{key}")
+        _require_equal(index.get(key), expected_value, f"research_index.documents.{document_id}.{key}")
     if not isinstance(reconciliation.get("facts"), list):
         _fail("reconciliation.facts", "must remain a list")
     candidate_source_ids = {
-        str((fact.get("source") or {}).get("document_id"))
+        str((source or {}).get("document_id"))
         for fact in reconciliation.get("facts") or []
-        if isinstance(fact, dict) and (fact.get("source") or {}).get("document_id")
+        if isinstance(fact, dict)
+        for source in [fact.get("source") if isinstance(fact.get("source"), dict) else None]
+        if source and source.get("document_id")
     }
     if document_id in candidate_source_ids:
         _fail(f"reconciliation.facts[{document_id}]", "candidate document has retained fact evidence")
     return {
         "document_id": document_id,
         "symbol": "MLCF",
-        "period_end": safe_period.get("period_end"),
-        "period_type": safe_period.get("period_type"),
+        "period_end": expected["period_end"],
+        "period_type": expected["period_type"],
         "title": manifest.get("title"),
-        "published_at": manifest.get("published_at"),
-        "available_on": manifest.get("published_at", "")[:10],
+        "published_at": published_at,
+        "available_on": published_at[:10],
         "source": SOURCE,
-        "source_url": manifest.get("source_url"),
-        "content_sha256": manifest.get("content_sha256"),
+        "source_url": expected["source_url"],
+        "content_sha256": expected["content_sha256"],
         "raw_retained": False,
         "text_extractable": False,
         "parser_status": "image_only_under_financial_statement_v2_policy",
@@ -274,6 +455,54 @@ def _build_candidate_from_state(
         "blocker_reason": BLOCKER,
         "facts": [],
     }
+
+
+def _validate_qualification_against_reconciliation(
+    qualification: dict[str, Any],
+    reconciliation: dict[str, Any],
+    company_documents: dict[str, Any],
+    research_index: dict[str, Any],
+) -> None:
+    """Re-derive every load-bearing period set from retained eligible facts."""
+    annual_by_period = _facts_by_period(reconciliation, REQUIRED_ANNUAL_METRICS)
+    derived = {
+        "annual_income_triplets": sorted(
+            (period for period, metrics in annual_by_period.items() if set(REQUIRED_ANNUAL_METRICS).issubset(metrics)),
+            reverse=True,
+        ),
+        "qualified_reported_quarter_fact_sets": _qualified_quarter_periods(reconciliation),
+        "annual_operating_cash_flow": _eligible_cashflow_periods(reconciliation),
+    }
+    for key, periods in derived.items():
+        path = f"financial_truth.companies.MLCF.{key}"
+        row = _state_row(qualification.get(key), path)
+        _validate_coverage(row, path)
+        expected_required = TARGET_REPORTED_INTERIM_PERIODS if key == "qualified_reported_quarter_fact_sets" else TARGET_ANNUAL_PERIODS
+        if row.get("required") != expected_required or row.get("present") != len(periods) or row.get("qualified_periods") != periods:
+            _fail(path, "coverage periods/counts do not match retained reconciliation facts")
+    documents = company_documents.get("documents") or {}
+    index_documents = research_index.get("documents") or {}
+    if not isinstance(reconciliation.get("facts"), list):
+        _fail("reconciliation.companies.MLCF.facts", "must be a list")
+    for index, fact in enumerate(reconciliation["facts"]):
+        if not isinstance(fact, dict) or fact.get("status") != "eligible":
+            continue
+        _closed_keys(fact, _RECONCILIATION_FACT_KEYS, f"reconciliation.companies.MLCF.facts[{index}]")
+        source = _state_row(fact.get("source"), f"reconciliation.companies.MLCF.facts[{index}].source")
+        _closed_keys(source, _RECONCILIATION_FACT_SOURCE_KEYS, f"reconciliation.companies.MLCF.facts[{index}].source")
+        if fact.get("eligibility_scope") not in {ANNUAL_INCOME_SCOPE, REPORTED_QUARTER_SCOPE, ANNUAL_CASHFLOW_SCOPE}:
+            continue
+        if not source.get("document_id"):
+            _fail("reconciliation.companies.MLCF.facts", "eligible fact lacks a retained source reference")
+        document_id = source["document_id"]
+        document = _state_row(documents.get(document_id), f"company_documents.documents.{document_id}")
+        index = _state_row(index_documents.get(document_id), f"research_index.documents.{document_id}")
+        _closed_keys(document, _COMPANY_DOCUMENT_KEYS, f"company_documents.documents.{document_id}")
+        _closed_keys(index, _RESEARCH_INDEX_DOCUMENT_KEYS, f"research_index.documents.{document_id}")
+        _require_equal(source.get("content_sha256"), document.get("content_sha256"), f"reconciliation source hash {document_id}")
+        _require_equal(source.get("source_url"), document.get("source_url"), f"reconciliation source URL {document_id}")
+        _require_equal(source.get("source"), document.get("source"), f"reconciliation source label {document_id}")
+        _require_equal(index.get("id"), document_id, f"research index source {document_id}")
 
 
 def build_case_from_retained_state(
@@ -288,21 +517,38 @@ def build_case_from_retained_state(
     """Build the gap case from retained state; this function never writes or fetches."""
     qualification = _state_row((financial_truth_state.get("companies") or {}).get("MLCF"), "financial_truth.companies.MLCF")
     reconciliation = _state_row((reconciliation_state.get("companies") or {}).get("MLCF"), "reconciliation.companies.MLCF")
+    _closed_keys(financial_truth_state, _FINANCIAL_TRUTH_TOP_KEYS, "financial_truth")
+    _closed_keys(company_documents_state, _COMPANY_DOCUMENT_TOP_KEYS, "company_documents")
+    _closed_keys(review_manifest_state, _REVIEW_TOP_KEYS, "review_manifest")
+    _closed_keys(research_index_state, _RESEARCH_INDEX_TOP_KEYS, "research_index")
+    _closed_keys(reconciliation_state, _RECONCILIATION_TOP_KEYS, "reconciliation")
+    _closed_keys(qualification, _QUALIFICATION_KEYS, "financial_truth.companies.MLCF")
+    _closed_keys(reconciliation, _RECONCILIATION_COMPANY_KEYS, "reconciliation.companies.MLCF")
+    if review_manifest_state.get("source") != _REVIEW_SOURCE:
+        _fail("review_manifest.source", "manifest source bindings drifted")
     if "MLCF" not in (financial_truth_state.get("pilot_symbols") or []):
         _fail("financial_truth.pilot_symbols", "MLCF is outside the retained qualification universe")
     if qualification.get("symbol") != "MLCF" or qualification.get("status") != "not_qualified":
         _fail("financial_truth.companies.MLCF", "qualification status drifted")
-    if (qualification.get("financial_tie_out") or {}).get("status") != "blocked":
+    financial_tie_out = _state_row(qualification.get("financial_tie_out"), "financial_truth.companies.MLCF.financial_tie_out")
+    downstream = _state_row(qualification.get("downstream"), "financial_truth.companies.MLCF.downstream")
+    qualification_policy = _state_row(qualification.get("policy"), "financial_truth.companies.MLCF.policy")
+    share_state = _state_row(qualification.get("share_count"), "financial_truth.companies.MLCF.share_count")
+    _closed_keys(financial_tie_out, _FINANCIAL_TIE_OUT_KEYS, "financial_truth.companies.MLCF.financial_tie_out")
+    _closed_keys(downstream, _DOWNSTREAM_KEYS, "financial_truth.companies.MLCF.downstream")
+    _closed_keys(qualification_policy, _QUALIFICATION_POLICY_KEYS, "financial_truth.companies.MLCF.policy")
+    _closed_keys(share_state, _SHARE_COUNT_KEYS, "financial_truth.companies.MLCF.share_count")
+    if financial_tie_out.get("status") != "blocked":
         _fail("financial_truth.companies.MLCF.financial_tie_out", "financial tie-out is no longer blocked")
-    if (qualification.get("downstream") or {}).get("forecast") != "blocked_financial_truth_not_qualified":
+    if downstream.get("forecast") != "blocked_financial_truth_not_qualified":
         _fail("financial_truth.companies.MLCF.downstream.forecast", "formal forecast gate drifted")
-    if (qualification.get("policy") or {}).get("raw_financial_values") != "not_emitted":
+    if qualification_policy.get("raw_financial_values") != "not_emitted":
         _fail("financial_truth.companies.MLCF.policy.raw_financial_values", "raw financial output policy drifted")
     if reconciliation.get("symbol") != "MLCF" or reconciliation.get("source_conflict_count") != 0:
         _fail("reconciliation.companies.MLCF", "reconciliation conflict state drifted")
-    share_state = qualification.get("share_count") or {}
     if share_state.get("status") != "missing_official_share_count_capital_note_tie_out" or share_state.get("available_on") is not None or share_state.get("source") is not None:
         _fail("financial_truth.companies.MLCF.share_count", "share-count tie-out status drifted")
+    _validate_qualification_against_reconciliation(qualification, reconciliation, company_documents_state, research_index_state)
     baseline = {
         "annual_income_triplets": copy.deepcopy(qualification.get("annual_income_triplets")),
         "qualified_reported_quarter_fact_sets": copy.deepcopy(qualification.get("qualified_reported_quarter_fact_sets")),
@@ -355,8 +601,20 @@ def _missing_requirements(baseline: dict[str, Any]) -> list[str]:
     return requirements
 
 
-def evaluate_case(case: dict[str, Any]) -> dict[str, Any]:
+def evaluate_case(case: dict[str, Any], *, retained_state: dict[str, dict[str, Any]] | None = None) -> dict[str, Any]:
+    if not isinstance(retained_state, dict) or set(retained_state) != {"financial_truth", "company_documents", "review_manifest", "research_index", "reconciliation"}:
+        _fail("retained_state", "authoritative state snapshot is required")
     validate_case(case)
+    authoritative = build_case_from_retained_state(
+        retained_state["financial_truth"],
+        retained_state["company_documents"],
+        retained_state["review_manifest"],
+        retained_state["research_index"],
+        retained_state["reconciliation"],
+        as_of_date=case["as_of_date"],
+    )
+    if case != authoritative:
+        _fail("case", "evaluated case does not match retained authoritative state")
     baseline = copy.deepcopy(case["baseline"])
     reasons = [MISSING_COUNTERPART, BLOCKER, RAW_BYTES_MISSING, FACT_EVIDENCE_MISSING]
     candidate_evidence = []

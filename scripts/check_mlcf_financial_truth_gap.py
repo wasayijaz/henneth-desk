@@ -63,6 +63,12 @@ def _assert_source_reject(states: dict[str, dict[str, object]], checks: list[str
     raise AssertionError(f"source drift was accepted: {label}")
 
 
+def _assert_source_accept(states: dict[str, dict[str, object]], checks: list[str], label: str) -> None:
+    case = build_case(states)
+    evaluate_case(case, retained_state=states)
+    checks.append(label)
+
+
 def _load_states() -> dict[str, dict[str, object]]:
     root = Path(__file__).resolve().parents[1]
     paths = {
@@ -124,12 +130,56 @@ def main() -> int:
         raise AssertionError("result shares mutable baseline")
     checks.append("determinism and isolation")
 
+    with_meta = copy.deepcopy(_load_states())
+    with_meta["financial_truth"]["_meta"] = {"artifact_path": "state/company_intel/financial_truth_qualification.json"}
+    with_meta["reconciliation"]["_meta"] = {"artifact_path": "state/company_intel/financial_evidence_reconciliation.json"}
+    _assert_source_accept(with_meta, checks, "top-level meta accepted")
+
+    def add_unknown_eligible_fact(states: dict[str, dict[str, object]]) -> None:
+        for fact in states["reconciliation"]["companies"]["MLCF"]["facts"]:
+            if fact.get("status") == "eligible":
+                fact["unexpected_authority_field"] = "evil"
+                return
+        raise AssertionError("missing eligible MLCF fact fixture")
+
+    def add_unknown_eligible_fact_source(states: dict[str, dict[str, object]]) -> None:
+        for fact in states["reconciliation"]["companies"]["MLCF"]["facts"]:
+            if fact.get("status") == "eligible":
+                fact["source"]["unexpected_authority_field"] = "evil"
+                return
+        raise AssertionError("missing eligible MLCF fact fixture")
+
+    def forge_retained_snapshot(states: dict[str, dict[str, object]]) -> None:
+        document_id = RETAINED_MLCF_DOCUMENT_IDS[0]
+        manifest = states["review_manifest"]["documents"][document_id]
+        manifest["title"] = "MLCF Financial Results for the Quarter Ended 29.09.2023"
+        manifest["expected_title_pattern"] = r"MLCF Financial Results for the Quarter Ended 29\.09\.2023"
+        manifest["period"] = "2023-09-29"
+        manifest["safe_period"]["period_end"] = "2023-09-29"
+        manifest["content_sha256"] = "1" * 64
+        document = states["company_documents"]["documents"][document_id]
+        document["title"] = manifest["title"]
+        document["content_sha256"] = manifest["content_sha256"]
+        document["local_sha256"] = manifest["content_sha256"]
+        index = states["research_index"]["documents"][document_id]
+        index["title"] = manifest["title"]
+        index["hash"] = manifest["content_sha256"]
+
     for label, mutate in (
         ("financial coverage drift", lambda s: s["financial_truth"]["companies"]["MLCF"]["annual_income_triplets"].__setitem__("present", 2)),
         ("required source hash drift", lambda s: s["review_manifest"]["documents"][RETAINED_MLCF_DOCUMENT_IDS[0]].__setitem__("content_sha256", "0" * 64)),
         ("company document drift", lambda s: s["company_documents"]["documents"][RETAINED_MLCF_DOCUMENT_IDS[0]].__setitem__("evidence", [{"page": 1}])),
         ("research index drift", lambda s: s["research_index"]["documents"][RETAINED_MLCF_DOCUMENT_IDS[0]].__setitem__("url", "https://example.invalid")),
         ("reconciliation evidence drift", lambda s: s["reconciliation"]["companies"]["MLCF"]["facts"].append({"source": {"document_id": RETAINED_MLCF_DOCUMENT_IDS[0]}})),
+        ("unknown qualification row field", lambda s: s["financial_truth"]["companies"]["MLCF"].__setitem__("unexpected_authority_field", "evil")),
+        ("unknown share-count field", lambda s: s["financial_truth"]["companies"]["MLCF"]["share_count"].__setitem__("unexpected_authority_field", "evil")),
+        ("unknown financial tie-out field", lambda s: s["financial_truth"]["companies"]["MLCF"]["financial_tie_out"].__setitem__("unexpected_authority_field", "evil")),
+        ("unknown downstream field", lambda s: s["financial_truth"]["companies"]["MLCF"]["downstream"].__setitem__("unexpected_authority_field", "evil")),
+        ("unknown qualification policy field", lambda s: s["financial_truth"]["companies"]["MLCF"]["policy"].__setitem__("unexpected_authority_field", "evil")),
+        ("unknown reconciliation company field", lambda s: s["reconciliation"]["companies"]["MLCF"].__setitem__("unexpected_authority_field", "evil")),
+        ("unknown eligible fact field", add_unknown_eligible_fact),
+        ("unknown eligible fact source field", add_unknown_eligible_fact_source),
+        ("coherent retained snapshot forge", forge_retained_snapshot),
     ):
         states = copy.deepcopy(_load_states())
         mutate(states)
