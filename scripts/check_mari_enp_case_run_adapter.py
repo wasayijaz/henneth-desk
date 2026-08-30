@@ -204,8 +204,21 @@ def main() -> None:
     src = next(row for row in arbitrary_source["input_lineage"] if row["source_ref"])["source_ref"]
     src["id"] = "arbitrary-id"
     check("contract rejects arbitrary source ID",
-          any("canonical retained source ID" in violation for violation in contract.validate_envelope(arbitrary_source)))
-    for field, value in (("url", "https://evil.invalid/doc.pdf"), ("path", "forged/path.pdf"), ("page", 99), ("content_sha256", "0" * 64), ("evidence_sha256", "1" * 64)):
+          any("authoritative retained source receipt" in violation for violation in contract.validate_envelope(arbitrary_source)))
+    correlated_unknown = copy.deepcopy(real)
+    correlated_ref = next(row for row in correlated_unknown["input_lineage"] if row["source_ref"])["source_ref"]
+    correlated_ref.update(id="psx:999999", url="https://dps.psx.com.pk/download/document/999999.pdf", page=7,
+                          content_sha256="0" * 64, evidence_sha256="1" * 64)
+    check("contract rejects fully correlated unknown source ID",
+          any("authoritative retained source receipt" in violation
+              for violation in contract.validate_envelope(correlated_unknown)))
+    unknown_issuer = copy.deepcopy(real)
+    unknown_ref = next(row for row in unknown_issuer["input_lineage"] if row["source_ref"])["source_ref"]
+    unknown_ref["id"] = "issuer:" + "a" * 24
+    check("contract rejects unknown issuer source ID",
+          any("authoritative retained source receipt" in violation
+              for violation in contract.validate_envelope(unknown_issuer)))
+    for field, value in (("url", "https://evil.invalid/doc.pdf"), ("path", "forged/path.pdf"), ("page", 99), ("content_sha256", "0" * 64), ("evidence_sha256", "1" * 64), ("date", "2024-01-01")):
         forged = copy.deepcopy(real)
         source = next(row for row in forged["input_lineage"] if row["source_ref"])["source_ref"]
         source[field] = value

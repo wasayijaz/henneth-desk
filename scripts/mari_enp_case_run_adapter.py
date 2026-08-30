@@ -251,6 +251,7 @@ def _retained_lineage(readiness: Mapping[str, Any]) -> list[dict[str, Any]]:
                 "url": refs[0].get("source_url"),
                 "page": refs[0].get("page"),
                 "content_sha256": refs[0].get("content_sha256"),
+                "evidence_sha256": _evidence_sha256_for_document(readiness, refs[0].get("document_id")),
                 "event_id": refs[0].get("event_id"),
                 "date": available_on,
             } if label_type == "source" and refs else None,
@@ -266,6 +267,13 @@ def _evidence_available_on(readiness: Mapping[str, Any], evidence: Mapping[str, 
     event_documents = {str(item.get("document_id")) for item in event.get("evidence") or []}
     if event_date and str(evidence.get("document_id")) in event_documents:
         return event_date
+    return None
+
+
+def _evidence_sha256_for_document(readiness: Mapping[str, Any], document_id: Any) -> str | None:
+    for evidence in (readiness.get("event") or {}).get("evidence") or []:
+        if evidence.get("document_id") == document_id:
+            return evidence.get("evidence_sha256")
     return None
 
 
