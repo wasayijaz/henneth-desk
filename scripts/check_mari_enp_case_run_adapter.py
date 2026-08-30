@@ -224,6 +224,28 @@ def main() -> None:
         source[field] = value
         check(f"contract rejects forged source {field}",
               contract.validate_envelope(forged) != [])
+    swapped_operands = copy.deepcopy(real)
+    operand_rows = {
+        row["field"]: row for row in swapped_operands["input_lineage"]
+        if row["scope"] == "retained_ep_operand" and row["label_type"] == "source"
+    }
+    operand_rows["block_identity"]["source_ref"], operand_rows["operator_status"]["source_ref"] = (
+        operand_rows["operator_status"]["source_ref"], operand_rows["block_identity"]["source_ref"]
+    )
+    check("contract rejects cross-row retained operand source swap",
+          any("authoritative source for retained operand" in violation
+              for violation in contract.validate_envelope(swapped_operands)))
+    duplicate_lineage = copy.deepcopy(real)
+    duplicate_lineage["input_lineage"].append(copy.deepcopy(duplicate_lineage["input_lineage"][0]))
+    check("contract rejects duplicate lineage row",
+          any("duplicate lineage row" in violation
+              for violation in contract.validate_envelope(duplicate_lineage)))
+    duplicate_operand = copy.deepcopy(real)
+    operand = next(row for row in duplicate_operand["input_lineage"] if row["scope"] == "retained_ep_operand")
+    duplicate_operand["input_lineage"].append(copy.deepcopy(operand))
+    check("contract rejects duplicate retained operand field",
+          any("duplicate retained operand field" in violation
+              for violation in contract.validate_envelope(duplicate_operand)))
     converted = copy.deepcopy(real)
     converted["status"] = "computed_fixture"
     converted["fixture_only"] = True

@@ -207,6 +207,10 @@ _RETAINED_SOURCE_RECEIPTS = {
         "event_id": "evt_3d1dae7553f73da60ba3",
     },
 }
+_RETAINED_OPERAND_SOURCE_IDS = {
+    "block_identity": "psx:265594",
+    "operator_status": "psx:260446",
+}
 _ANALYST_REF_KEYS = frozenset({"note_id", "note"})
 _BLOCKED_STATE_KEYS = frozenset({"status", "reason"})
 _FORMAL_PRODUCT_ORDER = ("financial_forecasts", "formal_valuations", "market_expectations")
@@ -310,6 +314,26 @@ def validate_envelope(envelope: Mapping[str, Any]) -> list[str]:
             violations.append(f"input_lineage[{index}]: must be a mapping")
             continue
         violations.extend(_validate_lineage(entry, f"input_lineage[{index}]"))
+    # Lineage is an evidence ledger, not a bag of attestations.  Reject exact
+    # duplicate rows and duplicate retained operand fields so callers cannot
+    # inflate provenance coverage or create ambiguous field-to-receipt binds.
+    seen_rows: set[str] = set()
+    seen_operands: set[str] = set()
+    for index, entry in enumerate(lineage):
+        if not isinstance(entry, Mapping):
+            continue
+        try:
+            row_key = json.dumps(entry, sort_keys=True, separators=(",", ":"), ensure_ascii=True, allow_nan=False)
+        except (TypeError, ValueError):
+            continue
+        if row_key in seen_rows:
+            violations.append(f"input_lineage[{index}]: duplicate lineage row")
+        seen_rows.add(row_key)
+        if entry.get("scope") == "retained_ep_operand":
+            operand_key = str(entry.get("field"))
+            if operand_key in seen_operands:
+                violations.append(f"input_lineage[{index}]: duplicate retained operand field")
+            seen_operands.add(operand_key)
     violations.extend(_validate_lineage_alignment(runs, lineage, bool(fixture_only), envelope.get("status")))
 
     analogue = envelope.get("analogue_readiness")
@@ -481,6 +505,12 @@ def _validate_lineage(entry: Mapping[str, Any], prefix: str) -> list[str]:
         ref = entry.get("source_ref")
         if isinstance(ref, Mapping):
             violations.extend(_validate_source_ref(ref, f"{prefix}.source_ref", available_on))
+            if entry.get("scope") == "retained_ep_operand":
+                expected_id = _RETAINED_OPERAND_SOURCE_IDS.get(entry.get("field"))
+                if expected_id is not None and ref.get("id") != expected_id:
+                    violations.append(
+                        f"{prefix}.source_ref.id: does not match authoritative source for retained operand"
+                    )
         else:
             violations.append(f"{prefix}.source_ref: source lineage requires id and label")
         if entry.get("analyst_ref") is not None:
