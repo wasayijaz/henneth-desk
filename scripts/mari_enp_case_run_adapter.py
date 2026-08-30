@@ -96,7 +96,10 @@ def build_synthetic_fixture_case_run() -> dict[str, Any]:
             "aggregate_ready_horizons": [],
             "next_required_evidence": "Synthetic case-run fixture only; retained analogues remain governed by state/company_intel/conditional_benchmarks.json.",
             "blocked_states": {
-                "real_case": "not_activated_by_fixture",
+                "real_case": {
+                    "status": "blocked",
+                    "reason": "not_activated_by_fixture",
+                },
             },
         },
         "formal_output_readiness": _formal_output_readiness({}, {}, fixture_only=True),
@@ -293,6 +296,7 @@ def _formal_output_readiness(
 
 
 def _summarise_engine_result(result: Mapping[str, Any], fixture_only: bool) -> dict[str, Any]:
+    schedule = result.get("quarterly_schedule") or []
     return {
         "case_label": (result.get("scenario") or {}).get("case_label"),
         "status": result.get("status"),
@@ -302,7 +306,8 @@ def _summarise_engine_result(result: Mapping[str, Any], fixture_only: bool) -> d
         "contract_version": (result.get("run_receipt") or {}).get("contract_version"),
         "input_sha256": (result.get("run_receipt") or {}).get("inputs_sha256"),
         "input_fields": [entry.get("field") for entry in result.get("inputs_lineage") or []],
-        "quarterly_schedule_rows": len(result.get("quarterly_schedule") or []),
+        "quarterly_schedule": schedule,
+        "quarterly_schedule_rows": len(schedule),
         "values": result.get("values"),
         "per_share": result.get("per_share"),
         "probabilities": result.get("probabilities"),
@@ -374,10 +379,9 @@ def _synthetic_case(label: str) -> dict[str, Any]:
             "spend_schedule": _analyst([
                 {"quarter_end": "2025-12-31", "phase": "exploration", "amount_pkr": spend[0]},
                 {"quarter_end": "2026-03-31", "phase": "appraisal", "amount_pkr": spend[1]},
-                {"quarter_end": "2026-06-30", "phase": "development", "amount_pkr": spend[2]},
             ], note),
             "first_production_quarter_end": _analyst("2026-09-30", note),
-            "production_horizon_quarters": _analyst(8, note),
+            "production_horizon_quarters": _analyst(6, note),
             "initial_production_boe_pd": _analyst(profile["initial_production_boe_pd"], note),
             "quarterly_decline_pct": _analyst(profile["quarterly_decline_pct"], note),
             "oil_share_pct": _analyst(profile["oil_share_pct"], note),

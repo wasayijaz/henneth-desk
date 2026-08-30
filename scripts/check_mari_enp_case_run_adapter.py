@@ -64,6 +64,7 @@ def main() -> None:
               and row["fixture_only"] is False
               and row["input_sha256"] is None
               and row["input_fields"] == []
+              and row["quarterly_schedule"] == []
               and row["quarterly_schedule_rows"] == 0
               and row["values"] is None
               and row["per_share"] is None
@@ -123,6 +124,21 @@ def main() -> None:
     check("fixture all runs have values and schedules",
           all(row["values"] and row["probabilities"] and row["quarterly_schedule_rows"] > 0
               for row in fixture["scenario_runs"]))
+    check("fixture schedule rows exact",
+          all(row["quarterly_schedule_rows"] == 8 and len(row["quarterly_schedule"]) == 8
+              for row in fixture["scenario_runs"]))
+    check("fixture schedule identities",
+          all([item["phase"] for item in row["quarterly_schedule"]]
+              == ["exploration", "appraisal", "production", "production", "production", "production", "production", "production"]
+              for row in fixture["scenario_runs"]))
+    check("fixture schedule row shape",
+          all(set(item) == {
+              "quarter_end", "phase", "production_boe", "gross_revenue_pkr", "royalty_pkr",
+              "opex_pkr", "tax_pkr", "net_cash_flow_pkr", "discount_factor",
+              "discounted_cash_flow_pkr",
+          }
+              for row in fixture["scenario_runs"]
+              for item in row["quarterly_schedule"]))
     check("fixture labels produce distinct receipts",
           len({row["input_sha256"] for row in fixture["scenario_runs"]}) == 3)
     check("fixture contains analyst provenance for every input",
@@ -137,7 +153,7 @@ def main() -> None:
           == {"fixture_output_not_formal_output"})
     check("fixture analogue boundary",
           fixture["analogue_readiness"]["status"] == "fixture_not_real_analogue_evidence"
-          and fixture["analogue_readiness"]["blocked_states"]["real_case"] == "not_activated_by_fixture")
+          and fixture["analogue_readiness"]["blocked_states"]["real_case"]["reason"] == "not_activated_by_fixture")
 
     repeat_real = adapter.build_retained_case_run(root)
     repeat_fixture = adapter.build_synthetic_fixture_case_run()
@@ -178,6 +194,71 @@ def main() -> None:
     check("contract rejects real numeric activation",
           any("retained blocked run must carry zero numeric outputs" in violation
               for violation in contract.validate_envelope(bad_real)))
+
+    adversarial = [
+        ("invented values",
+         lambda c: c["scenario_runs"][0].update(values={"invented": 123}),
+         "values.invented: unknown field"),
+        ("empty values",
+         lambda c: c["scenario_runs"][0].update(values={}),
+         "values.dry_hole_npv_pkr: missing required field"),
+        ("made-up probabilities",
+         lambda c: c["scenario_runs"][0].update(probabilities={"made_up": 999}),
+         "probabilities.made_up: unknown field"),
+        ("wrong row count",
+         lambda c: c["scenario_runs"][0].update(quarterly_schedule_rows=1),
+         "quarterly_schedule_rows: computed fixture must equal 8"),
+        ("computed blocked reason",
+         lambda c: c["scenario_runs"][0].update(blocked_reasons=["should_not_exist"]),
+         "blocked_reasons: computed run must not carry blocked reasons"),
+        ("empty input fields",
+         lambda c: c["scenario_runs"][0].update(input_fields=[]),
+         "input_fields: computed run must list the complete E&P fixture input fields"),
+    ]
+    for name, mutate, expected in adversarial:
+        candidate = copy.deepcopy(fixture)
+        mutate(candidate)
+        violations = contract.validate_envelope(candidate)
+        check(f"adversarial rejects {name}",
+              any(expected in violation for violation in violations), repr(violations))
+
+    fixture_nested_unknowns = [
+        ("values nested unknown", lambda c: c["scenario_runs"][0]["values"].update(extra=1), "values.extra: unknown field"),
+        ("per share nested unknown", lambda c: c["scenario_runs"][0]["per_share"].update(extra=1), "per_share.extra: unknown field"),
+        ("probability nested unknown", lambda c: c["scenario_runs"][0]["probabilities"].update(extra=1), "probabilities.extra: unknown field"),
+        ("schedule row nested unknown", lambda c: c["scenario_runs"][0]["quarterly_schedule"][0].update(extra=1), "quarterly_schedule[0].extra: unknown field"),
+        ("analyst ref nested unknown", lambda c: c["input_lineage"][-1]["analyst_ref"].update(extra=1), "analyst_ref.extra: unknown field"),
+        ("formal product nested unknown", lambda c: c["formal_output_readiness"]["products"][0].update(extra=1), "formal_output_readiness.products[0].extra: unknown field"),
+        ("readiness blocked-state nested unknown", lambda c: c["analogue_readiness"]["blocked_states"]["real_case"].update(extra=1), "blocked_states.real_case.extra: unknown field"),
+    ]
+    for name, mutate, expected in fixture_nested_unknowns:
+        candidate = copy.deepcopy(fixture)
+        mutate(candidate)
+        violations = contract.validate_envelope(candidate)
+        check(f"nested rejects {name}",
+              any(expected in violation for violation in violations), repr(violations))
+    real_nested_unknown = copy.deepcopy(real)
+    first_source = next(row for row in real_nested_unknown["input_lineage"] if row["source_ref"])
+    first_source["source_ref"].update(extra=1)
+    check("nested rejects source ref nested unknown",
+          any("source_ref.extra: unknown field" in violation
+              for violation in contract.validate_envelope(real_nested_unknown)))
+
+    bad_blocked_reasons = copy.deepcopy(real)
+    bad_blocked_reasons["scenario_runs"][0]["blocked_reasons"] = []
+    check("contract rejects blocked run without reasons",
+          any("blocked_reasons: blocked run requires reasons" in violation
+              for violation in contract.validate_envelope(bad_blocked_reasons)))
+    bad_schedule = copy.deepcopy(fixture)
+    bad_schedule["scenario_runs"][0]["quarterly_schedule"][0]["discounted_cash_flow_pkr"] = 123.0
+    check("contract rejects inconsistent schedule arithmetic",
+          any("discounted_cash_flow_pkr: must equal net_cash_flow_pkr * discount_factor" in violation
+              for violation in contract.validate_envelope(bad_schedule)))
+    bad_lineage_align = copy.deepcopy(fixture)
+    bad_lineage_align["input_lineage"].pop()
+    check("contract rejects missing fixture lineage",
+          any("computed fixture lineage must exactly cover every scenario/input field" in violation
+              for violation in contract.validate_envelope(bad_lineage_align)))
     bad_case = adapter._synthetic_case("base")
     bad_case["inputs"]["surprise_field"] = adapter._analyst(1.0, "synthetic_fixture_only_bad")
     check("strict engine-case wrapper rejects unknown input",

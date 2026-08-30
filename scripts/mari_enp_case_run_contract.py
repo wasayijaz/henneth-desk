@@ -82,6 +82,7 @@ _RUN_KEYS = frozenset({
     "contract_version",
     "input_sha256",
     "input_fields",
+    "quarterly_schedule",
     "quarterly_schedule_rows",
     "values",
     "per_share",
@@ -137,6 +138,51 @@ _FORBIDDEN_KEY_FRAGMENTS = (
     "recommendation",
 )
 _DATE_RE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
+_SHA_RE = re.compile(r"^[0-9a-f]{64}$")
+_COMPUTED_QUARTERLY_ROWS = 8
+_COMPUTED_INPUT_FIELDS = tuple(sorted(
+    field for field in ALLOWED_ENGINE_INPUTS
+    if field not in {"consideration_non_recoverable", "consideration_quarter_end", "market_gap_pkr"}
+))
+_VALUE_KEYS = frozenset({
+    "dry_hole_npv_pkr",
+    "unrisked_commercial_npv_pkr",
+    "risked_npv_pkr",
+    "p_success_pct",
+})
+_PER_SHARE_KEYS = frozenset({"risked_pkr", "unrisked_pkr"})
+_PROBABILITY_KEYS = frozenset({
+    "break_even_success_pct",
+    "market_implied_success_pct",
+    "market_implied_missing",
+})
+_PROBABILITY_OPTIONAL_KEYS = frozenset({"break_even_note", "market_implied_note"})
+_SCHEDULE_ROW_KEYS = frozenset({
+    "quarter_end",
+    "phase",
+    "production_boe",
+    "gross_revenue_pkr",
+    "royalty_pkr",
+    "opex_pkr",
+    "tax_pkr",
+    "net_cash_flow_pkr",
+    "discount_factor",
+    "discounted_cash_flow_pkr",
+})
+_SOURCE_REF_KEYS = frozenset({
+    "id",
+    "label",
+    "url",
+    "path",
+    "page",
+    "content_sha256",
+    "evidence_sha256",
+    "event_id",
+})
+_SOURCE_REF_REQUIRED = frozenset({"id", "label"})
+_ANALYST_REF_KEYS = frozenset({"note_id", "note"})
+_BLOCKED_STATE_KEYS = frozenset({"status", "reason"})
+_FORMAL_PRODUCT_ORDER = ("financial_forecasts", "formal_valuations", "market_expectations")
 
 
 def validate_engine_case(case: Mapping[str, Any]) -> list[str]:
@@ -224,28 +270,48 @@ def validate_envelope(envelope: Mapping[str, Any]) -> list[str]:
             violations.append(f"input_lineage[{index}]: must be a mapping")
             continue
         violations.extend(_validate_lineage(entry, f"input_lineage[{index}]"))
+    violations.extend(_validate_lineage_alignment(runs, lineage, bool(fixture_only), envelope.get("status")))
 
     analogue = envelope.get("analogue_readiness")
     if isinstance(analogue, Mapping):
         violations.extend(_keys(analogue, _ANALOGUE_KEYS, "analogue_readiness"))
+        if analogue.get("target_event_id") != "evt_3d1dae7553f73da60ba3":
+            violations.append("analogue_readiness.target_event_id: must match MARI offshore event")
+        if analogue.get("status") not in {"benchmarks_available", "fixture_not_real_analogue_evidence"}:
+            violations.append("analogue_readiness.status: unexpected readiness status")
+        if not _nonempty(analogue.get("readiness_status")):
+            violations.append("analogue_readiness.readiness_status: must be a non-empty string")
         horizons = analogue.get("aggregate_ready_horizons")
         if not isinstance(horizons, list) or any(not isinstance(item, str) for item in horizons):
             violations.append("analogue_readiness.aggregate_ready_horizons: must be a list of strings")
+        violations.extend(_validate_blocked_states(analogue.get("blocked_states"), "analogue_readiness.blocked_states"))
     else:
         violations.append("analogue_readiness: must be a mapping")
 
     formal = envelope.get("formal_output_readiness")
     if isinstance(formal, Mapping):
         violations.extend(_keys(formal, _FORMAL_KEYS, "formal_output_readiness"))
+        if formal.get("status") not in {"blocked", "blocked_fixture_only"}:
+            violations.append("formal_output_readiness.status: must be blocked or blocked_fixture_only")
+        if not _nonempty(formal.get("financial_truth_status")):
+            violations.append("formal_output_readiness.financial_truth_status: must be a non-empty string")
+        if formal.get("financial_truth_reason") is not None and not _nonempty(formal.get("financial_truth_reason")):
+            violations.append("formal_output_readiness.financial_truth_reason: must be null or a non-empty string")
         products = formal.get("products")
         if not isinstance(products, list):
             violations.append("formal_output_readiness.products: must be a list")
             products = []
+        if [product.get("product") for product in products if isinstance(product, Mapping)] != list(_FORMAL_PRODUCT_ORDER):
+            violations.append("formal_output_readiness.products: must contain the three formal products in order")
         for index, product in enumerate(products):
             if not isinstance(product, Mapping):
                 violations.append(f"formal_output_readiness.products[{index}]: must be a mapping")
                 continue
             violations.extend(_keys(product, _FORMAL_PRODUCT_KEYS, f"formal_output_readiness.products[{index}]"))
+            if product.get("status") not in {"blocked", "blocked_fixture_only"}:
+                violations.append(f"formal_output_readiness.products[{index}].status: must be blocked or blocked_fixture_only")
+            if not _nonempty(product.get("blocked_reason")):
+                violations.append(f"formal_output_readiness.products[{index}].blocked_reason: must be a non-empty string")
     else:
         violations.append("formal_output_readiness: must be a mapping")
 
@@ -286,13 +352,29 @@ def _validate_run(run: Mapping[str, Any], prefix: str, fixture_only: bool) -> li
             violations.append(f"{prefix}: retained real path cannot be computed by this adapter")
         if not (isinstance(input_sha, str) and re.fullmatch(r"[0-9a-f]{64}", input_sha)):
             violations.append(f"{prefix}.input_sha256: computed run requires a sha256")
-        if not isinstance(run.get("values"), Mapping):
+        values = run.get("values")
+        if isinstance(values, Mapping):
+            violations.extend(_validate_values(values, f"{prefix}.values"))
+        else:
             violations.append(f"{prefix}.values: computed run requires engine values")
-        if not isinstance(run.get("probabilities"), Mapping):
+        per_share = run.get("per_share")
+        if isinstance(per_share, Mapping):
+            violations.extend(_validate_per_share(per_share, f"{prefix}.per_share"))
+        else:
+            violations.append(f"{prefix}.per_share: computed run requires per-share engine values")
+        probabilities = run.get("probabilities")
+        if isinstance(probabilities, Mapping):
+            violations.extend(_validate_probabilities(probabilities, f"{prefix}.probabilities"))
+        else:
             violations.append(f"{prefix}.probabilities: computed run requires engine probabilities")
         rows = run.get("quarterly_schedule_rows")
-        if isinstance(rows, bool) or not isinstance(rows, int) or rows < 1:
-            violations.append(f"{prefix}.quarterly_schedule_rows: computed run requires a positive integer")
+        if rows != _COMPUTED_QUARTERLY_ROWS:
+            violations.append(f"{prefix}.quarterly_schedule_rows: computed fixture must equal {_COMPUTED_QUARTERLY_ROWS}")
+        schedule = run.get("quarterly_schedule")
+        if isinstance(schedule, list):
+            violations.extend(_validate_schedule(schedule, f"{prefix}.quarterly_schedule"))
+        else:
+            violations.append(f"{prefix}.quarterly_schedule: computed run requires engine schedule rows")
     elif status == "blocked":
         if input_sha is not None:
             violations.append(f"{prefix}.input_sha256: blocked run must be null")
@@ -300,14 +382,24 @@ def _validate_run(run: Mapping[str, Any], prefix: str, fixture_only: bool) -> li
             violations.append(f"{prefix}: blocked run must not carry numeric sections")
         if run.get("quarterly_schedule_rows") != 0:
             violations.append(f"{prefix}.quarterly_schedule_rows: blocked run must be 0")
+        if run.get("quarterly_schedule") != []:
+            violations.append(f"{prefix}.quarterly_schedule: blocked run must be empty")
     input_fields = run.get("input_fields")
     if not isinstance(input_fields, list) or any(not isinstance(item, str) for item in input_fields):
         violations.append(f"{prefix}.input_fields: must be a list of strings")
+    elif status == "computed" and tuple(input_fields) != _COMPUTED_INPUT_FIELDS:
+        violations.append(f"{prefix}.input_fields: computed run must list the complete E&P fixture input fields")
+    elif status == "blocked" and input_fields != []:
+        violations.append(f"{prefix}.input_fields: blocked run must have no input fields")
     blocked = run.get("blocked_reasons")
     if not isinstance(blocked, list) or any(not _nonempty(item) for item in blocked):
         violations.append(f"{prefix}.blocked_reasons: must be a list of non-empty strings")
     elif blocked != sorted(set(blocked)):
         violations.append(f"{prefix}.blocked_reasons: must be sorted and deduplicated")
+    elif status == "computed" and blocked:
+        violations.append(f"{prefix}.blocked_reasons: computed run must not carry blocked reasons")
+    elif status == "blocked" and not blocked:
+        violations.append(f"{prefix}.blocked_reasons: blocked run requires reasons")
     return violations
 
 
@@ -329,20 +421,201 @@ def _validate_lineage(entry: Mapping[str, Any], prefix: str) -> list[str]:
         violations.append(f"{prefix}.available_on: must be null or an ISO date")
     if label_type == "source":
         ref = entry.get("source_ref")
-        if not isinstance(ref, Mapping) or not _nonempty(ref.get("id")) or not _nonempty(ref.get("label")):
+        if isinstance(ref, Mapping):
+            violations.extend(_validate_source_ref(ref, f"{prefix}.source_ref"))
+        else:
             violations.append(f"{prefix}.source_ref: source lineage requires id and label")
+        if entry.get("analyst_ref") is not None:
+            violations.append(f"{prefix}.analyst_ref: source lineage must not carry analyst_ref")
     if label_type == "analyst":
         ref = entry.get("analyst_ref")
-        if not isinstance(ref, Mapping) or not _nonempty(ref.get("note_id")) or not _nonempty(ref.get("note")):
+        if isinstance(ref, Mapping):
+            violations.extend(_validate_analyst_ref(ref, f"{prefix}.analyst_ref"))
+        else:
             violations.append(f"{prefix}.analyst_ref: analyst lineage requires note_id and note")
+        if entry.get("source_ref") is not None:
+            violations.append(f"{prefix}.source_ref: analyst lineage must not carry source_ref")
     if label_type == "missing" and (entry.get("source_ref") is not None or entry.get("analyst_ref") is not None):
         violations.append(f"{prefix}: missing lineage must not carry a provenance ref")
     return violations
 
 
-def _keys(mapping: Mapping[str, Any], expected: frozenset[str], prefix: str) -> list[str]:
+def _validate_values(values: Mapping[str, Any], prefix: str) -> list[str]:
+    violations = _keys(values, _VALUE_KEYS, prefix)
+    for key in _VALUE_KEYS:
+        if _finite(values.get(key)) is None:
+            violations.append(f"{prefix}.{key}: must be a finite number")
+    p_success = _finite(values.get("p_success_pct"))
+    if p_success is not None and not 0.0 < p_success <= 100.0:
+        violations.append(f"{prefix}.p_success_pct: must be in (0, 100]")
+    return violations
+
+
+def _validate_per_share(per_share: Mapping[str, Any], prefix: str) -> list[str]:
+    violations = _keys(per_share, _PER_SHARE_KEYS, prefix)
+    for key in _PER_SHARE_KEYS:
+        if _finite(per_share.get(key)) is None:
+            violations.append(f"{prefix}.{key}: must be a finite number")
+    return violations
+
+
+def _validate_probabilities(probabilities: Mapping[str, Any], prefix: str) -> list[str]:
+    violations = _keys(
+        probabilities,
+        _PROBABILITY_KEYS,
+        prefix,
+        optional=_PROBABILITY_OPTIONAL_KEYS,
+    )
+    for key in ("break_even_success_pct", "market_implied_success_pct"):
+        value = probabilities.get(key)
+        if value is not None:
+            number = _finite(value)
+            if number is None:
+                violations.append(f"{prefix}.{key}: must be null or a finite number")
+            elif not 0.0 <= number <= 100.0:
+                violations.append(f"{prefix}.{key}: must be in [0, 100]")
+    missing = probabilities.get("market_implied_missing")
+    if missing != ["market_gap_pkr"]:
+        violations.append(f"{prefix}.market_implied_missing: must equal ['market_gap_pkr']")
+    for key in _PROBABILITY_OPTIONAL_KEYS:
+        if key in probabilities and not _nonempty(probabilities.get(key)):
+            violations.append(f"{prefix}.{key}: must be a non-empty string when present")
+    return violations
+
+
+def _validate_schedule(schedule: list[Any], prefix: str) -> list[str]:
     violations: list[str] = []
-    for key in sorted(set(mapping) - expected):
+    if len(schedule) != _COMPUTED_QUARTERLY_ROWS:
+        violations.append(f"{prefix}: computed fixture must contain {_COMPUTED_QUARTERLY_ROWS} rows")
+    previous_key: tuple[str, str] | None = None
+    for index, row in enumerate(schedule):
+        row_prefix = f"{prefix}[{index}]"
+        if not isinstance(row, Mapping):
+            violations.append(f"{row_prefix}: must be a mapping")
+            continue
+        violations.extend(_keys(row, _SCHEDULE_ROW_KEYS, row_prefix))
+        quarter_end = row.get("quarter_end")
+        if not enp_event_contract.is_quarter_end(quarter_end):
+            violations.append(f"{row_prefix}.quarter_end: must be a quarter-end")
+        phase = row.get("phase")
+        if phase not in enp_event_contract.PHASES and phase != "production":
+            violations.append(f"{row_prefix}.phase: must be exploration, appraisal, development or production")
+        sort_key = (str(quarter_end), str(phase))
+        if previous_key is not None and sort_key < previous_key:
+            violations.append(f"{prefix}: rows must be sorted by quarter_end then phase")
+        previous_key = sort_key
+        production = row.get("production_boe")
+        if phase == "production":
+            if _finite(production) is None or float(production) <= 0.0:
+                violations.append(f"{row_prefix}.production_boe: production rows require positive finite production")
+        elif production is not None:
+            violations.append(f"{row_prefix}.production_boe: non-production rows must be null")
+        for key in (
+            "gross_revenue_pkr",
+            "royalty_pkr",
+            "opex_pkr",
+            "tax_pkr",
+            "net_cash_flow_pkr",
+            "discount_factor",
+            "discounted_cash_flow_pkr",
+        ):
+            if _finite(row.get(key)) is None:
+                violations.append(f"{row_prefix}.{key}: must be a finite number")
+        factor = _finite(row.get("discount_factor"))
+        net = _finite(row.get("net_cash_flow_pkr"))
+        discounted = _finite(row.get("discounted_cash_flow_pkr"))
+        if factor is not None and factor <= 0.0:
+            violations.append(f"{row_prefix}.discount_factor: must be > 0")
+        if factor is not None and net is not None and discounted is not None:
+            if not math.isclose(discounted, net * factor, rel_tol=1e-9, abs_tol=1e-4):
+                violations.append(f"{row_prefix}.discounted_cash_flow_pkr: must equal net_cash_flow_pkr * discount_factor")
+    return violations
+
+
+def _validate_source_ref(ref: Mapping[str, Any], prefix: str) -> list[str]:
+    violations = _keys(ref, _SOURCE_REF_REQUIRED, prefix, optional=_SOURCE_REF_KEYS - _SOURCE_REF_REQUIRED)
+    for key in _SOURCE_REF_REQUIRED:
+        if not _nonempty(ref.get(key)):
+            violations.append(f"{prefix}.{key}: must be a non-empty string")
+    if "url" in ref and ref.get("url") is not None and not _nonempty(ref.get("url")):
+        violations.append(f"{prefix}.url: must be null or a non-empty string")
+    if "path" in ref and ref.get("path") is not None and not _nonempty(ref.get("path")):
+        violations.append(f"{prefix}.path: must be null or a non-empty string")
+    for key in ("content_sha256", "evidence_sha256"):
+        value = ref.get(key)
+        if value is not None and not (isinstance(value, str) and _SHA_RE.fullmatch(value)):
+            violations.append(f"{prefix}.{key}: must be null or a sha256")
+    page = ref.get("page")
+    if page is not None and (isinstance(page, bool) or not isinstance(page, int) or page < 1):
+        violations.append(f"{prefix}.page: must be null or an integer >= 1")
+    if "event_id" in ref and ref.get("event_id") is not None and not _nonempty(ref.get("event_id")):
+        violations.append(f"{prefix}.event_id: must be null or a non-empty string")
+    return violations
+
+
+def _validate_analyst_ref(ref: Mapping[str, Any], prefix: str) -> list[str]:
+    violations = _keys(ref, _ANALYST_REF_KEYS, prefix)
+    for key in _ANALYST_REF_KEYS:
+        if not _nonempty(ref.get(key)):
+            violations.append(f"{prefix}.{key}: must be a non-empty string")
+    return violations
+
+
+def _validate_blocked_states(value: Any, prefix: str) -> list[str]:
+    if not isinstance(value, Mapping):
+        return [f"{prefix}: must be a mapping"]
+    violations: list[str] = []
+    for key, item in value.items():
+        if not _nonempty(key):
+            violations.append(f"{prefix}: keys must be non-empty strings")
+        if not isinstance(item, Mapping):
+            violations.append(f"{prefix}.{key}: must be a mapping")
+            continue
+        violations.extend(_keys(item, _BLOCKED_STATE_KEYS, f"{prefix}.{key}"))
+        if item.get("status") != "blocked":
+            violations.append(f"{prefix}.{key}.status: must equal blocked")
+        if not _nonempty(item.get("reason")):
+            violations.append(f"{prefix}.{key}.reason: must be a non-empty string")
+    return violations
+
+
+def _validate_lineage_alignment(
+    runs: list[Any],
+    lineage: list[Any],
+    fixture_only: bool,
+    status: Any,
+) -> list[str]:
+    violations: list[str] = []
+    valid_runs = [run for run in runs if isinstance(run, Mapping)]
+    valid_lineage = [entry for entry in lineage if isinstance(entry, Mapping)]
+    if status == "computed_fixture":
+        expected = {(label, field) for label in SCENARIO_LABELS for field in _COMPUTED_INPUT_FIELDS}
+        observed = {
+            (entry.get("case_label"), entry.get("field"))
+            for entry in valid_lineage
+            if entry.get("scope") == "synthetic_fixture_input"
+        }
+        if observed != expected:
+            violations.append("input_lineage: computed fixture lineage must exactly cover every scenario/input field")
+        for run in valid_runs:
+            label = run.get("case_label")
+            if tuple(run.get("input_fields") or ()) != _COMPUTED_INPUT_FIELDS:
+                violations.append(f"scenario_runs[{label}].input_fields: must align with computed fixture lineage")
+        if not fixture_only:
+            violations.append("input_lineage: computed fixture status requires fixture_only")
+    elif status == "blocked":
+        for entry in valid_lineage:
+            if entry.get("case_label") is not None:
+                violations.append("input_lineage: retained blocked lineage must not be scenario-specific")
+        if not any(entry.get("label_type") == "missing" for entry in valid_lineage):
+            violations.append("input_lineage: retained blocked path must identify missing inputs")
+    return violations
+
+
+def _keys(mapping: Mapping[str, Any], expected: frozenset[str], prefix: str,
+          optional: frozenset[str] = frozenset()) -> list[str]:
+    violations: list[str] = []
+    for key in sorted(set(mapping) - expected - optional):
         violations.append(f"{prefix}.{key}: unknown field")
     for key in sorted(expected - set(mapping)):
         violations.append(f"{prefix}.{key}: missing required field")
@@ -380,6 +653,13 @@ def _has_numeric_outputs(run: Mapping[str, Any]) -> bool:
 
 def _nonempty(value: Any) -> bool:
     return isinstance(value, str) and bool(value.strip())
+
+
+def _finite(value: Any) -> float | None:
+    if isinstance(value, bool) or not isinstance(value, (int, float)):
+        return None
+    number = float(value)
+    return number if math.isfinite(number) else None
 
 
 def _walk(value: Any, path: str):
