@@ -16,6 +16,8 @@
     ["sources", "Sources"],
     ["formulas", "Formulas"],
   ]);
+  const SECTION_KEYS = new Set(SECTIONS.map(([key]) => key));
+  const SECTION_STATUSES = new Set(["available", "blocked", "empty_state"]);
 
   function parsePath(pathname) {
     const match = String(pathname || "").match(PATH);
@@ -23,27 +25,78 @@
     return { ticker: match[1].toUpperCase(), caseId: match[2] };
   }
 
-  function companyCaseRow(row) {
-    const payload = row?.intelligence_cases;
-    if (!payload || typeof payload !== "object" || Array.isArray(payload)) {
-      return {
-        symbol: row?.symbol || null,
-        status: "intelligence_cases_state_missing",
-        case_count: 0,
-        cases: [],
-        rejection_reasons: ["intelligence_cases_state_missing"],
-      };
-    }
-    return payload;
+  function rejectedPayload(row, reason) {
+    return {
+      symbol: row?.symbol || null,
+      status: reason,
+      case_count: 0,
+      cases: [],
+      rejection_reasons: [reason],
+    };
   }
 
-  function findCase(row, caseId) {
-    const payload = companyCaseRow(row);
-    if (payload.status === "intelligence_cases_state_missing" && !(payload.cases || []).length) {
-      return { ok: false, reason: "intelligence_cases_state_missing", payload, case: null };
+  function validTicker(value) {
+    return typeof value === "string" && /^[A-Z0-9]+$/.test(value);
+  }
+
+  function validateSection(section) {
+    if (!section || typeof section !== "object" || Array.isArray(section)) return "section_shape_invalid";
+    if (section.status !== undefined && (!SECTION_STATUSES.has(section.status) || typeof section.status !== "string")) {
+      return "section_status_invalid";
     }
+    return null;
+  }
+
+  function validateCase(caseObject, symbol, seenIds) {
+    if (!caseObject || typeof caseObject !== "object" || Array.isArray(caseObject)) return "case_shape_invalid";
+    if (caseObject.symbol !== symbol) return "case_symbol_mismatch";
+    if (typeof caseObject.case_id !== "string" || !caseObject.case_id) return "case_id_invalid";
+    if (seenIds.has(caseObject.case_id)) return "duplicate_case_id";
+    seenIds.add(caseObject.case_id);
+    if (!LIFECYCLE.includes(caseObject.status)) return "case_lifecycle_invalid";
+    if (caseObject.sections !== undefined) {
+      if (!caseObject.sections || typeof caseObject.sections !== "object" || Array.isArray(caseObject.sections)) return "sections_shape_invalid";
+      for (const [key, section] of Object.entries(caseObject.sections)) {
+        if (!SECTION_KEYS.has(key)) return "section_key_invalid";
+        const reason = validateSection(section);
+        if (reason) return reason;
+      }
+    }
+    return null;
+  }
+
+  function validateCompanyRow(row, requestedTicker) {
+    const ticker = String(requestedTicker || "").toUpperCase();
+    const rowSymbol = row?.symbol;
+    if (!validTicker(ticker) || typeof rowSymbol !== "string" || rowSymbol !== ticker) {
+      return { payload: rejectedPayload(row, "ticker_identity_mismatch"), reason: "ticker_identity_mismatch" };
+    }
+    const payload = row?.intelligence_cases;
+    if (!payload || typeof payload !== "object" || Array.isArray(payload)) {
+      return { payload: rejectedPayload(row, "intelligence_cases_state_missing"), reason: "intelligence_cases_state_missing" };
+    }
+    if (payload.symbol !== ticker) return { payload: rejectedPayload(row, "payload_symbol_mismatch"), reason: "payload_symbol_mismatch" };
+    if (!Array.isArray(payload.cases)) return { payload: rejectedPayload(row, "cases_shape_invalid"), reason: "cases_shape_invalid" };
+    const seenIds = new Set();
+    for (const caseObject of payload.cases) {
+      const reason = validateCase(caseObject, ticker, seenIds);
+      if (reason) return { payload: rejectedPayload(row, reason), reason };
+    }
+    return { payload, reason: null };
+  }
+
+  function companyCaseRow(row, requestedTicker) {
+    const ticker = requestedTicker === undefined ? row?.symbol : requestedTicker;
+    return validateCompanyRow(row, ticker).payload;
+  }
+
+  function findCase(row, caseId, requestedTicker) {
+    const ticker = requestedTicker === undefined ? row?.symbol : requestedTicker;
+    const validated = validateCompanyRow(row, ticker);
+    const payload = validated.payload;
+    if (validated.reason) return { ok: false, reason: validated.reason, payload, case: null };
     const wanted = String(caseId || "");
-    const found = (Array.isArray(payload.cases) ? payload.cases : []).find(item => item && item.case_id === wanted);
+    const found = payload.cases.find(item => item.case_id === wanted);
     if (!found) return { ok: false, reason: "case_not_found", payload, case: null };
     return { ok: true, reason: null, payload, case: found };
   }
