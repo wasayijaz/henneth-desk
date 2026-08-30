@@ -1029,6 +1029,160 @@ def main() -> int:
         assert (fail_tx / "state" / "company_intel" / "financial_model_inputs.json").read_bytes() == before_model
         assert (fail_tx / "ci_slice.json").read_bytes() == before_slice
 
+        # A late checker failure after the default integrity finalizer has run
+        # must roll back the integrity manifest with the canonical artifacts it
+        # describes. Otherwise restored source state can be left with a fresh
+        # manifest from the abandoned transaction.
+        integrity_tx = root / "transaction_integrity_failure"
+        _fixture(integrity_tx, ["psx:111"], full_canonical=True)
+        integrity_model, integrity_reconcile, integrity_truth, integrity_formal, integrity_completion, _, _ = _good_builders(integrity_tx)
+        before_integrity_payload = {"schema_version": 1, "artifacts": [{"path": "fixture-old", "sha256": "old"}]}
+        _write_json(integrity_tx / "state" / "company_intel" / "artifact_integrity.json", before_integrity_payload)
+        before_integrity = (integrity_tx / "state" / "company_intel" / "artifact_integrity.json").read_bytes()
+        before_monitoring = (integrity_tx / "state" / "company_intel" / "financial_model_inputs.json").read_bytes()
+        before_integrity_slice = (integrity_tx / "ci_slice.json").read_bytes()
+        integrity_builder_calls: list[str] = []
+
+        def integrity_record_builder(name: str):
+            def build() -> dict[str, Any]:
+                integrity_builder_calls.append(name)
+                _write_json(integrity_tx / "state" / "company_intel" / f"{name}.json", {
+                    "schema_version": 1,
+                    "builder": name,
+                    "transaction": "abandoned",
+                })
+                return {}
+            return build
+
+        def integrity_ci_builder() -> dict[str, Any]:
+            integrity_builder_calls.append("build_ci_slice")
+            pilot = json.loads((integrity_tx / "state" / "company_profiles.json").read_text(encoding="utf-8"))["pilot"]["symbols"]
+            _write_json(integrity_tx / "ci_slice.json", {
+                "meta": {"transaction": "abandoned"},
+                "tickers": [{"symbol": sym} for sym in pilot],
+            })
+            return {}
+
+        def integrity_manifest_builder() -> dict[str, Any]:
+            integrity_builder_calls.append("build_ci_artifact_integrity")
+            mutated_model = (integrity_tx / "state" / "company_intel" / "financial_model_inputs.json").read_bytes()
+            _write_json(integrity_tx / "state" / "company_intel" / "artifact_integrity.json", {
+                "schema_version": 1,
+                "kind": "fixture_integrity_manifest",
+                "source_hash": hashlib.sha256(mutated_model).hexdigest(),
+                "artifacts": [{"path": "state/company_intel/financial_model_inputs.json"}],
+            })
+            return {}
+
+        integrity_patch_targets = [
+            (build_signal_clusters, "build", integrity_record_builder("build_signal_clusters")),
+            (build_thesis_monitoring, "build", integrity_record_builder("build_thesis_monitoring")),
+            (build_intelligence_confidence, "build", integrity_record_builder("build_intelligence_confidence")),
+            (build_guidance_contradictions, "build", integrity_record_builder("build_guidance_contradictions")),
+            (build_management_delivery, "build", integrity_record_builder("build_management_delivery")),
+            (build_evidence_watchlist, "build", integrity_record_builder("build_evidence_watchlist")),
+            (build_ci_monitoring, "build", integrity_record_builder("build_ci_monitoring")),
+            (build_ci_work_routing_policy, "build", integrity_record_builder("build_ci_work_routing_policy")),
+            (build_company_brains, "build", integrity_record_builder("build_company_brains")),
+            (build_ci_slice, "build", integrity_ci_builder),
+            (build_ci_artifact_integrity, "build", integrity_manifest_builder),
+        ]
+        integrity_originals = [(module, name, getattr(module, name)) for module, name, _ in integrity_patch_targets]
+
+        def failing_integrity_preflight(cmd, **kwargs):
+            name = Path(str(cmd[-1])).name
+            if name == "preflight.py":
+                assert (kwargs.get("env") or {}).get("HENNETH_REPROCESS_TRANSACTION") == "1"
+                return Completed(1, "forced post-integrity preflight failure")
+            return Completed()
+
+        document_intelligence.run = current_writer
+        r.subprocess.run = failing_integrity_preflight
+        try:
+            for module, name, replacement in integrity_patch_targets:
+                setattr(module, name, replacement)
+            try:
+                r.consume_canonical(integrity_tx / "registry.json", integrity_tx / "queue.json",
+                                    integrity_tx / "stage", [(expected_doc, expected_fetch)],
+                                    state_root=integrity_tx / "state",
+                                    ci_slice_path=integrity_tx / "ci_slice.json",
+                                    model_builder=integrity_model,
+                                    reconciliation_builder=integrity_reconcile,
+                                    truth_builder=integrity_truth,
+                                    formal_builder=integrity_formal,
+                                    completion_matrix_builder=integrity_completion)
+            except r.ReprocessTransactionError as exc:
+                assert exc.stage == "checker:preflight.py"
+                assert exc.rolled_back is True
+                assert "forced post-integrity preflight failure" in str(exc)
+            else:
+                raise AssertionError("post-integrity preflight failure did not abort transaction")
+        finally:
+            document_intelligence.run = original_run
+            r.subprocess.run = original_subprocess_run
+            for module, name, original in integrity_originals:
+                setattr(module, name, original)
+        assert integrity_builder_calls.count("build_ci_artifact_integrity") == 2, integrity_builder_calls
+        assert (integrity_tx / "state" / "company_intel" / "financial_model_inputs.json").read_bytes() == before_monitoring
+        assert (integrity_tx / "ci_slice.json").read_bytes() == before_integrity_slice
+        assert (integrity_tx / "state" / "company_intel" / "artifact_integrity.json").read_bytes() == before_integrity
+
+        missing_integrity_tx = root / "transaction_missing_integrity_failure"
+        _fixture(missing_integrity_tx, ["psx:111"], full_canonical=True)
+        missing_model, missing_reconcile, missing_truth, missing_formal, missing_completion, _, _ = _good_builders(missing_integrity_tx)
+        missing_integrity_path = missing_integrity_tx / "state" / "company_intel" / "artifact_integrity.json"
+
+        def missing_integrity_manifest_builder() -> dict[str, Any]:
+            _write_json(missing_integrity_path, {
+                "schema_version": 1,
+                "kind": "fixture_integrity_manifest",
+                "transaction": "abandoned",
+            })
+            return {}
+
+        missing_integrity_patch_targets = [
+            (build_signal_clusters, "build", integrity_record_builder("build_signal_clusters")),
+            (build_thesis_monitoring, "build", integrity_record_builder("build_thesis_monitoring")),
+            (build_intelligence_confidence, "build", integrity_record_builder("build_intelligence_confidence")),
+            (build_guidance_contradictions, "build", integrity_record_builder("build_guidance_contradictions")),
+            (build_management_delivery, "build", integrity_record_builder("build_management_delivery")),
+            (build_evidence_watchlist, "build", integrity_record_builder("build_evidence_watchlist")),
+            (build_ci_monitoring, "build", integrity_record_builder("build_ci_monitoring")),
+            (build_ci_work_routing_policy, "build", integrity_record_builder("build_ci_work_routing_policy")),
+            (build_company_brains, "build", integrity_record_builder("build_company_brains")),
+            (build_ci_slice, "build", integrity_ci_builder),
+            (build_ci_artifact_integrity, "build", missing_integrity_manifest_builder),
+        ]
+        missing_integrity_originals = [
+            (module, name, getattr(module, name)) for module, name, _ in missing_integrity_patch_targets
+        ]
+        document_intelligence.run = current_writer
+        r.subprocess.run = failing_integrity_preflight
+        try:
+            for module, name, replacement in missing_integrity_patch_targets:
+                setattr(module, name, replacement)
+            try:
+                r.consume_canonical(missing_integrity_tx / "registry.json", missing_integrity_tx / "queue.json",
+                                    missing_integrity_tx / "stage", [(expected_doc, expected_fetch)],
+                                    state_root=missing_integrity_tx / "state",
+                                    ci_slice_path=missing_integrity_tx / "ci_slice.json",
+                                    model_builder=missing_model,
+                                    reconciliation_builder=missing_reconcile,
+                                    truth_builder=missing_truth,
+                                    formal_builder=missing_formal,
+                                    completion_matrix_builder=missing_completion)
+            except r.ReprocessTransactionError as exc:
+                assert exc.stage == "checker:preflight.py"
+                assert exc.rolled_back is True
+            else:
+                raise AssertionError("missing-integrity preflight failure did not abort transaction")
+        finally:
+            document_intelligence.run = original_run
+            r.subprocess.run = original_subprocess_run
+            for module, name, original in missing_integrity_originals:
+                setattr(module, name, original)
+        assert not missing_integrity_path.exists(), "rollback retained newly-created artifact_integrity.json"
+
         # A first consume may correctly return either a successful extraction or
         # an honest ``processed_unsupported`` result.  Explicit fixtures below
         # assert their distinct retry/idempotency semantics.

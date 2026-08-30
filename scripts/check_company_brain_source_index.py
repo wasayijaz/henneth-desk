@@ -14,6 +14,7 @@ from build_company_brains import (
     SOURCE_INDEX_PRODUCT_META,
     STATE_METADATA_KEYS,
     build,
+    _state_metadata,
 )
 from intelligence_types import SOURCE_INDEX_PRODUCTS
 from psx_data import STATE, load_json
@@ -112,7 +113,10 @@ def _assert_ref(symbol: str, product: str, ref: dict, state: dict) -> None:
         raise AssertionError(f"{label}: pointer did not resolve to a source row")
     if ref.get("symbol") != (row.get("symbol") or symbol):
         raise AssertionError(f"{label}: symbol mismatch")
-    if ref.get("state_metadata") != _picked(state, STATE_METADATA_KEYS):
+    state_metadata = ref.get("state_metadata") or {}
+    if "_meta" in state_metadata:
+        raise AssertionError(f"{label}: generated integrity metadata leaked into source index")
+    if ref.get("state_metadata") != _state_metadata(state):
         raise AssertionError(f"{label}: state metadata was not preserved exactly")
     if ref.get("row_metadata") != _picked(row, ROW_METADATA_KEYS):
         raise AssertionError(f"{label}: row metadata was not preserved exactly")

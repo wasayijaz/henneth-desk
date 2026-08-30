@@ -8,6 +8,7 @@ import sys
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from intelligence_types import BRAIN_DOMAINS, INTELLIGENCE_TYPES, SOURCE_INDEX_PRODUCTS, SOURCE_PRODUCTS
 from psx_data import STATE, load_json, save_json
+from ci_checker_helpers import without_root_meta
 
 OUT = STATE / "company_intel" / "company_brains.json"
 SOURCE_INDEX_PRODUCT_META = {
@@ -313,6 +314,12 @@ def _picked(mapping: dict, keys: tuple[str, ...]) -> dict:
     return {key: mapping[key] for key in keys if key in mapping}
 
 
+def _state_metadata(state: dict) -> dict:
+    """Return source product metadata, excluding the generated integrity envelope."""
+    logical = without_root_meta(state)
+    return _picked(logical, STATE_METADATA_KEYS) if isinstance(logical, dict) else {}
+
+
 def _source_index(symbol: str, source_products: dict) -> dict:
     refs = {}
     for product in SOURCE_INDEX_PRODUCTS:
@@ -325,7 +332,7 @@ def _source_index(symbol: str, source_products: dict) -> dict:
             "source_path": f"{meta['state_path']}#/companies/{symbol}",
             "pointer": f"/companies/{symbol}",
             "symbol": row.get("symbol") or symbol,
-            "state_metadata": _picked(state, STATE_METADATA_KEYS),
+            "state_metadata": _state_metadata(state),
             "row_metadata": _picked(row, ROW_METADATA_KEYS),
         }
     return refs

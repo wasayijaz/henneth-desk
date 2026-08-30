@@ -711,10 +711,12 @@ def _snapshot_paths(state_root: Path, ci_slice_path: Path = CI_SLICE_PATH) -> li
     paths = [state_root / rel for rel in CANONICAL_RELATIVE_PATHS]
     ci_dir = state_root / "company_intel"
     if ci_dir.exists():
+        rollback_excluded = CI_ARTIFACT_INTEGRITY_EXCLUDED_STATE_NAMES - {"artifact_integrity.json"}
         paths.extend(
             path for path in sorted(ci_dir.glob("*.json"))
-            if path.name not in CI_ARTIFACT_INTEGRITY_EXCLUDED_STATE_NAMES
+            if path.name not in rollback_excluded
         )
+    paths.append(state_root / "company_intel" / "artifact_integrity.json")
     paths.append(ci_slice_path)
     deduped: list[Path] = []
     seen: set[Path] = set()
