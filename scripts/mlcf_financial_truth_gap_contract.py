@@ -31,6 +31,7 @@ CONTRACT_VERSION = "mlcf_financial_truth_gap_contract_v2"
 CASE_SCHEMA = "mlcf_financial_truth_gap_case_v1"
 SOURCE = "PSX DPS"
 BLOCKER = "image_only_under_financial_statement_v2_geometry_gate"
+IMMUTABLE_PUBLICATION_AUTHORITY_UNAVAILABLE = "immutable publication authority unavailable"
 MISSING_COUNTERPART = "no_text_readable_exact_official_counterpart_retained"
 RAW_BYTES_MISSING = "raw_document_bytes_not_retained_for_reprocess"
 FACT_EVIDENCE_MISSING = "fact_level_source_evidence_missing"
@@ -78,7 +79,7 @@ _HASH_RE = re.compile(r"[0-9a-f]{64}\Z")
 
 
 def _authority_unavailable(path: str) -> None:
-    _fail(path, "immutable authority unavailable")
+    _fail(path, IMMUTABLE_PUBLICATION_AUTHORITY_UNAVAILABLE)
 
 
 def _build_retained_mlcf_document_authority() -> dict[str, dict[str, str]]:
@@ -232,6 +233,35 @@ def _iso_date(value: Any, path: str) -> str:
 RETAINED_MLCF_DOCUMENTS: dict[str, dict[str, str]] = _build_retained_mlcf_document_authority()
 
 
+def _build_retained_mlcf_publication_authority() -> dict[str, dict[str, str] | None]:
+    """Return only immutable publication bindings, never values from retained state.
+
+    The approved slot constants currently pin identity, period, title and content
+    hash, but do not pin publication/index dates (or a digest of those fields).
+    Such metadata therefore cannot be treated as authority; callers must fail
+    closed until the owner adds an immutable binding to the approved slots.
+    """
+    authority: dict[str, dict[str, str] | None] = {}
+    for document_id in RETAINED_MLCF_DOCUMENT_IDS:
+        slot = next(
+            (item for item in APPROVED_REVIEW_SLOTS if isinstance(item, dict) and item.get("source_document_id") == document_id),
+            None,
+        )
+        published_at = slot.get("published_at") if isinstance(slot, dict) else None
+        research_index_date = slot.get("research_index_date") if isinstance(slot, dict) else None
+        if not isinstance(published_at, str) or not isinstance(research_index_date, str):
+            authority[document_id] = None
+            continue
+        authority[document_id] = {
+            "published_at": published_at,
+            "research_index_date": research_index_date,
+        }
+    return authority
+
+
+RETAINED_MLCF_PUBLICATION_AUTHORITY = _build_retained_mlcf_publication_authority()
+
+
 def _iso_datetime(value: Any, path: str) -> str:
     if not isinstance(value, str):
         _fail(path, "must be an ISO datetime")
@@ -357,6 +387,11 @@ def _build_candidate_from_state(
     reconciliation: dict[str, Any],
 ) -> dict[str, Any]:
     expected = _expected_document(document_id, f"review_manifest.documents.{document_id}.document_id")
+    publication_authority = RETAINED_MLCF_PUBLICATION_AUTHORITY.get(document_id)
+    if publication_authority is None:
+        _authority_unavailable(f"approved_review_slots.{document_id}.publication")
+    _iso_datetime(publication_authority["published_at"], f"approved_review_slots.{document_id}.published_at")
+    _iso_date(publication_authority["research_index_date"], f"approved_review_slots.{document_id}.research_index_date")
     manifest = _state_row((review_manifest.get("documents") or {}).get(document_id), f"review_manifest.documents.{document_id}")
     document = _state_row((company_documents.get("documents") or {}).get(document_id), f"company_documents.documents.{document_id}")
     index = _state_row((research_index.get("documents") or {}).get(document_id), f"research_index.documents.{document_id}")
@@ -397,6 +432,8 @@ def _build_candidate_from_state(
     _require_equal(document.get("doc_type"), "results", f"company_documents.documents.{document_id}.doc_type")
     _require_equal(document.get("title"), manifest.get("title"), f"company_documents.documents.{document_id}.title")
     _require_equal(document.get("published_at"), published_at, f"company_documents.documents.{document_id}.published_at")
+    _require_equal(manifest.get("published_at"), publication_authority["published_at"], f"review_manifest.documents.{document_id}.published_at")
+    _require_equal(document.get("published_at"), publication_authority["published_at"], f"company_documents.documents.{document_id}.published_at")
     for key in ("source_url", "content_sha256"):
         _require_equal(document.get(key), expected[key], f"company_documents.documents.{document_id}.{key}")
     _require_equal(document.get("source"), SOURCE, f"company_documents.documents.{document_id}.source")
@@ -426,6 +463,8 @@ def _build_candidate_from_state(
         ("official_document_id", document_id.split(":", 1)[1]),
     ):
         _require_equal(index.get(key), expected_value, f"research_index.documents.{document_id}.{key}")
+    _require_equal(index.get("published_at"), publication_authority["published_at"], f"research_index.documents.{document_id}.published_at")
+    _require_equal(index.get("date"), publication_authority["research_index_date"], f"research_index.documents.{document_id}.date")
     if not isinstance(reconciliation.get("facts"), list):
         _fail("reconciliation.facts", "must remain a list")
     candidate_source_ids = {
