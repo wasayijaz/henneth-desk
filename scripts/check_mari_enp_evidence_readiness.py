@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import json
 import math
+import copy
 from pathlib import Path
 
 import build_mari_enp_evidence_readiness as builder
@@ -49,6 +50,62 @@ def main() -> None:
     check("event source ids",
           {row["document_id"] for row in event_evidence} == {"psx:265594"}
           and all(row["event_id"] == builder.EVENT_ID for row in event_evidence))
+    check("event receipt is fully exact",
+          event_evidence[0]["page"] == builder.TARGET_RECEIPT["page"]
+          and event_evidence[0]["content_sha256"] == builder.TARGET_RECEIPT["content_sha256"]
+          and event_evidence[0]["evidence_sha256"] == builder.TARGET_RECEIPT["evidence_sha256"]
+          and manifest["event"]["effective_date"] == builder.TARGET_RECEIPT["effective_date"])
+
+    # Hostile in-memory probes: every receipt field must remain exact even
+    # when IDs/URL are kept self-consistent.  Forged rows are omitted rather
+    # than relabelled as metadata or hash/page-backed evidence.
+    operating_events = builder._load(root, "state/company_intel/operating_events.json")
+    target_index = next(
+        index for index, event in enumerate(operating_events["companies"]["MARI"]["events"])
+        if isinstance(event, dict) and event.get("event_id") == builder.EVENT_ID
+    )
+    for field, value in (
+        ("page", 99),
+        ("content_sha256", "0" * 64),
+        ("evidence_sha256", "1" * 64),
+    ):
+        forged = copy.deepcopy(operating_events)
+        event = forged["companies"]["MARI"]["events"][target_index]
+        evidence = event["evidence"][0]
+        evidence[field] = value
+        check(f"forged receipt {field} rejected",
+              builder._event_evidence(forged) == [])
+    for field, value in (
+        ("document_id", "psx:999999"),
+        ("source_url", "https://dps.psx.com.pk/download/document/999999.pdf"),
+    ):
+        forged = copy.deepcopy(operating_events)
+        event = forged["companies"]["MARI"]["events"][target_index]
+        event[field] = value
+        event["evidence"][0][field] = value
+        check(f"self-consistent forged receipt {field} rejected",
+              builder._event_evidence(forged) == [])
+    forged_date = copy.deepcopy(operating_events)
+    forged_date["companies"]["MARI"]["events"][target_index]["effective_date"] = "2024-01-01"
+    check("forged receipt effective date rejected",
+          builder._event_evidence(forged_date) == [])
+    unknown = copy.deepcopy(operating_events)
+    unknown["companies"]["MARI"]["events"][target_index]["evidence"][0]["unexpected"] = True
+    check("unknown evidence key rejected", builder._event_evidence(unknown) == [])
+    malformed = copy.deepcopy(operating_events)
+    malformed["companies"]["MARI"]["events"][target_index]["evidence"].append("not-a-row")
+    check("malformed evidence row ignored without weakening claim",
+          len(builder._event_evidence(malformed)) == 1)
+    peshawar = copy.deepcopy(operating_events)
+    peshawar_event = peshawar["companies"]["MARI"]["events"][target_index]
+    peshawar_event["event_id"] = "evt_b25decfc180474cbe066"
+    peshawar_event["document_id"] = "psx:260446"
+    peshawar_event["source_url"] = "https://dps.psx.com.pk/download/document/260446.pdf"
+    peshawar_event["evidence"][0].update(
+        document_id="psx:260446",
+        source_url="https://dps.psx.com.pk/download/document/260446.pdf",
+    )
+    check("Peshawar receipt cannot substitute", builder._event_evidence(peshawar) == [])
 
     annual = manifest["financial_history"]["annual"]
     check("five annual slots", len(annual["periods"]) == 5 and annual["required_count"] == 5)
