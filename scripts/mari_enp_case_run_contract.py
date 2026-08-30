@@ -187,14 +187,25 @@ _SOURCE_REF_KEYS = frozenset({
     "date",
 })
 _SOURCE_REF_REQUIRED = frozenset({"id", "label"})
-_CANONICAL_SOURCE_PAGES = {"psx:260446": 1, "psx:265594": 3}
-_CANONICAL_SOURCE_HASHES = {
-    "psx:260446": "c13ccb4de58ad005bca106942721490593fe219ff45906c68280ea7856192e42",
-    "psx:265594": "cdc3f69157f5e5803238ba347ecb4e96f7297479df87d345739896913de8aae4",
-}
-_CANONICAL_EVIDENCE_HASHES = {
-    "psx:260446": "dd83c62cb781e2a57f5ae595a7184ea786a3e5890f7f7cc96cd93e23f958a177",
-    "psx:265594": "56c298f041bd756cd184e75d122f5a95cc6879f4b5fa037786007948b76d3d83",
+_RETAINED_SOURCE_RECEIPTS = {
+    "psx:260446": {
+        "url": "https://dps.psx.com.pk/download/document/260446.pdf",
+        "path": None,
+        "page": 1,
+        "content_sha256": "c13ccb4de58ad005bca106942721490593fe219ff45906c68280ea7856192e42",
+        "evidence_sha256": "dd83c62cb781e2a57f5ae595a7184ea786a3e5890f7f7cc96cd93e23f958a177",
+        "date": "2025-11-13",
+        "event_id": "evt_b25decfc180474cbe066",
+    },
+    "psx:265594": {
+        "url": "https://dps.psx.com.pk/download/document/265594.pdf",
+        "path": None,
+        "page": 3,
+        "content_sha256": "cdc3f69157f5e5803238ba347ecb4e96f7297479df87d345739896913de8aae4",
+        "evidence_sha256": "56c298f041bd756cd184e75d122f5a95cc6879f4b5fa037786007948b76d3d83",
+        "date": "2025-11-13",
+        "event_id": "evt_3d1dae7553f73da60ba3",
+    },
 }
 _ANALYST_REF_KEYS = frozenset({"note_id", "note"})
 _BLOCKED_STATE_KEYS = frozenset({"status", "reason"})
@@ -585,8 +596,9 @@ def _validate_source_ref(ref: Mapping[str, Any], prefix: str, available_on: Any 
         if not _nonempty(ref.get(key)):
             violations.append(f"{prefix}.{key}: must be a non-empty string")
     source_id = ref.get("id")
-    if isinstance(source_id, str) and not re.fullmatch(r"(?:psx:\d+|issuer:[0-9a-f]{24}|henneth_state:[A-Za-z0-9:_-]+)", source_id):
-        violations.append(f"{prefix}.id: must be a canonical retained source ID")
+    receipt = _RETAINED_SOURCE_RECEIPTS.get(source_id) if isinstance(source_id, str) else None
+    if receipt is None:
+        violations.append(f"{prefix}.id: must match an authoritative retained source receipt")
     if "url" in ref and ref.get("url") is not None and not _nonempty(ref.get("url")):
         violations.append(f"{prefix}.url: must be null or a non-empty string")
     if "path" in ref and ref.get("path") is not None and not _nonempty(ref.get("path")):
@@ -609,23 +621,11 @@ def _validate_source_ref(ref: Mapping[str, Any], prefix: str, available_on: Any 
         violations.append(f"{prefix}.page: must be null or an integer >= 1")
     if page is None:
         violations.append(f"{prefix}.page: authoritative source requires a document page")
-    if isinstance(source_id, str) and source_id.startswith("psx:"):
-        document_id = source_id.split(":", 1)[1]
-        locator = f"{ref.get('url') or ''} {ref.get('path') or ''}"
-        if document_id not in locator:
-            violations.append(f"{prefix}: PSX source ID must bind its document URL/path")
-        if _nonempty(ref.get("path")) and document_id not in ref["path"]:
-            violations.append(f"{prefix}.path: must bind its PSX document ID")
-        expected_page = _CANONICAL_SOURCE_PAGES.get(source_id)
-        if expected_page is not None and page != expected_page:
-            violations.append(f"{prefix}.page: does not match retained document page")
-        expected_hash = _CANONICAL_SOURCE_HASHES.get(source_id)
-        if expected_hash is not None and ref.get("content_sha256") != expected_hash:
-            violations.append(f"{prefix}.content_sha256: does not match retained document hash")
-        expected_evidence_hash = _CANONICAL_EVIDENCE_HASHES.get(source_id)
-        if ref.get("evidence_sha256") is not None and expected_evidence_hash is not None and ref.get("evidence_sha256") != expected_evidence_hash:
-            violations.append(f"{prefix}.evidence_sha256: does not match retained evidence hash")
-    if "event_id" in ref and ref.get("event_id") is not None and not _nonempty(ref.get("event_id")):
+    if receipt is not None:
+        for key in ("url", "path", "page", "content_sha256", "evidence_sha256", "date", "event_id"):
+            if ref.get(key) != receipt[key]:
+                violations.append(f"{prefix}.{key}: does not match authoritative retained source receipt")
+    elif "event_id" in ref and ref.get("event_id") is not None and not _nonempty(ref.get("event_id")):
         violations.append(f"{prefix}.event_id: must be null or a non-empty string")
     return violations
 
