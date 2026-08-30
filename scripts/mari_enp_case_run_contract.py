@@ -188,15 +188,6 @@ _SOURCE_REF_KEYS = frozenset({
 })
 _SOURCE_REF_REQUIRED = frozenset({"id", "label"})
 _RETAINED_SOURCE_RECEIPTS = {
-    "psx:260446": {
-        "url": "https://dps.psx.com.pk/download/document/260446.pdf",
-        "path": None,
-        "page": 1,
-        "content_sha256": "c13ccb4de58ad005bca106942721490593fe219ff45906c68280ea7856192e42",
-        "evidence_sha256": "dd83c62cb781e2a57f5ae595a7184ea786a3e5890f7f7cc96cd93e23f958a177",
-        "date": "2025-11-13",
-        "event_id": "evt_b25decfc180474cbe066",
-    },
     "psx:265594": {
         "url": "https://dps.psx.com.pk/download/document/265594.pdf",
         "path": None,
@@ -209,7 +200,6 @@ _RETAINED_SOURCE_RECEIPTS = {
 }
 _RETAINED_OPERAND_SOURCE_IDS = {
     "block_identity": "psx:265594",
-    "operator_status": "psx:260446",
 }
 _ANALYST_REF_KEYS = frozenset({"note_id", "note"})
 _BLOCKED_STATE_KEYS = frozenset({"status", "reason"})
@@ -507,9 +497,18 @@ def _validate_lineage(entry: Mapping[str, Any], prefix: str) -> list[str]:
             violations.extend(_validate_source_ref(ref, f"{prefix}.source_ref", available_on))
             if entry.get("scope") == "retained_ep_operand":
                 expected_id = _RETAINED_OPERAND_SOURCE_IDS.get(entry.get("field"))
-                if expected_id is not None and ref.get("id") != expected_id:
+                if expected_id is None:
+                    violations.append(
+                        f"{prefix}.source_ref.id: no retained source is permitted for this operand"
+                    )
+                elif ref.get("id") != expected_id:
                     violations.append(
                         f"{prefix}.source_ref.id: does not match authoritative source for retained operand"
+                    )
+            if entry.get("scope") in {"retained_event_evidence", "retained_ep_operand"}:
+                if ref.get("event_id") != "evt_3d1dae7553f73da60ba3":
+                    violations.append(
+                        f"{prefix}.source_ref.event_id: must bind canonical MARI offshore target event"
                     )
         else:
             violations.append(f"{prefix}.source_ref: source lineage requires id and label")
@@ -523,8 +522,11 @@ def _validate_lineage(entry: Mapping[str, Any], prefix: str) -> list[str]:
             violations.append(f"{prefix}.analyst_ref: analyst lineage requires note_id and note")
         if entry.get("source_ref") is not None:
             violations.append(f"{prefix}.source_ref: analyst lineage must not carry source_ref")
-    if label_type == "missing" and (entry.get("source_ref") is not None or entry.get("analyst_ref") is not None):
-        violations.append(f"{prefix}: missing lineage must not carry a provenance ref")
+    if label_type == "missing":
+        if entry.get("value") is not None:
+            violations.append(f"{prefix}.value: missing lineage must carry null value")
+        if entry.get("source_ref") is not None or entry.get("analyst_ref") is not None:
+            violations.append(f"{prefix}: missing lineage must not carry a provenance ref")
     return violations
 
 

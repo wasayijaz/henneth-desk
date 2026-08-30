@@ -18,6 +18,7 @@ from pathlib import Path
 from typing import Any, Mapping
 
 import enp_event_engine
+import build_mari_enp_evidence_readiness as readiness_builder
 import mari_enp_case_run_contract as contract
 import mari_enp_hypothesis_contract
 
@@ -30,7 +31,9 @@ EVENT_LEGACY_ID = "evt_ddf99590afb6dacddbde"
 def build_retained_case_run(root: Path | None = None) -> dict[str, Any]:
     """Build the real retained MARI envelope without writing state."""
     root = root or Path(__file__).resolve().parents[1]
-    readiness = _load(root, "state/company_intel/mari_enp_evidence_readiness.json")
+    # Rebuild the readiness seam in memory so a stale generated artifact can
+    # never reintroduce cross-event provenance into the retained case-run.
+    readiness = readiness_builder.build_manifest(root)
     cases = _load(root, "state/company_intel/intelligence_cases.json")
     analogues = _load(root, "state/company_intel/conditional_benchmarks.json")
     truth = _load(root, "state/company_intel/financial_truth_qualification.json")
@@ -204,6 +207,8 @@ def _blocked_reasons(
 def _retained_lineage(readiness: Mapping[str, Any]) -> list[dict[str, Any]]:
     rows: list[dict[str, Any]] = []
     for evidence in (readiness.get("event") or {}).get("evidence") or []:
+        if evidence.get("document_id") != EVENT_DOCUMENT_ID or evidence.get("event_id") != EVENT_ID:
+            continue
         available_on = _evidence_available_on(readiness, evidence)
         source_ok = bool(available_on and evidence.get("document_id"))
         rows.append({
@@ -229,11 +234,19 @@ def _retained_lineage(readiness: Mapping[str, Any]) -> list[dict[str, Any]]:
     for item in ((readiness.get("ep_operands") or {}).get("items") or []):
         operand = item.get("operand")
         label_type = "source" if item.get("status") == "observed_text_only" else "missing"
-        refs = item.get("evidence_refs") or []
+        refs = [
+            ref for ref in (item.get("evidence_refs") or [])
+            if ref.get("document_id") == EVENT_DOCUMENT_ID
+            and ref.get("event_id") == EVENT_ID
+        ]
+        # Operator status is not stated in the target document.  Even if a
+        # stale/mutated readiness object presents it as observed, do not emit
+        # a target operand source row.
+        if operand == "operator_status":
+            label_type = "missing"
+            refs = []
         if operand == "block_identity":
             refs = sorted(refs, key=lambda ref: 0 if ref.get("document_id") == EVENT_DOCUMENT_ID else 1)
-        elif operand == "operator_status":
-            refs = sorted(refs, key=lambda ref: 0 if ref.get("document_id") == "psx:260446" else 1)
         available_on = _evidence_available_on(readiness, refs[0]) if label_type == "source" and refs else None
         if not available_on:
             label_type = "missing"
