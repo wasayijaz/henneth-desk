@@ -835,6 +835,7 @@ def build():
     financial_forecasts = load_json(STATE / "company_intel" / "financial_forecasts.json", {"companies": {}})
     formal_valuations = load_json(STATE / "company_intel" / "formal_valuations.json", {"companies": {}})
     market_expectations = load_json(STATE / "company_intel" / "market_expectations.json", {"companies": {}})
+    event_to_value_product_readiness = load_json(STATE / "company_intel" / "event_to_value_product_readiness.json", {})
     financial_engine_assumptions = load_json(STATE / "company_intel" / "financial_engine_assumptions.json", {"records": []})
     private_thesis_receipt = load_json(STATE / "company_intel" / "private_thesis_storage_receipt.json", {})
     insider = load_json(STATE / "insider_activity.json", {"symbols": {}})
@@ -1157,6 +1158,16 @@ def build():
             "event_review_windows": event_review_windows.get("meta") or {"count": len(rows), "status": "unknown"},
             "financial_engine_assumption_gaps": _assumption_gap_meta(financial_engine_assumptions),
             "private_thesis_storage": _private_thesis_storage_meta(private_thesis_receipt),
+            "event_to_value_product_readiness": {
+                "product_version": event_to_value_product_readiness.get("product_version"),
+                "as_of": event_to_value_product_readiness.get("as_of"),
+                "summary": event_to_value_product_readiness.get("summary") or {},
+                "lineage": event_to_value_product_readiness.get("lineage") or {},
+                "policy": event_to_value_product_readiness.get("policy") or {},
+                "metrics": event_to_value_product_readiness.get("metrics") or [],
+                "status": "available" if event_to_value_product_readiness.get("metrics") else "not_generated",
+                "reason": None if event_to_value_product_readiness.get("metrics") else "event_to_value_product_readiness_not_generated",
+            },
             "note": "Private company-intelligence slice. Research, not advice. No execution or order path.",
         },
         "tickers": rows,

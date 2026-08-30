@@ -1,6 +1,6 @@
 {
  "meta": {
-  "built": "2026-08-30 22:58",
+  "built": "2026-08-31 00:15",
   "source": "Henneth state layer",
   "profile_source": "https://dps.psx.com.pk/company/{symbol}",
   "profile_updated": "2026-08-24 18:30",
@@ -193,6 +193,268 @@
     "Use a different authenticated account or token to verify the owner row is not readable, mutable or deletable.",
     "Run Supabase security advisors after the smoke test and retain only secret-free pass/fail evidence."
    ]
+  },
+  "event_to_value_product_readiness": {
+   "product_version": "event_to_value_product_readiness_v1",
+   "as_of": "2026-08-30T17:58:30Z",
+   "summary": {
+    "metric_count": 12,
+    "available_metric_count": 3,
+    "blocked_metric_count": 9,
+    "blocked_metric_ids": [
+     "model_ready_companies",
+     "published_cases",
+     "financially_computed_scenarios",
+     "live_forecast_outputs",
+     "live_valuation_outputs",
+     "live_market_expectation_outputs",
+     "ask_henneth_test_status",
+     "no_lookahead_status",
+     "production_gate_status"
+    ],
+    "alpha_denominators": {
+     "model_ready_companies": 3,
+     "published_cases": 3,
+     "financially_computed_scenarios": 9,
+     "live_forecast_outputs": 3,
+     "live_valuation_outputs": 3,
+     "live_market_expectation_outputs": 3
+    },
+    "forecast_readiness_input_ready_count": 2,
+    "forecast_readiness_is_not_model_ready": true
+   },
+   "lineage": {
+    "product_version": "event_to_value_product_readiness_v1",
+    "generated_at": "2026-08-30T17:58:30Z",
+    "source_as_of": {
+     "financial_truth_qualification": null,
+     "forecast_readiness": "2026-08-29 16:39",
+     "intelligence_cases": "2026-08-30T21:42:58+05:00",
+     "impact_scenarios": "2026-08-30T17:58:30Z",
+     "financial_forecasts": "2026-08-29",
+     "formal_valuations": "2026-08-29",
+     "market_expectations": "2026-08-29",
+     "thesis_monitoring": "2026-08-30T22:48:38+05:00",
+     "artifact_integrity": "2026-08-30T17:58:30Z",
+     "release_integrity_receipt": "2026-08-28T00:00:00Z"
+    },
+    "source_commit_sha": "671a59e50c66b10226bc897fbb37862d597147e3",
+    "build_cutoff_at": "2026-08-30T17:58:30Z"
+   },
+   "policy": {
+    "research_only": true,
+    "read_only_audit": true,
+    "no_inferred_success": true,
+    "no_advice": true,
+    "distinct_from_intelligence_case_ui": true
+   },
+   "metrics": [
+    {
+     "id": "model_ready_companies",
+     "label": "Model-ready companies",
+     "status": "blocked",
+     "value": 0,
+     "denominator": 3,
+     "display": "0/3",
+     "definition": "Count of companies whose financial_truth_qualification.status is qualified. Forecast-readiness input_ready is not treated as model-ready.",
+     "source_path": "state/company_intel/financial_truth_qualification.json",
+     "as_of": null,
+     "reason": "ranked only by retained source-grounded coverage; the leader remains unqualified until every financial-truth gate is satisfied",
+     "notes": []
+    },
+    {
+     "id": "published_cases",
+     "label": "Published Intelligence Cases",
+     "status": "blocked",
+     "value": 0,
+     "denominator": 3,
+     "display": "0/3",
+     "definition": "Count of intelligence_cases with status Published. Observed seeds are listed in notes but do not count.",
+     "source_path": "state/company_intel/intelligence_cases.json",
+     "as_of": "2026-08-30T21:42:58+05:00",
+     "reason": "observed_cases_exist_but_none_are_published",
+     "notes": [
+      "MARI:case_mari_offshore_exploration_blocks_observed_v1:Observed",
+      "MLCF:case_mlcf_pioc_control_observed_v1:Observed"
+     ]
+    },
+    {
+     "id": "financially_computed_scenarios",
+     "label": "Financially computed scenarios",
+     "status": "blocked",
+     "value": 0,
+     "denominator": 9,
+     "display": "0/9",
+     "definition": "Count of impact_scenarios rows whose revenue/EBITDA/EPS/FCF/valuation impact is non-null. Bear/Base/Bull shells with insufficient_data do not count.",
+     "source_path": "state/company_intel/impact_scenarios.json",
+     "as_of": "2026-08-30T17:58:30Z",
+     "reason": "no_financially_computed_scenario_impacts:blocked=66:unknown=141",
+     "notes": []
+    },
+    {
+     "id": "live_forecast_outputs",
+     "label": "Live forecast outputs",
+     "status": "blocked",
+     "value": 0,
+     "denominator": 3,
+     "display": "0/3",
+     "definition": "Count of financial_forecasts companies with status computed and a non-null result.",
+     "source_path": "state/company_intel/financial_forecasts.json",
+     "as_of": "2026-08-29",
+     "reason": "missing_source_gated_inputs",
+     "notes": []
+    },
+    {
+     "id": "live_valuation_outputs",
+     "label": "Live valuation outputs",
+     "status": "blocked",
+     "value": 0,
+     "denominator": 3,
+     "display": "0/3",
+     "definition": "Count of formal_valuations companies with status computed and a non-null result.",
+     "source_path": "state/company_intel/formal_valuations.json",
+     "as_of": "2026-08-29",
+     "reason": "missing_source_gated_inputs",
+     "notes": []
+    },
+    {
+     "id": "live_market_expectation_outputs",
+     "label": "Live market-expectation outputs",
+     "status": "blocked",
+     "value": 0,
+     "denominator": 3,
+     "display": "0/3",
+     "definition": "Count of market_expectations companies with status computed and a non-null result.",
+     "source_path": "state/company_intel/market_expectations.json",
+     "as_of": "2026-08-29",
+     "reason": "missing_source_gated_inputs",
+     "notes": []
+    },
+    {
+     "id": "ask_henneth_test_status",
+     "label": "Ask Henneth test status",
+     "status": "blocked",
+     "value": null,
+     "denominator": null,
+     "display": null,
+     "definition": "Live Ask runtime proof must be a stored receipt. Local contract checkers are not treated as a production pass.",
+     "source_path": "scripts/check_ask_henneth.mjs",
+     "as_of": null,
+     "reason": "ask_henneth_live_runtime_not_recorded_in_authoritative_ci_state",
+     "notes": [
+      "Focused contract checkers exist at scripts/check_ask_henneth.mjs, but they are not a live production Ask receipt."
+     ]
+    },
+    {
+     "id": "active_thesis_monitoring_cases",
+     "label": "Active thesis-monitoring cases",
+     "status": "available",
+     "value": 6,
+     "denominator": null,
+     "display": null,
+     "definition": "Sum of thesis_monitoring.active_thesis_count across the 20-company pilot.",
+     "source_path": "state/company_intel/thesis_monitoring.json",
+     "as_of": "2026-08-30T22:48:38+05:00",
+     "reason": null,
+     "notes": [
+      "ENGROH:1",
+      "MLCF:1",
+      "PPL:1",
+      "UBL:3"
+     ]
+    },
+    {
+     "id": "required_output_nulls",
+     "label": "Required-output nulls",
+     "status": "available",
+     "value": 60,
+     "denominator": null,
+     "display": null,
+     "definition": "Count of forecast, valuation, and market-expectation company rows whose result is null or not computed.",
+     "source_path": "state/company_intel/financial_forecasts.json",
+     "as_of": "2026-08-29",
+     "reason": null,
+     "notes": [
+      "financial_forecasts:MLCF:missing_source_gated_inputs",
+      "financial_forecasts:OGDC:missing_source_gated_inputs",
+      "financial_forecasts:PPL:missing_source_gated_inputs",
+      "financial_forecasts:DGKC:missing_source_gated_inputs",
+      "financial_forecasts:PSO:missing_source_gated_inputs",
+      "financial_forecasts:UBL:missing_source_gated_inputs",
+      "financial_forecasts:FFC:missing_source_gated_inputs",
+      "financial_forecasts:LUCK:missing_source_gated_inputs",
+      "financial_forecasts:HUBC:missing_source_gated_inputs",
+      "financial_forecasts:PRL:missing_source_gated_inputs",
+      "financial_forecasts:BOP:missing_source_gated_inputs",
+      "financial_forecasts:NBP:missing_source_gated_inputs",
+      "financial_forecasts:MEBL:missing_source_gated_inputs",
+      "financial_forecasts:ATRL:missing_source_gated_inputs",
+      "financial_forecasts:HBL:missing_source_gated_inputs",
+      "financial_forecasts:MARI:missing_source_gated_inputs",
+      "financial_forecasts:ENGROH:missing_source_gated_inputs",
+      "financial_forecasts:GAL:missing_source_gated_inputs",
+      "financial_forecasts:NRL:missing_source_gated_inputs",
+      "financial_forecasts:CNERGY:missing_source_gated_inputs",
+      "formal_valuations:MLCF:missing_source_gated_inputs",
+      "formal_valuations:OGDC:missing_source_gated_inputs",
+      "formal_valuations:PPL:missing_source_gated_inputs",
+      "formal_valuations:DGKC:missing_source_gated_inputs"
+     ]
+    },
+    {
+     "id": "provenance_coverage",
+     "label": "Provenance coverage",
+     "status": "available",
+     "value": "41/41",
+     "denominator": null,
+     "display": null,
+     "definition": "Hashed artifact_integrity rows versus artifact_count, plus source_commit_sha from the finalizer envelope.",
+     "source_path": "state/company_intel/artifact_integrity.json",
+     "as_of": "2026-08-30T17:58:30Z",
+     "reason": null,
+     "notes": [
+      "671a59e50c66b10226bc897fbb37862d597147e3",
+      "artifact_count=41"
+     ]
+    },
+    {
+     "id": "no_lookahead_status",
+     "label": "No-lookahead status",
+     "status": "blocked",
+     "value": null,
+     "denominator": null,
+     "display": null,
+     "definition": "No stored no-lookahead receipt exists. A pass requires scripts/check_ci_global_no_lookahead.py against the current tree.",
+     "source_path": "scripts/check_ci_global_no_lookahead.py",
+     "as_of": null,
+     "reason": "no_lookahead_pass_is_not_stored_as_authoritative_state; scripts/check_ci_global_no_lookahead.py must be run to prove the current tree",
+     "notes": [
+      "Checker exists. This audit does not treat a missing stored receipt as a pass."
+     ]
+    },
+    {
+     "id": "production_gate_status",
+     "label": "Production gate status",
+     "status": "blocked",
+     "value": "not_verified",
+     "denominator": null,
+     "display": null,
+     "definition": "Release is verified only when release_integrity_receipt.release_status is verified and every required_evidence row is pass for one commit.",
+     "source_path": "state/company_intel/release_integrity_receipt.json",
+     "as_of": "2026-08-28T00:00:00Z",
+     "reason": "not_verified:missing_evidence=github_ci,preview_deployment,production_deployment,public_login_smoke,owner_private_data_smoke,non_owner_private_data_smoke",
+     "notes": [
+      "github_ci:missing",
+      "preview_deployment:missing",
+      "production_deployment:missing",
+      "public_login_smoke:missing",
+      "owner_private_data_smoke:missing",
+      "non_owner_private_data_smoke:missing"
+     ]
+    }
+   ],
+   "status": "available",
+   "reason": null
   },
   "note": "Private company-intelligence slice. Research, not advice. No execution or order path."
  },
