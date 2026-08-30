@@ -1,0 +1,29 @@
+{
+ "schema_version": 1,
+ "source": {
+  "company_documents": "state/company_documents.json"
+ },
+ "policy": {
+  "candidate_only": true,
+  "approved": false,
+  "does_not_activate_financial_truth": true,
+  "owner_approval_required_before_financial_engine_import": true,
+  "no_raw_pdf_or_full_page_text": true
+ },
+ "summary": {
+  "candidate_count": 0,
+  "candidate_company_count": 0
+ },
+ "candidates": [],
+ "_meta": {
+  "generator_version": "ci_artifact_integrity_v1",
+  "source_commit_sha": "2089318cbdd2c23cf692d3143ff9eb583c3903c4",
+  "build_cutoff_at": "2026-08-29T12:19:14Z",
+  "generated_at": "2026-08-29T12:19:14Z",
+  "artifact_path": "state/company_intel/official_share_capital_candidates.json",
+  "timestamp_semantics": {
+   "build_cutoff_at": "generation boundary only; not a source-effective or source-published time",
+   "generated_at": "artifact generation time only; not a source-effective or source-published time"
+  }
+ }
+}

@@ -455,11 +455,11 @@
     "quality_flags": []
    },
    "audit_only_series": {
-    "audit_only_fact_count": 125,
+    "audit_only_fact_count": 143,
     "audit_only_metrics": [
      {
       "metric": "change_pct",
-      "fact_count": 17
+      "fact_count": 20
      },
      {
       "metric": "dividend",
@@ -467,14 +467,14 @@
      },
      {
       "metric": "profit",
-      "fact_count": 49
+      "fact_count": 61
      },
      {
       "metric": "revenue",
-      "fact_count": 54
+      "fact_count": 57
      }
     ],
-    "model_loadable_count": 23,
+    "model_loadable_count": 31,
     "note": "Audit-only facts are retained as coverage signals only and are not promoted into required values."
    },
    "qualification_queue": {
@@ -6665,9 +6665,9 @@
  },
  "_meta": {
   "generator_version": "ci_artifact_integrity_v1",
-  "source_commit_sha": "e13ddd30676af157a64555ee141579344fe88fe1",
-  "build_cutoff_at": "2026-08-29T11:43:24Z",
-  "generated_at": "2026-08-29T11:43:24Z",
+  "source_commit_sha": "2089318cbdd2c23cf692d3143ff9eb583c3903c4",
+  "build_cutoff_at": "2026-08-29T12:19:14Z",
+  "generated_at": "2026-08-29T12:19:14Z",
   "artifact_path": "state/company_intel/financial_coverage.json",
   "timestamp_semantics": {
    "build_cutoff_at": "generation boundary only; not a source-effective or source-published time",
