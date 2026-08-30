@@ -332,7 +332,7 @@
    "title": "MLCF Transmission of Quarterly Financial Statements for the Period Ended 30.09.2025",
    "doc_type": "results",
    "published_at": "2025-10-27T10:09:00+05:00",
-   "retrieved_at": "2026-08-29T12:17:07Z",
+   "retrieved_at": "2026-08-30T17:48:38Z",
    "available_on": "2025-10-27",
    "source_url": "https://dps.psx.com.pk/download/document/263397.pdf",
    "source": "PSX DPS",
@@ -441,6 +441,102 @@
    ],
    "facts": [
     {
+     "fact_id": "fact_12da50b792bc8938fe2d2635",
+     "parser_version": "financial_statement_v2",
+     "parser_revision": "block_geometry_v5",
+     "document_id": "psx:263397",
+     "source_url": "https://dps.psx.com.pk/download/document/263397.pdf",
+     "content_sha256": "a05eeee23485edd71c6c096a606a3b6fd76d6687e13bdaf032f97b59b9cdcc7e",
+     "page": 9,
+     "evidence": [
+      {
+       "page": 9,
+       "text": "Revenue from contracts with customers - net",
+       "source_url": "https://dps.psx.com.pk/download/document/263397.pdf"
+      }
+     ],
+     "statement_type": "income_statement",
+     "statement_heading": {
+      "type": "income_statement",
+      "basis": null,
+      "bbox": [
+       73.0,
+       57.6,
+       328.7,
+       77.3
+      ]
+     },
+     "line": "revenue",
+     "fact_type": "revenue",
+     "reported_label": "Revenue",
+     "period_end": "2025-09-30",
+     "duration_months": 3,
+     "period_type": "interim",
+     "column_role": "current_period",
+     "comparative_to_period_end": null,
+     "consolidation": "unconsolidated",
+     "currency": "PKR",
+     "scale": 1000,
+     "unit": "PKR",
+     "unit_multiplier": 1000,
+     "value": 16483361000.0,
+     "normalized_value": 16483361000.0,
+     "raw_value": "16,483,361",
+     "quality_flags": [],
+     "readiness": "model_loadable",
+     "available_on": "2025-10-27",
+     "published_at": "2025-10-27T10:09:00+05:00",
+     "retrieved_at": "2026-08-30T17:48:38Z"
+    },
+    {
+     "fact_id": "fact_331fdd85e9d4be4d51511c2a",
+     "parser_version": "financial_statement_v2",
+     "parser_revision": "block_geometry_v5",
+     "document_id": "psx:263397",
+     "source_url": "https://dps.psx.com.pk/download/document/263397.pdf",
+     "content_sha256": "a05eeee23485edd71c6c096a606a3b6fd76d6687e13bdaf032f97b59b9cdcc7e",
+     "page": 9,
+     "evidence": [
+      {
+       "page": 9,
+       "text": "Revenue from contracts with customers - net",
+       "source_url": "https://dps.psx.com.pk/download/document/263397.pdf"
+      }
+     ],
+     "statement_type": "income_statement",
+     "statement_heading": {
+      "type": "income_statement",
+      "basis": null,
+      "bbox": [
+       73.0,
+       57.6,
+       328.7,
+       77.3
+      ]
+     },
+     "line": "revenue",
+     "fact_type": "revenue",
+     "reported_label": "Revenue",
+     "period_end": "2024-09-30",
+     "duration_months": 3,
+     "period_type": "interim",
+     "column_role": "comparative_prior_period",
+     "comparative_to_period_end": "2025-09-30",
+     "consolidation": "unconsolidated",
+     "currency": "PKR",
+     "scale": 1000,
+     "unit": "PKR",
+     "unit_multiplier": 1000,
+     "value": 15719838000.0,
+     "normalized_value": 15719838000.0,
+     "raw_value": "15,719,838",
+     "quality_flags": [],
+     "readiness": "model_loadable",
+     "available_on": "2025-10-27",
+     "published_at": "2025-10-27T10:09:00+05:00",
+     "retrieved_at": "2026-08-30T17:48:38Z"
+    },
+    {
      "fact_id": "fact_f001c411af9371a232213181",
      "parser_version": "financial_statement_v2",
      "parser_revision": "block_geometry_v5",
@@ -486,7 +582,7 @@
      "readiness": "model_loadable",
      "available_on": "2025-10-27",
      "published_at": "2025-10-27T10:09:00+05:00",
-     "retrieved_at": "2026-08-29T12:17:07Z"
+     "retrieved_at": "2026-08-30T17:48:38Z"
     },
     {
      "fact_id": "fact_4d653595df671dec9e452059",
@@ -534,7 +630,7 @@
      "readiness": "model_loadable",
      "available_on": "2025-10-27",
      "published_at": "2025-10-27T10:09:00+05:00",
-     "retrieved_at": "2026-08-29T12:17:07Z"
+     "retrieved_at": "2026-08-30T17:48:38Z"
     },
     {
      "fact_id": "fact_9a2fed86a1c01a2a6485e6be",
@@ -582,7 +678,7 @@
      "readiness": "model_loadable",
      "available_on": "2025-10-27",
      "published_at": "2025-10-27T10:09:00+05:00",
-     "retrieved_at": "2026-08-29T12:17:07Z"
+     "retrieved_at": "2026-08-30T17:48:38Z"
     },
     {
      "fact_id": "fact_f670bb9ff0f5c271fda77239",
@@ -630,7 +726,7 @@
      "readiness": "model_loadable",
      "available_on": "2025-10-27",
      "published_at": "2025-10-27T10:09:00+05:00",
-     "retrieved_at": "2026-08-29T12:17:07Z"
+     "retrieved_at": "2026-08-30T17:48:38Z"
     },
     {
      "fact_id": "fact_84729725654e0edabf18e3a7",
@@ -678,7 +774,7 @@
      "readiness": "model_loadable",
      "available_on": "2025-10-27",
      "published_at": "2025-10-27T10:09:00+05:00",
-     "retrieved_at": "2026-08-29T12:17:07Z"
+     "retrieved_at": "2026-08-30T17:48:38Z"
     },
     {
      "fact_id": "fact_8f871b617a1a34e61909fe91",
@@ -726,103 +822,7 @@
      "readiness": "model_loadable",
      "available_on": "2025-10-27",
      "published_at": "2025-10-27T10:09:00+05:00",
-     "retrieved_at": "2026-08-29T12:17:07Z"
-    },
-    {
-     "fact_id": "fact_c58f283151d6dfee9c29e362",
-     "parser_version": "financial_statement_v2",
-     "parser_revision": "block_geometry_v5",
-     "document_id": "psx:263397",
-     "source_url": "https://dps.psx.com.pk/download/document/263397.pdf",
-     "content_sha256": "a05eeee23485edd71c6c096a606a3b6fd76d6687e13bdaf032f97b59b9cdcc7e",
-     "page": 29,
-     "evidence": [
-      {
-       "page": 29,
-       "text": "Gross profit",
-       "source_url": "https://dps.psx.com.pk/download/document/263397.pdf"
-      }
-     ],
-     "statement_type": "income_statement",
-     "statement_heading": {
-      "type": "income_statement",
-      "basis": null,
-      "bbox": [
-       73.0,
-       57.6,
-       328.7,
-       77.3
-      ]
-     },
-     "line": "gross_profit",
-     "fact_type": "gross_profit",
-     "reported_label": "Gross profit",
-     "period_end": "2025-09-30",
-     "duration_months": 3,
-     "period_type": "interim",
-     "column_role": "current_period",
-     "comparative_to_period_end": null,
-     "consolidation": "consolidated",
-     "currency": "PKR",
-     "scale": 1000,
-     "unit": "PKR",
-     "unit_multiplier": 1000,
-     "value": 5591609000.0,
-     "normalized_value": 5591609000.0,
-     "raw_value": "5,591,609",
-     "quality_flags": [],
-     "readiness": "model_loadable",
-     "available_on": "2025-10-27",
-     "published_at": "2025-10-27T10:09:00+05:00",
-     "retrieved_at": "2026-08-29T12:17:07Z"
-    },
-    {
-     "fact_id": "fact_b5fc0d674663373d0d98e923",
-     "parser_version": "financial_statement_v2",
-     "parser_revision": "block_geometry_v5",
-     "document_id": "psx:263397",
-     "source_url": "https://dps.psx.com.pk/download/document/263397.pdf",
-     "content_sha256": "a05eeee23485edd71c6c096a606a3b6fd76d6687e13bdaf032f97b59b9cdcc7e",
-     "page": 29,
-     "evidence": [
-      {
-       "page": 29,
-       "text": "Gross profit",
-       "source_url": "https://dps.psx.com.pk/download/document/263397.pdf"
-      }
-     ],
-     "statement_type": "income_statement",
-     "statement_heading": {
-      "type": "income_statement",
-      "basis": null,
-      "bbox": [
-       73.0,
-       57.6,
-       328.7,
-       77.3
-      ]
-     },
-     "line": "gross_profit",
-     "fact_type": "gross_profit",
-     "reported_label": "Gross profit",
-     "period_end": "2024-09-30",
-     "duration_months": 3,
-     "period_type": "interim",
-     "column_role": "comparative_prior_period",
-     "comparative_to_period_end": "2025-09-30",
-     "consolidation": "consolidated",
-     "currency": "PKR",
-     "scale": 1000,
-     "unit": "PKR",
-     "unit_multiplier": 1000,
-     "value": 4962677000.0,
-     "normalized_value": 4962677000.0,
-     "raw_value": "4,962,677",
-     "quality_flags": [],
-     "readiness": "model_loadable",
-     "available_on": "2025-10-27",
-     "published_at": "2025-10-27T10:09:00+05:00",
-     "retrieved_at": "2026-08-29T12:17:07Z"
+     "retrieved_at": "2026-08-30T17:48:38Z"
     }
    ],
    "versions": [],
@@ -28519,7 +28519,7 @@
   }
  },
  "_meta": {
-  "updated": "2026-08-30 21:42",
+  "updated": "2026-08-30 22:48",
   "processed": 1,
   "staged": 0,
   "failed": 0,

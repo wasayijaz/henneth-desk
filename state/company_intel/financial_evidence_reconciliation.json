@@ -24,7 +24,7 @@
   "NRL",
   "CNERGY"
  ],
- "as_of": "2026-08-30T16:42:58Z",
+ "as_of": "2026-08-30T17:48:38Z",
  "source": {
   "company_financial_series": "state/company_financial_series.json",
   "financial_coverage": "state/company_intel/financial_coverage.json",
@@ -46,9 +46,9 @@
  },
  "summary": {
   "company_count": 20,
-  "eligible_fact_count": 45,
+  "eligible_fact_count": 48,
   "audit_only_fact_count": 1536,
-  "quarantined_fact_count": 148,
+  "quarantined_fact_count": 153,
   "missing_slot_count": 160,
   "source_conflict_count": 0,
   "withheld_future_source_fact_count": 0,
@@ -58,9 +58,9 @@
   "MLCF": {
    "symbol": "MLCF",
    "status": "eligible_for_review",
-   "eligible_fact_count": 19,
+   "eligible_fact_count": 22,
    "audit_only_fact_count": 143,
-   "quarantined_fact_count": 78,
+   "quarantined_fact_count": 83,
    "missing_slot_count": 0,
    "source_conflict_count": 0,
    "withheld_future_source_fact_count": 0,
@@ -142,6 +142,45 @@
      "confidence": "low"
     },
     {
+     "reconciliation_id": "finrec_b057373d849e4b51cd79",
+     "evidence_id": "finev_6807e6874ad058b4866e",
+     "symbol": "MLCF",
+     "metric": "basic_eps",
+     "period_end": "2024-09-30",
+     "period_type": "interim",
+     "duration_months": 3,
+     "statement_type": "income_statement",
+     "consolidation": "consolidated",
+     "currency": "PKR",
+     "unit": "PKR/share",
+     "unit_multiplier": 1,
+     "raw_value": "1.28",
+     "normalized_value": 1.28,
+     "status": "quarantined",
+     "reasons": [
+      "not_direct_current_period_quarter_fact"
+     ],
+     "eligibility_scope": "not_eligible_financial_truth_gate",
+     "source": {
+      "document_id": "psx:263397",
+      "fact_id": "fact_73e9c7c297e4658bdca569b8",
+      "content_sha256": "a05eeee23485edd71c6c096a606a3b6fd76d6687e13bdaf032f97b59b9cdcc7e",
+      "source_url": "https://dps.psx.com.pk/download/document/263397.pdf",
+      "source": "PSX DPS",
+      "page": 29,
+      "text": "Earning per share for profit attributable to the",
+      "available_on": "2025-10-27",
+      "published_at": "2025-10-27T10:09:00+05:00",
+      "retrieved_at": "2026-08-30T17:48:38Z"
+     },
+     "parser": {
+      "version": "financial_statement_v2",
+      "revision": "block_geometry_v5"
+     },
+     "evidence_label": "unknown",
+     "confidence": "low"
+    },
+    {
      "reconciliation_id": "finrec_c838cd606264f3a76047",
      "evidence_id": "finev_008b89d7e0bea77fa390",
      "symbol": "MLCF",
@@ -172,7 +211,7 @@
       "text": "Earnings per share - basic and diluted",
       "available_on": "2025-10-27",
       "published_at": "2025-10-27T10:09:00+05:00",
-      "retrieved_at": "2026-08-29T12:17:07Z"
+      "retrieved_at": "2026-08-30T17:48:38Z"
      },
      "parser": {
       "version": "financial_statement_v2",
@@ -603,7 +642,7 @@
       "text": "Earnings per share - basic and diluted",
       "available_on": "2025-10-27",
       "published_at": "2025-10-27T10:09:00+05:00",
-      "retrieved_at": "2026-08-29T12:17:07Z"
+      "retrieved_at": "2026-08-30T17:48:38Z"
      },
      "parser": {
       "version": "financial_statement_v2",
@@ -611,6 +650,43 @@
      },
      "evidence_label": "unknown",
      "confidence": "low"
+    },
+    {
+     "reconciliation_id": "finrec_abf09398e6b8de697507",
+     "evidence_id": "finev_8592f3825d2b11ddd1fe",
+     "symbol": "MLCF",
+     "metric": "basic_eps",
+     "period_end": "2025-09-30",
+     "period_type": "interim",
+     "duration_months": 3,
+     "statement_type": "income_statement",
+     "consolidation": "consolidated",
+     "currency": "PKR",
+     "unit": "PKR/share",
+     "unit_multiplier": 1,
+     "raw_value": "2.60",
+     "normalized_value": 2.6,
+     "status": "eligible",
+     "reasons": [],
+     "eligibility_scope": "reported_quarter_financial_truth_gate",
+     "source": {
+      "document_id": "psx:263397",
+      "fact_id": "fact_92b0fbd64442767a7c78b5cf",
+      "content_sha256": "a05eeee23485edd71c6c096a606a3b6fd76d6687e13bdaf032f97b59b9cdcc7e",
+      "source_url": "https://dps.psx.com.pk/download/document/263397.pdf",
+      "source": "PSX DPS",
+      "page": 29,
+      "text": "Earning per share for profit attributable to the",
+      "available_on": "2025-10-27",
+      "published_at": "2025-10-27T10:09:00+05:00",
+      "retrieved_at": "2026-08-30T17:48:38Z"
+     },
+     "parser": {
+      "version": "financial_statement_v2",
+      "revision": "block_geometry_v5"
+     },
+     "evidence_label": "fact_source_reported",
+     "confidence": "high"
     },
     {
      "reconciliation_id": "finrec_45c6c321f87012c678a9",
@@ -1444,7 +1520,7 @@
       "text": "83 million, compared to Rs. 15,720 million in the previous period. The Company’s top line increased by 4.86% as a result of 20.89% quantitative increase in local dispatches. For the period under consideration, the following comparative dat…",
       "available_on": "2025-10-27",
       "published_at": "2025-10-27T10:09:00+05:00",
-      "retrieved_at": "2026-08-29T12:17:07Z"
+      "retrieved_at": "2026-08-30T17:48:38Z"
      },
      "parser": {
       "version": null,
@@ -1488,7 +1564,7 @@
       "text": "during the same period last year. Domestic sales volume was 972,398 tons, representing an increase of 20.89%, mainly due to increase in demand of cement in the local market. The export sales volume was down from 73,323 tons to 57,162 tons,…",
       "available_on": "2025-10-27",
       "published_at": "2025-10-27T10:09:00+05:00",
-      "retrieved_at": "2026-08-29T12:17:07Z"
+      "retrieved_at": "2026-08-30T17:48:38Z"
      },
      "parser": {
       "version": null,
@@ -1532,7 +1608,7 @@
       "text": "in the local market. The export sales volume was down from 73,323 tons to 57,162 tons, a decrease of 22.04% from the previous period due to lower demand. Global pet coke prices decreased during the first quarter of the current fiscal year…",
       "available_on": "2025-10-27",
       "published_at": "2025-10-27T10:09:00+05:00",
-      "retrieved_at": "2026-08-29T12:17:07Z"
+      "retrieved_at": "2026-08-30T17:48:38Z"
      },
      "parser": {
       "version": null,
@@ -2187,7 +2263,7 @@
       "text": "Gross profit",
       "available_on": "2025-10-27",
       "published_at": "2025-10-27T10:09:00+05:00",
-      "retrieved_at": "2026-08-29T12:17:07Z"
+      "retrieved_at": "2026-08-30T17:48:38Z"
      },
      "parser": {
       "version": "financial_statement_v2",
@@ -2226,7 +2302,7 @@
       "text": "Gross profit",
       "available_on": "2025-10-27",
       "published_at": "2025-10-27T10:09:00+05:00",
-      "retrieved_at": "2026-08-29T12:17:07Z"
+      "retrieved_at": "2026-08-30T17:48:38Z"
      },
      "parser": {
       "version": "financial_statement_v2",
@@ -2660,7 +2736,7 @@
       "text": "Gross profit",
       "available_on": "2025-10-27",
       "published_at": "2025-10-27T10:09:00+05:00",
-      "retrieved_at": "2026-08-29T12:17:07Z"
+      "retrieved_at": "2026-08-30T17:48:38Z"
      },
      "parser": {
       "version": "financial_statement_v2",
@@ -2700,7 +2776,7 @@
       "text": "Gross profit",
       "available_on": "2025-10-27",
       "published_at": "2025-10-27T10:09:00+05:00",
-      "retrieved_at": "2026-08-29T12:17:07Z"
+      "retrieved_at": "2026-08-30T17:48:38Z"
      },
      "parser": {
       "version": "financial_statement_v2",
@@ -4451,7 +4527,7 @@
       "text": "expenses (191,047) (177,414) Other income 867,190 12,662 (703,516) (2,105,283) Operating profit 4,278,304 2,573,656 Finance cost 15 (393,873) (907,480) Finance income 61,373 35,977 Finance cost -net (332,500) (871,503) Profit before final…",
       "available_on": "2025-10-27",
       "published_at": "2025-10-27T10:09:00+05:00",
-      "retrieved_at": "2026-08-29T12:17:07Z"
+      "retrieved_at": "2026-08-30T17:48:38Z"
      },
      "parser": {
       "version": null,
@@ -4494,7 +4570,7 @@
       "text": "customers - net 12 16,483,361 15,719,838 Cost of sales 13 (10,891,752) (10,757,161) Gross profit 5,591,609 4,962,677 Selling and distribution expenses (774,268) (1,347,200) Administrative expenses (586,878) (586,171) Net impairment loss on…",
       "available_on": "2025-10-27",
       "published_at": "2025-10-27T10:09:00+05:00",
-      "retrieved_at": "2026-08-29T12:17:07Z"
+      "retrieved_at": "2026-08-30T17:48:38Z"
      },
      "parser": {
       "version": null,
@@ -4537,7 +4613,7 @@
       "text": "75,626 10,475,626 Capital reserves 36,455,359 34,998,282 Revenue reserve: Un-appropriated profit 24,392,705 21,543,468 Surplus on revaluation of fixed assets - net of tax 5 3,821,425 3,942,406 Non-controlling interests (514) (496) Total eq…",
       "available_on": "2025-10-27",
       "published_at": "2025-10-27T10:09:00+05:00",
-      "retrieved_at": "2026-08-29T12:17:07Z"
+      "retrieved_at": "2026-08-30T17:48:38Z"
      },
      "parser": {
       "version": null,
@@ -4582,7 +4658,7 @@
       "text": "stments 12,382,054 11,102,413 Short term deposits and prepayments 955,319 688,697 Accrued profit 59,676 42,880 Other receivables 2,346,736 70,152 Cash and bank balances 2,083,168 1,615,481 39,413,647 35,752,604 122,386,018 119,106,271",
       "available_on": "2025-10-27",
       "published_at": "2025-10-27T10:09:00+05:00",
-      "retrieved_at": "2026-08-29T12:17:07Z"
+      "retrieved_at": "2026-08-30T17:48:38Z"
      },
      "parser": {
       "version": null,
@@ -4626,7 +4702,7 @@
       "text": "customers - net 13 16,483,361 15,719,838 Cost of sales 14 (11,501,541) (11,040,899) Gross profit 4,981,820 4,678,939 Selling and distribution expenses (774,268) (1,347,200) Administrative expenses (515,391) (503,331) Net impairment loss on…",
       "available_on": "2025-10-27",
       "published_at": "2025-10-27T10:09:00+05:00",
-      "retrieved_at": "2026-08-29T12:17:07Z"
+      "retrieved_at": "2026-08-30T17:48:38Z"
      },
      "parser": {
       "version": null,
@@ -4670,7 +4746,7 @@
       "text": "75,626 10,475,626 Capital reserves 36,455,359 34,998,282 Revenue reserve: Un-appropriated profit 25,109,920 22,390,719 Surplus on revaluation of fixed assets - net of tax 5 3,486,053 3,596,965 Total equity 75,526,958 71,461,592 NON - CURRE…",
       "available_on": "2025-10-27",
       "published_at": "2025-10-27T10:09:00+05:00",
-      "retrieved_at": "2026-08-29T12:17:07Z"
+      "retrieved_at": "2026-08-30T17:48:38Z"
      },
      "parser": {
       "version": null,
@@ -4713,7 +4789,7 @@
       "text": "volume coupled with overall decrease in cost of goods sold resulted in consolidated gross profit of Rs. 5,592 million during the reporting period, a 12.67% increase from Rs.4,963 million in the same period last year. Punjab based cement pl…",
       "available_on": "2025-10-27",
       "published_at": "2025-10-27T10:09:00+05:00",
-      "retrieved_at": "2026-08-29T12:17:07Z"
+      "retrieved_at": "2026-08-30T17:48:38Z"
      },
      "parser": {
       "version": null,
@@ -4756,7 +4832,7 @@
       "text": "Ended September 30, September 30, 2025 2024 (Rupees in million) Sales 16,483 15,720 Gross Profit 5,592 4,963 Profit from operations 4,406 2,738 Financial charges 335 639 Profit after tax 2,728 1,342 (-----------Rupees-----------) Earnings…",
       "available_on": "2025-10-27",
       "published_at": "2025-10-27T10:09:00+05:00",
-      "retrieved_at": "2026-08-29T12:17:07Z"
+      "retrieved_at": "2026-08-30T17:48:38Z"
      },
      "parser": {
       "version": null,
@@ -4799,7 +4875,7 @@
       "text": "xpenses (232,092) (220,763) Other income 497,585 19,308 (1,185,653) (2,224,826) Operating Profit 4,405,956 2,737,851 Finance cost 14 (396,710) (674,512) Finance income 61,372 35,976 Finance cost -net (335,338) (638,536) Share of loss in as…",
       "available_on": "2025-10-27",
       "published_at": "2025-10-27T10:09:00+05:00",
-      "retrieved_at": "2026-08-29T12:17:07Z"
+      "retrieved_at": "2026-08-30T17:48:38Z"
      },
      "parser": {
       "version": null,
@@ -4842,7 +4918,7 @@
       "text": "profit of Rs. 4,068 million for the reporting period, compared to a corresponding period profit of Rs. 2,099 million. The consolidated tax component was Rs. 1,339 million for the reporting period, compared to Rs. 757 million in the previou…",
       "available_on": "2025-10-27",
       "published_at": "2025-10-27T10:09:00+05:00",
-      "retrieved_at": "2026-08-29T12:17:07Z"
+      "retrieved_at": "2026-08-30T17:48:38Z"
      },
      "parser": {
       "version": null,
@@ -4885,7 +4961,7 @@
       "text": "720 Gross Profit 5,592 4,963 Profit from operations 4,406 2,738 Financial charges 335 639 Profit after tax 2,728 1,342 (-----------Rupees-----------) Earnings per share – basic and diluted 2.60 1.28 SUBSIDIARY COMPANY MAPLE LEAF POWER LIMI…",
       "available_on": "2025-10-27",
       "published_at": "2025-10-27T10:09:00+05:00",
-      "retrieved_at": "2026-08-29T12:17:07Z"
+      "retrieved_at": "2026-08-30T17:48:38Z"
      },
      "parser": {
       "version": null,
@@ -4928,7 +5004,7 @@
       "text": "ffective utilization of financing facilities. The Company reported a consolidated pre-tax profit of Rs. 4,068 million for the reporting period, compared to a corresponding period profit of Rs. 2,099 million. The consolidated tax component…",
       "available_on": "2025-10-27",
       "published_at": "2025-10-27T10:09:00+05:00",
-      "retrieved_at": "2026-08-29T12:17:07Z"
+      "retrieved_at": "2026-08-30T17:48:38Z"
      },
      "parser": {
       "version": null,
@@ -5973,6 +6049,45 @@
      "confidence": "high"
     },
     {
+     "reconciliation_id": "finrec_20955be7036eda0eb19e",
+     "evidence_id": "finev_74be9042053e1b454e3b",
+     "symbol": "MLCF",
+     "metric": "profit_after_tax_attributable",
+     "period_end": "2024-09-30",
+     "period_type": "interim",
+     "duration_months": 3,
+     "statement_type": "income_statement",
+     "consolidation": "consolidated",
+     "currency": "PKR",
+     "unit": "PKR",
+     "unit_multiplier": 1000,
+     "raw_value": "1,342,743",
+     "normalized_value": 1342743000.0,
+     "status": "quarantined",
+     "reasons": [
+      "not_direct_current_period_quarter_fact"
+     ],
+     "eligibility_scope": "not_eligible_financial_truth_gate",
+     "source": {
+      "document_id": "psx:263397",
+      "fact_id": "fact_ea438898ad190ab20ae41778",
+      "content_sha256": "a05eeee23485edd71c6c096a606a3b6fd76d6687e13bdaf032f97b59b9cdcc7e",
+      "source_url": "https://dps.psx.com.pk/download/document/263397.pdf",
+      "source": "PSX DPS",
+      "page": 29,
+      "text": "Equity holders of the Holding Company",
+      "available_on": "2025-10-27",
+      "published_at": "2025-10-27T10:09:00+05:00",
+      "retrieved_at": "2026-08-30T17:48:38Z"
+     },
+     "parser": {
+      "version": "financial_statement_v2",
+      "revision": "block_geometry_v5"
+     },
+     "evidence_label": "unknown",
+     "confidence": "low"
+    },
+    {
      "reconciliation_id": "finrec_6e5110b34e3792b5f01a",
      "evidence_id": "finev_f7c57e9dcad043029572",
      "symbol": "MLCF",
@@ -6003,7 +6118,7 @@
       "text": "Profit for the period",
       "available_on": "2025-10-27",
       "published_at": "2025-10-27T10:09:00+05:00",
-      "retrieved_at": "2026-08-29T12:17:07Z"
+      "retrieved_at": "2026-08-30T17:48:38Z"
      },
      "parser": {
       "version": "financial_statement_v2",
@@ -6366,6 +6481,43 @@
      "confidence": "high"
     },
     {
+     "reconciliation_id": "finrec_e23baa52ced1e54104a2",
+     "evidence_id": "finev_f747dda8e892cfcea825",
+     "symbol": "MLCF",
+     "metric": "profit_after_tax_attributable",
+     "period_end": "2025-09-30",
+     "period_type": "interim",
+     "duration_months": 3,
+     "statement_type": "income_statement",
+     "consolidation": "consolidated",
+     "currency": "PKR",
+     "unit": "PKR",
+     "unit_multiplier": 1000,
+     "raw_value": "2,728,256",
+     "normalized_value": 2728256000.0,
+     "status": "eligible",
+     "reasons": [],
+     "eligibility_scope": "reported_quarter_financial_truth_gate",
+     "source": {
+      "document_id": "psx:263397",
+      "fact_id": "fact_85776c58e26675a3e5028406",
+      "content_sha256": "a05eeee23485edd71c6c096a606a3b6fd76d6687e13bdaf032f97b59b9cdcc7e",
+      "source_url": "https://dps.psx.com.pk/download/document/263397.pdf",
+      "source": "PSX DPS",
+      "page": 29,
+      "text": "Equity holders of the Holding Company",
+      "available_on": "2025-10-27",
+      "published_at": "2025-10-27T10:09:00+05:00",
+      "retrieved_at": "2026-08-30T17:48:38Z"
+     },
+     "parser": {
+      "version": "financial_statement_v2",
+      "revision": "block_geometry_v5"
+     },
+     "evidence_label": "fact_source_reported",
+     "confidence": "high"
+    },
+    {
      "reconciliation_id": "finrec_b314cdcbf583a0d75ccb",
      "evidence_id": "finev_f6d64514e7fdbc4bafd8",
      "symbol": "MLCF",
@@ -6395,7 +6547,7 @@
       "text": "Profit for the period",
       "available_on": "2025-10-27",
       "published_at": "2025-10-27T10:09:00+05:00",
-      "retrieved_at": "2026-08-29T12:17:07Z"
+      "retrieved_at": "2026-08-30T17:48:38Z"
      },
      "parser": {
       "version": "financial_statement_v2",
@@ -6959,6 +7111,85 @@
      },
      "evidence_label": "fact_source_reported",
      "confidence": "high"
+    },
+    {
+     "reconciliation_id": "finrec_c2fc82df37ba36bbee34",
+     "evidence_id": "finev_76b55b5e6b0613234389",
+     "symbol": "MLCF",
+     "metric": "revenue",
+     "period_end": "2024-09-30",
+     "period_type": "interim",
+     "duration_months": 3,
+     "statement_type": "income_statement",
+     "consolidation": "consolidated",
+     "currency": "PKR",
+     "unit": "PKR",
+     "unit_multiplier": 1000,
+     "raw_value": "15,719,838",
+     "normalized_value": 15719838000.0,
+     "status": "quarantined",
+     "reasons": [
+      "not_direct_current_period_quarter_fact"
+     ],
+     "eligibility_scope": "not_eligible_financial_truth_gate",
+     "source": {
+      "document_id": "psx:263397",
+      "fact_id": "fact_2cb023d5c6918db663ab3fe6",
+      "content_sha256": "a05eeee23485edd71c6c096a606a3b6fd76d6687e13bdaf032f97b59b9cdcc7e",
+      "source_url": "https://dps.psx.com.pk/download/document/263397.pdf",
+      "source": "PSX DPS",
+      "page": 29,
+      "text": "Revenue from contracts with customers - net",
+      "available_on": "2025-10-27",
+      "published_at": "2025-10-27T10:09:00+05:00",
+      "retrieved_at": "2026-08-30T17:48:38Z"
+     },
+     "parser": {
+      "version": "financial_statement_v2",
+      "revision": "block_geometry_v5"
+     },
+     "evidence_label": "unknown",
+     "confidence": "low"
+    },
+    {
+     "reconciliation_id": "finrec_9d73a21a3490267e1fd0",
+     "evidence_id": "finev_6e6f420db35591bf10ee",
+     "symbol": "MLCF",
+     "metric": "revenue",
+     "period_end": "2024-09-30",
+     "period_type": "interim",
+     "duration_months": 3,
+     "statement_type": "income_statement",
+     "consolidation": "unconsolidated",
+     "currency": "PKR",
+     "unit": "PKR",
+     "unit_multiplier": 1000,
+     "raw_value": "15,719,838",
+     "normalized_value": 15719838000.0,
+     "status": "quarantined",
+     "reasons": [
+      "missing_or_nonconsolidated_basis",
+      "not_direct_current_period_quarter_fact"
+     ],
+     "eligibility_scope": "not_eligible_financial_truth_gate",
+     "source": {
+      "document_id": "psx:263397",
+      "fact_id": "fact_331fdd85e9d4be4d51511c2a",
+      "content_sha256": "a05eeee23485edd71c6c096a606a3b6fd76d6687e13bdaf032f97b59b9cdcc7e",
+      "source_url": "https://dps.psx.com.pk/download/document/263397.pdf",
+      "source": "PSX DPS",
+      "page": 9,
+      "text": "Revenue from contracts with customers - net",
+      "available_on": "2025-10-27",
+      "published_at": "2025-10-27T10:09:00+05:00",
+      "retrieved_at": "2026-08-30T17:48:38Z"
+     },
+     "parser": {
+      "version": "financial_statement_v2",
+      "revision": "block_geometry_v5"
+     },
+     "evidence_label": "unknown",
+     "confidence": "low"
     },
     {
      "reconciliation_id": "finrec_c033c908cf9740746761",
@@ -8474,13 +8705,52 @@
       "text": "in thousand) Revenue from contracts with customers - net 13 16,483,361 15,719,838 Cost of sales 14 (11,501,541) (11,040,899) Gross profit 4,981,820 4,678,939 Selling and distribution expenses (774,268) (1,347,200) Administrative expenses (…",
       "available_on": "2025-10-27",
       "published_at": "2025-10-27T10:09:00+05:00",
-      "retrieved_at": "2026-08-29T12:17:07Z"
+      "retrieved_at": "2026-08-30T17:48:38Z"
      },
      "parser": {
       "version": null,
       "revision": null
      },
      "evidence_label": "stale_source",
+     "confidence": "low"
+    },
+    {
+     "reconciliation_id": "finrec_0d7ec190425455b0f02a",
+     "evidence_id": "finev_2e8841e71bf82e399247",
+     "symbol": "MLCF",
+     "metric": "revenue",
+     "period_end": "2025-09-30",
+     "period_type": "interim",
+     "duration_months": 3,
+     "statement_type": "income_statement",
+     "consolidation": "unconsolidated",
+     "currency": "PKR",
+     "unit": "PKR",
+     "unit_multiplier": 1000,
+     "raw_value": "16,483,361",
+     "normalized_value": 16483361000.0,
+     "status": "quarantined",
+     "reasons": [
+      "missing_or_nonconsolidated_basis"
+     ],
+     "eligibility_scope": "not_eligible_financial_truth_gate",
+     "source": {
+      "document_id": "psx:263397",
+      "fact_id": "fact_12da50b792bc8938fe2d2635",
+      "content_sha256": "a05eeee23485edd71c6c096a606a3b6fd76d6687e13bdaf032f97b59b9cdcc7e",
+      "source_url": "https://dps.psx.com.pk/download/document/263397.pdf",
+      "source": "PSX DPS",
+      "page": 9,
+      "text": "Revenue from contracts with customers - net",
+      "available_on": "2025-10-27",
+      "published_at": "2025-10-27T10:09:00+05:00",
+      "retrieved_at": "2026-08-30T17:48:38Z"
+     },
+     "parser": {
+      "version": "financial_statement_v2",
+      "revision": "block_geometry_v5"
+     },
+     "evidence_label": "unknown",
      "confidence": "low"
     },
     {
@@ -8520,7 +8790,7 @@
       "text": "riod 784,126 508,686 At end of the period (885,288) (658,176) (101,162) (149,490) Cost of sales 11,501,541 11,040,899 15. FINANCE COST Profit / interest / mark up on: - Long term loans and finances 355,144 548,774 - Long term loans from Su…",
       "available_on": "2025-10-27",
       "published_at": "2025-10-27T10:09:00+05:00",
-      "retrieved_at": "2026-08-29T12:17:07Z"
+      "retrieved_at": "2026-08-30T17:48:38Z"
      },
      "parser": {
       "version": null,
@@ -8566,7 +8836,7 @@
       "text": "n (109,592) (68,091) (8,934,472) (7,251,577) Net local sales 15,798,908 14,776,628 Export sales 684,453 943,210 16,483,361 15,719,838",
       "available_on": "2025-10-27",
       "published_at": "2025-10-27T10:09:00+05:00",
-      "retrieved_at": "2026-08-29T12:17:07Z"
+      "retrieved_at": "2026-08-30T17:48:38Z"
      },
      "parser": {
       "version": null,
@@ -8610,7 +8880,7 @@
       "text": "lows: Three Months Period Ended September 30, September 30, 2025 2024 (Rupees in million) Sales 16,483 15,720 Gross Profit 5,592 4,963 Profit from operations 4,406 2,738 Financial charges 335 639 Profit after tax 2,728 1,342 (-----------Ru…",
       "available_on": "2025-10-27",
       "published_at": "2025-10-27T10:09:00+05:00",
-      "retrieved_at": "2026-08-29T12:17:07Z"
+      "retrieved_at": "2026-08-30T17:48:38Z"
      },
      "parser": {
       "version": null,
@@ -8618,6 +8888,43 @@
      },
      "evidence_label": "stale_source",
      "confidence": "low"
+    },
+    {
+     "reconciliation_id": "finrec_202afb50c0ea39e22d34",
+     "evidence_id": "finev_3bb073db751e38de99b7",
+     "symbol": "MLCF",
+     "metric": "revenue",
+     "period_end": "2025-09-30",
+     "period_type": "interim",
+     "duration_months": 3,
+     "statement_type": "income_statement",
+     "consolidation": "consolidated",
+     "currency": "PKR",
+     "unit": "PKR",
+     "unit_multiplier": 1000,
+     "raw_value": "16,483,361",
+     "normalized_value": 16483361000.0,
+     "status": "eligible",
+     "reasons": [],
+     "eligibility_scope": "reported_quarter_financial_truth_gate",
+     "source": {
+      "document_id": "psx:263397",
+      "fact_id": "fact_1db63a2cb083db29cfef5269",
+      "content_sha256": "a05eeee23485edd71c6c096a606a3b6fd76d6687e13bdaf032f97b59b9cdcc7e",
+      "source_url": "https://dps.psx.com.pk/download/document/263397.pdf",
+      "source": "PSX DPS",
+      "page": 29,
+      "text": "Revenue from contracts with customers - net",
+      "available_on": "2025-10-27",
+      "published_at": "2025-10-27T10:09:00+05:00",
+      "retrieved_at": "2026-08-30T17:48:38Z"
+     },
+     "parser": {
+      "version": "financial_statement_v2",
+      "revision": "block_geometry_v5"
+     },
+     "evidence_label": "fact_source_reported",
+     "confidence": "high"
     },
     {
      "reconciliation_id": "finrec_26380f9ee5b9abfbcaf3",
@@ -8654,7 +8961,7 @@
       "text": "0th September 2025. During the period under review, the Company recorded net consolidated turnover of Rs. 16,483 million, compared to Rs. 15,720 million in the previous period. The Company’s top line increased by 4.86% as a result of 20.89…",
       "available_on": "2025-10-27",
       "published_at": "2025-10-27T10:09:00+05:00",
-      "retrieved_at": "2026-08-29T12:17:07Z"
+      "retrieved_at": "2026-08-30T17:48:38Z"
      },
      "parser": {
       "version": null,
@@ -8700,7 +9007,7 @@
       "text": "riod 714,645 486,769 At end of the period (830,086) (615,621) (115,441) (128,852) Cost of sales 10,891,752 10,757,161 14. FINANCE COST Profit / interest / mark up on: - Long term loans and finances 355,144 548,774 - Short term borrowings 1…",
       "available_on": "2025-10-27",
       "published_at": "2025-10-27T10:09:00+05:00",
-      "retrieved_at": "2026-08-29T12:17:07Z"
+      "retrieved_at": "2026-08-30T17:48:38Z"
      },
      "parser": {
       "version": null,
@@ -8746,7 +9053,7 @@
       "text": "2025 2024 13 REVENUE FROM CONTRACTS WITH (Rupees in thousand) CUSTOMERS - NET Gross local sales 24,733,380 22,028,205 Less: Federal excise duty (3,905,520) (3,232,865) Sales tax (4,234,764) (3,709,959) Discount and others (684,596) (240,66…",
       "available_on": "2025-10-27",
       "published_at": "2025-10-27T10:09:00+05:00",
-      "retrieved_at": "2026-08-29T12:17:07Z"
+      "retrieved_at": "2026-08-30T17:48:38Z"
      },
      "parser": {
       "version": null,
@@ -8790,7 +9097,7 @@
       "text": "in thousand) Revenue from contracts with customers - net 12 16,483,361 15,719,838 Cost of sales 13 (10,891,752) (10,757,161) Gross profit 5,591,609 4,962,677 Selling and distribution expenses (774,268) (1,347,200) Administrative expenses (…",
       "available_on": "2025-10-27",
       "published_at": "2025-10-27T10:09:00+05:00",
-      "retrieved_at": "2026-08-29T12:17:07Z"
+      "retrieved_at": "2026-08-30T17:48:38Z"
      },
      "parser": {
       "version": null,
@@ -8836,7 +9143,7 @@
       "text": "thers (684,596) (240,662) Commission (109,592) (68,091) (8,934,472) (7,251,577) Net local sales 15,798,908 14,776,628 Export sales 684,453 943,210 16,483,361 15,719,838",
       "available_on": "2025-10-27",
       "published_at": "2025-10-27T10:09:00+05:00",
-      "retrieved_at": "2026-08-29T12:17:07Z"
+      "retrieved_at": "2026-08-30T17:48:38Z"
      },
      "parser": {
       "version": null,
@@ -85527,9 +85834,9 @@
  },
  "_meta": {
   "generator_version": "ci_artifact_integrity_v1",
-  "source_commit_sha": "f8827c92f3dd7469faad42124769edbe81a50f85",
-  "build_cutoff_at": "2026-08-30T17:16:08Z",
-  "generated_at": "2026-08-30T17:16:08Z",
+  "source_commit_sha": "671a59e50c66b10226bc897fbb37862d597147e3",
+  "build_cutoff_at": "2026-08-30T17:58:30Z",
+  "generated_at": "2026-08-30T17:58:30Z",
   "artifact_path": "state/company_intel/financial_evidence_reconciliation.json",
   "timestamp_semantics": {
    "build_cutoff_at": "generation boundary only; not a source-effective or source-published time",

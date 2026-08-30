@@ -957,6 +957,7 @@ def main() -> int:
             "build_company_brains",
             "build_ci_slice",
             "build_ci_artifact_integrity",
+            "build_ci_artifact_integrity",
         ]
         assert builder_order == expected_order, builder_order
 
@@ -1197,6 +1198,7 @@ def main() -> int:
         first_receipts = _receipt_text(idem)
         current_receipts = json.loads(first_receipts)["receipts"]
         assert len(current_receipts) == 1 and current_receipts[0]["parser_revision"] == r.PARSER_REVISION
+        assert current_receipts[0]["parser_code_sha256"] == r.parser_code_sha256()
         assert current_receipts[0]["status"] in {"success", "processed_unsupported"}
 
         unsupported_retry = root / "unsupported_retry"
@@ -1227,6 +1229,7 @@ def main() -> int:
                 "content_sha256": good_sha,
                 "parser_version": r.PARSER_VERSION,
                 "parser_revision": r.PARSER_REVISION,
+                "parser_code_sha256": r.parser_code_sha256(),
                 "status": "success",
             }],
         })
@@ -1235,6 +1238,22 @@ def main() -> int:
         assert result["results"][0]["status"] == "skipped_idempotent"
         assert transport.calls == []
         assert _receipt_text(success_skip) == before_success
+
+        stale_success = root / "stale_success"
+        stale_success_manifest = _fixture(stale_success, ["psx:111"], hashes={"psx:111": good_sha}, full_canonical=True)
+        _write_json(stale_success / "state" / "company_intel" / "reprocess_receipts.json", {
+            "schema_version": 1,
+            "receipts": [{
+                "doc_id": "psx:111",
+                "content_sha256": good_sha,
+                "parser_version": r.PARSER_VERSION,
+                "parser_revision": r.PARSER_REVISION,
+                "status": "success",
+            }],
+        })
+        result, transport = _run(stale_success, ["psx:111"], {"psx:111": good_pdf}, manifest=stale_success_manifest)
+        assert result["results"][0]["status"] == "staged_validated"
+        assert transport.calls, "same-revision receipt without parser code fingerprint incorrectly blocked parser repair"
 
         legacy = root / "legacy_revision"
         legacy_manifest = _fixture(legacy, ["psx:111"], hashes={"psx:111": good_sha}, full_canonical=True)
@@ -1260,6 +1279,7 @@ def main() -> int:
         assert len(receipts) == 2
         assert receipts[0].get("parser_revision") == "block_geometry_v3"
         assert receipts[1].get("parser_revision") == r.PARSER_REVISION
+        assert receipts[1].get("parser_code_sha256") == r.parser_code_sha256()
         result, transport = _run(legacy, ["psx:111"], {"psx:111": good_pdf}, manifest=legacy_manifest)
         assert result["results"][0]["status"] == "staged_validated"
         assert transport.calls, "unsupported current-revision receipt incorrectly blocked retry"

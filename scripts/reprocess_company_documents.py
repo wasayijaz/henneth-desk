@@ -38,6 +38,7 @@ MAX_RUN_PAGES = 300
 MIN_NORMALIZED_TEXT_CHARS = 32
 LEGACY_PARSER_REVISION = "legacy_geometry_v1"
 BASE_DPS_HOST = "dps.psx.com.pk"
+PARSER_CODE_PATH = Path(__file__).with_name("financial_statement_facts.py")
 
 # Retained-original escape hatches are exact, owner-reviewed sources only.
 # Keep this mapping explicit: do not scan caches or infer alternate paths.
@@ -646,12 +647,22 @@ def _receipt_revision(receipt: dict[str, Any]) -> str:
     return str(revision or LEGACY_PARSER_REVISION)
 
 
-def _receipt_key(receipt: dict[str, Any]) -> tuple[str, str, str, str]:
+def parser_code_sha256() -> str:
+    return hashlib.sha256(PARSER_CODE_PATH.read_bytes()).hexdigest()
+
+
+def _receipt_parser_code_sha256(receipt: dict[str, Any]) -> str:
+    value = receipt.get("parser_code_sha256")
+    return str(value or "")
+
+
+def _receipt_key(receipt: dict[str, Any]) -> tuple[str, str, str, str, str]:
     return (
         str(receipt.get("doc_id") or ""),
         str(receipt.get("content_sha256") or ""),
         str(receipt.get("parser_version") or ""),
         _receipt_revision(receipt),
+        _receipt_parser_code_sha256(receipt),
     )
 
 
@@ -659,7 +670,7 @@ def success_receipt_exists(receipts: dict[str, Any], doc_id: str, content_sha256
                            parser_version: str, parser_revision: str) -> bool:
     if not content_sha256:
         return False
-    wanted = (doc_id, content_sha256, parser_version, parser_revision)
+    wanted = (doc_id, content_sha256, parser_version, parser_revision, parser_code_sha256())
     return any(_receipt_key(row) == wanted and row.get("status") == "success"
                for row in receipts.get("receipts") or [] if isinstance(row, dict))
 
@@ -671,6 +682,7 @@ def latest_receipt_hash(receipts: dict[str, Any], doc_id: str, parser_version: s
             continue
         if (row.get("doc_id") == doc_id and row.get("parser_version") == parser_version
                 and _receipt_revision(row) == parser_revision
+                and _receipt_parser_code_sha256(row) == parser_code_sha256()
                 and row.get("status") in RETAINED_HASH_RECEIPT_STATUSES):
             content_sha = row.get("content_sha256")
             if isinstance(content_sha, str) and re.fullmatch(r"[0-9a-f]{64}", content_sha):
@@ -1034,6 +1046,15 @@ def consume_canonical(registry_path: Path, queue_path: Path, output_root: Path,
             build_ci_artifact_integrity()
         stage = "checker:preflight.py"
         checker("preflight.py")
+        # Some deterministic contract checks rebuild their own output as an
+        # idempotency proof.  That is correct for their data contract, but it
+        # removes the generated integrity envelope.  Seal the final canonical
+        # state only after the aggregate gate, then prove the seal itself.
+        if not ci_builder_injected:
+            stage = "finalize_ci_artifact_integrity"
+            build_ci_artifact_integrity()
+            stage = "checker:check_ci_artifact_integrity.py"
+            checker("check_ci_artifact_integrity.py")
     except Exception:
         exc = sys.exc_info()[1]
         _restore_snapshot(snapshot)
@@ -1336,6 +1357,7 @@ def run_reprocess(
                     "content_sha256": fetched.content_sha256,
                     "parser_version": PARSER_VERSION,
                     "parser_revision": PARSER_REVISION,
+                    "parser_code_sha256": parser_code_sha256(),
                     "status": receipt_status,
                     "observed_at": _utc_stamp(),
                     "source": "PSX DPS",

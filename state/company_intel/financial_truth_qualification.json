@@ -51,10 +51,11 @@
    },
    "qualified_reported_quarter_fact_sets": {
     "required": 8,
-    "present": 2,
+    "present": 3,
     "qualified_periods": [
      "2026-03-31",
-     "2025-12-31"
+     "2025-12-31",
+     "2025-09-30"
     ]
    },
    "documented_interim_metadata": {
@@ -95,7 +96,7 @@
     {
      "requirement": "qualified_reported_quarter_fact_sets",
      "required": 8,
-     "present": 2,
+     "present": 3,
      "status": "blocked"
     },
     {
@@ -2897,16 +2898,5 @@
   "company_count": 20,
   "qualified_company_count": 0,
   "leader_symbol": "DGKC"
- },
- "_meta": {
-  "generator_version": "ci_artifact_integrity_v1",
-  "source_commit_sha": "f8827c92f3dd7469faad42124769edbe81a50f85",
-  "build_cutoff_at": "2026-08-30T17:16:08Z",
-  "generated_at": "2026-08-30T17:16:08Z",
-  "artifact_path": "state/company_intel/financial_truth_qualification.json",
-  "timestamp_semantics": {
-   "build_cutoff_at": "generation boundary only; not a source-effective or source-published time",
-   "generated_at": "artifact generation time only; not a source-effective or source-published time"
-  }
  }
 }

@@ -126,6 +126,53 @@ def main() -> int:
         assert actual_triplet == expected_triplet, f"unexpected direct-quarter triplet: {actual_triplet}"
         assert all(by_line[line]["page"] == page and by_line[line]["consolidation"] == "consolidated" and by_line[line]["readiness"] == "model_loadable" for line in required)
 
+    # Owner-approved MLCF Q1 FY26 page 29 geometry.  The statement's Note
+    # column sits immediately left of the first value column (note ``12`` at
+    # x294, values at x324/x384), while the EPS row uses the singular
+    # ``Earning per share`` issuer label.  The parser must retain only the
+    # direct current three-month consolidated Revenue/PAT/EPS triplet.
+    q1_words = [
+        _w(72, 40, "CONDENSED", 0, 0), _w(150, 40, "INTERIM", 0, 0, 1),
+        _w(220, 40, "CONSOLIDATED", 0, 0, 2), _w(320, 40, "STATEMENT", 0, 0, 3),
+        _w(400, 40, "OF", 0, 0, 4), _w(425, 40, "PROFIT", 0, 0, 5),
+        _w(470, 40, "OR", 0, 0, 6), _w(490, 40, "LOSS", 0, 0, 7),
+        _w(317, 70, "Three", 1, 0), _w(343, 70, "Months", 1, 0, 1),
+        _w(376, 70, "Period", 1, 0, 2), _w(405, 70, "Ended", 1, 0, 3),
+        _w(334, 100, "2025", 2, 0), _w(396, 100, "2024", 2, 1),
+        _w(292, 120, "Note", 2, 2), _w(334, 120, "(Rupees", 2, 3),
+        _w(369, 120, "in", 2, 3, 1), _w(379, 120, "thousand)", 2, 3, 2),
+        _w(72, 150, "Revenue", 3, 0), _w(110, 150, "from", 3, 0, 1),
+        _w(140, 150, "contracts", 3, 0, 2), _w(190, 150, "with", 3, 0, 3),
+        _w(220, 150, "customers", 3, 0, 4), _w(294, 150, "12", 3, 1),
+        _w(324, 150, "16,483,361", 3, 2), _w(384, 150, "15,719,838", 3, 3),
+        _w(72, 410, "Profit", 5, 0), _w(110, 410, "is", 5, 0, 1),
+        _w(130, 410, "attributable", 5, 0, 2), _w(190, 410, "to:", 5, 0, 3),
+        _w(72, 422, "Equity", 5, 1), _w(110, 422, "holders", 5, 1, 1),
+        _w(160, 422, "of", 5, 1, 2), _w(180, 422, "the", 5, 1, 3),
+        _w(205, 422, "Holding", 5, 1, 4), _w(250, 422, "Company", 5, 1, 5),
+        _w(329, 422, "2,728,256", 5, 2), _w(389, 422, "1,342,743", 5, 3),
+        _w(72, 500, "Earning", 6, 0), _w(110, 500, "per", 6, 0, 1),
+        _w(130, 500, "share", 6, 0, 2), _w(294, 500, "15", 6, 1),
+        _w(350, 500, "2.60", 6, 2), _w(410, 500, "1.28", 6, 3),
+    ]
+    q1_text = "Consolidated statement of profit or loss for the three months period ended September 30, 2025"
+    q1_facts = extract_facts(
+        {"doc_id": "psx:263397", "title": "MLCF Quarterly Financial Statements",
+         "source_url": "https://dps.psx.com.pk/download/document/263397.pdf",
+         "content_sha256": "a05eeee23485edd71c6c096a606a3b6fd76d6687e13bdaf032f97b59b9cdcc7e",
+         "period_end": "2025-09-30", "published_at": "2025-10-27"},
+        [q1_text], [q1_words], [{"page": 29, "text": q1_text, "words": q1_words}],
+    )
+    q1_current = [f for f in q1_facts if f["column_role"] == "current_period" and f["duration_months"] == 3]
+    q1_by_line = {f["line"]: f for f in q1_current}
+    assert set(q1_by_line) == {"revenue", "profit_after_tax_attributable", "basic_eps"}, "MLCF Q1 page-29 emitted non-triplet facts"
+    assert {line: q1_by_line[line]["value"] for line in ("revenue", "profit_after_tax_attributable", "basic_eps")} == {
+        "revenue": 16_483_361_000, "profit_after_tax_attributable": 2_728_256_000, "basic_eps": 2.60,
+    }
+    assert all(f["page"] == 29 and f["content_sha256"] == "a05eeee23485edd71c6c096a606a3b6fd76d6687e13bdaf032f97b59b9cdcc7e"
+               and f["duration_months"] == 3 and f["consolidation"] == "consolidated" and f["currency"] == "PKR"
+               and f["unit"] in {"PKR", "PKR/share"} and f["readiness"] == "model_loadable" for f in q1_by_line.values())
+
     # Wrong basis must not be promoted as consolidated evidence.
     bad_words = [tuple(list(w[:4]) + [w[4].replace("CONSOLIDATED", "UNCONSOLIDATED")] + list(w[5:])) if w[4] == "CONSOLIDATED" else w for w in ([
         _w(50, 40, "CONSOLIDATED", 0, 0), _w(130, 40, "Statement", 0, 0, 1), _w(220, 40, "of", 0, 0, 2), _w(250, 40, "Profit", 0, 0, 3), _w(300, 40, "or", 0, 0, 4), _w(325, 40, "Loss", 0, 0, 5)])]

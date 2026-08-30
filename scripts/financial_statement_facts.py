@@ -28,7 +28,9 @@ INCOME_STATEMENT_LINE_PATTERNS = {
     # value needed by the forecast gate; retain the existing PAT wording too.
     "profit_after_tax_attributable": r"(?:owners of (?:the )?(?:parent|holding)(?: company)?|equity holders of (?:the )?(?:parent|holding)(?: company)?|profit after tax(?:ation)? attributable|profit attributable to owners|profit after tax(?:ation)?|profit for the period)",
     "tax_expense": r"(?:taxation|income tax expense|tax expense)",
-    "basic_eps": r"(?:basic )?eps(?:\s|$)|earnings per share",
+    # Issuers alternate between ``Earnings per share`` and the singular
+    # ``Earning per share`` label; both denote the same basic EPS row.
+    "basic_eps": r"(?:basic )?eps(?:\s|$)|earnings? per share",
 }
 
 BALANCE_SHEET_LINE_PATTERNS = {
@@ -451,7 +453,14 @@ def _note_bands(lines: list[dict[str, Any]], header_line: dict[str, Any], row: d
             continue
         for tok in line["tokens"]:
             if re.fullmatch(r"notes?", tok["text"], re.I):
-                bands.append((tok["x0"] - 35, tok["x1"] + 35))
+                # Keep the exclusion local to the note label/cell.  A broad
+                # +/-35pt band can swallow the first value column when the
+                # issuer places the note number immediately left of it (as in
+                # MLCF's page-29 interim statement).  The table's numeric
+                # columns are already aligned independently, so a tight band
+                # is sufficient to suppress note references without masking
+                # adjacent facts.
+                bands.append((tok["x0"] - 10, tok["x1"] + 10))
     return bands
 
 
