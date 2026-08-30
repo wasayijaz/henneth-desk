@@ -82,7 +82,20 @@ def main() -> None:
     check("nested one-row schedule rejected", any("exactly 8 rows" in x for x in validate_case_run(one_row)))
     mismatched = copy.deepcopy(fixture)
     mismatched["scenario_runs"][0]["result"]["scenario"]["case_label"] = "bull"
-    check("nested scenario mismatch rejected", any("align with run scenario" in x for x in validate_case_run(mismatched)))
+    check("nested scenario mismatch rejected", any("closed identity fields" in x for x in validate_case_run(mismatched)))
+    for path in (("values", "invented"), ("per_share", "invented"), ("quarterly_schedule", 0, "invented")):
+        mutated = copy.deepcopy(fixture)
+        if path[0] == "quarterly_schedule":
+            mutated["scenario_runs"][0]["result"][path[0]][path[1]][path[2]] = 1
+        else:
+            mutated["scenario_runs"][0]["result"][path[0]][path[1]] = 1
+        check(f"adversarial invented {path[0]}", bool(validate_case_run(mutated)))
+    empty = copy.deepcopy(fixture); empty["scenario_runs"][0]["result"]["values"] = {}
+    check("adversarial empty values", bool(validate_case_run(empty)))
+    empty = copy.deepcopy(fixture); empty["scenario_runs"][0]["result"]["per_share"] = {}
+    check("adversarial empty per-share", bool(validate_case_run(empty)))
+    no_reasons = copy.deepcopy(fixture); no_reasons["scenario_runs"][0]["blocked_reasons"] = ["oops"]
+    check("computed run blocked reasons rejected", bool(validate_case_run(no_reasons)))
 
     repeat = adapter.build_fixture_case_run()
     check("fixture deterministic", json.dumps(fixture, sort_keys=True) == json.dumps(repeat, sort_keys=True))

@@ -34,6 +34,21 @@ _ENGINE_RESULT_KEYS = {
 }
 _ENGINE_RESULT_SCHEMA = "cement_expansion_model_result_v1"
 _ADAPTER_RESULT_KEYS = _ENGINE_RESULT_KEYS | {"case_id"}
+_SCENARIO_KEYS = {"symbol", "event_ref", "case_label", "effective_date", "valuation_date"}
+_RECEIPT_KEYS = {"inputs_sha256", "contract_version"}
+_VALUE_KEYS = {"npv_pkr", "total_revenue_pkr", "total_gross_profit_pkr", "total_ebitda_pkr", "total_capex_pkr", "total_fcf_pkr"}
+_PER_SHARE_KEYS = {"npv_pkr"}
+_BREAK_EVEN_KEYS = {"ebitda_break_even_quarter", "ebitda_break_even_quarter_end", "cash_break_even_quarter", "cash_break_even_quarter_end", "note"}
+_LIMITATION_KEYS = {"research_only", "no_advice", "single_point_estimate", "simplifications"}
+_QUARTER_KEYS = {
+    "quarter_index", "quarter_end", "commissioned", "capacity_units", "utilization_pct", "volume_units",
+    "selling_price_pkr_per_unit", "fuel_cost_pkr_per_unit", "power_cost_pkr_per_unit", "freight_cost_pkr_per_unit",
+    "revenue_pkr", "variable_cost_pkr", "gross_profit_pkr", "fixed_cost_pkr", "ebitda_pkr", "depreciation_pkr",
+    "ebit_pkr", "finance_cost_pkr", "tax_pkr", "net_income_pkr", "eps_pkr", "working_capital_pkr",
+    "delta_working_capital_pkr", "capex_pkr", "fcf_pkr", "cumulative_fcf_pkr", "roic_pct", "discount_factor",
+    "discounted_fcf_pkr",
+}
+_HASH_RE = re.compile(r"^[0-9a-fA-F]{64}$")
 
 _ADVICE_RE = re.compile(
     r"\b(?:buy|sell|accumulate|recommend(?:ation)?|you\s+should)\b|"
@@ -44,11 +59,7 @@ _LEAK_KEYS = {"target_price", "price_target", "targetPrice", "priceTarget"}
 
 
 def _finite(value: Any) -> bool:
-    if isinstance(value, bool):
-        return True
-    if isinstance(value, float):
-        return math.isfinite(value)
-    return True
+    return isinstance(value, (int, float)) and not isinstance(value, bool) and math.isfinite(float(value))
 
 
 def _scan_leaks(value: Any, path: str = "$") -> list[str]:
@@ -73,6 +84,86 @@ def _scan_leaks(value: Any, path: str = "$") -> list[str]:
 def _date(value: Any) -> date | None:
     if not isinstance(value, str):
         return None
+    try:
+        return date.fromisoformat(value)
+    except ValueError:
+        return None
+
+
+def _closed(mapping: Mapping[str, Any], allowed: set[str], path: str) -> list[str]:
+    return [f"{path}.{key}: unknown field" for key in sorted(set(mapping) - allowed, key=str)]
+
+
+def _result_shape(result: Mapping[str, Any], run: Mapping[str, Any], path: str) -> list[str]:
+    violations: list[str] = []
+    violations.extend(_closed(result, _ADAPTER_RESULT_KEYS, path))
+    if set(result) != _ADAPTER_RESULT_KEYS:
+        violations.extend(f"{path}.{key}: missing field" for key in sorted(_ADAPTER_RESULT_KEYS - set(result), key=str))
+    if result.get("case_id") != CASE_ID or result.get("schema_version") != _ENGINE_RESULT_SCHEMA or result.get("status") != "computed":
+        violations.append(f"{path}: canonical computed identity mismatch")
+    if result.get("blocked_reasons") != []:
+        violations.append(f"{path}.blocked_reasons: computed result must be empty")
+    receipt = result.get("run_receipt")
+    if not isinstance(receipt, Mapping) or set(receipt) != _RECEIPT_KEYS or not isinstance(receipt.get("inputs_sha256"), str) or not _HASH_RE.fullmatch(receipt.get("inputs_sha256", "")) or receipt.get("contract_version") != cement.CONTRACT_VERSION:
+        violations.append(f"{path}.run_receipt: closed canonical receipt required")
+    scenario = result.get("scenario")
+    if not isinstance(scenario, Mapping) or set(scenario) != _SCENARIO_KEYS or scenario.get("case_label") != run.get("scenario"):
+        violations.append(f"{path}.scenario: closed identity fields must align with run")
+    elif not all(isinstance(scenario.get(key), str) and scenario.get(key).strip() for key in ("symbol", "event_ref", "case_label", "effective_date", "valuation_date")):
+        violations.append(f"{path}.scenario: identity values must be non-empty")
+    values = result.get("values")
+    if not isinstance(values, Mapping) or set(values) != _VALUE_KEYS or any(not _finite(value) for value in values.values()):
+        violations.append(f"{path}.values: exact finite canonical summary required")
+    per_share = result.get("per_share")
+    if not isinstance(per_share, Mapping) or set(per_share) != _PER_SHARE_KEYS or not _finite(per_share.get("npv_pkr")):
+        violations.append(f"{path}.per_share: exact finite canonical summary required")
+    break_even = result.get("break_even")
+    if not isinstance(break_even, Mapping) or set(break_even) != _BREAK_EVEN_KEYS:
+        violations.append(f"{path}.break_even: exact canonical fields required")
+    elif any(value is not None and not isinstance(value, (str, int)) for value in break_even.values()):
+        violations.append(f"{path}.break_even: invalid field types")
+    limits = result.get("confidence_limitations")
+    if not isinstance(limits, Mapping) or set(limits) != _LIMITATION_KEYS or limits.get("research_only") is not True or limits.get("no_advice") is not True or limits.get("single_point_estimate") is not True or not isinstance(limits.get("simplifications"), list) or not limits.get("simplifications"):
+        violations.append(f"{path}.confidence_limitations: exact non-empty canonical limitations required")
+    schedule = result.get("quarterly_schedule")
+    if not isinstance(schedule, list) or len(schedule) != cement.QUARTER_COUNT:
+        violations.append(f"{path}.quarterly_schedule: must contain exactly 8 rows")
+    else:
+        for index, row in enumerate(schedule):
+            row_path = f"{path}.quarterly_schedule[{index}]"
+            if not isinstance(row, Mapping) or set(row) != _QUARTER_KEYS:
+                violations.append(f"{row_path}: exact canonical quarter keys required")
+                continue
+            if row.get("quarter_index") != index + 1 or not isinstance(row.get("quarter_end"), str) or _date(row.get("quarter_end")) is None:
+                violations.append(f"{row_path}: quarter identity mismatch")
+            if not isinstance(row.get("commissioned"), bool):
+                violations.append(f"{row_path}.commissioned: must be boolean")
+            for key, value in row.items():
+                if key not in {"quarter_index", "quarter_end", "commissioned"} and not _finite(value):
+                    violations.append(f"{row_path}.{key}: must be finite numeric")
+    lineage = result.get("inputs_lineage")
+    if not isinstance(lineage, list) or len(lineage) != len(cement._REQUIRED):
+        violations.append(f"{path}.inputs_lineage: must contain every canonical input exactly once")
+    else:
+        fields = []
+        for index, row in enumerate(lineage):
+            row_path = f"{path}.inputs_lineage[{index}]"
+            if not isinstance(row, Mapping):
+                violations.append(f"{row_path}: must be a mapping"); continue
+            fields.append(row.get("field"))
+            label = row.get("label_type")
+            allowed = {"field", "value", "label_type", "available_on", "source_ref" if label == "source" else "analyst_ref"}
+            violations.extend(_closed(row, allowed, row_path))
+            if label not in {"source", "analyst"} or not isinstance(row.get("available_on"), str) or _date(row.get("available_on")) is None:
+                violations.append(f"{row_path}: closed provenance fields required")
+            ref = row.get("source_ref") if label == "source" else row.get("analyst_ref")
+            if not isinstance(ref, Mapping) or not ref:
+                violations.append(f"{row_path}: provenance reference required")
+            if row.get("value") is None:
+                violations.append(f"{row_path}.value: empty lineage value")
+        if sorted(fields) != sorted(cement._REQUIRED) or len(set(fields)) != len(fields):
+            violations.append(f"{path}.inputs_lineage: canonical input field coverage mismatch")
+    return violations
     try:
         return date.fromisoformat(value)
     except ValueError:
@@ -175,34 +266,7 @@ def validate_case_run(envelope: Mapping[str, Any]) -> list[str]:
             violations.append(f"{path}: computed run cannot carry blocked reasons")
         else:
             result = run["result"]
-            result_unknown = set(result) - _ADAPTER_RESULT_KEYS
-            result_missing = _ADAPTER_RESULT_KEYS - set(result)
-            violations.extend(f"{path}.result.{key}: unknown field" for key in sorted(result_unknown, key=str))
-            violations.extend(f"{path}.result.{key}: missing field" for key in sorted(result_missing, key=str))
-            if result.get("case_id") != CASE_ID:
-                violations.append(f"{path}.result.case_id: must equal {CASE_ID}")
-            if result.get("schema_version") != _ENGINE_RESULT_SCHEMA:
-                violations.append(f"{path}.result.schema_version: must equal {_ENGINE_RESULT_SCHEMA}")
-            if result.get("status") != "computed":
-                violations.append(f"{path}.result.status: must be computed")
-            scenario = result.get("scenario")
-            if not isinstance(scenario, Mapping):
-                violations.append(f"{path}.result.scenario: must be a mapping")
-            else:
-                if scenario.get("case_label") != run.get("scenario"):
-                    violations.append(f"{path}.result.scenario.case_label: must align with run scenario")
-                if set(scenario) != {"symbol", "event_ref", "case_label", "effective_date", "valuation_date"}:
-                    violations.append(f"{path}.result.scenario: unexpected or missing fields")
-            schedule = result.get("quarterly_schedule")
-            if not isinstance(schedule, list) or len(schedule) != 8:
-                violations.append(f"{path}.result.quarterly_schedule: must contain exactly 8 rows")
-            elif [row.get("quarter_index") for row in schedule if isinstance(row, Mapping)] != list(range(1, 9)):
-                violations.append(f"{path}.result.quarterly_schedule: quarter indexes must be 1 through 8")
-            for field in ("values", "per_share", "break_even", "run_receipt", "confidence_limitations"):
-                if not isinstance(result.get(field), Mapping):
-                    violations.append(f"{path}.result.{field}: must be a mapping")
-            if not isinstance(result.get("inputs_lineage"), list) or not result.get("inputs_lineage"):
-                violations.append(f"{path}.result.inputs_lineage: must be a non-empty list")
+            violations.extend(_result_shape(result, run, f"{path}.result"))
 
     if status == "computed" and labels != list(SCENARIOS):
         violations.append("scenario_runs: labels must be exactly bear, base, bull")
