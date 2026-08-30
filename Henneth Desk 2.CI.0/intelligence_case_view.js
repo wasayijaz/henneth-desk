@@ -48,6 +48,38 @@
     return { ok: true, reason: null, payload, case: found };
   }
 
+  function caseHref(symbol, caseId) {
+    const ticker = String(symbol || "").trim().toUpperCase();
+    const id = String(caseId || "").trim();
+    if (!/^[A-Z0-9]+$/.test(ticker) || !/^[A-Za-z0-9._-]+$/.test(id)) return "";
+    return "/company/" + ticker + "/intelligence/" + id;
+  }
+
+  function discoverableCases(row) {
+    if (!row || !Object.prototype.hasOwnProperty.call(row, "intelligence_cases")) {
+      return { status: "absent", reason: null, items: [] };
+    }
+    const payload = row.intelligence_cases;
+    if (!payload || typeof payload !== "object" || Array.isArray(payload)) {
+      return { status: "invalid", reason: "intelligence_cases_shape_invalid", items: [] };
+    }
+    if (!Array.isArray(payload.cases)) {
+      return { status: "invalid", reason: "intelligence_cases_cases_invalid", items: [] };
+    }
+    const items = [];
+    for (const item of payload.cases) {
+      if (!item || typeof item !== "object" || Array.isArray(item)) {
+        return { status: "invalid", reason: "intelligence_case_item_invalid", items: [] };
+      }
+      const caseId = String(item.case_id || "").trim();
+      const symbol = String(item.symbol || row.symbol || "").trim().toUpperCase();
+      const href = caseHref(symbol, caseId);
+      if (!href) return { status: "invalid", reason: "intelligence_case_identity_invalid", items: [] };
+      items.push({ case_id: caseId, symbol, href, title: String(item.case_type || item.case_id || "Intelligence case").replaceAll("_", " "), summary: String(item.summary || "").trim(), status: String(item.status || payload.status || "unknown") });
+    }
+    return { status: items.length ? "available" : "empty", reason: null, items };
+  }
+
   function blocked(key, reason) {
     const text = String(reason || "").trim();
     return { key, status: "blocked", reason: text || "not_yet_modelled" };
@@ -118,6 +150,8 @@
     parsePath,
     companyCaseRow,
     findCase,
+    caseHref,
+    discoverableCases,
     resolveSection,
   };
 })();

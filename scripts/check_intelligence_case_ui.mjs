@@ -176,6 +176,31 @@ function main() {
   assert(explicit.reason === "not_yet_modelled", "explicit section reason preserved");
   assert(api.resolveSection(fixture.explicit_sections.cases[0], "formulas").reason === "formula_id_not_emitted", "explicit formula reason preserved");
 
+  assert(typeof api.discoverableCases === "function", "discoverableCases exported");
+  assert(api.caseHref("MLCF", "case_mlcf_pioc_control_observed_v1") === "/company/MLCF/intelligence/case_mlcf_pioc_control_observed_v1", "safe case href");
+  assert(api.caseHref("MLCF", "javascript:alert(1)") === "", "unsafe case id rejected");
+  assert(api.discoverableCases({ symbol: "OGDC" }).status === "absent", "absent projection emits no items");
+  assert(api.discoverableCases({ symbol: "OGDC", intelligence_cases: { status: "no_observed_case", cases: [] } }).status === "empty", "empty projection emits no items");
+  assert(api.discoverableCases({ symbol: "OGDC", intelligence_cases: "bad" }).reason === "intelligence_cases_shape_invalid", "invalid projection fail-closed");
+  const discoveredMlcf = api.discoverableCases({ symbol: "MLCF", intelligence_cases: fixture.observed_mlcf });
+  const discoveredMari = api.discoverableCases({ symbol: "MARI", intelligence_cases: fixture.observed_mari });
+  assert(discoveredMlcf.status === "available" && discoveredMlcf.items[0].href === "/company/MLCF/intelligence/case_mlcf_pioc_control_observed_v1", "MLCF discovery href");
+  assert(discoveredMari.status === "available" && discoveredMari.items[0].href === "/company/MARI/intelligence/case_mari_offshore_exploration_blocks_observed_v1", "MARI discovery href");
+  const intelStart = app.indexOf("function renderIntelligenceCaseIndex(");
+  const intelEnd = app.indexOf("function renderIntelligence(r)");
+  assert(intelStart >= 0 && intelEnd > intelStart, "case index renderer present");
+  const intelBlock = app.slice(intelStart, intelEnd);
+  assert(app.includes("renderIntelligenceCaseIndex(r)"), "intelligence tab mounts case index");
+  assert(intelBlock.includes("esc(item.title)") && intelBlock.includes("esc(item.summary") && intelBlock.includes("esc(item.status)") && intelBlock.includes("esc(href)"), "discovery values escaped");
+  assert(intelBlock.includes("not a forecast or valuation") || intelBlock.includes("not treated as forecasts or valuations"), "blocked fields not framed as forecast/valuation");
+  assert(css.includes(".case-index-link") && css.includes("@media (max-width:900px){.case-index .intel-grid{grid-template-columns:1fr}}"), "mobile case-index stack present");
+  const liveBySymbol = Object.fromEntries((slice.tickers || []).map(row => [row.symbol, row]));
+  const liveMlcf = api.discoverableCases(liveBySymbol.MLCF);
+  const liveMari = api.discoverableCases(liveBySymbol.MARI);
+  const liveOgdc = api.discoverableCases(liveBySymbol.OGDC);
+  assert(liveMlcf.status === "available" && liveMlcf.items.some(item => item.href === "/company/MLCF/intelligence/case_mlcf_pioc_control_observed_v1"), "live MLCF case link projected");
+  assert(liveMari.status === "available" && liveMari.items.some(item => item.href === "/company/MARI/intelligence/case_mari_offshore_exploration_blocks_observed_v1"), "live MARI case link projected");
+  assert(liveOgdc.status === "empty" || liveOgdc.status === "absent", "non-case company emits no discovery link");
   assert(Array.isArray(slice.tickers) && slice.tickers.length === 20, "live slice still 20 companies");
   assert(!JSON.stringify(slice).includes("you should buy"), "slice has no advice language check token");
 
