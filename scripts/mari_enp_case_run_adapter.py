@@ -42,11 +42,18 @@ def build_retained_case_run(root: Path | None = None) -> dict[str, Any]:
 
     observed_case, case_reasons = _observed_case(cases)
     blocked_reasons = _blocked_reasons(readiness, truth, formal, case_reasons)
-    valuation_date = _date_only((observed_case or {}).get("as_of")) or "2026-08-22"
+    valuation_date = _date_only((observed_case or {}).get("as_of"))
+    if valuation_date is None:
+        blocked_reasons.append("missing_retained_valuation_date")
+        valuation_date = None
+    effective_date = _date_only((readiness.get("event") or {}).get("effective_date"))
+    if effective_date is None:
+        blocked_reasons.append("missing_retained_effective_date")
+        effective_date = None
     identity = {
         "symbol": contract.SYMBOL,
         "event_ref": EVENT_ID,
-        "effective_date": readiness.get("event", {}).get("effective_date") or "2025-11-13",
+        "effective_date": effective_date,
         "valuation_date": valuation_date,
     }
     runs = []
@@ -114,6 +121,10 @@ def _base_envelope(fixture_only: bool) -> dict[str, Any]:
         "adapter_version": contract.ADAPTER_VERSION,
         "status": "blocked",
         "fixture_only": fixture_only,
+        "fixture_identity": {
+            "id": contract._FIXTURE_ID,
+            "spec_sha256": contract._FIXTURE_SPEC_SHA256,
+        } if fixture_only else None,
         "case_id": contract.CASE_ID,
         "symbol": contract.SYMBOL,
         "case_family": contract.CASE_FAMILY,
@@ -193,13 +204,14 @@ def _blocked_reasons(
 def _retained_lineage(readiness: Mapping[str, Any]) -> list[dict[str, Any]]:
     rows: list[dict[str, Any]] = []
     for evidence in (readiness.get("event") or {}).get("evidence") or []:
-        available_on = "2025-11-13" if evidence.get("document_id") == EVENT_DOCUMENT_ID else "2025-09-30"
+        available_on = _evidence_available_on(readiness, evidence)
+        source_ok = bool(available_on and evidence.get("document_id"))
         rows.append({
             "scope": "retained_event_evidence",
             "case_label": None,
             "field": "observed_event_evidence",
             "status": str(evidence.get("evidence_class") or "observed"),
-            "label_type": "source",
+            "label_type": "source" if source_ok else "missing",
             "available_on": available_on,
             "value": None,
             "source_ref": {
@@ -210,7 +222,8 @@ def _retained_lineage(readiness: Mapping[str, Any]) -> list[dict[str, Any]]:
                 "content_sha256": evidence.get("content_sha256"),
                 "evidence_sha256": evidence.get("evidence_sha256"),
                 "event_id": evidence.get("event_id"),
-            },
+                "date": available_on,
+            } if source_ok else None,
             "analyst_ref": None,
         })
     for item in ((readiness.get("ep_operands") or {}).get("items") or []):
@@ -221,13 +234,16 @@ def _retained_lineage(readiness: Mapping[str, Any]) -> list[dict[str, Any]]:
             refs = sorted(refs, key=lambda ref: 0 if ref.get("document_id") == EVENT_DOCUMENT_ID else 1)
         elif operand == "operator_status":
             refs = sorted(refs, key=lambda ref: 0 if ref.get("document_id") == "psx:260446" else 1)
+        available_on = _evidence_available_on(readiness, refs[0]) if label_type == "source" and refs else None
+        if not available_on:
+            label_type = "missing"
         rows.append({
             "scope": "retained_ep_operand",
             "case_label": None,
             "field": operand,
             "status": item.get("status"),
             "label_type": label_type,
-            "available_on": "2025-11-13" if label_type == "source" else None,
+            "available_on": available_on,
             "value": item.get("value") if label_type == "source" else None,
             "source_ref": {
                 "id": refs[0].get("document_id"),
@@ -236,10 +252,21 @@ def _retained_lineage(readiness: Mapping[str, Any]) -> list[dict[str, Any]]:
                 "page": refs[0].get("page"),
                 "content_sha256": refs[0].get("content_sha256"),
                 "event_id": refs[0].get("event_id"),
+                "date": available_on,
             } if label_type == "source" and refs else None,
             "analyst_ref": None,
         })
     return sorted(rows, key=lambda row: (str(row["scope"]), str(row["field"]), str(row["source_ref"])))
+
+
+def _evidence_available_on(readiness: Mapping[str, Any], evidence: Mapping[str, Any]) -> str | None:
+    """Use only a retained event date; never invent a provenance timestamp."""
+    event = readiness.get("event") or {}
+    event_date = _date_only(event.get("effective_date"))
+    event_documents = {str(item.get("document_id")) for item in event.get("evidence") or []}
+    if event_date and str(evidence.get("document_id")) in event_documents:
+        return event_date
+    return None
 
 
 def _analogue_readiness(analogues: Mapping[str, Any]) -> dict[str, Any]:
@@ -297,7 +324,7 @@ def _formal_output_readiness(
 
 def _summarise_engine_result(result: Mapping[str, Any], fixture_only: bool) -> dict[str, Any]:
     schedule = result.get("quarterly_schedule") or []
-    return {
+    summary = {
         "case_label": (result.get("scenario") or {}).get("case_label"),
         "status": result.get("status"),
         "fixture_only": fixture_only,
@@ -305,6 +332,7 @@ def _summarise_engine_result(result: Mapping[str, Any], fixture_only: bool) -> d
         "formula_id": result.get("formula_id"),
         "contract_version": (result.get("run_receipt") or {}).get("contract_version"),
         "input_sha256": (result.get("run_receipt") or {}).get("inputs_sha256"),
+        "fixture_hash": None,
         "input_fields": [entry.get("field") for entry in result.get("inputs_lineage") or []],
         "quarterly_schedule": schedule,
         "quarterly_schedule_rows": len(schedule),
@@ -313,6 +341,9 @@ def _summarise_engine_result(result: Mapping[str, Any], fixture_only: bool) -> d
         "probabilities": result.get("probabilities"),
         "blocked_reasons": sorted(set(str(reason) for reason in (result.get("blocked_reasons") or []))),
     }
+    if fixture_only:
+        summary["fixture_hash"] = contract.fixture_receipt_hash(summary)
+    return summary
 
 
 def _fixture_lineage(label: str, engine_lineage: list[Mapping[str, Any]]) -> list[dict[str, Any]]:
