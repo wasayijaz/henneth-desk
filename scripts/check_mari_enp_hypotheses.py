@@ -38,17 +38,19 @@ def walk(value):
 
 
 def source(canonical_event_id: str, legacy_event_id: str, document_id: str,
-           content_sha256: str, page: int) -> dict:
+           content_sha256: str, evidence_sha256: str, page: int) -> dict:
     return {
         "canonical_event_id": canonical_event_id,
         "legacy_event_id": legacy_event_id,
         "document_id": document_id,
         "content_sha256": content_sha256,
+        "evidence_sha256": evidence_sha256,
         "page": page,
         "join_key": f"{document_id}|{page}|{content_sha256}",
         "source_label": "Synthetic retained document fixture",
-        "source_url": "https://example.invalid/mari-hypothesis-fixture",
+        "source_url": f"https://dps.psx.com.pk/download/document/{document_id.split(':')[-1]}.pdf",
         "raw_available": True,
+        "retained": True,
     }
 
 
@@ -56,11 +58,13 @@ def golden_case() -> dict:
     event_id = "evt_3d1dae7553f73da60ba3"
     event_source = source(
         "evt_3d1dae7553f73da60ba3", "evt_ddf99590afb6dacddbde",
-        "psx:265594", "cdc3f69157f5e5803238ba347ecb4e96f7297479df87d345739896913de8aae4", 3,
+        "psx:265594", "cdc3f69157f5e5803238ba347ecb4e96f7297479df87d345739896913de8aae4",
+        "56c298f041bd756cd184e75d122f5a95cc6879f4b5fa037786007948b76d3d83", 3,
     )
     peshawar_source = source(
         "evt_b25decfc180474cbe066", "evt_eddfcc381018cb0dff43",
-        "psx:260446", "c13ccb4de58ad005bca106942721490593fe219ff45906c68280ea7856192e42", 1,
+        "psx:260446", "c13ccb4de58ad005bca106942721490593fe219ff45906c68280ea7856192e42",
+        "dd83c62cb781e2a57f5ae595a7184ea786a3e5890f7f7cc96cd93e23f958a177", 1,
     )
     return {
         "schema_version": "mari_enp_hypothesis_case_v1",
@@ -119,9 +123,9 @@ def golden_case() -> dict:
                 "relation": "refutes",
                 "status": "available",
                 "summary": "Synthetic source-bound refutation fixture.",
-                "event_date": "2025-11-20",
-                "published_date": "2025-11-20",
-                "available_on": "2025-11-20",
+                "event_date": "2025-09-30",
+                "published_date": "2025-09-30",
+                "available_on": "2025-09-30",
                 "weight": 0.10,
                 "source": peshawar_source,
             },
@@ -132,9 +136,9 @@ def golden_case() -> dict:
                 "relation": "refutes",
                 "status": "available",
                 "summary": "Synthetic source-bound refutation fixture.",
-                "event_date": "2025-11-20",
-                "published_date": "2025-11-20",
-                "available_on": "2025-11-20",
+                "event_date": "2025-09-30",
+                "published_date": "2025-09-30",
+                "available_on": "2025-09-30",
                 "weight": 0.90,
                 "source": peshawar_source,
             },
@@ -172,9 +176,14 @@ def main() -> None:
           and result["event_lifecycle"]["legacy_event_id"] == "evt_ddf99590afb6dacddbde"
           and result["event_lifecycle"]["source"]["document_id"] == "psx:265594")
     check("evidence lifecycle count", len(result["evidence_lifecycle"]) == 3)
+    check("allowlisted documents", {row["source"]["document_id"] for row in result["evidence_lifecycle"]}
+          == {"psx:265594", "psx:260446"})
     check("evidence source receipts", all(len(row["source"]["content_sha256"]) == 64
+                                           and len(row["source"]["evidence_sha256"]) == 64
                                            and row["source"]["page"] >= 1
                                            and row["source"]["join_key"].count("|") == 2
+                                           and row["source"]["raw_available"] is True
+                                           and row["source"]["retained"] is True
                                            and row["status"] == "available"
                                            for row in result["evidence_lifecycle"]))
     h1, h2 = result["hypothesis_lifecycle"]
@@ -205,10 +214,18 @@ def main() -> None:
         ("event status", lambda c: c["event"].update(event_status="planned"), "event.event_status: must equal observed"),
         ("hypothesis type", lambda c: c["hypotheses"][0].update(hypothesis_type="forecast"), "hypotheses[0].hypothesis_type: must equal observed_text_only"),
         ("bad hash", lambda c: c["event"]["source"].update(content_sha256="x"), "event.source.content_sha256: must be 64 lowercase hex characters"),
+        ("fabricated content hash", lambda c: (c["event"]["source"].update(content_sha256="d" * 64), c["event"]["source"].update(join_key=f"psx:265594|3|{'d' * 64}")), "event.source: source is not in the exact retained MARI allowlist"),
+        ("bad evidence hash", lambda c: c["event"]["source"].update(evidence_sha256="d" * 64), "event.source: source is not in the exact retained MARI allowlist"),
         ("bad join", lambda c: c["event"]["source"].update(join_key="wrong"), "event.source.join_key: must equal document_id|page|content_sha256"),
         ("alias mismatch", lambda c: c["event"].update(legacy_event_id="evt-other"), "event.legacy_event_id: must reconcile with event.source.legacy_event_id"),
+        ("fabricated document", lambda c: (c["event"]["source"].update(document_id="psx:999999"), c["event"]["source"].update(join_key=f"psx:999999|3|{c['event']['source']['content_sha256']}")), "event.source: source is not in the exact retained MARI allowlist"),
+        ("fabricated page", lambda c: (c["event"]["source"].update(page=4), c["event"]["source"].update(join_key=f"psx:265594|4|{c['event']['source']['content_sha256']}")), "event.source: source is not in the exact retained MARI allowlist"),
+        ("fabricated alias", lambda c: c["event"]["source"].update(canonical_event_id="evt-fabricated"), "event.source: source is not in the exact retained MARI allowlist"),
+        ("fabricated legacy alias", lambda c: c["event"]["source"].update(legacy_event_id="evt-fabricated"), "event.source: source is not in the exact retained MARI allowlist"),
         ("page bool", lambda c: c["event"]["source"].update(page=True), "event.source.page: must be an integer >= 1"),
         ("raw unavailable", lambda c: c["event"]["source"].update(raw_available=False), "event.source.raw_available: raw-unavailable evidence is blocked"),
+        ("not retained", lambda c: c["event"]["source"].update(retained=False), "event.source.retained: source is not retained"),
+        ("availability binding", lambda c: c["event"].update(available_on="2025-11-14"), "event.source: available_on does not match retained source binding"),
         ("event untimestamped", lambda c: c["event"].update(event_date="unknown"), "event.event_date: must be an exact ISO date"),
         ("event lookahead", lambda c: c["event"].update(available_on="2025-12-01"), "event.available_on: must be on or before as_of_date"),
         ("published ordering", lambda c: c["event"].update(published_date="2025-11-10"), "event: event_date must be on or before published_date"),
@@ -216,6 +233,7 @@ def main() -> None:
         ("duplicate label", lambda c: c["hypotheses"][1].update(label=c["hypotheses"][0]["label"]), "hypotheses[1].label: duplicate hypothesis"),
         ("duplicate statement", lambda c: c["hypotheses"][1].update(statement=c["hypotheses"][0]["statement"]), "hypotheses[1].statement: duplicate hypothesis"),
         ("non-exclusive excludes", lambda c: c["hypotheses"][0].update(excludes=[]), "hypotheses[0].excludes: must name every other hypothesis exactly once"),
+        ("duplicate exclusion", lambda c: c["hypotheses"][0].update(excludes=["strategy_not_execution_schedule", "strategy_not_execution_schedule"]), "hypotheses[0].excludes: duplicate alternative exclusion entry"),
         ("one hypothesis", lambda c: c.update(hypotheses=c["hypotheses"][:1]), "hypotheses: must contain at least two"),
         ("duplicate evidence id", lambda c: c["evidence"][1].update(evidence_id=c["evidence"][0]["evidence_id"]), "evidence: duplicate evidence_id"),
         ("missing evidence", lambda c: c.update(evidence=c["evidence"][:1]), "evidence: must contain at least two"),

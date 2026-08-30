@@ -26,13 +26,26 @@ _CASE_KEYS = {"schema_version", "symbol", "case_id", "as_of_date", "event", "hyp
 _EVENT_KEYS = {"event_id", "canonical_event_id", "legacy_event_id", "event_statement", "event_date", "published_date", "available_on", "event_status", "source"}
 _HYPOTHESIS_KEYS = {"hypothesis_id", "hypothesis_type", "label", "statement", "exclusive_group", "excludes", "base_confidence"}
 _EVIDENCE_KEYS = {"evidence_id", "event_id", "hypothesis_id", "relation", "status", "summary", "event_date", "published_date", "available_on", "weight", "source"}
-_SOURCE_KEYS = {"canonical_event_id", "legacy_event_id", "document_id", "content_sha256", "page", "join_key", "source_label", "source_url", "source_path", "raw_available"}
+_SOURCE_KEYS = {"canonical_event_id", "legacy_event_id", "document_id", "content_sha256", "evidence_sha256", "page", "join_key", "source_label", "source_url", "source_path", "raw_available", "retained"}
 _DATE_RE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
 _HASH_RE = re.compile(r"^[0-9a-f]{64}$")
 _FORBIDDEN_KEY_FRAGMENTS = (
     "price", "revenue", "eps", "npv", "valuation", "forecast", "cash",
     "pkr", "usd", "shares", "fcf", "ebitda", "debt", "cost", "margin", "target",
 )
+
+_RETAINED_SOURCES = {
+    (
+        "evt_3d1dae7553f73da60ba3", "evt_ddf99590afb6dacddbde", "psx:265594", 3,
+        "cdc3f69157f5e5803238ba347ecb4e96f7297479df87d345739896913de8aae4",
+        "56c298f041bd756cd184e75d122f5a95cc6879f4b5fa037786007948b76d3d83",
+    ): ("2025-11-13", "https://dps.psx.com.pk/download/document/265594.pdf"),
+    (
+        "evt_b25decfc180474cbe066", "evt_eddfcc381018cb0dff43", "psx:260446", 1,
+        "c13ccb4de58ad005bca106942721490593fe219ff45906c68280ea7856192e42",
+        "dd83c62cb781e2a57f5ae595a7184ea786a3e5890f7f7cc96cd93e23f958a177",
+    ): ("2025-09-30", "https://dps.psx.com.pk/download/document/260446.pdf"),
+}
 
 
 def _as_date(value: Any) -> date | None:
@@ -103,7 +116,7 @@ def _validate_date_chain(prefix: str, event_date: Any, published_date: Any,
     return violations
 
 
-def _validate_source(source: Any, prefix: str) -> list[str]:
+def _validate_source(source: Any, prefix: str, available_on: Any) -> list[str]:
     if not isinstance(source, Mapping):
         return [f"{prefix}: must be a mapping"]
     required_source_keys = _SOURCE_KEYS - {"source_url", "source_path"}
@@ -118,6 +131,9 @@ def _validate_source(source: Any, prefix: str) -> list[str]:
     content_hash = source.get("content_sha256")
     if not isinstance(content_hash, str) or _HASH_RE.fullmatch(content_hash) is None:
         violations.append(f"{prefix}.content_sha256: must be 64 lowercase hex characters")
+    evidence_hash = source.get("evidence_sha256")
+    if not isinstance(evidence_hash, str) or _HASH_RE.fullmatch(evidence_hash) is None:
+        violations.append(f"{prefix}.evidence_sha256: must be 64 lowercase hex characters")
     page = source.get("page")
     if isinstance(page, bool) or not isinstance(page, int) or page < 1:
         violations.append(f"{prefix}.page: must be an integer >= 1")
@@ -132,6 +148,21 @@ def _validate_source(source: Any, prefix: str) -> list[str]:
         violations.append(f"{prefix}.raw_available: must be a boolean")
     elif source.get("raw_available") is not True:
         violations.append(f"{prefix}.raw_available: raw-unavailable evidence is blocked")
+    if not isinstance(source.get("retained"), bool):
+        violations.append(f"{prefix}.retained: must be a boolean")
+    elif source.get("retained") is not True:
+        violations.append(f"{prefix}.retained: source is not retained")
+    allowlist_key = (source.get("canonical_event_id"), source.get("legacy_event_id"), document_id,
+                     page, content_hash, evidence_hash)
+    retained_spec = _RETAINED_SOURCES.get(allowlist_key)
+    if retained_spec is None:
+        violations.append(f"{prefix}: source is not in the exact retained MARI allowlist")
+    else:
+        expected_available, expected_url = retained_spec
+        if available_on != expected_available:
+            violations.append(f"{prefix}: available_on does not match retained source binding")
+        if source.get("source_url") != expected_url:
+            violations.append(f"{prefix}.source_url: does not match retained source binding")
     return violations
 
 
@@ -171,7 +202,7 @@ def validate_case(case: Mapping[str, Any]) -> list[str]:
             violations.append("event.event_status: must equal observed")
         if as_of is not None:
             violations.extend(_validate_date_chain("event", event.get("event_date"), event.get("published_date"), event.get("available_on"), as_of))
-        violations.extend(_validate_source(event.get("source"), "event.source"))
+        violations.extend(_validate_source(event.get("source"), "event.source", event.get("available_on")))
         event_source = event.get("source")
         if isinstance(event_source, Mapping):
             for field in ("canonical_event_id", "legacy_event_id"):
@@ -239,7 +270,11 @@ def validate_case(case: Mapping[str, Any]) -> list[str]:
         for index, hypothesis in enumerate(hypotheses):
             if isinstance(hypothesis, Mapping):
                 excludes = hypothesis.get("excludes")
-                if isinstance(excludes, list) and set(excludes) != expected_excludes - {hypothesis.get("hypothesis_id")}:
+                expected_for_hypothesis = expected_excludes - {hypothesis.get("hypothesis_id")}
+                excludes_are_ids = isinstance(excludes, list) and all(_nonempty(item) for item in excludes)
+                if excludes_are_ids and len(excludes) != len(set(excludes)):
+                    violations.append(f"hypotheses[{index}].excludes: duplicate alternative exclusion entry")
+                if excludes_are_ids and (len(excludes) != len(expected_for_hypothesis) or set(excludes) != expected_for_hypothesis):
                     violations.append(f"hypotheses[{index}].excludes: must name every other hypothesis exactly once")
 
     evidence = case.get("evidence")
@@ -290,7 +325,7 @@ def validate_case(case: Mapping[str, Any]) -> list[str]:
             violations.append(f"{prefix}.weight: must be a finite number")
         elif not 0.0 < weight <= 1.0:
             violations.append(f"{prefix}.weight: must be in (0, 1]")
-        violations.extend(_validate_source(record.get("source"), f"{prefix}.source"))
+        violations.extend(_validate_source(record.get("source"), f"{prefix}.source", record.get("available_on")))
         source = record.get("source")
         if isinstance(source, Mapping) and source.get("document_id") == event_source_id:
             event_source_seen = True
