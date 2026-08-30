@@ -13,12 +13,17 @@ from typing import Any
 REQUIRED_ANNUAL_METRICS = ("revenue", "profit_after_tax_attributable", "basic_eps")
 TARGET_ANNUAL_PERIODS = 5
 TARGET_REPORTED_INTERIM_PERIODS = 8
+REPORTED_QUARTER_SCOPE = "reported_quarter_financial_truth_gate"
+ANNUAL_INCOME_SCOPE = "annual_income_financial_truth_gate"
+ANNUAL_CASHFLOW_SCOPE = "annual_operating_cash_flow_truth_gate"
 
 
 def _facts_by_period(row: dict[str, Any], metric_set: tuple[str, ...]) -> dict[str, set[str]]:
     periods: dict[str, set[str]] = {}
     for fact in row.get("facts") or []:
         if not isinstance(fact, dict) or fact.get("status") != "eligible":
+            continue
+        if fact.get("eligibility_scope") not in {None, ANNUAL_INCOME_SCOPE}:
             continue
         if fact.get("period_type") != "annual" or fact.get("statement_type") != "income_statement":
             continue
@@ -37,6 +42,7 @@ def _eligible_cashflow_periods(row: dict[str, Any]) -> list[str]:
             continue
         if (
             fact.get("metric") == "operating_cash_flow"
+            and fact.get("eligibility_scope") in {None, ANNUAL_CASHFLOW_SCOPE}
             and fact.get("period_type") == "annual"
             and fact.get("statement_type") == "cash_flow_statement"
             and fact.get("consolidation") == "consolidated"
@@ -62,9 +68,7 @@ def _qualified_quarter_periods(row: dict[str, Any]) -> list[str]:
     for fact in row.get("facts") or []:
         if not isinstance(fact, dict) or fact.get("status") != "eligible":
             continue
-        if fact.get("period_type") not in {"quarterly", "interim"} or fact.get("duration_months") != 3:
-            continue
-        if fact.get("statement_type") != "income_statement" or fact.get("consolidation") != "consolidated":
+        if fact.get("eligibility_scope") != REPORTED_QUARTER_SCOPE:
             continue
         if fact.get("metric") not in REQUIRED_ANNUAL_METRICS or not fact.get("period_end"):
             continue

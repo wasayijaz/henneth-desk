@@ -26,7 +26,7 @@ INCOME_STATEMENT_LINE_PATTERNS = {
     # ``Profit after taxation`` and would otherwise be misclassified by the
     # broad ``taxation`` expression below.  The owner row is the attributable
     # value needed by the forecast gate; retain the existing PAT wording too.
-    "profit_after_tax_attributable": r"(?:owners of (?:the )?(?:parent|holding) company|profit after tax(?:ation)? attributable|profit attributable to owners|profit after tax(?:ation)?|profit for the period)",
+    "profit_after_tax_attributable": r"(?:owners of (?:the )?(?:parent|holding) company|equity holders of (?:the )?(?:parent|holding) company|profit after tax(?:ation)? attributable|profit attributable to owners|profit after tax(?:ation)?|profit for the period)",
     "tax_expense": r"(?:taxation|income tax expense|tax expense)",
     "basic_eps": r"(?:basic )?eps(?:\s|$)|earnings per share",
 }
@@ -137,9 +137,9 @@ def _normalized_words(tokens: list[dict[str, Any]]) -> list[str]:
 
 def _duration_occurrences(lines: list[dict[str, Any]]) -> list[dict[str, Any]]:
     phrase_specs = [
-        (("nine", "months"), 9), (("9", "months"), 9),
+        (("nine", "months"), 9), (("nine", "month"), 9), (("9", "months"), 9), (("9", "month"), 9),
         (("three", "months"), 3), (("3", "months"), 3), (("quarter",), 3),
-        (("six", "months"), 6), (("6", "months"), 6), (("half", "year"), 6),
+        (("six", "months"), 6), (("six", "month"), 6), (("6", "months"), 6), (("6", "month"), 6), (("half", "year"), 6),
         (("year", "ended"), 12), (("annual",), 12),
     ]
     out = []

@@ -24,6 +24,8 @@ EARNINGS_BRIDGE_VERSION = "earnings_bridge_readiness_v1"
 REQUIRED_STATUS = ("eligible", "audit_only", "quarantined", "missing")
 ELIGIBLE_LINES = tuple(REQUIRED_LINES)
 FINANCIAL_TRUTH_LINES = ELIGIBLE_LINES + ("operating_cash_flow",)
+REPORTED_QUARTER_PERIOD_TYPES = {"quarter", "quarterly", "interim"}
+DIRECT_QUARTER_COLUMN_ROLE = "current_period"
 AUDIT_ONLY_REASONS = {
     "readiness_is_audit_only",
     "legacy_extractor_not_model_eligible",
@@ -124,12 +126,58 @@ def _source_ok(fact: dict[str, Any]) -> bool:
     return official_financial_fact_provenance(fact)
 
 
+def _line(fact: dict[str, Any]) -> Any:
+    return fact.get("line") or fact.get("metric")
+
+
+def _annual_income_context(fact: dict[str, Any], line: Any | None = None) -> bool:
+    line = _line(fact) if line is None else line
+    return (
+        line in ELIGIBLE_LINES
+        and fact.get("duration_months") == 12
+        and fact.get("period_type") == "annual"
+        and fact.get("statement_type") == "income_statement"
+    )
+
+
+def _annual_cashflow_context(fact: dict[str, Any], line: Any | None = None) -> bool:
+    line = _line(fact) if line is None else line
+    return (
+        line == "operating_cash_flow"
+        and fact.get("duration_months") == 12
+        and fact.get("period_type") == "annual"
+        and fact.get("statement_type") == "cash_flow_statement"
+    )
+
+
+def _reported_quarter_context(fact: dict[str, Any], line: Any | None = None) -> bool:
+    line = _line(fact) if line is None else line
+    return (
+        line in ELIGIBLE_LINES
+        and fact.get("duration_months") == 3
+        and fact.get("period_type") in REPORTED_QUARTER_PERIOD_TYPES
+        and fact.get("statement_type") == "income_statement"
+        and fact.get("column_role") == DIRECT_QUARTER_COLUMN_ROLE
+    )
+
+
+def eligibility_scope(fact: dict[str, Any]) -> str:
+    line = _line(fact)
+    if _annual_income_context(fact, line):
+        return "annual_income_financial_truth_gate"
+    if _annual_cashflow_context(fact, line):
+        return "annual_operating_cash_flow_truth_gate"
+    if _reported_quarter_context(fact, line):
+        return "reported_quarter_financial_truth_gate"
+    return "not_eligible_financial_truth_gate"
+
+
 def classification_reasons(fact: dict[str, Any], as_of: str | None = None) -> list[str]:
     reasons: list[str] = []
     period_end = iso_date(fact.get("period_end"))
     available_on = iso_date(fact.get("available_on"))
     as_of_date = iso_date(as_of)
-    line = fact.get("line") or fact.get("metric")
+    line = _line(fact)
     if line not in FINANCIAL_TRUTH_LINES:
         reasons.append("outside_required_financial_truth_metric_set")
     if not qualified_financial_fact_source(fact):
@@ -138,17 +186,29 @@ def classification_reasons(fact: dict[str, Any], as_of: str | None = None) -> li
         reasons.append("readiness_is_audit_only")
     elif fact.get("readiness") != "model_loadable":
         reasons.append("readiness_not_model_loadable")
-    if fact.get("duration_months") != 12:
-        reasons.append("not_twelve_month_annual")
-    if fact.get("period_type") != "annual":
-        reasons.append("not_annual_period")
+    annual_income = _annual_income_context(fact, line)
+    annual_cashflow = _annual_cashflow_context(fact, line)
+    reported_quarter = _reported_quarter_context(fact, line)
+    if line in ELIGIBLE_LINES:
+        if not (annual_income or reported_quarter):
+            if fact.get("duration_months") == 3 and fact.get("period_type") in REPORTED_QUARTER_PERIOD_TYPES:
+                reasons.append("not_direct_current_period_quarter_fact")
+            else:
+                reasons.append("not_annual_or_direct_three_month_quarter")
+    elif line == "operating_cash_flow":
+        if not annual_cashflow:
+            if fact.get("duration_months") != 12:
+                reasons.append("not_twelve_month_annual")
+            if fact.get("period_type") != "annual":
+                reasons.append("not_annual_period")
+            if fact.get("statement_type") != "cash_flow_statement":
+                reasons.append("not_cash_flow_statement")
     if fact.get("consolidation") != "consolidated":
         reasons.append("missing_or_nonconsolidated_basis")
     if fact.get("currency") != "PKR":
         reasons.append("missing_or_non_pkr_currency")
-    expected_statement = "cash_flow_statement" if line == "operating_cash_flow" else "income_statement"
-    if fact.get("statement_type") != expected_statement:
-        reasons.append(f"not_{expected_statement}")
+    if line in ELIGIBLE_LINES and fact.get("statement_type") != "income_statement":
+        reasons.append("not_income_statement")
     if period_end is None:
         reasons.append("missing_period_end")
     if available_on is None:
@@ -229,6 +289,7 @@ def _fact_record(symbol: str, fact: dict[str, Any], as_of: str | None = None) ->
         "normalized_value": fact.get("normalized_value"),
         "status": status,
         "reasons": reasons,
+        "eligibility_scope": eligibility_scope(fact) if status == "eligible" else "not_eligible_financial_truth_gate",
         "source": _evidence_row(fact),
         "parser": {
             "version": fact.get("parser_version"),
@@ -256,7 +317,7 @@ def _same_slot_key(fact: dict[str, Any]) -> tuple[Any, ...]:
 def _conflict_eligible_fact(fact: dict[str, Any], as_of: str | None) -> bool:
     """Only otherwise qualified load-bearing facts can create blocking conflicts."""
     return (
-        (fact.get("line") or fact.get("metric")) in FINANCIAL_TRUTH_LINES
+        _line(fact) in FINANCIAL_TRUTH_LINES
         and not classification_reasons(fact, as_of)
     )
 
@@ -309,7 +370,7 @@ def _coverage_periods(coverage_row: dict[str, Any]) -> list[dict[str, Any]]:
 def _missing_slots(symbol: str, coverage_row: dict[str, Any], facts: list[dict[str, Any]], as_of: str | None = None) -> list[dict[str, Any]]:
     eligible = [
         fact for fact in facts
-        if fact_status(fact, as_of) == "eligible"
+        if fact_status(fact, as_of) == "eligible" and _annual_income_context(fact)
     ]
     present = {
         (fact.get("line"), fact.get("period_end"))

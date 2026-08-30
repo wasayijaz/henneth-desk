@@ -18,6 +18,99 @@ def fail(message: str) -> None:
     raise AssertionError(message)
 
 
+def _strict_fixture_facts(include_quarter_scope: bool = True) -> list[dict]:
+    annual_periods = [f"202{year}-06-30" for year in range(0, 5)]
+    quarter_periods = [
+        "2023-03-31", "2023-06-30", "2023-09-30", "2023-12-31",
+        "2024-03-31", "2024-06-30", "2024-09-30", "2024-12-31",
+    ]
+    facts = []
+    for period in annual_periods:
+        for metric in ("revenue", "profit_after_tax_attributable", "basic_eps"):
+            facts.append({
+                "status": "eligible",
+                "metric": metric,
+                "period_end": period,
+                "period_type": "annual",
+                "statement_type": "income_statement",
+                "consolidation": "consolidated",
+                "eligibility_scope": "annual_income_financial_truth_gate",
+            })
+        facts.append({
+            "status": "eligible",
+            "metric": "operating_cash_flow",
+            "period_end": period,
+            "period_type": "annual",
+            "statement_type": "cash_flow_statement",
+            "consolidation": "consolidated",
+            "eligibility_scope": "annual_operating_cash_flow_truth_gate",
+        })
+    for period in quarter_periods:
+        for metric in ("revenue", "profit_after_tax_attributable", "basic_eps"):
+            facts.append({
+                "status": "eligible",
+                "metric": metric,
+                "period_end": period,
+                "period_type": "quarter",
+                "duration_months": 3,
+                "statement_type": "income_statement",
+                "consolidation": "consolidated",
+                "eligibility_scope": (
+                    "reported_quarter_financial_truth_gate"
+                    if include_quarter_scope
+                    else "annual_income_financial_truth_gate"
+                ),
+            })
+    return facts
+
+
+def _share_tie_out(symbol: str = "AAA") -> dict:
+    return {
+        "symbol": symbol,
+        "metric": "shares_out",
+        "record_type": "official_share_count_capital_note_tie_out",
+        "approved": True,
+        "available_on": "2025-01-01",
+        "source": {
+            "id": "psx:fixture",
+            "label": "official capital note",
+            "url": "https://dps.psx.com.pk/download/document/1.pdf",
+        },
+    }
+
+
+def assert_quarter_scope_fixtures() -> None:
+    scoped_fixture = build_qualification(
+        ["AAA"],
+        {"companies": {"AAA": {"facts": _strict_fixture_facts(), "source_conflict_count": 0}}},
+        {"companies": {"AAA": {"indexed_official_financial_docs": []}}},
+        {"records": [_share_tie_out()]},
+        {"companies": {}},
+    )
+    scoped_row = scoped_fixture["companies"]["AAA"]
+    if scoped_row.get("status") != "qualified":
+        fail("scoped quarter fixture did not become qualified")
+    if scoped_row.get("qualified_reported_quarter_fact_sets", {}).get("present") != 8:
+        fail("scoped quarter fixture did not satisfy exactly eight reported-quarter fact sets")
+    if scoped_row.get("downstream", {}).get("forecast") != "not_activated_owner_approved_forward_inputs_required":
+        fail("qualified financial truth activated forecast without owner-approved forward inputs")
+
+    unscoped_fixture = build_qualification(
+        ["AAA"],
+        {"companies": {"AAA": {"facts": _strict_fixture_facts(include_quarter_scope=False), "source_conflict_count": 0}}},
+        {"companies": {"AAA": {"indexed_official_financial_docs": []}}},
+        {"records": [_share_tie_out()]},
+        {"companies": {}},
+    )
+    unscoped_row = unscoped_fixture["companies"]["AAA"]
+    if unscoped_row.get("status") == "qualified":
+        fail("unscoped quarter-like fixture became qualified")
+    if unscoped_row.get("qualified_reported_quarter_fact_sets", {}).get("present") != 0:
+        fail("unscoped quarter-like facts counted toward the eight-quarter gate")
+    if unscoped_row.get("annual_income_triplets", {}).get("present") != 5:
+        fail("unscoped quarter-like facts polluted annual income triplets")
+
+
 def main() -> None:
     expected = builder.build()
     if json.dumps(expected, sort_keys=True) != json.dumps(builder.build(), sort_keys=True):
@@ -56,24 +149,11 @@ def main() -> None:
     )
     if fixture["selection"]["leader_symbol"] != "AAA" or fixture["companies"]["AAA"]["status"] != "not_qualified":
         fail("deterministic empty-evidence fixture failed")
-    annual_periods = [f"202{year}-06-30" for year in range(0, 5)]
-    quarter_periods = [
-        "2023-03-31", "2023-06-30", "2023-09-30", "2023-12-31",
-        "2024-03-31", "2024-06-30", "2024-09-30", "2024-12-31",
-    ]
-    facts = []
-    for period in annual_periods:
-        for metric in ("revenue", "profit_after_tax_attributable", "basic_eps"):
-            facts.append({"status": "eligible", "metric": metric, "period_end": period, "period_type": "annual", "statement_type": "income_statement", "consolidation": "consolidated"})
-        facts.append({"status": "eligible", "metric": "operating_cash_flow", "period_end": period, "period_type": "annual", "statement_type": "cash_flow_statement", "consolidation": "consolidated"})
-    for period in quarter_periods:
-        for metric in ("revenue", "profit_after_tax_attributable", "basic_eps"):
-            facts.append({"status": "eligible", "metric": metric, "period_end": period, "period_type": "quarterly", "duration_months": 3, "statement_type": "income_statement", "consolidation": "consolidated"})
     qualified_fixture = build_qualification(
         ["AAA"],
-        {"companies": {"AAA": {"facts": facts, "source_conflict_count": 0}}},
+        {"companies": {"AAA": {"facts": _strict_fixture_facts(), "source_conflict_count": 0}}},
         {"companies": {"AAA": {"indexed_official_financial_docs": []}}},
-        {"records": [{"symbol": "AAA", "metric": "shares_out", "record_type": "official_share_count_capital_note_tie_out", "approved": True, "available_on": "2025-01-01", "source": {"id": "psx:fixture", "label": "official capital note", "url": "https://dps.psx.com.pk/download/document/1.pdf"}}]},
+        {"records": [_share_tie_out()]},
         {"companies": {}},
     )
     qualified_row = qualified_fixture["companies"]["AAA"]
@@ -81,6 +161,7 @@ def main() -> None:
         fail("complete strict-evidence fixture did not become qualified")
     if qualified_fixture.get("summary", {}).get("qualified_company_count") != 1 or qualified_fixture.get("selection", {}).get("status") != "qualified_financial_truth":
         fail("complete strict-evidence fixture did not transition selection state")
+    assert_quarter_scope_fixtures()
     before = builder.OUT.read_bytes()
     result = subprocess.run([sys.executable, str(ROOT / "scripts" / "build_financial_truth_qualification.py")], capture_output=True, text=True, timeout=30)
     if result.returncode != 0 or builder.OUT.read_bytes() != before:

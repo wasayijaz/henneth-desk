@@ -19,6 +19,7 @@ from financial_evidence_reconciliation import (
     RECONCILIATION_VERSION,
     build_reconciliation,
     company_reconciliation,
+    eligibility_scope,
     fact_status,
     stable_id,
 )
@@ -117,6 +118,24 @@ def _fact(line: str = "revenue", year: int = 2025, value: float = 100.0, **overr
         "quality_flags": [],
         "evidence": [{"page": 1, "text": f"{line} {year}", "source_url": source_url}],
     }
+    row.update(overrides)
+    return row
+
+
+def _quarter_fact(line: str = "revenue", period: str = "2025-09-30", value: float = 100.0, **overrides) -> dict:
+    year = int(period[:4])
+    row = _fact(
+        line,
+        year,
+        value,
+        period_end=period,
+        period_type="quarter",
+        duration_months=3,
+        column_role="current_period",
+        available_on="2025-10-27",
+        published_at="2025-10-27T10:09:00+05:00",
+        fact_id=f"{line}-{period}-quarter-{stable_id('case', line, period, value)[-6:]}",
+    )
     row.update(overrides)
     return row
 
@@ -285,6 +304,41 @@ def _synthetic_assertions() -> None:
     wrong_ocf_statement = _fact("operating_cash_flow")
     if fact_status(wrong_ocf_statement, "2026-08-26") == "eligible":
         _fail("operating cash flow with an income-statement identity became eligible")
+    clean_quarter = _quarter_fact()
+    if fact_status(clean_quarter, "2026-08-26") != "eligible":
+        _fail("direct consolidated three-month reported quarter fact did not classify eligible")
+    clean_quarter_record = company_reconciliation(
+        "MLCF",
+        [clean_quarter],
+        _coverage(),
+        {},
+        {"status": "blocked_insufficient_qualified_history", "qualified_period_count": 0},
+        "2026-08-26",
+    )["facts"][0]
+    if clean_quarter_record.get("eligibility_scope") != "reported_quarter_financial_truth_gate":
+        _fail("direct reported quarter fact did not expose quarter-only eligibility scope")
+    quarter_only_row = company_reconciliation(
+        "MLCF",
+        [clean_quarter],
+        _coverage(),
+        {},
+        {"status": "blocked_insufficient_qualified_history", "qualified_period_count": 0},
+        "2026-08-26",
+    )
+    if not any(
+        missing.get("period_end") == "2025-12-31" and missing.get("metric") == "revenue"
+        for missing in quarter_only_row.get("missing_slots") or []
+    ):
+        _fail("quarter-only fact incorrectly satisfied an annual income slot")
+    for name, fact in {
+        "comparative_quarter": _quarter_fact(column_role="comparative_prior_period"),
+        "six_month_interim": _quarter_fact(period_type="interim", duration_months=6),
+        "cashflow_quarter": _quarter_fact("operating_cash_flow", statement_type="cash_flow_statement", unit="PKR", unit_multiplier=1_000_000),
+    }.items():
+        if eligibility_scope(fact) != "not_eligible_financial_truth_gate":
+            _fail(f"{name}: invalid quarter fixture exposed eligible scope")
+        if fact_status(fact, "2026-08-26") == "eligible":
+            _fail(f"{name}: invalid quarter fixture became eligible")
     issuer_fact = _issuer_fact()
     if not official_financial_fact_provenance(issuer_fact):
         _fail("qualified issuer fixture did not satisfy shared official provenance")
