@@ -11,6 +11,9 @@ from build_intelligence_cases import (
     CASE_PRODUCT_VERSION,
     FOLLOW_THROUGH_DOC_ID,
     FOLLOW_THROUGH_EVENT_ID,
+    MARI_CASE_ID,
+    MARI_DOC_ID,
+    MARI_EVENT_ID,
     MLCF_CASE_ID,
     OUT,
     PUBLIC_OFFER_DOC_ID,
@@ -88,8 +91,8 @@ def main() -> None:
         raise AssertionError("intelligence case schema/version mismatch")
     if set(state.get("pilot_symbols") or []) != pilot or set(state.get("companies") or {}) != pilot:
         raise AssertionError("intelligence case state must preserve the exact pilot boundary")
-    if state.get("summary", {}).get("observed_case_count") != 1 or state.get("summary", {}).get("published_case_count") != 0:
-        raise AssertionError("expected exactly one observed case and zero published cases")
+    if state.get("summary", {}).get("observed_case_count") != 2 or state.get("summary", {}).get("published_case_count") != 0:
+        raise AssertionError("expected exactly two observed cases and zero published cases")
     row = (state.get("companies") or {}).get("MLCF") or {}
     cases = row.get("cases") or []
     if row.get("status") != "observed_seed_available" or len(cases) != 1:
@@ -122,6 +125,30 @@ def main() -> None:
     for status in ("Corroborated", "Modelled", "Published"):
         if status not in blocks:
             raise AssertionError(f"missing promotion block for {status}")
+
+    mari_row = (state.get("companies") or {}).get("MARI") or {}
+    mari_cases = mari_row.get("cases") or []
+    if mari_row.get("status") != "observed_seed_available" or len(mari_cases) != 1:
+        raise AssertionError("MARI observed seed missing")
+    mari_case = mari_cases[0]
+    if mari_case.get("case_id") != MARI_CASE_ID or mari_case.get("status") != "Observed":
+        raise AssertionError("MARI case identity/status mismatch")
+    if mari_case.get("epistemic_type") != "reported_fact" or mari_case.get("symbol") != "MARI":
+        raise AssertionError("MARI case epistemic or issuer identity mismatch")
+    _assert_no_forbidden_payload(mari_case)
+    mari_facts = {fact.get("fact_id"): fact for fact in mari_case.get("observed_facts") or []}
+    if set(mari_facts) != {"mari_offshore_exploration_blocks_acquisition"}:
+        raise AssertionError("MARI observed facts mismatch")
+    mari_fact = mari_facts["mari_offshore_exploration_blocks_acquisition"]
+    if {row.get("label"): row.get("value") for row in mari_fact.get("reported_values") or []} != {"stated_purpose": "find new hydrocarbon resources"}:
+        raise AssertionError("MARI stated purpose mismatch")
+    mari_ref = (mari_fact.get("evidence") or [{}])[0]
+    _assert_evidence(mari_ref, MARI_EVENT_ID, MARI_DOC_ID, 3)
+    if mari_ref.get("content_sha256") != "cdc3f69157f5e5803238ba347ecb4e96f7297479df87d345739896913de8aae4":
+        raise AssertionError("MARI source hash mismatch")
+    for status in ("Corroborated", "Modelled", "Published"):
+        if status not in (mari_case.get("promotion_blocks") or {}):
+            raise AssertionError(f"MARI missing promotion block for {status}")
     if _dump(without_root_meta(state)) != _dump(without_root_meta(build(write=False))):
         raise AssertionError("intelligence case rebuild is not deterministic")
 
@@ -132,7 +159,7 @@ def main() -> None:
     rows = {row.get("symbol"): row for row in slice_state.get("tickers") or []}
     if rows.get("MLCF", {}).get("intelligence_cases") != row:
         raise AssertionError("CI slice does not expose the MLCF intelligence case row exactly")
-    print("intelligence_cases: PASS (MLCF Observed seed, 2 official citations)")
+    print("intelligence_cases: PASS (MLCF and MARI Observed seeds, 3 official citations)")
 
 
 if __name__ == "__main__":

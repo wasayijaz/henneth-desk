@@ -1,6 +1,6 @@
 {
  "meta": {
-  "built": "2026-08-30 21:45",
+  "built": "2026-08-30 22:16",
   "source": "Henneth state layer",
   "profile_source": "https://dps.psx.com.pk/company/{symbol}",
   "profile_updated": "2026-08-24 18:30",
@@ -29,9 +29,9 @@
    "source_documents": 317,
    "note": "Every factual edge carries source URL and cited page when available.",
    "generator_version": "ci_artifact_integrity_v1",
-   "source_commit_sha": "7ed6d8a8bf3e1862c0e98cc5be1ed2594f9f36d4",
-   "build_cutoff_at": "2026-08-30T16:44:29Z",
-   "generated_at": "2026-08-30T16:44:29Z",
+   "source_commit_sha": "f8827c92f3dd7469faad42124769edbe81a50f85",
+   "build_cutoff_at": "2026-08-30T17:15:25Z",
+   "generated_at": "2026-08-30T17:15:25Z",
    "artifact_path": "state/company_intel/company_graph.json",
    "timestamp_semantics": {
     "build_cutoff_at": "generation boundary only; not a source-effective or source-published time",
@@ -44,9 +44,9 @@
    "item_count": 359,
    "note": "Deterministic official-source change digest. Research, not advice.",
    "generator_version": "ci_artifact_integrity_v1",
-   "source_commit_sha": "7ed6d8a8bf3e1862c0e98cc5be1ed2594f9f36d4",
-   "build_cutoff_at": "2026-08-30T16:44:29Z",
-   "generated_at": "2026-08-30T16:44:29Z",
+   "source_commit_sha": "f8827c92f3dd7469faad42124769edbe81a50f85",
+   "build_cutoff_at": "2026-08-30T17:15:25Z",
+   "generated_at": "2026-08-30T17:15:25Z",
    "artifact_path": "state/company_intel/change_intelligence.json",
    "timestamp_semantics": {
     "build_cutoff_at": "generation boundary only; not a source-effective or source-published time",
@@ -206510,12 +206510,91 @@
    },
    "intelligence_cases": {
     "symbol": "MARI",
-    "status": "no_observed_case",
-    "case_count": 0,
-    "cases": [],
-    "rejection_reasons": [
-     "no_selected_observed_case_seed"
-    ]
+    "status": "observed_seed_available",
+    "case_count": 1,
+    "cases": [
+     {
+      "case_id": "case_mari_offshore_exploration_blocks_observed_v1",
+      "symbol": "MARI",
+      "case_family": "e_and_p",
+      "case_type": "offshore_exploration_block_acquisition",
+      "status": "Observed",
+      "epistemic_type": "reported_fact",
+      "as_of": "2026-08-22T16:04:00+05:00",
+      "summary": "Observed official-source seed: Mari Energies reported its acquisition of offshore exploration blocks as part of its long-term strategy to find new hydrocarbon resources.",
+      "observed_facts": [
+       {
+        "fact_id": "mari_offshore_exploration_blocks_acquisition",
+        "source_event_id": "evt_ddf99590afb6dacddbde",
+        "document_id": "psx:265594",
+        "event_date": "2025-11-13T10:10:00+05:00",
+        "statement": "Mari Energies reported the acquisition of offshore exploration blocks.",
+        "reported_values": [
+         {
+          "label": "stated_purpose",
+          "value": "find new hydrocarbon resources"
+         }
+        ],
+        "evidence": [
+         {
+          "event_id": "evt_ddf99590afb6dacddbde",
+          "document_id": "psx:265594",
+          "document_title": "Material Information",
+          "document_published_at": "2025-11-13T10:10:00+05:00",
+          "document_retrieved_at": "2026-08-22T16:04:00+05:00",
+          "content_sha256": "cdc3f69157f5e5803238ba347ecb4e96f7297479df87d345739896913de8aae4",
+          "source": "PSX DPS",
+          "source_url": "https://dps.psx.com.pk/download/document/265594.pdf",
+          "page": 3,
+          "text": "The acquisition of these offshore exploration blocks is a part of Company’s long term strategy where it aims to not only find new hydrocarbon resources but also to l"
+         }
+        ]
+       }
+      ],
+      "alternative_readings": [
+       {
+        "alternative_id": "blocks_not_proved_reserves",
+        "reading": "The reported block acquisition does not establish reserves, a commercial discovery, or future production.",
+        "status": "retained_as_observed_only",
+        "rejection_condition": "Reject promotion if no official source identifies technical results, resource potential, or a development path."
+       },
+       {
+        "alternative_id": "strategy_not_execution_schedule",
+        "reading": "The stated long-term exploration strategy does not establish working interest, operator status, cost, timing, or economic terms.",
+        "status": "retained_as_observed_only",
+        "rejection_condition": "Reject modelling if source-qualified project economics and a qualified company financial history remain absent."
+       }
+      ],
+      "promotion_blocks": {
+       "Corroborated": "Blocked: retained evidence is a single official Mari/PSX source and no independent-originator corroboration is attached.",
+       "Modelled": "Blocked: no source-qualified working interest, operator status, cost, timing, resource, production or financial-model inputs are attached.",
+       "Published": "Blocked: no forecast, valuation, reverse-expectations output, investor conclusion or release gate is complete."
+      },
+      "policy": {
+       "observed_only": true,
+       "no_forecast": true,
+       "no_valuation": true,
+       "no_market_expectations": true,
+       "no_recommendation": true,
+       "reported_values_only": true
+      },
+      "source_lineage": [
+       {
+        "event_id": "evt_ddf99590afb6dacddbde",
+        "document_id": "psx:265594",
+        "document_title": "Material Information",
+        "document_published_at": "2025-11-13T10:10:00+05:00",
+        "document_retrieved_at": "2026-08-22T16:04:00+05:00",
+        "content_sha256": "cdc3f69157f5e5803238ba347ecb4e96f7297479df87d345739896913de8aae4",
+        "source": "PSX DPS",
+        "source_url": "https://dps.psx.com.pk/download/document/265594.pdf",
+        "page": 3,
+        "text": "The acquisition of these offshore exploration blocks is a part of Company’s long term strategy where it aims to not only find new hydrocarbon resources but also to l"
+       }
+      ]
+     }
+    ],
+    "rejection_reasons": []
    },
    "mlcf_pioc_readiness_manifest": {
     "symbol": "MARI",
@@ -208117,7 +208196,7 @@
     "market_expectations_status": "ready_snapshot_reverse_solve",
     "brain_object_count": 8,
     "management_delivery_records": 0,
-    "intelligence_case_count": 0,
+    "intelligence_case_count": 1,
     "mlcf_pioc_readiness_manifest_status": "not_selected",
     "guidance_object_count": 1,
     "guidance_contradiction_count": 0,
@@ -235518,9 +235597,9 @@
  ],
  "_meta": {
   "generator_version": "ci_artifact_integrity_v1",
-  "source_commit_sha": "7ed6d8a8bf3e1862c0e98cc5be1ed2594f9f36d4",
-  "build_cutoff_at": "2026-08-30T16:45:43Z",
-  "generated_at": "2026-08-30T16:45:43Z",
+  "source_commit_sha": "f8827c92f3dd7469faad42124769edbe81a50f85",
+  "build_cutoff_at": "2026-08-30T17:16:08Z",
+  "generated_at": "2026-08-30T17:16:08Z",
   "artifact_path": "Henneth Desk 2.CI.0/data/company_intelligence.json",
   "timestamp_semantics": {
    "build_cutoff_at": "generation boundary only; not a source-effective or source-published time",
