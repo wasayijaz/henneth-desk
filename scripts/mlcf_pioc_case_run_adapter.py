@@ -27,6 +27,9 @@ def _source_lineage(case: Mapping[str, Any], manifest: Mapping[str, Any]) -> lis
     for ref in (case.get("source_lineage") or []):
         if isinstance(ref, Mapping):
             rows.append({"kind": "evidence", "document_id": ref.get("document_id"), "source_ref": dict(ref)})
+    for ref in (manifest.get("evidence_refs") or []):
+        if isinstance(ref, Mapping):
+            rows.append({"kind": "evidence", "document_id": ref.get("document_id"), "source_ref": dict(ref)})
     return rows
 
 
@@ -151,7 +154,7 @@ def build_fixture_case_run() -> dict[str, Any]:
         result = engine.evaluate_case(case)
         result["case_id"] = CASE_ID
         runs.append({"scenario": label, "status": "computed", "blocked_reasons": [], "result": result})
-    lineage = copy.deepcopy(runs[0]["result"]["inputs_lineage"])
+    lineage = [{"label_type": "analyst", "analyst_ref": {"note_id": "fixture:mlcf-pioc-case-run-v1", "note": "synthetic fixture only; not investor output"}}]
     envelope = {
         "status": "computed",
         "case_id": CASE_ID,
