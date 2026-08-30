@@ -206,14 +206,14 @@ def _inputs_lineage(inputs: Mapping[str, Any]) -> list[dict[str, Any]]:
         record = inputs[field]
         entry: dict[str, Any] = {
             "field": field,
-            "value": record.get("value"),
             "label_type": record.get("label_type"),
-            "available_on": record.get("available_on"),
         }
         if record.get("label_type") == "source":
-            entry["source_ref"] = record.get("source_ref")
+            ref = record.get("source_ref")
+            entry["source_ref_id"] = ref.get("id")
         else:
-            entry["analyst_ref"] = record.get("analyst_ref")
+            ref = record.get("analyst_ref")
+            entry["analyst_note_id"] = ref.get("note_id")
         entries.append(entry)
     return entries
 

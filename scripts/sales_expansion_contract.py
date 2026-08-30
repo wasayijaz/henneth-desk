@@ -11,6 +11,7 @@ from __future__ import annotations
 from datetime import date
 import json
 import math
+import re
 from typing import Any, Mapping
 
 CONTRACT_VERSION = "sales_expansion_contract_v1"
@@ -50,6 +51,13 @@ _REQUIRED = (
     "shares_out",
     "discount_rate_pct_annual",
 )
+_ROOT_FIELDS = {"symbol", "event_ref", "case_label", "effective_date", "valuation_date", "inputs"}
+_SOURCE_RECORD_FIELDS = {"value", "label_type", "available_on", "source_ref"}
+_ANALYST_RECORD_FIELDS = {"value", "label_type", "available_on", "analyst_ref"}
+_SOURCE_REF_FIELDS = {"id", "label", "url", "path", "as_of"}
+_ANALYST_REF_FIELDS = {"note_id", "note"}
+_MAX_JSON_SAFE_INTEGER = 9_007_199_254_740_991
+_IDENTIFIER_RE = re.compile(r"^[A-Za-z0-9][A-Za-z0-9:._/-]{0,127}$")
 
 
 def _as_date(value: Any) -> date | None:
@@ -71,12 +79,26 @@ def is_quarter_end(value: Any) -> bool:
 def _finite(value: Any) -> float | None:
     if isinstance(value, bool) or not isinstance(value, (int, float)):
         return None
-    number = float(value)
+    try:
+        number = float(value)
+    except OverflowError:
+        return None
     return number if math.isfinite(number) else None
 
 
 def _nonempty(value: Any) -> bool:
     return isinstance(value, str) and bool(value.strip())
+
+
+def _identifier(value: Any) -> bool:
+    return isinstance(value, str) and bool(_IDENTIFIER_RE.fullmatch(value))
+
+
+def _unknown_keys(prefix: str, value: Mapping[str, Any], allowed: set[str]) -> list[str]:
+    return [
+        f"{prefix}.{key}: unknown field"
+        for key in sorted((key for key in value if key not in allowed), key=str)
+    ]
 
 
 def provenance_ok(record: Mapping[str, Any]) -> bool:
@@ -86,15 +108,25 @@ def provenance_ok(record: Mapping[str, Any]) -> bool:
     if label_type not in LABEL_TYPES:
         return False
     if label_type == "source":
+        if any(key not in _SOURCE_RECORD_FIELDS for key in record):
+            return False
         ref = record.get("source_ref")
         return (
             isinstance(ref, Mapping)
+            and not any(key not in _SOURCE_REF_FIELDS for key in ref)
             and _nonempty(ref.get("id"))
             and _nonempty(ref.get("label"))
             and (_nonempty(ref.get("url")) or _nonempty(ref.get("path")))
         )
+    if any(key not in _ANALYST_RECORD_FIELDS for key in record):
+        return False
     ref = record.get("analyst_ref")
-    return isinstance(ref, Mapping) and _nonempty(ref.get("note_id")) and _nonempty(ref.get("note"))
+    return (
+        isinstance(ref, Mapping)
+        and not any(key not in _ANALYST_REF_FIELDS for key in ref)
+        and _nonempty(ref.get("note_id"))
+        and _nonempty(ref.get("note"))
+    )
 
 
 def _bounds_text(low: float, low_inc: bool, high: float, high_inc: bool) -> str:
@@ -122,6 +154,8 @@ def _validate_int_schedule(field: str, value: Any) -> list[str]:
     for index, item in enumerate(value):
         if isinstance(item, bool) or not isinstance(item, int) or item < 0:
             violations.append(f"{field}[{index}]: must be an integer >= 0")
+        elif item > _MAX_JSON_SAFE_INTEGER:
+            violations.append(f"{field}[{index}]: must be <= {_MAX_JSON_SAFE_INTEGER}")
     return violations
 
 def _validate_number_schedule(field: str, value: Any) -> list[str]:
@@ -142,9 +176,10 @@ def validate_case(case: Mapping[str, Any]) -> list[str]:
     if not isinstance(case, Mapping):
         return ["case: must be a mapping"]
     violations: list[str] = []
+    violations.extend(_unknown_keys("case", case, _ROOT_FIELDS))
     for field in ("symbol", "event_ref"):
-        if not _nonempty(case.get(field)):
-            violations.append(f"{field}: must be a non-empty string")
+        if not _identifier(case.get(field)):
+            violations.append(f"{field}: must be a compact identifier")
     if case.get("case_label") not in CASE_LABELS:
         violations.append("case_label: must be one of bear, base, bull")
     effective = _as_date(case.get("effective_date"))
@@ -156,9 +191,9 @@ def validate_case(case: Mapping[str, Any]) -> list[str]:
     if effective is not None and valuation is not None and effective > valuation:
         violations.append("effective_date: must be on or before valuation_date")
     try:
-        json.dumps(case, sort_keys=True, separators=(",", ":"), ensure_ascii=True)
+        json.dumps(case, sort_keys=True, separators=(",", ":"), ensure_ascii=True, allow_nan=False)
     except (TypeError, ValueError):
-        violations.append("case: must be JSON-serializable")
+        violations.append("case: must be JSON-serializable with finite numeric values")
     if effective is None or valuation is None:
         return violations
     inputs = case.get("inputs")
@@ -175,6 +210,26 @@ def validate_case(case: Mapping[str, Any]) -> list[str]:
         if not isinstance(record, Mapping):
             violations.append(f"{field}: input must be a provenance record mapping")
             continue
+        label_type = record.get("label_type")
+        if label_type == "source":
+            violations.extend(_unknown_keys(field, record, _SOURCE_RECORD_FIELDS))
+            ref = record.get("source_ref")
+            if isinstance(ref, Mapping):
+                violations.extend(_unknown_keys(f"{field}.source_ref", ref, _SOURCE_REF_FIELDS))
+                source_as_of = ref.get("as_of")
+                if source_as_of is not None:
+                    parsed_as_of = _as_date(source_as_of)
+                    if parsed_as_of is None:
+                        violations.append(f"{field}.source_ref.as_of: must be an ISO date (YYYY-MM-DD)")
+                    elif parsed_as_of > valuation:
+                        violations.append(f"{field}.source_ref.as_of: must be on or before valuation_date")
+        elif label_type == "analyst":
+            violations.extend(_unknown_keys(field, record, _ANALYST_RECORD_FIELDS))
+            ref = record.get("analyst_ref")
+            if isinstance(ref, Mapping):
+                violations.extend(_unknown_keys(f"{field}.analyst_ref", ref, _ANALYST_REF_FIELDS))
+        else:
+            violations.extend(_unknown_keys(field, record, _SOURCE_RECORD_FIELDS | _ANALYST_RECORD_FIELDS))
         if not provenance_ok(record):
             violations.append(f"{field}: provenance record must carry label_type and a complete reference")
         available_on = _as_date(record.get("available_on"))
