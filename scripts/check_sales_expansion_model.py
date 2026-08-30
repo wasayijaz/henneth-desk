@@ -64,7 +64,7 @@ def golden_case() -> dict:
         "event_ref": "sales-expansion-fixture",
         "case_label": "base",
         "effective_date": "2025-12-31",
-        "valuation_date": "2026-03-31",
+        "valuation_date": "2025-12-31",
         "inputs": {
             "quarter_ends": analyst([
                 "2026-03-31", "2026-06-30", "2026-09-30", "2026-12-31",
@@ -144,8 +144,8 @@ def main() -> None:
     check("q1 delta working capital", close(q1["delta_working_capital_pkr"], 1_000_000.0))
     check("q1 fcf", close(q1["fcf_pkr"], 15_232_000.0))
     check("q1 roic", close(q1["roic_pct"], 181.16))
-    check("q1 undiscounted at valuation quarter", q1["discount_factor"] == 1.0)
-    check("q1 discounted fcf", close(q1["discounted_fcf_pkr"], q1["fcf_pkr"]))
+    check("q1 discounts after valuation quarter", q1["discount_factor"] < 1.0)
+    check("q1 discounted fcf", close(q1["discounted_fcf_pkr"], q1["fcf_pkr"] * q1["discount_factor"]))
     check("values aggregate",
           close(result["values"]["total_revenue_pkr"],
                 sum(row["revenue_pkr"] for row in result["quarterly_schedule"]))
@@ -175,6 +175,16 @@ def main() -> None:
     changed = engine.evaluate_case(case)
     check("input mutation changes hash", changed["run_receipt"]["inputs_sha256"] != result["run_receipt"]["inputs_sha256"])
 
+    for field in ("fx_pkr_usd", "starting_revenue_pkr"):
+        extreme = golden_case()
+        extreme["inputs"][field]["value"] = 1e308
+        try:
+            engine.evaluate_case(extreme)
+        except ValueError as error:
+            check(f"extreme {field} fails closed", "non-finite output" in str(error))
+        else:
+            raise AssertionError(f"extreme {field} should fail closed")
+
     mutations = [
         ("missing field", lambda c: c["inputs"].pop("gross_margin_pct"), "gross_margin_pct: missing required input"),
         ("bool numeric", lambda c: c["inputs"]["fx_pkr_usd"].update(value=True), "fx_pkr_usd: must be a finite number"),
@@ -183,7 +193,7 @@ def main() -> None:
         ("hire negative", lambda c: c["inputs"]["sales_hires_schedule"]["value"].__setitem__(0, -1), "sales_hires_schedule[0]: must be an integer >= 0"),
         ("schedule wrong length", lambda c: c["inputs"]["quarter_ends"].update(value=["2026-03-31"]), "quarter_ends: must be a list of exactly 8 values"),
         ("non-quarter-end", lambda c: c["inputs"]["quarter_ends"]["value"].__setitem__(0, "2026-03-15"), "quarter_ends[0]: must be a quarter-end"),
-        ("quarter before effective", lambda c: c["inputs"]["quarter_ends"]["value"].__setitem__(0, "2025-09-30"), "quarter_ends[0]: must be on or after effective_date"),
+        ("quarter before valuation", lambda c: c["inputs"]["quarter_ends"]["value"].__setitem__(0, "2025-09-30"), "quarter_ends[0]: must be on or after valuation_date"),
         ("quarter out of order", lambda c: c["inputs"]["quarter_ends"]["value"].__setitem__(1, "2026-03-31"), "quarter_ends[1]: quarter ends must be strictly increasing"),
         ("gross margin 101", lambda c: c["inputs"]["gross_margin_pct"].update(value=101.0), "gross_margin_pct: must be in [0, 100]"),
         ("working capital 100", lambda c: c["inputs"]["working_capital_pct_revenue"].update(value=100.0), "working_capital_pct_revenue: must be in [0, 100)"),
@@ -191,12 +201,13 @@ def main() -> None:
         ("discount zero", lambda c: c["inputs"]["discount_rate_pct_annual"].update(value=0.0), "discount_rate_pct_annual: must be > 0"),
         ("investment zero", lambda c: c["inputs"]["initial_investment_pkr"].update(value=0.0), "initial_investment_pkr: must be > 0"),
         ("shares zero", lambda c: c["inputs"]["shares_out"].update(value=0.0), "shares_out: must be > 0"),
-        ("lookahead", lambda c: c["inputs"]["fx_pkr_usd"].update(available_on="2026-04-01"), "fx_pkr_usd: available_on must be on or before valuation_date"),
+        ("lookahead", lambda c: c["inputs"]["fx_pkr_usd"].update(available_on="2026-01-01"), "fx_pkr_usd: available_on must be on or before valuation_date"),
         ("bad label", lambda c: c["inputs"]["fx_pkr_usd"].update(label_type="bad"), "provenance record must carry"),
         ("bad analyst ref", lambda c: c["inputs"]["fx_pkr_usd"].update(analyst_ref={"note_id": "n"}), "provenance record must carry"),
         ("bad source ref", lambda c: c["inputs"]["fx_pkr_usd"].update(label_type="source", source_ref={"id": "i", "label": "l"}), "provenance record must carry"),
         ("case label", lambda c: c.update(case_label="stress"), "case_label: must be one of bear, base, bull"),
-        ("non-json", lambda c: c["inputs"].update(extra={"value": {1, 2}}), "JSON-serializable"),
+        ("unknown nan field", lambda c: c["inputs"].update(extra_nan=analyst(float("nan"))), "extra_nan: unknown input field"),
+        ("non-json", lambda c: c["inputs"].update(extra={"value": {1, 2}}), "unknown input field"),
     ]
     for name, mutate, expected in mutations:
         candidate = golden_case()
