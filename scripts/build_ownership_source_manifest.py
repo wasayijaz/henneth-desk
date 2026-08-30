@@ -7,7 +7,6 @@ title, TOC, insider activity, or issuer relationship into a shareholding claim.
 """
 from __future__ import annotations
 
-from datetime import datetime, timezone
 from pathlib import Path
 from urllib.parse import urlparse
 
@@ -107,7 +106,6 @@ def build(write: bool = True) -> dict:
     output = {
         "schema_version": 1,
         "kind": "ownership_source_review_manifest",
-        "built_at": datetime.now(timezone.utc).date().isoformat(),
         "pilot_symbols": pilot,
         "policy": {
             "review_only": True,
