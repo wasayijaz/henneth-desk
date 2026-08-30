@@ -12,11 +12,13 @@ import math
 import re
 from typing import Any, Mapping
 
-CONTRACT_VERSION = "mlcf_pioc_analogue_eligibility_v1"
+CONTRACT_VERSION = "mlcf_pioc_analogue_eligibility_v2"
 STATUSES = ("eligible", "insufficient", "blocked")
 TIERS = ("same_company", "same_official_sector")
 HORIZONS = ("1Q", "2Q", "4Q", "8Q")
 MIN_SAMPLE = 3
+REAL_MODE = "real"
+FIXTURE_MODE = "fixture"
 
 _HASH = re.compile(r"^[0-9a-fA-F]{64}$")
 _DATE_KEYS = {"effective_date", "available_on", "cutoff", "endpoint_date"}
@@ -29,7 +31,7 @@ _TARGET_KEYS = {
     "event_id", "symbol", "target_symbol", "event_type", "event_subtype",
     "effective_date", "mechanism", "scale", "official_sector", "source",
 }
-_SOURCE_KEYS = {"id", "hash", "page", "available_on", "cutoff"}
+_SOURCE_KEYS = {"id", "url", "path", "hash", "page", "available_on", "cutoff"}
 _CANDIDATE_KEYS = {
     "candidate_id", "event_id", "symbol", "event_type", "event_subtype",
     "effective_date", "tier", "official_sector", "mechanism", "scale",
@@ -38,8 +40,25 @@ _CANDIDATE_KEYS = {
 }
 _ROOT_KEYS = {
     "contract_version", "mode", "cutoff", "target_event", "candidate_observations",
-    "existing_mlcf_analogues_insufficient",
 }
+CANONICAL_INSUFFICIENCY_REASONS: tuple[dict[str, str], ...] = (
+    {
+        "code": "zero_same_company_acquisition_exact",
+        "label": "Zero same-company acquisition/control analogues.",
+    },
+    {
+        "code": "zero_same_official_sector_acquisition_exact",
+        "label": "Zero same-official-sector acquisition/control analogues.",
+    },
+    {
+        "code": "all_horizons_mature_n_0",
+        "label": "All eligible horizons have mature n=0.",
+    },
+    {
+        "code": "generic_contract_tender_incompatible",
+        "label": "Generic contract/tender events are incompatible with the MLCF/PIOC acquisition-control target.",
+    },
+)
 
 REAL_TARGET = {
     "event_id": "evt_6e9b520a122b8f2d4a59",
@@ -51,8 +70,67 @@ REAL_TARGET = {
     "mechanism": "cement_acquisition_control",
     "scale": "dispatch_inclusion",
     "official_sector": "Cement",
-    "source": {"id": "psx:267429", "hash": "98cf83c9a286999c8006a7f73f490248f26694c9edbfc815b3dbd9188ee22a54", "page": 3, "available_on": "2025-12-18", "cutoff": "2025-12-18"},
+    "source": {
+        "id": "psx:267429",
+        "url": "https://dps.psx.com.pk/download/document/267429.pdf",
+        "path": "state/company_documents.json",
+        "hash": "98cf83c9a286999c8006a7f73f490248f26694c9edbfc815b3dbd9188ee22a54",
+        "page": 3,
+        "available_on": "2025-12-18",
+        "cutoff": "2025-12-18",
+    },
 }
+
+FIXTURE_TARGET = {
+    "event_id": "evt-target",
+    "symbol": "MLCF",
+    "target_symbol": "PIOC",
+    "event_type": "acquisition_divestment",
+    "event_subtype": "acquisition",
+    "effective_date": "2025-01-01",
+    "mechanism": "cement_acquisition_control",
+    "scale": "dispatch_inclusion",
+    "official_sector": "Cement",
+    "source": {
+        "id": "fixture:target",
+        "url": "fixture://mlcf-pioc-analogue/target",
+        "path": "fixtures/mlcf_pioc_analogue/target.json",
+        "hash": "a" * 64,
+        "page": 1,
+        "available_on": "2025-01-01",
+        "cutoff": "2026-01-01",
+    },
+}
+
+FIXTURE_CANDIDATES: tuple[dict[str, Any], ...] = tuple(
+    {
+        "candidate_id": f"cand-{index}",
+        "event_id": f"evt-{index}",
+        "symbol": "MLCF",
+        "event_type": "acquisition_divestment",
+        "event_subtype": "acquisition",
+        "effective_date": "2024-01-01",
+        "tier": "same_company",
+        "official_sector": "Cement",
+        "mechanism": "cement_acquisition_control",
+        "scale": "dispatch_inclusion",
+        "horizon": "1Q",
+        "source": {
+            "id": f"fixture:cand-{index}",
+            "url": f"fixture://mlcf-pioc-analogue/cand-{index}",
+            "path": f"fixtures/mlcf_pioc_analogue/cand-{index}.json",
+            "hash": "a" * 64,
+            "page": 1,
+            "available_on": "2023-12-01",
+            "cutoff": "2026-01-01",
+        },
+        "endpoint_date": "2024-04-01",
+        "endpoint_available_on": "2024-04-02",
+        "endpoint_status": "mature",
+        "outcome_return_pct": 1.0,
+    }
+    for index in range(MIN_SAMPLE)
+)
 
 
 def _day(value: Any) -> date | None:
@@ -96,6 +174,10 @@ def _source_errors(source: Any, *, cutoff: date | None, mode: str, path: str) ->
     _closed(source, _SOURCE_KEYS, path, errors)
     if not _nonempty(source.get("id")):
         errors.append(f"{path}.id: required")
+    if not _nonempty(source.get("url")):
+        errors.append(f"{path}.url: required")
+    if not _nonempty(source.get("path")):
+        errors.append(f"{path}.path: required")
     source_hash = source.get("hash")
     if not isinstance(source_hash, str) or not _HASH.fullmatch(source_hash):
         errors.append(f"{path}.hash: must be a 64-character hexadecimal hash")
@@ -112,9 +194,13 @@ def _source_errors(source: Any, *, cutoff: date | None, mode: str, path: str) ->
         errors.append(f"{path}: available_on must not be after cutoff")
     if cutoff and source_cutoff and source_cutoff > cutoff:
         errors.append(f"{path}.cutoff: after product cutoff")
-    if mode == "fixture" and not str(source.get("id") or "").startswith("fixture:"):
+    if mode == FIXTURE_MODE and not str(source.get("id") or "").startswith("fixture:"):
         errors.append(f"{path}.id: fixture mode requires fixture: source id")
-    if mode == "real" and str(source.get("id") or "").startswith("fixture:"):
+    if mode == FIXTURE_MODE and not str(source.get("url") or "").startswith("fixture://"):
+        errors.append(f"{path}.url: fixture mode requires fixture:// source URL")
+    if mode == FIXTURE_MODE and not str(source.get("path") or "").startswith("fixtures/mlcf_pioc_analogue/"):
+        errors.append(f"{path}.path: fixture mode requires canonical fixture path")
+    if mode == REAL_MODE and str(source.get("id") or "").startswith("fixture:"):
         errors.append(f"{path}.id: real mode rejects fixture source")
     return errors
 
@@ -136,7 +222,7 @@ def _target_errors(target: Any, *, cutoff: date | None, mode: str) -> list[str]:
     elif cutoff and effective > cutoff:
         errors.append(f"{path}.effective_date: after product cutoff")
     errors.extend(_source_errors(target.get("source"), cutoff=cutoff, mode=mode, path=f"{path}.source"))
-    if mode == "real":
+    if mode == REAL_MODE:
         for key, expected in REAL_TARGET.items():
             if key == "source":
                 continue
@@ -146,6 +232,20 @@ def _target_errors(target: Any, *, cutoff: date | None, mode: str) -> list[str]:
         for key, expected in REAL_TARGET["source"].items():
             if source.get(key) != expected:
                 errors.append(f"{path}.source.{key}: does not match canonical MLCF source binding")
+    return errors
+
+
+def _fixture_errors(target: Mapping[str, Any], candidates: list[Any]) -> list[str]:
+    errors: list[str] = []
+    if target != FIXTURE_TARGET:
+        errors.append("target_event: fixture mode requires the canonical synthetic target")
+    if len(candidates) > len(FIXTURE_CANDIDATES):
+        errors.append("candidate_observations: fixture mode permits only the three canonical synthetic candidates")
+    for index, candidate in enumerate(candidates):
+        if index >= len(FIXTURE_CANDIDATES):
+            continue
+        if candidate != FIXTURE_CANDIDATES[index]:
+            errors.append(f"candidate_observations[{index}]: fixture mode requires canonical synthetic candidate {index}")
     return errors
 
 
@@ -164,6 +264,8 @@ def _candidate_errors(candidate: Any, *, target: Mapping[str, Any], cutoff: date
         errors.append(f"{path}.horizon: must be one of {HORIZONS}")
     if candidate.get("event_type") != target.get("event_type") or candidate.get("event_subtype") != target.get("event_subtype"):
         errors.append(f"{path}: event type/subtype must exactly match target")
+    if candidate.get("event_subtype") in {"contract", "tender"}:
+        errors.append(f"{path}.event_subtype: generic contract/tender analogues are incompatible")
     if candidate.get("mechanism") != target.get("mechanism"):
         errors.append(f"{path}.mechanism: incompatible cement mechanism")
     if candidate.get("scale") != target.get("scale"):
@@ -234,9 +336,6 @@ def validate_payload(payload: Mapping[str, Any]) -> list[str]:
     if cutoff is None:
         errors.append("cutoff: must be YYYY-MM-DD")
     errors.extend(_target_errors(payload.get("target_event"), cutoff=cutoff, mode=str(mode),))
-    reasons = payload.get("existing_mlcf_analogues_insufficient")
-    if not isinstance(reasons, list) or not reasons or any(not _nonempty(item) for item in reasons):
-        errors.append("existing_mlcf_analogues_insufficient: non-empty list of reasons required")
     candidates = payload.get("candidate_observations")
     if not isinstance(candidates, list):
         errors.append("candidate_observations: must be a list")
@@ -244,15 +343,35 @@ def validate_payload(payload: Mapping[str, Any]) -> list[str]:
     target = payload.get("target_event") if isinstance(payload.get("target_event"), Mapping) else {}
     for index, candidate in enumerate(candidates):
         errors.extend(_candidate_errors(candidate, target=target, cutoff=cutoff, mode=str(mode), index=index))
+    if mode == FIXTURE_MODE:
+        errors.extend(_fixture_errors(target, candidates))
     seen: set[tuple[str, str, str, str]] = set()
+    seen_candidate_ids: set[str] = set()
+    seen_event_horizons: set[tuple[str, str]] = set()
+    seen_source_horizons: set[tuple[str, str]] = set()
     for index, candidate in enumerate(candidates):
         if not isinstance(candidate, Mapping):
             continue
         source = candidate.get("source") if isinstance(candidate.get("source"), Mapping) else {}
-        key = (str(candidate.get("candidate_id")), str(candidate.get("event_id")), str(source.get("id")), str(candidate.get("horizon")))
+        candidate_id = str(candidate.get("candidate_id"))
+        event_id = str(candidate.get("event_id"))
+        source_id = str(source.get("id"))
+        horizon = str(candidate.get("horizon"))
+        key = (candidate_id, event_id, source_id, horizon)
         if key in seen:
             errors.append(f"candidate_observations[{index}]: duplicate candidate/event/source/horizon observation")
         seen.add(key)
+        if candidate_id in seen_candidate_ids:
+            errors.append(f"candidate_observations[{index}].candidate_id: duplicate candidate id")
+        seen_candidate_ids.add(candidate_id)
+        event_horizon = (event_id, horizon)
+        if event_horizon in seen_event_horizons:
+            errors.append(f"candidate_observations[{index}].event_id: duplicate event counted for horizon")
+        seen_event_horizons.add(event_horizon)
+        source_horizon = (source_id, horizon)
+        if source_horizon in seen_source_horizons:
+            errors.append(f"candidate_observations[{index}].source.id: duplicate source counted for horizon")
+        seen_source_horizons.add(source_horizon)
     if _text_has_banned(payload):
         errors.append("payload: unknown/advice/causal language is forbidden")
     try:
@@ -269,6 +388,8 @@ def observation_fingerprint(candidate: Mapping[str, Any]) -> str:
 
 
 __all__ = [
-    "CONTRACT_VERSION", "STATUSES", "TIERS", "HORIZONS", "MIN_SAMPLE",
+    "CANONICAL_INSUFFICIENCY_REASONS", "CONTRACT_VERSION", "FIXTURE_CANDIDATES",
+    "FIXTURE_MODE", "FIXTURE_TARGET", "REAL_MODE", "REAL_TARGET", "STATUSES",
+    "TIERS", "HORIZONS", "MIN_SAMPLE",
     "validate_payload", "observation_fingerprint",
 ]
