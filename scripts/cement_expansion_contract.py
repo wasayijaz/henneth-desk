@@ -23,13 +23,13 @@ _BOUNDED = {
     "working_capital_pct_revenue": (0.0, True, 100.0, False),
     "effective_tax_pct": (0.0, True, 100.0, False),
     "annual_interest_rate_pct": (0.0, True, 100.0, False),
+    "discount_rate_pct_annual": (0.0, False, 100.0, False),
 }
 _POSITIVE = (
     "incremental_capacity_units",
     "selling_price_pkr_per_unit",
     "shares_out",
     "equity_financing_pkr",
-    "discount_rate_pct_annual",
 )
 _NON_NEGATIVE = (
     "starting_utilization_pct",
