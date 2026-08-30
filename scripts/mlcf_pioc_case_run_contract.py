@@ -27,6 +27,13 @@ ENVELOPE_KEYS = {
 }
 RUN_KEYS = {"scenario", "status", "blocked_reasons", "result"}
 READINESS_KEYS = {"status", "blocked_reasons", "hard_block", "reason"}
+_ENGINE_RESULT_KEYS = {
+    "schema_version", "formula_id", "engine_version", "run_receipt", "status",
+    "blocked_reasons", "scenario", "inputs_lineage", "quarterly_schedule",
+    "values", "per_share", "break_even", "confidence_limitations",
+}
+_ENGINE_RESULT_SCHEMA = "cement_expansion_model_result_v1"
+_ADAPTER_RESULT_KEYS = _ENGINE_RESULT_KEYS | {"case_id"}
 
 _ADVICE_RE = re.compile(
     r"\b(?:buy|sell|accumulate|recommend(?:ation)?|you\s+should)\b|"
@@ -166,8 +173,36 @@ def validate_case_run(envelope: Mapping[str, Any]) -> list[str]:
             violations.append(f"{path}.result: computed run requires an engine result")
         elif run_reasons:
             violations.append(f"{path}: computed run cannot carry blocked reasons")
-        elif run["result"].get("status") != "computed":
-            violations.append(f"{path}.result.status: must be computed")
+        else:
+            result = run["result"]
+            result_unknown = set(result) - _ADAPTER_RESULT_KEYS
+            result_missing = _ADAPTER_RESULT_KEYS - set(result)
+            violations.extend(f"{path}.result.{key}: unknown field" for key in sorted(result_unknown, key=str))
+            violations.extend(f"{path}.result.{key}: missing field" for key in sorted(result_missing, key=str))
+            if result.get("case_id") != CASE_ID:
+                violations.append(f"{path}.result.case_id: must equal {CASE_ID}")
+            if result.get("schema_version") != _ENGINE_RESULT_SCHEMA:
+                violations.append(f"{path}.result.schema_version: must equal {_ENGINE_RESULT_SCHEMA}")
+            if result.get("status") != "computed":
+                violations.append(f"{path}.result.status: must be computed")
+            scenario = result.get("scenario")
+            if not isinstance(scenario, Mapping):
+                violations.append(f"{path}.result.scenario: must be a mapping")
+            else:
+                if scenario.get("case_label") != run.get("scenario"):
+                    violations.append(f"{path}.result.scenario.case_label: must align with run scenario")
+                if set(scenario) != {"symbol", "event_ref", "case_label", "effective_date", "valuation_date"}:
+                    violations.append(f"{path}.result.scenario: unexpected or missing fields")
+            schedule = result.get("quarterly_schedule")
+            if not isinstance(schedule, list) or len(schedule) != 8:
+                violations.append(f"{path}.result.quarterly_schedule: must contain exactly 8 rows")
+            elif [row.get("quarter_index") for row in schedule if isinstance(row, Mapping)] != list(range(1, 9)):
+                violations.append(f"{path}.result.quarterly_schedule: quarter indexes must be 1 through 8")
+            for field in ("values", "per_share", "break_even", "run_receipt", "confidence_limitations"):
+                if not isinstance(result.get(field), Mapping):
+                    violations.append(f"{path}.result.{field}: must be a mapping")
+            if not isinstance(result.get("inputs_lineage"), list) or not result.get("inputs_lineage"):
+                violations.append(f"{path}.result.inputs_lineage: must be a non-empty list")
 
     if status == "computed" and labels != list(SCENARIOS):
         violations.append("scenario_runs: labels must be exactly bear, base, bull")
