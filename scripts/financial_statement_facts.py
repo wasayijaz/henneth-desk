@@ -26,7 +26,7 @@ INCOME_STATEMENT_LINE_PATTERNS = {
     # ``Profit after taxation`` and would otherwise be misclassified by the
     # broad ``taxation`` expression below.  The owner row is the attributable
     # value needed by the forecast gate; retain the existing PAT wording too.
-    "profit_after_tax_attributable": r"(?:owners of (?:the )?(?:parent|holding) company|equity holders of (?:the )?(?:parent|holding) company|profit after tax(?:ation)? attributable|profit attributable to owners|profit after tax(?:ation)?|profit for the period)",
+    "profit_after_tax_attributable": r"(?:owners of (?:the )?(?:parent|holding)(?: company)?|equity holders of (?:the )?(?:parent|holding)(?: company)?|profit after tax(?:ation)? attributable|profit attributable to owners|profit after tax(?:ation)?|profit for the period)",
     "tax_expense": r"(?:taxation|income tax expense|tax expense)",
     "basic_eps": r"(?:basic )?eps(?:\s|$)|earnings per share",
 }
@@ -160,7 +160,21 @@ def _duration_occurrences(lines: list[dict[str, Any]]) -> list[dict[str, Any]]:
                     "y0": min(t["y0"] for t in seq),
                     "y1": max(t["y1"] for t in seq),
                 })
-    return sorted(out, key=lambda o: (o["y0"], o["cx"]))
+    # PyMuPDF can split a wrapped ``Half year ended`` header into adjacent
+    # logical lines.  The generic ``year ended`` phrase is then the same
+    # six-month header, not a second annual duration group.
+    filtered = []
+    for item in out:
+        if item["months"] == 12 and any(
+            other["months"] in {6, 9}
+            and abs(float(other["y0"]) - float(item["y0"])) <= 3
+            and float(other["x0"]) < float(item["x1"])
+            and float(item["x0"]) < float(other["x1"])
+            for other in out
+        ):
+            continue
+        filtered.append(item)
+    return sorted(filtered, key=lambda o: (o["y0"], o["cx"]))
 
 
 def _round_bbox(row: dict[str, Any]) -> list[float]:
@@ -424,6 +438,11 @@ def _note_bands(lines: list[dict[str, Any]], header_line: dict[str, Any], row: d
     for line in lines:
         if not (header_line["y0"] - 25 <= line["y0"] <= row["y0"]):
             continue
+        # A restatement annotation such as ``Restated - note 2.2`` is not a
+        # table note column.  Treat only a standalone header label as a note
+        # band, otherwise valid comparative/current cells can be suppressed.
+        if not re.match(r"\s*notes?\b", line["text"], re.I):
+            continue
         for tok in line["tokens"]:
             if re.fullmatch(r"notes?", tok["text"], re.I):
                 bands.append((tok["x0"] - 35, tok["x1"] + 35))
@@ -630,7 +649,13 @@ def _structured_page_facts(doc: dict[str, Any], page_no: int, page_words: list[t
         # x-coordinate) can incorrectly invalidate this row.
         if len(nums) < needed:
             for band_line in lines:
-                if band_line is row or abs(float(band_line["y0"]) - float(row["y0"])) > 3:
+                if len(nums) >= needed:
+                    break
+                if band_line is row:
+                    continue
+                same_baseline = abs(float(band_line["y0"]) - float(row["y0"])) <= 3
+                wrapped_numeric_band = 0 <= float(band_line["y0"]) - float(row["y1"]) <= 6
+                if not (same_baseline or wrapped_numeric_band):
                     continue
                 part = _numeric_only_continuation(band_line, label_end, note_bands)
                 if part:
@@ -761,7 +786,7 @@ def _structured_page_facts(doc: dict[str, Any], page_no: int, page_words: list[t
     seen: set[tuple[Any, ...]] = set()
     for fact in out:
         key = (fact.get("page"), fact.get("line"), fact.get("period_end"),
-               fact.get("column_role"), fact.get("consolidation"))
+               fact.get("duration_months"), fact.get("column_role"), fact.get("consolidation"))
         if key in seen:
             continue
         seen.add(key)
@@ -819,17 +844,20 @@ def _is_non_attributable_pat_row(lines: list[dict[str, Any]], row: dict[str, Any
     statements).
     """
     text = row["text"]
-    if re.search(r"\bowners?\s+of\s+(?:the\s+)?(?:parent|holding)\s+company\b|\battributable\s+to\s+owners?\b|\bprofit\s+attributable\s+to\s+owners?\b", text, re.I):
+    if re.search(r"\bowners?\s+of\s+(?:the\s+)?(?:parent|holding)(?:\s+company)?\b|\bequity\s+holders?\s+of\s+(?:the\s+)?(?:parent|holding)(?:\s+company)?\b|\battributable\s+to\s+owners?\b|\bprofit\s+attributable\s+to\s+owners?\b", text, re.I):
         return False
     if re.search(r"\bprofit\s+after\s+tax(?:ation)?\s+from\s+(?:continuing|discontinued)\s+operations\b", text, re.I):
         return True
     if not re.search(r"\bprofit\s+after\s+tax(?:ation)?\b|\bprofit\s+for\s+the\s+period\b", text, re.I):
         return False
+    nearby = []
     for candidate in lines:
         if candidate is row or not (0 < candidate["y0"] - row["y0"] <= 70):
             continue
-        if re.search(r"\bowners?\s+of\s+(?:the\s+)?(?:parent|holding)\s+company\b|\battributable\s+to\s+owners?\b", candidate["text"], re.I):
-            return True
+        nearby.append(candidate["text"])
+    nearby_text = " ".join(nearby)
+    if re.search(r"\b(?:owners?|equity\s+holders?)\s+of\s+(?:the\s+)?(?:parent|holding)(?:\s+company)?\b|\battributable\s+to\s+(?:owners?|equity\s+holders?)\b", nearby_text, re.I):
+        return True
     return False
 
 

@@ -102,10 +102,10 @@ def main() -> int:
             _w(410, 70, "ended", 0, 1, 4),
             _w(260, 100, str(period_end[:4]), 1, 0), _w(330, 100, str(int(period_end[:4])-1), 1, 0, 1),
             _w(460, 100, str(period_end[:4]), 1, 0, 2), _w(530, 100, str(int(period_end[:4])-1), 1, 0, 3),
-            _w(180, 120, "(Rupees", 1, 4), _w(230, 120, "in", 1, 5), _w(250, 120, "thousand)", 1, 6),
+            _w(180, 120, "(Rupees", 1, 4), _w(230, 120, "in", 1, 4, 1), _w(250, 120, "thousand)", 1, 4, 2),
             _w(50, 150, "Revenue", 2, 0), _w(260, 150, "500", 2, 1), _w(330, 150, "450", 2, 2), _w(460, 150, str(revenue_q), 2, 3), _w(530, 150, "400", 2, 4),
-            _w(50, 180, "Equity", 3, 0), _w(95, 180, "holders", 3, 1), _w(150, 180, "of", 3, 2), _w(170, 180, "the", 3, 3), _w(195, 180, "Holding", 3, 4), _w(250, 180, "Company", 3, 5), _w(260, 180, "1000", 3, 6), _w(330, 180, "900", 3, 7), _w(460, 180, str(pat_q), 3, 8), _w(530, 180, "800", 3, 9),
-            _w(50, 210, "Earnings", 4, 0), _w(105, 210, "per", 4, 1), _w(130, 210, "share", 4, 2), _w(260, 210, "5.0", 4, 3), _w(330, 210, "4.5", 4, 4), _w(460, 210, str(eps_q), 4, 5), _w(530, 210, "4.0", 4, 6),
+            _w(50, 180, "Equity", 3, 0), _w(95, 180, "holders", 3, 0, 1), _w(150, 180, "of", 3, 0, 2), _w(170, 180, "the", 3, 0, 3), _w(195, 180, "Holding", 3, 0, 4), _w(210, 180, "Company", 3, 0, 5), _w(260, 180, "1000", 3, 1), _w(330, 180, "900", 3, 2), _w(460, 180, str(pat_q), 3, 3), _w(530, 180, "800", 3, 4),
+            _w(50, 210, "Earnings", 4, 0), _w(105, 210, "per", 4, 0, 1), _w(130, 210, "share", 4, 0, 2), _w(260, 210, "5.0", 4, 1), _w(330, 210, "4.5", 4, 2), _w(460, 210, str(eps_q), 4, 3), _w(530, 210, "4.0", 4, 4),
         ]
         text = f"Consolidated statement of profit or loss {period_title}"
         return extract_facts(
@@ -113,19 +113,18 @@ def main() -> int:
             [text], [words], [{"page": page_no, "text": text, "words": words}],
         )
 
-    q2 = mlcf_page("for the six-month period and quarter ended December 31, 2025", "2025-12-31", 32, 18935494, 3118059, 2.98)
-    q3 = mlcf_page("for nine months period and quarter ended March 31, 2026", "2026-03-31", 28, 21545015, 1770955, 1.86)
-    for facts, page, rev, pat, eps in ((q2, 32, 18935494, 3118059, 2.98), (q3, 28, 21545015, 1770955, 1.86)):
-        if not facts or not all(f.get("duration_months") == 3 for f in facts):
-            # The compact fixture intentionally exercises the same wrapped
-            # header geometry; parser acceptance is covered by the direct
-            # statement contract below when issuers provide fully aligned
-            # words.  Keep this check non-blocking for synthetic spacing.
-            continue
+    q2 = mlcf_page("for the six-month period and quarter ended December 31, 2025", "2025-12-31", 33, 18935494, 3118059, 2.98)
+    q3 = mlcf_page("for nine months period and quarter ended March 31, 2026", "2026-03-31", 29, 21545015, 1770955, 1.86)
+    for facts, page, rev, pat, eps in ((q2, 33, 18935494, 3118059, 2.98), (q3, 29, 21545015, 1770955, 1.86)):
+        assert facts and any(f.get("duration_months") == 3 for f in facts), "wrapped-quarter fixture emitted no direct three-month facts"
         current = [f for f in facts if f["column_role"] == "current_period" and f["duration_months"] == 3]
-        assert {f["line"] for f in current} == {"revenue", "profit_after_tax_attributable", "basic_eps"}
-        assert {f["line"]: f["value"] for f in current} == {"revenue": rev * 1000, "profit_after_tax_attributable": pat * 1000, "basic_eps": eps}
-        assert all(f["page"] == page and f["consolidation"] == "consolidated" and f["readiness"] == "model_loadable" for f in current)
+        by_line = {f["line"]: f for f in current}
+        required = {"revenue", "profit_after_tax_attributable", "basic_eps"}
+        assert required.issubset(by_line), f"missing direct-quarter triplet: {required - set(by_line)}"
+        actual_triplet = {line: by_line[line]["value"] for line in required}
+        expected_triplet = {"revenue": rev * 1000, "profit_after_tax_attributable": pat * 1000, "basic_eps": eps}
+        assert actual_triplet == expected_triplet, f"unexpected direct-quarter triplet: {actual_triplet}"
+        assert all(by_line[line]["page"] == page and by_line[line]["consolidation"] == "consolidated" and by_line[line]["readiness"] == "model_loadable" for line in required)
 
     # Wrong basis must not be promoted as consolidated evidence.
     bad_words = [tuple(list(w[:4]) + [w[4].replace("CONSOLIDATED", "UNCONSOLIDATED")] + list(w[5:])) if w[4] == "CONSOLIDATED" else w for w in ([
