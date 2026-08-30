@@ -79,7 +79,6 @@
     }
     return { status: items.length ? "available" : "empty", reason: null, items };
   }
-
   function blocked(key, reason) {
     const text = String(reason || "").trim();
     return { key, status: "blocked", reason: text || "not_yet_modelled" };
