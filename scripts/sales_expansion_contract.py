@@ -165,6 +165,9 @@ def validate_case(case: Mapping[str, Any]) -> list[str]:
     if not isinstance(inputs, Mapping):
         violations.append("inputs: must be a mapping of field to provenance record")
         return violations
+    unknown_fields = sorted(set(inputs) - set(_REQUIRED))
+    for field in unknown_fields:
+        violations.append(f"{field}: unknown input field")
     for field in _REQUIRED:
         if field not in inputs:
             violations.append(f"{field}: missing required input")
@@ -212,8 +215,8 @@ def validate_case(case: Mapping[str, Any]) -> list[str]:
                     parsed = _as_date(quarter_end)
                     if not is_quarter_end(quarter_end):
                         violations.append(f"{field}[{index}]: must be a quarter-end (last day of Mar/Jun/Sep/Dec)")
-                    elif parsed < effective:
-                        violations.append(f"{field}[{index}]: must be on or after effective_date")
+                    elif parsed < valuation:
+                        violations.append(f"{field}[{index}]: must be on or after valuation_date")
                     if previous is not None and parsed is not None and parsed <= previous:
                         violations.append(f"{field}[{index}]: quarter ends must be strictly increasing")
                     if parsed is not None:

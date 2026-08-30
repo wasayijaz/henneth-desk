@@ -110,6 +110,9 @@ def quarterly_metrics(case: Mapping[str, Any]) -> list[dict[str, Any]]:
                 "discounted_fcf_pkr": fcf * discount_factor,
             }
         )
+        for key, value in rows[-1].items():
+            if isinstance(value, float) and not math.isfinite(value):
+                raise ValueError(f"quarterly_schedule[{index + 1}].{key}: non-finite output")
         previous_working_capital = working_capital
     return rows
 
@@ -139,15 +142,24 @@ def evaluate_case(case: Mapping[str, Any]) -> dict[str, Any]:
         raise ValueError("; ".join(violations))
     canonical = json.dumps(case, sort_keys=True, separators=(",", ":"), ensure_ascii=True)
     rows = quarterly_metrics(case)
-    npv = math.fsum(row["discounted_fcf_pkr"] for row in rows)
-    values = {
-        "npv_pkr": npv,
-        "total_revenue_pkr": math.fsum(row["revenue_pkr"] for row in rows),
-        "total_gross_profit_pkr": math.fsum(row["gross_profit_pkr"] for row in rows),
-        "total_ebitda_pkr": math.fsum(row["ebitda_pkr"] for row in rows),
-        "total_fcf_pkr": math.fsum(row["fcf_pkr"] for row in rows),
-    }
+    try:
+        npv = math.fsum(row["discounted_fcf_pkr"] for row in rows)
+        values = {
+            "npv_pkr": npv,
+            "total_revenue_pkr": math.fsum(row["revenue_pkr"] for row in rows),
+            "total_gross_profit_pkr": math.fsum(row["gross_profit_pkr"] for row in rows),
+            "total_ebitda_pkr": math.fsum(row["ebitda_pkr"] for row in rows),
+            "total_fcf_pkr": math.fsum(row["fcf_pkr"] for row in rows),
+        }
+    except OverflowError as error:
+        raise ValueError("values: non-finite output from aggregate overflow") from error
+    for key, value in values.items():
+        if isinstance(value, float) and not math.isfinite(value):
+            raise ValueError(f"values.{key}: non-finite output")
     shares = float(case["inputs"]["shares_out"]["value"])
+    per_share_npv = npv / shares
+    if not math.isfinite(per_share_npv):
+        raise ValueError("per_share.npv_pkr: non-finite output")
     return {
         "schema_version": RESULT_SCHEMA,
         "formula_id": FORMULA_ID,
@@ -168,7 +180,7 @@ def evaluate_case(case: Mapping[str, Any]) -> dict[str, Any]:
         "inputs_lineage": _inputs_lineage(case["inputs"]),
         "quarterly_schedule": rows,
         "values": values,
-        "per_share": {"npv_pkr": npv / shares},
+        "per_share": {"npv_pkr": per_share_npv},
         "break_even": break_even_metrics(rows),
         "confidence_limitations": {
             "research_only": True,
