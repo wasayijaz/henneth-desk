@@ -30,6 +30,7 @@ FORBIDDEN_KEYS = {
     "expected_return", "scenario", "model", "modelled", "modeled", "eps", "ebitda",
     "fcf", "free_cash_flow", "npv", "roic", "margin", "share_price", "price",
 }
+FORBIDDEN_TEXT = ("forecast", "valuation", "probability", "advice", "target price", "recommendation")
 MAX_NUMERIC = 10**15
 
 EXPECTED_CHAIN = [
@@ -335,7 +336,12 @@ def validate_seed(seed: dict[str, Any]) -> list[str]:
                 violations.append(f"{path}: numeric value must be finite")
             elif abs(float(value)) > MAX_NUMERIC:
                 violations.append(f"{path}: numeric value exceeds bound")
-        elif value is None or type(value) in (str, bool):
+        elif type(value) is str:
+            lowered = value.lower()
+            for token in FORBIDDEN_TEXT:
+                if token in lowered:
+                    violations.append(f"{path}: forbidden text {token}")
+        elif value is None or type(value) is bool:
             return
         else:
             violations.append(f"{path or 'seed'}: unsupported value type")
