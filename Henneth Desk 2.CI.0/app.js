@@ -91,6 +91,7 @@ let state = {
   selected: null,
   filter: "",
   view: "overview",
+  caseRoute: null,
   tree: { expanded: {} },
   ask: { pending: {}, nextId: 0, bySymbol: {} },
   scenario: { bySymbol: {} },
@@ -319,8 +320,57 @@ async function loadData(retried = false) {
   setAccessState("Private file open", "private file open");
   $("app").removeAttribute("aria-busy");
   $("signOut").hidden = false;
+  applyCaseRouteFromLocation({ replace: true });
   renderDesk();
   loadCompanyTheses();
+}
+
+function caseViewApi() {
+  return window.HennethIntelligenceCaseView || null;
+}
+
+function casePathFor(ticker, caseId) {
+  return "/company/" + encodeURIComponent(String(ticker || "").toUpperCase()) + "/intelligence/" + encodeURIComponent(String(caseId || ""));
+}
+
+function syncCaseLocation(opts) {
+  if (!state.caseRoute) return;
+  const replace = Boolean(opts && opts.replace);
+  const next = casePathFor(state.caseRoute.ticker, state.caseRoute.caseId);
+  if (location.pathname + location.search + location.hash === next) return;
+  const method = replace ? "replaceState" : "pushState";
+  history[method]({ hennethIntelligenceCase: true, ticker: state.caseRoute.ticker, caseId: state.caseRoute.caseId }, "", next);
+}
+
+function applyCaseRouteFromLocation(opts) {
+  const parsed = caseViewApi()?.parsePath?.(location.pathname) || null;
+  if (!parsed) {
+    if (state.caseRoute) state.caseRoute = null;
+    return null;
+  }
+  state.caseRoute = parsed;
+  state.selected = parsed.ticker;
+  syncCaseLocation(opts);
+  return parsed;
+}
+
+function openIntelligenceCase(ticker, caseId) {
+  const symbol = String(ticker || "").toUpperCase();
+  if (!symbol || !caseId) return;
+  state.selected = symbol;
+  state.caseRoute = { ticker: symbol, caseId: String(caseId) };
+  closeMobileDrawers();
+  syncCaseLocation();
+  renderDesk();
+}
+
+function closeIntelligenceCase() {
+  state.caseRoute = null;
+  if (location.pathname.startsWith("/company/")) {
+    history.pushState({ hennethIntelligenceCase: false }, "", "/");
+  }
+  closeMobileDrawers();
+  renderDesk();
 }
 
 function boundAskQuestion(value) {
@@ -417,8 +467,11 @@ function rows() {
 
 function pick(symbol) {
   state.selected = symbol;
-  closeMobileDrawers();
-  renderDesk();
+  if (state.caseRoute && state.caseRoute.ticker !== symbol) closeIntelligenceCase();
+  else {
+    closeMobileDrawers();
+    renderDesk();
+  }
 }
 
 function syncMobileControls(available) {
@@ -618,6 +671,10 @@ function renderDesk(searchState) {
   document.querySelectorAll("[data-view]").forEach(btn => {
     btn.onclick = () => {
       state.view = btn.dataset.view;
+      if (state.caseRoute) {
+        state.caseRoute = null;
+        if (location.pathname.startsWith("/company/")) history.pushState({ hennethIntelligenceCase: false }, "", "/");
+      }
       closeMobileDrawers();
       renderDesk({ focusView: state.view });
     };
@@ -767,6 +824,7 @@ function detail(r) {
       : state.view === "trends" ? renderFinancials(r)
       : state.view === "baseline" ? renderFinancialBaseline(r)
       : state.view === "forecast" ? renderForecastReadiness(r)
+      : state.caseRoute ? renderIntelligenceCase(r, state.caseRoute.caseId)
       : state.view === "intelligence" ? renderIntelligence(r)
       : state.view === "thesis" ? renderThesisMonitor(r)
       : state.view === "watchlist" ? renderEvidenceWatchlist(r)
@@ -2041,6 +2099,111 @@ function confidenceComponentRows(components) {
     weighted_points: component.weighted_points ?? component.contribution ?? component.points ?? null,
     rationale: component.rationale || component.reason || component.status || "No rationale supplied.",
   }));
+}
+
+
+function caseEvidenceLink(ref) {
+  if (!ref || typeof ref !== "object") return "<span>source unavailable</span>";
+  const href = safeHref(ref.source_url);
+  const label = [ref.document_id || ref.event_id || "source", ref.page ? "p." + ref.page : null].filter(Boolean).join(" · ");
+  return href
+    ? '<a href="' + href + '" target="_blank" rel="noopener">' + esc(label) + '</a>'
+    : '<span>' + esc(label) + '</span>';
+}
+
+function renderCaseEvidenceItem(item) {
+  const values = Array.isArray(item?.reported_values) ? item.reported_values : [];
+  const evidence = Array.isArray(item?.evidence) ? item.evidence : [];
+  return '<article class="intel-card case-evidence-card">'
+    + '<header><span class="pill">' + esc(item?.fact_id || "observed_fact") + '</span><b>' + esc(item?.event_date || "date unknown") + '</b></header>'
+    + '<p>' + esc(item?.statement || "No observed statement emitted.") + '</p>'
+    + (values.length ? '<div class="blocked-grid">' + values.map(value => '<span>' + esc(value.label || "value") + '<b>' + esc(value.value || "unknown") + '</b></span>').join("") + '</div>' : "")
+    + evidence.map(ref => '<div class="intel-evidence">' + caseEvidenceLink(ref) + ' · ' + esc(ref.source || "source unknown") + ' · ' + esc(ref.content_sha256 ? String(ref.content_sha256).slice(0, 12) : "hash unknown") + '<div>' + esc(ref.text || "No evidence text") + '</div></div>').join("")
+    + '</article>';
+}
+
+function renderCaseHypothesis(item) {
+  return '<article class="intel-card">'
+    + '<header><span class="pill">' + esc(item?.status || "retained") + '</span><b>' + esc(item?.alternative_id || "reading") + '</b></header>'
+    + '<p>' + esc(item?.reading || "No competing reading emitted.") + '</p>'
+    + '<p class="section-note">Rejection condition: ' + esc(item?.rejection_condition || "not_yet_modelled") + '</p>'
+    + '</article>';
+}
+
+function renderCaseSource(item) {
+  return '<div class="intel-evidence">' + caseEvidenceLink(item) + ' · retrieved ' + esc(item?.document_retrieved_at || "unknown") + ' · published ' + esc(item?.document_published_at || "unknown") + '<div>' + esc(item?.document_title || item?.text || "No source title") + '</div></div>';
+}
+
+function renderCaseSectionBody(section) {
+  const blocked = !section || String(section.status || "").startsWith("blocked") || section.status === "empty_state";
+  if (blocked) {
+    return '<div class="blocked-grid"><span>Status <b>' + esc(section?.status || "blocked") + '</b></span><span>Reason <b>' + esc(section?.reason || "not_yet_modelled") + '</b></span></div>';
+  }
+  if (section.key === "conclusion") {
+    return '<p>' + esc(section.text || "Unknown") + '</p><p class="section-note">Epistemic type: ' + esc(section.epistemic_type || "reported_fact") + '. Research only — not advice.</p>';
+  }
+  if (section.key === "evidence") {
+    const items = Array.isArray(section.items) ? section.items : [];
+    return items.length ? '<div class="intel-grid">' + items.map(renderCaseEvidenceItem).join("") + '</div>' : '<div class="empty">No observed facts emitted.</div>';
+  }
+  if (section.key === "hypotheses") {
+    const items = Array.isArray(section.items) ? section.items : [];
+    return items.length ? '<div class="intel-grid">' + items.map(renderCaseHypothesis).join("") + '</div>' : '<div class="empty">No competing hypotheses emitted.</div>';
+  }
+  if (section.key === "confidence") {
+    const dims = Array.isArray(section.dimensions) ? section.dimensions : [];
+    return dims.length
+      ? '<div class="blocked-grid">' + dims.map(dim => '<span>' + esc(dim.name || dim.id || "dimension") + '<b>' + esc(dim.status || dim.score || "unknown") + '</b></span>').join("") + '</div>'
+      : '<div class="blocked-grid"><span>Status <b>blocked</b></span><span>Reason <b>not_yet_modelled</b></span></div>';
+  }
+  if (section.key === "formulas") {
+    const formulas = Array.isArray(section.formulas) ? section.formulas : [];
+    return formulas.length
+      ? '<div class="intel-list">' + formulas.map(formula => '<article><b>' + esc(formula.formula_id || "formula_id_not_emitted") + '</b><span>' + esc((formula.operands || []).join(", ") || "operands not emitted") + '</span><em>' + esc(formula.source || "source not emitted") + '</em></article>').join("") + '</div>'
+      : '<div class="blocked-grid"><span>Status <b>blocked</b></span><span>Reason <b>formula_id_not_emitted</b></span></div>';
+  }
+  if (section.key === "sources") {
+    const items = Array.isArray(section.items) ? section.items : [];
+    return items.length ? items.map(renderCaseSource).join("") : '<div class="empty">No source lineage emitted.</div>';
+  }
+  if (Array.isArray(section.items) && section.items.length) {
+    return '<div class="intel-list">' + section.items.map(item => '<article><b>' + esc(item.id || item.name || section.key) + '</b><span>' + esc(item.text || item.status || "emitted") + '</span><em>' + esc(item.reason || "") + '</em></article>').join("") + '</div>';
+  }
+  if (section.text) return '<p>' + esc(section.text) + '</p>';
+  return '<div class="blocked-grid"><span>Status <b>' + esc(section.status || "blocked") + '</b></span><span>Reason <b>' + esc(section.reason || "not_yet_modelled") + '</b></span></div>';
+}
+
+function renderIntelligenceCase(r, caseId) {
+  const api = caseViewApi();
+  const lookup = api?.findCase ? api.findCase(r, caseId) : { ok: false, reason: "intelligence_cases_state_missing", payload: { cases: [] }, case: null };
+  if (!lookup.ok) {
+    const title = lookup.reason === "case_not_found" ? "Case not found" : "Intelligence case unavailable";
+    const reason = lookup.reason || "intelligence_cases_state_missing";
+    return '<section class="panel span9 blocked-shell case-shell" aria-labelledby="caseTitle"><span class="kicker">Intelligence case</span><h2 id="caseTitle">' + esc(title) + '</h2><p class="section-note">Read-only case surface. Missing objects stay fail-closed. This is research, not advice.</p><div class="blocked-grid"><span>Ticker <b>' + esc(r?.symbol || state.caseRoute?.ticker || "unknown") + '</b></span><span>Requested case <b>' + esc(caseId || "unknown") + '</b></span><span>Reason <b>' + esc(reason) + '</b></span></div><p><button type="button" class="chrome-btn" data-case-close="1">Back to company file</button></p></section>';
+  }
+  const caseObject = lookup.case;
+  const lifecycle = api.LIFECYCLE || ["Observed", "Corroborated", "Modelled", "Validated", "Published"];
+  const sections = (api.SECTIONS || []).map(([key, label]) => {
+    const section = api.resolveSection(caseObject, key);
+    return '<section class="intel-section" data-case-section="' + esc(key) + '"><header><h3>' + esc(label) + '</h3><span class="pill">' + esc(section.status || "blocked") + '</span></header>' + renderCaseSectionBody(section) + '</section>';
+  }).join("");
+  const stage = lifecycle.map(name => '<span class="pill' + (name === caseObject.status ? " active" : "") + '">' + esc(name) + '</span>').join("");
+  return '<section class="panel span9 intel-shell case-shell" aria-labelledby="caseTitle">'
+    + '<span class="kicker">Intelligence case</span>'
+    + '<h2 id="caseTitle">' + esc(caseObject.symbol || r.symbol) + ' · ' + esc(caseObject.case_id) + '</h2>'
+    + '<p class="section-note">Observed evidence only. Later Event-to-Value outputs appear when the case object emits them. Research, not advice.</p>'
+    + '<p><button type="button" class="chrome-btn" data-case-close="1">Back to company file</button></p>'
+    + '<div class="blocked-grid">'
+    + '<span>Status <b>' + esc(caseObject.status || "unknown") + '</b></span>'
+    + '<span>Family <b>' + esc(caseObject.case_family || "unknown") + '</b></span>'
+    + '<span>Type <b>' + esc(caseObject.case_type || "unknown") + '</b></span>'
+    + '<span>Epistemic type <b>' + esc(caseObject.epistemic_type || "unknown") + '</b></span>'
+    + '<span>As of <b>' + esc(caseObject.as_of || "unknown") + '</b></span>'
+    + '<span>Target <b>' + esc(caseObject.target_symbol || "none emitted") + '</b></span>'
+    + '</div>'
+    + '<div class="intel-watch" aria-label="Case lifecycle">' + stage + '</div>'
+    + sections
+    + '</section>';
 }
 
 function renderIntelligenceConfidence(r) {
@@ -3577,6 +3740,11 @@ $("signOut").onclick = () => {
 
 $("schemeToggle").onclick = () => applyDeskScheme(SCHEME_CYCLE[deskScheme()]);
 document.addEventListener("click", event => {
+  if (event.target.closest?.("[data-case-close]")) {
+    event.preventDefault();
+    closeIntelligenceCase();
+    return;
+  }
   if (event.target.closest?.("[data-drawer-close]")) {
     closeMobileDrawers();
     return;
@@ -3589,6 +3757,10 @@ document.addEventListener("click", event => {
 });
 document.addEventListener("keydown", event => {
   if (event.key === "Escape") closeMobileDrawers();
+});
+window.addEventListener("popstate", () => {
+  applyCaseRouteFromLocation({ replace: true });
+  if (state.data) renderDesk();
 });
 window.addEventListener("resize", () => {
   if (!window.matchMedia(CI_MOBILE_QUERY).matches) closeMobileDrawers();
