@@ -131,10 +131,12 @@ def _source_projection(source: Mapping[str, Any]) -> dict[str, Any]:
         "legacy_event_id": source["legacy_event_id"],
         "document_id": source["document_id"],
         "content_sha256": source["content_sha256"],
+        "evidence_sha256": source["evidence_sha256"],
         "page": source["page"],
         "join_key": source["join_key"],
         "source_label": source["source_label"],
         "raw_available": source["raw_available"],
+        "retained": source["retained"],
     }
     if "source_url" in source:
         projection["source_url"] = source["source_url"]
