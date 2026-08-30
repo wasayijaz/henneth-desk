@@ -7,14 +7,30 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
+import math
 from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
 EVENT_LEDGER = ROOT / "state" / "company_event_ledger.json"
 DOCUMENTS = ROOT / "state" / "company_documents.json"
 
-CONTRACT_VERSION = "dgkc_commissioning_seed_contract_v1"
-SEED_SCHEMA = "dgkc_commissioning_observed_seed_v1"
+CONTRACT_VERSION = "dgkc_commissioning_seed_contract_v2"
+SEED_SCHEMA = "dgkc_commissioning_evidence_seed_v2"
+
+# This seed is deliberately not an IntelligenceCase.  These labels are kept
+# outside that lifecycle so an undated clue cannot be promoted by accident.
+EVIDENCE_STATUS = "evidence_only"
+CORROBORATION_STATUS = "uncorroborated"
+SELECTION_STATUS = "unselected"
+GO_NO_GO = "no_go"
+
+FORBIDDEN_KEYS = {
+    "forecast", "forecast_value", "valuation", "fair_value", "market_expectations",
+    "price_target", "target_price", "recommendation", "advice", "probability",
+    "expected_return", "scenario", "model", "modelled", "modeled", "eps", "ebitda",
+    "fcf", "free_cash_flow", "npv", "roic", "margin", "share_price", "price",
+}
+MAX_NUMERIC = 10**15
 
 EXPECTED_CHAIN = [
     {
@@ -63,49 +79,113 @@ def _load(path: Path) -> dict[str, Any]:
     return value
 
 
-def _ledger_events(ledger: dict[str, Any]) -> dict[str, dict[str, Any]]:
+def _ledger_events(ledger: Any) -> tuple[list[dict[str, Any]], list[str]]:
+    """Return DGKC events and structural violations without trusting input keys."""
+    violations: list[str] = []
+    if type(ledger) is not dict:
+        return [], ["company_event_ledger.json: root must be an object"]
     companies = ledger.get("companies")
-    if not isinstance(companies, dict) or not isinstance(companies.get("DGKC"), dict):
-        raise ValueError("company_event_ledger.json: DGKC company missing")
-    events = companies["DGKC"].get("events")
-    if not isinstance(events, list):
-        raise ValueError("company_event_ledger.json: DGKC events missing")
-    return {event.get("event_id"): event for event in events if isinstance(event, dict)}
+    if type(companies) is not dict:
+        return [], ["company_event_ledger.json: companies must be an object"]
+    dgkc = companies.get("DGKC")
+    if type(dgkc) is not dict:
+        return [], ["company_event_ledger.json: DGKC company missing"]
+    events = dgkc.get("events")
+    if type(events) is not list:
+        return [], ["company_event_ledger.json: DGKC events missing"]
+    rows: list[dict[str, Any]] = []
+    seen: set[str] = set()
+    for index, event in enumerate(events):
+        if type(event) is not dict:
+            violations.append(f"DGKC events[{index}]: object required")
+            continue
+        event_id = event.get("event_id")
+        if type(event_id) is not str:
+            # Do not interpolate attacker-controlled repr/str values.
+            violations.append(f"DGKC events[{index}]: event_id must be a string")
+            continue
+        if event_id in seen:
+            violations.append(f"{event_id}: duplicate retained event")
+        seen.add(event_id)
+        rows.append(event)
+    return rows, violations
 
 
-def _documents(documents: dict[str, Any]) -> dict[str, dict[str, Any]]:
+def _documents(documents: Any) -> tuple[list[tuple[str, dict[str, Any]]], list[str]]:
+    """Return retained documents and structural violations safely."""
+    violations: list[str] = []
+    if type(documents) is not dict:
+        return [], ["company_documents.json: root must be an object"]
     value = documents.get("documents")
-    if not isinstance(value, dict):
-        raise ValueError("company_documents.json: documents missing")
-    return {key: item for key, item in value.items() if isinstance(item, dict)}
+    if type(value) is not dict:
+        return [], ["company_documents.json: documents missing"]
+    rows: list[tuple[str, dict[str, Any]]] = []
+    for index, (key, item) in enumerate(value.items()):
+        if type(key) is not str:
+            violations.append(f"documents[{index}]: document id must be a string")
+            continue
+        if type(item) is not dict:
+            violations.append(f"documents[{index}]: document must be an object")
+            continue
+        rows.append((key, item))
+    return rows, violations
+
+
+def _find_event(events: list[dict[str, Any]], event_id: str) -> dict[str, Any] | None:
+    matches = [event for event in events if event.get("event_id") == event_id]
+    return matches[0] if matches else None
+
+
+def _find_document(documents: list[tuple[str, dict[str, Any]]], doc_id: str) -> dict[str, Any] | None:
+    for key, item in documents:
+        if key == doc_id:
+            return item
+    return None
 
 
 def validate_retained_chain(ledger: dict[str, Any] | None = None, documents: dict[str, Any] | None = None) -> list[str]:
     """Return violations; an empty list means the retained chain is exact."""
-    ledger = _load(EVENT_LEDGER) if ledger is None else ledger
-    documents = _load(DOCUMENTS) if documents is None else documents
-    events = _ledger_events(ledger)
-    docs = _documents(documents)
     violations: list[str] = []
+    try:
+        ledger = _load(EVENT_LEDGER) if ledger is None else ledger
+    except Exception:
+        return ["company_event_ledger.json: unreadable root"]
+    try:
+        documents = _load(DOCUMENTS) if documents is None else documents
+    except Exception:
+        return ["company_documents.json: unreadable root"]
+    events, event_violations = _ledger_events(ledger)
+    docs, document_violations = _documents(documents)
+    violations.extend(event_violations)
+    violations.extend(document_violations)
     for expected in EXPECTED_CHAIN:
-        event = events.get(expected["event_id"])
+        event = _find_event(events, expected["event_id"])
         if not event:
             violations.append(f"{expected['event_id']}: missing retained event")
             continue
         if event.get("doc_id") != expected["doc_id"]:
             violations.append(f"{expected['event_id']}: document id mismatch")
-        if event.get("event_date") is not None:
-            violations.append(f"{expected['event_id']}: event_date must remain null")
+        for date_key in ("event_date", "availability_date", "effective_date"):
+            if event.get(date_key) is not None:
+                violations.append(f"{expected['event_id']}: {date_key} must remain null")
+        if event.get("tickers") != ["DGKC"]:
+            violations.append(f"{expected['event_id']}: issuer attribution mismatch")
         evidence = event.get("evidence")
         if not isinstance(evidence, list) or len(evidence) != 1:
             violations.append(f"{expected['event_id']}: evidence cardinality mismatch")
         else:
             row = evidence[0]
+            if type(row) is not dict:
+                violations.append(f"{expected['event_id']}: evidence row must be an object")
+                row = {}
             for key in ("source_url", "page", "text"):
                 expected_value = expected["url"] if key == "source_url" else expected[key]
                 if row.get(key) != expected_value:
                     violations.append(f"{expected['event_id']}: evidence {key} mismatch")
-        doc = docs.get(expected["doc_id"])
+            for forbidden_date in ("event_date", "published_at", "available_on", "availability_date"):
+                if row.get(forbidden_date) is not None:
+                    violations.append(f"{expected['event_id']}: evidence date must remain absent")
+        doc = _find_document(docs, expected["doc_id"])
         if not doc:
             violations.append(f"{expected['doc_id']}: retained document missing")
             continue
@@ -129,6 +209,16 @@ def validate_retained_chain(ledger: dict[str, Any] | None = None, documents: dic
             for row in evidence_rows if isinstance(row, dict)
         ):
             violations.append(f"{expected['doc_id']}: document evidence mismatch")
+        if isinstance(evidence_rows, list):
+            matching = [
+                row for row in evidence_rows
+                if isinstance(row, dict)
+                and row.get("source_url") == expected["url"]
+                and row.get("page") == expected["page"]
+                and row.get("text") == expected["text"]
+            ]
+            if len(matching) != 1:
+                violations.append(f"{expected['doc_id']}: exact source evidence cardinality mismatch")
     return violations
 
 
@@ -140,8 +230,12 @@ def build_seed(ledger: dict[str, Any] | None = None, documents: dict[str, Any] |
         "schema_version": SEED_SCHEMA,
         "contract_version": CONTRACT_VERSION,
         "symbol": "DGKC",
-        "status": "Observed",
-        "corroboration_status": "Corroborated",
+        "status": EVIDENCE_STATUS,
+        "corroboration_status": CORROBORATION_STATUS,
+        "selection_status": SELECTION_STATUS,
+        "go_no_go": GO_NO_GO,
+        "intelligence_case_eligible": False,
+        "selected_industrial_case": "MLCF",
         "formal_status": "blocked",
         "event": {
             "event_id": EXPECTED_CHAIN[-1]["event_id"],
@@ -166,6 +260,11 @@ def build_seed(ledger: dict[str, Any] | None = None, documents: dict[str, Any] |
             "capex": None,
             "ramp_or_utilization": None,
             "dispatch_or_cost": None,
+            "scope": "reported_historical_source_bound_only",
+        },
+        "forward_model_operands": {
+            "status": "not_available",
+            "values": {},
         },
         "fact_boundary": {
             "facts": ["FY23 L/C opened and 90m capacity", "FY24 installation", "FY25 Q3 commissioning", "FY25 NPL output"],
@@ -178,16 +277,123 @@ def build_seed(ledger: dict[str, Any] | None = None, documents: dict[str, Any] |
 
 
 def validate_seed(seed: dict[str, Any]) -> list[str]:
-    """Reject attempts to relabel this evidence-only object as a formal case."""
+    """Validate the closed, evidence-only shape without trusting caller objects."""
     violations: list[str] = []
-    if seed.get("status") != "Observed":
-        violations.append("status must be Observed")
-    if seed.get("corroboration_status") != "Corroborated":
-        violations.append("corroboration_status must be Corroborated")
-    if seed.get("formal_status") != "blocked":
-        violations.append("formal_status must remain blocked")
-    if seed.get("model_or_publish_eligible") is not False:
-        violations.append("model_or_publish_eligible must remain false")
+    if type(seed) is not dict:
+        return ["seed root must be an object"]
+
+    allowed = {
+        "schema_version", "contract_version", "symbol", "status", "corroboration_status",
+        "selection_status", "go_no_go", "intelligence_case_eligible", "selected_industrial_case",
+        "formal_status", "event", "reported_operating_operands", "forward_model_operands",
+        "fact_boundary", "blockers", "source_chain_validated", "model_or_publish_eligible",
+    }
+    nested_allowed = {
+        "event": {"event_id", "event_family", "issuer", "transition", "event_date", "availability_date", "event_evidence_hash"},
+        "transition": {"stage", "event_id", "document_id", "page", "url", "content_sha256", "text"},
+        "reported_operating_operands": {"capacity_bags", "capacity_unit", "location", "commissioning_timing", "fy25_npl_paper_bags", "fy24_npl_paper_bags", "fy25_npl_pp_bags", "capex", "ramp_or_utilization", "dispatch_or_cost", "scope"},
+        "forward_model_operands": {"status", "values"},
+        "fact_boundary": {"facts", "inferences"},
+    }
+
+    seen: set[int] = set()
+
+    def walk(value: Any, path: str, parent: str | None = None, depth: int = 0) -> None:
+        if depth > 32:
+            violations.append(f"{path or 'seed'}: nesting depth exceeds bound")
+            return
+        if type(value) is dict:
+            identity = id(value)
+            if identity in seen:
+                violations.append(f"{path or 'seed'}: cyclic object is not valid JSON")
+                return
+            seen.add(identity)
+            allowed_here = allowed if not path else nested_allowed.get(parent or "")
+            for key, child in value.items():
+                if type(key) is not str:
+                    violations.append(f"{path or 'seed'}: key must be a string")
+                    continue
+                lowered = key.lower()
+                if lowered in FORBIDDEN_KEYS:
+                    violations.append(f"{path or 'seed'}: forbidden key {key}")
+                if allowed_here is not None and key not in allowed_here:
+                    violations.append(f"{path or 'seed'}: unknown key {key}")
+                child_path = f"{path}.{key}" if path else key
+                walk(child, child_path, key if key in nested_allowed else parent, depth + 1)
+            seen.remove(identity)
+        elif type(value) is list:
+            identity = id(value)
+            if identity in seen:
+                violations.append(f"{path or 'seed'}: cyclic object is not valid JSON")
+                return
+            seen.add(identity)
+            for index, child in enumerate(value):
+                walk(child, f"{path}[{index}]", parent, depth + 1)
+            seen.remove(identity)
+        elif type(value) in (int, float):
+            if not math.isfinite(float(value)):
+                violations.append(f"{path}: numeric value must be finite")
+            elif abs(float(value)) > MAX_NUMERIC:
+                violations.append(f"{path}: numeric value exceeds bound")
+        elif value is None or type(value) in (str, bool):
+            return
+        else:
+            violations.append(f"{path or 'seed'}: unsupported value type")
+
+    walk(seed, "")
+    checks = (
+        ("schema_version", SEED_SCHEMA), ("contract_version", CONTRACT_VERSION), ("symbol", "DGKC"),
+        ("status", EVIDENCE_STATUS), ("corroboration_status", CORROBORATION_STATUS),
+        ("selection_status", SELECTION_STATUS), ("go_no_go", GO_NO_GO),
+        ("intelligence_case_eligible", False), ("selected_industrial_case", "MLCF"),
+        ("formal_status", "blocked"), ("source_chain_validated", True),
+        ("model_or_publish_eligible", False),
+    )
+    for key, expected in checks:
+        if seed.get(key) != expected:
+            violations.append(f"{key} must remain {expected!r}")
+    event = seed.get("event")
+    if type(event) is not dict:
+        violations.append("event must be an object")
+    else:
+        if event.get("event_date") is not None or event.get("availability_date") is not None or event.get("event_evidence_hash") is not None:
+            violations.append("event dates and evidence hash must remain null")
+        if event.get("issuer") != "DGKC":
+            violations.append("event issuer must remain DGKC")
+        transition = event.get("transition")
+        if type(transition) is not list or len(transition) != len(EXPECTED_CHAIN):
+            violations.append("event transition must retain the exact three-source chain")
+        elif type(transition) is list:
+            for index, (row, expected) in enumerate(zip(transition, EXPECTED_CHAIN)):
+                if type(row) is not dict:
+                    violations.append(f"event transition[{index}] must be an object")
+                    continue
+                expected_row = {
+                    "stage": expected["transition"], "event_id": expected["event_id"],
+                    "document_id": expected["doc_id"], "page": expected["page"],
+                    "url": expected["url"], "content_sha256": expected["hash"],
+                    "text": expected["text"],
+                }
+                for key, expected_value in expected_row.items():
+                    if row.get(key) != expected_value:
+                        violations.append(f"event transition[{index}] {key} mismatch")
+    operands = seed.get("reported_operating_operands")
+    if type(operands) is not dict or operands.get("capex") is not None or operands.get("ramp_or_utilization") is not None or operands.get("dispatch_or_cost") is not None:
+        violations.append("forward economics operands must remain unavailable")
+    forward = seed.get("forward_model_operands")
+    if type(forward) is not dict or forward.get("status") != "not_available" or forward.get("values") != {}:
+        violations.append("forward model operands must remain unavailable")
+    boundary = seed.get("fact_boundary")
+    if type(boundary) is not dict:
+        violations.append("fact_boundary must be an object")
+    else:
+        for key in ("facts", "inferences"):
+            values = boundary.get(key)
+            if type(values) is not list or any(type(item) is not str for item in values):
+                violations.append(f"fact_boundary.{key} must contain text only")
+    blockers = seed.get("blockers")
+    if type(blockers) is not list or any(type(item) is not str for item in blockers):
+        violations.append("blockers must contain text only")
     return violations
 
 
