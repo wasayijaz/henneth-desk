@@ -161,6 +161,8 @@ def main() -> None:
     m = copy.deepcopy(good); m["candidate_observations"][0]["event_subtype"] = "contract"; tests.append(("generic contract analogue", m))
     m = copy.deepcopy(good); m["candidate_observations"][0]["endpoint_available_on"] = "2026-02-01"; tests.append(("endpoint after cutoff", m))
     m = copy.deepcopy(good); m["candidate_observations"][0]["outcome_return_pct"] = math.nan; tests.append(("nonfinite", m))
+    m = copy.deepcopy(good); m["candidate_observations"][0]["outcome_return_pct"] = 10**400; tests.append(("overflowing integer", m))
+    m = copy.deepcopy(good); m["candidate_observations"][0]["outcome_return_pct"] = "1.0"; tests.append(("malformed numeric string", m))
     m = copy.deepcopy(good); m["candidate_observations"][0]["source"]["id"] = "real:source"; tests.append(("fixture/real boundary", m))
     m = copy.deepcopy(good); m["candidate_observations"][0]["source"]["url"] = "https://example.test/wrong.pdf"; tests.append(("fixture source URL boundary", m))
     m = copy.deepcopy(good); m["candidate_observations"][0]["source"]["path"] = "state/company_documents.json"; tests.append(("fixture source path boundary", m))
@@ -206,6 +208,7 @@ def main() -> None:
     assert bad_blocked["target_event"] is None
     assert_output_closed(bad_blocked, blocked=True)
     for name, mutated in tests:
+        assert validate_payload(mutated), f"{name}: direct validation unexpectedly passed"
         expect_blocked(name, mutated)
     print(f"mlcf_pioc_analogue_eligibility_adapter: PASS ({len(tests) + 3} positive/adversarial checks)")
 
