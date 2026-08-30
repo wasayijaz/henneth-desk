@@ -69,6 +69,9 @@ OVERSIZED_CHUNK_POLICIES: dict[str, dict[str, Any]] = {
     "psx:260032": {"source_url": "https://dps.psx.com.pk/download/document/260032.pdf", "content_sha256": "4fdfb4cbd2eee65576cbb89b43334ce0c09a7e5ffd573d5bf93b414029eba6d1", "page_count": 401, "ranges": ((1, 120), (121, 240), (241, 360), (361, 401))},
 }
 APPROVED_WAVE3_ALLOWLIST: frozenset[str] = frozenset({
+    "psx:219092",
+    "psx:225623",
+    "psx:229941",
     "psx:260032",
     "psx:263397",
     "psx:260947",

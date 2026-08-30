@@ -15,6 +15,11 @@ DOC_ID_RE = re.compile(r"^psx:\d+$")
 SHA256_RE = re.compile(r"^[0-9a-f]{64}$")
 FORBIDDEN_KEYS = {"normalized_value", "raw_value", "value", "amount", "eps", "revenue", "pat"}
 ALLOWED_KEY_PATHS = {"content_sha256", "document_count", "retained_hash_count", "transport_hash_required_count"}
+MLCF_FY24_INTERIM_SOURCES = {
+    "psx:219092": ("2023-09-30", "0d0f108957f32cd911be7bcdc5b01dcc46c1c4872dad81dc59e5e0a453977f05"),
+    "psx:225623": ("2023-12-31", "921c6bffa5fb9fe8c001bc76288a60d811ddfc9acb2357753008d57f129cbf42"),
+    "psx:229941": ("2024-03-31", "9de20cf7a12f2e049ca2cf437be2089f300e7fc8aed8adae4d0be97492374030"),
+}
 
 
 def _fail(message: str) -> None:
@@ -138,6 +143,20 @@ def _assert_exact_oversized_policy(expected: dict) -> None:
         _fail("MLCF chunk ranges are not the approved four transport units")
 
 
+def _assert_mlcf_fy24_interim_sources(expected: dict) -> None:
+    documents = expected.get("documents") or {}
+    for doc_id, (period, content_sha256) in MLCF_FY24_INTERIM_SOURCES.items():
+        doc = documents.get(doc_id) or {}
+        if doc.get("symbol") != "MLCF" or doc.get("classification") != "financial_results":
+            _fail(f"{doc_id}: MLCF FY24 interim source identity drift")
+        if doc.get("period") != period or (doc.get("safe_period") or {}).get("period_type") != "interim":
+            _fail(f"{doc_id}: MLCF FY24 interim period identity drift")
+        if doc.get("content_sha256") != content_sha256 or doc.get("content_identity") != "retained_hash":
+            _fail(f"{doc_id}: MLCF FY24 source hash binding drift")
+        if doc.get("approval_status") != "owner_approved":
+            _fail(f"{doc_id}: MLCF FY24 source is not owner-approved")
+
+
 def _assert_stale_execution_payloads_fail(expected: dict) -> None:
     good_docs = {}
     for doc_id, doc in (expected.get("documents") or {}).items():
@@ -173,6 +192,7 @@ def main() -> int:
         _fail("ci restage manifest builder is not deterministic")
     _assert_manifest_shape(expected)
     _assert_exact_oversized_policy(expected)
+    _assert_mlcf_fy24_interim_sources(expected)
     _assert_no_numeric_facts(expected)
     committed = load_json(OUT, {})
     if _dump(committed) != _dump(expected):

@@ -1,7 +1,7 @@
 {
  "schema_version": 1,
  "manifest_version": "ci_reprocess_review_manifest_v1",
- "manifest_id": "cirestage_00543939f5068274dcff",
+ "manifest_id": "cirestage_927ed5af0414d59b6acf",
  "source": {
   "financial_coverage": "state/company_intel/financial_coverage.json",
   "research_index": "state/research_index.json"
@@ -39,6 +39,24 @@
   "CNERGY"
  ],
  "approved_review_slots": [
+  {
+   "symbol": "MLCF",
+   "period": "2023-09-30",
+   "classification": "financial_results",
+   "require_retained_hash": true
+  },
+  {
+   "symbol": "MLCF",
+   "period": "2023-12-31",
+   "classification": "financial_results",
+   "require_retained_hash": true
+  },
+  {
+   "symbol": "MLCF",
+   "period": "2024-03-31",
+   "classification": "financial_results",
+   "require_retained_hash": true
+  },
   {
    "symbol": "MLCF",
    "period": "2025-06-30",
@@ -83,6 +101,9 @@
   }
  ],
  "document_ids": [
+  "psx:219092",
+  "psx:225623",
+  "psx:229941",
   "psx:260032",
   "psx:263397",
   "psx:271712",
@@ -92,6 +113,63 @@
   "psx:275962"
  ],
  "documents": {
+  "psx:219092": {
+   "document_id": "psx:219092",
+   "symbol": "MLCF",
+   "period": "2023-09-30",
+   "classification": "financial_results",
+   "title": "MLCF Financial Results for the Quarter Ended 30.09.2023",
+   "expected_title_pattern": "MLCF Financial Results for the Quarter Ended 30\\.09\\.2023",
+   "published_at": "2023-10-27T08:50:00+05:00",
+   "source_url": "https://dps.psx.com.pk/download/document/219092.pdf",
+   "content_sha256": "0d0f108957f32cd911be7bcdc5b01dcc46c1c4872dad81dc59e5e0a453977f05",
+   "content_identity": "retained_hash",
+   "safe_period": {
+    "period_end": "2023-09-30",
+    "period_type": "interim",
+    "source": "owner_approved_exact_source"
+   },
+   "approval_status": "owner_approved",
+   "reason": "owner-approved retained official exact source for bounded CI filing restage"
+  },
+  "psx:225623": {
+   "document_id": "psx:225623",
+   "symbol": "MLCF",
+   "period": "2023-12-31",
+   "classification": "financial_results",
+   "title": "MLCF-Financial Results 31.12.2023",
+   "expected_title_pattern": "MLCF-Financial Results 31\\.12\\.2023",
+   "published_at": "2024-02-21T08:50:00+05:00",
+   "source_url": "https://dps.psx.com.pk/download/document/225623.pdf",
+   "content_sha256": "921c6bffa5fb9fe8c001bc76288a60d811ddfc9acb2357753008d57f129cbf42",
+   "content_identity": "retained_hash",
+   "safe_period": {
+    "period_end": "2023-12-31",
+    "period_type": "interim",
+    "source": "owner_approved_exact_source"
+   },
+   "approval_status": "owner_approved",
+   "reason": "owner-approved retained official exact source for bounded CI filing restage"
+  },
+  "psx:229941": {
+   "document_id": "psx:229941",
+   "symbol": "MLCF",
+   "period": "2024-03-31",
+   "classification": "financial_results",
+   "title": "MLCF-Financial Results 31.03.2024",
+   "expected_title_pattern": "MLCF-Financial Results 31\\.03\\.2024",
+   "published_at": "2024-04-25T12:56:00+05:00",
+   "source_url": "https://dps.psx.com.pk/download/document/229941.pdf",
+   "content_sha256": "9de20cf7a12f2e049ca2cf437be2089f300e7fc8aed8adae4d0be97492374030",
+   "content_identity": "retained_hash",
+   "safe_period": {
+    "period_end": "2024-03-31",
+    "period_type": "interim",
+    "source": "owner_approved_exact_source"
+   },
+   "approval_status": "owner_approved",
+   "reason": "owner-approved retained official exact source for bounded CI filing restage"
+  },
   "psx:260032": {
    "document_id": "psx:260032",
    "symbol": "MLCF",
@@ -109,7 +187,7 @@
     "source": "owner_approved_exact_source"
    },
    "approval_status": "owner_approved",
-   "reason": "owner-approved retained official full-report counterpart for bounded CI filing restage"
+   "reason": "owner-approved retained official exact source for bounded CI filing restage"
   },
   "psx:263397": {
    "document_id": "psx:263397",
@@ -128,7 +206,7 @@
     "source": "owner_approved_exact_source"
    },
    "approval_status": "owner_approved",
-   "reason": "owner-approved retained official full-report counterpart for bounded CI filing restage"
+   "reason": "owner-approved retained official exact source for bounded CI filing restage"
   },
   "psx:271712": {
    "document_id": "psx:271712",
@@ -147,7 +225,7 @@
     "source": "owner_approved_exact_source"
    },
    "approval_status": "owner_approved",
-   "reason": "owner-approved retained official full-report counterpart for bounded CI filing restage"
+   "reason": "owner-approved retained official exact source for bounded CI filing restage"
   },
   "psx:275425": {
    "document_id": "psx:275425",
@@ -166,7 +244,7 @@
     "source": "owner_approved_exact_source"
    },
    "approval_status": "owner_approved",
-   "reason": "owner-approved retained official full-report counterpart for bounded CI filing restage"
+   "reason": "owner-approved retained official exact source for bounded CI filing restage"
   },
   "psx:260947": {
    "document_id": "psx:260947",
@@ -205,7 +283,7 @@
     "source": "owner_approved_counterpart"
    },
    "approval_status": "owner_approved",
-   "reason": "owner-approved retained official full-report counterpart for bounded CI filing restage"
+   "reason": "owner-approved retained official exact source for bounded CI filing restage"
   },
   "psx:275962": {
    "document_id": "psx:275962",
@@ -224,16 +302,16 @@
     "source": "owner_approved_counterpart"
    },
    "approval_status": "owner_approved",
-   "reason": "owner-approved retained official full-report counterpart for bounded CI filing restage"
+   "reason": "owner-approved retained official exact source for bounded CI filing restage"
   }
  },
  "summary": {
-  "document_count": 7,
+  "document_count": 10,
   "symbols": [
    "DGKC",
    "MLCF"
   ],
-  "retained_hash_count": 7,
+  "retained_hash_count": 10,
   "transport_hash_required_count": 0
  }
 }

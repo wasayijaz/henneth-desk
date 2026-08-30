@@ -27,6 +27,39 @@ FORBIDDEN_VALUE_KEYS = {"normalized_value", "raw_value", "value", "amount", "eps
 # The owner-approved review batch is expressed as slots, not document IDs.
 # Document IDs are derived from the current retained coverage metadata.
 APPROVED_REVIEW_SLOTS: tuple[dict[str, Any], ...] = (
+    # Exact retained MLCF FY24 interim results extend the first-case financial
+    # history only.  Each source remains hash-pinned and must pass the same
+    # PSX/title/period gates as the existing FY26 quarterly tranche.
+    {
+        "symbol": "MLCF",
+        "period": "2023-09-30",
+        "period_type": "interim",
+        "classification": "financial_results",
+        "title_pattern": r"MLCF Financial Results for the Quarter Ended 30\.09\.2023",
+        "require_retained_hash": True,
+        "source_document_id": "psx:219092",
+        "source_content_sha256": "0d0f108957f32cd911be7bcdc5b01dcc46c1c4872dad81dc59e5e0a453977f05",
+    },
+    {
+        "symbol": "MLCF",
+        "period": "2023-12-31",
+        "period_type": "interim",
+        "classification": "financial_results",
+        "title_pattern": r"MLCF-Financial Results 31\.12\.2023",
+        "require_retained_hash": True,
+        "source_document_id": "psx:225623",
+        "source_content_sha256": "921c6bffa5fb9fe8c001bc76288a60d811ddfc9acb2357753008d57f129cbf42",
+    },
+    {
+        "symbol": "MLCF",
+        "period": "2024-03-31",
+        "period_type": "interim",
+        "classification": "financial_results",
+        "title_pattern": r"MLCF-Financial Results 31\.03\.2024",
+        "require_retained_hash": True,
+        "source_document_id": "psx:229941",
+        "source_content_sha256": "9de20cf7a12f2e049ca2cf437be2089f300e7fc8aed8adae4d0be97492374030",
+    },
     {
         "symbol": "MLCF",
         "period": "2025-06-30",
@@ -171,7 +204,7 @@ def _resolve_slot(coverage: dict[str, Any], slot: dict[str, Any], research_index
             "expected_title_pattern": pattern, "published_at": row.get("published_at"),
             "source_url": source_url, "content_sha256": content_sha256,
             "content_identity": "retained_hash", "safe_period": {"period_end": period, "period_type": (slot.get("period_type") or ("annual" if classification == "financial_statement" else "interim")), "source": ("owner_approved_exact_source" if slot.get("source_content_sha256") else "owner_approved_counterpart")},
-            "approval_status": "owner_approved", "reason": "owner-approved retained official full-report counterpart for bounded CI filing restage",
+            "approval_status": "owner_approved", "reason": "owner-approved retained official exact source for bounded CI filing restage",
         }
     matches = []
     for doc in _candidate_docs(coverage, symbol):
