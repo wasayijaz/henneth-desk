@@ -92,7 +92,7 @@ EXCLUDED_TITLE_RE = re.compile(
 # with {"document_ids": ["psx:..."]}. Keeping this empty prevents accidental
 # broad restages when the manifest is not wired yet.
 BUILTIN_ALLOWLIST: frozenset[str] = frozenset()
-PROCESSED_RECEIPT_STATUSES = {"success", "processed_unsupported"}
+RETAINED_HASH_RECEIPT_STATUSES = {"success", "processed_unsupported"}
 CANONICAL_RELATIVE_PATHS = (
     Path("company_documents.json"),
     Path("company_event_ledger.json"),
@@ -644,12 +644,12 @@ def _receipt_key(receipt: dict[str, Any]) -> tuple[str, str, str, str]:
     )
 
 
-def successful_receipt_exists(receipts: dict[str, Any], doc_id: str, content_sha256: str | None,
-                              parser_version: str, parser_revision: str) -> bool:
+def success_receipt_exists(receipts: dict[str, Any], doc_id: str, content_sha256: str | None,
+                           parser_version: str, parser_revision: str) -> bool:
     if not content_sha256:
         return False
     wanted = (doc_id, content_sha256, parser_version, parser_revision)
-    return any(_receipt_key(row) == wanted and row.get("status") in PROCESSED_RECEIPT_STATUSES
+    return any(_receipt_key(row) == wanted and row.get("status") == "success"
                for row in receipts.get("receipts") or [] if isinstance(row, dict))
 
 
@@ -660,7 +660,7 @@ def latest_receipt_hash(receipts: dict[str, Any], doc_id: str, parser_version: s
             continue
         if (row.get("doc_id") == doc_id and row.get("parser_version") == parser_version
                 and _receipt_revision(row) == parser_revision
-                and row.get("status") in PROCESSED_RECEIPT_STATUSES):
+                and row.get("status") in RETAINED_HASH_RECEIPT_STATUSES):
             content_sha = row.get("content_sha256")
             if isinstance(content_sha, str) and re.fullmatch(r"[0-9a-f]{64}", content_sha):
                 return content_sha
@@ -1209,7 +1209,7 @@ def run_reprocess(
                     results.append({"doc_id": doc.doc_id, "status": "degraded", "reason": str(exc)})
                 continue
             known_hash = doc.content_sha256 or latest_receipt_hash(receipts, doc.doc_id, PARSER_VERSION, PARSER_REVISION)
-            if successful_receipt_exists(receipts, doc.doc_id, known_hash, PARSER_VERSION, PARSER_REVISION):
+            if success_receipt_exists(receipts, doc.doc_id, known_hash, PARSER_VERSION, PARSER_REVISION):
                 results.append({"doc_id": doc.doc_id, "status": "skipped_idempotent"})
                 continue
             try:
@@ -1218,7 +1218,7 @@ def run_reprocess(
                     doc, transport, budget, root,
                     allow_oversized_chunk=oversized)
                 fetched_docs.append((doc, fetched))
-                if successful_receipt_exists(receipts, doc.doc_id, fetched.content_sha256, PARSER_VERSION, PARSER_REVISION):
+                if success_receipt_exists(receipts, doc.doc_id, fetched.content_sha256, PARSER_VERSION, PARSER_REVISION):
                     results.append({"doc_id": doc.doc_id, "status": "skipped_idempotent_after_fetch",
                                     "content_sha256": fetched.content_sha256})
                 else:

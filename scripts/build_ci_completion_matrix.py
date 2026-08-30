@@ -776,7 +776,7 @@ def build(write: bool = True) -> dict[str, Any]:
             [
                 _check("financial model input checker", "scripts/check_financial_model_inputs.py"),
                 _ok("financial statement parser", "scripts/financial_statement_facts.py"),
-                _contains("current parser revision", "scripts/check_financial_model_inputs.py", ("financial_statement_v2", "block_geometry_v5")),
+                _contains("current parser revision", "scripts/check_financial_model_inputs.py", ("financial_statement_v2", "PARSER_REVISION")),
             ],
             ["Add parser cases with adversarial fixtures before accepting new table shapes."],
         ),

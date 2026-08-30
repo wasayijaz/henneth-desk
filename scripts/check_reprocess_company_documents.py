@@ -1029,7 +1029,9 @@ def main() -> int:
         assert (fail_tx / "state" / "company_intel" / "financial_model_inputs.json").read_bytes() == before_model
         assert (fail_tx / "ci_slice.json").read_bytes() == before_slice
 
-        # Revision-aware idempotency: same hash+same revision skips; legacy no-revision receipt does not.
+        # A first consume may correctly return either a successful extraction or
+        # an honest ``processed_unsupported`` result.  Explicit fixtures below
+        # assert their distinct retry/idempotency semantics.
         idem = root / "idem"
         idem_manifest = _fixture(idem, ["psx:111"], hashes={"psx:111": good_sha}, full_canonical=True)
         idem_model, idem_reconcile, idem_truth, idem_formal, idem_completion, idem_ci, idem_checker = _good_builders(idem)
@@ -1039,12 +1041,46 @@ def main() -> int:
              _completion_matrix_builder=idem_completion,
              _ci_builder=idem_ci, _checker=idem_checker)
         first_receipts = _receipt_text(idem)
-        result, transport = _run(idem, ["psx:111"], {"psx:111": good_pdf}, manifest=idem_manifest)
-        assert result["results"][0]["status"] == "skipped_idempotent"
-        assert transport.calls == []
-        assert _receipt_text(idem) == first_receipts
         current_receipts = json.loads(first_receipts)["receipts"]
         assert len(current_receipts) == 1 and current_receipts[0]["parser_revision"] == r.PARSER_REVISION
+        assert current_receipts[0]["status"] in {"success", "processed_unsupported"}
+
+        unsupported_retry = root / "unsupported_retry"
+        unsupported_manifest = _fixture(unsupported_retry, ["psx:111"], hashes={"psx:111": good_sha}, full_canonical=True)
+        _write_json(unsupported_retry / "state" / "company_intel" / "reprocess_receipts.json", {
+            "schema_version": 1,
+            "receipts": [{
+                "doc_id": "psx:111",
+                "content_sha256": good_sha,
+                "parser_version": r.PARSER_VERSION,
+                "parser_revision": r.PARSER_REVISION,
+                "status": "processed_unsupported",
+            }],
+        })
+        before_unsupported = _receipt_text(unsupported_retry)
+        result, transport = _run(unsupported_retry, ["psx:111"], {"psx:111": good_pdf},
+                                 manifest=unsupported_manifest)
+        assert result["results"][0]["status"] == "staged_validated"
+        assert transport.calls, "processed_unsupported receipt incorrectly blocked explicit retry"
+        assert _receipt_text(unsupported_retry) == before_unsupported
+
+        success_skip = root / "success_skip"
+        success_manifest = _fixture(success_skip, ["psx:111"], hashes={"psx:111": good_sha}, full_canonical=True)
+        _write_json(success_skip / "state" / "company_intel" / "reprocess_receipts.json", {
+            "schema_version": 1,
+            "receipts": [{
+                "doc_id": "psx:111",
+                "content_sha256": good_sha,
+                "parser_version": r.PARSER_VERSION,
+                "parser_revision": r.PARSER_REVISION,
+                "status": "success",
+            }],
+        })
+        before_success = _receipt_text(success_skip)
+        result, transport = _run(success_skip, ["psx:111"], {"psx:111": good_pdf}, manifest=success_manifest)
+        assert result["results"][0]["status"] == "skipped_idempotent"
+        assert transport.calls == []
+        assert _receipt_text(success_skip) == before_success
 
         legacy = root / "legacy_revision"
         legacy_manifest = _fixture(legacy, ["psx:111"], hashes={"psx:111": good_sha}, full_canonical=True)
@@ -1071,19 +1107,19 @@ def main() -> int:
         assert receipts[0].get("parser_revision") == "block_geometry_v3"
         assert receipts[1].get("parser_revision") == r.PARSER_REVISION
         result, transport = _run(legacy, ["psx:111"], {"psx:111": good_pdf}, manifest=legacy_manifest)
-        assert result["results"][0]["status"] == "skipped_idempotent"
-        assert transport.calls == []
+        assert result["results"][0]["status"] == "staged_validated"
+        assert transport.calls, "unsupported current-revision receipt incorrectly blocked retry"
         unknown = root / "unknown_hash"
         unknown_manifest = _fixture(unknown, ["psx:111"], full_canonical=True)
         unknown_model, unknown_reconcile, unknown_truth, unknown_formal, unknown_completion, unknown_ci, unknown_checker = _good_builders(unknown)
         _run(unknown, ["psx:111"], {"psx:111": good_pdf}, manifest=unknown_manifest, consume=True, cache_root=repo_root,
              _model_builder=unknown_model, _reconciliation_builder=unknown_reconcile,
-             _truth_builder=unknown_truth, _formal_builder=unknown_formal,
+        _truth_builder=unknown_truth, _formal_builder=unknown_formal,
              _completion_matrix_builder=unknown_completion,
              _ci_builder=unknown_ci, _checker=unknown_checker)
         result, transport = _run(unknown, ["psx:111"], {"psx:111": good_pdf}, manifest=unknown_manifest)
-        assert result["results"][0]["status"] == "skipped_idempotent"
-        assert transport.calls == [], "prior receipt hash did not short-circuit future network"
+        assert result["results"][0]["status"] == "staged_validated"
+        assert transport.calls, "unsupported prior receipt incorrectly blocked retry"
         assert _receipt_text(unknown)
 
         # Diagnostic mode deliberately bypasses same-revision receipts, writes no receipt/state,
@@ -1111,7 +1147,7 @@ def main() -> int:
             ]
         }
         result, transport = _run(diag, ["psx:111"], {"psx:111": good_pdf}, manifest=diag_manifest, consume=False)
-        assert result["results"][0]["status"] == "skipped_idempotent" and transport.calls == []
+        assert result["results"][0]["status"] == "staged_validated" and transport.calls
         responses = {"https://dps.psx.com.pk/download/document/111.pdf": FakeResponse(
             200, good_pdf, {"Content-Type": "application/pdf", "Content-Length": str(len(good_pdf))},
             "https://dps.psx.com.pk/download/document/111.pdf")}

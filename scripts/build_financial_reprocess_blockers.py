@@ -10,14 +10,12 @@ import hashlib
 from typing import Any
 
 from psx_data import ROOT, STATE, load_json, save_json
+from financial_statement_facts import PARSER_VERSION, PARSER_REVISION
 
 
 OUT = STATE / "company_intel" / "financial_reprocess_blockers.json"
 MANIFEST_PATH = ROOT / "config" / "ci_reprocess_review_manifest.json"
 ALLOWLIST_PATH = ROOT / "config" / "ci_reprocess_allowlist.json"
-PARSER_VERSION = "financial_statement_v2"
-PARSER_REVISION = "block_geometry_v5"
-
 # These are the bounded exact-ID restage outcomes observed through
 # reprocess_company_documents.py on the already owner-reviewed Wave 3 tranche.
 # They are blockers, not receipts: no canonical state was committed for them.

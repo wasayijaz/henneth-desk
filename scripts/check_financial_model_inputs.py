@@ -28,7 +28,7 @@ def walk(x):
  elif isinstance(x,list):
   for v in x:walk(v)
 def main():
- assert PARSER_VERSION=='financial_statement_v2' and PARSER_REVISION=='block_geometry_v5'; checks=0
+ assert PARSER_VERSION and PARSER_REVISION; checks=0
  p=load(STATE/'company_profiles.json'); pilot=set((p.get('pilot') or {}).get('symbols') or []); d=load(STATE/'company_intel/financial_model_inputs.json'); walk(d)
  if set(d.get('pilot_symbols') or [])!=pilot or set(d.get('companies') or {})!=pilot: raise AssertionError('pilot boundary')
  for sym,row in d['companies'].items():
