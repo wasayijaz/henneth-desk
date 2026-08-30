@@ -60,7 +60,7 @@ def source(value):
 
 
 class ListKeyInputs(Mapping):
-    def __init__(self, base: dict, bad_key: list, bad_value: dict):
+    def __init__(self, base: Mapping, bad_key: list, bad_value):
         self._items = list(base.items()) + [(bad_key, bad_value)]
 
     def __iter__(self):
@@ -141,6 +141,47 @@ def main() -> None:
     check("analyst note required",
           not contract.provenance_ok({"label_type": "analyst",
                                       "analyst_ref": {"note_id": "n"}}))
+
+    hostile_root = ListKeyInputs(case, ["bad", "root"], analyst(1.0))
+    root_violations = contract.validate_case(hostile_root)
+    check("root list-like key is controlled",
+          any("case.['bad', 'root']: unknown field" in violation for violation in root_violations),
+          repr(root_violations))
+    assert_rejected_by_evaluate(
+        "evaluate rejects root list-like key", hostile_root, "case.['bad', 'root']: unknown field"
+    )
+
+    hostile_record_case = golden_case()
+    hostile_record_case["inputs"]["fx_pkr_usd"] = ListKeyInputs(
+        hostile_record_case["inputs"]["fx_pkr_usd"], ["bad", "record"], 1.0
+    )
+    record_violations = contract.validate_case(hostile_record_case)
+    check("record list-like key is controlled",
+          any("fx_pkr_usd.['bad', 'record']: unknown field" in violation
+              for violation in record_violations),
+          repr(record_violations))
+    assert_rejected_by_evaluate(
+        "evaluate rejects record list-like key",
+        hostile_record_case,
+        "fx_pkr_usd.['bad', 'record']: unknown field",
+    )
+
+    hostile_ref_case = golden_case()
+    source_record = source(280.0)
+    source_record["source_ref"] = ListKeyInputs(
+        source_record["source_ref"], ["bad", "source-ref"], "x"
+    )
+    hostile_ref_case["inputs"]["fx_pkr_usd"] = source_record
+    ref_violations = contract.validate_case(hostile_ref_case)
+    check("source-ref list-like key is controlled",
+          any("fx_pkr_usd.source_ref.['bad', 'source-ref']: unknown field" in violation
+              for violation in ref_violations),
+          repr(ref_violations))
+    assert_rejected_by_evaluate(
+        "evaluate rejects source-ref list-like key",
+        hostile_ref_case,
+        "fx_pkr_usd.source_ref.['bad', 'source-ref']: unknown field",
+    )
 
     result = engine.evaluate_case(case)
     expected_keys = {

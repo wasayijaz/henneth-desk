@@ -94,10 +94,19 @@ def _identifier(value: Any) -> bool:
     return isinstance(value, str) and bool(_IDENTIFIER_RE.fullmatch(value))
 
 
+def _key_is_allowed(key: Any, allowed: set[str]) -> bool:
+    """Check a mapping key without hashing non-string values."""
+    return isinstance(key, str) and key in allowed
+
+
+def _has_unknown_keys(value: Mapping[str, Any], allowed: set[str]) -> bool:
+    return any(not _key_is_allowed(key, allowed) for key in value)
+
+
 def _unknown_keys(prefix: str, value: Mapping[str, Any], allowed: set[str]) -> list[str]:
     return [
         f"{prefix}.{key}: unknown field"
-        for key in sorted((key for key in value if key not in allowed), key=str)
+        for key in sorted((key for key in value if not _key_is_allowed(key, allowed)), key=str)
     ]
 
 
@@ -108,22 +117,22 @@ def provenance_ok(record: Mapping[str, Any]) -> bool:
     if label_type not in LABEL_TYPES:
         return False
     if label_type == "source":
-        if any(key not in _SOURCE_RECORD_FIELDS for key in record):
+        if _has_unknown_keys(record, _SOURCE_RECORD_FIELDS):
             return False
         ref = record.get("source_ref")
         return (
             isinstance(ref, Mapping)
-            and not any(key not in _SOURCE_REF_FIELDS for key in ref)
+            and not _has_unknown_keys(ref, _SOURCE_REF_FIELDS)
             and _nonempty(ref.get("id"))
             and _nonempty(ref.get("label"))
             and (_nonempty(ref.get("url")) or _nonempty(ref.get("path")))
         )
-    if any(key not in _ANALYST_RECORD_FIELDS for key in record):
+    if _has_unknown_keys(record, _ANALYST_RECORD_FIELDS):
         return False
     ref = record.get("analyst_ref")
     return (
         isinstance(ref, Mapping)
-        and not any(key not in _ANALYST_REF_FIELDS for key in ref)
+        and not _has_unknown_keys(ref, _ANALYST_REF_FIELDS)
         and _nonempty(ref.get("note_id"))
         and _nonempty(ref.get("note"))
     )
