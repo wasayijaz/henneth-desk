@@ -699,6 +699,7 @@ def evaluate_case(case: dict[str, Any], *, retained_state: dict[str, dict[str, A
 __all__ = [
     "CASE_SCHEMA",
     "CONTRACT_VERSION",
+    "IMMUTABLE_PUBLICATION_AUTHORITY_UNAVAILABLE",
     "RETAINED_MLCF_DOCUMENT_IDS",
     "build_case_from_retained_state",
     "evaluate_case",
