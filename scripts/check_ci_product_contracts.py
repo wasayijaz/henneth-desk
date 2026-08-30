@@ -30,6 +30,7 @@ FOCUSED_CHECKS: tuple[str, ...] = (
     "check_financial_reprocess_blockers.py",
     "check_financial_evidence_reconciliation.py",
     "check_financial_truth_qualification.py",
+    "check_mlcf_financial_truth_gap.py",
     "check_owner_financial_assumption_handoff.py",
     "check_earnings_bridges.py",
     "check_forecast_contract.py",
@@ -230,6 +231,10 @@ def self_test() -> int:
         scripts = root / "scripts"
         _write_fixture(scripts / "pass_check.py", "print('fixture pass')\n")
         _write_fixture(scripts / "fail_check.py", "raise SystemExit('fixture failure')\n")
+        _write_fixture(
+            scripts / "check_mlcf_financial_truth_gap.py",
+            "from pathlib import Path\nPath('mlcf-gap-invoked').write_text('yes', encoding='utf-8')\n",
+        )
 
         success = run_checks(root, ("pass_check.py",), timeout=5, finalize_artifacts=False)
         if len(success) != 1 or success[0].status != "passed":
@@ -244,6 +249,14 @@ def self_test() -> int:
         failed = run_checks(root, ("fail_check.py",), timeout=5, finalize_artifacts=False)
         if len(failed) != 1 or failed[0].status != "failed" or "fixture failure" not in failed[0].detail:
             print("self-test failed: failing fixture did not propagate output")
+            return 1
+
+        if "check_mlcf_financial_truth_gap.py" not in FOCUSED_CHECKS:
+            print("self-test failed: MLCF gap checker is not in the aggregate list")
+            return 1
+        invoked = run_checks(root, ("check_mlcf_financial_truth_gap.py",), timeout=5, finalize_artifacts=False)
+        if len(invoked) != 1 or invoked[0].status != "passed" or not (root / "mlcf-gap-invoked").exists():
+            print("self-test failed: MLCF gap checker was not invoked by the aggregate")
             return 1
 
         forbidden = run_checks(root, ("preflight.py",), timeout=5, finalize_artifacts=False)
