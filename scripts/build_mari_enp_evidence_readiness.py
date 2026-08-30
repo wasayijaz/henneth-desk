@@ -18,6 +18,29 @@ SYMBOL = "MARI"
 EVENT_ID = "evt_3d1dae7553f73da60ba3"
 EVENT_DOCUMENT_ID = "psx:265594"
 EVENT_SOURCE_URL = "https://dps.psx.com.pk/download/document/265594.pdf"
+EVENT_EFFECTIVE_DATE = "2025-11-13"
+
+# One receipt is authoritative for the retained target excerpt.  Selection
+# below is deliberately exact across identity, page, hashes and event date;
+# matching only an ID/URL would allow same-document forged content through.
+TARGET_RECEIPT = {
+    "event_id": EVENT_ID,
+    "document_id": EVENT_DOCUMENT_ID,
+    "source_url": EVENT_SOURCE_URL,
+    "page": 3,
+    "content_sha256": "cdc3f69157f5e5803238ba347ecb4e96f7297479df87d345739896913de8aae4",
+    "evidence_sha256": "56c298f041bd756cd184e75d122f5a95cc6879f4b5fa037786007948b76d3d83",
+    "effective_date": EVENT_EFFECTIVE_DATE,
+}
+_TARGET_EVIDENCE_KEYS = frozenset({
+    "document_id",
+    "source",
+    "source_url",
+    "page",
+    "text",
+    "content_sha256",
+    "evidence_sha256",
+})
 
 ANNUAL_PERIODS = [
     "2026-06-30",
@@ -61,6 +84,18 @@ def _load(root: Path, relative: str) -> Any:
         return json.load(handle)
 
 
+def _is_exact_target_receipt(event: Mapping[str, Any], evidence: Mapping[str, Any]) -> bool:
+    """Return true only for the single retained event/evidence receipt."""
+    if set(evidence) != _TARGET_EVIDENCE_KEYS:
+        return False
+    return (
+        all(event.get(field) == TARGET_RECEIPT[field] for field in
+            ("event_id", "source_url", "effective_date"))
+        and all(evidence.get(field) == TARGET_RECEIPT[field] for field in
+                 ("document_id", "source_url", "page", "content_sha256", "evidence_sha256"))
+    )
+
+
 def _event_evidence(operating_events: Mapping[str, Any]) -> list[dict[str, Any]]:
     events = (
         (operating_events.get("companies") or {}).get(SYMBOL)
@@ -72,19 +107,19 @@ def _event_evidence(operating_events: Mapping[str, Any]) -> list[dict[str, Any]]
     # product and must never be promoted into this target event's evidence.
     selected = [
         event for event in events
-        if event.get("event_id") == EVENT_ID
-        and event.get("source_url") == EVENT_SOURCE_URL
+        if isinstance(event, Mapping)
+        and all(event.get(field) == TARGET_RECEIPT[field] for field in
+                ("event_id", "source_url", "effective_date"))
     ]
     rows: list[dict[str, Any]] = []
     for event in selected:
         for evidence in event.get("evidence") or []:
+            if not isinstance(evidence, Mapping):
+                continue
             # Bind the retained excerpt to both canonical identities.  A
-            # malformed target event carrying another document is not target
-            # evidence and is therefore omitted rather than relabelled.
-            if (
-                evidence.get("document_id") != EVENT_DOCUMENT_ID
-                or evidence.get("source_url") != EVENT_SOURCE_URL
-            ):
+            # malformed target event carrying another document, page, date or
+            # hash is not target evidence and is omitted rather than relabelled.
+            if not _is_exact_target_receipt(event, evidence):
                 continue
             rows.append(
                 {
@@ -349,7 +384,7 @@ def build_manifest(root: Path) -> dict[str, Any]:
         "event": {
             "event_id": EVENT_ID,
             "document_id": EVENT_DOCUMENT_ID,
-            "effective_date": "2025-11-13",
+            "effective_date": EVENT_EFFECTIVE_DATE,
             "status": "observed_only",
             "evidence": event_evidence,
             "exact_hash_page_backed_evidence_count": exact_event_count,
