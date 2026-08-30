@@ -77,6 +77,40 @@ class ListKeyInputs(Mapping):
         raise KeyError(key)
 
 
+class HostileKey:
+    """A non-string mapping key whose display and comparison are unsafe."""
+
+    def __str__(self):
+        raise RuntimeError("hostile __str__")
+
+    def __repr__(self):
+        raise RuntimeError("hostile __repr__")
+
+    def __hash__(self):
+        raise RuntimeError("hostile __hash__")
+
+    def __eq__(self, other):
+        raise RuntimeError("hostile __eq__")
+
+
+class HostileKeyInputs(Mapping):
+    def __init__(self, base: Mapping, bad_value):
+        self._items = list(base.items()) + [(HostileKey(), bad_value)]
+
+    def __iter__(self):
+        for key, _ in self._items:
+            yield key
+
+    def __len__(self):
+        return len(self._items)
+
+    def __getitem__(self, key):
+        for stored_key, value in self._items:
+            if type(stored_key) is str and stored_key == key:
+                return value
+        raise KeyError(key)
+
+
 def assert_violation(name: str, candidate: dict, expected: str) -> None:
     violations = contract.validate_case(candidate)
     check(name, any(expected in violation for violation in violations), repr(violations))
@@ -145,10 +179,10 @@ def main() -> None:
     hostile_root = ListKeyInputs(case, ["bad", "root"], analyst(1.0))
     root_violations = contract.validate_case(hostile_root)
     check("root list-like key is controlled",
-          any("case.['bad', 'root']: unknown field" in violation for violation in root_violations),
+          root_violations == ["case.<non-string key>: unknown field"],
           repr(root_violations))
     assert_rejected_by_evaluate(
-        "evaluate rejects root list-like key", hostile_root, "case.['bad', 'root']: unknown field"
+        "evaluate rejects root list-like key", hostile_root, "case.<non-string key>: unknown field"
     )
 
     hostile_record_case = golden_case()
@@ -157,13 +191,13 @@ def main() -> None:
     )
     record_violations = contract.validate_case(hostile_record_case)
     check("record list-like key is controlled",
-          any("fx_pkr_usd.['bad', 'record']: unknown field" in violation
+          any("fx_pkr_usd.<non-string key>: unknown field" in violation
               for violation in record_violations),
           repr(record_violations))
     assert_rejected_by_evaluate(
         "evaluate rejects record list-like key",
         hostile_record_case,
-        "fx_pkr_usd.['bad', 'record']: unknown field",
+        "fx_pkr_usd.<non-string key>: unknown field",
     )
 
     hostile_ref_case = golden_case()
@@ -174,13 +208,80 @@ def main() -> None:
     hostile_ref_case["inputs"]["fx_pkr_usd"] = source_record
     ref_violations = contract.validate_case(hostile_ref_case)
     check("source-ref list-like key is controlled",
-          any("fx_pkr_usd.source_ref.['bad', 'source-ref']: unknown field" in violation
+          any("fx_pkr_usd.source_ref.<non-string key>: unknown field" in violation
               for violation in ref_violations),
           repr(ref_violations))
     assert_rejected_by_evaluate(
         "evaluate rejects source-ref list-like key",
         hostile_ref_case,
-        "fx_pkr_usd.source_ref.['bad', 'source-ref']: unknown field",
+        "fx_pkr_usd.source_ref.<non-string key>: unknown field",
+    )
+
+    hostile_key_root = HostileKeyInputs(case, analyst(1.0))
+    hostile_root_violations = contract.validate_case(hostile_key_root)
+    check("root hostile key is controlled",
+          hostile_root_violations == ["case.<non-string key>: unknown field"],
+          repr(hostile_root_violations))
+    assert_rejected_by_evaluate(
+        "evaluate rejects root hostile key", hostile_key_root,
+        "case.<non-string key>: unknown field",
+    )
+
+    hostile_key_inputs = golden_case()
+    hostile_key_inputs["inputs"] = HostileKeyInputs(hostile_key_inputs["inputs"], analyst(1.0))
+    hostile_inputs_violations = contract.validate_case(hostile_key_inputs)
+    check("inputs hostile key is controlled",
+          any("inputs.<non-string key>: input field must be a string" in violation
+              for violation in hostile_inputs_violations)
+          and all("hostile" not in violation for violation in hostile_inputs_violations),
+          repr(hostile_inputs_violations))
+    assert_rejected_by_evaluate(
+        "evaluate rejects inputs hostile key", hostile_key_inputs,
+        "inputs.<non-string key>: input field must be a string",
+    )
+
+    hostile_key_record_case = golden_case()
+    hostile_key_record_case["inputs"]["fx_pkr_usd"] = HostileKeyInputs(
+        hostile_key_record_case["inputs"]["fx_pkr_usd"], 1.0
+    )
+    hostile_record_violations = contract.validate_case(hostile_key_record_case)
+    check("record hostile key is controlled",
+          any("fx_pkr_usd.<non-string key>: unknown field" in violation
+              for violation in hostile_record_violations),
+          repr(hostile_record_violations))
+    assert_rejected_by_evaluate(
+        "evaluate rejects record hostile key", hostile_key_record_case,
+        "fx_pkr_usd.<non-string key>: unknown field",
+    )
+
+    hostile_key_analyst_ref_case = golden_case()
+    analyst_record = analyst(280.0)
+    analyst_record["analyst_ref"] = HostileKeyInputs(analyst_record["analyst_ref"], "x")
+    hostile_key_analyst_ref_case["inputs"]["fx_pkr_usd"] = analyst_record
+    hostile_analyst_ref_violations = contract.validate_case(hostile_key_analyst_ref_case)
+    check("analyst-ref hostile key is controlled",
+          any("fx_pkr_usd.analyst_ref.<non-string key>: unknown field" in violation
+              for violation in hostile_analyst_ref_violations),
+          repr(hostile_analyst_ref_violations))
+    assert_rejected_by_evaluate(
+        "evaluate rejects analyst-ref hostile key", hostile_key_analyst_ref_case,
+        "fx_pkr_usd.analyst_ref.<non-string key>: unknown field",
+    )
+
+    hostile_key_source_ref_case = golden_case()
+    hostile_source_record = source(280.0)
+    hostile_source_record["source_ref"] = HostileKeyInputs(
+        hostile_source_record["source_ref"], "x"
+    )
+    hostile_key_source_ref_case["inputs"]["fx_pkr_usd"] = hostile_source_record
+    hostile_source_ref_violations = contract.validate_case(hostile_key_source_ref_case)
+    check("source-ref hostile key is controlled",
+          any("fx_pkr_usd.source_ref.<non-string key>: unknown field" in violation
+              for violation in hostile_source_ref_violations),
+          repr(hostile_source_ref_violations))
+    assert_rejected_by_evaluate(
+        "evaluate rejects source-ref hostile key", hostile_key_source_ref_case,
+        "fx_pkr_usd.source_ref.<non-string key>: unknown field",
     )
 
     result = engine.evaluate_case(case)
@@ -322,9 +423,9 @@ def main() -> None:
         ("non-json", lambda c: c["inputs"].update(extra={"value": {1, 2}}), "unknown input field"),
         ("inputs non-mapping", lambda c: c.update(inputs=[]), "inputs: must be a mapping of field to provenance record"),
         ("record non-mapping", lambda c: c["inputs"].update(fx_pkr_usd=[]), "fx_pkr_usd: input must be a provenance record mapping"),
-        ("integer input key", lambda c: c["inputs"].update({1: analyst(1.0)}), "1: input field must be a string"),
-        ("tuple input key", lambda c: c["inputs"].update({("bad", "key"): analyst(1.0)}), "('bad', 'key'): input field must be a string"),
-        ("list-like input key", lambda c: c.update(inputs=ListKeyInputs(c["inputs"], ["bad", "key"], analyst(1.0))), "['bad', 'key']: input field must be a string"),
+        ("integer input key", lambda c: c["inputs"].update({1: analyst(1.0)}), "inputs.<non-string key>: input field must be a string"),
+        ("tuple input key", lambda c: c["inputs"].update({("bad", "key"): analyst(1.0)}), "inputs.<non-string key>: input field must be a string"),
+        ("list-like input key", lambda c: c.update(inputs=ListKeyInputs(c["inputs"], ["bad", "key"], analyst(1.0))), "inputs.<non-string key>: input field must be a string"),
     ]
     for name, mutate, expected in mutations:
         candidate = golden_case()
@@ -340,9 +441,9 @@ def main() -> None:
     for name, mutate, expected in (
         ("evaluate rejects top-level extra", lambda c: c.update(caller_prose="you should buy"), "case.caller_prose"),
         ("evaluate rejects huge hires", lambda c: c["inputs"]["sales_hires_schedule"]["value"].__setitem__(0, 10**400), "sales_hires_schedule[0]: must be <="),
-        ("evaluate rejects integer input key", lambda c: c["inputs"].update({1: analyst(1.0)}), "1: input field must be a string"),
-        ("evaluate rejects tuple input key", lambda c: c["inputs"].update({("bad", "key"): analyst(1.0)}), "('bad', 'key'): input field must be a string"),
-        ("evaluate rejects list-like input key", lambda c: c.update(inputs=ListKeyInputs(c["inputs"], ["bad", "key"], analyst(1.0))), "['bad', 'key']: input field must be a string"),
+        ("evaluate rejects integer input key", lambda c: c["inputs"].update({1: analyst(1.0)}), "inputs.<non-string key>: input field must be a string"),
+        ("evaluate rejects tuple input key", lambda c: c["inputs"].update({("bad", "key"): analyst(1.0)}), "inputs.<non-string key>: input field must be a string"),
+        ("evaluate rejects list-like input key", lambda c: c.update(inputs=ListKeyInputs(c["inputs"], ["bad", "key"], analyst(1.0))), "inputs.<non-string key>: input field must be a string"),
     ):
         candidate = golden_case()
         mutate(candidate)

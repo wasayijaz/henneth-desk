@@ -58,6 +58,7 @@ _SOURCE_REF_FIELDS = {"id", "label", "url", "path", "as_of"}
 _ANALYST_REF_FIELDS = {"note_id", "note"}
 _MAX_JSON_SAFE_INTEGER = 9_007_199_254_740_991
 _IDENTIFIER_RE = re.compile(r"^[A-Za-z0-9][A-Za-z0-9:._/-]{0,127}$")
+_NON_STRING_KEY = "<non-string key>"
 
 
 def _as_date(value: Any) -> date | None:
@@ -96,22 +97,47 @@ def _identifier(value: Any) -> bool:
 
 def _key_is_allowed(key: Any, allowed: set[str]) -> bool:
     """Check a mapping key without hashing non-string values."""
-    return isinstance(key, str) and key in allowed
+    return type(key) is str and key in allowed
 
 
 def _has_unknown_keys(value: Mapping[str, Any], allowed: set[str]) -> bool:
     return any(not _key_is_allowed(key, allowed) for key in value)
 
 
+def _unknown_key_details(
+    value: Mapping[str, Any], allowed: set[str]
+) -> tuple[list[str], int]:
+    """Return unknown-field names and a count of non-string keys.
+
+    Non-string keys are intentionally never converted, compared, hashed or
+    represented.  Their count is enough to emit a stable generic diagnostic.
+    """
+    unknown_strings: list[str] = []
+    non_string_count = 0
+    for key in value:
+        if type(key) is not str:
+            non_string_count += 1
+        elif key not in allowed:
+            unknown_strings.append(key)
+    return unknown_strings, non_string_count
+
+
 def _unknown_keys(prefix: str, value: Mapping[str, Any], allowed: set[str]) -> list[str]:
-    return [
-        f"{prefix}.{key}: unknown field"
-        for key in sorted((key for key in value if not _key_is_allowed(key, allowed)), key=str)
-    ]
+    unknown_strings, non_string_count = _unknown_key_details(value, allowed)
+    violations = [f"{prefix}.{key}: unknown field" for key in sorted(unknown_strings)]
+    violations.extend(
+        f"{prefix}.{_NON_STRING_KEY}: unknown field" for _ in range(non_string_count)
+    )
+    return violations
 
 
 def provenance_ok(record: Mapping[str, Any]) -> bool:
     if not isinstance(record, Mapping):
+        return False
+    record_unknown_strings, record_non_string_count = _unknown_key_details(
+        record, _SOURCE_RECORD_FIELDS | _ANALYST_RECORD_FIELDS
+    )
+    if record_unknown_strings or record_non_string_count:
         return False
     label_type = record.get("label_type")
     if label_type not in LABEL_TYPES:
@@ -122,7 +148,8 @@ def provenance_ok(record: Mapping[str, Any]) -> bool:
         ref = record.get("source_ref")
         return (
             isinstance(ref, Mapping)
-            and not _has_unknown_keys(ref, _SOURCE_REF_FIELDS)
+            and not _unknown_key_details(ref, _SOURCE_REF_FIELDS)[0]
+            and not _unknown_key_details(ref, _SOURCE_REF_FIELDS)[1]
             and _nonempty(ref.get("id"))
             and _nonempty(ref.get("label"))
             and (_nonempty(ref.get("url")) or _nonempty(ref.get("path")))
@@ -132,7 +159,8 @@ def provenance_ok(record: Mapping[str, Any]) -> bool:
     ref = record.get("analyst_ref")
     return (
         isinstance(ref, Mapping)
-        and not _has_unknown_keys(ref, _ANALYST_REF_FIELDS)
+        and not _unknown_key_details(ref, _ANALYST_REF_FIELDS)[0]
+        and not _unknown_key_details(ref, _ANALYST_REF_FIELDS)[1]
         and _nonempty(ref.get("note_id"))
         and _nonempty(ref.get("note"))
     )
@@ -185,7 +213,10 @@ def validate_case(case: Mapping[str, Any]) -> list[str]:
     if not isinstance(case, Mapping):
         return ["case: must be a mapping"]
     violations: list[str] = []
+    _, root_non_string_count = _unknown_key_details(case, _ROOT_FIELDS)
     violations.extend(_unknown_keys("case", case, _ROOT_FIELDS))
+    if root_non_string_count:
+        return violations
     for field in ("symbol", "event_ref"):
         if not _identifier(case.get(field)):
             violations.append(f"{field}: must be a compact identifier")
@@ -209,25 +240,39 @@ def validate_case(case: Mapping[str, Any]) -> list[str]:
     if not isinstance(inputs, Mapping):
         violations.append("inputs: must be a mapping of field to provenance record")
         return violations
-    unknown_fields = sorted((field for field in inputs if field not in _REQUIRED), key=str)
-    for field in unknown_fields:
+    unknown_input_fields, input_non_string_count = _unknown_key_details(inputs, set(_REQUIRED))
+    for field in sorted(unknown_input_fields):
         violations.append(f"{field}: unknown input field")
+    for _ in range(input_non_string_count):
+        violations.append(f"inputs.{_NON_STRING_KEY}: input field must be a string")
+    if input_non_string_count:
+        return violations
     for field in _REQUIRED:
         if field not in inputs:
             violations.append(f"{field}: missing required input")
-    for field, record in sorted(inputs.items(), key=lambda item: str(item[0])):
-        if not isinstance(field, str):
-            violations.append(f"{field}: input field must be a string")
-            continue
+    input_fields = sorted(field for field in inputs if type(field) is str)
+    for field in input_fields:
+        record = inputs[field]
         if not isinstance(record, Mapping):
             violations.append(f"{field}: input must be a provenance record mapping")
+            continue
+        _, record_non_string_count = _unknown_key_details(
+            record, _SOURCE_RECORD_FIELDS | _ANALYST_RECORD_FIELDS
+        )
+        if record_non_string_count:
+            violations.extend(_unknown_keys(field, record, _SOURCE_RECORD_FIELDS | _ANALYST_RECORD_FIELDS))
+            violations.append(f"{field}: provenance record must carry label_type and a complete reference")
             continue
         label_type = record.get("label_type")
         if label_type == "source":
             violations.extend(_unknown_keys(field, record, _SOURCE_RECORD_FIELDS))
             ref = record.get("source_ref")
             if isinstance(ref, Mapping):
+                _, ref_non_string_count = _unknown_key_details(ref, _SOURCE_REF_FIELDS)
                 violations.extend(_unknown_keys(f"{field}.source_ref", ref, _SOURCE_REF_FIELDS))
+                if ref_non_string_count:
+                    violations.append(f"{field}: provenance record must carry label_type and a complete reference")
+                    continue
                 source_as_of = ref.get("as_of")
                 if source_as_of is not None:
                     parsed_as_of = _as_date(source_as_of)
@@ -239,7 +284,11 @@ def validate_case(case: Mapping[str, Any]) -> list[str]:
             violations.extend(_unknown_keys(field, record, _ANALYST_RECORD_FIELDS))
             ref = record.get("analyst_ref")
             if isinstance(ref, Mapping):
+                _, ref_non_string_count = _unknown_key_details(ref, _ANALYST_REF_FIELDS)
                 violations.extend(_unknown_keys(f"{field}.analyst_ref", ref, _ANALYST_REF_FIELDS))
+                if ref_non_string_count:
+                    violations.append(f"{field}: provenance record must carry label_type and a complete reference")
+                    continue
         else:
             violations.extend(_unknown_keys(field, record, _SOURCE_RECORD_FIELDS | _ANALYST_RECORD_FIELDS))
         if not provenance_ok(record):
