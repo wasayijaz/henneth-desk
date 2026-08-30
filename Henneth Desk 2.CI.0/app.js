@@ -63,6 +63,7 @@ const RESEARCH_TOOL_TABS = [
   ["trends", "Financial trends"],
   ["baseline", "Financial baseline"],
   ["forecast", "Forecast readiness"],
+  ["alpha_readiness", "Event-to-Value readiness"],
   ["thesis", "Thesis monitor"],
   ["watchlist", "Evidence watchlist"],
   ["monitoring", "CI monitoring"],
@@ -81,6 +82,7 @@ const TREE_GROUPS = [
   { key: "overview", label: "Overview", routes: [["snapshot", "Investor Snapshot"], ["overview", "Company Profile"], ["business", "Business profile (legacy)"]] },
   { key: "intelligence", label: "Intelligence", routes: [["research", "Research"], ["ask", "Ask Henneth"], ["graph", "Knowledge Graph"], ["operating", "Operating Intelligence"], ["intelligence", "Intelligence index (legacy)"], ["timeline", "Typed timeline (legacy)"]] },
   { key: "financials", label: "Financials", routes: [["trends", "Financial Trends"], ["baseline", "Financial Baseline"], ["forecast", "Forecast Readiness"], ["financials", "Accounting Snapshot"]] },
+  { key: "alpha", label: "Alpha readiness", routes: [["alpha_readiness", "Event-to-Value readiness"]] },
   { key: "events", label: "Events & Filings", routes: [["earnings", "Earnings"], ["events", "Events"], ["filings", "Filings"], ["sources", "Sources"], ["changes", "Change Digest (legacy)"], ["brief", "Brief queue (legacy)"]] },
   { key: "strategy", label: "Strategy", routes: [["scenarios", "Scenarios"], ["valuation", "Valuation"], ["guidance", "Guidance"], ["catalysts", "Catalysts"], ["risks", "Risks"], ["quant", "Quant (legacy)"]] },
   { key: "ownership", label: "Ownership & Peers", routes: [["ownership", "Ownership"], ["peers", "Peers"], ["watchlist", "Watchlist"], ["conditional", "Conditional Benchmarks"], ["causal", "Causal Map"], ["coverage", "Coverage"], ["thesis", "Thesis Monitor"], ["monitoring", "Monitoring"], ["operations", "Operations (legacy)"]] },
@@ -824,6 +826,7 @@ function detail(r) {
       : state.view === "trends" ? renderFinancials(r)
       : state.view === "baseline" ? renderFinancialBaseline(r)
       : state.view === "forecast" ? renderForecastReadiness(r)
+      : state.view === "alpha_readiness" ? renderEventToValueProductReadiness()
       : state.caseRoute ? renderIntelligenceCase(r, state.caseRoute.caseId)
       : state.view === "intelligence" ? renderIntelligence(r)
       : state.view === "thesis" ? renderThesisMonitor(r)
@@ -3280,6 +3283,23 @@ function renderFinancialEngineAssumptionReview(r) {
       </div>
     </section>
   </section>`;
+}
+
+function renderEventToValueProductReadiness() {
+  const audit = state.data?.meta?.event_to_value_product_readiness;
+  if (!audit || typeof audit !== "object" || Array.isArray(audit) || audit.status === "not_generated" || !Array.isArray(audit.metrics) || !audit.metrics.length) {
+    const reason = audit?.reason || "event_to_value_product_readiness_not_generated";
+    return '<section class="panel span9 alpha-readiness-shell" aria-labelledby="alphaReadinessTitle"><span class="kicker">Event-to-Value Alpha</span><h2 id="alphaReadinessTitle">Product readiness not generated</h2><p class="section-note">Desk-level audit of retained CI artifacts. This is not an Intelligence Case, forecast, or valuation. Missing projection fails closed.</p><div class="blocked-grid"><span>Status <b>not_generated</b></span><span>Reason <b>' + esc(reason) + '</b></span></div></section>';
+  }
+  const summary = audit.summary || {};
+  const lineage = audit.lineage || {};
+  const cards = audit.metrics.map(metric => {
+    const status = metric.status || "unknown";
+    const display = metric.display || (metric.value == null ? "unknown" : String(metric.value));
+    const reason = metric.reason || (status === "available" ? "sourced_count" : "not_generated");
+    return '<article class="alpha-readiness-card" data-status="' + esc(status) + '"><header><span class="pill">' + esc(status) + '</span><h3>' + esc(metric.label || metric.id || "metric") + '</h3></header><b>' + esc(display) + '</b><p>' + esc(metric.definition || "No calculation definition emitted.") + '</p><div class="blocked-grid"><span>Source <b>' + esc(metric.source_path || "unknown") + '</b></span><span>As of <b>' + esc(metric.as_of || "unknown") + '</b></span><span>Reason <b>' + esc(reason) + '</b></span></div></article>';
+  }).join("");
+  return '<section class="panel span9 alpha-readiness-shell" aria-labelledby="alphaReadinessTitle"><span class="kicker">Event-to-Value Alpha</span><h2 id="alphaReadinessTitle">Product readiness from retained artifacts</h2><p class="section-note">Source-grounded desk audit. It does not score a company, open an Intelligence Case, or treat blocked outputs as live forecasts or valuations. Research only.</p><div class="blocked-grid"><span>Available metrics <b>' + esc(summary.available_metric_count ?? "unknown") + '</b></span><span>Blocked metrics <b>' + esc(summary.blocked_metric_count ?? "unknown") + '</b></span><span>Generated <b>' + esc(audit.as_of || "unknown") + '</b></span><span>Source commit <b>' + esc(lineage.source_commit_sha || "unknown") + '</b></span></div><div class="alpha-readiness-grid">' + cards + '</div></section>';
 }
 
 function renderForecastReadiness(r) {

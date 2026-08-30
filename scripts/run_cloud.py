@@ -152,6 +152,7 @@ STEPS = [
     "build_ci_work_routing_policy.py",
     "build_ownership_source_manifest.py",  # review metadata only; never activates ownership facts
     "build_ci_completion_matrix.py",
+    "build_event_to_value_product_readiness.py",
     "build_ci_slice.py",
     # Finalize the complete private CI release as one reproducible UTC-cutoff
     # artifact set. This runs only after every CI producer and the slice.
@@ -168,6 +169,7 @@ STEPS = [
     "check_ci_reprocess_manifest.py",
     "check_intelligence_cases.py",
     "check_mlcf_pioc_readiness_manifest.py",
+    "check_event_to_value_product_readiness.py",
     "check_financial_reprocess_blockers.py",
     "check_ownership_source_manifest.py",
     "check_forecast_contract.py",
