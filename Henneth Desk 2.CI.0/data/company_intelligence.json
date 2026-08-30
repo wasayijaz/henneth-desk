@@ -1,6 +1,6 @@
 {
  "meta": {
-  "built": "2026-08-31 03:04",
+  "built": "2026-08-30 22:27",
   "source": "Henneth state layer",
   "profile_source": "https://dps.psx.com.pk/company/{symbol}",
   "profile_updated": "2026-08-24 18:30",
@@ -20,9 +20,9 @@
    "source_documents": 317,
    "note": "Every factual edge carries source URL and cited page when available.",
    "generator_version": "ci_artifact_integrity_v1",
-   "source_commit_sha": "f57663a894a9328ee50e6b98f16096b735f86f99",
-   "build_cutoff_at": "2026-08-30T22:03:57Z",
-   "generated_at": "2026-08-30T22:03:57Z",
+   "source_commit_sha": "785630b99baaa71b0bb6c83e7bd7efa02ecadae7",
+   "build_cutoff_at": "2026-08-30T22:27:31Z",
+   "generated_at": "2026-08-30T22:27:31Z",
    "artifact_path": "state/company_intel/company_graph.json",
    "timestamp_semantics": {
     "build_cutoff_at": "generation boundary only; not a source-effective or source-published time",
@@ -35,9 +35,9 @@
    "item_count": 359,
    "note": "Deterministic official-source change digest. Research, not advice.",
    "generator_version": "ci_artifact_integrity_v1",
-   "source_commit_sha": "f57663a894a9328ee50e6b98f16096b735f86f99",
-   "build_cutoff_at": "2026-08-30T22:03:57Z",
-   "generated_at": "2026-08-30T22:03:57Z",
+   "source_commit_sha": "785630b99baaa71b0bb6c83e7bd7efa02ecadae7",
+   "build_cutoff_at": "2026-08-30T22:27:31Z",
+   "generated_at": "2026-08-30T22:27:31Z",
    "artifact_path": "state/company_intel/change_intelligence.json",
    "timestamp_semantics": {
     "build_cutoff_at": "generation boundary only; not a source-effective or source-published time",
@@ -196,7 +196,7 @@
   },
   "event_to_value_product_readiness": {
    "status": "blocked",
-   "reason": "event_to_value_product_readiness_source_status_mismatch",
+   "reason": "selected_symbols_not_exactly_three:count=2",
    "metrics": [
     {
      "id": "model_ready_companies",
@@ -207,14 +207,14 @@
      "display": null,
      "definition": "Count of selected golden-case companies whose financial_truth_qualification.status is qualified. Unselected companies and forecast-readiness input_ready do not count.",
      "source_path": "state/company_intel/financial_truth_qualification.json",
-     "as_of": "2026-08-30T22:03:57Z",
+     "as_of": "2026-08-30T22:27:31Z",
      "reason": "selected_symbols_not_exactly_three:count=2",
      "notes": [
       "selected_symbols=['MARI', 'MLCF']"
      ],
      "lineage": {
       "source_path": "state/company_intel/financial_truth_qualification.json",
-      "as_of": "2026-08-30T22:03:57Z",
+      "as_of": "2026-08-30T22:27:31Z",
       "status": "blocked",
       "reason": "selected_symbols_not_exactly_three:count=2"
      }
@@ -249,14 +249,14 @@
      "display": null,
      "definition": "Count of selected-symbol impact_scenarios with explicit computed/modelled status, a finite numeric impact, and source/lineage. unmodeled_driver and blocked/not_generated/inferred rows do not count even if a number is present.",
      "source_path": "state/company_intel/impact_scenarios.json",
-     "as_of": "2026-08-30T22:03:57Z",
+     "as_of": "2026-08-30T22:27:31Z",
      "reason": "selected_symbols_not_exactly_three:count=2",
      "notes": [
       "selected_symbols=['MARI', 'MLCF']"
      ],
      "lineage": {
       "source_path": "state/company_intel/impact_scenarios.json",
-      "as_of": "2026-08-30T22:03:57Z",
+      "as_of": "2026-08-30T22:27:31Z",
       "status": "blocked",
       "reason": "selected_symbols_not_exactly_three:count=2"
      }
@@ -396,17 +396,17 @@
      "display": null,
      "definition": "Hashed artifact_integrity rows versus artifact_count. The generated readiness artifact itself must be covered by the sealed manifest.",
      "source_path": "state/company_intel/artifact_integrity.json",
-     "as_of": "2026-08-30T22:03:57Z",
+     "as_of": "2026-08-30T22:27:31Z",
      "reason": null,
      "notes": [
-      "f57663a894a9328ee50e6b98f16096b735f86f99",
+      "785630b99baaa71b0bb6c83e7bd7efa02ecadae7",
       "artifact_count=43",
       "expected_artifact_count=43",
       "state/company_intel/event_to_value_product_readiness.json"
      ],
      "lineage": {
       "source_path": "state/company_intel/artifact_integrity.json",
-      "as_of": "2026-08-30T22:03:57Z",
+      "as_of": "2026-08-30T22:27:31Z",
       "status": "available",
       "reason": null
      }
@@ -486,17 +486,17 @@
    },
    "lineage": {
     "product_version": "event_to_value_product_readiness_v1",
-    "generated_at": "2026-08-30T22:03:57Z",
+    "generated_at": "2026-08-30T22:27:31Z",
     "source_as_of": {
      "intelligence_cases": "2026-08-30T21:42:58+05:00",
-     "financial_truth_qualification": "2026-08-30T22:03:57Z",
+     "financial_truth_qualification": "2026-08-30T22:27:31Z",
      "forecast_readiness": "2026-08-30T22:48:00+05:00",
-     "impact_scenarios": "2026-08-30T22:03:57Z",
+     "impact_scenarios": "2026-08-30T22:27:31Z",
      "financial_forecasts": "2026-08-30",
      "formal_valuations": "2026-08-30",
      "market_expectations": "2026-08-30",
      "thesis_monitoring": "2026-08-30T22:48:38+05:00",
-     "artifact_integrity": "2026-08-30T22:03:57Z",
+     "artifact_integrity": "2026-08-30T22:27:31Z",
      "release_integrity_receipt": "2026-08-28T00:00:00Z"
     },
     "source_schema_version": {
@@ -547,8 +547,8 @@
      "artifact_integrity": null,
      "release_integrity_receipt": "release_integrity_receipt_release_status_not_verified:not_verified"
     },
-    "source_commit_sha": "f57663a894a9328ee50e6b98f16096b735f86f99",
-    "build_cutoff_at": "2026-08-30T22:03:57Z",
+    "source_commit_sha": "785630b99baaa71b0bb6c83e7bd7efa02ecadae7",
+    "build_cutoff_at": "2026-08-30T22:27:31Z",
     "artifact_integrity_status": "available",
     "artifact_integrity_reason": null,
     "artifact_integrity": {
@@ -647,9 +647,9 @@
      "missing_paths": [],
      "extra_paths": [],
      "covered": true,
-     "source_commit_sha": "f57663a894a9328ee50e6b98f16096b735f86f99",
-     "build_cutoff_at": "2026-08-30T22:03:57Z",
-     "generated_at": "2026-08-30T22:03:57Z",
+     "source_commit_sha": "785630b99baaa71b0bb6c83e7bd7efa02ecadae7",
+     "build_cutoff_at": "2026-08-30T22:27:31Z",
+     "generated_at": "2026-08-30T22:27:31Z",
      "hash_status": "verified"
     },
     "selected_symbols": [],
@@ -666,7 +666,7 @@
     "selected_golden_cases_only": true
    },
    "product_version": "event_to_value_product_readiness_v1",
-   "as_of": "2026-08-30T22:03:57Z"
+   "as_of": "2026-08-30T22:27:31Z"
   },
   "note": "Private company-intelligence slice. Research, not advice. No execution or order path."
  },
@@ -236456,9 +236456,9 @@
  ],
  "_meta": {
   "generator_version": "ci_artifact_integrity_v1",
-  "source_commit_sha": "f57663a894a9328ee50e6b98f16096b735f86f99",
-  "build_cutoff_at": "2026-08-30T22:03:57Z",
-  "generated_at": "2026-08-30T22:03:57Z",
+  "source_commit_sha": "785630b99baaa71b0bb6c83e7bd7efa02ecadae7",
+  "build_cutoff_at": "2026-08-30T22:27:31Z",
+  "generated_at": "2026-08-30T22:27:31Z",
   "artifact_path": "Henneth Desk 2.CI.0/data/company_intelligence.json",
   "timestamp_semantics": {
    "build_cutoff_at": "generation boundary only; not a source-effective or source-published time",
