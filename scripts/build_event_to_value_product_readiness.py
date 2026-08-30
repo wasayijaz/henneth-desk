@@ -5,14 +5,15 @@ compute forecasts/valuations, or invent a passing production gate.
 """
 from __future__ import annotations
 
-from datetime import datetime, timezone
-from pathlib import Path
+from math import isfinite
 from typing import Any
 
 from psx_data import ROOT, STATE, load_json, save_json
 
 OUT = STATE / "company_intel" / "event_to_value_product_readiness.json"
 PRODUCT_VERSION = "event_to_value_product_readiness_v1"
+REQUIRED_GOLDEN_COUNT = 3
+READINESS_REL = "state/company_intel/event_to_value_product_readiness.json"
 ALPHA_DENOMINATORS = {
     "model_ready_companies": 3,
     "published_cases": 3,
@@ -22,9 +23,9 @@ ALPHA_DENOMINATORS = {
     "live_market_expectation_outputs": 3,
 }
 SOURCE_PATHS = {
+    "intelligence_cases": "state/company_intel/intelligence_cases.json",
     "financial_truth_qualification": "state/company_intel/financial_truth_qualification.json",
     "forecast_readiness": "state/company_intel/forecast_readiness.json",
-    "intelligence_cases": "state/company_intel/intelligence_cases.json",
     "impact_scenarios": "state/company_intel/impact_scenarios.json",
     "financial_forecasts": "state/company_intel/financial_forecasts.json",
     "formal_valuations": "state/company_intel/formal_valuations.json",
@@ -33,10 +34,17 @@ SOURCE_PATHS = {
     "artifact_integrity": "state/company_intel/artifact_integrity.json",
     "release_integrity_receipt": "state/company_intel/release_integrity_receipt.json",
 }
-
-
-def _utc_now() -> str:
-    return datetime.now(timezone.utc).replace(microsecond=0).strftime("%Y-%m-%dT%H:%M:%SZ")
+COMPUTED_SCENARIO_STATUSES = {"computed", "modelled", "modeled"}
+BLOCKED_SCENARIO_MARKERS = {
+    "unmodeled_driver",
+    "unmodelled_driver",
+    "no_modeled_driver",
+    "insufficient_data",
+    "blocked",
+    "not_generated",
+    "unknown",
+    "inferred",
+}
 
 
 def _load(rel: str, default: dict[str, Any] | None = None) -> tuple[dict[str, Any] | None, str]:
@@ -60,7 +68,19 @@ def _as_of(payload: dict[str, Any] | None) -> str | None:
     return None
 
 
-def _metric(metric_id: str, label: str, *, status: str, value: Any, denominator: Any, definition: str, source_path: str, as_of: str | None, reason: str | None, notes: list[str] | None = None) -> dict[str, Any]:
+def _metric(
+    metric_id: str,
+    label: str,
+    *,
+    status: str,
+    value: Any,
+    denominator: Any,
+    definition: str,
+    source_path: str,
+    as_of: str | None,
+    reason: str | None,
+    notes: list[str] | None = None,
+) -> dict[str, Any]:
     return {
         "id": metric_id,
         "label": label,
@@ -76,36 +96,82 @@ def _metric(metric_id: str, label: str, *, status: str, value: Any, denominator:
     }
 
 
-def _engine_live_count(payload: dict[str, Any] | None, load_status: str) -> tuple[int | None, str, str | None, list[str]]:
+def derive_selected_symbols(cases: dict[str, Any] | None, cases_status: str) -> dict[str, Any]:
+    source_path = SOURCE_PATHS["intelligence_cases"]
+    if cases_status != "available" or cases is None:
+        reason = "intelligence_cases_not_generated" if cases_status == "not_generated" else "intelligence_cases_blocked"
+        return {"status": "not_generated" if cases_status == "not_generated" else "blocked", "symbols": [], "source_path": source_path, "reason": reason}
+    raw = cases.get("selected_symbols")
+    if not isinstance(raw, list):
+        return {"status": "blocked", "symbols": [], "source_path": source_path, "reason": "selected_symbols_missing"}
+    symbols: list[str] = []
+    for item in raw:
+        if not isinstance(item, str) or not item.strip():
+            return {"status": "blocked", "symbols": [], "source_path": source_path, "reason": "selected_symbols_invalid"}
+        symbol = item.strip().upper()
+        if symbol in symbols:
+            return {"status": "blocked", "symbols": [], "source_path": source_path, "reason": "selected_symbols_duplicate"}
+        symbols.append(symbol)
+    if len(symbols) != REQUIRED_GOLDEN_COUNT:
+        return {
+            "status": "blocked",
+            "symbols": symbols,
+            "source_path": source_path,
+            "reason": f"selected_symbols_not_exactly_three:count={len(symbols)}",
+        }
+    return {"status": "available", "symbols": symbols, "source_path": source_path, "reason": None}
+
+
+def _finite_number(value: Any) -> bool:
+    if isinstance(value, bool) or value in (None, "", {}, []):
+        return False
+    if isinstance(value, dict):
+        return _finite_number(value.get("value"))
+    try:
+        number = float(value)
+    except (TypeError, ValueError):
+        return False
+    return isfinite(number)
+
+
+def financial_impact_computed(scenario: dict[str, Any]) -> bool:
+    if not isinstance(scenario, dict):
+        return False
+    status = str(scenario.get("impact_status") or scenario.get("status") or "").strip().lower()
+    flags = {str(flag).strip().lower() for flag in (scenario.get("quality_flags") or []) if flag not in (None, "")}
+    if status in BLOCKED_SCENARIO_MARKERS or flags.intersection(BLOCKED_SCENARIO_MARKERS):
+        return False
+    if status not in COMPUTED_SCENARIO_STATUSES:
+        return False
+    lineage = scenario.get("lineage") or scenario.get("provenance") or scenario.get("source")
+    if not lineage:
+        return False
+    return any(
+        _finite_number(scenario.get(key))
+        for key in ("revenue_impact", "ebitda_impact", "eps_impact", "fcf_impact", "valuation_impact")
+    )
+
+
+def _engine_live_count(payload: dict[str, Any] | None, load_status: str, selected: list[str]) -> tuple[int | None, str, str | None, list[str]]:
     if load_status != "available" or payload is None:
         return None, load_status, "source_artifact_not_generated" if load_status == "not_generated" else "source_artifact_blocked", []
     computed = 0
     notes: list[str] = []
-    for symbol, row in (payload.get("companies") or {}).items():
-        if not isinstance(row, dict):
-            continue
-        if row.get("status") == "computed" and row.get("result") not in (None, {}, []):
+    companies = payload.get("companies") or {}
+    for symbol in selected:
+        row = companies.get(symbol)
+        if isinstance(row, dict) and row.get("status") == "computed" and row.get("result") not in (None, {}, []):
             computed += 1
-            notes.append(str(symbol))
-    status = "available" if computed else "blocked"
-    reason = None if computed else (payload.get("summary") and "formal_engine_computed_company_count_is_zero") or "no_live_computed_result"
-    if not notes:
-        reason = str((payload.get("companies") or {}).get("MLCF", {}).get("reason") or reason or "no_live_computed_result")
-    return computed, status, reason, notes[:12]
+            notes.append(symbol)
+    return computed, ("available" if computed else "blocked"), (None if computed else "no_live_computed_result_for_selected_symbols"), notes
 
 
-def _financial_impact_computed(scenario: dict[str, Any]) -> bool:
-    for key in ("revenue_impact", "ebitda_impact", "eps_impact", "fcf_impact", "valuation_impact"):
-        value = scenario.get(key)
-        if value in (None, "", {}, []):
-            continue
-        if isinstance(value, dict) and value.get("value") in (None, "", {}, []):
-            continue
-        return True
-    return False
-
-
-def _null_required_outputs(forecasts: dict[str, Any] | None, valuations: dict[str, Any] | None, expectations: dict[str, Any] | None) -> tuple[int, list[str]]:
+def _null_required_outputs(
+    forecasts: dict[str, Any] | None,
+    valuations: dict[str, Any] | None,
+    expectations: dict[str, Any] | None,
+    selected: list[str],
+) -> tuple[int, list[str]]:
     nulls = 0
     notes: list[str] = []
     for label, payload in (
@@ -113,57 +179,102 @@ def _null_required_outputs(forecasts: dict[str, Any] | None, valuations: dict[st
         ("formal_valuations", valuations),
         ("market_expectations", expectations),
     ):
-        if not payload:
-            nulls += 1
-            notes.append(f"{label}:source_missing")
-            continue
-        companies = payload.get("companies") or {}
-        for symbol, row in companies.items():
-            if not isinstance(row, dict):
-                continue
-            if row.get("result") in (None, {}, []) or row.get("status") != "computed":
+        companies = (payload or {}).get("companies") or {}
+        for symbol in selected:
+            row = companies.get(symbol) if isinstance(companies, dict) else None
+            if not isinstance(row, dict) or row.get("result") in (None, {}, []) or row.get("status") != "computed":
                 nulls += 1
-                notes.append(f"{label}:{symbol}:{row.get('reason') or row.get('status') or 'result_null'}")
-    return nulls, notes[:24]
+                notes.append(f"{label}:{symbol}:{(row or {}).get('reason') or (row or {}).get('status') or 'result_null'}")
+    return nulls, notes
 
 
-def build(write: bool = True) -> dict[str, Any]:
-    truth, truth_status = _load(SOURCE_PATHS["financial_truth_qualification"])
-    forecast_readiness, forecast_ready_status = _load(SOURCE_PATHS["forecast_readiness"])
-    cases, cases_status = _load(SOURCE_PATHS["intelligence_cases"])
-    scenarios, scenarios_status = _load(SOURCE_PATHS["impact_scenarios"])
-    forecasts, forecasts_status = _load(SOURCE_PATHS["financial_forecasts"])
-    valuations, valuations_status = _load(SOURCE_PATHS["formal_valuations"])
-    expectations, expectations_status = _load(SOURCE_PATHS["market_expectations"])
-    theses, theses_status = _load(SOURCE_PATHS["thesis_monitoring"])
-    integrity, integrity_status = _load(SOURCE_PATHS["artifact_integrity"])
-    receipt, receipt_status = _load(SOURCE_PATHS["release_integrity_receipt"])
+def project_readiness(payload: Any) -> dict[str, Any]:
+    if not isinstance(payload, dict) or payload.get("kind") != "event_to_value_product_readiness":
+        return {"status": "not_generated", "reason": "event_to_value_product_readiness_not_generated", "metrics": [], "summary": {}, "lineage": {}, "policy": {}, "product_version": None, "as_of": None}
+    if payload.get("schema_version") != 1 or payload.get("product_version") != PRODUCT_VERSION:
+        return {"status": "blocked", "reason": "event_to_value_product_readiness_schema_invalid", "metrics": [], "summary": {}, "lineage": {}, "policy": {}, "product_version": payload.get("product_version"), "as_of": payload.get("as_of")}
+    metrics = payload.get("metrics")
+    lineage = payload.get("lineage") if isinstance(payload.get("lineage"), dict) else {}
+    summary = payload.get("summary") if isinstance(payload.get("summary"), dict) else {}
+    selected = lineage.get("selected_symbols") or summary.get("selected_symbols")
+    selected_status = lineage.get("selected_symbols_status") or summary.get("selected_symbols_status")
+    if not isinstance(metrics, list) or len(metrics) != 12:
+        return {"status": "blocked", "reason": "event_to_value_product_readiness_metrics_invalid", "metrics": [], "summary": summary, "lineage": lineage, "policy": payload.get("policy") or {}, "product_version": payload.get("product_version"), "as_of": payload.get("as_of")}
+    if selected_status != "available" or not isinstance(selected, list) or len(selected) != REQUIRED_GOLDEN_COUNT:
+        return {
+            "status": "blocked",
+            "reason": lineage.get("selected_symbols_reason") or summary.get("selected_symbols_reason") or "selected_symbols_not_exactly_three",
+            "metrics": metrics,
+            "summary": summary,
+            "lineage": lineage,
+            "policy": payload.get("policy") or {},
+            "product_version": payload.get("product_version"),
+            "as_of": payload.get("as_of"),
+        }
+    return {
+        "status": payload.get("status") or "available",
+        "reason": payload.get("reason"),
+        "metrics": metrics,
+        "summary": summary,
+        "lineage": lineage,
+        "policy": payload.get("policy") or {},
+        "product_version": payload.get("product_version"),
+        "as_of": payload.get("as_of"),
+    }
 
-    model_ready_notes: list[str] = []
-    model_ready_value: int | None = None
-    model_ready_metric_status = truth_status
-    model_ready_reason = None
-    if truth_status == "available" and truth is not None:
-        qualified = []
-        for symbol, row in (truth.get("companies") or {}).items():
-            if isinstance(row, dict) and row.get("status") == "qualified":
-                qualified.append(symbol)
-        model_ready_value = len(qualified)
-        model_ready_notes = qualified
-        model_ready_metric_status = "available" if qualified else "blocked"
-        model_ready_reason = None if qualified else str((truth.get("selection") or {}).get("reason") or "no_company_has_qualified_financial_truth")
+
+def build(write: bool = True, artifacts: dict[str, tuple[dict[str, Any] | None, str]] | None = None) -> dict[str, Any]:
+    loaded = artifacts or {}
+
+    def take(name: str) -> tuple[dict[str, Any] | None, str]:
+        if name in loaded:
+            return loaded[name]
+        return _load(SOURCE_PATHS[name])
+
+    truth, truth_status = take("financial_truth_qualification")
+    forecast_readiness, forecast_ready_status = take("forecast_readiness")
+    cases, cases_status = take("intelligence_cases")
+    scenarios, scenarios_status = take("impact_scenarios")
+    forecasts, forecasts_status = take("financial_forecasts")
+    valuations, valuations_status = take("formal_valuations")
+    expectations, expectations_status = take("market_expectations")
+    theses, theses_status = take("thesis_monitoring")
+    integrity, integrity_status = take("artifact_integrity")
+    receipt, receipt_status = take("release_integrity_receipt")
+
+    selection = derive_selected_symbols(cases, cases_status)
+    selected = selection["symbols"] if selection["status"] == "available" else []
+    selected_ready = selection["status"] == "available"
+
+    def blocked_selection() -> tuple[None, str, str, list[str]]:
+        return None, "blocked", selection["reason"], [f"selected_symbols={selection['symbols']}"]
+
+    if selected_ready and truth_status == "available" and truth is not None:
+        qualified = [
+            symbol
+            for symbol in selected
+            if isinstance((truth.get("companies") or {}).get(symbol), dict)
+            and (truth.get("companies") or {}).get(symbol, {}).get("status") == "qualified"
+        ]
+        model_ready_value, model_ready_notes = len(qualified), qualified
+        model_ready_status = "available" if qualified else "blocked"
+        model_ready_reason = None if qualified else "no_selected_company_has_qualified_financial_truth"
+    elif selected_ready:
+        model_ready_value, model_ready_status, model_ready_reason, model_ready_notes = (
+            None,
+            truth_status,
+            "financial_truth_qualification_not_generated" if truth_status == "not_generated" else "financial_truth_qualification_blocked",
+            [],
+        )
     else:
-        model_ready_reason = "financial_truth_qualification_not_generated" if truth_status == "not_generated" else "financial_truth_qualification_blocked"
+        model_ready_value, model_ready_status, model_ready_reason, model_ready_notes = blocked_selection()
 
-    published_value = None
-    published_status = cases_status
-    published_reason = None
-    published_notes: list[str] = []
-    if cases_status == "available" and cases is not None:
-        published = []
-        observed = []
-        for row in (cases.get("companies") or {}).values():
-            for case in (row or {}).get("cases") or []:
+    if selected_ready and cases_status == "available" and cases is not None:
+        published: list[str] = []
+        observed: list[str] = []
+        for symbol in selected:
+            row = (cases.get("companies") or {}).get(symbol) or {}
+            for case in row.get("cases") or []:
                 if not isinstance(case, dict):
                     continue
                 identity = f"{case.get('symbol')}:{case.get('case_id')}:{case.get('status')}"
@@ -174,108 +285,120 @@ def build(write: bool = True) -> dict[str, Any]:
         published_value = len(published)
         published_notes = published or observed
         published_status = "available" if published else "blocked"
-        published_reason = None if published else "no_published_intelligence_case"
-        if not published and cases.get("summary", {}).get("observed_case_count"):
-            published_reason = "observed_cases_exist_but_none_are_published"
+        published_reason = None if published else ("observed_cases_exist_but_none_are_published" if observed else "no_published_intelligence_case")
+    elif selected_ready:
+        published_value, published_status, published_reason, published_notes = (
+            None,
+            cases_status,
+            "intelligence_cases_not_generated" if cases_status == "not_generated" else "intelligence_cases_blocked",
+            [],
+        )
     else:
-        published_reason = "intelligence_cases_not_generated" if cases_status == "not_generated" else "intelligence_cases_blocked"
+        published_value, published_status, published_reason, published_notes = blocked_selection()
 
-    scenario_value = None
-    scenario_metric_status = scenarios_status
-    scenario_reason = None
-    scenario_notes: list[str] = []
-    if scenarios_status == "available" and scenarios is not None:
-        computed = 0
-        blocked = 0
-        unknown = 0
-        for row in (scenarios.get("companies") or {}).values():
-            for scenario in (row or {}).get("scenarios") or []:
-                if not isinstance(scenario, dict):
-                    continue
-                if _financial_impact_computed(scenario):
-                    computed += 1
+    if selected_ready and scenarios_status == "available" and scenarios is not None:
+        computed_scenarios = 0
+        scenario_notes: list[str] = []
+        for symbol in selected:
+            row = (scenarios.get("companies") or {}).get(symbol) or {}
+            for scenario in row.get("scenarios") or []:
+                if financial_impact_computed(scenario):
+                    computed_scenarios += 1
                     scenario_notes.append(str(scenario.get("scenario_id") or scenario.get("event_id")))
-                elif scenario.get("impact_status") in {"insufficient_data", "blocked", "unknown"}:
-                    blocked += 1
-                else:
-                    unknown += 1
-        scenario_value = computed
-        scenario_metric_status = "available" if computed else "blocked"
-        scenario_reason = None if computed else f"no_financially_computed_scenario_impacts:blocked={blocked}:unknown={unknown}"
+        scenario_value = computed_scenarios
+        scenario_status = "available" if computed_scenarios else "blocked"
+        scenario_reason = None if computed_scenarios else "no_financially_computed_scenario_impacts_for_selected_symbols"
+    elif selected_ready:
+        scenario_value, scenario_status, scenario_reason, scenario_notes = (
+            None,
+            scenarios_status,
+            "impact_scenarios_not_generated" if scenarios_status == "not_generated" else "impact_scenarios_blocked",
+            [],
+        )
     else:
-        scenario_reason = "impact_scenarios_not_generated" if scenarios_status == "not_generated" else "impact_scenarios_blocked"
+        scenario_value, scenario_status, scenario_reason, scenario_notes = blocked_selection()
 
-    forecast_count, forecast_metric_status, forecast_reason, forecast_notes = _engine_live_count(forecasts, forecasts_status)
-    valuation_count, valuation_metric_status, valuation_reason, valuation_notes = _engine_live_count(valuations, valuations_status)
-    expectation_count, expectation_metric_status, expectation_reason, expectation_notes = _engine_live_count(expectations, expectations_status)
+    if selected_ready:
+        forecast_count, forecast_status, forecast_reason, forecast_notes = _engine_live_count(forecasts, forecasts_status, selected)
+        valuation_count, valuation_status, valuation_reason, valuation_notes = _engine_live_count(valuations, valuations_status, selected)
+        expectation_count, expectation_status, expectation_reason, expectation_notes = _engine_live_count(expectations, expectations_status, selected)
+    else:
+        forecast_count, forecast_status, forecast_reason, forecast_notes = blocked_selection()
+        valuation_count, valuation_status, valuation_reason, valuation_notes = blocked_selection()
+        expectation_count, expectation_status, expectation_reason, expectation_notes = blocked_selection()
 
     ask_status = "blocked"
     ask_reason = "ask_henneth_live_runtime_not_recorded_in_authoritative_ci_state"
     ask_notes = ["Focused contract checkers exist at scripts/check_ask_henneth.mjs, but they are not a live production Ask receipt."]
 
-    thesis_value = None
-    thesis_metric_status = theses_status
-    thesis_reason = None
-    thesis_notes: list[str] = []
-    if theses_status == "available" and theses is not None:
+    if selected_ready and theses_status == "available" and theses is not None:
         active_cases = 0
-        for row in (theses.get("companies") or {}).values():
-            if not isinstance(row, dict):
-                continue
+        thesis_notes: list[str] = []
+        for symbol in selected:
+            row = (theses.get("companies") or {}).get(symbol) or {}
             count = row.get("active_thesis_count")
             if isinstance(count, int):
                 active_cases += count
             if row.get("status") == "active_monitoring":
-                thesis_notes.append(f"{row.get('symbol')}:{count}")
+                thesis_notes.append(f"{symbol}:{count}")
         thesis_value = active_cases
-        thesis_metric_status = "available"
-        thesis_reason = None if active_cases else "no_active_thesis_monitoring_cases"
+        thesis_status = "available"
+        thesis_reason = None if active_cases else "no_active_thesis_monitoring_cases_for_selected_symbols"
+    elif selected_ready:
+        thesis_value, thesis_status, thesis_reason, thesis_notes = (
+            None,
+            theses_status,
+            "thesis_monitoring_not_generated" if theses_status == "not_generated" else "thesis_monitoring_blocked",
+            [],
+        )
     else:
-        thesis_reason = "thesis_monitoring_not_generated" if theses_status == "not_generated" else "thesis_monitoring_blocked"
+        thesis_value, thesis_status, thesis_reason, thesis_notes = blocked_selection()
 
-    nulls_value = None
-    nulls_status = "blocked"
-    nulls_reason = None
-    nulls_notes: list[str] = []
-    if forecasts_status == "available" and valuations_status == "available" and expectations_status == "available":
-        nulls_value, nulls_notes = _null_required_outputs(forecasts, valuations, expectations)
-        nulls_status = "available"
+    if selected_ready and forecasts_status == "available" and valuations_status == "available" and expectations_status == "available":
+        nulls_value, nulls_notes = _null_required_outputs(forecasts, valuations, expectations, selected)
+        nulls_status, nulls_reason = "available", None
+    elif selected_ready:
+        nulls_value, nulls_status, nulls_reason, nulls_notes = None, "blocked", "required_output_artifacts_not_all_available", []
     else:
-        nulls_reason = "required_output_artifacts_not_all_available"
+        nulls_value, nulls_status, nulls_reason, nulls_notes = blocked_selection()
 
-    provenance_status = integrity_status
-    provenance_value = None
-    provenance_reason = None
     provenance_notes: list[str] = []
     if integrity_status == "available" and integrity is not None:
-        artifacts = integrity.get("artifacts") or []
-        hashed = [row for row in artifacts if isinstance(row, dict) and row.get("sha256") and row.get("path")]
-        provenance_value = f"{len(hashed)}/{len(artifacts)}" if artifacts else "0/0"
-        if artifacts and len(hashed) == len(artifacts) and integrity.get("source_commit_sha"):
+        artifacts_list = integrity.get("artifacts") or []
+        hashed = [row for row in artifacts_list if isinstance(row, dict) and row.get("sha256") and row.get("path")]
+        covered = any(isinstance(row, dict) and row.get("path") == READINESS_REL for row in hashed)
+        provenance_value = f"{len(hashed)}/{len(artifacts_list)}" if artifacts_list else "0/0"
+        if artifacts_list and len(hashed) == len(artifacts_list) and integrity.get("source_commit_sha") and covered:
             provenance_status = "available"
-            provenance_notes = [str(integrity.get("source_commit_sha")), f"artifact_count={len(artifacts)}"]
+            provenance_reason = None
+            provenance_notes = [str(integrity.get("source_commit_sha")), f"artifact_count={len(artifacts_list)}", READINESS_REL]
         else:
             provenance_status = "blocked"
-            provenance_reason = "artifact_integrity_incomplete"
+            provenance_reason = "artifact_integrity_incomplete" if covered else "event_to_value_product_readiness_not_in_artifact_integrity_manifest"
+            provenance_value = provenance_value
     else:
-        provenance_reason = "artifact_integrity_not_generated" if integrity_status == "not_generated" else "artifact_integrity_blocked"
+        provenance_value, provenance_status, provenance_reason = (
+            None,
+            integrity_status,
+            "artifact_integrity_not_generated" if integrity_status == "not_generated" else "artifact_integrity_blocked",
+        )
 
     lookahead_status = "blocked"
     lookahead_reason = "no_lookahead_pass_is_not_stored_as_authoritative_state; scripts/check_ci_global_no_lookahead.py must be run to prove the current tree"
     lookahead_notes = ["Checker exists. This audit does not treat a missing stored receipt as a pass."]
 
-    production_status = receipt_status if receipt_status != "available" else str((receipt or {}).get("release_status") or "unknown")
-    production_reason = None
-    production_notes: list[str] = []
     if receipt_status != "available" or receipt is None:
         production_status = receipt_status
         production_reason = "release_integrity_receipt_not_generated" if receipt_status == "not_generated" else "release_integrity_receipt_blocked"
+        production_notes: list[str] = []
+        production_value = None
     else:
         evidence = receipt.get("required_evidence") or {}
         missing = [key for key, row in evidence.items() if not isinstance(row, dict) or row.get("status") != "pass"]
         production_notes = [f"{key}:{(evidence.get(key) or {}).get('status')}" for key in evidence]
+        production_value = receipt.get("release_status")
         if receipt.get("release_status") == "verified" and not missing:
-            production_status = "available"
+            production_status, production_reason = "available", None
         else:
             production_status = "blocked"
             production_reason = str(receipt.get("release_status") or "not_verified")
@@ -286,37 +409,38 @@ def build(write: bool = True) -> dict[str, Any]:
         "product_version": PRODUCT_VERSION,
         "generated_at": (integrity or {}).get("generated_at") if integrity_status == "available" else _as_of(receipt) or _as_of(cases) or _as_of(truth),
         "source_as_of": {
-            key: _as_of(payload)
-            for key, payload in {
-                "financial_truth_qualification": truth,
-                "forecast_readiness": forecast_readiness,
-                "intelligence_cases": cases,
-                "impact_scenarios": scenarios,
-                "financial_forecasts": forecasts,
-                "formal_valuations": valuations,
-                "market_expectations": expectations,
-                "thesis_monitoring": theses,
-                "artifact_integrity": integrity,
-                "release_integrity_receipt": receipt,
-            }.items()
+            "intelligence_cases": _as_of(cases),
+            "financial_truth_qualification": _as_of(truth),
+            "forecast_readiness": _as_of(forecast_readiness),
+            "impact_scenarios": _as_of(scenarios),
+            "financial_forecasts": _as_of(forecasts),
+            "formal_valuations": _as_of(valuations),
+            "market_expectations": _as_of(expectations),
+            "thesis_monitoring": _as_of(theses),
+            "artifact_integrity": _as_of(integrity),
+            "release_integrity_receipt": _as_of(receipt),
         },
         "source_commit_sha": (integrity or {}).get("source_commit_sha") if integrity_status == "available" else None,
         "build_cutoff_at": (integrity or {}).get("build_cutoff_at") if integrity_status == "available" else None,
+        "selected_symbols": selected,
+        "selected_symbols_source_path": selection["source_path"],
+        "selected_symbols_status": selection["status"],
+        "selected_symbols_reason": selection["reason"],
     }
 
     metrics = [
-        _metric("model_ready_companies", "Model-ready companies", status=model_ready_metric_status, value=model_ready_value, denominator=ALPHA_DENOMINATORS["model_ready_companies"], definition="Count of companies whose financial_truth_qualification.status is qualified. Forecast-readiness input_ready is not treated as model-ready.", source_path=SOURCE_PATHS["financial_truth_qualification"], as_of=_as_of(truth), reason=model_ready_reason, notes=model_ready_notes),
-        _metric("published_cases", "Published Intelligence Cases", status=published_status, value=published_value, denominator=ALPHA_DENOMINATORS["published_cases"], definition="Count of intelligence_cases with status Published. Observed seeds are listed in notes but do not count.", source_path=SOURCE_PATHS["intelligence_cases"], as_of=_as_of(cases), reason=published_reason, notes=published_notes),
-        _metric("financially_computed_scenarios", "Financially computed scenarios", status=scenario_metric_status, value=scenario_value, denominator=ALPHA_DENOMINATORS["financially_computed_scenarios"], definition="Count of impact_scenarios rows whose revenue/EBITDA/EPS/FCF/valuation impact is non-null. Bear/Base/Bull shells with insufficient_data do not count.", source_path=SOURCE_PATHS["impact_scenarios"], as_of=_as_of(scenarios), reason=scenario_reason, notes=scenario_notes),
-        _metric("live_forecast_outputs", "Live forecast outputs", status=forecast_metric_status, value=forecast_count, denominator=ALPHA_DENOMINATORS["live_forecast_outputs"], definition="Count of financial_forecasts companies with status computed and a non-null result.", source_path=SOURCE_PATHS["financial_forecasts"], as_of=_as_of(forecasts), reason=forecast_reason, notes=forecast_notes),
-        _metric("live_valuation_outputs", "Live valuation outputs", status=valuation_metric_status, value=valuation_count, denominator=ALPHA_DENOMINATORS["live_valuation_outputs"], definition="Count of formal_valuations companies with status computed and a non-null result.", source_path=SOURCE_PATHS["formal_valuations"], as_of=_as_of(valuations), reason=valuation_reason, notes=valuation_notes),
-        _metric("live_market_expectation_outputs", "Live market-expectation outputs", status=expectation_metric_status, value=expectation_count, denominator=ALPHA_DENOMINATORS["live_market_expectation_outputs"], definition="Count of market_expectations companies with status computed and a non-null result.", source_path=SOURCE_PATHS["market_expectations"], as_of=_as_of(expectations), reason=expectation_reason, notes=expectation_notes),
+        _metric("model_ready_companies", "Model-ready companies", status=model_ready_status, value=model_ready_value, denominator=ALPHA_DENOMINATORS["model_ready_companies"], definition="Count of selected golden-case companies whose financial_truth_qualification.status is qualified. Unselected companies and forecast-readiness input_ready do not count.", source_path=SOURCE_PATHS["financial_truth_qualification"], as_of=_as_of(truth), reason=model_ready_reason, notes=model_ready_notes),
+        _metric("published_cases", "Published Intelligence Cases", status=published_status, value=published_value, denominator=ALPHA_DENOMINATORS["published_cases"], definition="Count of Published intelligence_cases on the selected golden-case symbols only.", source_path=SOURCE_PATHS["intelligence_cases"], as_of=_as_of(cases), reason=published_reason, notes=published_notes),
+        _metric("financially_computed_scenarios", "Financially computed scenarios", status=scenario_status, value=scenario_value, denominator=ALPHA_DENOMINATORS["financially_computed_scenarios"], definition="Count of selected-symbol impact_scenarios with explicit computed/modelled status, a finite numeric impact, and source/lineage. unmodeled_driver and blocked/not_generated/inferred rows do not count even if a number is present.", source_path=SOURCE_PATHS["impact_scenarios"], as_of=_as_of(scenarios), reason=scenario_reason, notes=scenario_notes),
+        _metric("live_forecast_outputs", "Live forecast outputs", status=forecast_status, value=forecast_count, denominator=ALPHA_DENOMINATORS["live_forecast_outputs"], definition="Count of selected-symbol financial_forecasts rows with status computed and a non-null result.", source_path=SOURCE_PATHS["financial_forecasts"], as_of=_as_of(forecasts), reason=forecast_reason, notes=forecast_notes),
+        _metric("live_valuation_outputs", "Live valuation outputs", status=valuation_status, value=valuation_count, denominator=ALPHA_DENOMINATORS["live_valuation_outputs"], definition="Count of selected-symbol formal_valuations rows with status computed and a non-null result.", source_path=SOURCE_PATHS["formal_valuations"], as_of=_as_of(valuations), reason=valuation_reason, notes=valuation_notes),
+        _metric("live_market_expectation_outputs", "Live market-expectation outputs", status=expectation_status, value=expectation_count, denominator=ALPHA_DENOMINATORS["live_market_expectation_outputs"], definition="Count of selected-symbol market_expectations rows with status computed and a non-null result.", source_path=SOURCE_PATHS["market_expectations"], as_of=_as_of(expectations), reason=expectation_reason, notes=expectation_notes),
         _metric("ask_henneth_test_status", "Ask Henneth test status", status=ask_status, value=None, denominator=None, definition="Live Ask runtime proof must be a stored receipt. Local contract checkers are not treated as a production pass.", source_path="scripts/check_ask_henneth.mjs", as_of=None, reason=ask_reason, notes=ask_notes),
-        _metric("active_thesis_monitoring_cases", "Active thesis-monitoring cases", status=thesis_metric_status, value=thesis_value, denominator=None, definition="Sum of thesis_monitoring.active_thesis_count across the 20-company pilot.", source_path=SOURCE_PATHS["thesis_monitoring"], as_of=_as_of(theses), reason=thesis_reason, notes=thesis_notes),
-        _metric("required_output_nulls", "Required-output nulls", status=nulls_status, value=nulls_value, denominator=None, definition="Count of forecast, valuation, and market-expectation company rows whose result is null or not computed.", source_path="state/company_intel/financial_forecasts.json", as_of=_as_of(forecasts), reason=nulls_reason, notes=nulls_notes),
-        _metric("provenance_coverage", "Provenance coverage", status=provenance_status, value=provenance_value, denominator=None, definition="Hashed artifact_integrity rows versus artifact_count, plus source_commit_sha from the finalizer envelope.", source_path=SOURCE_PATHS["artifact_integrity"], as_of=_as_of(integrity), reason=provenance_reason, notes=provenance_notes),
+        _metric("active_thesis_monitoring_cases", "Active thesis-monitoring cases", status=thesis_status, value=thesis_value, denominator=None, definition="Sum of thesis_monitoring.active_thesis_count across the selected golden-case symbols only.", source_path=SOURCE_PATHS["thesis_monitoring"], as_of=_as_of(theses), reason=thesis_reason, notes=thesis_notes),
+        _metric("required_output_nulls", "Required-output nulls", status=nulls_status, value=nulls_value, denominator=None, definition="Count of selected-symbol forecast, valuation, and market-expectation rows whose result is null or not computed.", source_path="state/company_intel/financial_forecasts.json", as_of=_as_of(forecasts), reason=nulls_reason, notes=nulls_notes),
+        _metric("provenance_coverage", "Provenance coverage", status=provenance_status, value=provenance_value, denominator=None, definition="Hashed artifact_integrity rows versus artifact_count. The generated readiness artifact itself must be covered by the sealed manifest.", source_path=SOURCE_PATHS["artifact_integrity"], as_of=_as_of(integrity), reason=provenance_reason, notes=provenance_notes),
         _metric("no_lookahead_status", "No-lookahead status", status=lookahead_status, value=None, denominator=None, definition="No stored no-lookahead receipt exists. A pass requires scripts/check_ci_global_no_lookahead.py against the current tree.", source_path="scripts/check_ci_global_no_lookahead.py", as_of=None, reason=lookahead_reason, notes=lookahead_notes),
-        _metric("production_gate_status", "Production gate status", status=production_status, value=(receipt or {}).get("release_status") if receipt_status == "available" else None, denominator=None, definition="Release is verified only when release_integrity_receipt.release_status is verified and every required_evidence row is pass for one commit.", source_path=SOURCE_PATHS["release_integrity_receipt"], as_of=_as_of(receipt), reason=production_reason, notes=production_notes),
+        _metric("production_gate_status", "Production gate status", status=production_status, value=production_value, denominator=None, definition="Release is verified only when release_integrity_receipt.release_status is verified and every required_evidence row is pass for one commit.", source_path=SOURCE_PATHS["release_integrity_receipt"], as_of=_as_of(receipt), reason=production_reason, notes=production_notes),
     ]
 
     blocked = [row["id"] for row in metrics if row["status"] != "available"]
@@ -325,12 +449,15 @@ def build(write: bool = True) -> dict[str, Any]:
         "product_version": PRODUCT_VERSION,
         "kind": "event_to_value_product_readiness",
         "as_of": lineage["generated_at"],
+        "status": "blocked" if not selected_ready else "available",
+        "reason": selection["reason"] if not selected_ready else None,
         "policy": {
             "research_only": True,
             "read_only_audit": True,
             "no_inferred_success": True,
             "no_advice": True,
             "distinct_from_intelligence_case_ui": True,
+            "selected_golden_cases_only": True,
         },
         "source_paths": SOURCE_PATHS,
         "lineage": lineage,
@@ -340,6 +467,10 @@ def build(write: bool = True) -> dict[str, Any]:
             "blocked_metric_count": len(blocked),
             "blocked_metric_ids": blocked,
             "alpha_denominators": ALPHA_DENOMINATORS,
+            "selected_symbols": selected,
+            "selected_symbols_status": selection["status"],
+            "selected_symbols_reason": selection["reason"],
+            "selected_symbols_source_path": selection["source_path"],
             "forecast_readiness_input_ready_count": ((forecast_readiness or {}).get("summary") or {}).get("ready_company_count") if forecast_ready_status == "available" else None,
             "forecast_readiness_is_not_model_ready": True,
         },
@@ -347,7 +478,11 @@ def build(write: bool = True) -> dict[str, Any]:
     }
     if write:
         save_json(OUT, result)
-        print(f"event_to_value_product_readiness: {result['summary']['available_metric_count']}/{result['summary']['metric_count']} available")
+        print(
+            "event_to_value_product_readiness: "
+            f"{result['summary']['available_metric_count']}/{result['summary']['metric_count']} available "
+            f"selected={selected or selection['reason']}"
+        )
     return result
 
 

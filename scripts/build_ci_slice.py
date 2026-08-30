@@ -12,6 +12,7 @@ from pathlib import Path
 from psx_data import ROOT, STATE, load_json, save_json
 from document_events import event_is_supported
 from build_ci_completion_matrix import slice_summary as _completion_matrix_summary
+from build_event_to_value_product_readiness import project_readiness as _project_event_to_value_product_readiness
 
 APP_DIR = ROOT / "Henneth Desk 2.CI.0"
 OUT = APP_DIR / "data" / "company_intelligence.json"
@@ -1158,16 +1159,7 @@ def build():
             "event_review_windows": event_review_windows.get("meta") or {"count": len(rows), "status": "unknown"},
             "financial_engine_assumption_gaps": _assumption_gap_meta(financial_engine_assumptions),
             "private_thesis_storage": _private_thesis_storage_meta(private_thesis_receipt),
-            "event_to_value_product_readiness": {
-                "product_version": event_to_value_product_readiness.get("product_version"),
-                "as_of": event_to_value_product_readiness.get("as_of"),
-                "summary": event_to_value_product_readiness.get("summary") or {},
-                "lineage": event_to_value_product_readiness.get("lineage") or {},
-                "policy": event_to_value_product_readiness.get("policy") or {},
-                "metrics": event_to_value_product_readiness.get("metrics") or [],
-                "status": "available" if event_to_value_product_readiness.get("metrics") else "not_generated",
-                "reason": None if event_to_value_product_readiness.get("metrics") else "event_to_value_product_readiness_not_generated",
-            },
+            "event_to_value_product_readiness": _project_event_to_value_product_readiness(event_to_value_product_readiness),
             "note": "Private company-intelligence slice. Research, not advice. No execution or order path.",
         },
         "tickers": rows,
