@@ -340,6 +340,130 @@
       "Modelled": "Blocked: no source-qualified financial impact model or owner-approved assumptions are attached.",
       "Published": "Blocked: no forecast, valuation, reverse-expectations output, investor conclusion or release gate is complete."
      },
+     "cement_input_readiness": {
+      "status": "observed_only",
+      "kernel_activation": "blocked",
+      "attribution": {
+       "acquirer": "MLCF",
+       "target": "PIOC",
+       "follow_through": "dispatch_inclusion"
+      },
+      "source_join": [
+       {
+        "role": "primary_control",
+        "canonical_event_id": "evt_6e9b520a122b8f2d4a59",
+        "legacy_event_id": "evt_cb44dc32c91b0c5712a5",
+        "document_id": "psx:267429",
+        "page": 3,
+        "content_sha256": "98cf83c9a286999c8006a7f73f490248f26694c9edbfc815b3dbd9188ee22a54",
+        "evidence_sha256": "70a110272f96813a4d6693b596c99d9dbc4c4781d42a519543557a04ec4c581f",
+        "published_at": "2025-12-18T12:52:00+05:00",
+        "effective_date": "2025-12-18",
+        "available_on": "2025-12-18"
+       },
+       {
+        "role": "operating_follow_through",
+        "canonical_event_id": "evt_25bfb52e721191c7b644",
+        "legacy_event_id": "evt_25bfb52e721191c7b644",
+        "document_id": "psx:275425",
+        "page": 4,
+        "content_sha256": "744a0c710043d6e0a7de36bb99f21ca50f0f9346f6972b957f6733a47deae11f",
+        "evidence_sha256": "137a01f15530276a63688c01bc7eff20dd4b27154314786149fa9d8b22c21b2f",
+        "published_at": "2026-04-28T10:25:00+05:00",
+        "effective_date": "2026-04-28",
+        "available_on": "2026-04-28"
+       }
+      ],
+      "financial_truth_counters": {
+       "annual_income_triplets": {
+        "required": 5,
+        "present": 3,
+        "qualified_periods": [
+         "2026-06-30",
+         "2025-06-30",
+         "2024-06-30"
+        ]
+       },
+       "qualified_reported_quarter_fact_sets": {
+        "required": 8,
+        "present": 3,
+        "qualified_periods": [
+         "2026-03-31",
+         "2025-12-31",
+         "2025-09-30"
+        ]
+       },
+       "annual_operating_cash_flow": {
+        "required": 5,
+        "present": 2,
+        "qualified_periods": [
+         "2025-06-30",
+         "2024-06-30"
+        ]
+       },
+       "share_count": {
+        "status": "missing_official_share_count_capital_note_tie_out",
+        "available_on": null,
+        "source": null
+       }
+      },
+      "event_specific_kernel_requirements": {
+       "incremental_revenue_pkr": {
+        "value": null,
+        "source_label": "retained_state_only:no_source_qualified_event_input",
+        "status": "missing_source_bound_input"
+       },
+       "incremental_margin_pct": {
+        "value": null,
+        "source_label": "retained_state_only:no_source_qualified_event_input",
+        "status": "missing_source_bound_input"
+       },
+       "incremental_eps_pkr": {
+        "value": null,
+        "source_label": "retained_state_only:no_source_qualified_event_input",
+        "status": "missing_source_bound_input"
+       },
+       "incremental_operating_cash_flow_pkr": {
+        "value": null,
+        "source_label": "retained_state_only:no_source_qualified_event_input",
+        "status": "missing_source_bound_input"
+       },
+       "incremental_debt_pkr": {
+        "value": null,
+        "source_label": "retained_state_only:no_source_qualified_event_input",
+        "status": "missing_source_bound_input"
+       },
+       "incremental_share_count": {
+        "value": null,
+        "source_label": "retained_state_only:no_source_qualified_event_input",
+        "status": "missing_source_bound_input"
+       },
+       "cement_capacity_units": {
+        "value": null,
+        "source_label": "retained_state_only:no_source_qualified_event_input",
+        "status": "missing_source_bound_input"
+       },
+       "commissioning_or_ramp_schedule": {
+        "value": null,
+        "source_label": "retained_state_only:no_source_qualified_event_input",
+        "status": "missing_source_bound_input"
+       },
+       "capex_schedule_pkr": {
+        "value": null,
+        "source_label": "retained_state_only:no_source_qualified_event_input",
+        "status": "missing_source_bound_input"
+       },
+       "fuel_power_freight_cost_schedule": {
+        "value": null,
+        "source_label": "retained_state_only:no_source_qualified_event_input",
+        "status": "missing_source_bound_input"
+       }
+      },
+      "guardrails": {
+       "dispatch_inclusion_not_standalone_pioc_earnings_or_capacity_impact": true,
+       "no_numeric_model_output": true
+      }
+     },
      "policy": {
       "observed_only": true,
       "no_forecast": true,
