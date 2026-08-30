@@ -14,66 +14,65 @@ from mlcf_financial_truth_gap_contract import (
     FACT_EVIDENCE_MISSING,
     MISSING_COUNTERPART,
     RAW_BYTES_MISSING,
-    RETAINED_MLCF_DOCUMENTS,
+    RETAINED_MLCF_DOCUMENT_IDS,
+    build_case_from_retained_state,
     evaluate_case,
     validate_case,
 )
 
 
-BASELINE = {
-    "annual_income_triplets": {
-        "required": 5,
-        "present": 3,
-        "qualified_periods": ["2026-06-30", "2025-06-30", "2024-06-30"],
-    },
-    "qualified_reported_quarter_fact_sets": {
-        "required": 8,
-        "present": 3,
-        "qualified_periods": ["2026-03-31", "2025-12-31", "2025-09-30"],
-    },
-    "annual_operating_cash_flow": {
-        "required": 5,
-        "present": 2,
-        "qualified_periods": ["2025-06-30", "2024-06-30"],
-    },
-    "share_count": {
-        "required": 1,
-        "present": 0,
-        "status": "missing_official_share_count_capital_note_tie_out",
-    },
-    "source_conflict_count": 0,
-}
-
-
-def _candidate(row: dict[str, str]) -> dict[str, object]:
-    return {
-        **row,
-        "raw_retained": False,
-        "text_extractable": False,
-        "parser_status": "image_only_under_financial_statement_v2_policy",
-        "evidence_status": "metadata_only_blocked",
-        "blocker_reason": BLOCKER,
-        "facts": [],
-    }
-
-
 def build_case() -> dict[str, object]:
-    return {
-        "schema_version": CASE_SCHEMA,
-        "symbol": "MLCF",
-        "as_of_date": "2026-08-31",
-        "baseline": copy.deepcopy(BASELINE),
-        "candidates": [_candidate(row) for row in RETAINED_MLCF_DOCUMENTS],
-    }
+    root = Path(__file__).resolve().parents[1]
+    def load(relative: str) -> dict[str, object]:
+        return json.loads((root / relative).read_text(encoding="utf-8"))
+    return build_case_from_retained_state(
+        load("state/company_intel/financial_truth_qualification.json"),
+        load("state/company_documents.json"),
+        load("config/ci_reprocess_review_manifest.json"),
+        load("state/research_index.json"),
+        load("state/company_intel/financial_evidence_reconciliation.json"),
+        as_of_date="2026-08-31",
+    )
 
 
 def _assert_reject(case: dict[str, object], checks: list[str], label: str) -> None:
     try:
         validate_case(case)
+        authoritative = build_case()
+        if case.get("baseline") != authoritative.get("baseline") or case.get("candidates") != authoritative.get("candidates"):
+            raise ValueError("case differs from retained authoritative state")
     except ValueError:
         checks.append(label)
         return
     raise AssertionError(f"adversarial case was accepted: {label}")
+
+
+def _assert_source_reject(states: dict[str, dict[str, object]], checks: list[str], label: str) -> None:
+    try:
+        build_case_from_retained_state(
+            states["financial_truth"],
+            states["company_documents"],
+            states["review_manifest"],
+            states["research_index"],
+            states["reconciliation"],
+            as_of_date="2026-08-31",
+        )
+    except ValueError:
+        checks.append(label)
+        return
+    raise AssertionError(f"source drift was accepted: {label}")
+
+
+def _load_states() -> dict[str, dict[str, object]]:
+    root = Path(__file__).resolve().parents[1]
+    paths = {
+        "financial_truth": "state/company_intel/financial_truth_qualification.json",
+        "company_documents": "state/company_documents.json",
+        "review_manifest": "config/ci_reprocess_review_manifest.json",
+        "research_index": "state/research_index.json",
+        "reconciliation": "state/company_intel/financial_evidence_reconciliation.json",
+    }
+    return {key: json.loads((root / relative).read_text(encoding="utf-8")) for key, relative in paths.items()}
 
 
 def _walk(value: object, path: tuple[str, ...] = ()):
@@ -124,6 +123,17 @@ def main() -> int:
     if result["coverage_before"]["annual_income_triplets"]["present"] != 3:
         raise AssertionError("result shares mutable baseline")
     checks.append("determinism and isolation")
+
+    for label, mutate in (
+        ("financial coverage drift", lambda s: s["financial_truth"]["companies"]["MLCF"]["annual_income_triplets"].__setitem__("present", 2)),
+        ("required source hash drift", lambda s: s["review_manifest"]["documents"][RETAINED_MLCF_DOCUMENT_IDS[0]].__setitem__("content_sha256", "0" * 64)),
+        ("company document drift", lambda s: s["company_documents"]["documents"][RETAINED_MLCF_DOCUMENT_IDS[0]].__setitem__("evidence", [{"page": 1}])),
+        ("research index drift", lambda s: s["research_index"]["documents"][RETAINED_MLCF_DOCUMENT_IDS[0]].__setitem__("url", "https://example.invalid")),
+        ("reconciliation evidence drift", lambda s: s["reconciliation"]["companies"]["MLCF"]["facts"].append({"source": {"document_id": RETAINED_MLCF_DOCUMENT_IDS[0]}})),
+    ):
+        states = copy.deepcopy(_load_states())
+        mutate(states)
+        _assert_source_reject(states, checks, label)
 
     for label, mutate in (
         ("missing candidate", lambda c: c["candidates"].pop()),

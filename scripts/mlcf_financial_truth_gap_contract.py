@@ -14,7 +14,7 @@ from datetime import date, datetime
 from typing import Any
 
 
-CONTRACT_VERSION = "mlcf_financial_truth_gap_contract_v1"
+CONTRACT_VERSION = "mlcf_financial_truth_gap_contract_v2"
 CASE_SCHEMA = "mlcf_financial_truth_gap_case_v1"
 SOURCE = "PSX DPS"
 BLOCKER = "image_only_under_financial_statement_v2_geometry_gate"
@@ -22,44 +22,7 @@ MISSING_COUNTERPART = "no_text_readable_exact_official_counterpart_retained"
 RAW_BYTES_MISSING = "raw_document_bytes_not_retained_for_reprocess"
 FACT_EVIDENCE_MISSING = "fact_level_source_evidence_missing"
 
-RETAINED_MLCF_DOCUMENTS: tuple[dict[str, str], ...] = (
-    {
-        "document_id": "psx:219092",
-        "symbol": "MLCF",
-        "period_end": "2023-09-30",
-        "period_type": "interim",
-        "title": "MLCF Financial Results for the Quarter Ended 30.09.2023",
-        "published_at": "2023-10-27T08:50:00+05:00",
-        "available_on": "2023-10-27",
-        "source": SOURCE,
-        "source_url": "https://dps.psx.com.pk/download/document/219092.pdf",
-        "content_sha256": "0d0f108957f32cd911be7bcdc5b01dcc46c1c4872dad81dc59e5e0a453977f05",
-    },
-    {
-        "document_id": "psx:225623",
-        "symbol": "MLCF",
-        "period_end": "2023-12-31",
-        "period_type": "interim",
-        "title": "MLCF-Financial Results 31.12.2023",
-        "published_at": "2024-02-21T08:50:00+05:00",
-        "available_on": "2024-02-21",
-        "source": SOURCE,
-        "source_url": "https://dps.psx.com.pk/download/document/225623.pdf",
-        "content_sha256": "921c6bffa5fb9fe8c001bc76288a60d811ddfc9acb2357753008d57f129cbf42",
-    },
-    {
-        "document_id": "psx:229941",
-        "symbol": "MLCF",
-        "period_end": "2024-03-31",
-        "period_type": "interim",
-        "title": "MLCF-Financial Results 31.03.2024",
-        "published_at": "2024-04-25T12:56:00+05:00",
-        "available_on": "2024-04-25",
-        "source": SOURCE,
-        "source_url": "https://dps.psx.com.pk/download/document/229941.pdf",
-        "content_sha256": "9de20cf7a12f2e049ca2cf437be2089f300e7fc8aed8adae4d0be97492374030",
-    },
-)
+RETAINED_MLCF_DOCUMENT_IDS: tuple[str, ...] = ("psx:219092", "psx:225623", "psx:229941")
 
 _BASELINE_KEYS = {
     "annual_income_triplets",
@@ -99,31 +62,6 @@ _FORBIDDEN_FIELD_TERMS = {
 }
 _DATE_RE = re.compile(r"\d{4}-\d{2}-\d{2}\Z")
 _HASH_RE = re.compile(r"[0-9a-f]{64}\Z")
-
-EXPECTED_BASELINE: dict[str, Any] = {
-    "annual_income_triplets": {
-        "required": 5,
-        "present": 3,
-        "qualified_periods": ["2026-06-30", "2025-06-30", "2024-06-30"],
-    },
-    "qualified_reported_quarter_fact_sets": {
-        "required": 8,
-        "present": 3,
-        "qualified_periods": ["2026-03-31", "2025-12-31", "2025-09-30"],
-    },
-    "annual_operating_cash_flow": {
-        "required": 5,
-        "present": 2,
-        "qualified_periods": ["2025-06-30", "2024-06-30"],
-    },
-    "share_count": {
-        "required": 1,
-        "present": 0,
-        "status": "missing_official_share_count_capital_note_tie_out",
-    },
-    "source_conflict_count": 0,
-}
-
 
 def _fail(path: str, message: str) -> None:
     raise ValueError(f"{path}: {message}")
@@ -196,12 +134,6 @@ def _validate_baseline(value: Any, path: str = "baseline") -> None:
         _fail(f"{path}.share_count", "invalid count or status")
     if value.get("source_conflict_count") != 0:
         _fail(f"{path}.source_conflict_count", "must be zero")
-    if value != EXPECTED_BASELINE:
-        _fail(path, "does not match the committed MLCF qualification baseline")
-
-
-def _expected_documents() -> dict[str, dict[str, str]]:
-    return {item["document_id"]: item for item in RETAINED_MLCF_DOCUMENTS}
 
 
 def _validate_candidate(value: Any, index: int, as_of_date: str) -> dict[str, Any]:
@@ -210,12 +142,14 @@ def _validate_candidate(value: Any, index: int, as_of_date: str) -> dict[str, An
         _fail(path, "must be an object")
     _closed_keys(value, _CANDIDATE_KEYS, path)
     document_id = value.get("document_id")
-    expected = _expected_documents().get(document_id)
-    if expected is None:
+    if document_id not in RETAINED_MLCF_DOCUMENT_IDS:
         _fail(f"{path}.document_id", "is not an approved retained MLCF document")
-    for key in expected:
-        if value.get(key) != expected[key]:
-            _fail(f"{path}.{key}", "does not match the retained official receipt")
+    if value.get("symbol") != "MLCF" or value.get("period_type") != "interim" or value.get("source") != SOURCE:
+        _fail(path, "issuer, period type or source is not the retained MLCF scope")
+    if value.get("source_url") != f"https://dps.psx.com.pk/download/document/{document_id.split(':', 1)[1]}.pdf":
+        _fail(f"{path}.source_url", "must be the canonical PSX document URL")
+    if not isinstance(value.get("title"), str) or not value["title"]:
+        _fail(f"{path}.title", "must be present")
     _iso_datetime(value.get("published_at"), f"{path}.published_at")
     available_on = _iso_date(value.get("available_on"), f"{path}.available_on")
     if available_on > as_of_date:
@@ -243,12 +177,159 @@ def validate_case(case: Any) -> dict[str, Any]:
     as_of_date = _iso_date(case.get("as_of_date"), "as_of_date")
     _validate_baseline(case.get("baseline"))
     candidates = case.get("candidates")
-    if not isinstance(candidates, list) or len(candidates) != len(RETAINED_MLCF_DOCUMENTS):
+    if not isinstance(candidates, list) or len(candidates) != len(RETAINED_MLCF_DOCUMENT_IDS):
         _fail("candidates", "must contain exactly the three retained MLCF documents")
     validated = [_validate_candidate(item, index, as_of_date) for index, item in enumerate(candidates)]
-    expected_ids = [item["document_id"] for item in RETAINED_MLCF_DOCUMENTS]
+    expected_ids = list(RETAINED_MLCF_DOCUMENT_IDS)
     if [item["document_id"] for item in validated] != expected_ids:
         _fail("candidates", "must use deterministic retained-document order")
+    return case
+
+
+def _state_row(state: Any, path: str) -> dict[str, Any]:
+    if not isinstance(state, dict):
+        _fail(path, "must be an object")
+    return state
+
+
+def _require_equal(actual: Any, expected: Any, path: str) -> None:
+    if actual != expected:
+        _fail(path, "does not match retained authoritative state")
+
+
+def _build_candidate_from_state(
+    document_id: str,
+    company_documents: dict[str, Any],
+    review_manifest: dict[str, Any],
+    research_index: dict[str, Any],
+    reconciliation: dict[str, Any],
+) -> dict[str, Any]:
+    manifest = _state_row((review_manifest.get("documents") or {}).get(document_id), f"review_manifest.documents.{document_id}")
+    document = _state_row((company_documents.get("documents") or {}).get(document_id), f"company_documents.documents.{document_id}")
+    index = _state_row((research_index.get("documents") or {}).get(document_id), f"research_index.documents.{document_id}")
+    if manifest.get("approval_status") != "owner_approved" or manifest.get("classification") != "financial_results":
+        _fail(f"review_manifest.documents.{document_id}", "source is not an approved financial-results tranche")
+    safe_period = _state_row(manifest.get("safe_period"), f"review_manifest.documents.{document_id}.safe_period")
+    if safe_period.get("period_type") != "interim" or safe_period.get("source") != "owner_approved_exact_source":
+        _fail(f"review_manifest.documents.{document_id}.safe_period", "period provenance is not exact")
+    for key in ("document_id", "symbol", "period", "title", "published_at", "source_url", "content_sha256"):
+        if not manifest.get(key):
+            _fail(f"review_manifest.documents.{document_id}.{key}", "required retained-source metadata is missing")
+    _require_equal(manifest.get("document_id"), document_id, f"review_manifest.documents.{document_id}.document_id")
+    _require_equal(manifest.get("symbol"), "MLCF", f"review_manifest.documents.{document_id}.symbol")
+    _require_equal(safe_period.get("period_end"), manifest.get("period"), f"review_manifest.documents.{document_id}.safe_period.period_end")
+    _require_equal(document.get("doc_id"), document_id, f"company_documents.documents.{document_id}.doc_id")
+    _require_equal(document.get("tickers"), ["MLCF"], f"company_documents.documents.{document_id}.tickers")
+    for key in ("title", "published_at", "source_url", "content_sha256"):
+        _require_equal(document.get(key), manifest.get(key), f"company_documents.documents.{document_id}.{key}")
+    _require_equal(document.get("source"), SOURCE, f"company_documents.documents.{document_id}.source")
+    _require_equal(document.get("local_sha256"), manifest.get("content_sha256"), f"company_documents.documents.{document_id}.local_sha256")
+    for key, expected in (("status", "ready"), ("stale", False), ("error", None), ("media_type", "application/pdf"), ("content_length", None)):
+        _require_equal(document.get(key), expected, f"company_documents.documents.{document_id}.{key}")
+    for key in ("evidence", "events", "facts", "versions"):
+        _require_equal(document.get(key), [], f"company_documents.documents.{document_id}.{key}")
+    for key in ("brief_evidence", "ledger_changes"):
+        if key in document:
+            _require_equal(document.get(key), [], f"company_documents.documents.{document_id}.{key}")
+    forbidden_document_fields = {"local_path", "raw_path", "raw_bytes", "text", "extracted_text", "parser_version", "parser_revision"}
+    if forbidden_document_fields.intersection(document):
+        _fail(f"company_documents.documents.{document_id}", "raw/text/parser state drifted into the metadata-only record")
+    for key, expected in (
+        ("id", document_id),
+        ("source", SOURCE),
+        ("source_type", "filing"),
+        ("doc_type", "financial_results"),
+        ("date", manifest.get("published_at", "")[:10]),
+        ("published_at", manifest.get("published_at")),
+        ("tickers", ["MLCF"]),
+        ("title", manifest.get("title")),
+        ("url", manifest.get("source_url")),
+        ("official_document_id", document_id.split(":", 1)[1]),
+    ):
+        _require_equal(index.get(key), expected, f"research_index.documents.{document_id}.{key}")
+    if not isinstance(reconciliation.get("facts"), list):
+        _fail("reconciliation.facts", "must remain a list")
+    candidate_source_ids = {
+        str((fact.get("source") or {}).get("document_id"))
+        for fact in reconciliation.get("facts") or []
+        if isinstance(fact, dict) and (fact.get("source") or {}).get("document_id")
+    }
+    if document_id in candidate_source_ids:
+        _fail(f"reconciliation.facts[{document_id}]", "candidate document has retained fact evidence")
+    return {
+        "document_id": document_id,
+        "symbol": "MLCF",
+        "period_end": safe_period.get("period_end"),
+        "period_type": safe_period.get("period_type"),
+        "title": manifest.get("title"),
+        "published_at": manifest.get("published_at"),
+        "available_on": manifest.get("published_at", "")[:10],
+        "source": SOURCE,
+        "source_url": manifest.get("source_url"),
+        "content_sha256": manifest.get("content_sha256"),
+        "raw_retained": False,
+        "text_extractable": False,
+        "parser_status": "image_only_under_financial_statement_v2_policy",
+        "evidence_status": "metadata_only_blocked",
+        "blocker_reason": BLOCKER,
+        "facts": [],
+    }
+
+
+def build_case_from_retained_state(
+    financial_truth_state: dict[str, Any],
+    company_documents_state: dict[str, Any],
+    review_manifest_state: dict[str, Any],
+    research_index_state: dict[str, Any],
+    reconciliation_state: dict[str, Any],
+    *,
+    as_of_date: str,
+) -> dict[str, Any]:
+    """Build the gap case from retained state; this function never writes or fetches."""
+    qualification = _state_row((financial_truth_state.get("companies") or {}).get("MLCF"), "financial_truth.companies.MLCF")
+    reconciliation = _state_row((reconciliation_state.get("companies") or {}).get("MLCF"), "reconciliation.companies.MLCF")
+    if "MLCF" not in (financial_truth_state.get("pilot_symbols") or []):
+        _fail("financial_truth.pilot_symbols", "MLCF is outside the retained qualification universe")
+    if qualification.get("symbol") != "MLCF" or qualification.get("status") != "not_qualified":
+        _fail("financial_truth.companies.MLCF", "qualification status drifted")
+    if (qualification.get("financial_tie_out") or {}).get("status") != "blocked":
+        _fail("financial_truth.companies.MLCF.financial_tie_out", "financial tie-out is no longer blocked")
+    if (qualification.get("downstream") or {}).get("forecast") != "blocked_financial_truth_not_qualified":
+        _fail("financial_truth.companies.MLCF.downstream.forecast", "formal forecast gate drifted")
+    if (qualification.get("policy") or {}).get("raw_financial_values") != "not_emitted":
+        _fail("financial_truth.companies.MLCF.policy.raw_financial_values", "raw financial output policy drifted")
+    if reconciliation.get("symbol") != "MLCF" or reconciliation.get("source_conflict_count") != 0:
+        _fail("reconciliation.companies.MLCF", "reconciliation conflict state drifted")
+    share_state = qualification.get("share_count") or {}
+    if share_state.get("status") != "missing_official_share_count_capital_note_tie_out" or share_state.get("available_on") is not None or share_state.get("source") is not None:
+        _fail("financial_truth.companies.MLCF.share_count", "share-count tie-out status drifted")
+    baseline = {
+        "annual_income_triplets": copy.deepcopy(qualification.get("annual_income_triplets")),
+        "qualified_reported_quarter_fact_sets": copy.deepcopy(qualification.get("qualified_reported_quarter_fact_sets")),
+        "annual_operating_cash_flow": copy.deepcopy(qualification.get("annual_operating_cash_flow")),
+        "share_count": {
+            "required": 1,
+            "present": 0 if (qualification.get("share_count") or {}).get("status") == "missing_official_share_count_capital_note_tie_out" else 1,
+            "status": (qualification.get("share_count") or {}).get("status"),
+        },
+        "source_conflict_count": reconciliation.get("source_conflict_count"),
+    }
+    candidate_ids = set(RETAINED_MLCF_DOCUMENT_IDS)
+    manifest_ids = set(review_manifest_state.get("document_ids") or [])
+    if not candidate_ids.issubset(manifest_ids):
+        _fail("review_manifest.document_ids", "retained MLCF tranche is incomplete")
+    candidates = [
+        _build_candidate_from_state(document_id, company_documents_state, review_manifest_state, research_index_state, reconciliation)
+        for document_id in RETAINED_MLCF_DOCUMENT_IDS
+    ]
+    case = {
+        "schema_version": CASE_SCHEMA,
+        "symbol": "MLCF",
+        "as_of_date": as_of_date,
+        "baseline": baseline,
+        "candidates": candidates,
+    }
+    validate_case(case)
     return case
 
 
@@ -321,7 +402,8 @@ def evaluate_case(case: dict[str, Any]) -> dict[str, Any]:
 __all__ = [
     "CASE_SCHEMA",
     "CONTRACT_VERSION",
-    "RETAINED_MLCF_DOCUMENTS",
+    "RETAINED_MLCF_DOCUMENT_IDS",
+    "build_case_from_retained_state",
     "evaluate_case",
     "validate_case",
 ]
