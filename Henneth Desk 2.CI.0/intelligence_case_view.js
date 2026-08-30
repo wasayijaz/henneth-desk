@@ -18,6 +18,7 @@
   ]);
   const SECTION_KEYS = new Set(SECTIONS.map(([key]) => key));
   const SECTION_STATUSES = new Set(["available", "blocked", "empty_state"]);
+  const EPISTEMIC_TYPES = Object.freeze(["reported_fact", "derived_fact", "inference", "scenario", "forecast"]);
 
   function parsePath(pathname) {
     const match = String(pathname || "").match(PATH);
@@ -39,6 +40,13 @@
     return typeof value === "string" && /^[A-Z0-9]+$/.test(value);
   }
 
+  function sectionHasContent(section) {
+    return (typeof section.text === "string" && section.text.trim())
+      || (Array.isArray(section.items) && section.items.length)
+      || (Array.isArray(section.dimensions) && section.dimensions.length)
+      || (Array.isArray(section.formulas) && section.formulas.length);
+  }
+
   function validateSection(section) {
     if (!section || typeof section !== "object" || Array.isArray(section)) return "section_shape_invalid";
     if (section.status !== undefined && (!SECTION_STATUSES.has(section.status) || typeof section.status !== "string")) {
@@ -54,12 +62,14 @@
     if (seenIds.has(caseObject.case_id)) return "duplicate_case_id";
     seenIds.add(caseObject.case_id);
     if (!LIFECYCLE.includes(caseObject.status)) return "case_lifecycle_invalid";
+    if (!EPISTEMIC_TYPES.includes(caseObject.epistemic_type)) return "case_epistemic_type_invalid";
     if (caseObject.sections !== undefined) {
       if (!caseObject.sections || typeof caseObject.sections !== "object" || Array.isArray(caseObject.sections)) return "sections_shape_invalid";
       for (const [key, section] of Object.entries(caseObject.sections)) {
         if (!SECTION_KEYS.has(key)) return "section_key_invalid";
         const reason = validateSection(section);
         if (reason) return reason;
+        if (section.status === "available" && !sectionHasContent(section)) return "section_content_invalid";
       }
     }
     return null;
@@ -109,16 +119,20 @@
   function explicitSection(caseObject, key) {
     const section = caseObject?.sections?.[key];
     if (!section || typeof section !== "object" || Array.isArray(section)) return null;
-    const status = section.status || (section.items || section.text || section.dimensions || section.formulas ? "available" : "blocked");
+    const hasContent = Boolean(sectionHasContent(section));
+    const status = section.status === "available" && !hasContent
+      ? "empty_state"
+      : section.status || (hasContent ? "available" : "empty_state");
     const reason = section.reason
       || (String(status).startsWith("blocked") ? (section.status || "not_yet_modelled") : null)
+      || (status === "empty_state" ? "section_content_missing" : null)
       || (status === "available" ? null : "not_yet_modelled");
     return {
       key,
       status,
       reason,
       text: section.text,
-      epistemic_type: section.epistemic_type,
+      epistemic_type: EPISTEMIC_TYPES.includes(section.epistemic_type) ? section.epistemic_type : caseObject?.epistemic_type,
       items: section.items,
       dimensions: section.dimensions,
       formulas: section.formulas,
@@ -133,7 +147,7 @@
     if (key === "conclusion") {
       const text = String(caseObject?.summary || "").trim();
       return text
-        ? { key, status: "available", reason: null, text, epistemic_type: caseObject.epistemic_type || "reported_fact" }
+        ? { key, status: "available", reason: null, text, epistemic_type: EPISTEMIC_TYPES.includes(caseObject.epistemic_type) ? caseObject.epistemic_type : null }
         : blocked(key, "not_yet_modelled");
     }
     if (key === "evidence") {
@@ -167,6 +181,7 @@
   window.HennethIntelligenceCaseView = {
     PATH,
     LIFECYCLE,
+    EPISTEMIC_TYPES,
     SECTIONS,
     parsePath,
     companyCaseRow,
