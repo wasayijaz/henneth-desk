@@ -11,6 +11,7 @@ from __future__ import annotations
 import json
 import math
 import re
+import hashlib
 from typing import Any, Mapping
 
 import enp_event_contract
@@ -55,6 +56,7 @@ _ENVELOPE_KEYS = frozenset({
     "adapter_version",
     "status",
     "fixture_only",
+    "fixture_identity",
     "case_id",
     "symbol",
     "case_family",
@@ -66,6 +68,7 @@ _ENVELOPE_KEYS = frozenset({
     "formal_output_readiness",
     "policy",
 })
+_FIXTURE_IDENTITY_KEYS = frozenset({"id", "spec_sha256"})
 _HYPOTHESIS_KEYS = frozenset({
     "status",
     "source_contract",
@@ -81,6 +84,7 @@ _RUN_KEYS = frozenset({
     "formula_id",
     "contract_version",
     "input_sha256",
+    "fixture_hash",
     "input_fields",
     "quarterly_schedule",
     "quarterly_schedule_rows",
@@ -124,6 +128,8 @@ _POLICY_KEYS = frozenset({
     "synthetic_numbers_fixture_only",
     "real_retained_path_zero_numeric_outputs",
 })
+_FIXTURE_ID = "mari_enp_synthetic_fixture_v1"
+_FIXTURE_SPEC_SHA256 = hashlib.sha256(_FIXTURE_ID.encode("ascii")).hexdigest()
 _FORBIDDEN_PHRASES = (
     "buy",
     "sell",
@@ -178,8 +184,18 @@ _SOURCE_REF_KEYS = frozenset({
     "content_sha256",
     "evidence_sha256",
     "event_id",
+    "date",
 })
 _SOURCE_REF_REQUIRED = frozenset({"id", "label"})
+_CANONICAL_SOURCE_PAGES = {"psx:260446": 1, "psx:265594": 3}
+_CANONICAL_SOURCE_HASHES = {
+    "psx:260446": "c13ccb4de58ad005bca106942721490593fe219ff45906c68280ea7856192e42",
+    "psx:265594": "cdc3f69157f5e5803238ba347ecb4e96f7297479df87d345739896913de8aae4",
+}
+_CANONICAL_EVIDENCE_HASHES = {
+    "psx:260446": "dd83c62cb781e2a57f5ae595a7184ea786a3e5890f7f7cc96cd93e23f958a177",
+    "psx:265594": "56c298f041bd756cd184e75d122f5a95cc6879f4b5fa037786007948b76d3d83",
+}
 _ANALYST_REF_KEYS = frozenset({"note_id", "note"})
 _BLOCKED_STATE_KEYS = frozenset({"status", "reason"})
 _FORMAL_PRODUCT_ORDER = ("financial_forecasts", "formal_valuations", "market_expectations")
@@ -208,6 +224,19 @@ def validate_envelope(envelope: Mapping[str, Any]) -> list[str]:
     violations.extend(_keys(envelope, _ENVELOPE_KEYS, "envelope"))
     violations.extend(_json_finite(envelope, "envelope"))
     violations.extend(_forbidden_language(envelope, "envelope"))
+
+    fixture_identity = envelope.get("fixture_identity")
+    if envelope.get("status") == "computed_fixture":
+        if not isinstance(fixture_identity, Mapping):
+            violations.append("fixture_identity: computed fixture requires identity")
+        else:
+            violations.extend(_keys(fixture_identity, _FIXTURE_IDENTITY_KEYS, "fixture_identity"))
+            if fixture_identity.get("id") != _FIXTURE_ID:
+                violations.append("fixture_identity.id: must match deterministic fixture")
+            if fixture_identity.get("spec_sha256") != _FIXTURE_SPEC_SHA256:
+                violations.append("fixture_identity.spec_sha256: must match deterministic fixture")
+    elif fixture_identity is not None:
+        violations.append("fixture_identity: retained blocked envelope must be null")
 
     if envelope.get("schema_version") != SCHEMA_VERSION:
         violations.append(f"schema_version: must equal {SCHEMA_VERSION}")
@@ -352,6 +381,10 @@ def _validate_run(run: Mapping[str, Any], prefix: str, fixture_only: bool) -> li
             violations.append(f"{prefix}: retained real path cannot be computed by this adapter")
         if not (isinstance(input_sha, str) and re.fullmatch(r"[0-9a-f]{64}", input_sha)):
             violations.append(f"{prefix}.input_sha256: computed run requires a sha256")
+        fixture_hash = run.get("fixture_hash")
+        expected_fixture_hash = fixture_receipt_hash(run)
+        if fixture_hash != expected_fixture_hash:
+            violations.append(f"{prefix}.fixture_hash: must bind deterministic fixture inputs")
         values = run.get("values")
         if isinstance(values, Mapping):
             violations.extend(_validate_values(values, f"{prefix}.values"))
@@ -378,6 +411,8 @@ def _validate_run(run: Mapping[str, Any], prefix: str, fixture_only: bool) -> li
     elif status == "blocked":
         if input_sha is not None:
             violations.append(f"{prefix}.input_sha256: blocked run must be null")
+        if run.get("fixture_hash") is not None:
+            violations.append(f"{prefix}.fixture_hash: blocked run must be null")
         if run.get("values") is not None or run.get("per_share") is not None or run.get("probabilities") is not None:
             violations.append(f"{prefix}: blocked run must not carry numeric sections")
         if run.get("quarterly_schedule_rows") != 0:
@@ -403,6 +438,16 @@ def _validate_run(run: Mapping[str, Any], prefix: str, fixture_only: bool) -> li
     return violations
 
 
+def fixture_receipt_hash(run: Mapping[str, Any]) -> str:
+    """Hash all computed fixture receipts so output edits cannot hide behind a flag swap."""
+    payload = {key: run.get(key) for key in sorted(_RUN_KEYS - {"fixture_hash"})}
+    try:
+        encoded = json.dumps(payload, sort_keys=True, separators=(",", ":"), ensure_ascii=True, allow_nan=False).encode("utf-8")
+    except (TypeError, ValueError):
+        return ""
+    return hashlib.sha256(encoded).hexdigest()
+
+
 def _validate_lineage(entry: Mapping[str, Any], prefix: str) -> list[str]:
     violations = _keys(entry, _LINEAGE_KEYS, prefix)
     if entry.get("case_label") is not None and entry.get("case_label") not in SCENARIO_LABELS:
@@ -420,9 +465,11 @@ def _validate_lineage(entry: Mapping[str, Any], prefix: str) -> list[str]:
     if available_on is not None and not (isinstance(available_on, str) and _DATE_RE.fullmatch(available_on)):
         violations.append(f"{prefix}.available_on: must be null or an ISO date")
     if label_type == "source":
+        if available_on is None:
+            violations.append(f"{prefix}.available_on: source lineage requires a retained date")
         ref = entry.get("source_ref")
         if isinstance(ref, Mapping):
-            violations.extend(_validate_source_ref(ref, f"{prefix}.source_ref"))
+            violations.extend(_validate_source_ref(ref, f"{prefix}.source_ref", available_on))
         else:
             violations.append(f"{prefix}.source_ref: source lineage requires id and label")
         if entry.get("analyst_ref") is not None:
@@ -532,22 +579,52 @@ def _validate_schedule(schedule: list[Any], prefix: str) -> list[str]:
     return violations
 
 
-def _validate_source_ref(ref: Mapping[str, Any], prefix: str) -> list[str]:
+def _validate_source_ref(ref: Mapping[str, Any], prefix: str, available_on: Any = None) -> list[str]:
     violations = _keys(ref, _SOURCE_REF_REQUIRED, prefix, optional=_SOURCE_REF_KEYS - _SOURCE_REF_REQUIRED)
     for key in _SOURCE_REF_REQUIRED:
         if not _nonempty(ref.get(key)):
             violations.append(f"{prefix}.{key}: must be a non-empty string")
+    source_id = ref.get("id")
+    if isinstance(source_id, str) and not re.fullmatch(r"(?:psx:\d+|issuer:[0-9a-f]{24}|henneth_state:[A-Za-z0-9:_-]+)", source_id):
+        violations.append(f"{prefix}.id: must be a canonical retained source ID")
     if "url" in ref and ref.get("url") is not None and not _nonempty(ref.get("url")):
         violations.append(f"{prefix}.url: must be null or a non-empty string")
     if "path" in ref and ref.get("path") is not None and not _nonempty(ref.get("path")):
         violations.append(f"{prefix}.path: must be null or a non-empty string")
+    if not (_nonempty(ref.get("url")) or _nonempty(ref.get("path"))):
+        violations.append(f"{prefix}: authoritative source requires a URL or path")
     for key in ("content_sha256", "evidence_sha256"):
         value = ref.get(key)
         if value is not None and not (isinstance(value, str) and _SHA_RE.fullmatch(value)):
             violations.append(f"{prefix}.{key}: must be null or a sha256")
+    if not (isinstance(ref.get("content_sha256"), str) and _SHA_RE.fullmatch(ref["content_sha256"])):
+        violations.append(f"{prefix}.content_sha256: authoritative source requires a sha256")
+    source_date = ref.get("date")
+    if not (isinstance(source_date, str) and _DATE_RE.fullmatch(source_date)):
+        violations.append(f"{prefix}.date: authoritative source requires an ISO date")
+    elif available_on != source_date:
+        violations.append(f"{prefix}.date: must match lineage available_on")
     page = ref.get("page")
     if page is not None and (isinstance(page, bool) or not isinstance(page, int) or page < 1):
         violations.append(f"{prefix}.page: must be null or an integer >= 1")
+    if page is None:
+        violations.append(f"{prefix}.page: authoritative source requires a document page")
+    if isinstance(source_id, str) and source_id.startswith("psx:"):
+        document_id = source_id.split(":", 1)[1]
+        locator = f"{ref.get('url') or ''} {ref.get('path') or ''}"
+        if document_id not in locator:
+            violations.append(f"{prefix}: PSX source ID must bind its document URL/path")
+        if _nonempty(ref.get("path")) and document_id not in ref["path"]:
+            violations.append(f"{prefix}.path: must bind its PSX document ID")
+        expected_page = _CANONICAL_SOURCE_PAGES.get(source_id)
+        if expected_page is not None and page != expected_page:
+            violations.append(f"{prefix}.page: does not match retained document page")
+        expected_hash = _CANONICAL_SOURCE_HASHES.get(source_id)
+        if expected_hash is not None and ref.get("content_sha256") != expected_hash:
+            violations.append(f"{prefix}.content_sha256: does not match retained document hash")
+        expected_evidence_hash = _CANONICAL_EVIDENCE_HASHES.get(source_id)
+        if ref.get("evidence_sha256") is not None and expected_evidence_hash is not None and ref.get("evidence_sha256") != expected_evidence_hash:
+            violations.append(f"{prefix}.evidence_sha256: does not match retained evidence hash")
     if "event_id" in ref and ref.get("event_id") is not None and not _nonempty(ref.get("event_id")):
         violations.append(f"{prefix}.event_id: must be null or a non-empty string")
     return violations

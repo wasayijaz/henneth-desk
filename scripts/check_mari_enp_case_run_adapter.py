@@ -195,6 +195,30 @@ def main() -> None:
           any("retained blocked run must carry zero numeric outputs" in violation
               for violation in contract.validate_envelope(bad_real)))
 
+    missing_date = copy.deepcopy(real)
+    missing_date["input_lineage"][0]["available_on"] = None
+    check("contract rejects missing retained source date",
+          any("source lineage requires a retained date" in violation
+              for violation in contract.validate_envelope(missing_date)))
+    arbitrary_source = copy.deepcopy(real)
+    src = next(row for row in arbitrary_source["input_lineage"] if row["source_ref"])["source_ref"]
+    src["id"] = "arbitrary-id"
+    check("contract rejects arbitrary source ID",
+          any("canonical retained source ID" in violation for violation in contract.validate_envelope(arbitrary_source)))
+    for field, value in (("url", "https://evil.invalid/doc.pdf"), ("path", "forged/path.pdf"), ("page", 99), ("content_sha256", "0" * 64), ("evidence_sha256", "1" * 64)):
+        forged = copy.deepcopy(real)
+        source = next(row for row in forged["input_lineage"] if row["source_ref"])["source_ref"]
+        source[field] = value
+        check(f"contract rejects forged source {field}",
+              contract.validate_envelope(forged) != [])
+    converted = copy.deepcopy(real)
+    converted["status"] = "computed_fixture"
+    converted["fixture_only"] = True
+    converted["fixture_identity"] = {"id": contract._FIXTURE_ID, "spec_sha256": contract._FIXTURE_SPEC_SHA256}
+    converted["scenario_runs"] = copy.deepcopy(fixture["scenario_runs"])
+    check("contract rejects blocked-to-fixture conversion",
+          contract.validate_envelope(converted) != [])
+
     adversarial = [
         ("invented values",
          lambda c: c["scenario_runs"][0].update(values={"invented": 123}),
