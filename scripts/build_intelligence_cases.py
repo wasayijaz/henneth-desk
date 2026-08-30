@@ -7,8 +7,10 @@ models must earn their own dedicated builders/checks.
 from __future__ import annotations
 
 from datetime import datetime, timedelta, timezone
+import re
 from typing import Any
 
+from operating_events import evidence_hash
 from psx_data import STATE, load_json, save_json
 
 
@@ -25,6 +27,13 @@ MLCF_CANONICAL_CONTROL_EVENT_ID = "evt_6e9b520a122b8f2d4a59"
 MLCF_LEGACY_CONTROL_EVENT_ID = PUBLIC_OFFER_EVENT_ID
 MLCF_CANONICAL_FOLLOW_THROUGH_EVENT_ID = FOLLOW_THROUGH_EVENT_ID
 MLCF_LEGACY_FOLLOW_THROUGH_EVENT_ID = FOLLOW_THROUGH_EVENT_ID
+MLCF_PRIMARY_CONTROL_EVIDENCE_SHA256 = "70a110272f96813a4d6693b596c99d9dbc4c4781d42a519543557a04ec4c581f"
+MLCF_FOLLOW_THROUGH_EVIDENCE_SHA256 = "725f04c3c6d7f36bbffd6c205d574750f65b8c0546ae9f1b50683fe07b292b66"
+MLCF_PRIMARY_CONTROL_CONTENT_SHA256 = "98cf83c9a286999c8006a7f73f490248f26694c9edbfc815b3dbd9188ee22a54"
+MLCF_FOLLOW_THROUGH_CONTENT_SHA256 = "744a0c710043d6e0a7de36bb99f21ca50f0f9346f6972b957f6733a47deae11f"
+MLCF_PRIMARY_CONTROL_URL = "https://dps.psx.com.pk/download/document/267429.pdf"
+MLCF_FOLLOW_THROUGH_URL = "https://dps.psx.com.pk/download/document/275425.pdf"
+HEX64 = re.compile(r"^[0-9a-f]{64}$", re.I)
 
 MARI_CASE_ID = "case_mari_offshore_exploration_blocks_observed_v1"
 MARI_EVENT_ID = "evt_ddf99590afb6dacddbde"
@@ -77,34 +86,120 @@ def _document(documents: dict[str, Any], doc_id: str) -> dict[str, Any] | None:
     return doc if isinstance(doc, dict) else None
 
 
-def _financial_truth_counters() -> dict[str, Any]:
-    qualification = load_json(STATE / "company_intel" / "financial_truth_qualification.json", {})
-    row = (qualification.get("companies") or {}).get("MLCF") or {}
-    annual = row.get("annual_income_triplets") or {}
-    quarters = row.get("qualified_reported_quarter_fact_sets") or {}
-    ocf = row.get("annual_operating_cash_flow") or {}
-    share_count = row.get("share_count") or {}
+def _fail(message: str) -> None:
+    raise ValueError(message)
+
+
+def _require_equal(label: str, actual: Any, expected: Any) -> None:
+    if actual != expected:
+        _fail(f"MLCF source mismatch for {label}: {actual!r}")
+
+
+def _require_iso_time(label: str, value: Any, expected: str) -> None:
+    _require_equal(label, _iso_time(value), expected)
+
+
+def _require_date(label: str, value: Any, expected: str) -> None:
+    _require_equal(label, _date(value), expected)
+
+
+def _require_hex64(label: str, value: Any) -> str:
+    if not isinstance(value, str) or not HEX64.fullmatch(value):
+        _fail(f"MLCF invalid 64-character hash for {label}")
+    return value.lower()
+
+
+def _require_text(label: str, value: Any) -> str:
+    if not isinstance(value, str) or not value.strip():
+        _fail(f"MLCF missing source text for {label}")
+    return value
+
+
+def _first_evidence(row: dict[str, Any], label: str) -> dict[str, Any]:
+    evidence = row.get("evidence")
+    if not isinstance(evidence, list) or not evidence or not isinstance(evidence[0], dict):
+        _fail(f"MLCF missing evidence row for {label}")
+    return evidence[0]
+
+
+def _available_on(doc: dict[str, Any]) -> str | None:
+    return _date(doc.get("available_on") or doc.get("published_at"))
+
+
+def _validate_counter_section(
+    row: dict[str, Any],
+    section: str,
+) -> dict[str, Any]:
+    source = row.get(section)
+    if not isinstance(source, dict):
+        _fail(f"MLCF financial counter section missing: {section}")
+    allowed = {"required", "present", "qualified_periods"}
+    if set(source) != allowed:
+        _fail(f"MLCF financial counter keys mismatch: {section}")
+    required = source.get("required")
+    present = source.get("present")
+    periods = source.get("qualified_periods")
+    if (
+        not isinstance(required, int)
+        or isinstance(required, bool)
+        or not isinstance(present, int)
+        or isinstance(present, bool)
+        or required < 0
+        or present < 0
+        or present > required
+    ):
+        _fail(f"MLCF financial counter range/type mismatch: {section}")
+    if not isinstance(periods, list) or len(periods) != present:
+        _fail(f"MLCF financial counter period count mismatch: {section}")
+    clean_periods = []
+    for index, period in enumerate(periods):
+        parsed = _date(period)
+        if not isinstance(period, str) or parsed != period:
+            _fail(f"MLCF financial counter invalid period: {section}[{index}]")
+        clean_periods.append(period)
     return {
-        "annual_income_triplets": {
-            "required": annual.get("required"),
-            "present": annual.get("present"),
-            "qualified_periods": list(annual.get("qualified_periods") or []),
-        },
-        "qualified_reported_quarter_fact_sets": {
-            "required": quarters.get("required"),
-            "present": quarters.get("present"),
-            "qualified_periods": list(quarters.get("qualified_periods") or []),
-        },
-        "annual_operating_cash_flow": {
-            "required": ocf.get("required"),
-            "present": ocf.get("present"),
-            "qualified_periods": list(ocf.get("qualified_periods") or []),
-        },
-        "share_count": {
-            "status": share_count.get("status"),
-            "available_on": share_count.get("available_on"),
-            "source": share_count.get("source"),
-        },
+        "required": required,
+        "present": present,
+        "qualified_periods": clean_periods,
+    }
+
+
+def _validate_share_count_counter(row: dict[str, Any]) -> dict[str, Any]:
+    source = row.get("share_count")
+    if not isinstance(source, dict):
+        _fail("MLCF share-count counter section missing")
+    allowed = {"status", "available_on", "source"}
+    if set(source) != allowed:
+        _fail("MLCF share-count counter keys mismatch")
+    status = source.get("status")
+    available_on = source.get("available_on")
+    source_label = source.get("source")
+    if not isinstance(status, str) or not status:
+        _fail("MLCF share-count counter status mismatch")
+    if available_on is not None and (_date(available_on) != available_on):
+        _fail("MLCF share-count counter available_on mismatch")
+    if source_label is not None and not isinstance(source_label, str):
+        _fail("MLCF share-count counter source type mismatch")
+    return {
+        "status": status,
+        "available_on": available_on,
+        "source": source_label,
+    }
+
+
+def _financial_truth_counters(qualification: dict[str, Any] | None = None) -> dict[str, Any]:
+    if qualification is None:
+        qualification = load_json(STATE / "company_intel" / "financial_truth_qualification.json", {})
+    if not isinstance(qualification, dict):
+        _fail("MLCF financial truth qualification source is not an object")
+    row = (qualification.get("companies") or {}).get("MLCF") or {}
+    if not isinstance(row, dict):
+        _fail("MLCF financial truth qualification row is not an object")
+    return {
+        "annual_income_triplets": _validate_counter_section(row, "annual_income_triplets"),
+        "qualified_reported_quarter_fact_sets": _validate_counter_section(row, "qualified_reported_quarter_fact_sets"),
+        "annual_operating_cash_flow": _validate_counter_section(row, "annual_operating_cash_flow"),
+        "share_count": _validate_share_count_counter(row),
     }
 
 
@@ -130,12 +225,130 @@ def _null_kernel_requirements() -> dict[str, dict[str, Any]]:
     }
 
 
-def _cement_input_readiness(refs: list[dict[str, Any]]) -> dict[str, Any]:
-    primary, follow_through = refs
-    if primary.get("event_id") != PUBLIC_OFFER_EVENT_ID or primary.get("document_id") != PUBLIC_OFFER_DOC_ID:
-        raise ValueError("MLCF primary source join mismatch")
-    if follow_through.get("event_id") != FOLLOW_THROUGH_EVENT_ID or follow_through.get("document_id") != FOLLOW_THROUGH_DOC_ID:
-        raise ValueError("MLCF follow-through source join mismatch")
+def _validate_mlcf_legacy_source(
+    event: dict[str, Any],
+    doc: dict[str, Any],
+    *,
+    legacy_event_id: str,
+    canonical_event_id: str,
+    doc_id: str,
+    source_url: str,
+    page: int,
+    content_sha256: str,
+    evidence_sha256: str,
+    published_at: str,
+    effective_date: str,
+    available_on: str,
+) -> dict[str, Any]:
+    _require_equal(f"{legacy_event_id}.event_id", event.get("event_id"), legacy_event_id)
+    _require_equal(f"{legacy_event_id}.doc_id", event.get("doc_id"), doc_id)
+    _require_equal(f"{legacy_event_id}.event_type", event.get("event_type"), "acquisition")
+    _require_equal(f"{legacy_event_id}.priority_weight", event.get("priority_weight"), 4)
+    _require_iso_time(f"{legacy_event_id}.event_date", event.get("event_date"), published_at)
+    evidence = _first_evidence(event, legacy_event_id)
+    _require_equal(f"{legacy_event_id}.evidence.source_url", evidence.get("source_url"), source_url)
+    _require_equal(f"{legacy_event_id}.evidence.page", evidence.get("page"), page)
+    text = _require_text(f"{legacy_event_id}.evidence.text", evidence.get("text"))
+    _require_equal(
+        f"{legacy_event_id}.evidence_sha256",
+        evidence_hash(doc_id, evidence.get("source_url"), evidence.get("page"), text),
+        evidence_sha256,
+    )
+    _require_equal(f"{doc_id}.doc_id", doc.get("doc_id"), doc_id)
+    _require_equal(f"{doc_id}.source", doc.get("source"), "PSX DPS")
+    _require_equal(f"{doc_id}.source_url", doc.get("source_url"), source_url)
+    _require_equal(f"{doc_id}.content_sha256", _require_hex64(f"{doc_id}.content_sha256", doc.get("content_sha256")), content_sha256)
+    _require_equal(f"{doc_id}.local_sha256", _require_hex64(f"{doc_id}.local_sha256", doc.get("local_sha256")), content_sha256)
+    _require_iso_time(f"{doc_id}.published_at", doc.get("published_at"), published_at)
+    _require_equal(f"{doc_id}.available_on", _available_on(doc), available_on)
+    _require_date(f"{legacy_event_id}.effective_date", event.get("event_date"), effective_date)
+    return {
+        "canonical_event_id": canonical_event_id,
+        "legacy_event_id": legacy_event_id,
+        "document_id": doc_id,
+        "page": page,
+        "content_sha256": content_sha256,
+        "evidence_sha256": evidence_sha256,
+        "published_at": published_at,
+        "effective_date": effective_date,
+        "available_on": available_on,
+    }
+
+
+def _validate_mlcf_canonical_control_source(event: dict[str, Any]) -> None:
+    _require_equal("canonical_control.event_id", event.get("event_id"), MLCF_CANONICAL_CONTROL_EVENT_ID)
+    _require_equal("canonical_control.company_id", event.get("company_id"), "MLCF")
+    _require_equal("canonical_control.symbol", event.get("symbol"), "MLCF")
+    _require_equal("canonical_control.event_type", event.get("event_type"), "acquisition_divestment")
+    _require_equal("canonical_control.event_subtype", event.get("event_subtype"), "acquisition")
+    _require_equal("canonical_control.intelligence_type", event.get("intelligence_type"), "reported_fact")
+    _require_equal("canonical_control.priority_weight", event.get("priority_weight"), 4)
+    _require_iso_time("canonical_control.detected_at", event.get("detected_at"), "2025-12-18T12:52:00+05:00")
+    _require_equal("canonical_control.effective_date", event.get("effective_date"), "2025-12-18")
+    _require_equal("canonical_control.source_url", event.get("source_url"), MLCF_PRIMARY_CONTROL_URL)
+    evidence = _first_evidence(event, MLCF_CANONICAL_CONTROL_EVENT_ID)
+    _require_equal("canonical_control.evidence.document_id", evidence.get("document_id"), PUBLIC_OFFER_DOC_ID)
+    _require_equal("canonical_control.evidence.source", evidence.get("source"), "PSX DPS")
+    _require_equal("canonical_control.evidence.source_url", evidence.get("source_url"), MLCF_PRIMARY_CONTROL_URL)
+    _require_equal("canonical_control.evidence.page", evidence.get("page"), 3)
+    _require_text("canonical_control.evidence.text", evidence.get("text"))
+    _require_equal(
+        "canonical_control.evidence.content_sha256",
+        _require_hex64("canonical_control.evidence.content_sha256", evidence.get("content_sha256")),
+        MLCF_PRIMARY_CONTROL_CONTENT_SHA256,
+    )
+    _require_equal(
+        "canonical_control.evidence.evidence_sha256",
+        _require_hex64("canonical_control.evidence.evidence_sha256", evidence.get("evidence_sha256")),
+        MLCF_PRIMARY_CONTROL_EVIDENCE_SHA256,
+    )
+
+
+def _mlcf_source_join(
+    public_offer: dict[str, Any],
+    follow_through: dict[str, Any],
+    canonical_control: dict[str, Any],
+    public_offer_doc: dict[str, Any],
+    follow_through_doc: dict[str, Any],
+) -> list[dict[str, Any]]:
+    _validate_mlcf_canonical_control_source(canonical_control)
+    primary = _validate_mlcf_legacy_source(
+        public_offer,
+        public_offer_doc,
+        legacy_event_id=MLCF_LEGACY_CONTROL_EVENT_ID,
+        canonical_event_id=MLCF_CANONICAL_CONTROL_EVENT_ID,
+        doc_id=PUBLIC_OFFER_DOC_ID,
+        source_url=MLCF_PRIMARY_CONTROL_URL,
+        page=3,
+        content_sha256=MLCF_PRIMARY_CONTROL_CONTENT_SHA256,
+        evidence_sha256=MLCF_PRIMARY_CONTROL_EVIDENCE_SHA256,
+        published_at="2025-12-18T12:52:00+05:00",
+        effective_date="2025-12-18",
+        available_on="2025-12-18",
+    )
+    follow = _validate_mlcf_legacy_source(
+        follow_through,
+        follow_through_doc,
+        legacy_event_id=MLCF_LEGACY_FOLLOW_THROUGH_EVENT_ID,
+        canonical_event_id=MLCF_CANONICAL_FOLLOW_THROUGH_EVENT_ID,
+        doc_id=FOLLOW_THROUGH_DOC_ID,
+        source_url=MLCF_FOLLOW_THROUGH_URL,
+        page=4,
+        content_sha256=MLCF_FOLLOW_THROUGH_CONTENT_SHA256,
+        evidence_sha256=MLCF_FOLLOW_THROUGH_EVIDENCE_SHA256,
+        published_at="2026-04-28T10:25:00+05:00",
+        effective_date="2026-04-28",
+        available_on="2026-04-28",
+    )
+    return [
+        {"role": "primary_control", **primary},
+        {"role": "operating_follow_through", **follow},
+    ]
+
+
+def _cement_input_readiness(source_join: list[dict[str, Any]], counters: dict[str, Any]) -> dict[str, Any]:
+    if len(source_join) != 2:
+        raise ValueError("MLCF cement readiness source join mismatch")
     return {
         "status": "observed_only",
         "kernel_activation": "blocked",
@@ -144,33 +357,8 @@ def _cement_input_readiness(refs: list[dict[str, Any]]) -> dict[str, Any]:
             "target": "PIOC",
             "follow_through": "dispatch_inclusion",
         },
-        "source_join": [
-            {
-                "role": "primary_control",
-                "canonical_event_id": MLCF_CANONICAL_CONTROL_EVENT_ID,
-                "legacy_event_id": MLCF_LEGACY_CONTROL_EVENT_ID,
-                "document_id": primary.get("document_id"),
-                "page": primary.get("page"),
-                "content_sha256": primary.get("content_sha256"),
-                "evidence_sha256": "70a110272f96813a4d6693b596c99d9dbc4c4781d42a519543557a04ec4c581f",
-                "published_at": "2025-12-18T12:52:00+05:00",
-                "effective_date": "2025-12-18",
-                "available_on": "2025-12-18",
-            },
-            {
-                "role": "operating_follow_through",
-                "canonical_event_id": MLCF_CANONICAL_FOLLOW_THROUGH_EVENT_ID,
-                "legacy_event_id": MLCF_LEGACY_FOLLOW_THROUGH_EVENT_ID,
-                "document_id": follow_through.get("document_id"),
-                "page": follow_through.get("page"),
-                "content_sha256": follow_through.get("content_sha256"),
-                "evidence_sha256": "137a01f15530276a63688c01bc7eff20dd4b27154314786149fa9d8b22c21b2f",
-                "published_at": "2026-04-28T10:25:00+05:00",
-                "effective_date": "2026-04-28",
-                "available_on": "2026-04-28",
-            },
-        ],
-        "financial_truth_counters": _financial_truth_counters(),
+        "source_join": source_join,
+        "financial_truth_counters": counters,
         "event_specific_kernel_requirements": _null_kernel_requirements(),
         "guardrails": {
             "dispatch_inclusion_not_standalone_pioc_earnings_or_capacity_impact": True,
@@ -235,18 +423,13 @@ def _mlcf_case(
         if value is None:
             missing.append(label)
     if missing:
-        return None, missing, []
+        raise ValueError(f"MLCF source chain incomplete: {', '.join(missing)}")
     assert public_offer is not None and follow_through is not None
     assert public_offer_doc is not None and follow_through_doc is not None
     assert canonical_control is not None
-    canonical_evidence = (canonical_control.get("evidence") or [{}])[0]
-    if (
-        canonical_evidence.get("document_id") != PUBLIC_OFFER_DOC_ID
-        or canonical_evidence.get("page") != 3
-        or canonical_evidence.get("content_sha256") != public_offer_doc.get("content_sha256")
-        or canonical_control.get("effective_date") != "2025-12-18"
-    ):
-        raise ValueError("MLCF canonical control source join/hash/page/date mismatch")
+    source_join = _mlcf_source_join(public_offer, follow_through, canonical_control, public_offer_doc, follow_through_doc)
+    financial_truth_counters = _financial_truth_counters()
+    readiness = _cement_input_readiness(source_join, financial_truth_counters)
     refs = [_evidence_ref(public_offer, public_offer_doc), _evidence_ref(follow_through, follow_through_doc)]
     cutoff = _source_cutoff(refs)
     case = {
@@ -313,7 +496,7 @@ def _mlcf_case(
             "Modelled": "Blocked: no source-qualified financial impact model or owner-approved assumptions are attached.",
             "Published": "Blocked: no forecast, valuation, reverse-expectations output, investor conclusion or release gate is complete.",
         },
-        "cement_input_readiness": _cement_input_readiness(refs),
+        "cement_input_readiness": readiness,
         "policy": {
             "observed_only": True,
             "no_forecast": True,

@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import copy
 import json
 import re
 import subprocess
@@ -7,6 +8,7 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+import build_intelligence_cases as cases_builder
 from build_intelligence_cases import (
     CASE_PRODUCT_VERSION,
     FOLLOW_THROUGH_DOC_ID,
@@ -20,7 +22,6 @@ from build_intelligence_cases import (
     OUT,
     PUBLIC_OFFER_DOC_ID,
     PUBLIC_OFFER_EVENT_ID,
-    build,
 )
 from ci_checker_helpers import without_root_meta
 from psx_data import ROOT, STATE, load_json
@@ -101,7 +102,7 @@ def _assert_mlcf_cement_readiness(case: dict) -> None:
          "2025-12-18T12:52:00+05:00", "2025-12-18", "2025-12-18"),
         (follow, MLCF_CANONICAL_FOLLOW_THROUGH_EVENT_ID, FOLLOW_THROUGH_EVENT_ID, FOLLOW_THROUGH_DOC_ID, 4,
          "744a0c710043d6e0a7de36bb99f21ca50f0f9346f6972b957f6733a47deae11f",
-         "137a01f15530276a63688c01bc7eff20dd4b27154314786149fa9d8b22c21b2f",
+         "725f04c3c6d7f36bbffd6c205d574750f65b8c0546ae9f1b50683fe07b292b66",
          "2026-04-28T10:25:00+05:00", "2026-04-28", "2026-04-28"),
     ]
     for ref, canonical, legacy, doc_id, page, content_hash, evidence_hash, published, effective, available in expected:
@@ -139,6 +140,132 @@ def _assert_mlcf_cement_readiness(case: dict) -> None:
         "no_numeric_model_output": True,
     }:
         raise AssertionError("MLCF cement readiness guardrails mismatch")
+
+
+def _builder_inputs() -> dict:
+    return {
+        "profiles": load_json(STATE / "company_profiles.json", {}),
+        "ledger": load_json(STATE / "company_event_ledger.json", {"companies": {}}),
+        "documents": load_json(STATE / "company_documents.json", {"documents": {}}),
+        "operating_events": load_json(STATE / "company_intel" / "operating_events.json", {"companies": {}}),
+        "financial_truth": load_json(STATE / "company_intel" / "financial_truth_qualification.json", {}),
+    }
+
+
+def _build_with_inputs(inputs: dict) -> None:
+    original_load_json = cases_builder.load_json
+    sources = {
+        STATE / "company_profiles.json": inputs["profiles"],
+        STATE / "company_event_ledger.json": inputs["ledger"],
+        STATE / "company_documents.json": inputs["documents"],
+        STATE / "company_intel" / "operating_events.json": inputs["operating_events"],
+        STATE / "company_intel" / "financial_truth_qualification.json": inputs["financial_truth"],
+    }
+
+    def fake_load_json(path: Path, default: object = None) -> object:
+        for source_path, value in sources.items():
+            if Path(path) == source_path:
+                return copy.deepcopy(value)
+        return original_load_json(path, default)
+
+    cases_builder.load_json = fake_load_json
+    try:
+        cases_builder.build(write=False)
+    finally:
+        cases_builder.load_json = original_load_json
+
+
+def _ledger_event(inputs: dict, event_id: str) -> dict:
+    for event in inputs["ledger"]["companies"]["MLCF"]["events"]:
+        if event.get("event_id") == event_id:
+            return event
+    raise AssertionError(f"fixture missing ledger event: {event_id}")
+
+
+def _document(inputs: dict, doc_id: str) -> dict:
+    doc = inputs["documents"]["documents"].get(doc_id)
+    if not isinstance(doc, dict):
+        raise AssertionError(f"fixture missing document: {doc_id}")
+    return doc
+
+
+def _operating_event(inputs: dict, event_id: str) -> dict:
+    for event in inputs["operating_events"]["companies"]["MLCF"]["events"]:
+        if event.get("event_id") == event_id:
+            return event
+    raise AssertionError(f"fixture missing operating event: {event_id}")
+
+
+def _counter_section(inputs: dict, section: str) -> dict:
+    row = inputs["financial_truth"]["companies"]["MLCF"].get(section)
+    if not isinstance(row, dict):
+        raise AssertionError(f"fixture missing financial counter: {section}")
+    return row
+
+
+def _expect_builder_rejects(label: str, mutate) -> None:
+    inputs = _builder_inputs()
+    mutate(inputs)
+    try:
+        _build_with_inputs(inputs)
+    except ValueError:
+        return
+    raise AssertionError(f"builder accepted bad MLCF source fixture: {label}")
+
+
+def _assert_builder_source_mutation_tests() -> None:
+    _expect_builder_rejects(
+        "bad canonical event id",
+        lambda inputs: _operating_event(inputs, MLCF_CANONICAL_CONTROL_EVENT_ID).__setitem__("event_id", "evt_bad"),
+    )
+    _expect_builder_rejects(
+        "bad legacy event id",
+        lambda inputs: _ledger_event(inputs, PUBLIC_OFFER_EVENT_ID).__setitem__("event_id", "evt_bad"),
+    )
+    _expect_builder_rejects(
+        "bad control content hash",
+        lambda inputs: _document(inputs, PUBLIC_OFFER_DOC_ID).__setitem__("content_sha256", "0" * 64),
+    )
+    _expect_builder_rejects(
+        "bad canonical evidence hash",
+        lambda inputs: _operating_event(inputs, MLCF_CANONICAL_CONTROL_EVENT_ID)["evidence"][0].__setitem__(
+            "evidence_sha256", "0" * 64
+        ),
+    )
+    _expect_builder_rejects(
+        "bad follow-through evidence hash",
+        lambda inputs: _ledger_event(inputs, FOLLOW_THROUGH_EVENT_ID)["evidence"][0].__setitem__("text", "changed"),
+    )
+    _expect_builder_rejects(
+        "bad original page",
+        lambda inputs: _ledger_event(inputs, FOLLOW_THROUGH_EVENT_ID)["evidence"][0].__setitem__("page", 5),
+    )
+    _expect_builder_rejects(
+        "bad source URL",
+        lambda inputs: _document(inputs, PUBLIC_OFFER_DOC_ID).__setitem__(
+            "source_url", "https://example.invalid/document.pdf"
+        ),
+    )
+    _expect_builder_rejects(
+        "bad available date",
+        lambda inputs: _document(inputs, FOLLOW_THROUGH_DOC_ID).__setitem__("available_on", "2026-04-29"),
+    )
+    _expect_builder_rejects(
+        "missing evidence row",
+        lambda inputs: _ledger_event(inputs, FOLLOW_THROUGH_EVENT_ID).__setitem__("evidence", []),
+    )
+    _expect_builder_rejects(
+        "bad counter type",
+        lambda inputs: _counter_section(inputs, "annual_income_triplets").__setitem__("required", "5"),
+    )
+    _expect_builder_rejects(
+        "bad counter range",
+        lambda inputs: _counter_section(inputs, "qualified_reported_quarter_fact_sets").__setitem__("present", 9),
+    )
+    _expect_builder_rejects(
+        "bad counter keys",
+        lambda inputs: _counter_section(inputs, "annual_operating_cash_flow").__setitem__("extra", "not allowed"),
+    )
 
 
 def main() -> None:
@@ -213,8 +340,9 @@ def main() -> None:
     for status in ("Corroborated", "Modelled", "Published"):
         if status not in (mari_case.get("promotion_blocks") or {}):
             raise AssertionError(f"MARI missing promotion block for {status}")
-    if _dump(without_root_meta(state)) != _dump(without_root_meta(build(write=False))):
+    if _dump(without_root_meta(state)) != _dump(without_root_meta(cases_builder.build(write=False))):
         raise AssertionError("intelligence case rebuild is not deterministic")
+    _assert_builder_source_mutation_tests()
 
     result = subprocess.run([sys.executable, str(ROOT / "scripts" / "build_ci_slice.py")], capture_output=True, text=True, timeout=30)
     if result.returncode != 0:
