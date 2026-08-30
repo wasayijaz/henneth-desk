@@ -11,7 +11,7 @@ from datetime import date, timedelta
 from typing import Any
 
 PARSER_VERSION = "financial_statement_v2"
-PARSER_REVISION = "block_geometry_v5"
+PARSER_REVISION = "block_geometry_v6"
 
 INCOME_STATEMENT_LINE_PATTERNS = {
     # ``sales`` by itself also occurs in ``cost of sales``.  Keep revenue
