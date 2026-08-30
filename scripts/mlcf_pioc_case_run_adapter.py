@@ -1,10 +1,10 @@
 """Adapter for the narrow MLCF/PIOC case-run contract.
 
-The real route consumes already-retained IntelligenceCase and readiness
-objects supplied by its caller; it never reads or writes state and is blocked
-until the existing financial-truth/event gates are complete.  The fixture
-route is synthetic and test-only, and calls the existing cement engine for
-isolated bear/base/bull scenarios.
+The real route rederives the retained IntelligenceCase and readiness from
+current producer authorities (never from generated readiness state), and is
+blocked until the existing financial-truth/event gates are complete.  The
+fixture route is synthetic and test-only, and calls the existing cement engine
+for isolated bear/base/bull scenarios.
 """
 from __future__ import annotations
 
