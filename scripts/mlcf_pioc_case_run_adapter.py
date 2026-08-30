@@ -13,21 +13,18 @@ from typing import Any, Mapping
 
 import cement_expansion_contract as cement
 import cement_expansion_engine as engine
-from mlcf_pioc_case_run_contract import CASE_ID, SCENARIOS, validate_case_run
+from mlcf_pioc_case_run_contract import (
+    CASE_ID,
+    SCENARIOS,
+    retained_real_source_lineage,
+    validate_case_run,
+)
 
 FIXTURE_EVENT_REF = "fixture:mlcf-pioc-cement-expansion-v1"
 
 
 def _dedupe(values: list[str]) -> list[str]:
     return sorted({str(value) for value in values if str(value).strip()})
-
-
-def _source_lineage(case: Mapping[str, Any], manifest: Mapping[str, Any]) -> list[dict[str, Any]]:
-    rows: list[dict[str, Any]] = []
-    for ref in (case.get("source_lineage") or []):
-        if isinstance(ref, Mapping):
-            rows.append({"kind": "evidence", "document_id": ref.get("document_id"), "source_ref": dict(ref)})
-    return rows
 
 
 def _readiness(status: str, reasons: list[str], hard_block: bool = True) -> dict[str, Any]:
@@ -69,9 +66,12 @@ def build_real_case_run(
     case = intelligence_case if isinstance(intelligence_case, Mapping) else {}
     manifest = readiness_manifest if isinstance(readiness_manifest, Mapping) else {}
     reasons = _real_block_reasons(case, manifest)
-    lineage = _source_lineage(case, manifest)
-    if not lineage:
-        raise ValueError("real case-run cannot be generated without exact source lineage")
+    lineage, lineage_violations = retained_real_source_lineage(case, manifest)
+    if lineage_violations:
+        raise ValueError(
+            "real case-run cannot be generated without exact retained source lineage: "
+            + "; ".join(lineage_violations)
+        )
     # The real route must not leak known deal amounts as economic operands.
     # A blocked real run exposes no scenario objects at all.  This prevents a
     # consumer from mistaking identity-only placeholders for model outputs.
