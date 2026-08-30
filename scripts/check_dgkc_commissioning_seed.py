@@ -11,6 +11,15 @@ sys.path.insert(0, str(ROOT / "scripts"))
 import dgkc_commissioning_seed_contract as contract
 
 
+class HostileKey:
+    """Key whose equality/hash explode if validators probe the attacker map."""
+    def __hash__(self) -> int:
+        return hash("companies")
+
+    def __eq__(self, other: object) -> bool:
+        raise RuntimeError("hostile key equality invoked")
+
+
 def check(name: str, condition: bool) -> None:
     if not condition:
         raise AssertionError(name)
@@ -72,6 +81,42 @@ def main() -> None:
     hostile_key = copy.deepcopy(seed)
     hostile_key["reported_operating_operands"]["forecast"] = 1
     check("hostile forbidden key", contract.validate_seed(hostile_key))
+    for obfuscated in ("FOR ECAST", "target-price", "target   price", "target\nprice", "recommen-dation"):
+        candidate = copy.deepcopy(seed)
+        candidate["reported_operating_operands"][obfuscated] = 1
+        check(f"obfuscated forbidden key {obfuscated!r}", contract.validate_seed(candidate))
+    for obfuscated in ("FOR ECAST", "target-price", "target   price", "target\nprice", "recommen-dation"):
+        candidate = copy.deepcopy(seed)
+        candidate["reported_operating_operands"]["location"] = obfuscated
+        check(f"obfuscated forbidden text {obfuscated!r}", contract.validate_seed(candidate))
+
+    # Every accepted mapping layer must reject non-string keys before any
+    # lookup/membership operation can invoke attacker-controlled equality.
+    for layer in ("root", "companies", "events", "documents", "seed", "nested"):
+        if layer == "root":
+            candidate = {HostileKey(): seed}
+            check("hostile root key", contract.validate_seed(candidate))
+        elif layer == "companies":
+            candidate = {"companies": {HostileKey(): {}}}
+            check("hostile companies key", contract.validate_retained_chain(candidate, {"documents": {}}))
+        elif layer == "events":
+            candidate = {"companies": {"DGKC": {"events": [{HostileKey(): 1}]}}}
+            check("hostile events key", contract.validate_retained_chain(candidate, {"documents": {}}))
+        elif layer == "documents":
+            candidate = {"documents": {HostileKey(): {}}}
+            check("hostile documents key", contract.validate_retained_chain({"companies": {}}, candidate))
+        elif layer == "seed":
+            candidate = copy.deepcopy(seed)
+            candidate["event"] = {HostileKey(): 1}
+            check("hostile seed event key", contract.validate_seed(candidate))
+        else:
+            candidate = copy.deepcopy(seed)
+            candidate["event"]["transition"][0] = {HostileKey(): 1}
+            check("hostile nested key", contract.validate_seed(candidate))
+
+    legitimate = copy.deepcopy(seed)
+    legitimate["blockers"] = ["model blocked by policy; no forecast is permitted"]
+    check("fixed blocker policy text is allowed", contract.validate_seed(legitimate) == [])
     huge = copy.deepcopy(seed)
     huge["reported_operating_operands"]["capacity_bags"] = 10**99
     check("huge numeric value", contract.validate_seed(huge))

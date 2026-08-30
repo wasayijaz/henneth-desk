@@ -8,6 +8,7 @@ from __future__ import annotations
 import json
 from pathlib import Path
 import math
+import unicodedata
 from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -32,6 +33,86 @@ FORBIDDEN_KEYS = {
 }
 FORBIDDEN_TEXT = ("forecast", "valuation", "probability", "advice", "target price", "recommendation")
 MAX_NUMERIC = 10**15
+
+
+def _compact(value: str) -> str:
+    """Case/separator-insensitive form used only for plain string input."""
+    normalized = unicodedata.normalize("NFKC", value).casefold()
+    return "".join(char for char in normalized if char.isalnum())
+
+
+_FORBIDDEN_KEY_FORMS = {_compact(value) for value in FORBIDDEN_KEYS}
+_FORBIDDEN_TEXT_FORMS = tuple(_compact(value) for value in FORBIDDEN_TEXT)
+
+# These are contract/guardrail labels, not user-controlled promotional prose.
+# Blocker text is policy text by design and may explain why a model is blocked.
+_TEXT_EXEMPT_KEYS = {
+    "schema_version", "contract_version", "symbol", "status", "corroboration_status",
+    "selection_status", "go_no_go", "intelligence_case_eligible", "selected_industrial_case",
+    "formal_status", "source_chain_validated", "model_or_publish_eligible", "blockers",
+}
+
+
+def _safe_projection(value: Any, path: str, violations: list[str], _stack: set[int] | None = None) -> dict[str, Any] | None:
+    """Deep-copy mappings through exact-plain-string keys before any lookups."""
+    if type(value) is not dict:
+        return None
+    stack = set() if _stack is None else _stack
+    identity = id(value)
+    if identity in stack:
+        violations.append(f"{path or 'seed'}: cyclic object is not valid JSON")
+        return None
+    stack.add(identity)
+    projected: dict[str, Any] = {}
+    for key, child in value.items():
+        if type(key) is not str:
+            violations.append(f"{path or 'seed'}: mapping keys must be plain strings")
+            stack.remove(identity)
+            return None
+        child_path = f"{path}.{key}" if path else key
+        if type(child) is dict:
+            safe_child = _safe_projection(child, child_path, violations, stack)
+            if safe_child is None:
+                stack.remove(identity)
+                return None
+            projected[key] = safe_child
+        elif type(child) is list:
+            safe_items = _safe_list_projection(child, child_path, violations, stack)
+            if safe_items is None:
+                stack.remove(identity)
+                return None
+            projected[key] = safe_items
+        else:
+            projected[key] = child
+    stack.remove(identity)
+    return projected
+
+
+def _safe_list_projection(value: list[Any], path: str, violations: list[str], stack: set[int]) -> list[Any] | None:
+    identity = id(value)
+    if identity in stack:
+        violations.append(f"{path or 'seed'}: cyclic object is not valid JSON")
+        return None
+    stack.add(identity)
+    projected: list[Any] = []
+    for index, item in enumerate(value):
+        item_path = f"{path}[{index}]"
+        if type(item) is dict:
+            safe_item = _safe_projection(item, item_path, violations, stack)
+            if safe_item is None:
+                stack.remove(identity)
+                return None
+            projected.append(safe_item)
+        elif type(item) is list:
+            safe_item = _safe_list_projection(item, item_path, violations, stack)
+            if safe_item is None:
+                stack.remove(identity)
+                return None
+            projected.append(safe_item)
+        else:
+            projected.append(item)
+    stack.remove(identity)
+    return projected
 
 EXPECTED_CHAIN = [
     {
@@ -83,22 +164,25 @@ def _load(path: Path) -> dict[str, Any]:
 def _ledger_events(ledger: Any) -> tuple[list[dict[str, Any]], list[str]]:
     """Return DGKC events and structural violations without trusting input keys."""
     violations: list[str] = []
-    if type(ledger) is not dict:
-        return [], ["company_event_ledger.json: root must be an object"]
-    companies = ledger.get("companies")
-    if type(companies) is not dict:
-        return [], ["company_event_ledger.json: companies must be an object"]
-    dgkc = companies.get("DGKC")
-    if type(dgkc) is not dict:
-        return [], ["company_event_ledger.json: DGKC company missing"]
+    ledger = _safe_projection(ledger, "company_event_ledger.json", violations)
+    if ledger is None:
+        return [], violations or ["company_event_ledger.json: root must be an object"]
+    companies = _safe_projection(ledger.get("companies"), "company_event_ledger.json.companies", violations)
+    if companies is None:
+        return [], violations or ["company_event_ledger.json: companies must be an object"]
+    dgkc = _safe_projection(companies.get("DGKC"), "company_event_ledger.json.companies.DGKC", violations)
+    if dgkc is None:
+        return [], violations or ["company_event_ledger.json: DGKC company missing"]
     events = dgkc.get("events")
     if type(events) is not list:
         return [], ["company_event_ledger.json: DGKC events missing"]
     rows: list[dict[str, Any]] = []
     seen: set[str] = set()
     for index, event in enumerate(events):
-        if type(event) is not dict:
-            violations.append(f"DGKC events[{index}]: object required")
+        event = _safe_projection(event, f"DGKC events[{index}]", violations)
+        if event is None:
+            if not violations or violations[-1] != f"DGKC events[{index}]: mapping keys must be plain strings":
+                violations.append(f"DGKC events[{index}]: object required")
             continue
         event_id = event.get("event_id")
         if type(event_id) is not str:
@@ -115,18 +199,21 @@ def _ledger_events(ledger: Any) -> tuple[list[dict[str, Any]], list[str]]:
 def _documents(documents: Any) -> tuple[list[tuple[str, dict[str, Any]]], list[str]]:
     """Return retained documents and structural violations safely."""
     violations: list[str] = []
-    if type(documents) is not dict:
-        return [], ["company_documents.json: root must be an object"]
-    value = documents.get("documents")
-    if type(value) is not dict:
-        return [], ["company_documents.json: documents missing"]
+    documents = _safe_projection(documents, "company_documents.json", violations)
+    if documents is None:
+        return [], violations or ["company_documents.json: root must be an object"]
+    value = _safe_projection(documents.get("documents"), "company_documents.json.documents", violations)
+    if value is None:
+        return [], violations or ["company_documents.json: documents missing"]
     rows: list[tuple[str, dict[str, Any]]] = []
     for index, (key, item) in enumerate(value.items()):
         if type(key) is not str:
             violations.append(f"documents[{index}]: document id must be a string")
             continue
-        if type(item) is not dict:
-            violations.append(f"documents[{index}]: document must be an object")
+        item = _safe_projection(item, f"documents[{index}]", violations)
+        if item is None:
+            if not violations or violations[-1] != f"documents[{index}]: mapping keys must be plain strings":
+                violations.append(f"documents[{index}]: document must be an object")
             continue
         rows.append((key, item))
     return rows, violations
@@ -282,6 +369,9 @@ def validate_seed(seed: dict[str, Any]) -> list[str]:
     violations: list[str] = []
     if type(seed) is not dict:
         return ["seed root must be an object"]
+    projected = _safe_projection(seed, "seed", violations)
+    if projected is None:
+        return violations
 
     allowed = {
         "schema_version", "contract_version", "symbol", "status", "corroboration_status",
@@ -314,13 +404,13 @@ def validate_seed(seed: dict[str, Any]) -> list[str]:
                 if type(key) is not str:
                     violations.append(f"{path or 'seed'}: key must be a string")
                     continue
-                lowered = key.lower()
-                if lowered in FORBIDDEN_KEYS:
+                if _compact(key) in _FORBIDDEN_KEY_FORMS:
                     violations.append(f"{path or 'seed'}: forbidden key {key}")
                 if allowed_here is not None and key not in allowed_here:
                     violations.append(f"{path or 'seed'}: unknown key {key}")
                 child_path = f"{path}.{key}" if path else key
-                walk(child, child_path, key if key in nested_allowed else parent, depth + 1)
+                child_parent = key if key in nested_allowed or key in _TEXT_EXEMPT_KEYS else parent
+                walk(child, child_path, child_parent, depth + 1)
             seen.remove(identity)
         elif type(value) is list:
             identity = id(value)
@@ -337,16 +427,17 @@ def validate_seed(seed: dict[str, Any]) -> list[str]:
             elif abs(float(value)) > MAX_NUMERIC:
                 violations.append(f"{path}: numeric value exceeds bound")
         elif type(value) is str:
-            lowered = value.lower()
-            for token in FORBIDDEN_TEXT:
-                if token in lowered:
-                    violations.append(f"{path}: forbidden text {token}")
+            if parent not in _TEXT_EXEMPT_KEYS:
+                compact = _compact(value)
+                for token, compact_token in zip(FORBIDDEN_TEXT, _FORBIDDEN_TEXT_FORMS):
+                    if compact_token in compact:
+                        violations.append(f"{path}: forbidden text {token}")
         elif value is None or type(value) is bool:
             return
         else:
             violations.append(f"{path or 'seed'}: unsupported value type")
 
-    walk(seed, "")
+    walk(projected, "")
     checks = (
         ("schema_version", SEED_SCHEMA), ("contract_version", CONTRACT_VERSION), ("symbol", "DGKC"),
         ("status", EVIDENCE_STATUS), ("corroboration_status", CORROBORATION_STATUS),
@@ -356,9 +447,9 @@ def validate_seed(seed: dict[str, Any]) -> list[str]:
         ("model_or_publish_eligible", False),
     )
     for key, expected in checks:
-        if seed.get(key) != expected:
+        if projected.get(key) != expected:
             violations.append(f"{key} must remain {expected!r}")
-    event = seed.get("event")
+    event = projected.get("event")
     if type(event) is not dict:
         violations.append("event must be an object")
     else:
@@ -383,13 +474,13 @@ def validate_seed(seed: dict[str, Any]) -> list[str]:
                 for key, expected_value in expected_row.items():
                     if row.get(key) != expected_value:
                         violations.append(f"event transition[{index}] {key} mismatch")
-    operands = seed.get("reported_operating_operands")
+    operands = projected.get("reported_operating_operands")
     if type(operands) is not dict or operands.get("capex") is not None or operands.get("ramp_or_utilization") is not None or operands.get("dispatch_or_cost") is not None:
         violations.append("forward economics operands must remain unavailable")
-    forward = seed.get("forward_model_operands")
+    forward = projected.get("forward_model_operands")
     if type(forward) is not dict or forward.get("status") != "not_available" or forward.get("values") != {}:
         violations.append("forward model operands must remain unavailable")
-    boundary = seed.get("fact_boundary")
+    boundary = projected.get("fact_boundary")
     if type(boundary) is not dict:
         violations.append("fact_boundary must be an object")
     else:
@@ -397,7 +488,7 @@ def validate_seed(seed: dict[str, Any]) -> list[str]:
             values = boundary.get(key)
             if type(values) is not list or any(type(item) is not str for item in values):
                 violations.append(f"fact_boundary.{key} must contain text only")
-    blockers = seed.get("blockers")
+    blockers = projected.get("blockers")
     if type(blockers) is not list or any(type(item) is not str for item in blockers):
         violations.append("blockers must contain text only")
     return violations
