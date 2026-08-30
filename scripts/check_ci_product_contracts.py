@@ -8,12 +8,10 @@ or the CI completion matrix checker that depends on this file.
 from __future__ import annotations
 
 import argparse
-import os
 import subprocess
 import sys
 import tempfile
 from dataclasses import dataclass
-from datetime import datetime, timezone
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -116,7 +114,7 @@ def _tail(text: str) -> str:
     return clean[-OUTPUT_TAIL_CHARS:]
 
 
-def _run_command(root: Path, name: str, command: tuple[str, ...], timeout: int, *, env: dict[str, str] | None = None) -> CheckResult:
+def _run_command(root: Path, name: str, command: tuple[str, ...], timeout: int) -> CheckResult:
     """Run one checker/finalizer and retain a concise failure tail."""
     try:
         completed = subprocess.run(
@@ -126,7 +124,6 @@ def _run_command(root: Path, name: str, command: tuple[str, ...], timeout: int, 
             text=True,
             timeout=timeout,
             check=False,
-            env=env,
         )
     except subprocess.TimeoutExpired as exc:
         return CheckResult(
@@ -161,28 +158,7 @@ def run_checks(
     if finalize_artifacts is None:
         finalize_artifacts = root.resolve() == ROOT.resolve()
     results: list[CheckResult] = []
-    finalize_env: dict[str, str] | None = None
-    fixed_point_builders = (
-            "build_ci_artifact_integrity.py",
-            "build_event_to_value_product_readiness.py",
-            "build_ci_slice.py",
-            "build_ci_artifact_integrity.py",
-    )
-    if finalize_artifacts:
-        finalize_env = os.environ.copy()
-        finalize_env.setdefault(
-            "HENNETH_CI_BUILD_CUTOFF_AT",
-            datetime.now(timezone.utc).replace(microsecond=0).strftime("%Y-%m-%dT%H:%M:%SZ"),
-        )
-        for finalizer_name in fixed_point_builders:
-            finalizer_path = root / "scripts" / finalizer_name
-            finalizer_command = (sys.executable, str(finalizer_path))
-            if not finalizer_path.exists():
-                results.append(CheckResult(finalizer_name, finalizer_command, "missing", detail="fixed-point CI artifact builder is missing"))
-            else:
-                results.append(_run_command(root, finalizer_name, finalizer_command, timeout, env=finalize_env))
     seen: set[str] = set()
-    post_finalize_checks: list[tuple[str, tuple[str, ...]]] = []
     for name in checks:
         normalized = Path(name).name
         path = root / "scripts" / normalized
@@ -207,22 +183,16 @@ def run_checks(
         if not command:
             results.append(CheckResult(normalized, command, "failed", detail="unsupported checker extension"))
             continue
-        if finalize_artifacts and normalized == "check_event_to_value_product_readiness.py":
-            post_finalize_checks.append((normalized, command))
-            continue
         results.append(_run_command(root, normalized, command, timeout))
 
     if finalize_artifacts:
-        for finalizer_name in fixed_point_builders:
-            finalizer_path = root / "scripts" / finalizer_name
-            finalizer_command = (sys.executable, str(finalizer_path))
-            if not finalizer_path.exists():
-                results.append(CheckResult(finalizer_name, finalizer_command, "missing", detail="final fixed-point CI artifact builder is missing"))
-            else:
-                results.append(_run_command(root, finalizer_name, finalizer_command, timeout, env=finalize_env))
-
-        for normalized, command in post_finalize_checks:
-            results.append(_run_command(root, normalized, command, timeout))
+        finalizer_name = "build_ci_artifact_integrity.py"
+        finalizer_path = root / "scripts" / finalizer_name
+        finalizer_command = (sys.executable, str(finalizer_path))
+        if not finalizer_path.exists():
+            results.append(CheckResult(finalizer_name, finalizer_command, "missing", detail="final CI artifact finalizer is missing"))
+        else:
+            results.append(_run_command(root, finalizer_name, finalizer_command, timeout))
 
         integrity_name = "check_ci_artifact_integrity.py"
         integrity_path = root / "scripts" / integrity_name

@@ -781,7 +781,7 @@ def _company_brief(brief_state, document_state, sym):
     }
 
 
-def build(write=True):
+def build():
     universe = load_json(STATE / "universe.json", {"symbols": {}}).get("symbols", {})
     quant = load_json(STATE / "quant.json", {"tickers": {}}).get("tickers", {})
     live = load_json(STATE / "live.json", {"tickers": {}}).get("tickers", {})
@@ -1139,7 +1139,7 @@ def build(write=True):
             "offmarket": _offmarket(offmarket, sym),
         })
 
-    result = {
+    save_json(OUT, {
         "meta": {
             "built": time.strftime("%Y-%m-%d %H:%M"),
             "source": "Henneth state layer",
@@ -1160,11 +1160,8 @@ def build(write=True):
             "note": "Private company-intelligence slice. Research, not advice. No execution or order path.",
         },
         "tickers": rows,
-    }
-    if write:
-        save_json(OUT, result)
-        print(f"ci_slice: {len(rows)} tickers -> {OUT.relative_to(ROOT)}")
-    return result
+    })
+    print(f"ci_slice: {len(rows)} tickers -> {OUT.relative_to(ROOT)}")
 
 
 if __name__ == "__main__":
