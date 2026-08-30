@@ -1,6 +1,6 @@
 {
  "meta": {
-  "built": "2026-08-31 00:33",
+  "built": "2026-08-31 00:59",
   "source": "Henneth state layer",
   "profile_source": "https://dps.psx.com.pk/company/{symbol}",
   "profile_updated": "2026-08-24 18:30",
@@ -343,8 +343,12 @@
      "definition": "Hashed artifact_integrity rows versus artifact_count. The generated readiness artifact itself must be covered by the sealed manifest.",
      "source_path": "state/company_intel/artifact_integrity.json",
      "as_of": "2026-08-30T17:58:30Z",
-     "reason": "event_to_value_product_readiness_not_in_artifact_integrity_manifest",
-     "notes": []
+     "reason": "artifact_integrity_manifest_paths_drifted",
+     "notes": [
+      "artifact_count=41",
+      "expected_artifact_count=43",
+      "missing=state/company_intel/event_to_value_product_readiness.json,state/company_intel/mari_enp_evidence_readiness.json"
+     ]
     },
     {
      "id": "no_lookahead_status",
@@ -432,6 +436,18 @@
     },
     "source_commit_sha": "671a59e50c66b10226bc897fbb37862d597147e3",
     "build_cutoff_at": "2026-08-30T17:58:30Z",
+    "artifact_integrity_status": "blocked",
+    "artifact_integrity_reason": "artifact_integrity_manifest_paths_drifted",
+    "artifact_integrity": {
+     "expected_artifact_count": 43,
+     "manifest_artifact_count": 41,
+     "missing_paths": [
+      "state/company_intel/event_to_value_product_readiness.json",
+      "state/company_intel/mari_enp_evidence_readiness.json"
+     ],
+     "extra_paths": [],
+     "covered": false
+    },
     "selected_symbols": [],
     "selected_symbols_source_path": "state/company_intel/intelligence_cases.json",
     "selected_symbols_status": "blocked",

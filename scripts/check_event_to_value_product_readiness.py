@@ -19,6 +19,7 @@ from build_event_to_value_product_readiness import (  # noqa: E402
     derive_selected_symbols,
     financial_impact_computed,
     project_readiness,
+    _engine_live_count,
 )
 from ci_checker_helpers import without_root_meta  # noqa: E402
 from psx_data import ROOT, load_json  # noqa: E402
@@ -107,13 +108,22 @@ def main() -> None:
     if _dump(without_root_meta(state)) != _dump(without_root_meta(rebuilt)):
         raise AssertionError("product readiness rebuild is not deterministic")
 
-    missing = derive_selected_symbols({"selected_symbols": None}, "available")
+    missing = derive_selected_symbols({"selected_symbols": None, "companies": {}}, "available")
     if missing["reason"] != "selected_symbols_missing":
         raise AssertionError(f"missing selection reason drifted: {missing}")
-    duplicate = derive_selected_symbols({"selected_symbols": ["MLCF", "MARI", "MLCF"]}, "available")
+    duplicate = derive_selected_symbols({"selected_symbols": ["MLCF", "MARI", "MLCF"], "companies": {"MLCF": {}, "MARI": {}}}, "available")
     if duplicate["reason"] != "selected_symbols_duplicate":
         raise AssertionError(f"duplicate selection reason drifted: {duplicate}")
-    not_three = derive_selected_symbols({"selected_symbols": ["MARI", "MLCF"]}, "available")
+    non_string = derive_selected_symbols({"selected_symbols": ["MLCF", 7, "MARI"], "companies": {"MLCF": {}, "MARI": {}}}, "available")
+    if non_string["reason"] != "selected_symbols_invalid":
+        raise AssertionError(f"non-string selection reason drifted: {non_string}")
+    unknown_symbol = derive_selected_symbols({"selected_symbols": ["MLCF", "MARI", "FAKE"], "companies": {"MLCF": {}, "MARI": {}}}, "available")
+    if unknown_symbol["reason"] != "selected_symbol_unknown:FAKE":
+        raise AssertionError(f"unknown selection reason drifted: {unknown_symbol}")
+    garbage_source = derive_selected_symbols({"status": "garbage", "selected_symbols": ["MLCF", "MARI", "PSO"], "companies": {"MLCF": {}, "MARI": {}, "PSO": {}}}, "available")
+    if not str(garbage_source["reason"]).startswith("intelligence_cases_status_invalid"):
+        raise AssertionError(f"garbage source status was accepted: {garbage_source}")
+    not_three = derive_selected_symbols({"selected_symbols": ["MARI", "MLCF"], "companies": {"MARI": {}, "MLCF": {}}}, "available")
     if not str(not_three["reason"] or "").startswith("selected_symbols_not_exactly_three"):
         raise AssertionError(f"not-three selection reason drifted: {not_three}")
 
@@ -124,7 +134,13 @@ def main() -> None:
     for symbol in ("MARI", "MLCF", "PSO"):
         companies.setdefault(symbol, {"symbol": symbol, "cases": []})
     forecasts = copy.deepcopy(artifacts["financial_forecasts"][0])
-    forecasts.setdefault("companies", {})["DGKC"] = {"symbol": "DGKC", "status": "computed", "result": {"eps": 1}, "reason": None}
+    forecasts.setdefault("companies", {})["DGKC"] = {
+        "symbol": "DGKC",
+        "status": "computed",
+        "result": {"eps": 1},
+        "reason": None,
+        "provenance": [{"source_path": "state/company_intel/financial_forecasts.json", "run_id": "test-run"}],
+    }
     companies.setdefault("DGKC", {"symbol": "DGKC", "cases": [{"case_id": "case_unselected", "symbol": "DGKC", "status": "Published"}]})
     artifacts["intelligence_cases"] = (cases, "available")
     artifacts["financial_forecasts"] = (forecasts, "available")
@@ -136,6 +152,28 @@ def main() -> None:
         raise AssertionError("unselected Published case changed published_cases")
     if injected_metrics["live_forecast_outputs"].get("value") != 0:
         raise AssertionError("unselected computed forecast changed live_forecast_outputs")
+    bad_engine = {
+        "status": "available",
+        "companies": {
+            "MARI": {"symbol": "MARI", "status": "computed", "result": {"eps": "1.2"}, "provenance": [{"run_id": "x"}]},
+            "MLCF": {"symbol": "MLCF", "status": "computed", "result": {"eps": float("nan")}, "provenance": [{"run_id": "x"}]},
+            "PSO": {"symbol": "PSO", "status": "computed", "result": {"eps": 1.2}, "provenance": [{"source": "inferred"}]},
+            "DGKC": {"symbol": "DGKC", "status": "computed", "result": {"eps": 1.2}, "provenance": [{"run_id": "x"}]},
+        },
+    }
+    bad_count, bad_status, bad_reason, bad_notes = _engine_live_count(bad_engine, "available", ["MARI", "MLCF", "PSO"])
+    if bad_count != 0 or bad_status != "blocked" or bad_notes:
+        raise AssertionError(f"invalid engine rows counted: {bad_count}, {bad_status}, {bad_reason}, {bad_notes}")
+    good_engine = copy.deepcopy(bad_engine)
+    good_engine["companies"]["MARI"] = {
+        "symbol": "MARI",
+        "status": "computed",
+        "result": {"eps": 1.2},
+        "provenance": [{"source_path": "state/company_intel/financial_forecasts.json", "run_id": "test-run"}],
+    }
+    good_count, good_status, _, good_notes = _engine_live_count(good_engine, "available", ["MARI", "MLCF", "PSO"])
+    if good_count != 1 or good_status != "available" or good_notes != ["MARI"]:
+        raise AssertionError(f"valid source-bound engine row was not counted: {good_count}, {good_status}, {good_notes}")
 
     malformed = {
         "impact_status": "unmodeled_driver",
@@ -145,10 +183,31 @@ def main() -> None:
     }
     if financial_impact_computed(malformed):
         raise AssertionError("malformed non-null unmodeled impact must remain uncounted")
+    inferred = {
+        "impact_status": "computed",
+        "revenue_impact": 1.5,
+        "lineage": {"source": "inferred"},
+    }
+    if financial_impact_computed(inferred):
+        raise AssertionError("inferred-only computed impact must remain uncounted")
+    string_number = {
+        "impact_status": "computed",
+        "revenue_impact": "1.5",
+        "lineage": {"source_path": "state/company_intel/impact_scenarios.json", "run_id": "test-run"},
+    }
+    if financial_impact_computed(string_number):
+        raise AssertionError("string numeric impact must remain uncounted")
+    nan_number = {
+        "impact_status": "computed",
+        "revenue_impact": float("nan"),
+        "lineage": {"source_path": "state/company_intel/impact_scenarios.json", "run_id": "test-run"},
+    }
+    if financial_impact_computed(nan_number):
+        raise AssertionError("NaN impact must remain uncounted")
     valid = {
         "impact_status": "computed",
         "revenue_impact": 1.5,
-        "lineage": {"source_path": "state/company_intel/impact_scenarios.json", "formula_id": "formal_scenario.v1"},
+        "lineage": {"source_path": "state/company_intel/impact_scenarios.json", "formula_id": "formal_scenario.v1", "run_id": "test-run"},
     }
     if not financial_impact_computed(valid):
         raise AssertionError("explicit computed finite impact with lineage must count")
@@ -171,6 +230,28 @@ def main() -> None:
     bogus = project_readiness({"metrics": [{"id": "model_ready_companies", "value": 3}]})
     if bogus.get("status") == "available":
         raise AssertionError("truthy metrics must not project available")
+    garbage_status = copy.deepcopy(state)
+    garbage_status["status"] = "garbage"
+    projected_garbage = project_readiness(garbage_status)
+    if projected_garbage.get("status") != "blocked" or "status_invalid" not in str(projected_garbage.get("reason")):
+        raise AssertionError("garbage readiness status must fail closed")
+    duplicate_projection = copy.deepcopy(state)
+    duplicate_projection.setdefault("lineage", {})["selected_symbols_status"] = "available"
+    duplicate_projection["lineage"]["selected_symbols"] = ["MARI", "MARI", "MLCF"]
+    projected_duplicate = project_readiness(duplicate_projection)
+    if projected_duplicate.get("status") != "blocked":
+        raise AssertionError("duplicate projected selection must fail closed")
+    stale_projection = copy.deepcopy(state)
+    stale_projection.setdefault("lineage", {})["selected_symbols_status"] = "available"
+    stale_projection["lineage"]["selected_symbols"] = ["MARI", "MLCF", "PSO"]
+    stale_projection["status"] = "available"
+    stale_projection["reason"] = None
+    stale_projection["lineage"]["source_commit_sha"] = "671a59e50c66b10226bc897fbb37862d597147e3"
+    stale_projection["lineage"]["build_cutoff_at"] = "2026-08-30T17:58:30Z"
+    stale_projection["lineage"]["generated_at"] = "2026-08-30T17:58:30Z"
+    projected_stale = project_readiness(stale_projection)
+    if projected_stale.get("status") != "blocked" or not projected_stale.get("reason"):
+        raise AssertionError("stale or unsealed projected readiness must fail closed")
     print("event_to_value_product_readiness: PASS (selected-three, computed-status, integrity path, fail-closed projection)")
 
 

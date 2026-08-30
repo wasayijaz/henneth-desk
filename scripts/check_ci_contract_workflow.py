@@ -211,6 +211,7 @@ def validate_workflow(workflow: dict[str, Any]) -> list[str]:
             "python scripts/build_formal_financial_engines.py",
             "python scripts/build_company_brains.py",
             "python scripts/build_ci_completion_matrix.py",
+            "python scripts/build_event_to_value_product_readiness.py",
             "python scripts/build_ci_slice.py",
             "python scripts/build_ci_artifact_integrity.py",
         )
@@ -237,6 +238,16 @@ def validate_workflow(workflow: dict[str, Any]) -> list[str]:
                 "python scripts/build_company_brains.py",
                 "python scripts/build_ci_completion_matrix.py",
                 "steps: completion matrix must be rebuilt after Company Brain",
+            ),
+            (
+                "python scripts/build_ci_completion_matrix.py",
+                "python scripts/build_event_to_value_product_readiness.py",
+                "steps: Event-to-Value product readiness must be rebuilt after completion matrix",
+            ),
+            (
+                "python scripts/build_event_to_value_product_readiness.py",
+                "python scripts/build_ci_slice.py",
+                "steps: CI slice must be rebuilt after Event-to-Value product readiness",
             ),
         )
         for before, after, message in order_pairs:
@@ -325,6 +336,7 @@ jobs:
           python scripts/build_formal_financial_engines.py
           python scripts/build_company_brains.py
           python scripts/build_ci_completion_matrix.py
+          python scripts/build_event_to_value_product_readiness.py
           python scripts/build_ci_slice.py
           python scripts/build_ci_artifact_integrity.py
       - name: Verify finalized artifacts match this commit
@@ -372,6 +384,24 @@ def self_test() -> int:
     errors = validate_workflow(parse_workflow(stale_brain_order))
     if not any("Company Brain" in error for error in errors):
         print("self-test failed: stale Company Brain order was accepted")
+        return 1
+    missing_readiness = VALID_FIXTURE.replace(
+        "          python scripts/build_event_to_value_product_readiness.py\n",
+        "",
+    )
+    errors = validate_workflow(parse_workflow(missing_readiness))
+    if not any("build_event_to_value_product_readiness.py" in error for error in errors):
+        print("self-test failed: missing Event-to-Value readiness builder was accepted")
+        return 1
+    stale_readiness_order = VALID_FIXTURE.replace(
+        "          python scripts/build_event_to_value_product_readiness.py\n"
+        "          python scripts/build_ci_slice.py\n",
+        "          python scripts/build_ci_slice.py\n"
+        "          python scripts/build_event_to_value_product_readiness.py\n",
+    )
+    errors = validate_workflow(parse_workflow(stale_readiness_order))
+    if not any("Event-to-Value product readiness" in error for error in errors):
+        print("self-test failed: stale Event-to-Value readiness order was accepted")
         return 1
     print("self-test: ok")
     return 0
