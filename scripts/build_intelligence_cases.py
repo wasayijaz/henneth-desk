@@ -25,14 +25,38 @@ PUBLIC_OFFER_DOC_ID = "psx:267429"
 FOLLOW_THROUGH_DOC_ID = "psx:275425"
 MLCF_CANONICAL_CONTROL_EVENT_ID = "evt_6e9b520a122b8f2d4a59"
 MLCF_LEGACY_CONTROL_EVENT_ID = PUBLIC_OFFER_EVENT_ID
-MLCF_CANONICAL_FOLLOW_THROUGH_EVENT_ID = FOLLOW_THROUGH_EVENT_ID
+MLCF_FOLLOW_THROUGH_ALIAS_EVENT_ID = FOLLOW_THROUGH_EVENT_ID
 MLCF_LEGACY_FOLLOW_THROUGH_EVENT_ID = FOLLOW_THROUGH_EVENT_ID
+MLCF_INDEPENDENT_CANONICAL_EVENT_BINDING = "independent_operating_event"
+MLCF_LEGACY_ALIAS_EVENT_BINDING = "legacy_alias_no_independent_operating_event"
 MLCF_PRIMARY_CONTROL_EVIDENCE_SHA256 = "70a110272f96813a4d6693b596c99d9dbc4c4781d42a519543557a04ec4c581f"
 MLCF_FOLLOW_THROUGH_EVIDENCE_SHA256 = "725f04c3c6d7f36bbffd6c205d574750f65b8c0546ae9f1b50683fe07b292b66"
 MLCF_PRIMARY_CONTROL_CONTENT_SHA256 = "98cf83c9a286999c8006a7f73f490248f26694c9edbfc815b3dbd9188ee22a54"
 MLCF_FOLLOW_THROUGH_CONTENT_SHA256 = "744a0c710043d6e0a7de36bb99f21ca50f0f9346f6972b957f6733a47deae11f"
 MLCF_PRIMARY_CONTROL_URL = "https://dps.psx.com.pk/download/document/267429.pdf"
 MLCF_FOLLOW_THROUGH_URL = "https://dps.psx.com.pk/download/document/275425.pdf"
+MLCF_EXPECTED_COUNTER_SECTIONS = {
+    "annual_income_triplets": {
+        "required": 5,
+        "present": 3,
+        "qualified_periods": ["2026-06-30", "2025-06-30", "2024-06-30"],
+    },
+    "qualified_reported_quarter_fact_sets": {
+        "required": 8,
+        "present": 3,
+        "qualified_periods": ["2026-03-31", "2025-12-31", "2025-09-30"],
+    },
+    "annual_operating_cash_flow": {
+        "required": 5,
+        "present": 2,
+        "qualified_periods": ["2025-06-30", "2024-06-30"],
+    },
+}
+MLCF_EXPECTED_SHARE_COUNT_COUNTER = {
+    "status": "missing_official_share_count_capital_note_tie_out",
+    "available_on": None,
+    "source": None,
+}
 HEX64 = re.compile(r"^[0-9a-f]{64}$", re.I)
 
 MARI_CASE_ID = "case_mari_offshore_exploration_blocks_observed_v1"
@@ -130,6 +154,7 @@ def _validate_counter_section(
     row: dict[str, Any],
     section: str,
 ) -> dict[str, Any]:
+    expected = MLCF_EXPECTED_COUNTER_SECTIONS[section]
     source = row.get(section)
     if not isinstance(source, dict):
         _fail(f"MLCF financial counter section missing: {section}")
@@ -157,6 +182,12 @@ def _validate_counter_section(
         if not isinstance(period, str) or parsed != period:
             _fail(f"MLCF financial counter invalid period: {section}[{index}]")
         clean_periods.append(period)
+    if (
+        required != expected["required"]
+        or present != expected["present"]
+        or clean_periods != expected["qualified_periods"]
+    ):
+        _fail(f"MLCF financial counter source semantics mismatch: {section}")
     return {
         "required": required,
         "present": present,
@@ -180,6 +211,12 @@ def _validate_share_count_counter(row: dict[str, Any]) -> dict[str, Any]:
         _fail("MLCF share-count counter available_on mismatch")
     if source_label is not None and not isinstance(source_label, str):
         _fail("MLCF share-count counter source type mismatch")
+    if {
+        "status": status,
+        "available_on": available_on,
+        "source": source_label,
+    } != MLCF_EXPECTED_SHARE_COUNT_COUNTER:
+        _fail("MLCF share-count counter source semantics mismatch")
     return {
         "status": status,
         "available_on": available_on,
@@ -231,6 +268,7 @@ def _validate_mlcf_legacy_source(
     *,
     legacy_event_id: str,
     canonical_event_id: str,
+    canonical_event_id_binding: str,
     doc_id: str,
     source_url: str,
     page: int,
@@ -264,6 +302,7 @@ def _validate_mlcf_legacy_source(
     _require_date(f"{legacy_event_id}.effective_date", event.get("event_date"), effective_date)
     return {
         "canonical_event_id": canonical_event_id,
+        "canonical_event_id_binding": canonical_event_id_binding,
         "legacy_event_id": legacy_event_id,
         "document_id": doc_id,
         "page": page,
@@ -317,6 +356,7 @@ def _mlcf_source_join(
         public_offer_doc,
         legacy_event_id=MLCF_LEGACY_CONTROL_EVENT_ID,
         canonical_event_id=MLCF_CANONICAL_CONTROL_EVENT_ID,
+        canonical_event_id_binding=MLCF_INDEPENDENT_CANONICAL_EVENT_BINDING,
         doc_id=PUBLIC_OFFER_DOC_ID,
         source_url=MLCF_PRIMARY_CONTROL_URL,
         page=3,
@@ -330,7 +370,8 @@ def _mlcf_source_join(
         follow_through,
         follow_through_doc,
         legacy_event_id=MLCF_LEGACY_FOLLOW_THROUGH_EVENT_ID,
-        canonical_event_id=MLCF_CANONICAL_FOLLOW_THROUGH_EVENT_ID,
+        canonical_event_id=MLCF_FOLLOW_THROUGH_ALIAS_EVENT_ID,
+        canonical_event_id_binding=MLCF_LEGACY_ALIAS_EVENT_BINDING,
         doc_id=FOLLOW_THROUGH_DOC_ID,
         source_url=MLCF_FOLLOW_THROUGH_URL,
         page=4,
@@ -410,6 +451,7 @@ def _mlcf_case(
     public_offer = _event(ledger, "MLCF", PUBLIC_OFFER_EVENT_ID)
     follow_through = _event(ledger, "MLCF", FOLLOW_THROUGH_EVENT_ID)
     canonical_control = _operating_event(operating_events, "MLCF", MLCF_CANONICAL_CONTROL_EVENT_ID)
+    canonical_follow_through = _operating_event(operating_events, "MLCF", MLCF_FOLLOW_THROUGH_ALIAS_EVENT_ID)
     public_offer_doc = _document(documents, PUBLIC_OFFER_DOC_ID)
     follow_through_doc = _document(documents, FOLLOW_THROUGH_DOC_ID)
     missing = []
@@ -427,6 +469,8 @@ def _mlcf_case(
     assert public_offer is not None and follow_through is not None
     assert public_offer_doc is not None and follow_through_doc is not None
     assert canonical_control is not None
+    if canonical_follow_through is not None:
+        raise ValueError("MLCF follow-through alias unexpectedly resolves to an independent operating event")
     source_join = _mlcf_source_join(public_offer, follow_through, canonical_control, public_offer_doc, follow_through_doc)
     financial_truth_counters = _financial_truth_counters()
     readiness = _cement_input_readiness(source_join, financial_truth_counters)
