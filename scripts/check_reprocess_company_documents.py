@@ -1623,13 +1623,21 @@ def main() -> int:
         out = _run(mismatch, ["psx:111"], {"psx:111": good_pdf}, manifest=mismatch_manifest)[0]
         assert out["results"][0]["reason"] == "known_receipt_hash_mismatch"
 
-        # Offline transport fallback is bounded to exact owner-retained annual reports.
+        # Retained fallback is bounded to exact owner-reviewed originals, including
+        # the historical-content case where the live URL no longer matches its hash.
         mlcf_spec = r.RETAINED_ORIGINALS["psx:260032"]
         assert mlcf_spec == {
             "relative_path": Path(".cache") / "company_intel" / "raw" / "manual" / "260032.pdf",
             "source_url": "https://dps.psx.com.pk/download/document/260032.pdf",
             "content_sha256": "4fdfb4cbd2eee65576cbb89b43334ce0c09a7e5ffd573d5bf93b414029eba6d1",
             "page_count": 401,
+        }
+        q3_spec = r.RETAINED_ORIGINALS["psx:275425"]
+        assert q3_spec == {
+            "relative_path": Path(".cache") / "company_intel" / "raw" / "275425b.pdf",
+            "source_url": "https://dps.psx.com.pk/download/document/275425.pdf",
+            "content_sha256": "744a0c710043d6e0a7de36bb99f21ca50f0f9346f6972b957f6733a47deae11f",
+            "page_count": 43,
         }
         retained_doc = next(
             doc for doc in resolved if doc.doc_id == "psx:260947"
@@ -1668,6 +1676,18 @@ def main() -> int:
         assert retained.content_sha256 == good_sha
         assert retained.page_count == 2
         assert offline_transport.calls == [retained_doc.url]
+
+        # A changed live PDF may fall back only after its pinned hash rejects
+        # it and only for the exact retained document identity.
+        changed_live_pdf = _pdf("financial statements changed live copy", pages=2)
+        changed_transport = FakeTransport({
+            retained_doc.url: FakeResponse(200, changed_live_pdf, {"Content-Type": "application/pdf"}),
+        })
+        retained_after_mismatch = r.fetch_with_retained_fallback(
+            retained_doc, changed_transport, r.RunBudget(), repo_root,
+        )
+        assert retained_after_mismatch.content_sha256 == good_sha
+        assert retained_after_mismatch.page_count == 2
 
         # A modified retained file is rejected by its pinned manifest hash.
         bad_retained = root / "bad_retained.pdf"

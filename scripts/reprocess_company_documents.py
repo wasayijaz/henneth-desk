@@ -54,6 +54,12 @@ RETAINED_ORIGINALS: dict[str, dict[str, Any]] = {
         "content_sha256": "1a10091295cf7a815f1910eb418215d501d42b52e39dcbd0b54a53fd1aceaa7d",
         "page_count": 333,
     },
+    "psx:275425": {
+        "relative_path": Path(".cache") / "company_intel" / "raw" / "275425b.pdf",
+        "source_url": "https://dps.psx.com.pk/download/document/275425.pdf",
+        "content_sha256": "744a0c710043d6e0a7de36bb99f21ca50f0f9346f6972b957f6733a47deae11f",
+        "page_count": 43,
+    },
 }
 # Exact owner-reviewed oversized transport policies. The normal 120-page cap
 # remains the default for every other source.
@@ -608,14 +614,19 @@ def fetch_retained_original(doc: VerifiedDocument, root: Path, budget: RunBudget
 def fetch_with_retained_fallback(doc: VerifiedDocument, transport: Any, budget: RunBudget,
                                  root: Path, *, allow_image_only: bool = False,
                                  allow_oversized_chunk: bool = False) -> FetchResult:
-    """Fetch from PSX, falling back only when no network response exists."""
+    """Fetch from PSX, then use an exact retained original when approved."""
     try:
         return fetch_verified_pdf(doc, transport, budget,
                                   allow_image_only=allow_image_only,
                                   allow_oversized_chunk=allow_oversized_chunk)
     except DegradedDocument as exc:
         reason = str(exc)
-        if not (reason.startswith("transport_error:") or reason == "http_status_0"):
+        retained_mismatch = (
+            reason == "known_receipt_hash_mismatch"
+            and doc.doc_id in RETAINED_ORIGINALS
+        )
+        if not (reason.startswith("transport_error:") or reason == "http_status_0"
+                or retained_mismatch):
             raise
         return fetch_retained_original(doc, root, budget,
                                        allow_image_only=allow_image_only,
@@ -872,11 +883,13 @@ def consume_canonical(registry_path: Path, queue_path: Path, output_root: Path,
     from build_intelligence_confidence import build as build_intelligence_confidence
     from build_guidance_contradictions import build as build_guidance_contradictions
     from build_management_delivery import build as build_management_delivery
+    from build_intelligence_cases import build as build_intelligence_cases
     from build_signal_clusters import build as build_signal_clusters
     from build_ci_monitoring import build as build_ci_monitoring
     from build_ci_work_routing_policy import build as build_ci_work_routing_policy
     from build_ci_completion_matrix import build as build_ci_completion_matrix
     from build_ci_artifact_integrity import build as build_ci_artifact_integrity
+    from build_mlcf_pioc_readiness_manifest import build as build_mlcf_pioc_readiness_manifest
 
     work_state = output_root / "canonical_state"
     if work_state.exists():
@@ -947,6 +960,8 @@ def consume_canonical(registry_path: Path, queue_path: Path, output_root: Path,
             stage = f"publish:{rel.as_posix()}"
             if (work_state / rel).exists():
                 _atomic_replace_file(work_state / rel, state_root / rel)
+        stage = "build_intelligence_cases"
+        build_intelligence_cases()
         stage = "build_financial_model_inputs"
         model_builder()
         stage = "build_financial_evidence_reconciliation"
@@ -966,6 +981,8 @@ def consume_canonical(registry_path: Path, queue_path: Path, output_root: Path,
         if not ci_builder_injected:
             stage = "build_company_brains"
             build_company_brains()
+            stage = "build_mlcf_pioc_readiness_manifest"
+            build_mlcf_pioc_readiness_manifest()
         stage = "build_ci_completion_matrix"
         completion_matrix_builder()
         stage = "build_ci_slice"
@@ -993,6 +1010,8 @@ def consume_canonical(registry_path: Path, queue_path: Path, output_root: Path,
         # part of their idempotency proof.  Rebuild the dependent CI surface
         # once more after those checks, then run the aggregate gate against a
         # coherent final artifact set rather than a stale watchlist/slice.
+        stage = "rebuild_intelligence_cases"
+        build_intelligence_cases()
         for builder in source_ci_builders:
             stage = f"rebuild:{getattr(builder, '__module__', 'unknown')}"
             builder()
@@ -1004,6 +1023,8 @@ def consume_canonical(registry_path: Path, queue_path: Path, output_root: Path,
         if not ci_builder_injected:
             stage = "rebuild_company_brains"
             build_company_brains()
+            stage = "rebuild_mlcf_pioc_readiness_manifest"
+            build_mlcf_pioc_readiness_manifest()
         stage = "rebuild_ci_completion_matrix"
         completion_matrix_builder()
         stage = "rebuild_ci_slice"

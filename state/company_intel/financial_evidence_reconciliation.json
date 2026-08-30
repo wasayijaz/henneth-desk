@@ -24,7 +24,7 @@
   "NRL",
   "CNERGY"
  ],
- "as_of": "2026-08-30T15:58:03Z",
+ "as_of": "2026-08-30T16:42:58Z",
  "source": {
   "company_financial_series": "state/company_financial_series.json",
   "financial_coverage": "state/company_intel/financial_coverage.json",
@@ -46,9 +46,9 @@
  },
  "summary": {
   "company_count": 20,
-  "eligible_fact_count": 42,
+  "eligible_fact_count": 45,
   "audit_only_fact_count": 1536,
-  "quarantined_fact_count": 119,
+  "quarantined_fact_count": 148,
   "missing_slot_count": 160,
   "source_conflict_count": 0,
   "withheld_future_source_fact_count": 0,
@@ -58,9 +58,9 @@
   "MLCF": {
    "symbol": "MLCF",
    "status": "eligible_for_review",
-   "eligible_fact_count": 16,
+   "eligible_fact_count": 19,
    "audit_only_fact_count": 143,
-   "quarantined_fact_count": 49,
+   "quarantined_fact_count": 78,
    "missing_slot_count": 0,
    "source_conflict_count": 0,
    "withheld_future_source_fact_count": 0,
@@ -340,6 +340,164 @@
      "confidence": "low"
     },
     {
+     "reconciliation_id": "finrec_ea312e1bf8cf53d1dc68",
+     "evidence_id": "finev_dfe95b224becc4b283b8",
+     "symbol": "MLCF",
+     "metric": "basic_eps",
+     "period_end": "2025-03-31",
+     "period_type": "interim",
+     "duration_months": 9,
+     "statement_type": "income_statement",
+     "consolidation": "consolidated",
+     "currency": "PKR",
+     "unit": "PKR/share",
+     "unit_multiplier": 1,
+     "raw_value": "7.51",
+     "normalized_value": 7.51,
+     "status": "quarantined",
+     "reasons": [
+      "not_annual_or_direct_three_month_quarter"
+     ],
+     "eligibility_scope": "not_eligible_financial_truth_gate",
+     "source": {
+      "document_id": "psx:275425",
+      "fact_id": "fact_45d264a9585a80390af983bf",
+      "content_sha256": "744a0c710043d6e0a7de36bb99f21ca50f0f9346f6972b957f6733a47deae11f",
+      "source_url": "https://dps.psx.com.pk/download/document/275425.pdf",
+      "source": "PSX DPS",
+      "page": 29,
+      "text": "Earnings per share for profit attributable",
+      "available_on": "2026-04-28",
+      "published_at": "2026-04-28T10:25:00+05:00",
+      "retrieved_at": "2026-08-30T16:42:58Z"
+     },
+     "parser": {
+      "version": "financial_statement_v2",
+      "revision": "block_geometry_v5"
+     },
+     "evidence_label": "unknown",
+     "confidence": "low"
+    },
+    {
+     "reconciliation_id": "finrec_24e79e1e97bd9229fea0",
+     "evidence_id": "finev_24793a59644b21d761a5",
+     "symbol": "MLCF",
+     "metric": "basic_eps",
+     "period_end": "2025-03-31",
+     "period_type": "interim",
+     "duration_months": 9,
+     "statement_type": "income_statement",
+     "consolidation": "unconsolidated",
+     "currency": "PKR",
+     "unit": "PKR/share",
+     "unit_multiplier": 1,
+     "raw_value": "11.57",
+     "normalized_value": 11.57,
+     "status": "quarantined",
+     "reasons": [
+      "missing_or_nonconsolidated_basis",
+      "not_annual_or_direct_three_month_quarter"
+     ],
+     "eligibility_scope": "not_eligible_financial_truth_gate",
+     "source": {
+      "document_id": "psx:275425",
+      "fact_id": "fact_4ab8317ddf6da3890d527878",
+      "content_sha256": "744a0c710043d6e0a7de36bb99f21ca50f0f9346f6972b957f6733a47deae11f",
+      "source_url": "https://dps.psx.com.pk/download/document/275425.pdf",
+      "source": "PSX DPS",
+      "page": 9,
+      "text": "Earnings per share",
+      "available_on": "2026-04-28",
+      "published_at": "2026-04-28T10:25:00+05:00",
+      "retrieved_at": "2026-08-30T16:42:58Z"
+     },
+     "parser": {
+      "version": "financial_statement_v2",
+      "revision": "block_geometry_v5"
+     },
+     "evidence_label": "unknown",
+     "confidence": "low"
+    },
+    {
+     "reconciliation_id": "finrec_77a8f404d884e9d77c0e",
+     "evidence_id": "finev_71c37b3f7b31c676fd78",
+     "symbol": "MLCF",
+     "metric": "basic_eps",
+     "period_end": "2025-03-31",
+     "period_type": "interim",
+     "duration_months": 3,
+     "statement_type": "income_statement",
+     "consolidation": "unconsolidated",
+     "currency": "PKR",
+     "unit": "PKR/share",
+     "unit_multiplier": 1,
+     "raw_value": "7.49",
+     "normalized_value": 7.49,
+     "status": "quarantined",
+     "reasons": [
+      "missing_or_nonconsolidated_basis",
+      "not_direct_current_period_quarter_fact"
+     ],
+     "eligibility_scope": "not_eligible_financial_truth_gate",
+     "source": {
+      "document_id": "psx:275425",
+      "fact_id": "fact_7bf26fa33a5f1bb870adfac2",
+      "content_sha256": "744a0c710043d6e0a7de36bb99f21ca50f0f9346f6972b957f6733a47deae11f",
+      "source_url": "https://dps.psx.com.pk/download/document/275425.pdf",
+      "source": "PSX DPS",
+      "page": 9,
+      "text": "Earnings per share",
+      "available_on": "2026-04-28",
+      "published_at": "2026-04-28T10:25:00+05:00",
+      "retrieved_at": "2026-08-30T16:42:58Z"
+     },
+     "parser": {
+      "version": "financial_statement_v2",
+      "revision": "block_geometry_v5"
+     },
+     "evidence_label": "unknown",
+     "confidence": "low"
+    },
+    {
+     "reconciliation_id": "finrec_8ec0ff4889fd77bfbc83",
+     "evidence_id": "finev_432e9d45e86bb2de6b17",
+     "symbol": "MLCF",
+     "metric": "basic_eps",
+     "period_end": "2025-03-31",
+     "period_type": "interim",
+     "duration_months": 3,
+     "statement_type": "income_statement",
+     "consolidation": "consolidated",
+     "currency": "PKR",
+     "unit": "PKR/share",
+     "unit_multiplier": 1,
+     "raw_value": "2.67",
+     "normalized_value": 2.67,
+     "status": "quarantined",
+     "reasons": [
+      "not_direct_current_period_quarter_fact"
+     ],
+     "eligibility_scope": "not_eligible_financial_truth_gate",
+     "source": {
+      "document_id": "psx:275425",
+      "fact_id": "fact_f1f526b6d23d609dc54b6e03",
+      "content_sha256": "744a0c710043d6e0a7de36bb99f21ca50f0f9346f6972b957f6733a47deae11f",
+      "source_url": "https://dps.psx.com.pk/download/document/275425.pdf",
+      "source": "PSX DPS",
+      "page": 29,
+      "text": "Earnings per share for profit attributable",
+      "available_on": "2026-04-28",
+      "published_at": "2026-04-28T10:25:00+05:00",
+      "retrieved_at": "2026-08-30T16:42:58Z"
+     },
+     "parser": {
+      "version": "financial_statement_v2",
+      "revision": "block_geometry_v5"
+     },
+     "evidence_label": "unknown",
+     "confidence": "low"
+    },
+    {
      "reconciliation_id": "finrec_215edfc9718ac2c5f07b",
      "evidence_id": "finev_d9592482b7b097c9bdf6",
      "symbol": "MLCF",
@@ -601,6 +759,161 @@
       "available_on": "2026-03-02",
       "published_at": "2026-03-02T08:46:00+05:00",
       "retrieved_at": "2026-08-30T15:58:03Z"
+     },
+     "parser": {
+      "version": "financial_statement_v2",
+      "revision": "block_geometry_v5"
+     },
+     "evidence_label": "unknown",
+     "confidence": "low"
+    },
+    {
+     "reconciliation_id": "finrec_e691ecec7bb6114af5a4",
+     "evidence_id": "finev_eb0fd675c4e5f7ceae44",
+     "symbol": "MLCF",
+     "metric": "basic_eps",
+     "period_end": "2026-03-31",
+     "period_type": "interim",
+     "duration_months": 9,
+     "statement_type": "income_statement",
+     "consolidation": "unconsolidated",
+     "currency": "PKR",
+     "unit": "PKR/share",
+     "unit_multiplier": 1,
+     "raw_value": "5.81",
+     "normalized_value": 5.81,
+     "status": "quarantined",
+     "reasons": [
+      "missing_or_nonconsolidated_basis",
+      "not_annual_or_direct_three_month_quarter"
+     ],
+     "eligibility_scope": "not_eligible_financial_truth_gate",
+     "source": {
+      "document_id": "psx:275425",
+      "fact_id": "fact_26b2b6b3f0863bac4808831b",
+      "content_sha256": "744a0c710043d6e0a7de36bb99f21ca50f0f9346f6972b957f6733a47deae11f",
+      "source_url": "https://dps.psx.com.pk/download/document/275425.pdf",
+      "source": "PSX DPS",
+      "page": 9,
+      "text": "Earnings per share",
+      "available_on": "2026-04-28",
+      "published_at": "2026-04-28T10:25:00+05:00",
+      "retrieved_at": "2026-08-30T16:42:58Z"
+     },
+     "parser": {
+      "version": "financial_statement_v2",
+      "revision": "block_geometry_v5"
+     },
+     "evidence_label": "unknown",
+     "confidence": "low"
+    },
+    {
+     "reconciliation_id": "finrec_06e8586f4dc731f3f4c4",
+     "evidence_id": "finev_49be47372f055d9a7735",
+     "symbol": "MLCF",
+     "metric": "basic_eps",
+     "period_end": "2026-03-31",
+     "period_type": "interim",
+     "duration_months": 3,
+     "statement_type": "income_statement",
+     "consolidation": "consolidated",
+     "currency": "PKR",
+     "unit": "PKR/share",
+     "unit_multiplier": 1,
+     "raw_value": "1.86",
+     "normalized_value": 1.86,
+     "status": "eligible",
+     "reasons": [],
+     "eligibility_scope": "reported_quarter_financial_truth_gate",
+     "source": {
+      "document_id": "psx:275425",
+      "fact_id": "fact_3f911831bae096e028adb476",
+      "content_sha256": "744a0c710043d6e0a7de36bb99f21ca50f0f9346f6972b957f6733a47deae11f",
+      "source_url": "https://dps.psx.com.pk/download/document/275425.pdf",
+      "source": "PSX DPS",
+      "page": 29,
+      "text": "Earnings per share for profit attributable",
+      "available_on": "2026-04-28",
+      "published_at": "2026-04-28T10:25:00+05:00",
+      "retrieved_at": "2026-08-30T16:42:58Z"
+     },
+     "parser": {
+      "version": "financial_statement_v2",
+      "revision": "block_geometry_v5"
+     },
+     "evidence_label": "fact_source_reported",
+     "confidence": "high"
+    },
+    {
+     "reconciliation_id": "finrec_482c540c39918a007f37",
+     "evidence_id": "finev_4368a2071f4ad38b5451",
+     "symbol": "MLCF",
+     "metric": "basic_eps",
+     "period_end": "2026-03-31",
+     "period_type": "interim",
+     "duration_months": 3,
+     "statement_type": "income_statement",
+     "consolidation": "unconsolidated",
+     "currency": "PKR",
+     "unit": "PKR/share",
+     "unit_multiplier": 1,
+     "raw_value": "0.92",
+     "normalized_value": 0.92,
+     "status": "quarantined",
+     "reasons": [
+      "missing_or_nonconsolidated_basis"
+     ],
+     "eligibility_scope": "not_eligible_financial_truth_gate",
+     "source": {
+      "document_id": "psx:275425",
+      "fact_id": "fact_56ebd9be1d640d7f1bb8e893",
+      "content_sha256": "744a0c710043d6e0a7de36bb99f21ca50f0f9346f6972b957f6733a47deae11f",
+      "source_url": "https://dps.psx.com.pk/download/document/275425.pdf",
+      "source": "PSX DPS",
+      "page": 9,
+      "text": "Earnings per share",
+      "available_on": "2026-04-28",
+      "published_at": "2026-04-28T10:25:00+05:00",
+      "retrieved_at": "2026-08-30T16:42:58Z"
+     },
+     "parser": {
+      "version": "financial_statement_v2",
+      "revision": "block_geometry_v5"
+     },
+     "evidence_label": "unknown",
+     "confidence": "low"
+    },
+    {
+     "reconciliation_id": "finrec_edbdc85d8f47364fe905",
+     "evidence_id": "finev_79a7ae1125b2888b9373",
+     "symbol": "MLCF",
+     "metric": "basic_eps",
+     "period_end": "2026-03-31",
+     "period_type": "interim",
+     "duration_months": 9,
+     "statement_type": "income_statement",
+     "consolidation": "consolidated",
+     "currency": "PKR",
+     "unit": "PKR/share",
+     "unit_multiplier": 1,
+     "raw_value": "7.44",
+     "normalized_value": 7.44,
+     "status": "quarantined",
+     "reasons": [
+      "not_annual_or_direct_three_month_quarter"
+     ],
+     "eligibility_scope": "not_eligible_financial_truth_gate",
+     "source": {
+      "document_id": "psx:275425",
+      "fact_id": "fact_880811240b1344b63ca518af",
+      "content_sha256": "744a0c710043d6e0a7de36bb99f21ca50f0f9346f6972b957f6733a47deae11f",
+      "source_url": "https://dps.psx.com.pk/download/document/275425.pdf",
+      "source": "PSX DPS",
+      "page": 29,
+      "text": "Earnings per share for profit attributable",
+      "available_on": "2026-04-28",
+      "published_at": "2026-04-28T10:25:00+05:00",
+      "retrieved_at": "2026-08-30T16:42:58Z"
      },
      "parser": {
       "version": "financial_statement_v2",
@@ -1379,9 +1692,7 @@
      "reasons": [
       "legacy_extractor_not_model_eligible",
       "legacy_parser_revision_quarantine",
-      "missing_available_on",
       "missing_or_non_pkr_currency",
-      "missing_required_provenance",
       "outside_required_financial_truth_metric_set",
       "readiness_is_audit_only",
       "unqualified_financial_fact_source"
@@ -1395,15 +1706,15 @@
       "source": "PSX DPS",
       "page": 4,
       "text": "ring the same period last year. Domestic sales volume was 3,378,887 tons, representing an increase of 21.83% mainly due to increase in demand for cement in local market and inclusion of Pioneer Cement Limited’s dispatches in total due to i…",
-      "available_on": null,
+      "available_on": "2026-04-28",
       "published_at": "2026-04-28T10:25:00+05:00",
-      "retrieved_at": "2026-08-22T16:48:11Z"
+      "retrieved_at": "2026-08-30T16:42:58Z"
      },
      "parser": {
       "version": null,
       "revision": null
      },
-     "evidence_label": "missing_required_source",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -1425,9 +1736,7 @@
      "reasons": [
       "legacy_extractor_not_model_eligible",
       "legacy_parser_revision_quarantine",
-      "missing_available_on",
       "missing_or_non_pkr_currency",
-      "missing_required_provenance",
       "outside_required_financial_truth_metric_set",
       "readiness_is_audit_only",
       "unqualified_financial_fact_source"
@@ -1441,15 +1750,15 @@
       "source": "PSX DPS",
       "page": 4,
       "text": "64 million, compared to Rs. 51,379 million in the previous period. The Company’s top line increased by 10.87% as a result of 21.83% quantitative increase of local dispatches. However, sales rate per bag of cement slightly decreased, primar…",
-      "available_on": null,
+      "available_on": "2026-04-28",
       "published_at": "2026-04-28T10:25:00+05:00",
-      "retrieved_at": "2026-08-22T16:48:11Z"
+      "retrieved_at": "2026-08-30T16:42:58Z"
      },
      "parser": {
       "version": null,
       "revision": null
      },
-     "evidence_label": "missing_required_source",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -1471,9 +1780,7 @@
      "reasons": [
       "legacy_extractor_not_model_eligible",
       "legacy_parser_revision_quarantine",
-      "missing_available_on",
       "missing_or_non_pkr_currency",
-      "missing_required_provenance",
       "outside_required_financial_truth_metric_set",
       "readiness_is_audit_only",
       "unqualified_financial_fact_source"
@@ -1487,15 +1794,15 @@
       "source": "PSX DPS",
       "page": 4,
       "text": "nth of February 2026. The export sales volume reduced from 173,489 tons to 78,135 tons, a decline of 54.96% from the previous period mainly due to disruption of trade with Afghanistan. Global pet coke prices decreased during the first nine…",
-      "available_on": null,
+      "available_on": "2026-04-28",
       "published_at": "2026-04-28T10:25:00+05:00",
-      "retrieved_at": "2026-08-22T16:48:11Z"
+      "retrieved_at": "2026-08-30T16:42:58Z"
      },
      "parser": {
       "version": null,
       "revision": null
      },
-     "evidence_label": "missing_required_source",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -2087,6 +2394,164 @@
      "confidence": "low"
     },
     {
+     "reconciliation_id": "finrec_48589b522613f2e1d5b6",
+     "evidence_id": "finev_00b7e3faaf1bb45bf94d",
+     "symbol": "MLCF",
+     "metric": "gross_profit",
+     "period_end": "2025-03-31",
+     "period_type": "interim",
+     "duration_months": 3,
+     "statement_type": "income_statement",
+     "consolidation": "unconsolidated",
+     "currency": "PKR",
+     "unit": "PKR",
+     "unit_multiplier": 1000,
+     "raw_value": "5,198,390",
+     "normalized_value": 5198390000.0,
+     "status": "quarantined",
+     "reasons": [
+      "missing_or_nonconsolidated_basis",
+      "outside_required_financial_truth_metric_set"
+     ],
+     "eligibility_scope": "not_eligible_financial_truth_gate",
+     "source": {
+      "document_id": "psx:275425",
+      "fact_id": "fact_4837c212fbda53ef21fe1c78",
+      "content_sha256": "744a0c710043d6e0a7de36bb99f21ca50f0f9346f6972b957f6733a47deae11f",
+      "source_url": "https://dps.psx.com.pk/download/document/275425.pdf",
+      "source": "PSX DPS",
+      "page": 9,
+      "text": "Gross profit",
+      "available_on": "2026-04-28",
+      "published_at": "2026-04-28T10:25:00+05:00",
+      "retrieved_at": "2026-08-30T16:42:58Z"
+     },
+     "parser": {
+      "version": "financial_statement_v2",
+      "revision": "block_geometry_v5"
+     },
+     "evidence_label": "unknown",
+     "confidence": "low"
+    },
+    {
+     "reconciliation_id": "finrec_2a2319d5ab0699a8467b",
+     "evidence_id": "finev_4967860c884aefe28ec1",
+     "symbol": "MLCF",
+     "metric": "gross_profit",
+     "period_end": "2025-03-31",
+     "period_type": "interim",
+     "duration_months": 9,
+     "statement_type": "income_statement",
+     "consolidation": "unconsolidated",
+     "currency": "PKR",
+     "unit": "PKR",
+     "unit_multiplier": 1000,
+     "raw_value": "17,015,797",
+     "normalized_value": 17015797000.0,
+     "status": "quarantined",
+     "reasons": [
+      "missing_or_nonconsolidated_basis",
+      "outside_required_financial_truth_metric_set"
+     ],
+     "eligibility_scope": "not_eligible_financial_truth_gate",
+     "source": {
+      "document_id": "psx:275425",
+      "fact_id": "fact_4bdb2deea9de68407058e32e",
+      "content_sha256": "744a0c710043d6e0a7de36bb99f21ca50f0f9346f6972b957f6733a47deae11f",
+      "source_url": "https://dps.psx.com.pk/download/document/275425.pdf",
+      "source": "PSX DPS",
+      "page": 9,
+      "text": "Gross profit",
+      "available_on": "2026-04-28",
+      "published_at": "2026-04-28T10:25:00+05:00",
+      "retrieved_at": "2026-08-30T16:42:58Z"
+     },
+     "parser": {
+      "version": "financial_statement_v2",
+      "revision": "block_geometry_v5"
+     },
+     "evidence_label": "unknown",
+     "confidence": "low"
+    },
+    {
+     "reconciliation_id": "finrec_8d743428e9a4075a0a14",
+     "evidence_id": "finev_0447c88b1f42d4bb7714",
+     "symbol": "MLCF",
+     "metric": "gross_profit",
+     "period_end": "2025-03-31",
+     "period_type": "interim",
+     "duration_months": 9,
+     "statement_type": "income_statement",
+     "consolidation": "consolidated",
+     "currency": "PKR",
+     "unit": "PKR",
+     "unit_multiplier": 1000,
+     "raw_value": "18,442,739",
+     "normalized_value": 18442739000.0,
+     "status": "quarantined",
+     "reasons": [
+      "outside_required_financial_truth_metric_set"
+     ],
+     "eligibility_scope": "not_eligible_financial_truth_gate",
+     "source": {
+      "document_id": "psx:275425",
+      "fact_id": "fact_63c07c3f94aaf5bbf75780f6",
+      "content_sha256": "744a0c710043d6e0a7de36bb99f21ca50f0f9346f6972b957f6733a47deae11f",
+      "source_url": "https://dps.psx.com.pk/download/document/275425.pdf",
+      "source": "PSX DPS",
+      "page": 29,
+      "text": "Gross profit",
+      "available_on": "2026-04-28",
+      "published_at": "2026-04-28T10:25:00+05:00",
+      "retrieved_at": "2026-08-30T16:42:58Z"
+     },
+     "parser": {
+      "version": "financial_statement_v2",
+      "revision": "block_geometry_v5"
+     },
+     "evidence_label": "unknown",
+     "confidence": "low"
+    },
+    {
+     "reconciliation_id": "finrec_17ae25c5efa798f112ca",
+     "evidence_id": "finev_ec62325e56305dfa7cc2",
+     "symbol": "MLCF",
+     "metric": "gross_profit",
+     "period_end": "2025-03-31",
+     "period_type": "interim",
+     "duration_months": 3,
+     "statement_type": "income_statement",
+     "consolidation": "consolidated",
+     "currency": "PKR",
+     "unit": "PKR",
+     "unit_multiplier": 1000,
+     "raw_value": "5,903,020",
+     "normalized_value": 5903020000.0,
+     "status": "quarantined",
+     "reasons": [
+      "outside_required_financial_truth_metric_set"
+     ],
+     "eligibility_scope": "not_eligible_financial_truth_gate",
+     "source": {
+      "document_id": "psx:275425",
+      "fact_id": "fact_9ac3fab8abf634aeacba4f67",
+      "content_sha256": "744a0c710043d6e0a7de36bb99f21ca50f0f9346f6972b957f6733a47deae11f",
+      "source_url": "https://dps.psx.com.pk/download/document/275425.pdf",
+      "source": "PSX DPS",
+      "page": 29,
+      "text": "Gross profit",
+      "available_on": "2026-04-28",
+      "published_at": "2026-04-28T10:25:00+05:00",
+      "retrieved_at": "2026-08-30T16:42:58Z"
+     },
+     "parser": {
+      "version": "financial_statement_v2",
+      "revision": "block_geometry_v5"
+     },
+     "evidence_label": "unknown",
+     "confidence": "low"
+    },
+    {
      "reconciliation_id": "finrec_32c5a657aacf56908808",
      "evidence_id": "finev_f26fb57a5ea1a5782969",
      "symbol": "MLCF",
@@ -2394,6 +2859,164 @@
       "available_on": "2026-03-02",
       "published_at": "2026-03-02T08:46:00+05:00",
       "retrieved_at": "2026-08-30T15:58:03Z"
+     },
+     "parser": {
+      "version": "financial_statement_v2",
+      "revision": "block_geometry_v5"
+     },
+     "evidence_label": "unknown",
+     "confidence": "low"
+    },
+    {
+     "reconciliation_id": "finrec_f592fd5407aba94592dd",
+     "evidence_id": "finev_f5feb0bd7016434920e4",
+     "symbol": "MLCF",
+     "metric": "gross_profit",
+     "period_end": "2026-03-31",
+     "period_type": "interim",
+     "duration_months": 3,
+     "statement_type": "income_statement",
+     "consolidation": "consolidated",
+     "currency": "PKR",
+     "unit": "PKR",
+     "unit_multiplier": 1000,
+     "raw_value": "7,129,766",
+     "normalized_value": 7129766000.0,
+     "status": "quarantined",
+     "reasons": [
+      "outside_required_financial_truth_metric_set"
+     ],
+     "eligibility_scope": "not_eligible_financial_truth_gate",
+     "source": {
+      "document_id": "psx:275425",
+      "fact_id": "fact_4ddca5d73749649b8fb51101",
+      "content_sha256": "744a0c710043d6e0a7de36bb99f21ca50f0f9346f6972b957f6733a47deae11f",
+      "source_url": "https://dps.psx.com.pk/download/document/275425.pdf",
+      "source": "PSX DPS",
+      "page": 29,
+      "text": "Gross profit",
+      "available_on": "2026-04-28",
+      "published_at": "2026-04-28T10:25:00+05:00",
+      "retrieved_at": "2026-08-30T16:42:58Z"
+     },
+     "parser": {
+      "version": "financial_statement_v2",
+      "revision": "block_geometry_v5"
+     },
+     "evidence_label": "unknown",
+     "confidence": "low"
+    },
+    {
+     "reconciliation_id": "finrec_950a3cd8f8bcedb59a99",
+     "evidence_id": "finev_a59c915df94513ad86f9",
+     "symbol": "MLCF",
+     "metric": "gross_profit",
+     "period_end": "2026-03-31",
+     "period_type": "interim",
+     "duration_months": 9,
+     "statement_type": "income_statement",
+     "consolidation": "consolidated",
+     "currency": "PKR",
+     "unit": "PKR",
+     "unit_multiplier": 1000,
+     "raw_value": "19,286,679",
+     "normalized_value": 19286679000.0,
+     "status": "quarantined",
+     "reasons": [
+      "outside_required_financial_truth_metric_set"
+     ],
+     "eligibility_scope": "not_eligible_financial_truth_gate",
+     "source": {
+      "document_id": "psx:275425",
+      "fact_id": "fact_706b3fde5264b43794dabcae",
+      "content_sha256": "744a0c710043d6e0a7de36bb99f21ca50f0f9346f6972b957f6733a47deae11f",
+      "source_url": "https://dps.psx.com.pk/download/document/275425.pdf",
+      "source": "PSX DPS",
+      "page": 29,
+      "text": "Gross profit",
+      "available_on": "2026-04-28",
+      "published_at": "2026-04-28T10:25:00+05:00",
+      "retrieved_at": "2026-08-30T16:42:58Z"
+     },
+     "parser": {
+      "version": "financial_statement_v2",
+      "revision": "block_geometry_v5"
+     },
+     "evidence_label": "unknown",
+     "confidence": "low"
+    },
+    {
+     "reconciliation_id": "finrec_a33bd66d1a11b63f808e",
+     "evidence_id": "finev_b74ef0cacdb584a08afd",
+     "symbol": "MLCF",
+     "metric": "gross_profit",
+     "period_end": "2026-03-31",
+     "period_type": "interim",
+     "duration_months": 3,
+     "statement_type": "income_statement",
+     "consolidation": "unconsolidated",
+     "currency": "PKR",
+     "unit": "PKR",
+     "unit_multiplier": 1000,
+     "raw_value": "4,984,011",
+     "normalized_value": 4984011000.0,
+     "status": "quarantined",
+     "reasons": [
+      "missing_or_nonconsolidated_basis",
+      "outside_required_financial_truth_metric_set"
+     ],
+     "eligibility_scope": "not_eligible_financial_truth_gate",
+     "source": {
+      "document_id": "psx:275425",
+      "fact_id": "fact_8e6fb389933b3420467126c1",
+      "content_sha256": "744a0c710043d6e0a7de36bb99f21ca50f0f9346f6972b957f6733a47deae11f",
+      "source_url": "https://dps.psx.com.pk/download/document/275425.pdf",
+      "source": "PSX DPS",
+      "page": 9,
+      "text": "Gross profit",
+      "available_on": "2026-04-28",
+      "published_at": "2026-04-28T10:25:00+05:00",
+      "retrieved_at": "2026-08-30T16:42:58Z"
+     },
+     "parser": {
+      "version": "financial_statement_v2",
+      "revision": "block_geometry_v5"
+     },
+     "evidence_label": "unknown",
+     "confidence": "low"
+    },
+    {
+     "reconciliation_id": "finrec_e540364d07ed36e15b18",
+     "evidence_id": "finev_752e905c245709385857",
+     "symbol": "MLCF",
+     "metric": "gross_profit",
+     "period_end": "2026-03-31",
+     "period_type": "interim",
+     "duration_months": 9,
+     "statement_type": "income_statement",
+     "consolidation": "unconsolidated",
+     "currency": "PKR",
+     "unit": "PKR",
+     "unit_multiplier": 1000,
+     "raw_value": "15,998,766",
+     "normalized_value": 15998766000.0,
+     "status": "quarantined",
+     "reasons": [
+      "missing_or_nonconsolidated_basis",
+      "outside_required_financial_truth_metric_set"
+     ],
+     "eligibility_scope": "not_eligible_financial_truth_gate",
+     "source": {
+      "document_id": "psx:275425",
+      "fact_id": "fact_ed5b5110d718e1a6fbad602c",
+      "content_sha256": "744a0c710043d6e0a7de36bb99f21ca50f0f9346f6972b957f6733a47deae11f",
+      "source_url": "https://dps.psx.com.pk/download/document/275425.pdf",
+      "source": "PSX DPS",
+      "page": 9,
+      "text": "Gross profit",
+      "available_on": "2026-04-28",
+      "published_at": "2026-04-28T10:25:00+05:00",
+      "retrieved_at": "2026-08-30T16:42:58Z"
      },
      "parser": {
       "version": "financial_statement_v2",
@@ -4810,9 +5433,7 @@
      "reasons": [
       "legacy_extractor_not_model_eligible",
       "legacy_parser_revision_quarantine",
-      "missing_available_on",
       "missing_or_nonconsolidated_basis",
-      "missing_required_provenance",
       "outside_required_financial_truth_metric_set",
       "readiness_is_audit_only",
       "unqualified_financial_fact_source"
@@ -4826,15 +5447,15 @@
       "source": "PSX DPS",
       "page": 9,
       "text": "(671,510) (89,555) (289,193) Other income 1,221,823 5,989,802 70,893 5,711,175 Operating profit 11,787,759 17,105,295 3,029,589 9,272,152 Finance cost 15 (2,308,447) (3,105,140) (1,533,260) (587,871) Finance income 382,355 979,702 146,583…",
-      "available_on": null,
+      "available_on": "2026-04-28",
       "published_at": "2026-04-28T10:25:00+05:00",
-      "retrieved_at": "2026-08-22T16:48:11Z"
+      "retrieved_at": "2026-08-30T16:42:58Z"
      },
      "parser": {
       "version": null,
       "revision": null
      },
-     "evidence_label": "missing_required_source",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -4856,8 +5477,6 @@
      "reasons": [
       "legacy_extractor_not_model_eligible",
       "legacy_parser_revision_quarantine",
-      "missing_available_on",
-      "missing_required_provenance",
       "outside_required_financial_truth_metric_set",
       "readiness_is_audit_only",
       "unqualified_financial_fact_source"
@@ -4871,15 +5490,15 @@
       "source": "PSX DPS",
       "page": 25,
       "text": "e as follows: March 31, March 31, 2026 2025 (Rupees in million) Sales 56,964 51,379 Gross Profit 19,287 18,443 Profit from operations 14,201 12,628 Financial charges 1,988 1,575 Profit after tax 7,795 7,871 (---------- Rupees ----------) E…",
-      "available_on": null,
+      "available_on": "2026-04-28",
       "published_at": "2026-04-28T10:25:00+05:00",
-      "retrieved_at": "2026-08-22T16:48:11Z"
+      "retrieved_at": "2026-08-30T16:42:58Z"
      },
      "parser": {
       "version": null,
       "revision": null
      },
-     "evidence_label": "missing_required_source",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -4901,8 +5520,6 @@
      "reasons": [
       "legacy_extractor_not_model_eligible",
       "legacy_parser_revision_quarantine",
-      "missing_available_on",
-      "missing_required_provenance",
       "outside_required_financial_truth_metric_set",
       "readiness_is_audit_only",
       "unqualified_financial_fact_source"
@@ -4916,15 +5533,15 @@
       "source": "PSX DPS",
       "page": 29,
       "text": ",564) (795,167) (207,097) (333,634) Other income 916,002 360,405 126,072 68,807 Operating profit 14,200,570 12,627,950 4,934,720 4,238,576 Finance cost 16 (2,368,837) (2,555,017) (1,590,720) (464,409) Finance income 381,188 979,702 145,416…",
-      "available_on": null,
+      "available_on": "2026-04-28",
       "published_at": "2026-04-28T10:25:00+05:00",
-      "retrieved_at": "2026-08-22T16:48:11Z"
+      "retrieved_at": "2026-08-30T16:42:58Z"
      },
      "parser": {
       "version": null,
       "revision": null
      },
-     "evidence_label": "missing_required_source",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -4946,8 +5563,6 @@
      "reasons": [
       "legacy_extractor_not_model_eligible",
       "legacy_parser_revision_quarantine",
-      "missing_available_on",
-      "missing_required_provenance",
       "outside_required_financial_truth_metric_set",
       "readiness_is_audit_only",
       "unqualified_financial_fact_source"
@@ -4961,15 +5576,15 @@
       "source": "PSX DPS",
       "page": 29,
       "text": "015 16,631,126 Cost of sales 15 (37,677,192) (32,936,375) (14,415,249) (10,728,106) Gross profit 19,286,679 18,442,739 7,129,766 5,903,020 Selling and distribution expenses (2,318,764) (3,160,347) (722,953) (769,871) Administrative expense…",
-      "available_on": null,
+      "available_on": "2026-04-28",
       "published_at": "2026-04-28T10:25:00+05:00",
-      "retrieved_at": "2026-08-22T16:48:11Z"
+      "retrieved_at": "2026-08-30T16:42:58Z"
      },
      "parser": {
       "version": null,
       "revision": null
      },
-     "evidence_label": "missing_required_source",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -4991,9 +5606,7 @@
      "reasons": [
       "legacy_extractor_not_model_eligible",
       "legacy_parser_revision_quarantine",
-      "missing_available_on",
       "missing_or_nonconsolidated_basis",
-      "missing_required_provenance",
       "outside_required_financial_truth_metric_set",
       "readiness_is_audit_only",
       "unqualified_financial_fact_source"
@@ -5007,15 +5620,15 @@
       "source": "PSX DPS",
       "page": 9,
       "text": "582 16,631,126 Cost of sales 14 (36,351,671) (34,363,317) (11,947,571) (11,432,736) Gross profit 15,998,766 17,015,797 4,984,011 5,198,390 Selling and distribution expenses (2,299,638) (3,160,347) (703,827) (769,871) Administrative expense…",
-      "available_on": null,
+      "available_on": "2026-04-28",
       "published_at": "2026-04-28T10:25:00+05:00",
-      "retrieved_at": "2026-08-22T16:48:11Z"
+      "retrieved_at": "2026-08-30T16:42:58Z"
      },
      "parser": {
       "version": null,
       "revision": null
      },
-     "evidence_label": "missing_required_source",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -5037,8 +5650,6 @@
      "reasons": [
       "legacy_extractor_not_model_eligible",
       "legacy_parser_revision_quarantine",
-      "missing_available_on",
-      "missing_required_provenance",
       "outside_required_financial_truth_metric_set",
       "readiness_is_audit_only",
       "unqualified_financial_fact_source"
@@ -5052,15 +5663,15 @@
       "source": "PSX DPS",
       "page": 4,
       "text": "volume coupled with overall decrease in cost of goods sold resulted in consolidated gross profit of Rs. 19,287 million during the reporting period, a 4.58% increase from Rs. 18,443 million in the same period last year. Punjab based cement…",
-      "available_on": null,
+      "available_on": "2026-04-28",
       "published_at": "2026-04-28T10:25:00+05:00",
-      "retrieved_at": "2026-08-22T16:48:11Z"
+      "retrieved_at": "2026-08-30T16:42:58Z"
      },
      "parser": {
       "version": null,
       "revision": null
      },
-     "evidence_label": "missing_required_source",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -5082,8 +5693,6 @@
      "reasons": [
       "legacy_extractor_not_model_eligible",
       "legacy_parser_revision_quarantine",
-      "missing_available_on",
-      "missing_required_provenance",
       "outside_required_financial_truth_metric_set",
       "readiness_is_audit_only",
       "unqualified_financial_fact_source"
@@ -5097,15 +5706,15 @@
       "source": "PSX DPS",
       "page": 5,
       "text": "ril 21, 2026 Director Chief Executive Officer The Company reported a consolidated pre-tax profit of Rs. 12,090 million for the reporting period, compared to a corresponding period profit of Rs. 10,953 million. The consolidated tax componen…",
-      "available_on": null,
+      "available_on": "2026-04-28",
       "published_at": "2026-04-28T10:25:00+05:00",
-      "retrieved_at": "2026-08-22T16:48:11Z"
+      "retrieved_at": "2026-08-30T16:42:58Z"
      },
      "parser": {
       "version": null,
       "revision": null
      },
-     "evidence_label": "missing_required_source",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -5127,8 +5736,6 @@
      "reasons": [
       "legacy_extractor_not_model_eligible",
       "legacy_parser_revision_quarantine",
-      "missing_available_on",
-      "missing_required_provenance",
       "outside_required_financial_truth_metric_set",
       "readiness_is_audit_only",
       "unqualified_financial_fact_source"
@@ -5142,15 +5749,15 @@
       "source": "PSX DPS",
       "page": 5,
       "text": "profit of Rs. 12,090 million for the reporting period, compared to a corresponding period profit of Rs. 10,953 million. The consolidated tax component was Rs. 4,295 million for the reporting period, compared to Rs. 3,082 million in the pre…",
-      "available_on": null,
+      "available_on": "2026-04-28",
       "published_at": "2026-04-28T10:25:00+05:00",
-      "retrieved_at": "2026-08-22T16:48:11Z"
+      "retrieved_at": "2026-08-30T16:42:58Z"
      },
      "parser": {
       "version": null,
       "revision": null
      },
-     "evidence_label": "missing_required_source",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -5171,10 +5778,9 @@
      "status": "audit_only",
      "reasons": [
       "legacy_extractor_not_model_eligible",
-      "missing_available_on",
+      "legacy_parser_revision_quarantine",
       "missing_consolidation_basis",
       "missing_or_nonconsolidated_basis",
-      "missing_required_provenance",
       "outside_required_financial_truth_metric_set",
       "readiness_is_audit_only",
       "unqualified_financial_fact_source"
@@ -5188,15 +5794,15 @@
       "source": "PSX DPS",
       "page": 8,
       "text": "ents 12 11,893,086 11,102,413 Short term deposits and prepayments 777,588 688,697 Accrued profit 287,153 42,880 Other receivables 608,486 70,152 Advance income tax - net of provision 1,287,853 - Cash and bank balances 2,130,946 1,615,481 4…",
-      "available_on": null,
+      "available_on": "2026-04-28",
       "published_at": "2026-04-28T10:25:00+05:00",
-      "retrieved_at": "2026-08-22T14:34:23Z"
+      "retrieved_at": "2026-08-30T16:42:58Z"
      },
      "parser": {
       "version": null,
       "revision": null
      },
-     "evidence_label": "missing_required_source",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -5218,9 +5824,7 @@
      "reasons": [
       "legacy_extractor_not_model_eligible",
       "legacy_parser_revision_quarantine",
-      "missing_available_on",
       "missing_or_nonconsolidated_basis",
-      "missing_required_provenance",
       "outside_required_financial_truth_metric_set",
       "readiness_is_audit_only",
       "unqualified_financial_fact_source"
@@ -5234,15 +5838,15 @@
       "source": "PSX DPS",
       "page": 7,
       "text": "75,626 10,475,626 Capital reserves 32,959,428 34,998,282 Revenue reserve: Un-appropriated profit 27,223,116 22,390,719 Surplus on revaluation of fixed assets - net of tax 5 3,357,853 3,596,965 Total equity 74,016,023 71,461,592 NON - CURRE…",
-      "available_on": null,
+      "available_on": "2026-04-28",
       "published_at": "2026-04-28T10:25:00+05:00",
-      "retrieved_at": "2026-08-22T16:48:11Z"
+      "retrieved_at": "2026-08-30T16:42:58Z"
      },
      "parser": {
       "version": null,
       "revision": null
      },
-     "evidence_label": "missing_required_source",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -5264,8 +5868,6 @@
      "reasons": [
       "legacy_extractor_not_model_eligible",
       "legacy_parser_revision_quarantine",
-      "missing_available_on",
-      "missing_required_provenance",
       "outside_required_financial_truth_metric_set",
       "readiness_is_audit_only",
       "unqualified_financial_fact_source"
@@ -5279,15 +5881,15 @@
       "source": "PSX DPS",
       "page": 27,
       "text": "75,626 10,475,626 Capital reserves 32,959,428 34,998,282 Revenue reserve: Un-appropriated profit 28,290,912 21,543,468 Surplus on revaluation of fixed assets - net of tax 5 3,322,216 3,942,406 Non-controlling interests 11,397,108 (496) Tot…",
-      "available_on": null,
+      "available_on": "2026-04-28",
       "published_at": "2026-04-28T10:25:00+05:00",
-      "retrieved_at": "2026-08-22T16:48:11Z"
+      "retrieved_at": "2026-08-30T16:42:58Z"
      },
      "parser": {
       "version": null,
       "revision": null
      },
-     "evidence_label": "missing_required_source",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -5309,8 +5911,6 @@
      "reasons": [
       "legacy_extractor_not_model_eligible",
       "legacy_parser_revision_quarantine",
-      "missing_available_on",
-      "missing_required_provenance",
       "outside_required_financial_truth_metric_set",
       "readiness_is_audit_only",
       "unqualified_financial_fact_source"
@@ -5324,15 +5924,15 @@
       "source": "PSX DPS",
       "page": 25,
       "text": "s Profit 19,287 18,443 Profit from operations 14,201 12,628 Financial charges 1,988 1,575 Profit after tax 7,795 7,871 (---------- Rupees ----------) Earnings per share – basic and diluted 7.44 7.51 SUBSIDIARY COMPANIES MAPLE LEAF POWER LI…",
-      "available_on": null,
+      "available_on": "2026-04-28",
       "published_at": "2026-04-28T10:25:00+05:00",
-      "retrieved_at": "2026-08-22T16:48:11Z"
+      "retrieved_at": "2026-08-30T16:42:58Z"
      },
      "parser": {
       "version": null,
       "revision": null
      },
-     "evidence_label": "missing_required_source",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -5571,6 +6171,164 @@
      "confidence": "low"
     },
     {
+     "reconciliation_id": "finrec_c0875fc75c1dde9465ef",
+     "evidence_id": "finev_d78eebdaf7cc41d82e39",
+     "symbol": "MLCF",
+     "metric": "profit_after_tax_attributable",
+     "period_end": "2025-03-31",
+     "period_type": "interim",
+     "duration_months": 3,
+     "statement_type": "income_statement",
+     "consolidation": "consolidated",
+     "currency": "PKR",
+     "unit": "PKR",
+     "unit_multiplier": 1000,
+     "raw_value": "2,793,410",
+     "normalized_value": 2793410000.0,
+     "status": "quarantined",
+     "reasons": [
+      "not_direct_current_period_quarter_fact"
+     ],
+     "eligibility_scope": "not_eligible_financial_truth_gate",
+     "source": {
+      "document_id": "psx:275425",
+      "fact_id": "fact_681444dd5596059d5d0f0e19",
+      "content_sha256": "744a0c710043d6e0a7de36bb99f21ca50f0f9346f6972b957f6733a47deae11f",
+      "source_url": "https://dps.psx.com.pk/download/document/275425.pdf",
+      "source": "PSX DPS",
+      "page": 29,
+      "text": "Equity holders of the Holding Company",
+      "available_on": "2026-04-28",
+      "published_at": "2026-04-28T10:25:00+05:00",
+      "retrieved_at": "2026-08-30T16:42:58Z"
+     },
+     "parser": {
+      "version": "financial_statement_v2",
+      "revision": "block_geometry_v5"
+     },
+     "evidence_label": "unknown",
+     "confidence": "low"
+    },
+    {
+     "reconciliation_id": "finrec_ede7e6d27973dada5ede",
+     "evidence_id": "finev_e4be6e6a3167bcec8ff8",
+     "symbol": "MLCF",
+     "metric": "profit_after_tax_attributable",
+     "period_end": "2025-03-31",
+     "period_type": "interim",
+     "duration_months": 3,
+     "statement_type": "income_statement",
+     "consolidation": "unconsolidated",
+     "currency": "PKR",
+     "unit": "PKR",
+     "unit_multiplier": 1000,
+     "raw_value": "7,849,459",
+     "normalized_value": 7849459000.0,
+     "status": "quarantined",
+     "reasons": [
+      "missing_or_nonconsolidated_basis",
+      "not_direct_current_period_quarter_fact"
+     ],
+     "eligibility_scope": "not_eligible_financial_truth_gate",
+     "source": {
+      "document_id": "psx:275425",
+      "fact_id": "fact_bba5d77325c1b293663b1009",
+      "content_sha256": "744a0c710043d6e0a7de36bb99f21ca50f0f9346f6972b957f6733a47deae11f",
+      "source_url": "https://dps.psx.com.pk/download/document/275425.pdf",
+      "source": "PSX DPS",
+      "page": 9,
+      "text": "Profit for the period",
+      "available_on": "2026-04-28",
+      "published_at": "2026-04-28T10:25:00+05:00",
+      "retrieved_at": "2026-08-30T16:42:58Z"
+     },
+     "parser": {
+      "version": "financial_statement_v2",
+      "revision": "block_geometry_v5"
+     },
+     "evidence_label": "unknown",
+     "confidence": "low"
+    },
+    {
+     "reconciliation_id": "finrec_3c7cd73621c6a5be97c1",
+     "evidence_id": "finev_db8f1f40d003c850de99",
+     "symbol": "MLCF",
+     "metric": "profit_after_tax_attributable",
+     "period_end": "2025-03-31",
+     "period_type": "interim",
+     "duration_months": 9,
+     "statement_type": "income_statement",
+     "consolidation": "unconsolidated",
+     "currency": "PKR",
+     "unit": "PKR",
+     "unit_multiplier": 1000,
+     "raw_value": "12,118,386",
+     "normalized_value": 12118386000.0,
+     "status": "quarantined",
+     "reasons": [
+      "missing_or_nonconsolidated_basis",
+      "not_annual_or_direct_three_month_quarter"
+     ],
+     "eligibility_scope": "not_eligible_financial_truth_gate",
+     "source": {
+      "document_id": "psx:275425",
+      "fact_id": "fact_d619c07c42aa9f8ed7853c2a",
+      "content_sha256": "744a0c710043d6e0a7de36bb99f21ca50f0f9346f6972b957f6733a47deae11f",
+      "source_url": "https://dps.psx.com.pk/download/document/275425.pdf",
+      "source": "PSX DPS",
+      "page": 9,
+      "text": "Profit for the period",
+      "available_on": "2026-04-28",
+      "published_at": "2026-04-28T10:25:00+05:00",
+      "retrieved_at": "2026-08-30T16:42:58Z"
+     },
+     "parser": {
+      "version": "financial_statement_v2",
+      "revision": "block_geometry_v5"
+     },
+     "evidence_label": "unknown",
+     "confidence": "low"
+    },
+    {
+     "reconciliation_id": "finrec_fb334e27f0f2407815af",
+     "evidence_id": "finev_dfdb657c76853f62b694",
+     "symbol": "MLCF",
+     "metric": "profit_after_tax_attributable",
+     "period_end": "2025-03-31",
+     "period_type": "interim",
+     "duration_months": 9,
+     "statement_type": "income_statement",
+     "consolidation": "consolidated",
+     "currency": "PKR",
+     "unit": "PKR",
+     "unit_multiplier": 1000,
+     "raw_value": "7,871,244",
+     "normalized_value": 7871244000.0,
+     "status": "quarantined",
+     "reasons": [
+      "not_annual_or_direct_three_month_quarter"
+     ],
+     "eligibility_scope": "not_eligible_financial_truth_gate",
+     "source": {
+      "document_id": "psx:275425",
+      "fact_id": "fact_f1d655cddd070ec62085d8da",
+      "content_sha256": "744a0c710043d6e0a7de36bb99f21ca50f0f9346f6972b957f6733a47deae11f",
+      "source_url": "https://dps.psx.com.pk/download/document/275425.pdf",
+      "source": "PSX DPS",
+      "page": 29,
+      "text": "Equity holders of the Holding Company",
+      "available_on": "2026-04-28",
+      "published_at": "2026-04-28T10:25:00+05:00",
+      "retrieved_at": "2026-08-30T16:42:58Z"
+     },
+     "parser": {
+      "version": "financial_statement_v2",
+      "revision": "block_geometry_v5"
+     },
+     "evidence_label": "unknown",
+     "confidence": "low"
+    },
+    {
      "reconciliation_id": "finrec_3e6186336ad772e4bfa3",
      "evidence_id": "finev_786b48604e9c73d243d8",
      "symbol": "MLCF",
@@ -5800,6 +6558,161 @@
      },
      "evidence_label": "unknown",
      "confidence": "low"
+    },
+    {
+     "reconciliation_id": "finrec_5a483ba0581ffdb9957d",
+     "evidence_id": "finev_4b1e313e1b498df615aa",
+     "symbol": "MLCF",
+     "metric": "profit_after_tax_attributable",
+     "period_end": "2026-03-31",
+     "period_type": "interim",
+     "duration_months": 3,
+     "statement_type": "income_statement",
+     "consolidation": "unconsolidated",
+     "currency": "PKR",
+     "unit": "PKR",
+     "unit_multiplier": 1000,
+     "raw_value": "960,727",
+     "normalized_value": 960727000.0,
+     "status": "quarantined",
+     "reasons": [
+      "missing_or_nonconsolidated_basis"
+     ],
+     "eligibility_scope": "not_eligible_financial_truth_gate",
+     "source": {
+      "document_id": "psx:275425",
+      "fact_id": "fact_4b2a6d3b90e497a9e7f0b883",
+      "content_sha256": "744a0c710043d6e0a7de36bb99f21ca50f0f9346f6972b957f6733a47deae11f",
+      "source_url": "https://dps.psx.com.pk/download/document/275425.pdf",
+      "source": "PSX DPS",
+      "page": 9,
+      "text": "Profit for the period",
+      "available_on": "2026-04-28",
+      "published_at": "2026-04-28T10:25:00+05:00",
+      "retrieved_at": "2026-08-30T16:42:58Z"
+     },
+     "parser": {
+      "version": "financial_statement_v2",
+      "revision": "block_geometry_v5"
+     },
+     "evidence_label": "unknown",
+     "confidence": "low"
+    },
+    {
+     "reconciliation_id": "finrec_e87e3c9e4d2bc91d3a0e",
+     "evidence_id": "finev_533e0f9edac8ac2429a3",
+     "symbol": "MLCF",
+     "metric": "profit_after_tax_attributable",
+     "period_end": "2026-03-31",
+     "period_type": "interim",
+     "duration_months": 9,
+     "statement_type": "income_statement",
+     "consolidation": "unconsolidated",
+     "currency": "PKR",
+     "unit": "PKR",
+     "unit_multiplier": 1000,
+     "raw_value": "6,083,302",
+     "normalized_value": 6083302000.0,
+     "status": "quarantined",
+     "reasons": [
+      "missing_or_nonconsolidated_basis",
+      "not_annual_or_direct_three_month_quarter"
+     ],
+     "eligibility_scope": "not_eligible_financial_truth_gate",
+     "source": {
+      "document_id": "psx:275425",
+      "fact_id": "fact_580de053a2dc8a3247274cc1",
+      "content_sha256": "744a0c710043d6e0a7de36bb99f21ca50f0f9346f6972b957f6733a47deae11f",
+      "source_url": "https://dps.psx.com.pk/download/document/275425.pdf",
+      "source": "PSX DPS",
+      "page": 9,
+      "text": "Profit for the period",
+      "available_on": "2026-04-28",
+      "published_at": "2026-04-28T10:25:00+05:00",
+      "retrieved_at": "2026-08-30T16:42:58Z"
+     },
+     "parser": {
+      "version": "financial_statement_v2",
+      "revision": "block_geometry_v5"
+     },
+     "evidence_label": "unknown",
+     "confidence": "low"
+    },
+    {
+     "reconciliation_id": "finrec_24b01bc1bd5557ce5281",
+     "evidence_id": "finev_a1c58bb3cecb29cf54c9",
+     "symbol": "MLCF",
+     "metric": "profit_after_tax_attributable",
+     "period_end": "2026-03-31",
+     "period_type": "interim",
+     "duration_months": 9,
+     "statement_type": "income_statement",
+     "consolidation": "consolidated",
+     "currency": "PKR",
+     "unit": "PKR",
+     "unit_multiplier": 1000,
+     "raw_value": "7,617,271",
+     "normalized_value": 7617271000.0,
+     "status": "quarantined",
+     "reasons": [
+      "not_annual_or_direct_three_month_quarter"
+     ],
+     "eligibility_scope": "not_eligible_financial_truth_gate",
+     "source": {
+      "document_id": "psx:275425",
+      "fact_id": "fact_c6236f8fa87817bc77a5b672",
+      "content_sha256": "744a0c710043d6e0a7de36bb99f21ca50f0f9346f6972b957f6733a47deae11f",
+      "source_url": "https://dps.psx.com.pk/download/document/275425.pdf",
+      "source": "PSX DPS",
+      "page": 29,
+      "text": "Equity holders of the Holding Company",
+      "available_on": "2026-04-28",
+      "published_at": "2026-04-28T10:25:00+05:00",
+      "retrieved_at": "2026-08-30T16:42:58Z"
+     },
+     "parser": {
+      "version": "financial_statement_v2",
+      "revision": "block_geometry_v5"
+     },
+     "evidence_label": "unknown",
+     "confidence": "low"
+    },
+    {
+     "reconciliation_id": "finrec_b5399130f6d6319e9243",
+     "evidence_id": "finev_c7d9c8c95ec33fea8bfc",
+     "symbol": "MLCF",
+     "metric": "profit_after_tax_attributable",
+     "period_end": "2026-03-31",
+     "period_type": "interim",
+     "duration_months": 3,
+     "statement_type": "income_statement",
+     "consolidation": "consolidated",
+     "currency": "PKR",
+     "unit": "PKR",
+     "unit_multiplier": 1000,
+     "raw_value": "1,770,955",
+     "normalized_value": 1770955000.0,
+     "status": "eligible",
+     "reasons": [],
+     "eligibility_scope": "reported_quarter_financial_truth_gate",
+     "source": {
+      "document_id": "psx:275425",
+      "fact_id": "fact_ec96970b526ee9fa59de26a6",
+      "content_sha256": "744a0c710043d6e0a7de36bb99f21ca50f0f9346f6972b957f6733a47deae11f",
+      "source_url": "https://dps.psx.com.pk/download/document/275425.pdf",
+      "source": "PSX DPS",
+      "page": 29,
+      "text": "Equity holders of the Holding Company",
+      "available_on": "2026-04-28",
+      "published_at": "2026-04-28T10:25:00+05:00",
+      "retrieved_at": "2026-08-30T16:42:58Z"
+     },
+     "parser": {
+      "version": "financial_statement_v2",
+      "revision": "block_geometry_v5"
+     },
+     "evidence_label": "fact_source_reported",
+     "confidence": "high"
     },
     {
      "reconciliation_id": "finrec_8c43a2e98046ad5db502",
@@ -6197,6 +7110,164 @@
       "available_on": "2026-03-02",
       "published_at": "2026-03-02T08:46:00+05:00",
       "retrieved_at": "2026-08-30T15:58:03Z"
+     },
+     "parser": {
+      "version": "financial_statement_v2",
+      "revision": "block_geometry_v5"
+     },
+     "evidence_label": "unknown",
+     "confidence": "low"
+    },
+    {
+     "reconciliation_id": "finrec_eeed20b6dbdeac4c8505",
+     "evidence_id": "finev_da8ec7d07a423e1f8a10",
+     "symbol": "MLCF",
+     "metric": "revenue",
+     "period_end": "2025-03-31",
+     "period_type": "interim",
+     "duration_months": 3,
+     "statement_type": "income_statement",
+     "consolidation": "consolidated",
+     "currency": "PKR",
+     "unit": "PKR",
+     "unit_multiplier": 1000,
+     "raw_value": "16,631,126",
+     "normalized_value": 16631126000.0,
+     "status": "quarantined",
+     "reasons": [
+      "not_direct_current_period_quarter_fact"
+     ],
+     "eligibility_scope": "not_eligible_financial_truth_gate",
+     "source": {
+      "document_id": "psx:275425",
+      "fact_id": "fact_1fe46dd02e69869f87be3eef",
+      "content_sha256": "744a0c710043d6e0a7de36bb99f21ca50f0f9346f6972b957f6733a47deae11f",
+      "source_url": "https://dps.psx.com.pk/download/document/275425.pdf",
+      "source": "PSX DPS",
+      "page": 29,
+      "text": "Revenue from contracts with",
+      "available_on": "2026-04-28",
+      "published_at": "2026-04-28T10:25:00+05:00",
+      "retrieved_at": "2026-08-30T16:42:58Z"
+     },
+     "parser": {
+      "version": "financial_statement_v2",
+      "revision": "block_geometry_v5"
+     },
+     "evidence_label": "unknown",
+     "confidence": "low"
+    },
+    {
+     "reconciliation_id": "finrec_3fa57c46692eb39e1b5a",
+     "evidence_id": "finev_d9c304a8393849033964",
+     "symbol": "MLCF",
+     "metric": "revenue",
+     "period_end": "2025-03-31",
+     "period_type": "interim",
+     "duration_months": 9,
+     "statement_type": "income_statement",
+     "consolidation": "consolidated",
+     "currency": "PKR",
+     "unit": "PKR",
+     "unit_multiplier": 1000,
+     "raw_value": "51,379,114",
+     "normalized_value": 51379114000.0,
+     "status": "quarantined",
+     "reasons": [
+      "not_annual_or_direct_three_month_quarter"
+     ],
+     "eligibility_scope": "not_eligible_financial_truth_gate",
+     "source": {
+      "document_id": "psx:275425",
+      "fact_id": "fact_447481c24b4a78bd44801940",
+      "content_sha256": "744a0c710043d6e0a7de36bb99f21ca50f0f9346f6972b957f6733a47deae11f",
+      "source_url": "https://dps.psx.com.pk/download/document/275425.pdf",
+      "source": "PSX DPS",
+      "page": 29,
+      "text": "Revenue from contracts with",
+      "available_on": "2026-04-28",
+      "published_at": "2026-04-28T10:25:00+05:00",
+      "retrieved_at": "2026-08-30T16:42:58Z"
+     },
+     "parser": {
+      "version": "financial_statement_v2",
+      "revision": "block_geometry_v5"
+     },
+     "evidence_label": "unknown",
+     "confidence": "low"
+    },
+    {
+     "reconciliation_id": "finrec_d78234e4e08b1ffa06ab",
+     "evidence_id": "finev_88c0eface18f57e43eee",
+     "symbol": "MLCF",
+     "metric": "revenue",
+     "period_end": "2025-03-31",
+     "period_type": "interim",
+     "duration_months": 9,
+     "statement_type": "income_statement",
+     "consolidation": "unconsolidated",
+     "currency": "PKR",
+     "unit": "PKR",
+     "unit_multiplier": 1000,
+     "raw_value": "51,379,114",
+     "normalized_value": 51379114000.0,
+     "status": "quarantined",
+     "reasons": [
+      "missing_or_nonconsolidated_basis",
+      "not_annual_or_direct_three_month_quarter"
+     ],
+     "eligibility_scope": "not_eligible_financial_truth_gate",
+     "source": {
+      "document_id": "psx:275425",
+      "fact_id": "fact_6ec51e8ce588bf0dd1222e48",
+      "content_sha256": "744a0c710043d6e0a7de36bb99f21ca50f0f9346f6972b957f6733a47deae11f",
+      "source_url": "https://dps.psx.com.pk/download/document/275425.pdf",
+      "source": "PSX DPS",
+      "page": 9,
+      "text": "Revenue from contracts with",
+      "available_on": "2026-04-28",
+      "published_at": "2026-04-28T10:25:00+05:00",
+      "retrieved_at": "2026-08-30T16:42:58Z"
+     },
+     "parser": {
+      "version": "financial_statement_v2",
+      "revision": "block_geometry_v5"
+     },
+     "evidence_label": "unknown",
+     "confidence": "low"
+    },
+    {
+     "reconciliation_id": "finrec_41875cb78d62b457cf52",
+     "evidence_id": "finev_9f9877e91873b22aaead",
+     "symbol": "MLCF",
+     "metric": "revenue",
+     "period_end": "2025-03-31",
+     "period_type": "interim",
+     "duration_months": 3,
+     "statement_type": "income_statement",
+     "consolidation": "unconsolidated",
+     "currency": "PKR",
+     "unit": "PKR",
+     "unit_multiplier": 1000,
+     "raw_value": "16,631,126",
+     "normalized_value": 16631126000.0,
+     "status": "quarantined",
+     "reasons": [
+      "missing_or_nonconsolidated_basis",
+      "not_direct_current_period_quarter_fact"
+     ],
+     "eligibility_scope": "not_eligible_financial_truth_gate",
+     "source": {
+      "document_id": "psx:275425",
+      "fact_id": "fact_a4628483cad586d4bd55546e",
+      "content_sha256": "744a0c710043d6e0a7de36bb99f21ca50f0f9346f6972b957f6733a47deae11f",
+      "source_url": "https://dps.psx.com.pk/download/document/275425.pdf",
+      "source": "PSX DPS",
+      "page": 9,
+      "text": "Revenue from contracts with",
+      "available_on": "2026-04-28",
+      "published_at": "2026-04-28T10:25:00+05:00",
+      "retrieved_at": "2026-08-30T16:42:58Z"
      },
      "parser": {
       "version": "financial_statement_v2",
@@ -8264,10 +9335,9 @@
      "status": "audit_only",
      "reasons": [
       "legacy_extractor_not_model_eligible",
-      "missing_available_on",
+      "legacy_parser_revision_quarantine",
       "missing_consolidation_basis",
       "missing_or_nonconsolidated_basis",
-      "missing_required_provenance",
       "not_annual_or_direct_three_month_quarter",
       "not_income_statement",
       "readiness_is_audit_only",
@@ -8282,16 +9352,53 @@
       "source": "PSX DPS",
       "page": 40,
       "text": "026 2025 (Rupees in thousand) 14. REVENUE FROM CONTRACTS WITH CUSTOMERS - NET Gross local sales 87,843,265 73,792,112 Less: Federal excise duty (13,561,274) (11,149,242) Sales tax (15,937,468) (12,402,881) Discount and others (2,015,722) (…",
-      "available_on": null,
+      "available_on": "2026-04-28",
       "published_at": "2026-04-28T10:25:00+05:00",
-      "retrieved_at": "2026-08-22T14:34:23Z"
+      "retrieved_at": "2026-08-30T16:42:58Z"
      },
      "parser": {
       "version": null,
       "revision": null
      },
-     "evidence_label": "missing_required_source",
+     "evidence_label": "stale_source",
      "confidence": "low"
+    },
+    {
+     "reconciliation_id": "finrec_b71b43a2d6730cbd8924",
+     "evidence_id": "finev_fb290b41328e90d38eed",
+     "symbol": "MLCF",
+     "metric": "revenue",
+     "period_end": "2026-03-31",
+     "period_type": "interim",
+     "duration_months": 3,
+     "statement_type": "income_statement",
+     "consolidation": "consolidated",
+     "currency": "PKR",
+     "unit": "PKR",
+     "unit_multiplier": 1000,
+     "raw_value": "21,545,015",
+     "normalized_value": 21545015000.0,
+     "status": "eligible",
+     "reasons": [],
+     "eligibility_scope": "reported_quarter_financial_truth_gate",
+     "source": {
+      "document_id": "psx:275425",
+      "fact_id": "fact_110e8d90dfb6861692cdf97a",
+      "content_sha256": "744a0c710043d6e0a7de36bb99f21ca50f0f9346f6972b957f6733a47deae11f",
+      "source_url": "https://dps.psx.com.pk/download/document/275425.pdf",
+      "source": "PSX DPS",
+      "page": 29,
+      "text": "Revenue from contracts with",
+      "available_on": "2026-04-28",
+      "published_at": "2026-04-28T10:25:00+05:00",
+      "retrieved_at": "2026-08-30T16:42:58Z"
+     },
+     "parser": {
+      "version": "financial_statement_v2",
+      "revision": "block_geometry_v5"
+     },
+     "evidence_label": "fact_source_reported",
+     "confidence": "high"
     },
     {
      "reconciliation_id": "finrec_d17ce97395e0943fa5c3",
@@ -8311,10 +9418,9 @@
      "status": "audit_only",
      "reasons": [
       "legacy_extractor_not_model_eligible",
-      "missing_available_on",
+      "legacy_parser_revision_quarantine",
       "missing_consolidation_basis",
       "missing_or_nonconsolidated_basis",
-      "missing_required_provenance",
       "not_annual_or_direct_three_month_quarter",
       "not_income_statement",
       "readiness_is_audit_only",
@@ -8329,15 +9435,54 @@
       "source": "PSX DPS",
       "page": 40,
       "text": "342,227) (202,939) (31,856,691) (24,608,175) Net local sales 55,986,574 49,183,937 Export sales 977,297 2,195,177 56,963,871 51,379,114 15. COST OF SALES Raw materials consumed 7,853,422 6,400,459 Packing materials consumed 2,734,596 2,467…",
-      "available_on": null,
+      "available_on": "2026-04-28",
       "published_at": "2026-04-28T10:25:00+05:00",
-      "retrieved_at": "2026-08-22T14:34:23Z"
+      "retrieved_at": "2026-08-30T16:42:58Z"
      },
      "parser": {
       "version": null,
       "revision": null
      },
-     "evidence_label": "missing_required_source",
+     "evidence_label": "stale_source",
+     "confidence": "low"
+    },
+    {
+     "reconciliation_id": "finrec_976750b0cf8948d10167",
+     "evidence_id": "finev_0cf28160521bc5b3f4f6",
+     "symbol": "MLCF",
+     "metric": "revenue",
+     "period_end": "2026-03-31",
+     "period_type": "interim",
+     "duration_months": 3,
+     "statement_type": "income_statement",
+     "consolidation": "unconsolidated",
+     "currency": "PKR",
+     "unit": "PKR",
+     "unit_multiplier": 1000,
+     "raw_value": "16,931,582",
+     "normalized_value": 16931582000.0,
+     "status": "quarantined",
+     "reasons": [
+      "missing_or_nonconsolidated_basis"
+     ],
+     "eligibility_scope": "not_eligible_financial_truth_gate",
+     "source": {
+      "document_id": "psx:275425",
+      "fact_id": "fact_2c9343f324e5b922f2513a71",
+      "content_sha256": "744a0c710043d6e0a7de36bb99f21ca50f0f9346f6972b957f6733a47deae11f",
+      "source_url": "https://dps.psx.com.pk/download/document/275425.pdf",
+      "source": "PSX DPS",
+      "page": 9,
+      "text": "Revenue from contracts with",
+      "available_on": "2026-04-28",
+      "published_at": "2026-04-28T10:25:00+05:00",
+      "retrieved_at": "2026-08-30T16:42:58Z"
+     },
+     "parser": {
+      "version": "financial_statement_v2",
+      "revision": "block_geometry_v5"
+     },
+     "evidence_label": "unknown",
      "confidence": "low"
     },
     {
@@ -8359,7 +9504,6 @@
      "reasons": [
       "legacy_extractor_not_model_eligible",
       "legacy_parser_revision_quarantine",
-      "missing_available_on",
       "missing_consolidation_basis",
       "missing_or_nonconsolidated_basis",
       "not_annual_or_direct_three_month_quarter",
@@ -8376,9 +9520,9 @@
       "source": "PSX DPS",
       "page": 20,
       "text": "026 2025 13. REVENUE FROM CONTRACTS WITH (Rupees in thousand) CUSTOMERS - NET Gross local sales 79,773,741 73,792,112 Less: Federal excise duty (12,441,865) (11,149,242) Sales tax (13,645,093) (12,402,881) Discount and others (1,971,412) (…",
-      "available_on": null,
+      "available_on": "2026-04-28",
       "published_at": "2026-04-28T10:25:00+05:00",
-      "retrieved_at": "2026-08-22T16:48:11Z"
+      "retrieved_at": "2026-08-30T16:42:58Z"
      },
      "parser": {
       "version": null,
@@ -8406,8 +9550,6 @@
      "reasons": [
       "legacy_extractor_not_model_eligible",
       "legacy_parser_revision_quarantine",
-      "missing_available_on",
-      "missing_required_provenance",
       "not_annual_or_direct_three_month_quarter",
       "not_income_statement",
       "readiness_is_audit_only",
@@ -8422,15 +9564,15 @@
       "source": "PSX DPS",
       "page": 4,
       "text": "6, ended 31st March 2026. During the review period, the Company recorded net consolidated turnover of Rs. 56,964 million, compared to Rs. 51,379 million in the previous period. The Company’s top line increased by 10.87% as a result of 21.8…",
-      "available_on": null,
+      "available_on": "2026-04-28",
       "published_at": "2026-04-28T10:25:00+05:00",
-      "retrieved_at": "2026-08-22T16:48:11Z"
+      "retrieved_at": "2026-08-30T16:42:58Z"
      },
      "parser": {
       "version": null,
       "revision": null
      },
-     "evidence_label": "missing_required_source",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -8442,7 +9584,7 @@
      "period_type": "quarter",
      "duration_months": null,
      "statement_type": null,
-     "consolidation": "unknown",
+     "consolidation": "consolidated",
      "currency": "PKR",
      "unit": "reported",
      "unit_multiplier": 1000000,
@@ -8452,9 +9594,6 @@
      "reasons": [
       "legacy_extractor_not_model_eligible",
       "legacy_parser_revision_quarantine",
-      "missing_available_on",
-      "missing_consolidation_basis",
-      "missing_or_nonconsolidated_basis",
       "not_annual_or_direct_three_month_quarter",
       "not_income_statement",
       "readiness_is_audit_only",
@@ -8469,9 +9608,9 @@
       "source": "PSX DPS",
       "page": 25,
       "text": "group financial results are as follows: March 31, March 31, 2026 2025 (Rupees in million) Sales 56,964 51,379 Gross Profit 19,287 18,443 Profit from operations 14,201 12,628 Financial charges 1,988 1,575 Profit after tax 7,795 7,871 (-----…",
-      "available_on": null,
+      "available_on": "2026-04-28",
       "published_at": "2026-04-28T10:25:00+05:00",
-      "retrieved_at": "2026-08-22T16:48:11Z"
+      "retrieved_at": "2026-08-30T16:42:58Z"
      },
      "parser": {
       "version": null,
@@ -8498,10 +9637,9 @@
      "status": "audit_only",
      "reasons": [
       "legacy_extractor_not_model_eligible",
-      "missing_available_on",
+      "legacy_parser_revision_quarantine",
       "missing_consolidation_basis",
       "missing_or_nonconsolidated_basis",
-      "missing_required_provenance",
       "not_annual_or_direct_three_month_quarter",
       "not_income_statement",
       "readiness_is_audit_only",
@@ -8516,15 +9654,15 @@
       "source": "PSX DPS",
       "page": 20,
       "text": "(1,971,412) (853,113) Commission (342,229) (202,939) (28,400,599) (24,608,175) Net local sales 51,373,142 49,183,937 Export sales 977,295 2,195,177 52,350,437 51,379,114 14. COST OF SALES Raw materials consumed 7,137,192 6,400,459 Packing…",
-      "available_on": null,
+      "available_on": "2026-04-28",
       "published_at": "2026-04-28T10:25:00+05:00",
-      "retrieved_at": "2026-08-22T14:34:23Z"
+      "retrieved_at": "2026-08-30T16:42:58Z"
      },
      "parser": {
       "version": null,
       "revision": null
      },
-     "evidence_label": "missing_required_source",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -8545,10 +9683,9 @@
      "status": "audit_only",
      "reasons": [
       "legacy_extractor_not_model_eligible",
-      "missing_available_on",
+      "legacy_parser_revision_quarantine",
       "missing_consolidation_basis",
       "missing_or_nonconsolidated_basis",
-      "missing_required_provenance",
       "not_annual_or_direct_three_month_quarter",
       "not_income_statement",
       "readiness_is_audit_only",
@@ -8563,15 +9700,15 @@
       "source": "PSX DPS",
       "page": 40,
       "text": "riod 714,645 486,769 At end of the period (854,556) (738,366) (139,911) (251,597) Cost of sales 37,677,192 32,936,375",
-      "available_on": null,
+      "available_on": "2026-04-28",
       "published_at": "2026-04-28T10:25:00+05:00",
-      "retrieved_at": "2026-08-22T14:34:23Z"
+      "retrieved_at": "2026-08-30T16:42:58Z"
      },
      "parser": {
       "version": null,
       "revision": null
      },
-     "evidence_label": "missing_required_source",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -8592,10 +9729,9 @@
      "status": "audit_only",
      "reasons": [
       "legacy_extractor_not_model_eligible",
-      "missing_available_on",
+      "legacy_parser_revision_quarantine",
       "missing_consolidation_basis",
       "missing_or_nonconsolidated_basis",
-      "missing_required_provenance",
       "not_annual_or_direct_three_month_quarter",
       "not_income_statement",
       "readiness_is_audit_only",
@@ -8610,15 +9746,15 @@
       "source": "PSX DPS",
       "page": 20,
       "text": "342,229) (202,939) (28,400,599) (24,608,175) Net local sales 51,373,142 49,183,937 Export sales 977,295 2,195,177 52,350,437 51,379,114 14. COST OF SALES Raw materials consumed 7,137,192 6,400,459 Packing materials consumed 2,539,893 2,467…",
-      "available_on": null,
+      "available_on": "2026-04-28",
       "published_at": "2026-04-28T10:25:00+05:00",
-      "retrieved_at": "2026-08-22T14:34:23Z"
+      "retrieved_at": "2026-08-30T16:42:58Z"
      },
      "parser": {
       "version": null,
       "revision": null
      },
-     "evidence_label": "missing_required_source",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -8639,10 +9775,9 @@
      "status": "audit_only",
      "reasons": [
       "legacy_extractor_not_model_eligible",
-      "missing_available_on",
+      "legacy_parser_revision_quarantine",
       "missing_consolidation_basis",
       "missing_or_nonconsolidated_basis",
-      "missing_required_provenance",
       "not_annual_or_direct_three_month_quarter",
       "not_income_statement",
       "readiness_is_audit_only",
@@ -8657,15 +9792,94 @@
       "source": "PSX DPS",
       "page": 40,
       "text": "(2,015,722) (853,113) Commission (342,227) (202,939) (31,856,691) (24,608,175) Net local sales 55,986,574 49,183,937 Export sales 977,297 2,195,177 56,963,871 51,379,114 15. COST OF SALES Raw materials consumed 7,853,422 6,400,459 Packing…",
-      "available_on": null,
+      "available_on": "2026-04-28",
       "published_at": "2026-04-28T10:25:00+05:00",
-      "retrieved_at": "2026-08-22T14:34:23Z"
+      "retrieved_at": "2026-08-30T16:42:58Z"
      },
      "parser": {
       "version": null,
       "revision": null
      },
-     "evidence_label": "missing_required_source",
+     "evidence_label": "stale_source",
+     "confidence": "low"
+    },
+    {
+     "reconciliation_id": "finrec_81772e9a0bfb81ad46a5",
+     "evidence_id": "finev_c322334bdd6f0183e0f2",
+     "symbol": "MLCF",
+     "metric": "revenue",
+     "period_end": "2026-03-31",
+     "period_type": "interim",
+     "duration_months": 9,
+     "statement_type": "income_statement",
+     "consolidation": "consolidated",
+     "currency": "PKR",
+     "unit": "PKR",
+     "unit_multiplier": 1000,
+     "raw_value": "56,963,871",
+     "normalized_value": 56963871000.0,
+     "status": "quarantined",
+     "reasons": [
+      "not_annual_or_direct_three_month_quarter"
+     ],
+     "eligibility_scope": "not_eligible_financial_truth_gate",
+     "source": {
+      "document_id": "psx:275425",
+      "fact_id": "fact_af6174a2803d83216484a375",
+      "content_sha256": "744a0c710043d6e0a7de36bb99f21ca50f0f9346f6972b957f6733a47deae11f",
+      "source_url": "https://dps.psx.com.pk/download/document/275425.pdf",
+      "source": "PSX DPS",
+      "page": 29,
+      "text": "Revenue from contracts with",
+      "available_on": "2026-04-28",
+      "published_at": "2026-04-28T10:25:00+05:00",
+      "retrieved_at": "2026-08-30T16:42:58Z"
+     },
+     "parser": {
+      "version": "financial_statement_v2",
+      "revision": "block_geometry_v5"
+     },
+     "evidence_label": "unknown",
+     "confidence": "low"
+    },
+    {
+     "reconciliation_id": "finrec_615366c62f042d782e74",
+     "evidence_id": "finev_6ae5a41ec4573e5bfe90",
+     "symbol": "MLCF",
+     "metric": "revenue",
+     "period_end": "2026-03-31",
+     "period_type": "interim",
+     "duration_months": 9,
+     "statement_type": "income_statement",
+     "consolidation": "unconsolidated",
+     "currency": "PKR",
+     "unit": "PKR",
+     "unit_multiplier": 1000,
+     "raw_value": "52,350,437",
+     "normalized_value": 52350437000.0,
+     "status": "quarantined",
+     "reasons": [
+      "missing_or_nonconsolidated_basis",
+      "not_annual_or_direct_three_month_quarter"
+     ],
+     "eligibility_scope": "not_eligible_financial_truth_gate",
+     "source": {
+      "document_id": "psx:275425",
+      "fact_id": "fact_bb91c99dc6f614d80f720700",
+      "content_sha256": "744a0c710043d6e0a7de36bb99f21ca50f0f9346f6972b957f6733a47deae11f",
+      "source_url": "https://dps.psx.com.pk/download/document/275425.pdf",
+      "source": "PSX DPS",
+      "page": 9,
+      "text": "Revenue from contracts with",
+      "available_on": "2026-04-28",
+      "published_at": "2026-04-28T10:25:00+05:00",
+      "retrieved_at": "2026-08-30T16:42:58Z"
+     },
+     "parser": {
+      "version": "financial_statement_v2",
+      "revision": "block_geometry_v5"
+     },
+     "evidence_label": "unknown",
      "confidence": "low"
     },
     {
@@ -8686,9 +9900,8 @@
      "status": "audit_only",
      "reasons": [
       "legacy_extractor_not_model_eligible",
-      "missing_available_on",
+      "legacy_parser_revision_quarantine",
       "missing_or_nonconsolidated_basis",
-      "missing_required_provenance",
       "not_annual_or_direct_three_month_quarter",
       "not_income_statement",
       "readiness_is_audit_only",
@@ -8703,15 +9916,15 @@
       "source": "PSX DPS",
       "page": 9,
       "text": "rom contracts with customers - net 13 52,350,437 51,379,114 16,931,582 16,631,126 Cost of sales 14 (36,351,671) (34,363,317) (11,947,571) (11,432,736) Gross profit 15,998,766 17,015,797 4,984,011 5,198,390 Selling and distribution expenses…",
-      "available_on": null,
+      "available_on": "2026-04-28",
       "published_at": "2026-04-28T10:25:00+05:00",
-      "retrieved_at": "2026-08-22T14:34:23Z"
+      "retrieved_at": "2026-08-30T16:42:58Z"
      },
      "parser": {
       "version": null,
       "revision": null
      },
-     "evidence_label": "missing_required_source",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -8732,10 +9945,9 @@
      "status": "audit_only",
      "reasons": [
       "legacy_extractor_not_model_eligible",
-      "missing_available_on",
+      "legacy_parser_revision_quarantine",
       "missing_consolidation_basis",
       "missing_or_nonconsolidated_basis",
-      "missing_required_provenance",
       "not_annual_or_direct_three_month_quarter",
       "not_income_statement",
       "readiness_is_audit_only",
@@ -8750,15 +9962,15 @@
       "source": "PSX DPS",
       "page": 20,
       "text": "riod 784,126 508,686 At end of the period (905,849) (778,191) (121,723) (269,505) Cost of sales 36,351,671 34,363,317",
-      "available_on": null,
+      "available_on": "2026-04-28",
       "published_at": "2026-04-28T10:25:00+05:00",
-      "retrieved_at": "2026-08-22T14:34:23Z"
+      "retrieved_at": "2026-08-30T16:42:58Z"
      },
      "parser": {
       "version": null,
       "revision": null
      },
-     "evidence_label": "missing_required_source",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -8780,8 +9992,6 @@
      "reasons": [
       "legacy_extractor_not_model_eligible",
       "legacy_parser_revision_quarantine",
-      "missing_available_on",
-      "missing_required_provenance",
       "not_annual_or_direct_three_month_quarter",
       "not_income_statement",
       "readiness_is_audit_only",
@@ -8796,15 +10006,15 @@
       "source": "PSX DPS",
       "page": 29,
       "text": "rom contracts with customers - net 14 56,963,871 51,379,114 21,545,015 16,631,126 Cost of sales 15 (37,677,192) (32,936,375) (14,415,249) (10,728,106) Gross profit 19,286,679 18,442,739 7,129,766 5,903,020 Selling and distribution expenses…",
-      "available_on": null,
+      "available_on": "2026-04-28",
       "published_at": "2026-04-28T10:25:00+05:00",
-      "retrieved_at": "2026-08-22T16:48:11Z"
+      "retrieved_at": "2026-08-30T16:42:58Z"
      },
      "parser": {
       "version": null,
       "revision": null
      },
-     "evidence_label": "missing_required_source",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -84317,9 +85527,9 @@
  },
  "_meta": {
   "generator_version": "ci_artifact_integrity_v1",
-  "source_commit_sha": "afeb4e5ac9b41d0e61b8654ac873d906b07eeac2",
-  "build_cutoff_at": "2026-08-30T16:13:07Z",
-  "generated_at": "2026-08-30T16:13:07Z",
+  "source_commit_sha": "7ed6d8a8bf3e1862c0e98cc5be1ed2594f9f36d4",
+  "build_cutoff_at": "2026-08-30T16:45:43Z",
+  "generated_at": "2026-08-30T16:45:43Z",
   "artifact_path": "state/company_intel/financial_evidence_reconciliation.json",
   "timestamp_semantics": {
    "build_cutoff_at": "generation boundary only; not a source-effective or source-published time",
