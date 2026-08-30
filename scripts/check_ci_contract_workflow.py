@@ -15,6 +15,16 @@ import sys
 from typing import Any
 
 
+CI_FIXED_POINT_BUILDERS = (
+    "build_event_to_value_product_readiness.py",
+    "build_ci_slice.py",
+    "build_ci_artifact_integrity.py",
+    "build_event_to_value_product_readiness.py",
+    "build_ci_slice.py",
+    "build_ci_artifact_integrity.py",
+)
+
+
 class WorkflowSyntaxError(ValueError):
     """Raised when the workflow is outside the deliberately supported subset."""
 
@@ -151,6 +161,46 @@ def parse_workflow(text: str) -> dict[str, Any]:
     return root
 
 
+def _ordered_subsequence(names: list[str], required: tuple[str, ...]) -> bool:
+    position = -1
+    for required_name in required:
+        try:
+            position = names.index(required_name, position + 1)
+        except ValueError:
+            return False
+    return True
+
+
+def _fixed_point_order_errors(names: list[str], *, label: str) -> list[str]:
+    errors: list[str] = []
+    for required_name in set(CI_FIXED_POINT_BUILDERS):
+        expected_count = CI_FIXED_POINT_BUILDERS.count(required_name)
+        actual_count = names.count(required_name)
+        if actual_count != expected_count:
+            errors.append(f"{label}: {required_name} must run {expected_count} times in the readiness/slice/integrity fixed-point sequence")
+    if not _ordered_subsequence(names, CI_FIXED_POINT_BUILDERS):
+        errors.append(f"{label}: readiness, CI slice, and artifact integrity must run as a two-pass fixed-point sequence")
+    if names and names[-1] != "build_ci_artifact_integrity.py":
+        errors.append(f"{label}: the final CI artifact producer must be build_ci_artifact_integrity.py")
+    return errors
+
+
+def validate_run_cloud_steps(steps: list[str] | tuple[str, ...]) -> list[str]:
+    names = [str(step).strip() for step in steps]
+    errors: list[str] = []
+    try:
+        completion_index = len(names) - 1 - names[::-1].index("build_ci_completion_matrix.py")
+        archive_index = names.index("supabase_ci_store.py", completion_index + 1)
+        producer_tail = names[completion_index + 1 : archive_index]
+        errors.extend(_fixed_point_order_errors(producer_tail, label="run_cloud.STEPS"))
+        first_readiness_index = names.index("build_event_to_value_product_readiness.py")
+        if first_readiness_index < completion_index:
+            errors.append("run_cloud.STEPS: Event-to-Value product readiness must run after the completion matrix")
+    except ValueError:
+        errors.append("run_cloud.STEPS: missing completion matrix, fixed-point builders, or CI archive seam")
+    return errors
+
+
 def validate_workflow(workflow: dict[str, Any]) -> list[str]:
     """Return deterministic, human-readable contract violations."""
     errors: list[str] = []
@@ -205,6 +255,11 @@ def validate_workflow(workflow: dict[str, Any]) -> list[str]:
     if not ci_build:
         errors.append("steps: missing generated Company Intelligence artifact build")
     else:
+        ci_build_names = [
+            line.removeprefix("python scripts/")
+            for line in (line.strip() for line in ci_build_run.splitlines())
+            if line.startswith("python scripts/")
+        ]
         required_ci_builders = (
             "python scripts/build_financial_evidence_reconciliation.py",
             "python scripts/build_financial_truth_qualification.py",
@@ -267,6 +322,7 @@ def validate_workflow(workflow: dict[str, Any]) -> list[str]:
             > ci_build_run.rfind("python scripts/build_ci_artifact_integrity.py")
         ):
             errors.append("steps: CI artifact integrity must run after the final CI slice build")
+        errors.extend(_fixed_point_order_errors(ci_build_names[-len(CI_FIXED_POINT_BUILDERS):], label="steps: CI artifact build"))
     aggregate = named.get("Company Intelligence product contract aggregate")
     if not aggregate or "python scripts/check_ci_product_contracts.py" not in str(aggregate.get("run", "")):
         errors.append("steps: missing Company Intelligence product contract aggregate")
@@ -339,6 +395,9 @@ jobs:
           python scripts/build_event_to_value_product_readiness.py
           python scripts/build_ci_slice.py
           python scripts/build_ci_artifact_integrity.py
+          python scripts/build_event_to_value_product_readiness.py
+          python scripts/build_ci_slice.py
+          python scripts/build_ci_artifact_integrity.py
       - name: Verify finalized artifacts match this commit
         run: python scripts/check_ci_artifact_integrity.py
       - name: Company Intelligence product contract aggregate
@@ -351,6 +410,25 @@ jobs:
 def self_test() -> int:
     if validate_workflow(parse_workflow(VALID_FIXTURE)):
         print("self-test failed: valid fixture rejected")
+        return 1
+    valid_run_cloud_tail = [
+        "build_ci_completion_matrix.py",
+        *CI_FIXED_POINT_BUILDERS,
+        "supabase_ci_store.py",
+    ]
+    if validate_run_cloud_steps(valid_run_cloud_tail):
+        print("self-test failed: valid run_cloud fixed-point tail rejected")
+        return 1
+    one_pass_run_cloud_tail = [
+        "build_ci_completion_matrix.py",
+        "build_event_to_value_product_readiness.py",
+        "build_ci_slice.py",
+        "build_ci_artifact_integrity.py",
+        "supabase_ci_store.py",
+    ]
+    errors = validate_run_cloud_steps(one_pass_run_cloud_tail)
+    if not any("fixed-point" in error or "must run 2 times" in error for error in errors):
+        print("self-test failed: one-pass run_cloud tail was accepted")
         return 1
     broken = VALID_FIXTURE.replace('python-version: "3.12"', 'python-version: "3.11"')
     errors = validate_workflow(parse_workflow(broken))
@@ -420,6 +498,12 @@ def main(argv: list[str] | None = None) -> int:
         with open(path, encoding="utf-8") as handle:
             workflow = parse_workflow(handle.read())
         errors = validate_workflow(workflow)
+        try:
+            from run_cloud import STEPS as RUN_CLOUD_STEPS
+        except Exception as exc:  # noqa: BLE001 - static checker should explain import failures
+            errors.append(f"run_cloud.STEPS: could not import ordered list: {exc}")
+        else:
+            errors.extend(validate_run_cloud_steps(RUN_CLOUD_STEPS))
     except (OSError, WorkflowSyntaxError) as exc:
         print(f"CI contract workflow check: FAIL — {exc}")
         return 1

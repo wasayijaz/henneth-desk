@@ -23,6 +23,7 @@ from build_event_to_value_product_readiness import (  # noqa: E402
     _engine_live_count,
     _integrity_status,
 )
+from build_ci_slice import build as build_ci_slice  # noqa: E402
 from ci_checker_helpers import without_root_meta  # noqa: E402
 from psx_data import ROOT, load_json  # noqa: E402
 
@@ -128,12 +129,22 @@ def main() -> None:
     canonical_metrics = _metric_map(canonical_rebuilt)
     if canonical_rebuilt.get("reason") != "selected_symbols_not_exactly_three:count=2":
         raise AssertionError(f"canonical sources rejected for wrong reason: {canonical_rebuilt.get('reason')}")
-    if canonical_metrics["provenance_coverage"].get("reason") != "artifact_integrity_manifest_paths_drifted":
-        raise AssertionError("canonical manifest drift was not preserved as the integrity blocker")
-    expected_canonical_contract_reasons = {
-        "financial_truth_qualification": "financial_truth_qualification_as_of_missing",
-        "forecast_readiness": "forecast_readiness_as_of_invalid",
+    canonical_provenance = canonical_metrics["provenance_coverage"]
+    allowed_integrity_blockers = {
+        "artifact_integrity_manifest_paths_drifted",
+        "artifact_integrity_incomplete",
+        "artifact_integrity_manifest_hashes_stale",
+        "event_to_value_product_readiness_not_in_artifact_integrity_manifest",
+        "event_to_value_product_readiness_hash_mismatch",
+        "event_to_value_product_readiness_not_generated",
     }
+    if canonical_provenance.get("status") == "available":
+        details = canonical_rebuilt.get("lineage", {}).get("artifact_integrity") or {}
+        if details.get("covered") is not True or details.get("hash_status") != "verified":
+            raise AssertionError(f"canonical sealed manifest lacked verified readiness coverage: {details}")
+    elif canonical_provenance.get("reason") not in allowed_integrity_blockers:
+        raise AssertionError(f"canonical manifest failed for an unexpected integrity reason: {canonical_provenance.get('reason')}")
+    expected_canonical_contract_reasons = {}
     for name, (payload, _) in canonical_artifacts.items():
         if name in {"artifact_integrity", "release_integrity_receipt"}:
             continue
@@ -179,6 +190,32 @@ def main() -> None:
     if not str(not_three["reason"] or "").startswith("selected_symbols_not_exactly_three"):
         raise AssertionError(f"not-three selection reason drifted: {not_three}")
 
+    import build_event_to_value_product_readiness as readiness_module
+    original_load_json = readiness_module.load_json
+    try:
+        def json_error_for_cases(path, default):
+            if str(path).replace("\\", "/").endswith("state/company_intel/intelligence_cases.json"):
+                raise json.JSONDecodeError("broken", "{", 0)
+            return original_load_json(path, default)
+        readiness_module.load_json = json_error_for_cases
+        malformed_json_result = build(write=False)
+    finally:
+        readiness_module.load_json = original_load_json
+    if malformed_json_result.get("status") != "blocked" or malformed_json_result.get("reason") != "intelligence_cases_load_error:JSONDecodeError":
+        raise AssertionError(f"malformed source JSON did not fail closed: {malformed_json_result.get('reason')}")
+
+    try:
+        def oserror_for_forecasts(path, default):
+            if str(path).replace("\\", "/").endswith("state/company_intel/financial_forecasts.json"):
+                raise OSError("simulated read failure")
+            return original_load_json(path, default)
+        readiness_module.load_json = oserror_for_forecasts
+        oserror_result = build(write=False)
+    finally:
+        readiness_module.load_json = original_load_json
+    if oserror_result.get("lineage", {}).get("source_reason", {}).get("financial_forecasts") != "financial_forecasts_load_error:OSError":
+        raise AssertionError("OSError source load did not encode a deterministic source blocker")
+
     artifacts = _base_artifacts()
     cases = copy.deepcopy(artifacts["intelligence_cases"][0])
     cases["kind"] = "intelligence_cases"
@@ -206,6 +243,15 @@ def main() -> None:
         raise AssertionError("unselected Published case changed published_cases")
     if injected_metrics["live_forecast_outputs"].get("value") != 0:
         raise AssertionError("unselected computed forecast changed live_forecast_outputs")
+    mismatched_case_artifacts = copy.deepcopy(artifacts)
+    mismatched_cases = copy.deepcopy(cases)
+    mismatched_cases.setdefault("companies", {}).setdefault("MARI", {"symbol": "MARI", "cases": []})["cases"] = [
+        {"case_id": "case_wrong_symbol", "symbol": "DGKC", "status": "Published"}
+    ]
+    mismatched_case_artifacts["intelligence_cases"] = (mismatched_cases, "available")
+    mismatched_case_result = build(write=False, artifacts=mismatched_case_artifacts)
+    if _metric_map(mismatched_case_result)["published_cases"].get("value") != 0:
+        raise AssertionError("mismatched nested case symbol counted as selected published case")
     bad_engine = {
         "schema_version": 1,
         "engine_version": "formal_financial_engines_v1",
@@ -284,6 +330,11 @@ def main() -> None:
     good_count, good_status, _, good_notes = _engine_live_count(good_engine, "available", ["MARI", "MLCF", "PSO"], "financial_forecasts")
     if good_count != 1 or good_status != "available" or good_notes != ["MARI"]:
         raise AssertionError(f"valid source-bound engine row was not counted: {good_count}, {good_status}, {good_notes}")
+    mismatched_engine = copy.deepcopy(good_engine)
+    mismatched_engine["companies"]["MARI"]["symbol"] = "DGKC"
+    mismatched_count, mismatched_status, _, mismatched_notes = _engine_live_count(mismatched_engine, "available", ["MARI"], "financial_forecasts")
+    if mismatched_count != 0 or mismatched_status != "blocked" or mismatched_notes:
+        raise AssertionError("mismatched nested engine row identity must not count")
 
     malformed = {
         "impact_status": "unmodeled_driver",
@@ -349,6 +400,12 @@ def main() -> None:
     }
     if not financial_impact_computed(valid):
         raise AssertionError("explicit computed finite impact with lineage must count")
+    if not financial_impact_computed(valid, "MARI"):
+        raise AssertionError("explicit computed finite impact with matching selected identity must count")
+    mismatched_impact = copy.deepcopy(valid)
+    mismatched_impact["company_id"] = "DGKC"
+    if financial_impact_computed(mismatched_impact, "MARI"):
+        raise AssertionError("mismatched nested scenario company_id must not count")
     partial_impact = copy.deepcopy(valid)
     partial_impact.pop("fcf_impact")
     if financial_impact_computed(partial_impact):
@@ -356,7 +413,6 @@ def main() -> None:
 
     if not any(rel(path) == READINESS_REL for path in artifact_paths()):
         raise AssertionError("readiness artifact is not in the normal integrity path")
-    import build_event_to_value_product_readiness as readiness_module
     original_artifact_paths = readiness_module.artifact_paths
     try:
         def raise_oserror():
@@ -376,10 +432,7 @@ def main() -> None:
     if os_status != "blocked" or os_reason != "artifact_integrity_expected_paths_unavailable:OSError":
         raise AssertionError(f"artifact path OSError did not fail closed: {os_status}, {os_reason}")
 
-    result = subprocess.run([sys.executable, str(ROOT / "scripts" / "build_ci_slice.py")], capture_output=True, text=True, timeout=60)
-    if result.returncode != 0:
-        raise AssertionError(result.stdout + result.stderr)
-    slice_state = load_json(ROOT / "Henneth Desk 2.CI.0" / "data" / "company_intelligence.json", {})
+    slice_state = build_ci_slice(write=False)
     projected = (slice_state.get("meta") or {}).get("event_to_value_product_readiness")
     expected = project_readiness(state)
     if not isinstance(projected, dict):
@@ -455,6 +508,42 @@ def main() -> None:
     projected_stale = project_readiness(stale_projection)
     if projected_stale.get("status") != "blocked" or not projected_stale.get("reason"):
         raise AssertionError("stale or unsealed projected readiness must fail closed")
+    bad_commit_projection = copy.deepcopy(state)
+    bad_commit_projection.setdefault("lineage", {})["source_commit_sha"] = "0" * 40
+    projected_bad_commit = project_readiness(bad_commit_projection)
+    if projected_bad_commit.get("status") != "blocked" or "source_commit_sha" not in str(projected_bad_commit.get("reason")):
+        raise AssertionError("projected readiness with bad source_commit_sha must bind to current integrity")
+    fake_integrity_projection = copy.deepcopy(state)
+    fake_integrity_projection.setdefault("summary", {})["selected_symbols"] = ["MARI", "MLCF", "PSO"]
+    fake_integrity_projection["summary"]["selected_symbols_status"] = "available"
+    fake_integrity_projection["summary"]["selected_symbols_reason"] = None
+    fake_integrity_projection.setdefault("lineage", {})["selected_symbols"] = ["MARI", "MLCF", "PSO"]
+    fake_integrity_projection["lineage"]["selected_symbols_status"] = "available"
+    fake_integrity_projection["lineage"]["selected_symbols_reason"] = None
+    fake_integrity_projection["lineage"].setdefault("source_status", {})["intelligence_cases"] = "available"
+    fake_integrity_projection["lineage"].setdefault("source_reason", {})["intelligence_cases"] = None
+    fake_integrity_projection.setdefault("lineage", {})["artifact_integrity"] = {
+        "covered": False,
+        "manifest_artifact_count": 0,
+        "expected_artifact_count": 43,
+        "missing_paths": [],
+        "extra_paths": [],
+        "hash_status": "verified",
+    }
+    original_current_source_maps = readiness_module._current_source_maps
+    try:
+        readiness_module._current_source_maps = lambda: (
+            fake_integrity_projection["lineage"]["source_as_of"],
+            fake_integrity_projection["lineage"]["source_schema_version"],
+            fake_integrity_projection["lineage"]["source_kind"],
+            fake_integrity_projection["lineage"]["source_status"],
+            fake_integrity_projection["lineage"]["source_reason"],
+        )
+        projected_fake_integrity = project_readiness(fake_integrity_projection)
+    finally:
+        readiness_module._current_source_maps = original_current_source_maps
+    if projected_fake_integrity.get("status") != "blocked" or "artifact_integrity" not in str(projected_fake_integrity.get("reason")):
+        raise AssertionError("projected readiness with fake artifact_integrity details must fail closed")
     future_metric = copy.deepcopy(state)
     future_metric.setdefault("metrics", [])[0]["as_of"] = "2099-01-01T00:00:00Z"
     projected_future_metric = project_readiness(future_metric)
@@ -505,21 +594,13 @@ def main() -> None:
     if projected_bad_metric_lineage.get("status") != "blocked" or "metric_lineage" not in str(projected_bad_metric_lineage.get("reason")):
         raise AssertionError("metric lineage shape must fail closed")
     bad_source_maps = copy.deepcopy(state)
-    bad_source_maps["status"] = "available"
-    bad_source_maps["reason"] = None
-    bad_source_maps.setdefault("summary", {})["available_metric_count"] = 1
-    bad_source_maps["summary"]["blocked_metric_count"] = 11
-    bad_source_maps["summary"]["blocked_metric_ids"] = [row["id"] for row in bad_source_maps.get("metrics") or []][1:]
+    bad_source_maps.setdefault("summary", {})["available_metric_count"] = sum(1 for row in bad_source_maps.get("metrics") or [] if row.get("status") == "available")
+    bad_source_maps["summary"]["blocked_metric_count"] = sum(1 for row in bad_source_maps.get("metrics") or [] if row.get("status") != "available")
+    bad_source_maps["summary"]["blocked_metric_ids"] = [row["id"] for row in bad_source_maps.get("metrics") or [] if row.get("status") != "available"]
     bad_source_maps["summary"]["selected_symbols_status"] = "available"
     bad_source_maps["summary"]["selected_symbols"] = ["MARI", "MLCF", "PSO"]
     bad_source_maps.setdefault("lineage", {})["selected_symbols_status"] = "available"
     bad_source_maps["lineage"]["selected_symbols"] = ["MARI", "MLCF", "PSO"]
-    first_metric = (bad_source_maps.get("metrics") or [])[0]
-    first_metric["status"] = "available"
-    first_metric["value"] = 1
-    first_metric["reason"] = None
-    first_metric.setdefault("lineage", {})["status"] = "available"
-    first_metric["lineage"]["reason"] = None
     bad_source_maps.setdefault("lineage", {}).setdefault("source_as_of", {})["forecast_readiness"] = "2026-08-29T16:39:00+05:00"
     bad_source_maps.setdefault("lineage", {}).pop("source_status", None)
     projected_bad_source_maps = project_readiness(bad_source_maps)

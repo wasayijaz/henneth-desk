@@ -5,6 +5,7 @@ compute forecasts/valuations, or invent a passing production gate.
 """
 from __future__ import annotations
 
+import json
 import re
 from datetime import datetime, timedelta, timezone
 from math import isfinite
@@ -150,9 +151,14 @@ ISO_TIMESTAMP_RE = re.compile(
 
 def _load(rel: str, default: dict[str, Any] | None = None) -> tuple[dict[str, Any] | None, str]:
     path = ROOT / rel
-    if not path.exists():
-        return None, "not_generated"
-    payload = load_json(path, default if default is not None else {})
+    try:
+        if not path.exists():
+            return None, "not_generated"
+        payload = load_json(path, default if default is not None else {})
+    except json.JSONDecodeError:
+        return None, "load_error:JSONDecodeError"
+    except OSError:
+        return None, "load_error:OSError"
     if not isinstance(payload, dict):
         return None, "blocked"
     return payload, "available"
@@ -263,7 +269,11 @@ def _source_contract_reason(name: str, payload: dict[str, Any] | None) -> str | 
 
 def _source_reason_for_load(name: str, payload: dict[str, Any] | None, load_status: str) -> str | None:
     if load_status != "available":
-        return f"{name}_not_generated" if load_status == "not_generated" else f"{name}_blocked"
+        if load_status == "not_generated":
+            return f"{name}_not_generated"
+        if load_status.startswith("load_error:"):
+            return f"{name}_{load_status}"
+        return f"{name}_blocked"
     return _source_contract_reason(name, payload)
 
 
@@ -313,7 +323,12 @@ def _source_maps_from(
         _, provenance_status, provenance_reason, _, _ = _integrity_status(integrity)
     else:
         provenance_status = "not_generated" if integrity_status == "not_generated" else "blocked"
-        provenance_reason = "artifact_integrity_not_generated" if integrity_status == "not_generated" else "artifact_integrity_blocked"
+        if integrity_status == "not_generated":
+            provenance_reason = "artifact_integrity_not_generated"
+        elif integrity_status.startswith("load_error:"):
+            provenance_reason = f"artifact_integrity_{integrity_status}"
+        else:
+            provenance_reason = "artifact_integrity_blocked"
     payloads = {
         "intelligence_cases": cases,
         "financial_truth_qualification": truth,
@@ -437,7 +452,12 @@ def _metric(
 def derive_selected_symbols(cases: dict[str, Any] | None, cases_status: str) -> dict[str, Any]:
     source_path = SOURCE_PATHS["intelligence_cases"]
     if cases_status != "available" or cases is None:
-        reason = "intelligence_cases_not_generated" if cases_status == "not_generated" else "intelligence_cases_blocked"
+        if cases_status == "not_generated":
+            reason = "intelligence_cases_not_generated"
+        elif cases_status.startswith("load_error:"):
+            reason = f"intelligence_cases_{cases_status}"
+        else:
+            reason = "intelligence_cases_blocked"
         return {"status": "not_generated" if cases_status == "not_generated" else "blocked", "symbols": [], "source_path": source_path, "reason": reason}
     source_reason = _source_contract_reason("intelligence_cases", cases)
     if source_reason:
@@ -482,6 +502,23 @@ def _finite_number(value: Any) -> bool:
     return isfinite(number)
 
 
+def _row_identity_matches(row: Any, expected_symbol: str) -> bool:
+    if not isinstance(row, dict):
+        return False
+    expected = str(expected_symbol or "").strip().upper()
+    if not expected:
+        return False
+    seen = False
+    for key in ("symbol", "ticker", "company_id"):
+        value = row.get(key)
+        if value in (None, ""):
+            continue
+        seen = True
+        if not isinstance(value, str) or value.strip().upper() != expected:
+            return False
+    return seen
+
+
 def _lineage_flags(value: Any, expected_source_path: str) -> tuple[bool, bool]:
     if value in (None, "", [], {}):
         return False, False
@@ -518,7 +555,7 @@ def _has_finite_impact_output(row: dict[str, Any]) -> bool:
     return all(_finite_number(row.get(key)) for key in IMPACT_OUTPUT_KEYS)
 
 
-def _has_complete_impact_contract(row: dict[str, Any]) -> bool:
+def _has_complete_impact_contract(row: dict[str, Any], expected_symbol: str | None = None) -> bool:
     return (
         isinstance(row.get("scenario_id"), str)
         and bool(row.get("scenario_id"))
@@ -526,6 +563,7 @@ def _has_complete_impact_contract(row: dict[str, Any]) -> bool:
         and bool(row.get("event_id"))
         and isinstance(row.get("company_id"), str)
         and bool(row.get("company_id"))
+        and (expected_symbol is None or _row_identity_matches(row, expected_symbol))
         and _has_finite_impact_output(row)
     )
 
@@ -578,9 +616,15 @@ def _integrity_status(integrity: dict[str, Any] | None) -> tuple[str | None, str
     details = {
         "expected_artifact_count": len(expected_paths),
         "manifest_artifact_count": len(artifacts_list),
+        "expected_paths": expected_paths,
+        "manifest_paths": manifest_paths,
         "missing_paths": missing,
         "extra_paths": extra,
         "covered": READINESS_REL in manifest_paths,
+        "source_commit_sha": integrity.get("source_commit_sha"),
+        "build_cutoff_at": integrity.get("build_cutoff_at"),
+        "generated_at": integrity.get("generated_at"),
+        "hash_status": "not_checked",
     }
     if len(artifacts_list) != len(expected_paths) or missing or extra:
         return value, "blocked", "artifact_integrity_manifest_paths_drifted", notes, details
@@ -590,12 +634,20 @@ def _integrity_status(integrity: dict[str, Any] | None) -> tuple[str | None, str
     rows_by_path = {str(row.get("path")): row for row in hashed}
     for path in artifact_paths():
         rel_path = rel(path)
-        raw = load_json(path, None)
+        try:
+            raw = load_json(path, None)
+        except json.JSONDecodeError:
+            details["hash_status"] = "load_error"
+            return value, "blocked", f"artifact_integrity_artifact_load_error:JSONDecodeError:{rel_path}", notes, details
+        except OSError:
+            details["hash_status"] = "load_error"
+            return value, "blocked", f"artifact_integrity_artifact_load_error:OSError:{rel_path}", notes, details
         row = rows_by_path.get(rel_path)
         if not isinstance(raw, dict) or not row or row.get("sha256") != canonical_hash(raw):
             mismatched.append(rel_path)
     if mismatched:
         details["hash_mismatch_paths"] = mismatched
+        details["hash_status"] = "mismatch"
         notes.append("hash_mismatch=" + ",".join(mismatched[:5]))
         return value, "blocked", "artifact_integrity_manifest_hashes_stale", notes, details
     if not details["covered"]:
@@ -604,16 +656,22 @@ def _integrity_status(integrity: dict[str, Any] | None) -> tuple[str | None, str
         return value, "blocked", "artifact_integrity_lineage_missing", notes, details
     entry = next((row for row in hashed if row.get("path") == READINESS_REL), None)
     readiness_path = ROOT / READINESS_REL
-    readiness = load_json(readiness_path, None) if readiness_path.exists() else None
+    try:
+        readiness = load_json(readiness_path, None) if readiness_path.exists() else None
+    except json.JSONDecodeError:
+        return value, "blocked", "event_to_value_product_readiness_load_error:JSONDecodeError", notes, details
+    except OSError:
+        return value, "blocked", "event_to_value_product_readiness_load_error:OSError", notes, details
     if not isinstance(readiness, dict):
         return value, "blocked", "event_to_value_product_readiness_not_generated", notes, details
     if entry.get("sha256") != canonical_hash(readiness):
         return value, "blocked", "event_to_value_product_readiness_hash_mismatch", notes, details
+    details["hash_status"] = "verified"
     notes = [str(integrity.get("source_commit_sha")), *notes, READINESS_REL]
     return value, "available", None, notes, details
 
 
-def financial_impact_computed(scenario: dict[str, Any]) -> bool:
+def financial_impact_computed(scenario: dict[str, Any], expected_symbol: str | None = None) -> bool:
     if not isinstance(scenario, dict):
         return False
     status = str(scenario.get("impact_status") or scenario.get("status") or "").strip().lower()
@@ -625,7 +683,7 @@ def financial_impact_computed(scenario: dict[str, Any]) -> bool:
     lineage = scenario.get("lineage") or scenario.get("provenance") or scenario.get("run") or scenario.get("receipt") or scenario.get("source")
     if not _has_source_bound_lineage(lineage, SOURCE_PATHS["impact_scenarios"]):
         return False
-    return _has_complete_impact_contract(scenario)
+    return _has_complete_impact_contract(scenario, expected_symbol)
 
 
 def _engine_live_count(payload: dict[str, Any] | None, load_status: str, selected: list[str], engine_name: str) -> tuple[int | None, str, str | None, list[str]]:
@@ -643,6 +701,7 @@ def _engine_live_count(payload: dict[str, Any] | None, load_status: str, selecte
         row = companies.get(symbol)
         if (
             isinstance(row, dict)
+            and _row_identity_matches(row, symbol)
             and _status_text(row.get("status")) in COMPUTED_ENGINE_STATUSES
             and isinstance(row.get("result"), dict)
             and row.get("result")
@@ -670,7 +729,7 @@ def _null_required_outputs(
         companies = (payload or {}).get("companies") or {}
         for symbol in selected:
             row = companies.get(symbol) if isinstance(companies, dict) else None
-            if not isinstance(row, dict) or row.get("result") in (None, {}, []) or row.get("status") != "computed":
+            if not isinstance(row, dict) or not _row_identity_matches(row, symbol) or row.get("result") in (None, {}, []) or row.get("status") != "computed":
                 nulls += 1
                 notes.append(f"{label}:{symbol}:{(row or {}).get('reason') or (row or {}).get('status') or 'result_null'}")
     return nulls, notes
@@ -835,6 +894,24 @@ def project_readiness(payload: Any) -> dict[str, Any]:
         return _project_block(payload, "event_to_value_product_readiness_source_status_mismatch", metrics, summary, lineage)
     if source_reason != actual_source_reason:
         return _project_block(payload, "event_to_value_product_readiness_source_reason_mismatch", metrics, summary, lineage)
+    actual_integrity, actual_integrity_load_status = _load(SOURCE_PATHS["artifact_integrity"])
+    if actual_integrity_load_status != "available" or actual_integrity is None:
+        return _project_block(
+            payload,
+            "event_to_value_product_readiness_artifact_integrity_not_generated"
+            if actual_integrity_load_status == "not_generated"
+            else f"event_to_value_product_readiness_artifact_integrity_{actual_integrity_load_status}",
+            metrics,
+            summary,
+            lineage,
+        )
+    actual_integrity_value, actual_integrity_status, actual_integrity_reason, _, actual_integrity_details = _integrity_status(actual_integrity)
+    if lineage.get("source_commit_sha") != actual_integrity.get("source_commit_sha"):
+        return _project_block(payload, "event_to_value_product_readiness_source_commit_sha_mismatch", metrics, summary, lineage)
+    if lineage.get("build_cutoff_at") != actual_integrity.get("build_cutoff_at"):
+        return _project_block(payload, "event_to_value_product_readiness_build_cutoff_at_mismatch", metrics, summary, lineage)
+    if lineage.get("generated_at") != actual_integrity.get("generated_at"):
+        return _project_block(payload, "event_to_value_product_readiness_generated_at_mismatch", metrics, summary, lineage)
     for name, status in source_status.items():
         if status not in PROJECTED_STATUSES:
             return _project_block(payload, f"event_to_value_product_readiness_source_status_value_invalid:{name}", metrics, summary, lineage)
@@ -871,7 +948,31 @@ def project_readiness(payload: Any) -> dict[str, Any]:
         return _project_block(payload, "event_to_value_product_readiness_artifact_integrity_reason_missing", metrics, summary, lineage)
     if not isinstance(lineage.get("artifact_integrity"), dict):
         return _project_block(payload, "event_to_value_product_readiness_artifact_integrity_shape_invalid", metrics, summary, lineage)
+    if lineage.get("artifact_integrity_status") != actual_integrity_status:
+        return _project_block(payload, "event_to_value_product_readiness_artifact_integrity_status_mismatch", metrics, summary, lineage)
+    if lineage.get("artifact_integrity_reason") != actual_integrity_reason:
+        return _project_block(payload, "event_to_value_product_readiness_artifact_integrity_reason_mismatch", metrics, summary, lineage)
+    if lineage.get("artifact_integrity") != actual_integrity_details:
+        return _project_block(payload, "event_to_value_product_readiness_artifact_integrity_details_mismatch", metrics, summary, lineage)
     provenance = next((row for row in metrics if isinstance(row, dict) and row.get("id") == "provenance_coverage"), {})
+    if (
+        provenance.get("status") != actual_integrity_status
+        or provenance.get("reason") != actual_integrity_reason
+        or provenance.get("value") != actual_integrity_value
+    ):
+        return _project_block(payload, "event_to_value_product_readiness_provenance_metric_mismatch", metrics, summary, lineage)
+    if (
+        actual_integrity_status == "available"
+        and (
+            actual_integrity_details.get("covered") is not True
+            or actual_integrity_details.get("hash_status") != "verified"
+            or actual_integrity_details.get("expected_artifact_count") != actual_integrity_details.get("manifest_artifact_count")
+            or actual_integrity_details.get("missing_paths")
+            or actual_integrity_details.get("extra_paths")
+            or actual_integrity_details.get("hash_mismatch_paths")
+        )
+    ):
+        return _project_block(payload, "event_to_value_product_readiness_integrity_not_fully_sealed", metrics, summary, lineage)
     if provenance.get("status") != "available":
         return _project_block(payload, provenance.get("reason") or "event_to_value_product_readiness_integrity_unsealed", metrics, summary, lineage)
     return {
@@ -963,7 +1064,7 @@ def build(write: bool = True, artifacts: dict[str, tuple[dict[str, Any] | None, 
                 if not isinstance(case, dict):
                     continue
                 identity = f"{case.get('symbol')}:{case.get('case_id')}:{case.get('status')}"
-                if case.get("status") == "Published":
+                if case.get("status") == "Published" and _row_identity_matches(case, symbol):
                     published.append(identity)
                 elif case.get("status"):
                     observed.append(identity)
@@ -987,7 +1088,7 @@ def build(write: bool = True, artifacts: dict[str, tuple[dict[str, Any] | None, 
         for symbol in selected:
             row = (scenarios.get("companies") or {}).get(symbol) or {}
             for scenario in row.get("scenarios") or []:
-                if financial_impact_computed(scenario):
+                if financial_impact_computed(scenario, symbol):
                     computed_scenarios += 1
                     scenario_notes.append(str(scenario.get("scenario_id") or scenario.get("event_id")))
         scenario_value = computed_scenarios
@@ -1066,8 +1167,12 @@ def build(write: bool = True, artifacts: dict[str, tuple[dict[str, Any] | None, 
         integrity_details = {}
         provenance_value, provenance_status, provenance_reason = (
             None,
-            integrity_status,
-            "artifact_integrity_not_generated" if integrity_status == "not_generated" else "artifact_integrity_blocked",
+            "not_generated" if integrity_status == "not_generated" else "blocked",
+            "artifact_integrity_not_generated"
+            if integrity_status == "not_generated"
+            else f"artifact_integrity_{integrity_status}"
+            if integrity_status.startswith("load_error:")
+            else "artifact_integrity_blocked",
         )
 
     lookahead_status = "blocked"

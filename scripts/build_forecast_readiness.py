@@ -1,6 +1,7 @@
 """Build Forecast/Valuation Readiness Contract v1 state."""
 from __future__ import annotations
 
+from datetime import datetime, timezone, timedelta
 from pathlib import Path
 import sys
 
@@ -18,6 +19,35 @@ from psx_data import STATE, load_json, save_json
 
 
 OUT = STATE / "company_intel" / "forecast_readiness.json"
+PKT = timezone(timedelta(hours=5))
+
+
+def _strict_source_time(value: object) -> str | None:
+    text = str(value or "").strip()
+    if not text:
+        return None
+    if text.endswith("Z"):
+        try:
+            parsed = datetime.fromisoformat(text.replace("Z", "+00:00"))
+        except ValueError:
+            return None
+        return parsed.astimezone(timezone.utc).replace(microsecond=0).strftime("%Y-%m-%dT%H:%M:%SZ")
+    try:
+        parsed = datetime.fromisoformat(text)
+    except ValueError:
+        for fmt in ("%Y-%m-%d %H:%M", "%Y-%m-%d %H:%M:%S"):
+            try:
+                parsed = datetime.strptime(text, fmt).replace(tzinfo=PKT)
+                break
+            except ValueError:
+                parsed = None
+        if parsed is None:
+            return None
+    if parsed.tzinfo is None:
+        if parsed.hour == 0 and parsed.minute == 0 and parsed.second == 0 and "T" not in text:
+            return parsed.date().isoformat()
+        parsed = parsed.replace(tzinfo=PKT)
+    return parsed.astimezone(PKT).replace(microsecond=0).isoformat()
 
 
 def _source_as_of(*states: dict) -> str | None:
@@ -27,14 +57,16 @@ def _source_as_of(*states: dict) -> str | None:
             continue
         for key in ("updated", "fetched", "profile_updated"):
             value = state.get(key)
-            if value:
-                dates.append(str(value))
+            normalized = _strict_source_time(value)
+            if normalized:
+                dates.append(normalized)
         meta = state.get("_meta") or state.get("meta") or {}
         if isinstance(meta, dict):
             for key in ("updated", "built", "as_of"):
                 value = meta.get(key)
-                if value:
-                    dates.append(str(value))
+                normalized = _strict_source_time(value)
+                if normalized:
+                    dates.append(normalized)
     return max(dates) if dates else None
 
 
