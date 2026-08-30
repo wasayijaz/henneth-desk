@@ -144,6 +144,7 @@ def main() -> None:
     check("discounted fcf identity", close(q2["discounted_fcf_pkr"], q2["fcf_pkr"] * q2["discount_factor"]))
     check("values aggregate", close(result["values"]["total_revenue_pkr"], sum(row["revenue_pkr"] for row in rows))
           and close(result["values"]["total_fcf_pkr"], sum(row["fcf_pkr"] for row in rows)))
+    check("npv identity", close(result["values"]["npv_pkr"], math.fsum(row["discounted_fcf_pkr"] for row in rows)))
     check("per-share value", close(result["per_share"]["npv_pkr"], result["values"]["npv_pkr"] / 100_000_000.0))
     check("break-even fields", result["break_even"]["ebitda_break_even_quarter"] == 1
           and result["break_even"]["cash_break_even_quarter"] == 4)
@@ -162,6 +163,14 @@ def main() -> None:
     check("result detached from input mutation", json.dumps(result, sort_keys=True) == frozen)
     changed = engine.evaluate_case(case)
     check("input mutation changes hash", changed["run_receipt"]["inputs_sha256"] != result["run_receipt"]["inputs_sha256"])
+    lineage_frozen = json.dumps(result["inputs_lineage"], sort_keys=True)
+    quarter_lineage = next(row for row in result["inputs_lineage"] if row["field"] == "quarter_ends")
+    quarter_lineage["value"][0] = "mutated-quarter"
+    quarter_lineage["analyst_ref"]["note"] = "mutated-note"
+    check("lineage deeply detached", json.dumps(result["inputs_lineage"], sort_keys=True) != lineage_frozen
+          and case["inputs"]["quarter_ends"]["value"][0] == "2025-12-31"
+          and case["inputs"]["quarter_ends"]["analyst_ref"]["note"] == "explicit cement expansion case assumption"
+          and result["run_receipt"]["inputs_sha256"] == engine.evaluate_case(golden_case())["run_receipt"]["inputs_sha256"])
 
     extreme = golden_case()
     extreme["inputs"]["starting_revenue_pkr"]["value"] = 1e308
@@ -171,6 +180,16 @@ def main() -> None:
         check("extreme revenue fails closed", "non-finite output" in str(error))
     else:
         raise AssertionError("extreme revenue should fail closed")
+
+    financing_overflow = golden_case()
+    financing_overflow["inputs"]["debt_financing_pkr"]["value"] = 1e308
+    financing_overflow["inputs"]["equity_financing_pkr"]["value"] = 1e308
+    try:
+        engine.evaluate_case(financing_overflow)
+    except ValueError as error:
+        check("financing aggregate fails closed", "financing aggregate" in str(error))
+    else:
+        raise AssertionError("financing aggregate overflow should fail closed")
 
     mutations = [
         ("missing field", lambda c: c["inputs"].pop("gross_margin_pct"), "gross_margin_pct: missing required input"),

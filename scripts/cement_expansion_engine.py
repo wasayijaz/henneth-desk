@@ -11,6 +11,7 @@ defaults are present.
 """
 from __future__ import annotations
 
+import copy
 from datetime import date
 import hashlib
 import json
@@ -73,6 +74,8 @@ def quarterly_metrics(case: Mapping[str, Any]) -> list[dict[str, Any]]:
     valuation_date = _as_date(case["valuation_date"])
     discount_rate = _quarterly_rate(float(inputs["discount_rate_pct_annual"]["value"]))
     invested_capital = debt + equity
+    if not math.isfinite(invested_capital):
+        raise ValueError("invested_capital_pkr: non-finite output from financing aggregate")
 
     rows: list[dict[str, Any]] = []
     previous_working_capital = starting_revenue * working_capital_rate
@@ -237,14 +240,14 @@ def _inputs_lineage(inputs: Mapping[str, Any]) -> list[dict[str, Any]]:
         record = inputs[field]
         entry: dict[str, Any] = {
             "field": field,
-            "value": record.get("value"),
+            "value": copy.deepcopy(record.get("value")),
             "label_type": record.get("label_type"),
             "available_on": record.get("available_on"),
         }
         if record.get("label_type") == "source":
-            entry["source_ref"] = record.get("source_ref")
+            entry["source_ref"] = copy.deepcopy(record.get("source_ref"))
         else:
-            entry["analyst_ref"] = record.get("analyst_ref")
+            entry["analyst_ref"] = copy.deepcopy(record.get("analyst_ref"))
         entries.append(entry)
     return entries
 
