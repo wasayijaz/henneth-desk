@@ -32,6 +32,10 @@ const BLOCKED_READINESS_STATUSES = new Set([
   "blocked_unsupported_sector_model",
   "blocked_financial_truth_not_qualified",
 ]);
+const DIGIT_OR_FULLWIDTH = /[\d\uFF10-\uFF19\u0660-\u0669\u06F0-\u06F9]/u;
+const CASE_MECHANISM_BOUNDARY =
+  "Reported operating linkage only; no reported numeric case values, no standalone transaction outcome, no formal engine activation, and no advice.";
+const CASE_MECHANISM_LABEL = "Available reported-fact mechanism.";
 let checks = 0;
 
 function assert(condition, message) {
@@ -97,6 +101,15 @@ function assertStringOrNull(value, label, max = 1200) {
 
 function assertNumberOrNull(value, label) {
   assert(value === null || (typeof value === "number" && Number.isFinite(value)), `${label} not number/null`);
+}
+
+function assertStringList(value, label, max = 4) {
+  assert(Array.isArray(value) && value.length <= max, `${label} not bounded string list`);
+  for (const item of value) assert(typeof item === "string" && item, `${label} contains invalid string`);
+}
+
+function assertNoDigits(value, label) {
+  assert(!DIGIT_OR_FULLWIDTH.test(compactJson(value)), `${label} contains numeric token`);
 }
 
 function assertReadinessStatus(value, label) {
@@ -208,14 +221,49 @@ function assertProjectedShape(context) {
 
   assertExactKeys(context.intelligence_cases, ["status", "cases"], `${context.symbol} intelligence cases`);
   assert(Array.isArray(context.intelligence_cases.cases) && context.intelligence_cases.cases.length <= 3, `${context.symbol} case cap`);
+  const citationIds = new Set((context.citation_registry?.citations || []).map((citation) => citation.citation_id));
   for (const caseObject of context.intelligence_cases.cases) {
-    assertExactKeys(caseObject, ["case_id", "status", "epistemic_type", "summary", "observed_facts", "hypotheses", "watch_next", "source_lineage"], `${context.symbol} observed case`);
+    assertExactKeys(caseObject, ["case_id", "status", "epistemic_type", "summary", "observed_facts", "mechanism", "hypotheses", "watch_next", "source_lineage"], `${context.symbol} observed case`);
     assert(["Observed", "Corroborated", "Modelled", "Validated", "Published", "Monitoring", "Closed"].includes(caseObject.status), `${context.symbol} case lifecycle`);
     assert(Array.isArray(caseObject.observed_facts) && caseObject.observed_facts.length <= 4, `${context.symbol} observed fact cap`);
     assert(Array.isArray(caseObject.hypotheses) && caseObject.hypotheses.length <= 4, `${context.symbol} hypothesis cap`);
     assert(Array.isArray(caseObject.watch_next) && caseObject.watch_next.length <= 4, `${context.symbol} watch cap`);
     assert(Array.isArray(caseObject.source_lineage) && caseObject.source_lineage.length <= 4, `${context.symbol} lineage cap`);
-    const caseText = compactJson(caseObject);
+    if (caseObject.mechanism !== null) {
+      assertExactKeys(caseObject.mechanism, ["status", "intelligence_type", "text", "boundary", "items", "citation_ids"], `${context.symbol} case mechanism`);
+      assert(caseObject.mechanism.status === "available_reported_fact", `${context.symbol} case mechanism status`);
+      assert(caseObject.mechanism.intelligence_type === "reported_fact", `${context.symbol} case mechanism type`);
+      assert(caseObject.mechanism.boundary === CASE_MECHANISM_BOUNDARY, `${context.symbol} case mechanism boundary`);
+      assert(caseObject.mechanism.text === CASE_MECHANISM_LABEL, `${context.symbol} case mechanism label`);
+      assertStringList(caseObject.mechanism.citation_ids, `${context.symbol} case mechanism citations`, 2);
+      assert(Array.isArray(caseObject.mechanism.items) && caseObject.mechanism.items.length <= 1, `${context.symbol} case mechanism item cap`);
+      for (const citationId of caseObject.mechanism.citation_ids) {
+        assert(citationIds.has(citationId), `${context.symbol} case mechanism citation not server-owned`);
+      }
+      for (const item of caseObject.mechanism.items) {
+        assertExactKeys(item, ["item_id", "text", "boundary", "citation_ids"], `${context.symbol} case mechanism item`);
+        assert(item.boundary === CASE_MECHANISM_BOUNDARY, `${context.symbol} case mechanism item boundary`);
+        assertStringOrNull(item.item_id, `${context.symbol} case mechanism item id`, 120);
+        assertStringOrNull(item.text, `${context.symbol} case mechanism item text`, 220);
+        assertStringList(item.citation_ids, `${context.symbol} case mechanism item citations`, 2);
+        for (const citationId of item.citation_ids) {
+          assert(citationIds.has(citationId), `${context.symbol} case mechanism item citation not server-owned`);
+        }
+      }
+      assertNoDigits(
+        {
+          text: caseObject.mechanism.text,
+          items: caseObject.mechanism.items.map((item) => ({ item_id: item.item_id, text: item.text })),
+        },
+        `${context.symbol} case mechanism projected payload`,
+      );
+    }
+    const caseText = compactJson({
+      ...caseObject,
+      mechanism: caseObject.mechanism
+        ? { ...caseObject.mechanism, boundary: null, items: caseObject.mechanism.items.map((item) => ({ ...item, boundary: null })) }
+        : null,
+    });
     for (const token of ["reported_values", "forecast", "valuation", "market_expectations", "price_target", "recommendation"]) {
       assert(!caseText.includes(token), `${context.symbol} case leaked ${token}`);
     }
@@ -679,7 +727,68 @@ function main() {
   const mlcfCase = mlcfContext.intelligence_cases.cases[0];
   assert(mlcfCase.case_id === "case_mlcf_pioc_control_observed_v1" && mlcfCase.status === "Observed", "MLCF Ask case lifecycle preserved");
   assert(mlcfCase.hypotheses.length >= 2 && mlcfCase.watch_next.length === 2, "MLCF Ask case includes alternatives and watch conditions");
+  assert(mlcfCase.mechanism?.status === "available_reported_fact", "MLCF available reported-fact mechanism projected");
+  assert(mlcfCase.mechanism.boundary === CASE_MECHANISM_BOUNDARY, "MLCF mechanism has server-owned boundary");
+  assert(mlcfCase.mechanism.text === CASE_MECHANISM_LABEL, "MLCF mechanism omits raw mechanism prose");
+  assert(mlcfCase.mechanism.items.length === 1, "MLCF mechanism item is bounded");
+  assert(mlcfCase.mechanism.citation_ids.length === 2, "MLCF mechanism carries both official citations");
+  const mlcfMechanismCitations = mlcfCase.mechanism.citation_ids.map((id) =>
+    mlcfContext.citation_registry.citations.find((citation) => citation.citation_id === id),
+  );
+  assert(mlcfMechanismCitations.every(Boolean), "MLCF mechanism citations resolve in registry");
+  assertDeepEqual(
+    mlcfMechanismCitations.map((citation) => citation.document_id).sort(),
+    ["psx:267429", "psx:275425"],
+    "MLCF mechanism citations use official source documents",
+  );
+  assert(mlcfMechanismCitations.every((citation) => citation.owner_symbol === "MLCF" && citation.owner_type === "case_mechanism"), "MLCF mechanism citations are server-owned");
+  assert(!compactJson(mlcfCase.mechanism).includes("reported_values"), "MLCF mechanism does not expose reported numeric values payload");
+  assertNoDigits(
+    {
+      text: mlcfCase.mechanism.text,
+      items: mlcfCase.mechanism.items.map((item) => ({ item_id: item.item_id, text: item.text })),
+    },
+    "MLCF projected mechanism prose",
+  );
   assert(mlcfCase.source_lineage.every((item) => mlcfContext.citation_registry.citations.some((citation) => citation.citation_id === item.citation_id)), "MLCF Ask case citations are server-owned");
+  const futureCaseRow = clone(rowsBySymbol.get("MLCF"));
+  futureCaseRow.intelligence_cases.cases[0].case_id = "case_future_available_reported_fact_mechanism";
+  const futureCaseContext = projectCompany(futureCaseRow, { symbol: "MLCF" });
+  assert(futureCaseContext.intelligence_cases.cases[0].mechanism?.status === "available_reported_fact", "future valid reported-fact mechanism projects without a case-id allowlist");
+  const blockedMariRow = clone(rowsBySymbol.get("MARI"));
+  blockedMariRow.intelligence_cases.cases = blockedMariRow.intelligence_cases.cases.map((caseObject) => ({
+    ...caseObject,
+    sections: {
+      ...(caseObject.sections || {}),
+      mechanism: {
+        ...(caseObject.sections?.mechanism || clone(rowsBySymbol.get("MLCF").intelligence_cases.cases[0].sections.mechanism)),
+        status: "blocked",
+      },
+    },
+  }));
+  const blockedMariContext = projectCompany(blockedMariRow, { symbol: "MARI" });
+  assert(blockedMariContext.intelligence_cases.cases.every((caseObject) => caseObject.mechanism === null), "MARI blocked mechanisms do not project");
+  const unsourcedMechanismRow = clone(rowsBySymbol.get("MLCF"));
+  unsourcedMechanismRow.intelligence_cases.cases[0].sections = {
+    ...(unsourcedMechanismRow.intelligence_cases.cases[0].sections || {}),
+    mechanism: clone(rowsBySymbol.get("MLCF").intelligence_cases.cases[0].sections.mechanism),
+  };
+  for (const evidence of unsourcedMechanismRow.intelligence_cases.cases[0].sections.mechanism.items[0].evidence) {
+    evidence.content_sha256 = "";
+  }
+  const unsourcedMechanismContext = projectCompany(unsourcedMechanismRow, { symbol: "MLCF" });
+  assert(unsourcedMechanismContext.intelligence_cases.cases[0].mechanism === null, "available mechanism without source-bound evidence fails closed");
+  const citedMechanismAnswer = buildAnswerSections(mlcfContext, {
+    mechanism: "Source evidence describes the mechanism qualitatively.",
+    citation_ids: [mlcfCase.mechanism.citation_ids[0]],
+  });
+  const emptyMechanismAnswer = buildAnswerSections(mlcfContext, {});
+  assert(citedMechanismAnswer.sections.financial_impact.status === "unknown_current", "case mechanism output cannot activate financial impact");
+  assertDeepEqual(
+    citedMechanismAnswer.sections.valuation_readiness.downstream_status,
+    emptyMechanismAnswer.sections.valuation_readiness.downstream_status,
+    "case mechanism output cannot activate formal engine statuses",
+  );
   const crossSymbolCase = clone(rowsBySymbol.get("MLCF"));
   crossSymbolCase.intelligence_cases.symbol = "MARI";
   const rejectedCaseContext = projectCompany(crossSymbolCase, { symbol: "MLCF" });

@@ -48,6 +48,9 @@ const BLOCKED_DOWNSTREAM = Object.freeze({
   market_expectations: "blocked_not_implemented",
   scenario_lab: "blocked_not_implemented",
 });
+const CASE_MECHANISM_LABEL = "Available reported-fact mechanism.";
+const CASE_MECHANISM_BOUNDARY =
+  "Reported operating linkage only; no reported numeric case values, no standalone transaction outcome, no formal engine activation, and no advice.";
 const UNSAFE_MODEL_TEXT =
   /(?:https?:\/\/|www\.|\b(?:buy|purchase|sell|dispose|accumulate|trim|reduce|overweight|underweight|outperform|underperform|take\s+profit|stop\s+loss|entry|enter|exit|hold|short|long|leverage|should|must|recommend|guarantee|promise|definite|definitely|certain|certainty|causal|causes|caused|will\s+(?:lead|cause|increase|decrease|rise|fall|improve|hurt)|profit|return|upside|downside|target price|fair value|prompt|developer|system|instruction|ignore previous|january|february|march|april|may|june|july|august|september|october|november|december|jan|feb|mar|apr|jun|jul|aug|sep|sept|oct|nov|dec|pkr|rs\.?|rupees?|\$|percent|percentage|zero|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen|twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety|hundred|thousand|million|billion|trillion)\b)/i;
 const DIGIT_OR_FULLWIDTH = /[\d\uFF10-\uFF19\u0660-\u0669\u06F0-\u06F9]/u;
@@ -639,6 +642,63 @@ function projectIntelligenceConfidence(row) {
   };
 }
 
+function hasDigit(value) {
+  return typeof value === "string" && DIGIT_OR_FULLWIDTH.test(value);
+}
+
+function isSourceBoundEvidence(evidence) {
+  const documentId = boundedString(evidence?.document_id || evidence?.doc_id, 80);
+  const contentHash = boundedString(evidence?.content_sha256, 96);
+  return (
+    isPlainObject(evidence) &&
+    isSafeHttpsUrl(evidence.source_url) &&
+    !!documentId &&
+    !!contentHash &&
+    /^[a-f0-9]{64}$/i.test(contentHash) &&
+    Number.isInteger(evidence.page) &&
+    evidence.page > 0
+  );
+}
+
+function projectCaseMechanism(caseObject, registry, symbol) {
+  const mechanism = caseObject?.sections?.mechanism;
+  if (
+    !isPlainObject(mechanism) ||
+    mechanism.status !== "available" ||
+    mechanism.epistemic_type !== "reported_fact"
+  ) {
+    return null;
+  }
+  const items = (Array.isArray(mechanism.items) ? mechanism.items : [])
+    .slice(0, 1)
+    .map((item) => {
+      const text = boundedString(item?.text, 220);
+      if (!text || hasDigit(text)) return null;
+      const citation_ids = (Array.isArray(item?.evidence) ? item.evidence : [])
+        .slice(0, 2)
+        .filter(isSourceBoundEvidence)
+        .map((evidence) => addCitation(registry, symbol, evidence, "case_mechanism", `${caseObject.case_id}:${item?.id || "item"}`))
+        .filter(Boolean);
+      return {
+        item_id: boundedString(item?.id, 120),
+        text,
+        boundary: CASE_MECHANISM_BOUNDARY,
+        citation_ids,
+      };
+    })
+    .filter(Boolean)
+    .filter((item) => item.citation_ids.length);
+  if (!items.length) return null;
+  return {
+    status: "available_reported_fact",
+    intelligence_type: "reported_fact",
+    text: CASE_MECHANISM_LABEL,
+    boundary: CASE_MECHANISM_BOUNDARY,
+    items,
+    citation_ids: [...new Set(items.flatMap((item) => item.citation_ids))],
+  };
+}
+
 function projectIntelligenceCases(row, registry, symbol) {
   const source = isPlainObject(row.intelligence_cases) ? row.intelligence_cases : {};
   if (source.symbol && source.symbol !== symbol) return { status: "invalid_case_symbol", cases: [] };
@@ -682,6 +742,7 @@ function projectIntelligenceCases(row, registry, symbol) {
         epistemic_type: boundedString(caseObject.epistemic_type, 80),
         summary: boundedString(caseObject.summary, 180),
         observed_facts,
+        mechanism: projectCaseMechanism(caseObject, registry, symbol),
         hypotheses,
         watch_next,
         source_lineage,
