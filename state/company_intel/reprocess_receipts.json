@@ -450,7 +450,55 @@
    "chunk_ranges": [],
    "raw_retained": false,
    "canonical_state_committed": true
+  },
+  {
+   "doc_id": "psx:260032",
+   "content_sha256": "4fdfb4cbd2eee65576cbb89b43334ce0c09a7e5ffd573d5bf93b414029eba6d1",
+   "parser_version": "financial_statement_v2",
+   "parser_revision": "block_geometry_v5",
+   "parser_code_sha256": "e5b3bfc02ba1ab5a119c23ba5753aef15b1f199a4eb35979e31a7a89c238e9be",
+   "status": "success",
+   "observed_at": "2026-08-31T11:27:26Z",
+   "source": "PSX DPS",
+   "source_url": "https://dps.psx.com.pk/download/document/260032.pdf",
+   "official_document_id": "260032",
+   "tickers": [
+    "MLCF"
+   ],
+   "content_length": 11021091,
+   "page_count": 401,
+   "content_type": "application/pdf",
+   "transport": "exact_id_reprocess",
+   "chunked_source": true,
+   "chunk_ranges": [
+    {
+     "source_page_start": 1,
+     "source_page_end": 120,
+     "page_count": 120,
+     "chunk_sha256": "6576f1e494bcca850483903c7d037da5e23167154802101f72952ced6b04e095"
+    },
+    {
+     "source_page_start": 121,
+     "source_page_end": 240,
+     "page_count": 120,
+     "chunk_sha256": "f7e96edb5425de6c84edf459738ffb0176d8151a1fb87d736a2117e9c1b6d9b3"
+    },
+    {
+     "source_page_start": 241,
+     "source_page_end": 360,
+     "page_count": 120,
+     "chunk_sha256": "49798c959af111b073187039ddf607b4dae3e8bab8115cd7c4d467a4a1658e51"
+    },
+    {
+     "source_page_start": 361,
+     "source_page_end": 401,
+     "page_count": 41,
+     "chunk_sha256": "17e098cadd9cd0f838ddba274fbecb7da6c3556d058cb5fc9db90ddefec2e1dc"
+    }
+   ],
+   "raw_retained": false,
+   "canonical_state_committed": true
   }
  ],
- "updated": "2026-08-31T10:14:20Z"
+ "updated": "2026-08-31T11:27:26Z"
 }
