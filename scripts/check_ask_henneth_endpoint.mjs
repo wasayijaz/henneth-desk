@@ -46,6 +46,9 @@ function deps(overrides = {}) {
       assert(schema.schema.properties.mode.enum.length === 1 && schema.schema.properties.mode.enum[0] === "qualitative", "qualitative-only selection");
       return { mode: "qualitative" };
     }
+    assert(messages?.[0]?.content?.includes("do not upgrade an Observed case"), "case lifecycle system guard");
+    const supplied = JSON.parse(messages?.[1]?.content || "{}");
+    assert(supplied.context?.intelligence_cases?.cases?.[0]?.status === "Observed", "source-bound observed case supplied to Ask");
     return overrides.modelOutput || {};
   };
   return {
