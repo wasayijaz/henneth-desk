@@ -38,7 +38,7 @@ def _assert_safe_language(data: dict) -> None:
             _fail(f"unsafe probability wording: {value}")
 
 
-def _assert_shape(data: dict, signal_state: dict, financial_state: dict) -> int:
+def _assert_shape(data: dict, signal_state: dict, financial_state: dict, truth_state: dict) -> int:
     symbols = list((signal_state.get("pilot_symbols") or []))
     if len(symbols) != 20:
         _fail("expected 20 pilot symbols")
@@ -53,6 +53,7 @@ def _assert_shape(data: dict, signal_state: dict, financial_state: dict) -> int:
         row = companies.get(symbol) or {}
         signal_row = (signal_state.get("companies") or {}).get(symbol) or {}
         model_row = (financial_state.get("companies") or {}).get(symbol) or {}
+        truth_row = (truth_state.get("companies") or {}).get(symbol) or {}
         theses = row.get("theses") or []
         clusters = signal_row.get("clusters") or []
         if row.get("source_cluster_count") != len(clusters):
@@ -61,8 +62,14 @@ def _assert_shape(data: dict, signal_state: dict, financial_state: dict) -> int:
             _fail(f"{symbol} active thesis count mismatch")
         if len(theses) != len(clusters):
             _fail(f"{symbol} thesis count does not match retained clusters")
-        if (row.get("financial_readiness") or {}).get("status") != (model_row.get("status") or "unknown"):
-            _fail(f"{symbol} financial readiness mismatch")
+        readiness = row.get("financial_readiness") or {}
+        expected_status = "qualified" if truth_row.get("status") == "qualified" else "not_qualified"
+        if readiness.get("status") != expected_status:
+            _fail(f"{symbol} financial truth readiness mismatch")
+        if readiness.get("downstream_status") != (truth_row.get("downstream") or {}):
+            _fail(f"{symbol} financial truth downstream mismatch")
+        if (readiness.get("model_input_readiness") or {}).get("status") != (model_row.get("status") or "unknown"):
+            _fail(f"{symbol} model-input readiness mismatch")
         cluster_ids = {cluster.get("cluster_id") for cluster in clusters}
         for thesis in theses:
             total += 1
@@ -104,16 +111,17 @@ def main() -> None:
     checks = 0
     signal_state = load_json(STATE / "company_intel" / "signal_clusters.json", {"companies": {}})
     financial_state = load_json(STATE / "company_intel" / "financial_model_inputs.json", {"companies": {}})
-    expected = build_thesis_monitoring(signal_state, financial_state, as_of="2026-01-01T00:00:00Z")
-    expected_again = build_thesis_monitoring(signal_state, financial_state, as_of="2026-01-01T00:00:00Z")
+    truth_state = load_json(STATE / "company_intel" / "financial_truth_qualification.json", {"companies": {}})
+    expected = build_thesis_monitoring(signal_state, financial_state, truth_state, as_of="2026-01-01T00:00:00Z")
+    expected_again = build_thesis_monitoring(signal_state, financial_state, truth_state, as_of="2026-01-01T00:00:00Z")
     if json.dumps(expected, sort_keys=True) != json.dumps(expected_again, sort_keys=True):
         _fail("pure builder is not deterministic")
     checks += 1
     _assert_safe_language(expected); checks += 1
-    total = _assert_shape(expected, signal_state, financial_state); checks += 1
+    total = _assert_shape(expected, signal_state, financial_state, truth_state); checks += 1
     real = build()
     _assert_safe_language(real); checks += 1
-    total = _assert_shape(real, signal_state, financial_state); checks += 1
+    total = _assert_shape(real, signal_state, financial_state, truth_state); checks += 1
     before = OUT.read_bytes()
     build()
     if before != OUT.read_bytes():

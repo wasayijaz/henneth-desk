@@ -43,6 +43,7 @@ def _source_as_of(*states: dict[str, Any]) -> dict[str, str]:
         "management_delivery",
         "intelligence_confidence",
         "financial_model_inputs",
+        "financial_truth_qualification",
         "operating_events",
         "signal_clusters",
     )
@@ -134,6 +135,7 @@ def _watch_item(
     delivery: dict[str, Any],
     assessment: dict[str, Any] | None,
     model_row: dict[str, Any],
+    truth_row: dict[str, Any],
 ) -> dict[str, Any]:
     matched = delivery.get("matched_event") if isinstance(delivery.get("matched_event"), dict) else None
     confidence_link = delivery.get("confidence_link") if isinstance(delivery.get("confidence_link"), dict) else None
@@ -145,6 +147,18 @@ def _watch_item(
     watch_items = thesis.get("watch_items") or []
     confidence_id = (confidence_link or {}).get("confidence_id") or (assessment or {}).get("confidence_id")
     confidence_band = (confidence_link or {}).get("band") or (assessment or {}).get("band")
+    truth_qualified = truth_row.get("status") == "qualified"
+    model_status = model_row.get("status") or "unknown"
+    model_flags = list(model_row.get("quality_flags") or [])
+    readiness_flags = list(model_flags)
+    if not truth_qualified and "financial_truth_not_qualified" not in readiness_flags:
+        readiness_flags.append("financial_truth_not_qualified")
+    readiness = {
+        "status": "qualified" if truth_qualified else "not_qualified",
+        "downstream_status": truth_row.get("downstream") or {},
+        "quality_flags": readiness_flags,
+        "model_input_readiness": {"status": model_status, "quality_flags": model_flags},
+    }
     return {
         "watch_id": _stable_id(
             "evidence_watch",
@@ -161,16 +175,13 @@ def _watch_item(
         "monitored_assertion": thesis.get("monitored_assertion"),
         "delivery_status": delivery.get("status"),
         "confidence_band": confidence_band,
-        "financial_readiness_status": model_row.get("status") or "unknown",
+        "financial_readiness_status": readiness["status"],
         "status_reason": reasons[0] if reasons else "exact official-source monitoring remains active",
         "confirmation_check": prove_checks,
         "break_check": kill_checks,
         "next_evidence": watch_items,
         "confidence": {"confidence_id": confidence_id, "band": confidence_band},
-        "financial_readiness": {
-            "status": model_row.get("status") or "unknown",
-            "quality_flags": model_row.get("quality_flags") or [],
-        },
+        "financial_readiness": readiness,
         "source_evidence": source_evidence,
         "matched_evidence": matched_evidence,
         "policy_flags": ["research_only", "no_advice", "no_odds_claims", "no_forward_estimates", "no_price_claims", "no_valuation_claims"],
@@ -210,6 +221,7 @@ def build_evidence_watchlist(
     management_delivery_state: dict[str, Any],
     confidence_state: dict[str, Any],
     financial_model_state: dict[str, Any],
+    financial_truth_state: dict[str, Any],
     operating_events_state: dict[str, Any],
     signal_state: dict[str, Any],
     *,
@@ -221,6 +233,7 @@ def build_evidence_watchlist(
         management_delivery_state,
         confidence_state,
         financial_model_state,
+        financial_truth_state,
         operating_events_state,
         signal_state,
     )
@@ -231,6 +244,7 @@ def build_evidence_watchlist(
         delivery_row = (management_delivery_state.get("companies") or {}).get(symbol) or {}
         confidence_row = (confidence_state.get("companies") or {}).get(symbol) or {}
         model_row = (financial_model_state.get("companies") or {}).get(symbol) or {}
+        truth_row = (financial_truth_state.get("companies") or {}).get(symbol) or {}
         signal_row = (signal_state.get("companies") or {}).get(symbol) or {}
         clusters = _cluster_by_id(signal_row)
         delivery_records = _record_by_thesis(delivery_row)
@@ -251,6 +265,7 @@ def build_evidence_watchlist(
                 delivery,
                 assessments.get(cluster_id),
                 model_row,
+                truth_row,
             ))
         if items:
             active_symbols.append(symbol)
@@ -262,8 +277,10 @@ def build_evidence_watchlist(
             "active_watch_count": len(items),
             "status_counts": status_counts,
             "financial_readiness": {
-                "status": model_row.get("status") or "unknown",
-                "quality_flags": model_row.get("quality_flags") or [],
+                "status": "qualified" if truth_row.get("status") == "qualified" else "not_qualified",
+                "downstream_status": truth_row.get("downstream") or {},
+                "quality_flags": list(model_row.get("quality_flags") or []) + ([] if truth_row.get("status") == "qualified" else ["financial_truth_not_qualified"]),
+                "model_input_readiness": {"status": model_row.get("status") or "unknown", "quality_flags": model_row.get("quality_flags") or []},
             },
             "items": items,
         }
@@ -278,6 +295,7 @@ def build_evidence_watchlist(
             "management_delivery": "state/company_intel/management_delivery.json",
             "intelligence_confidence": "state/company_intel/intelligence_confidence.json",
             "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
+            "financial_truth_qualification": "state/company_intel/financial_truth_qualification.json",
             "operating_events": "state/company_intel/operating_events.json",
             "signal_clusters": "state/company_intel/signal_clusters.json",
         },

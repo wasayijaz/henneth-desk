@@ -80,6 +80,7 @@ def _assert_shape(
     delivery_state: dict,
     confidence_state: dict,
     model_state: dict,
+    truth_state: dict,
     operating_events: dict,
     signal_state: dict,
     pilot: list[str],
@@ -116,6 +117,7 @@ def _assert_shape(
         clusters = (signal_state.get("companies") or {}).get(symbol, {}).get("clusters") or []
         assessments = (confidence_state.get("companies") or {}).get(symbol, {}).get("assessments") or []
         model_row = (model_state.get("companies") or {}).get(symbol) or {}
+        truth_row = (truth_state.get("companies") or {}).get(symbol) or {}
         events = _event_ids((operating_events.get("companies") or {}).get(symbol) or {})
         thesis_by_id = {thesis.get("thesis_id"): thesis for thesis in theses}
         record_by_id = {record.get("delivery_id"): record for record in records}
@@ -154,8 +156,13 @@ def _assert_shape(
             confidence_id = ids.get("confidence_id")
             if confidence_id and confidence_id not in confidence_by_id:
                 _fail(f"{symbol}: unresolved confidence id")
-            if item.get("financial_readiness_status") != (model_row.get("status") or "unknown"):
-                _fail(f"{symbol}: financial readiness status mismatch")
+            expected_readiness = "qualified" if truth_row.get("status") == "qualified" else "not_qualified"
+            if item.get("financial_readiness_status") != expected_readiness:
+                _fail(f"{symbol}: financial truth readiness status mismatch")
+            if (item.get("financial_readiness") or {}).get("downstream_status") != (truth_row.get("downstream") or {}):
+                _fail(f"{symbol}: financial truth downstream mismatch")
+            if ((item.get("financial_readiness") or {}).get("model_input_readiness") or {}).get("status") != (model_row.get("status") or "unknown"):
+                _fail(f"{symbol}: model-input readiness mismatch")
             if ids.get("matched_event_id") and ids.get("matched_event_id") not in events:
                 _fail(f"{symbol}: matched event crosses company boundary")
             source_event_ids = ids.get("source_event_ids") or []
@@ -171,7 +178,7 @@ def _assert_shape(
     return total
 
 
-def _load_sources() -> tuple[dict, dict, dict, dict, dict, dict, list[str]]:
+def _load_sources() -> tuple[dict, dict, dict, dict, dict, dict, dict, list[str]]:
     profiles = load_json(STATE / "company_profiles.json", {})
     pilot = (profiles.get("pilot") or {}).get("symbols") or []
     return (
@@ -179,6 +186,7 @@ def _load_sources() -> tuple[dict, dict, dict, dict, dict, dict, list[str]]:
         load_json(STATE / "company_intel" / "management_delivery.json", {"companies": {}}),
         load_json(STATE / "company_intel" / "intelligence_confidence.json", {"companies": {}}),
         load_json(STATE / "company_intel" / "financial_model_inputs.json", {"companies": {}}),
+        load_json(STATE / "company_intel" / "financial_truth_qualification.json", {"companies": {}}),
         load_json(STATE / "company_intel" / "operating_events.json", {"companies": {}}),
         load_json(STATE / "company_intel" / "signal_clusters.json", {"companies": {}}),
         list(pilot),
@@ -186,7 +194,7 @@ def _load_sources() -> tuple[dict, dict, dict, dict, dict, dict, list[str]]:
 
 
 def main() -> None:
-    thesis_state, delivery_state, confidence_state, model_state, operating_events, signal_state, pilot = _load_sources()
+    thesis_state, delivery_state, confidence_state, model_state, truth_state, operating_events, signal_state, pilot = _load_sources()
     if len(pilot) != 20 or len(set(pilot)) != 20:
         _fail("pilot boundary must be exactly 20")
     expected = build_evidence_watchlist(
@@ -194,14 +202,15 @@ def main() -> None:
         delivery_state,
         confidence_state,
         model_state,
+        truth_state,
         operating_events,
         signal_state,
         pilot_symbols=pilot,
     )
-    if _dump(expected) != _dump(build_evidence_watchlist(thesis_state, delivery_state, confidence_state, model_state, operating_events, signal_state, pilot_symbols=pilot)):
+    if _dump(expected) != _dump(build_evidence_watchlist(thesis_state, delivery_state, confidence_state, model_state, truth_state, operating_events, signal_state, pilot_symbols=pilot)):
         _fail("pure builder is not deterministic")
     _assert_safe_language(expected)
-    total = _assert_shape(expected, thesis_state, delivery_state, confidence_state, model_state, operating_events, signal_state, pilot)
+    total = _assert_shape(expected, thesis_state, delivery_state, confidence_state, model_state, truth_state, operating_events, signal_state, pilot)
     if not OUT.exists():
         _fail("state/company_intel/evidence_watchlist.json missing")
     real = load_json(OUT, {})
