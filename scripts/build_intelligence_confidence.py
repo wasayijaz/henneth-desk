@@ -11,11 +11,13 @@ def build():
     operating_events = load_json(STATE / "company_intel" / "operating_events.json", {"companies": {}})
     event_studies = load_json(STATE / "company_intel" / "event_studies.json", {"studies": {}})
     financial_model_inputs = load_json(STATE / "company_intel" / "financial_model_inputs.json", {"companies": {}})
+    financial_truth_qualification = load_json(STATE / "company_intel" / "financial_truth_qualification.json", {"companies": {}})
     result = build_intelligence_confidence(
         signal_state,
         operating_events,
         event_studies,
         financial_model_inputs,
+        financial_truth_qualification,
     )
     save_json(OUT, result)
     total = sum((row.get("assessment_count") or 0) for row in result.get("companies", {}).values())
