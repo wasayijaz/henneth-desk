@@ -462,6 +462,19 @@ def main() -> None:
           any("case: must be an exact mapping" in violation
               for violation in contract.validate_engine_case(alias_case)))
 
+    huge_output = copy.deepcopy(fixture)
+    huge_output["scenario_runs"][0]["values"]["risked_npv_pkr"] = 10 ** 1000
+    check("hostile huge integer output is rejected without raising",
+          any("number exceeds magnitude limit" in violation
+              for violation in contract.validate_envelope(huge_output)))
+    class ListAlias(list):
+        pass
+    nested_alias = copy.deepcopy(fixture)
+    nested_alias["scenario_runs"] = ListAlias(nested_alias["scenario_runs"])
+    check("exact scenario list boundary rejects subclasses",
+          any("scenario_runs: must be a list" in violation
+              for violation in contract.validate_envelope(nested_alias)))
+
     assert_clean(real, "real")
     assert_clean(fixture, "fixture")
     print(f"MARI ENP case-run adapter: PASS ({PASSED} checks)")

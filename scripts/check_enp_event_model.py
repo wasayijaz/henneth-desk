@@ -435,6 +435,17 @@ def main() -> None:
         assert_finite(payload, label)
     check("language and finite scans on envelopes", True)
 
+    huge_int = golden_case()
+    huge_int["inputs"]["fx_pkr_usd"]["value"] = 10**1000
+    check("hostile huge integer is rejected without raising",
+          any("fx_pkr_usd: must be a finite number" in item for item in contract.validate_case(huge_int)))
+    class DictAlias(dict):
+        pass
+    alias = golden_case()
+    alias["inputs"] = DictAlias(alias["inputs"])
+    check("exact input dict boundary rejects subclasses",
+          any("inputs: must be an exact mapping" in item for item in contract.validate_case(alias)))
+
     print(f"enp event model: PASS ({len(PASSED)} checks)")
 
 

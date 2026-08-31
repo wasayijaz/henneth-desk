@@ -210,11 +210,11 @@ _FORMAL_PRODUCT_ORDER = ("financial_forecasts", "formal_valuations", "market_exp
 def validate_engine_case(case: Mapping[str, Any]) -> list[str]:
     """Strict wrapper around the generic E&P engine contract."""
     violations: list[str] = []
-    if not isinstance(case, Mapping):
-        return ["case: must be a mapping"]
+    if type(case) is not dict:
+        return ["case: must be an exact mapping"]
     inputs = case.get("inputs")
-    if not isinstance(inputs, Mapping):
-        violations.append("inputs: must be a mapping")
+    if type(inputs) is not dict:
+        violations.append("inputs: must be an exact mapping")
     else:
         for field in sorted(set(inputs) - ALLOWED_ENGINE_INPUTS):
             violations.append(f"{field}: unknown E&P input field")
@@ -224,7 +224,7 @@ def validate_engine_case(case: Mapping[str, Any]) -> list[str]:
 
 def validate_envelope(envelope: Mapping[str, Any]) -> list[str]:
     """Return named violations for the narrow adapter output envelope."""
-    if not isinstance(envelope, Mapping):
+    if not type(envelope) is dict:
         return ["envelope: must be a mapping"]
     violations: list[str] = []
     violations.extend(_keys(envelope, _ENVELOPE_KEYS, "envelope"))
@@ -233,7 +233,7 @@ def validate_envelope(envelope: Mapping[str, Any]) -> list[str]:
 
     fixture_identity = envelope.get("fixture_identity")
     if envelope.get("status") == "computed_fixture":
-        if not isinstance(fixture_identity, Mapping):
+        if not type(fixture_identity) is dict:
             violations.append("fixture_identity: computed fixture requires identity")
         else:
             violations.extend(_keys(fixture_identity, _FIXTURE_IDENTITY_KEYS, "fixture_identity"))
@@ -265,7 +265,7 @@ def validate_envelope(envelope: Mapping[str, Any]) -> list[str]:
         violations.append("fixture_only: retained blocked envelopes must not be fixtures")
 
     hypothesis = envelope.get("hypothesis_linkage")
-    if isinstance(hypothesis, Mapping):
+    if type(hypothesis) is dict:
         violations.extend(_keys(hypothesis, _HYPOTHESIS_KEYS, "hypothesis_linkage"))
         if tuple(hypothesis.get("hypothesis_ids") or ()) != mari_enp_hypothesis_contract.HYPOTHESIS_IDS:
             violations.append("hypothesis_linkage.hypothesis_ids: must match MARI hypothesis contract order")
@@ -277,19 +277,19 @@ def validate_envelope(envelope: Mapping[str, Any]) -> list[str]:
         violations.append("hypothesis_linkage: must be a mapping")
 
     runs = envelope.get("scenario_runs")
-    if not isinstance(runs, list):
+    if not type(runs) is list:
         violations.append("scenario_runs: must be a list")
         runs = []
-    if [run.get("case_label") for run in runs if isinstance(run, Mapping)] != list(SCENARIO_LABELS):
+    if [run.get("case_label") for run in runs if type(run) is dict] != list(SCENARIO_LABELS):
         violations.append("scenario_runs: must contain exactly bear, base, bull in order")
     for index, run in enumerate(runs):
-        if not isinstance(run, Mapping):
+        if not type(run) is dict:
             violations.append(f"scenario_runs[{index}]: must be a mapping")
             continue
         violations.extend(_validate_run(run, f"scenario_runs[{index}]", bool(fixture_only)))
 
     blocked_reasons = envelope.get("blocked_reasons")
-    if not isinstance(blocked_reasons, list) or any(not _nonempty(item) for item in blocked_reasons):
+    if not type(blocked_reasons) is list or any(not _nonempty(item) for item in blocked_reasons):
         violations.append("blocked_reasons: must be a list of non-empty strings")
     elif blocked_reasons != sorted(set(blocked_reasons)):
         violations.append("blocked_reasons: must be sorted and deduplicated")
@@ -297,11 +297,11 @@ def validate_envelope(envelope: Mapping[str, Any]) -> list[str]:
         violations.append("blocked_reasons: retained blocked envelope requires reasons")
 
     lineage = envelope.get("input_lineage")
-    if not isinstance(lineage, list):
+    if not type(lineage) is list:
         violations.append("input_lineage: must be a list")
         lineage = []
     for index, entry in enumerate(lineage):
-        if not isinstance(entry, Mapping):
+        if not type(entry) is dict:
             violations.append(f"input_lineage[{index}]: must be a mapping")
             continue
         violations.extend(_validate_lineage(entry, f"input_lineage[{index}]"))
@@ -311,7 +311,7 @@ def validate_envelope(envelope: Mapping[str, Any]) -> list[str]:
     seen_rows: set[str] = set()
     seen_operands: set[str] = set()
     for index, entry in enumerate(lineage):
-        if not isinstance(entry, Mapping):
+        if not type(entry) is dict:
             continue
         try:
             row_key = json.dumps(entry, sort_keys=True, separators=(",", ":"), ensure_ascii=True, allow_nan=False)
@@ -328,7 +328,7 @@ def validate_envelope(envelope: Mapping[str, Any]) -> list[str]:
     violations.extend(_validate_lineage_alignment(runs, lineage, bool(fixture_only), envelope.get("status")))
 
     analogue = envelope.get("analogue_readiness")
-    if isinstance(analogue, Mapping):
+    if type(analogue) is dict:
         violations.extend(_keys(analogue, _ANALOGUE_KEYS, "analogue_readiness"))
         if analogue.get("target_event_id") != "evt_3d1dae7553f73da60ba3":
             violations.append("analogue_readiness.target_event_id: must match MARI offshore event")
@@ -337,14 +337,14 @@ def validate_envelope(envelope: Mapping[str, Any]) -> list[str]:
         if not _nonempty(analogue.get("readiness_status")):
             violations.append("analogue_readiness.readiness_status: must be a non-empty string")
         horizons = analogue.get("aggregate_ready_horizons")
-        if not isinstance(horizons, list) or any(not isinstance(item, str) for item in horizons):
+        if not type(horizons) is list or any(not isinstance(item, str) for item in horizons):
             violations.append("analogue_readiness.aggregate_ready_horizons: must be a list of strings")
         violations.extend(_validate_blocked_states(analogue.get("blocked_states"), "analogue_readiness.blocked_states"))
     else:
         violations.append("analogue_readiness: must be a mapping")
 
     formal = envelope.get("formal_output_readiness")
-    if isinstance(formal, Mapping):
+    if type(formal) is dict:
         violations.extend(_keys(formal, _FORMAL_KEYS, "formal_output_readiness"))
         if formal.get("status") not in {"blocked", "blocked_fixture_only"}:
             violations.append("formal_output_readiness.status: must be blocked or blocked_fixture_only")
@@ -353,13 +353,13 @@ def validate_envelope(envelope: Mapping[str, Any]) -> list[str]:
         if formal.get("financial_truth_reason") is not None and not _nonempty(formal.get("financial_truth_reason")):
             violations.append("formal_output_readiness.financial_truth_reason: must be null or a non-empty string")
         products = formal.get("products")
-        if not isinstance(products, list):
+        if not type(products) is list:
             violations.append("formal_output_readiness.products: must be a list")
             products = []
-        if [product.get("product") for product in products if isinstance(product, Mapping)] != list(_FORMAL_PRODUCT_ORDER):
+        if [product.get("product") for product in products if type(product) is dict] != list(_FORMAL_PRODUCT_ORDER):
             violations.append("formal_output_readiness.products: must contain the three formal products in order")
         for index, product in enumerate(products):
-            if not isinstance(product, Mapping):
+            if not type(product) is dict:
                 violations.append(f"formal_output_readiness.products[{index}]: must be a mapping")
                 continue
             violations.extend(_keys(product, _FORMAL_PRODUCT_KEYS, f"formal_output_readiness.products[{index}]"))
@@ -371,7 +371,7 @@ def validate_envelope(envelope: Mapping[str, Any]) -> list[str]:
         violations.append("formal_output_readiness: must be a mapping")
 
     policy = envelope.get("policy")
-    if isinstance(policy, Mapping):
+    if type(policy) is dict:
         violations.extend(_keys(policy, _POLICY_KEYS, "policy"))
         for key in _POLICY_KEYS:
             if policy.get(key) is not True:
@@ -381,7 +381,7 @@ def validate_envelope(envelope: Mapping[str, Any]) -> list[str]:
 
     if envelope.get("status") == "blocked":
         for index, run in enumerate(runs):
-            if isinstance(run, Mapping) and _has_numeric_outputs(run):
+            if type(run) is dict and _has_numeric_outputs(run):
                 violations.append(f"scenario_runs[{index}]: retained blocked run must carry zero numeric outputs")
     return sorted(set(violations))
 
@@ -412,17 +412,17 @@ def _validate_run(run: Mapping[str, Any], prefix: str, fixture_only: bool) -> li
         if fixture_hash != expected_fixture_hash:
             violations.append(f"{prefix}.fixture_hash: must bind deterministic fixture inputs")
         values = run.get("values")
-        if isinstance(values, Mapping):
+        if type(values) is dict:
             violations.extend(_validate_values(values, f"{prefix}.values"))
         else:
             violations.append(f"{prefix}.values: computed run requires engine values")
         per_share = run.get("per_share")
-        if isinstance(per_share, Mapping):
+        if type(per_share) is dict:
             violations.extend(_validate_per_share(per_share, f"{prefix}.per_share"))
         else:
             violations.append(f"{prefix}.per_share: computed run requires per-share engine values")
         probabilities = run.get("probabilities")
-        if isinstance(probabilities, Mapping):
+        if type(probabilities) is dict:
             violations.extend(_validate_probabilities(probabilities, f"{prefix}.probabilities"))
         else:
             violations.append(f"{prefix}.probabilities: computed run requires engine probabilities")
@@ -430,7 +430,7 @@ def _validate_run(run: Mapping[str, Any], prefix: str, fixture_only: bool) -> li
         if rows != _COMPUTED_QUARTERLY_ROWS:
             violations.append(f"{prefix}.quarterly_schedule_rows: computed fixture must equal {_COMPUTED_QUARTERLY_ROWS}")
         schedule = run.get("quarterly_schedule")
-        if isinstance(schedule, list):
+        if type(schedule) is list:
             violations.extend(_validate_schedule(schedule, f"{prefix}.quarterly_schedule"))
         else:
             violations.append(f"{prefix}.quarterly_schedule: computed run requires engine schedule rows")
@@ -446,14 +446,14 @@ def _validate_run(run: Mapping[str, Any], prefix: str, fixture_only: bool) -> li
         if run.get("quarterly_schedule") != []:
             violations.append(f"{prefix}.quarterly_schedule: blocked run must be empty")
     input_fields = run.get("input_fields")
-    if not isinstance(input_fields, list) or any(not isinstance(item, str) for item in input_fields):
+    if not type(input_fields) is list or any(not isinstance(item, str) for item in input_fields):
         violations.append(f"{prefix}.input_fields: must be a list of strings")
     elif status == "computed" and tuple(input_fields) != _COMPUTED_INPUT_FIELDS:
         violations.append(f"{prefix}.input_fields: computed run must list the complete E&P fixture input fields")
     elif status == "blocked" and input_fields != []:
         violations.append(f"{prefix}.input_fields: blocked run must have no input fields")
     blocked = run.get("blocked_reasons")
-    if not isinstance(blocked, list) or any(not _nonempty(item) for item in blocked):
+    if not type(blocked) is list or any(not _nonempty(item) for item in blocked):
         violations.append(f"{prefix}.blocked_reasons: must be a list of non-empty strings")
     elif blocked != sorted(set(blocked)):
         violations.append(f"{prefix}.blocked_reasons: must be sorted and deduplicated")
@@ -494,7 +494,7 @@ def _validate_lineage(entry: Mapping[str, Any], prefix: str) -> list[str]:
         if available_on is None:
             violations.append(f"{prefix}.available_on: source lineage requires a retained date")
         ref = entry.get("source_ref")
-        if isinstance(ref, Mapping):
+        if type(ref) is dict:
             violations.extend(_validate_source_ref(ref, f"{prefix}.source_ref", available_on))
             if entry.get("scope") == "retained_ep_operand":
                 expected_id = _RETAINED_OPERAND_SOURCE_IDS.get(entry.get("field"))
@@ -517,7 +517,7 @@ def _validate_lineage(entry: Mapping[str, Any], prefix: str) -> list[str]:
             violations.append(f"{prefix}.analyst_ref: source lineage must not carry analyst_ref")
     if label_type == "analyst":
         ref = entry.get("analyst_ref")
-        if isinstance(ref, Mapping):
+        if type(ref) is dict:
             violations.extend(_validate_analyst_ref(ref, f"{prefix}.analyst_ref"))
         else:
             violations.append(f"{prefix}.analyst_ref: analyst lineage requires note_id and note")
@@ -581,7 +581,7 @@ def _validate_schedule(schedule: list[Any], prefix: str) -> list[str]:
     previous_key: tuple[str, str] | None = None
     for index, row in enumerate(schedule):
         row_prefix = f"{prefix}[{index}]"
-        if not isinstance(row, Mapping):
+        if not type(row) is dict:
             violations.append(f"{row_prefix}: must be a mapping")
             continue
         violations.extend(_keys(row, _SCHEDULE_ROW_KEYS, row_prefix))
@@ -672,13 +672,13 @@ def _validate_analyst_ref(ref: Mapping[str, Any], prefix: str) -> list[str]:
 
 
 def _validate_blocked_states(value: Any, prefix: str) -> list[str]:
-    if not isinstance(value, Mapping):
+    if not type(value) is dict:
         return [f"{prefix}: must be a mapping"]
     violations: list[str] = []
     for key, item in value.items():
         if not _nonempty(key):
             violations.append(f"{prefix}: keys must be non-empty strings")
-        if not isinstance(item, Mapping):
+        if not type(item) is dict:
             violations.append(f"{prefix}.{key}: must be a mapping")
             continue
         violations.extend(_keys(item, _BLOCKED_STATE_KEYS, f"{prefix}.{key}"))
@@ -696,8 +696,8 @@ def _validate_lineage_alignment(
     status: Any,
 ) -> list[str]:
     violations: list[str] = []
-    valid_runs = [run for run in runs if isinstance(run, Mapping)]
-    valid_lineage = [entry for entry in lineage if isinstance(entry, Mapping)]
+    valid_runs = [run for run in runs if type(run) is dict]
+    valid_lineage = [entry for entry in lineage if type(entry) is dict]
     if status == "computed_fixture":
         expected = {(label, field) for label in SCENARIO_LABELS for field in _COMPUTED_INPUT_FIELDS}
         observed = {
@@ -734,19 +734,39 @@ def _keys(mapping: Mapping[str, Any], expected: frozenset[str], prefix: str,
 
 def _json_finite(value: Any, prefix: str) -> list[str]:
     violations: list[str] = []
+    violations.extend(_exact_containers(value, prefix))
     try:
         json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=True, allow_nan=False)
-    except (TypeError, ValueError):
+    except (TypeError, ValueError, OverflowError):
         violations.append(f"{prefix}: must be JSON-serializable and finite")
     for path, item in _walk(value, prefix):
-        if isinstance(item, float) and not math.isfinite(item):
+        if type(item) is float and (not math.isfinite(item) or abs(item) > enp_event_contract.MAX_ABS_NUMBER):
             violations.append(f"{path}: non-finite number")
+        elif type(item) is int and abs(item) > enp_event_contract.MAX_ABS_NUMBER:
+            violations.append(f"{path}: number exceeds magnitude limit")
+    return violations
+
+
+def _exact_containers(value: Any, path: str) -> list[str]:
+    """Reject dict/list subclasses before any serializer can invoke overrides."""
+    violations: list[str] = []
+    if type(value) is dict:
+        for key, item in value.items():
+            violations.extend(_exact_containers(item, f"{path}.{key}"))
+    elif type(value) is list:
+        for index, item in enumerate(value):
+            violations.extend(_exact_containers(item, f"{path}[{index}]"))
+    elif isinstance(value, (dict, list)):
+        violations.append(f"{path}: must use exact builtin dict/list")
     return violations
 
 
 def _forbidden_language(value: Any, prefix: str) -> list[str]:
     violations: list[str] = []
-    text = json.dumps(value, sort_keys=True, ensure_ascii=True, default=str).lower()
+    try:
+        text = json.dumps(value, sort_keys=True, ensure_ascii=True, default=str).lower()
+    except (TypeError, ValueError, OverflowError):
+        return [f"{prefix}: cannot serialize for language scan"]
     for phrase in _FORBIDDEN_PHRASES:
         if phrase in text:
             violations.append(f"{prefix}: advice or target-price phrase leaked: {phrase}")
@@ -766,19 +786,22 @@ def _nonempty(value: Any) -> bool:
 
 
 def _finite(value: Any) -> float | None:
-    if isinstance(value, bool) or not isinstance(value, (int, float)):
+    if type(value) not in (int, float):
         return None
-    number = float(value)
-    return number if math.isfinite(number) else None
+    try:
+        number = float(value)
+    except (OverflowError, TypeError, ValueError):
+        return None
+    return number if math.isfinite(number) and abs(number) <= enp_event_contract.MAX_ABS_NUMBER else None
 
 
 def _walk(value: Any, path: str):
-    if isinstance(value, Mapping):
+    if type(value) is dict:
         for key, item in value.items():
             child = f"{path}.{key}"
             yield child, item
             yield from _walk(item, child)
-    elif isinstance(value, list):
+    elif type(value) is list:
         for index, item in enumerate(value):
             child = f"{path}[{index}]"
             yield child, item
@@ -786,10 +809,10 @@ def _walk(value: Any, path: str):
 
 
 def _walk_items(value: Any, path: str):
-    if isinstance(value, Mapping):
+    if type(value) is dict:
         for key, item in value.items():
             yield path, key, item
             yield from _walk_items(item, f"{path}.{key}")
-    elif isinstance(value, list):
+    elif type(value) is list:
         for index, item in enumerate(value):
             yield from _walk_items(item, f"{path}[{index}]")
