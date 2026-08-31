@@ -127,9 +127,11 @@ capital—be mapped.
 
 ## Safe conclusions and next boundaries
 
-1. MLCF is the only lane with partial qualified financial truth, but remains
-   blocked by 2 annual triplets, 3 annual OCF periods, 5 direct quarters, the
-   unapproved share-count tie-out, and the PIOC/acquisition bridge.
+1. MLCF is the only lane with partial qualified financial truth. Its
+   share-count tie-out is satisfied; it remains blocked by full-statement
+   annual/quarter schedule coverage and the PIOC/acquisition bridge. Legacy
+   triplet counters (2 annual income, 3 annual OCF and 5 direct quarters
+   remaining) are visibility only and cannot activate formal outputs.
 2. MARI is a valid observed E&P seed but has 0/5 annuals, 0/8 quarters, no
    filing-bound share count, and no numeric event-economics operands.
 3. The sales-led lane remains a no-go for case selection under retained evidence.
