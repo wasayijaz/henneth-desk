@@ -47,6 +47,7 @@ Research arithmetic only.  Research outputs, no advice, no promises.
 from __future__ import annotations
 
 from datetime import date
+import copy
 import hashlib
 import json
 import math
@@ -60,10 +61,31 @@ RESULT_SCHEMA = "enp_event_model_result_v1"
 
 _QUARTER_LAST_DAY = {3: 31, 6: 30, 9: 30, 12: 31}
 _DRY_HOLE_PHASES = ("exploration", "appraisal", "consideration")
+_MAX_ABS_OUTPUT = contract.MAX_ABS_NUMBER
 
 
 def _as_date(value: Any) -> date:
-    return date.fromisoformat(str(value))
+    parsed = contract._as_date(value)
+    if parsed is None:
+        raise ValueError("invalid ISO date")
+    return parsed
+
+
+def _finite(value: Any) -> float:
+    number = contract._finite(value)
+    if number is None:
+        raise ValueError("non-finite or out-of-range numeric operand")
+    return number
+
+
+def _safe(value: Any) -> Any:
+    if isinstance(value, float) and (not math.isfinite(value) or abs(value) > _MAX_ABS_OUTPUT):
+        raise ValueError("non-finite or out-of-range arithmetic result")
+    if isinstance(value, dict):
+        return {k: _safe(v) for k, v in value.items()}
+    if isinstance(value, list):
+        return [_safe(v) for v in value]
+    return value
 
 
 def _next_quarter_end(quarter_end: date) -> date:
@@ -91,13 +113,14 @@ def _discount_exponent(quarter_end: date, valuation: date) -> int:
 def _schedule(case: Mapping[str, Any]) -> list[dict[str, Any]]:
     inputs = case["inputs"]
     valuation = _as_date(case["valuation_date"])
-    annual_pct = float(inputs["discount_rate_pct_annual"]["value"])
-    quarterly_rate = (1.0 + annual_pct / 100.0) ** 0.25 - 1.0
+    annual_pct = _finite(inputs["discount_rate_pct_annual"]["value"])
+    quarterly_rate = _safe((1.0 + annual_pct / 100.0) ** 0.25 - 1.0)
 
     def make_row(quarter_end: date, phase: str, production: float | None, gross: float,
                  royalty: float, opex: float, tax: float, net: float) -> dict[str, Any]:
         exponent = _discount_exponent(quarter_end, valuation)
-        factor = (1.0 + quarterly_rate) ** (-exponent)
+        factor = _safe((1.0 + quarterly_rate) ** (-exponent))
+        discounted = _safe(net * factor)
         return {
             "quarter_end": quarter_end.isoformat(),
             "phase": phase,
@@ -108,45 +131,45 @@ def _schedule(case: Mapping[str, Any]) -> list[dict[str, Any]]:
             "tax_pkr": tax,
             "net_cash_flow_pkr": net,
             "discount_factor": factor,
-            "discounted_cash_flow_pkr": net * factor,
+            "discounted_cash_flow_pkr": discounted,
         }
 
     rows: list[dict[str, Any]] = []
     for spend in inputs["spend_schedule"]["value"]:
         quarter_end = _as_date(spend["quarter_end"])
-        amount = float(spend["amount_pkr"])
+        amount = _finite(spend["amount_pkr"])
         rows.append(make_row(quarter_end, str(spend["phase"]), None, 0.0, 0.0, 0.0, 0.0, -amount))
 
-    consideration = float(inputs["consideration_pkr"]["value"])
+    consideration = _finite(inputs["consideration_pkr"]["value"])
     non_recoverable = inputs.get("consideration_non_recoverable", {}).get("value") is True
     if consideration > 0.0 and non_recoverable:
         quarter_end = _as_date(inputs["consideration_quarter_end"]["value"])
         rows.append(make_row(quarter_end, "consideration", None, 0.0, 0.0, 0.0, 0.0, -consideration))
 
-    working_interest = float(inputs["working_interest_pct"]["value"]) / 100.0
-    initial_rate = float(inputs["initial_production_boe_pd"]["value"])
-    decline = float(inputs["quarterly_decline_pct"]["value"]) / 100.0
-    oil_share = float(inputs["oil_share_pct"]["value"]) / 100.0
-    oil_price = float(inputs["oil_price_usd_bbl"]["value"])
-    gas_price = float(inputs["gas_price_usd_mmbtu"]["value"])
-    gas_per_boe = float(inputs["gas_mmbtu_per_boe"]["value"])
-    fx = float(inputs["fx_pkr_usd"]["value"])
-    opex_usd_boe = float(inputs["opex_usd_boe"]["value"])
-    royalty_pct = float(inputs["royalty_pct"]["value"]) / 100.0
-    tax_pct = float(inputs["effective_tax_pct"]["value"]) / 100.0
-    value_per_boe_usd = oil_share * oil_price + (1.0 - oil_share) * gas_price * gas_per_boe
+    working_interest = _finite(inputs["working_interest_pct"]["value"]) / 100.0
+    initial_rate = _finite(inputs["initial_production_boe_pd"]["value"])
+    decline = _finite(inputs["quarterly_decline_pct"]["value"]) / 100.0
+    oil_share = _finite(inputs["oil_share_pct"]["value"]) / 100.0
+    oil_price = _finite(inputs["oil_price_usd_bbl"]["value"])
+    gas_price = _finite(inputs["gas_price_usd_mmbtu"]["value"])
+    gas_per_boe = _finite(inputs["gas_mmbtu_per_boe"]["value"])
+    fx = _finite(inputs["fx_pkr_usd"]["value"])
+    opex_usd_boe = _finite(inputs["opex_usd_boe"]["value"])
+    royalty_pct = _finite(inputs["royalty_pct"]["value"]) / 100.0
+    tax_pct = _finite(inputs["effective_tax_pct"]["value"]) / 100.0
+    value_per_boe_usd = _safe(oil_share * oil_price + (1.0 - oil_share) * gas_price * gas_per_boe)
 
     quarter_end = _as_date(inputs["first_production_quarter_end"]["value"])
     horizon = int(inputs["production_horizon_quarters"]["value"])
     for k in range(horizon):
-        rate_boe_pd = initial_rate * (1.0 - decline) ** k
-        production_boe = rate_boe_pd * _days_in_quarter(quarter_end)
-        gross = production_boe * working_interest * value_per_boe_usd * fx
-        royalty = gross * royalty_pct
-        opex = opex_usd_boe * production_boe * working_interest * fx
-        operating_net = gross - royalty - opex
-        tax = operating_net * tax_pct if operating_net > 0.0 else 0.0
-        net = operating_net - tax
+        rate_boe_pd = _safe(initial_rate * (1.0 - decline) ** k)
+        production_boe = _safe(rate_boe_pd * _days_in_quarter(quarter_end))
+        gross = _safe(production_boe * working_interest * value_per_boe_usd * fx)
+        royalty = _safe(gross * royalty_pct)
+        opex = _safe(opex_usd_boe * production_boe * working_interest * fx)
+        operating_net = _safe(gross - royalty - opex)
+        tax = _safe(operating_net * tax_pct if operating_net > 0.0 else 0.0)
+        net = _safe(operating_net - tax)
         rows.append(make_row(quarter_end, "production", production_boe, gross, royalty, opex, tax, net))
         quarter_end = _next_quarter_end(quarter_end)
 
@@ -155,10 +178,10 @@ def _schedule(case: Mapping[str, Any]) -> list[dict[str, Any]]:
 
 
 def _npvs(rows: list[dict[str, Any]]) -> tuple[float, float]:
-    commercial = math.fsum(row["discounted_cash_flow_pkr"] for row in rows)
-    dry_hole = math.fsum(
+    commercial = _safe(math.fsum(row["discounted_cash_flow_pkr"] for row in rows))
+    dry_hole = _safe(math.fsum(
         row["discounted_cash_flow_pkr"] for row in rows if row["phase"] in _DRY_HOLE_PHASES
-    )
+    ))
     return commercial, dry_hole
 
 
@@ -172,7 +195,14 @@ def quarterly_cashflows(case: Mapping[str, Any]) -> list[dict[str, Any]]:
 
 def break_even_success(commercial_npv: float, dry_hole_npv: float) -> tuple[float | None, str | None]:
     """Success probability at which the risked NPV is zero, as a percentage."""
+    try:
+        commercial_npv = _finite(commercial_npv)
+        dry_hole_npv = _finite(dry_hole_npv)
+    except ValueError:
+        return None, "non-finite break-even operands"
     spread = commercial_npv - dry_hole_npv
+    if not math.isfinite(spread):
+        return None, "non-finite break-even spread"
     if abs(spread) < 1e-9:
         return None, "degenerate spread between commercial and dry-hole outcomes"
     probability = -dry_hole_npv / spread
@@ -186,12 +216,23 @@ def market_implied_success(commercial_npv: float, dry_hole_npv: float,
     """Success probability implied by a market gap, as a percentage."""
     if market_gap_pkr is None:
         return None, None, ["market_gap_pkr"]
+    try:
+        commercial_npv = _finite(commercial_npv)
+        dry_hole_npv = _finite(dry_hole_npv)
+        market_gap_pkr = _finite(market_gap_pkr)
+    except ValueError:
+        return None, "non-finite market-implied operands", []
     spread = commercial_npv - dry_hole_npv
+    if not math.isfinite(spread):
+        return None, "non-finite market-implied spread", []
     if abs(spread) < 1e-9:
         return None, "degenerate spread between commercial and dry-hole outcomes", []
     probability = (market_gap_pkr - dry_hole_npv) / spread
-    note = None if 0.0 <= probability <= 1.0 else "market-implied success probability outside [0, 1]"
-    return probability * 100.0, note, []
+    if not math.isfinite(probability):
+        return None, "non-finite market-implied success probability", []
+    if not 0.0 <= probability <= 1.0:
+        return None, "market-implied success probability outside [0, 1]", []
+    return probability * 100.0, None, []
 
 
 def risked_metrics(case: Mapping[str, Any]) -> dict[str, Any]:
@@ -205,18 +246,18 @@ def risked_metrics(case: Mapping[str, Any]) -> dict[str, Any]:
 def _metrics(case: Mapping[str, Any]) -> dict[str, Any]:
     inputs = case["inputs"]
     commercial_npv, dry_hole_npv = _npvs(_schedule(case))
-    geological = float(inputs["geological_success_pct"]["value"])
-    commercial_chance = float(inputs["commercial_success_pct"]["value"])
+    geological = _finite(inputs["geological_success_pct"]["value"])
+    commercial_chance = _finite(inputs["commercial_success_pct"]["value"])
     p_success = (geological / 100.0) * (commercial_chance / 100.0)
-    risked = p_success * commercial_npv + (1.0 - p_success) * dry_hole_npv
+    risked = _safe(p_success * commercial_npv + (1.0 - p_success) * dry_hole_npv)
     break_even_pct, break_even_note = break_even_success(commercial_npv, dry_hole_npv)
     gap_record = inputs.get("market_gap_pkr")
-    gap = float(gap_record["value"]) if isinstance(gap_record, Mapping) else None
+    gap = _finite(gap_record["value"]) if isinstance(gap_record, dict) else None
     implied_pct, implied_note, implied_missing = market_implied_success(commercial_npv, dry_hole_npv, gap)
     metrics: dict[str, Any] = {
         "outcome_class": "commercial" if commercial_npv > 0.0 else "non_commercial",
-        "dry_hole_npv_pkr": dry_hole_npv,
-        "unrisked_commercial_npv_pkr": commercial_npv,
+            "dry_hole_npv_pkr": _safe(dry_hole_npv),
+            "unrisked_commercial_npv_pkr": _safe(commercial_npv),
         "risked_npv_pkr": risked,
         "p_success_pct": p_success * 100.0,
         "break_even_success_pct": break_even_pct,
@@ -226,11 +267,11 @@ def _metrics(case: Mapping[str, Any]) -> dict[str, Any]:
         "market_implied_missing": implied_missing,
     }
     shares_record = inputs.get("shares_out")
-    if isinstance(shares_record, Mapping):
-        shares = float(shares_record["value"])
+    if isinstance(shares_record, dict):
+        shares = _finite(shares_record["value"])
         metrics["per_share"] = {
-            "risked_pkr": risked / shares,
-            "unrisked_pkr": commercial_npv / shares,
+            "risked_pkr": _safe(risked / shares),
+            "unrisked_pkr": _safe(commercial_npv / shares),
         }
     return metrics
 
@@ -247,6 +288,7 @@ def _confidence_limitations() -> dict[str, Any]:
             "deterministic production decline; no price, cost or fx escalation over the horizon",
             "bear/base/bull are isolated cases; scenario weights belong to the impact engine, not this kernel",
             "spend schedule amounts are already the company working-interest share",
+            "operator_status is required descriptive provenance (operator/non_operator); spend remains working-interest share until a sourced operator-specific cost rule exists",
             "non-recoverable consideration is a cost in both dry-hole and commercial branches; recoverable consideration is excluded from both",
         ],
     }
@@ -259,25 +301,25 @@ def _inputs_lineage(inputs: Mapping[str, Any]) -> list[dict[str, Any]]:
         label_type = record.get("label_type")
         entry: dict[str, Any] = {
             "field": field,
-            "value": record.get("value"),
+            "value": copy.deepcopy(record.get("value")),
             "label_type": label_type,
             "available_on": record.get("available_on"),
         }
         if label_type == "source":
-            entry["source_ref"] = record.get("source_ref")
+            entry["source_ref"] = copy.deepcopy(record.get("source_ref"))
         else:
-            entry["analyst_ref"] = record.get("analyst_ref")
+            entry["analyst_ref"] = copy.deepcopy(record.get("analyst_ref"))
         lineage.append(entry)
     return lineage
 
 
 def _identity(case: Mapping[str, Any]) -> dict[str, Any]:
     return {
-        "symbol": case.get("symbol"),
-        "event_ref": case.get("event_ref"),
-        "case_label": case.get("case_label"),
-        "effective_date": case.get("effective_date"),
-        "valuation_date": case.get("valuation_date"),
+        "symbol": copy.deepcopy(case.get("symbol")),
+        "event_ref": copy.deepcopy(case.get("event_ref")),
+        "case_label": copy.deepcopy(case.get("case_label")),
+        "effective_date": copy.deepcopy(case.get("effective_date")),
+        "valuation_date": copy.deepcopy(case.get("valuation_date")),
     }
 
 
@@ -286,7 +328,7 @@ def evaluate_case(case: Mapping[str, Any]) -> dict[str, Any]:
     violations = contract.validate_case(case)
     if violations:
         raise ValueError("; ".join(violations))
-    canonical = json.dumps(case, sort_keys=True, separators=(",", ":"), ensure_ascii=True)
+    canonical = json.dumps(case, sort_keys=True, separators=(",", ":"), ensure_ascii=True, allow_nan=False)
     digest = hashlib.sha256(canonical.encode("utf-8")).hexdigest()
     rows = _schedule(case)
     metrics = _metrics(case)
@@ -299,7 +341,7 @@ def evaluate_case(case: Mapping[str, Any]) -> dict[str, Any]:
         probabilities["break_even_note"] = metrics["break_even_note"]
     if metrics["market_implied_note"] is not None:
         probabilities["market_implied_note"] = metrics["market_implied_note"]
-    return {
+    return _safe({
         "schema_version": RESULT_SCHEMA,
         "formula_id": FORMULA_ID,
         "engine_version": ENGINE_VERSION,
@@ -322,12 +364,21 @@ def evaluate_case(case: Mapping[str, Any]) -> dict[str, Any]:
         "per_share": metrics.get("per_share"),
         "probabilities": probabilities,
         "confidence_limitations": _confidence_limitations(),
-    }
+    })
 
 
 def blocked_result(identity: Mapping[str, Any], reasons: list[str]) -> dict[str, Any]:
     """Envelope for a case that failed intake: identity and reasons, never partial numbers."""
-    scenario = _identity(identity if isinstance(identity, Mapping) else {})
+    raw_identity = identity if type(identity) is dict else {}
+    scenario = {}
+    for key in ("symbol", "event_ref", "case_label", "effective_date", "valuation_date"):
+        value = raw_identity.get(key)
+        scenario[key] = copy.deepcopy(value) if type(value) is str and not contract._ADVICE_RE.search(value) else None
+    safe_reasons = []
+    for reason in reasons if type(reasons) is list else []:
+        if type(reason) is str and reason and len(reason) <= 4096 and not contract._ADVICE_RE.search(reason):
+            safe_reasons.append(reason)
+    safe_reasons = sorted(set(safe_reasons))
     return {
         "schema_version": RESULT_SCHEMA,
         "formula_id": FORMULA_ID,
@@ -337,7 +388,7 @@ def blocked_result(identity: Mapping[str, Any], reasons: list[str]) -> dict[str,
             "contract_version": contract.CONTRACT_VERSION,
         },
         "status": "blocked",
-        "blocked_reasons": sorted(set(str(reason) for reason in reasons)),
+        "blocked_reasons": safe_reasons,
         "scenario": scenario,
         "inputs_lineage": [],
         "quarterly_schedule": [],

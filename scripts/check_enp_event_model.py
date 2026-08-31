@@ -124,6 +124,7 @@ def golden_case() -> dict:
             "discount_rate_pct_annual": analyst_record(12.0),
             "geological_success_pct": analyst_record(25.0),
             "commercial_success_pct": analyst_record(60.0),
+            "operator_status": analyst_record("operator"),
             "shares_out": analyst_record(1000.0),
         },
     }
