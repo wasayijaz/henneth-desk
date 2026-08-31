@@ -22,6 +22,11 @@ VALUATION_ASSUMPTIONS = ("exit_pe",)
 MARKET_OPERANDS = ("shares_out", "net_debt", "current_price")
 
 
+def financial_truth_is_qualified(financial_truth_row: Mapping[str, Any]) -> bool:
+    """Return the single fail-closed activation predicate for formal outputs."""
+    return isinstance(financial_truth_row, Mapping) and financial_truth_row.get("status") == "qualified"
+
+
 def finite(value: Any) -> float | None:
     if isinstance(value, bool):
         return None
@@ -99,7 +104,7 @@ def actuals_from_model_inputs(
     missing = []
     # Forecast readiness describes legacy three-period input coverage.  Strict
     # financial truth is the authoritative, fail-closed activation gate.
-    if financial_truth_row.get("status") != "qualified":
+    if not financial_truth_is_qualified(financial_truth_row):
         missing.append("financial_truth_qualified")
     if readiness_row.get("status") != "input_ready":
         missing.append("forecast_readiness_input_ready")

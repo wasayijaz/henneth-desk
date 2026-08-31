@@ -34,7 +34,8 @@ function main() {
   for (const row of slice.tickers) {
     const lab = row.scenario_lab;
     assert(lab?.symbol === row.symbol, `${row.symbol}: scenario seam`);
-    assert(lab?.status?.scenario_lab === "ready_snapshot_sensitivity", `${row.symbol}: readiness`);
+    assert(lab?.status?.scenario_lab === "blocked_financial_truth_not_qualified", `${row.symbol}: readiness`);
+    assert(lab?.financial_truth_status === "not_qualified", `${row.symbol}: financial truth binding`);
     assert(lab.scenario === null && lab.reverse_expectations === null, `${row.symbol}: no chosen case`);
     assert(lab.market_expectations_gap === null, `${row.symbol}: no chosen gap`);
     assert(lab.formula_ids.includes("expectations_gap.v1"), `${row.symbol}: gap formula id`);
@@ -42,6 +43,7 @@ function main() {
   }
   assert(app.includes('["scenarios", "Scenarios"]') && app.includes('state.view === "scenarios" ? renderScenarioLab(r)'), "tab and dispatch");
   assert(app.includes("function renderScenarioLab(r)") && app.includes('id="scenarioForm"'), "scenario renderer/form");
+  assert(app.includes("function scenarioLabIsActive(lab, financialTruth)") && app.includes('financialTruth?.status === "qualified"') && app.includes('lab?.financial_truth_status === "qualified"'), "financial truth interaction gate");
   assert(app.includes('placeholder="Enter assumption"') && !app.includes('id="scenarioGrowth" type="number" value="'), "blank caller inputs");
   assert(app.includes("state.scenario.bySymbol[symbol]") && app.includes("blankScenarioState"), "per-company memory");
   assert(app.includes("revenue * (1 + growth / 100)") && app.includes("scenarioRevenue * margin / 100") && app.includes("scenarioEps * pe"), "forward formulas mirror Python");
@@ -53,7 +55,7 @@ function main() {
   const block = app.slice(app.indexOf("function renderScenarioLab"), app.indexOf("const ASK_SECTION_LABELS"));
   assert(!/fair value|target price|\bbuy\b|\bsell\b|\bhold\b|\badvice\b/i.test(block), "no verdict/advice labels");
   assert(block.includes("Multiple-implied price") && block.includes("Reverse expectations") && block.includes("Market-implied gap"), "correct product labels");
-  assert(block.includes('["forecast", "EBITDA", "FCF", "DCF"]'), "blocked products visible");
+  assert(block.includes('["forecast", "valuation", "market expectations", "scenario lab", "EBITDA", "FCF", "DCF"]'), "blocked products visible");
   assert(css.includes(".scenario-shell") && css.includes("@media (max-width:900px)") && css.includes("@media (max-width:560px)"), "responsive scenario CSS");
   const baseline = { revenue: 1000, shares_out: 100, latest_price: 11 };
   const f = forward(baseline, 10, 20, 5);

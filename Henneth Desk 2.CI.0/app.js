@@ -2994,6 +2994,11 @@ function scenarioNumber(name, value, low, high) {
 
 function calculateScenario(r) {
   const current = scenarioState(r.symbol);
+  if (!scenarioLabIsActive(r.scenario_lab, r.financial_truth_qualification)) {
+    current.result = null;
+    current.error = "Scenario Lab remains unavailable until financial-truth qualification is complete.";
+    return;
+  }
   const baseline = r.scenario_lab?.baseline || {};
   try {
     const revenue = scenarioNumber("Snapshot revenue", baseline.revenue, Number.MIN_VALUE, Number.MAX_VALUE);
@@ -3033,6 +3038,12 @@ function calculateScenario(r) {
   }
 }
 
+function scenarioLabIsActive(lab, financialTruth) {
+  return financialTruth?.status === "qualified"
+    && lab?.financial_truth_status === "qualified"
+    && lab?.status?.scenario_lab === "ready_snapshot_sensitivity";
+}
+
 function scenarioMetric(label, value, suffix = "") {
   return `<div><span>${esc(label)}</span><b>${esc(value == null ? "unknown" : `${fmt(value, 2)}${suffix}`)}</b></div>`;
 }
@@ -3043,6 +3054,7 @@ function renderScenarioLab(r) {
   const provenance = lab.provenance || {};
   const current = scenarioState(r.symbol);
   const result = current.result;
+  const active = scenarioLabIsActive(lab, r.financial_truth_qualification);
   const fundamentalsHref = safeHref(provenance.fundamentals_source_url);
   const priceHref = safeHref(provenance.price_source_url);
   const source = (href, label) => href ? `<a href="${href}" target="_blank" rel="noopener">${esc(label)}</a>` : esc(`${label} unavailable`);
@@ -3057,7 +3069,7 @@ function renderScenarioLab(r) {
       ${scenarioMetric("Latest price", baseline.latest_price)}
     </div>
     <p class="scenario-source">Fundamentals ${source(fundamentalsHref, provenance.fundamentals_as_of || "date unknown")} · Price ${source(priceHref, provenance.price_as_of || "date unknown")}</p>
-    <form id="scenarioForm" class="scenario-form" aria-describedby="scenarioHelp scenarioError">
+    ${active ? `<form id="scenarioForm" class="scenario-form" aria-describedby="scenarioHelp scenarioError">
       <label><span>Revenue growth %</span><input id="scenarioGrowth" type="number" min="-99.999999" max="1000" step="0.1" value="${esc(current.revenueGrowth)}" placeholder="Enter assumption"></label>
       <label><span>Net margin %</span><input id="scenarioMargin" type="number" min="0.000001" max="100" step="0.1" value="${esc(current.netMargin)}" placeholder="Enter assumption"></label>
       <label><span>Exit P/E</span><input id="scenarioPe" type="number" min="0.000001" max="200" step="0.1" value="${esc(current.exitPe)}" placeholder="Enter assumption"></label>
@@ -3075,9 +3087,9 @@ function renderScenarioLab(r) {
       <section><h3>Market-implied gap</h3><div class="scenario-metrics">
         ${scenarioMetric("Caller revenue growth", current.revenueGrowth, "%")}${scenarioMetric("Required revenue growth", result.requiredRevenueGrowthPct, "%")}${scenarioMetric("Gap", result.expectationsGapPct, "%")}
       </div></section>
-    </div>` : `<div class="empty">Enter all three assumptions to calculate a sensitivity and reverse expectations.</div>`}
+    </div>` : `<div class="empty">Enter all three assumptions to calculate a sensitivity and reverse expectations.</div>`}` : `<div class="empty">Scenario Lab is blocked by financial-truth qualification. Snapshot inputs remain visible for provenance, but no forecast, valuation, market-expectations, or reverse-solve output can be calculated.</div>`}
     <div class="scenario-blocked" aria-label="Unavailable model outputs">
-      ${["forecast", "EBITDA", "FCF", "DCF"].map(key => `<span>${esc(key)}<b>${esc(key === "forecast" ? (lab.status?.forecast || "blocked") : "blocked_insufficient_qualified_history")}</b></span>`).join("")}
+      ${["forecast", "valuation", "market expectations", "scenario lab", "EBITDA", "FCF", "DCF"].map(key => `<span>${esc(key)}<b>${esc(["forecast", "valuation", "market expectations", "scenario lab"].includes(key) ? (lab.status?.[key.replaceAll(" ", "_")] || "blocked") : "blocked_insufficient_qualified_history")}</b></span>`).join("")}
     </div>
   </section>`;
 }

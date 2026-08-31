@@ -1,6 +1,6 @@
 {
  "meta": {
-  "built": "2026-08-31 14:05",
+  "built": "2026-08-31 14:17",
   "source": "Henneth state layer",
   "profile_source": "https://dps.psx.com.pk/company/{symbol}",
   "profile_updated": "2026-08-24 18:30",
@@ -20,9 +20,9 @@
    "source_documents": 317,
    "note": "Every factual edge carries source URL and cited page when available.",
    "generator_version": "ci_artifact_integrity_v1",
-   "source_commit_sha": "171ce1f65e5049530ebc82b1057d80ea24606d62",
-   "build_cutoff_at": "2026-08-31T08:50:45Z",
-   "generated_at": "2026-08-31T08:50:45Z",
+   "source_commit_sha": "f606a4fa71d5a0c358419422332f88dcc6c82146",
+   "build_cutoff_at": "2026-08-31T09:16:11Z",
+   "generated_at": "2026-08-31T09:16:11Z",
    "artifact_path": "state/company_intel/company_graph.json",
    "timestamp_semantics": {
     "build_cutoff_at": "generation boundary only; not a source-effective or source-published time",
@@ -35,9 +35,9 @@
    "item_count": 359,
    "note": "Deterministic official-source change digest. Research, not advice.",
    "generator_version": "ci_artifact_integrity_v1",
-   "source_commit_sha": "171ce1f65e5049530ebc82b1057d80ea24606d62",
-   "build_cutoff_at": "2026-08-31T08:50:45Z",
-   "generated_at": "2026-08-31T08:50:45Z",
+   "source_commit_sha": "f606a4fa71d5a0c358419422332f88dcc6c82146",
+   "build_cutoff_at": "2026-08-31T09:16:11Z",
+   "generated_at": "2026-08-31T09:16:11Z",
    "artifact_path": "state/company_intel/change_intelligence.json",
    "timestamp_semantics": {
     "build_cutoff_at": "generation boundary only; not a source-effective or source-published time",
@@ -21887,6 +21887,7 @@
     "dcf": null,
     "ebitda": null,
     "fcf": null,
+    "financial_truth_status": "not_qualified",
     "formula_ids": [
      "baseline.net_income_per_share",
      "scenario.v1",
@@ -21903,10 +21904,10 @@
     "reverse_expectations": null,
     "scenario": null,
     "status": {
-     "forecast": "blocked_insufficient_qualified_history",
-     "market_expectations": "ready_snapshot_reverse_solve",
-     "scenario_lab": "ready_snapshot_sensitivity",
-     "valuation": "ready_scenario_multiple_only"
+     "forecast": "blocked_financial_truth_not_qualified",
+     "market_expectations": "blocked_financial_truth_not_qualified",
+     "scenario_lab": "blocked_financial_truth_not_qualified",
+     "valuation": "blocked_financial_truth_not_qualified"
     },
     "symbol": "MLCF"
    },
@@ -22838,7 +22839,8 @@
         "signal_clusters": "state/company_intel/signal_clusters.json",
         "operating_events": "state/company_intel/operating_events.json",
         "event_studies": "state/company_intel/event_studies.json",
-        "financial_model_inputs": "state/company_intel/financial_model_inputs.json"
+        "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
+        "financial_truth_qualification": "state/company_intel/financial_truth_qualification.json"
        },
        "policy": {
         "research_only": true,
@@ -22847,15 +22849,15 @@
         "no_forward_estimates": true,
         "no_price_claims": true
        },
-       "confidence_version": "intelligence_confidence_v1"
+       "confidence_version": "intelligence_confidence_v2"
       },
       "row_metadata": {
        "symbol": "MLCF",
        "status": "assessed",
        "source_cluster_count": 1,
        "assessment_count": 1,
-       "aggregate_score": 57.0,
-       "aggregate_band": "medium"
+       "aggregate_score": 42.0,
+       "aggregate_band": "low"
       }
      },
      "scenario_lab": {
@@ -22874,10 +22876,10 @@
       "row_metadata": {
        "symbol": "MLCF",
        "status": {
-        "forecast": "blocked_insufficient_qualified_history",
-        "market_expectations": "ready_snapshot_reverse_solve",
-        "scenario_lab": "ready_snapshot_sensitivity",
-        "valuation": "ready_scenario_multiple_only"
+        "forecast": "blocked_financial_truth_not_qualified",
+        "market_expectations": "blocked_financial_truth_not_qualified",
+        "scenario_lab": "blocked_financial_truth_not_qualified",
+        "valuation": "blocked_financial_truth_not_qualified"
        },
        "provenance": {
         "fundamentals_as_of": "2026-08-24",
@@ -23667,8 +23669,8 @@
     "financial_coverage_candidates": 5,
     "forecast_readiness_status": "input_ready",
     "forecast_qualified_period_count": 3,
-    "scenario_lab_status": "ready_snapshot_sensitivity",
-    "market_expectations_status": "ready_snapshot_reverse_solve",
+    "scenario_lab_status": "blocked_financial_truth_not_qualified",
+    "market_expectations_status": "blocked_financial_truth_not_qualified",
     "brain_object_count": 18,
     "management_delivery_records": 1,
     "intelligence_case_count": 1,
@@ -27782,6 +27784,7 @@
     "dcf": null,
     "ebitda": null,
     "fcf": null,
+    "financial_truth_status": "not_qualified",
     "formula_ids": [
      "baseline.net_income_per_share",
      "scenario.v1",
@@ -27798,10 +27801,10 @@
     "reverse_expectations": null,
     "scenario": null,
     "status": {
-     "forecast": "blocked_insufficient_qualified_history",
-     "market_expectations": "ready_snapshot_reverse_solve",
-     "scenario_lab": "ready_snapshot_sensitivity",
-     "valuation": "ready_scenario_multiple_only"
+     "forecast": "blocked_financial_truth_not_qualified",
+     "market_expectations": "blocked_financial_truth_not_qualified",
+     "scenario_lab": "blocked_financial_truth_not_qualified",
+     "valuation": "blocked_financial_truth_not_qualified"
     },
     "symbol": "OGDC"
    },
@@ -28346,7 +28349,8 @@
         "signal_clusters": "state/company_intel/signal_clusters.json",
         "operating_events": "state/company_intel/operating_events.json",
         "event_studies": "state/company_intel/event_studies.json",
-        "financial_model_inputs": "state/company_intel/financial_model_inputs.json"
+        "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
+        "financial_truth_qualification": "state/company_intel/financial_truth_qualification.json"
        },
        "policy": {
         "research_only": true,
@@ -28355,7 +28359,7 @@
         "no_forward_estimates": true,
         "no_price_claims": true
        },
-       "confidence_version": "intelligence_confidence_v1"
+       "confidence_version": "intelligence_confidence_v2"
       },
       "row_metadata": {
        "symbol": "OGDC",
@@ -28382,10 +28386,10 @@
       "row_metadata": {
        "symbol": "OGDC",
        "status": {
-        "forecast": "blocked_insufficient_qualified_history",
-        "market_expectations": "ready_snapshot_reverse_solve",
-        "scenario_lab": "ready_snapshot_sensitivity",
-        "valuation": "ready_scenario_multiple_only"
+        "forecast": "blocked_financial_truth_not_qualified",
+        "market_expectations": "blocked_financial_truth_not_qualified",
+        "scenario_lab": "blocked_financial_truth_not_qualified",
+        "valuation": "blocked_financial_truth_not_qualified"
        },
        "provenance": {
         "fundamentals_as_of": "2026-08-24",
@@ -28807,8 +28811,8 @@
     "financial_coverage_candidates": 5,
     "forecast_readiness_status": "blocked_insufficient_qualified_history",
     "forecast_qualified_period_count": 0,
-    "scenario_lab_status": "ready_snapshot_sensitivity",
-    "market_expectations_status": "ready_snapshot_reverse_solve",
+    "scenario_lab_status": "blocked_financial_truth_not_qualified",
+    "market_expectations_status": "blocked_financial_truth_not_qualified",
     "brain_object_count": 0,
     "management_delivery_records": 0,
     "intelligence_case_count": 0,
@@ -33781,6 +33785,7 @@
     "dcf": null,
     "ebitda": null,
     "fcf": null,
+    "financial_truth_status": "not_qualified",
     "formula_ids": [
      "baseline.net_income_per_share",
      "scenario.v1",
@@ -33797,10 +33802,10 @@
     "reverse_expectations": null,
     "scenario": null,
     "status": {
-     "forecast": "blocked_insufficient_qualified_history",
-     "market_expectations": "ready_snapshot_reverse_solve",
-     "scenario_lab": "ready_snapshot_sensitivity",
-     "valuation": "ready_scenario_multiple_only"
+     "forecast": "blocked_financial_truth_not_qualified",
+     "market_expectations": "blocked_financial_truth_not_qualified",
+     "scenario_lab": "blocked_financial_truth_not_qualified",
+     "valuation": "blocked_financial_truth_not_qualified"
     },
     "symbol": "PPL"
    },
@@ -34391,7 +34396,8 @@
         "signal_clusters": "state/company_intel/signal_clusters.json",
         "operating_events": "state/company_intel/operating_events.json",
         "event_studies": "state/company_intel/event_studies.json",
-        "financial_model_inputs": "state/company_intel/financial_model_inputs.json"
+        "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
+        "financial_truth_qualification": "state/company_intel/financial_truth_qualification.json"
        },
        "policy": {
         "research_only": true,
@@ -34400,15 +34406,15 @@
         "no_forward_estimates": true,
         "no_price_claims": true
        },
-       "confidence_version": "intelligence_confidence_v1"
+       "confidence_version": "intelligence_confidence_v2"
       },
       "row_metadata": {
        "symbol": "PPL",
        "status": "assessed",
        "source_cluster_count": 1,
        "assessment_count": 1,
-       "aggregate_score": 51.0,
-       "aggregate_band": "medium"
+       "aggregate_score": 42.0,
+       "aggregate_band": "low"
       }
      },
      "scenario_lab": {
@@ -34427,10 +34433,10 @@
       "row_metadata": {
        "symbol": "PPL",
        "status": {
-        "forecast": "blocked_insufficient_qualified_history",
-        "market_expectations": "ready_snapshot_reverse_solve",
-        "scenario_lab": "ready_snapshot_sensitivity",
-        "valuation": "ready_scenario_multiple_only"
+        "forecast": "blocked_financial_truth_not_qualified",
+        "market_expectations": "blocked_financial_truth_not_qualified",
+        "scenario_lab": "blocked_financial_truth_not_qualified",
+        "valuation": "blocked_financial_truth_not_qualified"
        },
        "provenance": {
         "fundamentals_as_of": "2026-08-24",
@@ -34864,8 +34870,8 @@
     "financial_coverage_candidates": 5,
     "forecast_readiness_status": "blocked_insufficient_qualified_history",
     "forecast_qualified_period_count": 0,
-    "scenario_lab_status": "ready_snapshot_sensitivity",
-    "market_expectations_status": "ready_snapshot_reverse_solve",
+    "scenario_lab_status": "blocked_financial_truth_not_qualified",
+    "market_expectations_status": "blocked_financial_truth_not_qualified",
     "brain_object_count": 2,
     "management_delivery_records": 1,
     "intelligence_case_count": 0,
@@ -92934,6 +92940,7 @@
     "dcf": null,
     "ebitda": null,
     "fcf": null,
+    "financial_truth_status": "not_qualified",
     "formula_ids": [
      "baseline.net_income_per_share",
      "scenario.v1",
@@ -92950,10 +92957,10 @@
     "reverse_expectations": null,
     "scenario": null,
     "status": {
-     "forecast": "blocked_insufficient_qualified_history",
-     "market_expectations": "ready_snapshot_reverse_solve",
-     "scenario_lab": "ready_snapshot_sensitivity",
-     "valuation": "ready_scenario_multiple_only"
+     "forecast": "blocked_financial_truth_not_qualified",
+     "market_expectations": "blocked_financial_truth_not_qualified",
+     "scenario_lab": "blocked_financial_truth_not_qualified",
+     "valuation": "blocked_financial_truth_not_qualified"
     },
     "symbol": "DGKC"
    },
@@ -94795,7 +94802,8 @@
         "signal_clusters": "state/company_intel/signal_clusters.json",
         "operating_events": "state/company_intel/operating_events.json",
         "event_studies": "state/company_intel/event_studies.json",
-        "financial_model_inputs": "state/company_intel/financial_model_inputs.json"
+        "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
+        "financial_truth_qualification": "state/company_intel/financial_truth_qualification.json"
        },
        "policy": {
         "research_only": true,
@@ -94804,7 +94812,7 @@
         "no_forward_estimates": true,
         "no_price_claims": true
        },
-       "confidence_version": "intelligence_confidence_v1"
+       "confidence_version": "intelligence_confidence_v2"
       },
       "row_metadata": {
        "symbol": "DGKC",
@@ -94831,10 +94839,10 @@
       "row_metadata": {
        "symbol": "DGKC",
        "status": {
-        "forecast": "blocked_insufficient_qualified_history",
-        "market_expectations": "ready_snapshot_reverse_solve",
-        "scenario_lab": "ready_snapshot_sensitivity",
-        "valuation": "ready_scenario_multiple_only"
+        "forecast": "blocked_financial_truth_not_qualified",
+        "market_expectations": "blocked_financial_truth_not_qualified",
+        "scenario_lab": "blocked_financial_truth_not_qualified",
+        "valuation": "blocked_financial_truth_not_qualified"
        },
        "provenance": {
         "fundamentals_as_of": "2026-08-24",
@@ -95862,8 +95870,8 @@
     "financial_coverage_candidates": 5,
     "forecast_readiness_status": "input_ready",
     "forecast_qualified_period_count": 4,
-    "scenario_lab_status": "ready_snapshot_sensitivity",
-    "market_expectations_status": "ready_snapshot_reverse_solve",
+    "scenario_lab_status": "blocked_financial_truth_not_qualified",
+    "market_expectations_status": "blocked_financial_truth_not_qualified",
     "brain_object_count": 58,
     "management_delivery_records": 0,
     "intelligence_case_count": 0,
@@ -99629,6 +99637,7 @@
     "dcf": null,
     "ebitda": null,
     "fcf": null,
+    "financial_truth_status": "not_qualified",
     "formula_ids": [
      "baseline.net_income_per_share",
      "scenario.v1",
@@ -99645,10 +99654,10 @@
     "reverse_expectations": null,
     "scenario": null,
     "status": {
-     "forecast": "blocked_insufficient_qualified_history",
-     "market_expectations": "ready_snapshot_reverse_solve",
-     "scenario_lab": "ready_snapshot_sensitivity",
-     "valuation": "ready_scenario_multiple_only"
+     "forecast": "blocked_financial_truth_not_qualified",
+     "market_expectations": "blocked_financial_truth_not_qualified",
+     "scenario_lab": "blocked_financial_truth_not_qualified",
+     "valuation": "blocked_financial_truth_not_qualified"
     },
     "symbol": "PSO"
    },
@@ -100193,7 +100202,8 @@
         "signal_clusters": "state/company_intel/signal_clusters.json",
         "operating_events": "state/company_intel/operating_events.json",
         "event_studies": "state/company_intel/event_studies.json",
-        "financial_model_inputs": "state/company_intel/financial_model_inputs.json"
+        "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
+        "financial_truth_qualification": "state/company_intel/financial_truth_qualification.json"
        },
        "policy": {
         "research_only": true,
@@ -100202,7 +100212,7 @@
         "no_forward_estimates": true,
         "no_price_claims": true
        },
-       "confidence_version": "intelligence_confidence_v1"
+       "confidence_version": "intelligence_confidence_v2"
       },
       "row_metadata": {
        "symbol": "PSO",
@@ -100229,10 +100239,10 @@
       "row_metadata": {
        "symbol": "PSO",
        "status": {
-        "forecast": "blocked_insufficient_qualified_history",
-        "market_expectations": "ready_snapshot_reverse_solve",
-        "scenario_lab": "ready_snapshot_sensitivity",
-        "valuation": "ready_scenario_multiple_only"
+        "forecast": "blocked_financial_truth_not_qualified",
+        "market_expectations": "blocked_financial_truth_not_qualified",
+        "scenario_lab": "blocked_financial_truth_not_qualified",
+        "valuation": "blocked_financial_truth_not_qualified"
        },
        "provenance": {
         "fundamentals_as_of": "2026-08-24",
@@ -100626,8 +100636,8 @@
     "financial_coverage_candidates": 5,
     "forecast_readiness_status": "blocked_insufficient_qualified_history",
     "forecast_qualified_period_count": 0,
-    "scenario_lab_status": "ready_snapshot_sensitivity",
-    "market_expectations_status": "ready_snapshot_reverse_solve",
+    "scenario_lab_status": "blocked_financial_truth_not_qualified",
+    "market_expectations_status": "blocked_financial_truth_not_qualified",
     "brain_object_count": 0,
     "management_delivery_records": 0,
     "intelligence_case_count": 0,
@@ -111347,6 +111357,7 @@
     "dcf": null,
     "ebitda": null,
     "fcf": null,
+    "financial_truth_status": "not_qualified",
     "formula_ids": [
      "baseline.net_income_per_share",
      "scenario.v1",
@@ -111363,10 +111374,10 @@
     "reverse_expectations": null,
     "scenario": null,
     "status": {
-     "forecast": "blocked_insufficient_qualified_history",
-     "market_expectations": "ready_snapshot_reverse_solve",
-     "scenario_lab": "ready_snapshot_sensitivity",
-     "valuation": "ready_scenario_multiple_only"
+     "forecast": "blocked_financial_truth_not_qualified",
+     "market_expectations": "blocked_financial_truth_not_qualified",
+     "scenario_lab": "blocked_financial_truth_not_qualified",
+     "valuation": "blocked_financial_truth_not_qualified"
     },
     "symbol": "UBL"
    },
@@ -112140,7 +112151,8 @@
         "signal_clusters": "state/company_intel/signal_clusters.json",
         "operating_events": "state/company_intel/operating_events.json",
         "event_studies": "state/company_intel/event_studies.json",
-        "financial_model_inputs": "state/company_intel/financial_model_inputs.json"
+        "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
+        "financial_truth_qualification": "state/company_intel/financial_truth_qualification.json"
        },
        "policy": {
         "research_only": true,
@@ -112149,14 +112161,14 @@
         "no_forward_estimates": true,
         "no_price_claims": true
        },
-       "confidence_version": "intelligence_confidence_v1"
+       "confidence_version": "intelligence_confidence_v2"
       },
       "row_metadata": {
        "symbol": "UBL",
        "status": "assessed",
        "source_cluster_count": 3,
        "assessment_count": 3,
-       "aggregate_score": 59.0,
+       "aggregate_score": 50.0,
        "aggregate_band": "medium"
       }
      },
@@ -112176,10 +112188,10 @@
       "row_metadata": {
        "symbol": "UBL",
        "status": {
-        "forecast": "blocked_insufficient_qualified_history",
-        "market_expectations": "ready_snapshot_reverse_solve",
-        "scenario_lab": "ready_snapshot_sensitivity",
-        "valuation": "ready_scenario_multiple_only"
+        "forecast": "blocked_financial_truth_not_qualified",
+        "market_expectations": "blocked_financial_truth_not_qualified",
+        "scenario_lab": "blocked_financial_truth_not_qualified",
+        "valuation": "blocked_financial_truth_not_qualified"
        },
        "provenance": {
         "fundamentals_as_of": "2026-08-24",
@@ -112666,8 +112678,8 @@
     "financial_coverage_candidates": 5,
     "forecast_readiness_status": "blocked_insufficient_qualified_history",
     "forecast_qualified_period_count": 0,
-    "scenario_lab_status": "ready_snapshot_sensitivity",
-    "market_expectations_status": "ready_snapshot_reverse_solve",
+    "scenario_lab_status": "blocked_financial_truth_not_qualified",
+    "market_expectations_status": "blocked_financial_truth_not_qualified",
     "brain_object_count": 10,
     "management_delivery_records": 3,
     "intelligence_case_count": 0,
@@ -116111,6 +116123,7 @@
     "dcf": null,
     "ebitda": null,
     "fcf": null,
+    "financial_truth_status": "not_qualified",
     "formula_ids": [
      "baseline.net_income_per_share",
      "scenario.v1",
@@ -116127,10 +116140,10 @@
     "reverse_expectations": null,
     "scenario": null,
     "status": {
-     "forecast": "blocked_insufficient_qualified_history",
-     "market_expectations": "ready_snapshot_reverse_solve",
-     "scenario_lab": "ready_snapshot_sensitivity",
-     "valuation": "ready_scenario_multiple_only"
+     "forecast": "blocked_financial_truth_not_qualified",
+     "market_expectations": "blocked_financial_truth_not_qualified",
+     "scenario_lab": "blocked_financial_truth_not_qualified",
+     "valuation": "blocked_financial_truth_not_qualified"
     },
     "symbol": "FFC"
    },
@@ -116675,7 +116688,8 @@
         "signal_clusters": "state/company_intel/signal_clusters.json",
         "operating_events": "state/company_intel/operating_events.json",
         "event_studies": "state/company_intel/event_studies.json",
-        "financial_model_inputs": "state/company_intel/financial_model_inputs.json"
+        "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
+        "financial_truth_qualification": "state/company_intel/financial_truth_qualification.json"
        },
        "policy": {
         "research_only": true,
@@ -116684,7 +116698,7 @@
         "no_forward_estimates": true,
         "no_price_claims": true
        },
-       "confidence_version": "intelligence_confidence_v1"
+       "confidence_version": "intelligence_confidence_v2"
       },
       "row_metadata": {
        "symbol": "FFC",
@@ -116711,10 +116725,10 @@
       "row_metadata": {
        "symbol": "FFC",
        "status": {
-        "forecast": "blocked_insufficient_qualified_history",
-        "market_expectations": "ready_snapshot_reverse_solve",
-        "scenario_lab": "ready_snapshot_sensitivity",
-        "valuation": "ready_scenario_multiple_only"
+        "forecast": "blocked_financial_truth_not_qualified",
+        "market_expectations": "blocked_financial_truth_not_qualified",
+        "scenario_lab": "blocked_financial_truth_not_qualified",
+        "valuation": "blocked_financial_truth_not_qualified"
        },
        "provenance": {
         "fundamentals_as_of": "2026-08-24",
@@ -117105,8 +117119,8 @@
     "financial_coverage_candidates": 5,
     "forecast_readiness_status": "blocked_insufficient_qualified_history",
     "forecast_qualified_period_count": 0,
-    "scenario_lab_status": "ready_snapshot_sensitivity",
-    "market_expectations_status": "ready_snapshot_reverse_solve",
+    "scenario_lab_status": "blocked_financial_truth_not_qualified",
+    "market_expectations_status": "blocked_financial_truth_not_qualified",
     "brain_object_count": 0,
     "management_delivery_records": 0,
     "intelligence_case_count": 0,
@@ -150245,6 +150259,7 @@
     "dcf": null,
     "ebitda": null,
     "fcf": null,
+    "financial_truth_status": "not_qualified",
     "formula_ids": [
      "baseline.net_income_per_share",
      "scenario.v1",
@@ -150261,10 +150276,10 @@
     "reverse_expectations": null,
     "scenario": null,
     "status": {
-     "forecast": "blocked_insufficient_qualified_history",
-     "market_expectations": "ready_snapshot_reverse_solve",
-     "scenario_lab": "ready_snapshot_sensitivity",
-     "valuation": "ready_scenario_multiple_only"
+     "forecast": "blocked_financial_truth_not_qualified",
+     "market_expectations": "blocked_financial_truth_not_qualified",
+     "scenario_lab": "blocked_financial_truth_not_qualified",
+     "valuation": "blocked_financial_truth_not_qualified"
     },
     "symbol": "LUCK"
    },
@@ -151224,7 +151239,8 @@
         "signal_clusters": "state/company_intel/signal_clusters.json",
         "operating_events": "state/company_intel/operating_events.json",
         "event_studies": "state/company_intel/event_studies.json",
-        "financial_model_inputs": "state/company_intel/financial_model_inputs.json"
+        "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
+        "financial_truth_qualification": "state/company_intel/financial_truth_qualification.json"
        },
        "policy": {
         "research_only": true,
@@ -151233,7 +151249,7 @@
         "no_forward_estimates": true,
         "no_price_claims": true
        },
-       "confidence_version": "intelligence_confidence_v1"
+       "confidence_version": "intelligence_confidence_v2"
       },
       "row_metadata": {
        "symbol": "LUCK",
@@ -151260,10 +151276,10 @@
       "row_metadata": {
        "symbol": "LUCK",
        "status": {
-        "forecast": "blocked_insufficient_qualified_history",
-        "market_expectations": "ready_snapshot_reverse_solve",
-        "scenario_lab": "ready_snapshot_sensitivity",
-        "valuation": "ready_scenario_multiple_only"
+        "forecast": "blocked_financial_truth_not_qualified",
+        "market_expectations": "blocked_financial_truth_not_qualified",
+        "scenario_lab": "blocked_financial_truth_not_qualified",
+        "valuation": "blocked_financial_truth_not_qualified"
        },
        "provenance": {
         "fundamentals_as_of": "2026-08-24",
@@ -151761,8 +151777,8 @@
     "financial_coverage_candidates": 5,
     "forecast_readiness_status": "blocked_insufficient_qualified_history",
     "forecast_qualified_period_count": 2,
-    "scenario_lab_status": "ready_snapshot_sensitivity",
-    "market_expectations_status": "ready_snapshot_reverse_solve",
+    "scenario_lab_status": "blocked_financial_truth_not_qualified",
+    "market_expectations_status": "blocked_financial_truth_not_qualified",
     "brain_object_count": 18,
     "management_delivery_records": 0,
     "intelligence_case_count": 0,
@@ -156748,6 +156764,7 @@
     "dcf": null,
     "ebitda": null,
     "fcf": null,
+    "financial_truth_status": "not_qualified",
     "formula_ids": [
      "baseline.net_income_per_share",
      "scenario.v1",
@@ -156764,10 +156781,10 @@
     "reverse_expectations": null,
     "scenario": null,
     "status": {
-     "forecast": "blocked_insufficient_qualified_history",
-     "market_expectations": "ready_snapshot_reverse_solve",
-     "scenario_lab": "ready_snapshot_sensitivity",
-     "valuation": "ready_scenario_multiple_only"
+     "forecast": "blocked_financial_truth_not_qualified",
+     "market_expectations": "blocked_financial_truth_not_qualified",
+     "scenario_lab": "blocked_financial_truth_not_qualified",
+     "valuation": "blocked_financial_truth_not_qualified"
     },
     "symbol": "HUBC"
    },
@@ -157411,7 +157428,8 @@
         "signal_clusters": "state/company_intel/signal_clusters.json",
         "operating_events": "state/company_intel/operating_events.json",
         "event_studies": "state/company_intel/event_studies.json",
-        "financial_model_inputs": "state/company_intel/financial_model_inputs.json"
+        "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
+        "financial_truth_qualification": "state/company_intel/financial_truth_qualification.json"
        },
        "policy": {
         "research_only": true,
@@ -157420,7 +157438,7 @@
         "no_forward_estimates": true,
         "no_price_claims": true
        },
-       "confidence_version": "intelligence_confidence_v1"
+       "confidence_version": "intelligence_confidence_v2"
       },
       "row_metadata": {
        "symbol": "HUBC",
@@ -157447,10 +157465,10 @@
       "row_metadata": {
        "symbol": "HUBC",
        "status": {
-        "forecast": "blocked_insufficient_qualified_history",
-        "market_expectations": "ready_snapshot_reverse_solve",
-        "scenario_lab": "ready_snapshot_sensitivity",
-        "valuation": "ready_scenario_multiple_only"
+        "forecast": "blocked_financial_truth_not_qualified",
+        "market_expectations": "blocked_financial_truth_not_qualified",
+        "scenario_lab": "blocked_financial_truth_not_qualified",
+        "valuation": "blocked_financial_truth_not_qualified"
        },
        "provenance": {
         "fundamentals_as_of": "2026-08-24",
@@ -157864,8 +157882,8 @@
     "financial_coverage_candidates": 5,
     "forecast_readiness_status": "blocked_insufficient_qualified_history",
     "forecast_qualified_period_count": 0,
-    "scenario_lab_status": "ready_snapshot_sensitivity",
-    "market_expectations_status": "ready_snapshot_reverse_solve",
+    "scenario_lab_status": "blocked_financial_truth_not_qualified",
+    "market_expectations_status": "blocked_financial_truth_not_qualified",
     "brain_object_count": 4,
     "management_delivery_records": 0,
     "intelligence_case_count": 0,
@@ -160152,6 +160170,7 @@
     "dcf": null,
     "ebitda": null,
     "fcf": null,
+    "financial_truth_status": "not_qualified",
     "formula_ids": [
      "baseline.net_income_per_share",
      "scenario.v1",
@@ -160168,10 +160187,10 @@
     "reverse_expectations": null,
     "scenario": null,
     "status": {
-     "forecast": "blocked_insufficient_qualified_history",
-     "market_expectations": "ready_snapshot_reverse_solve",
-     "scenario_lab": "ready_snapshot_sensitivity",
-     "valuation": "ready_scenario_multiple_only"
+     "forecast": "blocked_financial_truth_not_qualified",
+     "market_expectations": "blocked_financial_truth_not_qualified",
+     "scenario_lab": "blocked_financial_truth_not_qualified",
+     "valuation": "blocked_financial_truth_not_qualified"
     },
     "symbol": "PRL"
    },
@@ -160716,7 +160735,8 @@
         "signal_clusters": "state/company_intel/signal_clusters.json",
         "operating_events": "state/company_intel/operating_events.json",
         "event_studies": "state/company_intel/event_studies.json",
-        "financial_model_inputs": "state/company_intel/financial_model_inputs.json"
+        "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
+        "financial_truth_qualification": "state/company_intel/financial_truth_qualification.json"
        },
        "policy": {
         "research_only": true,
@@ -160725,7 +160745,7 @@
         "no_forward_estimates": true,
         "no_price_claims": true
        },
-       "confidence_version": "intelligence_confidence_v1"
+       "confidence_version": "intelligence_confidence_v2"
       },
       "row_metadata": {
        "symbol": "PRL",
@@ -160752,10 +160772,10 @@
       "row_metadata": {
        "symbol": "PRL",
        "status": {
-        "forecast": "blocked_insufficient_qualified_history",
-        "market_expectations": "ready_snapshot_reverse_solve",
-        "scenario_lab": "ready_snapshot_sensitivity",
-        "valuation": "ready_scenario_multiple_only"
+        "forecast": "blocked_financial_truth_not_qualified",
+        "market_expectations": "blocked_financial_truth_not_qualified",
+        "scenario_lab": "blocked_financial_truth_not_qualified",
+        "valuation": "blocked_financial_truth_not_qualified"
        },
        "provenance": {
         "fundamentals_as_of": "2026-08-24",
@@ -161144,8 +161164,8 @@
     "financial_coverage_candidates": 5,
     "forecast_readiness_status": "blocked_insufficient_qualified_history",
     "forecast_qualified_period_count": 0,
-    "scenario_lab_status": "ready_snapshot_sensitivity",
-    "market_expectations_status": "ready_snapshot_reverse_solve",
+    "scenario_lab_status": "blocked_financial_truth_not_qualified",
+    "market_expectations_status": "blocked_financial_truth_not_qualified",
     "brain_object_count": 0,
     "management_delivery_records": 0,
     "intelligence_case_count": 0,
@@ -171191,6 +171211,7 @@
     "dcf": null,
     "ebitda": null,
     "fcf": null,
+    "financial_truth_status": "not_qualified",
     "formula_ids": [
      "baseline.net_income_per_share",
      "scenario.v1",
@@ -171207,10 +171228,10 @@
     "reverse_expectations": null,
     "scenario": null,
     "status": {
-     "forecast": "blocked_insufficient_qualified_history",
-     "market_expectations": "ready_snapshot_reverse_solve",
-     "scenario_lab": "ready_snapshot_sensitivity",
-     "valuation": "ready_scenario_multiple_only"
+     "forecast": "blocked_financial_truth_not_qualified",
+     "market_expectations": "blocked_financial_truth_not_qualified",
+     "scenario_lab": "blocked_financial_truth_not_qualified",
+     "valuation": "blocked_financial_truth_not_qualified"
     },
     "symbol": "BOP"
    },
@@ -171942,7 +171963,8 @@
         "signal_clusters": "state/company_intel/signal_clusters.json",
         "operating_events": "state/company_intel/operating_events.json",
         "event_studies": "state/company_intel/event_studies.json",
-        "financial_model_inputs": "state/company_intel/financial_model_inputs.json"
+        "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
+        "financial_truth_qualification": "state/company_intel/financial_truth_qualification.json"
        },
        "policy": {
         "research_only": true,
@@ -171951,7 +171973,7 @@
         "no_forward_estimates": true,
         "no_price_claims": true
        },
-       "confidence_version": "intelligence_confidence_v1"
+       "confidence_version": "intelligence_confidence_v2"
       },
       "row_metadata": {
        "symbol": "BOP",
@@ -171978,10 +172000,10 @@
       "row_metadata": {
        "symbol": "BOP",
        "status": {
-        "forecast": "blocked_insufficient_qualified_history",
-        "market_expectations": "ready_snapshot_reverse_solve",
-        "scenario_lab": "ready_snapshot_sensitivity",
-        "valuation": "ready_scenario_multiple_only"
+        "forecast": "blocked_financial_truth_not_qualified",
+        "market_expectations": "blocked_financial_truth_not_qualified",
+        "scenario_lab": "blocked_financial_truth_not_qualified",
+        "valuation": "blocked_financial_truth_not_qualified"
        },
        "provenance": {
         "fundamentals_as_of": "2026-08-24",
@@ -172453,8 +172475,8 @@
     "financial_coverage_candidates": 5,
     "forecast_readiness_status": "blocked_insufficient_qualified_history",
     "forecast_qualified_period_count": 0,
-    "scenario_lab_status": "ready_snapshot_sensitivity",
-    "market_expectations_status": "ready_snapshot_reverse_solve",
+    "scenario_lab_status": "blocked_financial_truth_not_qualified",
+    "market_expectations_status": "blocked_financial_truth_not_qualified",
     "brain_object_count": 8,
     "management_delivery_records": 0,
     "intelligence_case_count": 0,
@@ -177582,6 +177604,7 @@
     "dcf": null,
     "ebitda": null,
     "fcf": null,
+    "financial_truth_status": "not_qualified",
     "formula_ids": [
      "baseline.net_income_per_share",
      "scenario.v1",
@@ -177598,10 +177621,10 @@
     "reverse_expectations": null,
     "scenario": null,
     "status": {
-     "forecast": "blocked_insufficient_qualified_history",
-     "market_expectations": "ready_snapshot_reverse_solve",
-     "scenario_lab": "ready_snapshot_sensitivity",
-     "valuation": "ready_scenario_multiple_only"
+     "forecast": "blocked_financial_truth_not_qualified",
+     "market_expectations": "blocked_financial_truth_not_qualified",
+     "scenario_lab": "blocked_financial_truth_not_qualified",
+     "valuation": "blocked_financial_truth_not_qualified"
     },
     "symbol": "NBP"
    },
@@ -178146,7 +178169,8 @@
         "signal_clusters": "state/company_intel/signal_clusters.json",
         "operating_events": "state/company_intel/operating_events.json",
         "event_studies": "state/company_intel/event_studies.json",
-        "financial_model_inputs": "state/company_intel/financial_model_inputs.json"
+        "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
+        "financial_truth_qualification": "state/company_intel/financial_truth_qualification.json"
        },
        "policy": {
         "research_only": true,
@@ -178155,7 +178179,7 @@
         "no_forward_estimates": true,
         "no_price_claims": true
        },
-       "confidence_version": "intelligence_confidence_v1"
+       "confidence_version": "intelligence_confidence_v2"
       },
       "row_metadata": {
        "symbol": "NBP",
@@ -178182,10 +178206,10 @@
       "row_metadata": {
        "symbol": "NBP",
        "status": {
-        "forecast": "blocked_insufficient_qualified_history",
-        "market_expectations": "ready_snapshot_reverse_solve",
-        "scenario_lab": "ready_snapshot_sensitivity",
-        "valuation": "ready_scenario_multiple_only"
+        "forecast": "blocked_financial_truth_not_qualified",
+        "market_expectations": "blocked_financial_truth_not_qualified",
+        "scenario_lab": "blocked_financial_truth_not_qualified",
+        "valuation": "blocked_financial_truth_not_qualified"
        },
        "provenance": {
         "fundamentals_as_of": "2026-08-24",
@@ -178578,8 +178602,8 @@
     "financial_coverage_candidates": 5,
     "forecast_readiness_status": "blocked_insufficient_qualified_history",
     "forecast_qualified_period_count": 0,
-    "scenario_lab_status": "ready_snapshot_sensitivity",
-    "market_expectations_status": "ready_snapshot_reverse_solve",
+    "scenario_lab_status": "blocked_financial_truth_not_qualified",
+    "market_expectations_status": "blocked_financial_truth_not_qualified",
     "brain_object_count": 0,
     "management_delivery_records": 0,
     "intelligence_case_count": 0,
@@ -182645,6 +182669,7 @@
     "dcf": null,
     "ebitda": null,
     "fcf": null,
+    "financial_truth_status": "not_qualified",
     "formula_ids": [
      "baseline.net_income_per_share",
      "scenario.v1",
@@ -182661,10 +182686,10 @@
     "reverse_expectations": null,
     "scenario": null,
     "status": {
-     "forecast": "blocked_insufficient_qualified_history",
-     "market_expectations": "ready_snapshot_reverse_solve",
-     "scenario_lab": "ready_snapshot_sensitivity",
-     "valuation": "ready_scenario_multiple_only"
+     "forecast": "blocked_financial_truth_not_qualified",
+     "market_expectations": "blocked_financial_truth_not_qualified",
+     "scenario_lab": "blocked_financial_truth_not_qualified",
+     "valuation": "blocked_financial_truth_not_qualified"
     },
     "symbol": "MEBL"
    },
@@ -183209,7 +183234,8 @@
         "signal_clusters": "state/company_intel/signal_clusters.json",
         "operating_events": "state/company_intel/operating_events.json",
         "event_studies": "state/company_intel/event_studies.json",
-        "financial_model_inputs": "state/company_intel/financial_model_inputs.json"
+        "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
+        "financial_truth_qualification": "state/company_intel/financial_truth_qualification.json"
        },
        "policy": {
         "research_only": true,
@@ -183218,7 +183244,7 @@
         "no_forward_estimates": true,
         "no_price_claims": true
        },
-       "confidence_version": "intelligence_confidence_v1"
+       "confidence_version": "intelligence_confidence_v2"
       },
       "row_metadata": {
        "symbol": "MEBL",
@@ -183245,10 +183271,10 @@
       "row_metadata": {
        "symbol": "MEBL",
        "status": {
-        "forecast": "blocked_insufficient_qualified_history",
-        "market_expectations": "ready_snapshot_reverse_solve",
-        "scenario_lab": "ready_snapshot_sensitivity",
-        "valuation": "ready_scenario_multiple_only"
+        "forecast": "blocked_financial_truth_not_qualified",
+        "market_expectations": "blocked_financial_truth_not_qualified",
+        "scenario_lab": "blocked_financial_truth_not_qualified",
+        "valuation": "blocked_financial_truth_not_qualified"
        },
        "provenance": {
         "fundamentals_as_of": "2026-08-24",
@@ -183679,8 +183705,8 @@
     "financial_coverage_candidates": 5,
     "forecast_readiness_status": "blocked_insufficient_qualified_history",
     "forecast_qualified_period_count": 0,
-    "scenario_lab_status": "ready_snapshot_sensitivity",
-    "market_expectations_status": "ready_snapshot_reverse_solve",
+    "scenario_lab_status": "blocked_financial_truth_not_qualified",
+    "market_expectations_status": "blocked_financial_truth_not_qualified",
     "brain_object_count": 0,
     "management_delivery_records": 0,
     "intelligence_case_count": 0,
@@ -193847,6 +193873,7 @@
     "dcf": null,
     "ebitda": null,
     "fcf": null,
+    "financial_truth_status": "not_qualified",
     "formula_ids": [
      "baseline.net_income_per_share",
      "scenario.v1",
@@ -193863,10 +193890,10 @@
     "reverse_expectations": null,
     "scenario": null,
     "status": {
-     "forecast": "blocked_insufficient_qualified_history",
-     "market_expectations": "ready_snapshot_reverse_solve",
-     "scenario_lab": "ready_snapshot_sensitivity",
-     "valuation": "ready_scenario_multiple_only"
+     "forecast": "blocked_financial_truth_not_qualified",
+     "market_expectations": "blocked_financial_truth_not_qualified",
+     "scenario_lab": "blocked_financial_truth_not_qualified",
+     "valuation": "blocked_financial_truth_not_qualified"
     },
     "symbol": "ATRL"
    },
@@ -194553,7 +194580,8 @@
         "signal_clusters": "state/company_intel/signal_clusters.json",
         "operating_events": "state/company_intel/operating_events.json",
         "event_studies": "state/company_intel/event_studies.json",
-        "financial_model_inputs": "state/company_intel/financial_model_inputs.json"
+        "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
+        "financial_truth_qualification": "state/company_intel/financial_truth_qualification.json"
        },
        "policy": {
         "research_only": true,
@@ -194562,7 +194590,7 @@
         "no_forward_estimates": true,
         "no_price_claims": true
        },
-       "confidence_version": "intelligence_confidence_v1"
+       "confidence_version": "intelligence_confidence_v2"
       },
       "row_metadata": {
        "symbol": "ATRL",
@@ -194589,10 +194617,10 @@
       "row_metadata": {
        "symbol": "ATRL",
        "status": {
-        "forecast": "blocked_insufficient_qualified_history",
-        "market_expectations": "ready_snapshot_reverse_solve",
-        "scenario_lab": "ready_snapshot_sensitivity",
-        "valuation": "ready_scenario_multiple_only"
+        "forecast": "blocked_financial_truth_not_qualified",
+        "market_expectations": "blocked_financial_truth_not_qualified",
+        "scenario_lab": "blocked_financial_truth_not_qualified",
+        "valuation": "blocked_financial_truth_not_qualified"
        },
        "provenance": {
         "fundamentals_as_of": "2026-08-24",
@@ -195022,8 +195050,8 @@
     "financial_coverage_candidates": 5,
     "forecast_readiness_status": "blocked_insufficient_qualified_history",
     "forecast_qualified_period_count": 0,
-    "scenario_lab_status": "ready_snapshot_sensitivity",
-    "market_expectations_status": "ready_snapshot_reverse_solve",
+    "scenario_lab_status": "blocked_financial_truth_not_qualified",
+    "market_expectations_status": "blocked_financial_truth_not_qualified",
     "brain_object_count": 6,
     "management_delivery_records": 0,
     "intelligence_case_count": 0,
@@ -198590,6 +198618,7 @@
     "dcf": null,
     "ebitda": null,
     "fcf": null,
+    "financial_truth_status": "not_qualified",
     "formula_ids": [
      "baseline.net_income_per_share",
      "scenario.v1",
@@ -198606,10 +198635,10 @@
     "reverse_expectations": null,
     "scenario": null,
     "status": {
-     "forecast": "blocked_insufficient_qualified_history",
-     "market_expectations": "ready_snapshot_reverse_solve",
-     "scenario_lab": "ready_snapshot_sensitivity",
-     "valuation": "ready_scenario_multiple_only"
+     "forecast": "blocked_financial_truth_not_qualified",
+     "market_expectations": "blocked_financial_truth_not_qualified",
+     "scenario_lab": "blocked_financial_truth_not_qualified",
+     "valuation": "blocked_financial_truth_not_qualified"
     },
     "symbol": "HBL"
    },
@@ -199154,7 +199183,8 @@
         "signal_clusters": "state/company_intel/signal_clusters.json",
         "operating_events": "state/company_intel/operating_events.json",
         "event_studies": "state/company_intel/event_studies.json",
-        "financial_model_inputs": "state/company_intel/financial_model_inputs.json"
+        "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
+        "financial_truth_qualification": "state/company_intel/financial_truth_qualification.json"
        },
        "policy": {
         "research_only": true,
@@ -199163,7 +199193,7 @@
         "no_forward_estimates": true,
         "no_price_claims": true
        },
-       "confidence_version": "intelligence_confidence_v1"
+       "confidence_version": "intelligence_confidence_v2"
       },
       "row_metadata": {
        "symbol": "HBL",
@@ -199190,10 +199220,10 @@
       "row_metadata": {
        "symbol": "HBL",
        "status": {
-        "forecast": "blocked_insufficient_qualified_history",
-        "market_expectations": "ready_snapshot_reverse_solve",
-        "scenario_lab": "ready_snapshot_sensitivity",
-        "valuation": "ready_scenario_multiple_only"
+        "forecast": "blocked_financial_truth_not_qualified",
+        "market_expectations": "blocked_financial_truth_not_qualified",
+        "scenario_lab": "blocked_financial_truth_not_qualified",
+        "valuation": "blocked_financial_truth_not_qualified"
        },
        "provenance": {
         "fundamentals_as_of": "2026-08-24",
@@ -199582,8 +199612,8 @@
     "financial_coverage_candidates": 5,
     "forecast_readiness_status": "blocked_insufficient_qualified_history",
     "forecast_qualified_period_count": 0,
-    "scenario_lab_status": "ready_snapshot_sensitivity",
-    "market_expectations_status": "ready_snapshot_reverse_solve",
+    "scenario_lab_status": "blocked_financial_truth_not_qualified",
+    "market_expectations_status": "blocked_financial_truth_not_qualified",
     "brain_object_count": 0,
     "management_delivery_records": 0,
     "intelligence_case_count": 0,
@@ -207987,6 +208017,7 @@
     "dcf": null,
     "ebitda": null,
     "fcf": null,
+    "financial_truth_status": "not_qualified",
     "formula_ids": [
      "baseline.net_income_per_share",
      "scenario.v1",
@@ -208003,10 +208034,10 @@
     "reverse_expectations": null,
     "scenario": null,
     "status": {
-     "forecast": "blocked_insufficient_qualified_history",
-     "market_expectations": "ready_snapshot_reverse_solve",
-     "scenario_lab": "ready_snapshot_sensitivity",
-     "valuation": "ready_scenario_multiple_only"
+     "forecast": "blocked_financial_truth_not_qualified",
+     "market_expectations": "blocked_financial_truth_not_qualified",
+     "scenario_lab": "blocked_financial_truth_not_qualified",
+     "valuation": "blocked_financial_truth_not_qualified"
     },
     "symbol": "MARI"
    },
@@ -208740,7 +208771,8 @@
         "signal_clusters": "state/company_intel/signal_clusters.json",
         "operating_events": "state/company_intel/operating_events.json",
         "event_studies": "state/company_intel/event_studies.json",
-        "financial_model_inputs": "state/company_intel/financial_model_inputs.json"
+        "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
+        "financial_truth_qualification": "state/company_intel/financial_truth_qualification.json"
        },
        "policy": {
         "research_only": true,
@@ -208749,7 +208781,7 @@
         "no_forward_estimates": true,
         "no_price_claims": true
        },
-       "confidence_version": "intelligence_confidence_v1"
+       "confidence_version": "intelligence_confidence_v2"
       },
       "row_metadata": {
        "symbol": "MARI",
@@ -208776,10 +208808,10 @@
       "row_metadata": {
        "symbol": "MARI",
        "status": {
-        "forecast": "blocked_insufficient_qualified_history",
-        "market_expectations": "ready_snapshot_reverse_solve",
-        "scenario_lab": "ready_snapshot_sensitivity",
-        "valuation": "ready_scenario_multiple_only"
+        "forecast": "blocked_financial_truth_not_qualified",
+        "market_expectations": "blocked_financial_truth_not_qualified",
+        "scenario_lab": "blocked_financial_truth_not_qualified",
+        "valuation": "blocked_financial_truth_not_qualified"
        },
        "provenance": {
         "fundamentals_as_of": "2026-08-24",
@@ -209217,8 +209249,8 @@
     "financial_coverage_candidates": 5,
     "forecast_readiness_status": "blocked_insufficient_qualified_history",
     "forecast_qualified_period_count": 0,
-    "scenario_lab_status": "ready_snapshot_sensitivity",
-    "market_expectations_status": "ready_snapshot_reverse_solve",
+    "scenario_lab_status": "blocked_financial_truth_not_qualified",
+    "market_expectations_status": "blocked_financial_truth_not_qualified",
     "brain_object_count": 8,
     "management_delivery_records": 0,
     "intelligence_case_count": 1,
@@ -213653,6 +213685,7 @@
     "dcf": null,
     "ebitda": null,
     "fcf": null,
+    "financial_truth_status": "not_qualified",
     "formula_ids": [
      "baseline.net_income_per_share",
      "scenario.v1",
@@ -213669,10 +213702,10 @@
     "reverse_expectations": null,
     "scenario": null,
     "status": {
-     "forecast": "blocked_insufficient_qualified_history",
-     "market_expectations": "ready_snapshot_reverse_solve",
-     "scenario_lab": "ready_snapshot_sensitivity",
-     "valuation": "ready_scenario_multiple_only"
+     "forecast": "blocked_financial_truth_not_qualified",
+     "market_expectations": "blocked_financial_truth_not_qualified",
+     "scenario_lab": "blocked_financial_truth_not_qualified",
+     "valuation": "blocked_financial_truth_not_qualified"
     },
     "symbol": "ENGROH"
    },
@@ -214358,7 +214391,8 @@
         "signal_clusters": "state/company_intel/signal_clusters.json",
         "operating_events": "state/company_intel/operating_events.json",
         "event_studies": "state/company_intel/event_studies.json",
-        "financial_model_inputs": "state/company_intel/financial_model_inputs.json"
+        "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
+        "financial_truth_qualification": "state/company_intel/financial_truth_qualification.json"
        },
        "policy": {
         "research_only": true,
@@ -214367,15 +214401,15 @@
         "no_forward_estimates": true,
         "no_price_claims": true
        },
-       "confidence_version": "intelligence_confidence_v1"
+       "confidence_version": "intelligence_confidence_v2"
       },
       "row_metadata": {
        "symbol": "ENGROH",
        "status": "assessed",
        "source_cluster_count": 1,
        "assessment_count": 1,
-       "aggregate_score": 52.0,
-       "aggregate_band": "medium"
+       "aggregate_score": 43.0,
+       "aggregate_band": "low"
       }
      },
      "scenario_lab": {
@@ -214394,10 +214428,10 @@
       "row_metadata": {
        "symbol": "ENGROH",
        "status": {
-        "forecast": "blocked_insufficient_qualified_history",
-        "market_expectations": "ready_snapshot_reverse_solve",
-        "scenario_lab": "ready_snapshot_sensitivity",
-        "valuation": "ready_scenario_multiple_only"
+        "forecast": "blocked_financial_truth_not_qualified",
+        "market_expectations": "blocked_financial_truth_not_qualified",
+        "scenario_lab": "blocked_financial_truth_not_qualified",
+        "valuation": "blocked_financial_truth_not_qualified"
        },
        "provenance": {
         "fundamentals_as_of": "2026-08-24",
@@ -214829,8 +214863,8 @@
     "financial_coverage_candidates": 5,
     "forecast_readiness_status": "blocked_insufficient_qualified_history",
     "forecast_qualified_period_count": 0,
-    "scenario_lab_status": "ready_snapshot_sensitivity",
-    "market_expectations_status": "ready_snapshot_reverse_solve",
+    "scenario_lab_status": "blocked_financial_truth_not_qualified",
+    "market_expectations_status": "blocked_financial_truth_not_qualified",
     "brain_object_count": 6,
     "management_delivery_records": 1,
     "intelligence_case_count": 0,
@@ -216957,6 +216991,7 @@
     "dcf": null,
     "ebitda": null,
     "fcf": null,
+    "financial_truth_status": "not_qualified",
     "formula_ids": [
      "baseline.net_income_per_share",
      "scenario.v1",
@@ -216973,10 +217008,10 @@
     "reverse_expectations": null,
     "scenario": null,
     "status": {
-     "forecast": "blocked_insufficient_qualified_history",
-     "market_expectations": "ready_snapshot_reverse_solve",
-     "scenario_lab": "ready_snapshot_sensitivity",
-     "valuation": "ready_scenario_multiple_only"
+     "forecast": "blocked_financial_truth_not_qualified",
+     "market_expectations": "blocked_financial_truth_not_qualified",
+     "scenario_lab": "blocked_financial_truth_not_qualified",
+     "valuation": "blocked_financial_truth_not_qualified"
     },
     "symbol": "GAL"
    },
@@ -217521,7 +217556,8 @@
         "signal_clusters": "state/company_intel/signal_clusters.json",
         "operating_events": "state/company_intel/operating_events.json",
         "event_studies": "state/company_intel/event_studies.json",
-        "financial_model_inputs": "state/company_intel/financial_model_inputs.json"
+        "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
+        "financial_truth_qualification": "state/company_intel/financial_truth_qualification.json"
        },
        "policy": {
         "research_only": true,
@@ -217530,7 +217566,7 @@
         "no_forward_estimates": true,
         "no_price_claims": true
        },
-       "confidence_version": "intelligence_confidence_v1"
+       "confidence_version": "intelligence_confidence_v2"
       },
       "row_metadata": {
        "symbol": "GAL",
@@ -217557,10 +217593,10 @@
       "row_metadata": {
        "symbol": "GAL",
        "status": {
-        "forecast": "blocked_insufficient_qualified_history",
-        "market_expectations": "ready_snapshot_reverse_solve",
-        "scenario_lab": "ready_snapshot_sensitivity",
-        "valuation": "ready_scenario_multiple_only"
+        "forecast": "blocked_financial_truth_not_qualified",
+        "market_expectations": "blocked_financial_truth_not_qualified",
+        "scenario_lab": "blocked_financial_truth_not_qualified",
+        "valuation": "blocked_financial_truth_not_qualified"
        },
        "provenance": {
         "fundamentals_as_of": "2026-08-24",
@@ -217978,8 +218014,8 @@
     "financial_coverage_candidates": 5,
     "forecast_readiness_status": "blocked_insufficient_qualified_history",
     "forecast_qualified_period_count": 0,
-    "scenario_lab_status": "ready_snapshot_sensitivity",
-    "market_expectations_status": "ready_snapshot_reverse_solve",
+    "scenario_lab_status": "blocked_financial_truth_not_qualified",
+    "market_expectations_status": "blocked_financial_truth_not_qualified",
     "brain_object_count": 0,
     "management_delivery_records": 0,
     "intelligence_case_count": 0,
@@ -220719,6 +220755,7 @@
     "dcf": null,
     "ebitda": null,
     "fcf": null,
+    "financial_truth_status": "not_qualified",
     "formula_ids": [
      "baseline.net_income_per_share",
      "scenario.v1",
@@ -220735,10 +220772,10 @@
     "reverse_expectations": null,
     "scenario": null,
     "status": {
-     "forecast": "blocked_insufficient_qualified_history",
-     "market_expectations": "ready_snapshot_reverse_solve",
-     "scenario_lab": "ready_snapshot_sensitivity",
-     "valuation": "ready_scenario_multiple_only"
+     "forecast": "blocked_financial_truth_not_qualified",
+     "market_expectations": "blocked_financial_truth_not_qualified",
+     "scenario_lab": "blocked_financial_truth_not_qualified",
+     "valuation": "blocked_financial_truth_not_qualified"
     },
     "symbol": "NRL"
    },
@@ -221283,7 +221320,8 @@
         "signal_clusters": "state/company_intel/signal_clusters.json",
         "operating_events": "state/company_intel/operating_events.json",
         "event_studies": "state/company_intel/event_studies.json",
-        "financial_model_inputs": "state/company_intel/financial_model_inputs.json"
+        "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
+        "financial_truth_qualification": "state/company_intel/financial_truth_qualification.json"
        },
        "policy": {
         "research_only": true,
@@ -221292,7 +221330,7 @@
         "no_forward_estimates": true,
         "no_price_claims": true
        },
-       "confidence_version": "intelligence_confidence_v1"
+       "confidence_version": "intelligence_confidence_v2"
       },
       "row_metadata": {
        "symbol": "NRL",
@@ -221319,10 +221357,10 @@
       "row_metadata": {
        "symbol": "NRL",
        "status": {
-        "forecast": "blocked_insufficient_qualified_history",
-        "market_expectations": "ready_snapshot_reverse_solve",
-        "scenario_lab": "ready_snapshot_sensitivity",
-        "valuation": "ready_scenario_multiple_only"
+        "forecast": "blocked_financial_truth_not_qualified",
+        "market_expectations": "blocked_financial_truth_not_qualified",
+        "scenario_lab": "blocked_financial_truth_not_qualified",
+        "valuation": "blocked_financial_truth_not_qualified"
        },
        "provenance": {
         "fundamentals_as_of": "2026-08-24",
@@ -221713,8 +221751,8 @@
     "financial_coverage_candidates": 5,
     "forecast_readiness_status": "blocked_insufficient_qualified_history",
     "forecast_qualified_period_count": 0,
-    "scenario_lab_status": "ready_snapshot_sensitivity",
-    "market_expectations_status": "ready_snapshot_reverse_solve",
+    "scenario_lab_status": "blocked_financial_truth_not_qualified",
+    "market_expectations_status": "blocked_financial_truth_not_qualified",
     "brain_object_count": 0,
     "management_delivery_records": 0,
     "intelligence_case_count": 0,
@@ -235210,6 +235248,7 @@
     "dcf": null,
     "ebitda": null,
     "fcf": null,
+    "financial_truth_status": "not_qualified",
     "formula_ids": [
      "baseline.net_income_per_share",
      "scenario.v1",
@@ -235226,10 +235265,10 @@
     "reverse_expectations": null,
     "scenario": null,
     "status": {
-     "forecast": "blocked_insufficient_qualified_history",
-     "market_expectations": "ready_snapshot_reverse_solve",
-     "scenario_lab": "ready_snapshot_sensitivity",
-     "valuation": "ready_scenario_multiple_only"
+     "forecast": "blocked_financial_truth_not_qualified",
+     "market_expectations": "blocked_financial_truth_not_qualified",
+     "scenario_lab": "blocked_financial_truth_not_qualified",
+     "valuation": "blocked_financial_truth_not_qualified"
     },
     "symbol": "CNERGY"
    },
@@ -236142,7 +236181,8 @@
         "signal_clusters": "state/company_intel/signal_clusters.json",
         "operating_events": "state/company_intel/operating_events.json",
         "event_studies": "state/company_intel/event_studies.json",
-        "financial_model_inputs": "state/company_intel/financial_model_inputs.json"
+        "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
+        "financial_truth_qualification": "state/company_intel/financial_truth_qualification.json"
        },
        "policy": {
         "research_only": true,
@@ -236151,7 +236191,7 @@
         "no_forward_estimates": true,
         "no_price_claims": true
        },
-       "confidence_version": "intelligence_confidence_v1"
+       "confidence_version": "intelligence_confidence_v2"
       },
       "row_metadata": {
        "symbol": "CNERGY",
@@ -236178,10 +236218,10 @@
       "row_metadata": {
        "symbol": "CNERGY",
        "status": {
-        "forecast": "blocked_insufficient_qualified_history",
-        "market_expectations": "ready_snapshot_reverse_solve",
-        "scenario_lab": "ready_snapshot_sensitivity",
-        "valuation": "ready_scenario_multiple_only"
+        "forecast": "blocked_financial_truth_not_qualified",
+        "market_expectations": "blocked_financial_truth_not_qualified",
+        "scenario_lab": "blocked_financial_truth_not_qualified",
+        "valuation": "blocked_financial_truth_not_qualified"
        },
        "provenance": {
         "fundamentals_as_of": "2026-08-24",
@@ -236698,8 +236738,8 @@
     "financial_coverage_candidates": 5,
     "forecast_readiness_status": "blocked_insufficient_qualified_history",
     "forecast_qualified_period_count": 0,
-    "scenario_lab_status": "ready_snapshot_sensitivity",
-    "market_expectations_status": "ready_snapshot_reverse_solve",
+    "scenario_lab_status": "blocked_financial_truth_not_qualified",
+    "market_expectations_status": "blocked_financial_truth_not_qualified",
     "brain_object_count": 16,
     "management_delivery_records": 0,
     "intelligence_case_count": 0,
@@ -236747,9 +236787,9 @@
  ],
  "_meta": {
   "generator_version": "ci_artifact_integrity_v1",
-  "source_commit_sha": "fba7c5ad44486dc10c87665d5c7f68c685379b79",
-  "build_cutoff_at": "2026-08-31T09:05:25Z",
-  "generated_at": "2026-08-31T09:05:25Z",
+  "source_commit_sha": "f606a4fa71d5a0c358419422332f88dcc6c82146",
+  "build_cutoff_at": "2026-08-31T09:17:29Z",
+  "generated_at": "2026-08-31T09:17:29Z",
   "artifact_path": "Henneth Desk 2.CI.0/data/company_intelligence.json",
   "timestamp_semantics": {
    "build_cutoff_at": "generation boundary only; not a source-effective or source-published time",

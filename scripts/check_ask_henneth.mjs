@@ -690,6 +690,16 @@ function main() {
     status: "qualified",
     downstream: { forecast: "ready", valuation: "ready", market_expectations: "ready" },
   };
+  qualifiedRow.scenario_lab = {
+    ...(qualifiedRow.scenario_lab || {}),
+    financial_truth_status: "qualified",
+    status: {
+      scenario_lab: "ready_snapshot_sensitivity",
+      market_expectations: "ready_snapshot_reverse_solve",
+      valuation: "ready_scenario_multiple_only",
+      forecast: "blocked_insufficient_qualified_history",
+    },
+  };
   const qualifiedContext = projectCompany(qualifiedRow, { symbol: "MLCF" });
   assert(qualifiedContext.snapshot_readiness.scenario_lab === "ready_snapshot_sensitivity", "qualified financial truth may reach snapshot scenario tools");
   assert(qualifiedContext.snapshot_readiness.valuation === "ready_scenario_multiple_only", "qualified financial truth may reach valuation snapshot tools");

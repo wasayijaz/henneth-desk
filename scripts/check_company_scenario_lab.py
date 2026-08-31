@@ -20,6 +20,8 @@ def main():
     if d["pilot_symbols"] != expected or len(d["companies"]) != 20: fail("exact pilot mismatch")
     for s in expected:
         c = d["companies"][s]; b = c["baseline"]
+        if c["financial_truth_status"] != "not_qualified": fail(f"financial truth binding {s}")
+        if set(c["status"].values()) != {"blocked_financial_truth_not_qualified"}: fail(f"financial truth gate {s}")
         if abs(b["eps"] - b["net_income"] / b["shares_out"]) / b["eps"] > .01: fail(f"eps mismatch {s}")
         if any(not math.isfinite(float(b[k])) or b[k] <= 0 for k in b): fail(f"bad baseline {s}")
         if not c["provenance"]["fundamentals_source_url"] or not c["provenance"]["price_source_url"]: fail(f"source {s}")
@@ -27,6 +29,7 @@ def main():
         if c["scenario"] is not None or c["reverse_expectations"] is not None or c["market_expectations_gap"] is not None: fail("chosen assumptions present")
         if "expectations_gap.v1" not in c["formula_ids"]: fail(f"gap formula missing {s}")
         if c["ebitda"] is not None or c["fcf"] is not None or c["dcf"] is not None: fail("blocked null missing")
+    if set(d["status"].values()) != {"blocked_financial_truth_not_qualified"}: fail("summary financial truth gate")
     b = {"revenue": 1000.0, "shares_out": 100.0, "latest_price": 11.0}
     s = forward_scenario(b, 10, 20, 5)
     if not math.isclose(s["scenario_revenue"], 1100) or not math.isclose(s["scenario_eps"], 2.2) or not math.isclose(s["multiple_implied_price"], 11): fail("golden formula")
@@ -48,6 +51,15 @@ def main():
     with tempfile.TemporaryDirectory() as td:
         rebuilt = build(); old = json.dumps(without_root_meta(d), sort_keys=True); new = json.dumps(without_root_meta(rebuilt), sort_keys=True)
         if old != new: fail("non-deterministic rebuild")
+        truth = json.loads((ROOT / "state" / "company_intel" / "financial_truth_qualification.json").read_text(encoding="utf-8"))
+        truth["companies"][expected[0]]["status"] = "qualified"
+        truth_path = Path(td) / "financial_truth_qualification.json"
+        truth_path.write_text(json.dumps(truth), encoding="utf-8")
+        positive = build(financial_truth_path=truth_path)
+        first = positive["companies"][expected[0]]
+        if first["status"]["scenario_lab"] != "ready_snapshot_sensitivity": fail("qualified positive activation")
+        if first["financial_truth_status"] != "qualified": fail("qualified positive binding")
+        if positive["companies"][expected[1]]["status"]["scenario_lab"] != "blocked_financial_truth_not_qualified": fail("mixed truth isolation")
     print("company scenario lab: PASS (20 rows, formulas, reverse, bounds, provenance, deterministic)")
 
 if __name__ == "__main__": main()

@@ -116,7 +116,8 @@ try {
     for (const [key, value] of Object.entries(row.forecast_readiness?.downstream_status || {})) {
       assert(READINESS_STATUSES.has(value), `${row.symbol}: ${key} readiness status`);
     }
-    assert(row.scenario_lab?.status?.valuation === "ready_scenario_multiple_only", `${row.symbol}: scenario multiple status separate`);
+    assert(row.scenario_lab?.status?.valuation === "blocked_financial_truth_not_qualified", `${row.symbol}: scenario valuation is financial-truth gated`);
+    assert(row.scenario_lab?.financial_truth_status === "not_qualified", `${row.symbol}: scenario truth binding`);
     assert(row.peer_registry?.method === "pilot_official_sector_cohort_v1", `${row.symbol}: formal peer registry emitted`);
     assert(row.peer_registry?.peer_set_kind === "pilot_sector_cohort", `${row.symbol}: peer registry kind`);
     assert(Array.isArray(row.peer_registry?.formal_peers), `${row.symbol}: formal peers list`);

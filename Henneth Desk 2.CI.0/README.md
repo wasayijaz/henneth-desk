@@ -29,11 +29,12 @@ The CI-local `POST /api/ask` endpoint applies the same owner check before readin
 
 The Ask Henneth tab sends an owner bearer to the relative endpoint and keeps pending/error/answer state per company. A stale response cannot replace another company's answer; a 401 refreshes the session once. The UI renders the nine server-owned sections in contract order, shows explicit empty/blocked/unknown states, and turns citation links into anchors only after `safeHref` validation. `scripts/check_ask_henneth_ui.mjs` checks the real 20-row slice, request/auth behavior, escaping, section order, and responsive rules offline.
 
-The Scenarios tab is a deterministic snapshot sensitivity. It starts with blank, caller-supplied
-revenue-growth, net-margin and P/E assumptions, then mirrors the canonical Python formulas to show
-scenario arithmetic and reverse current-price expectations. It is not a prediction or house case;
-forecast, EBITDA, FCF and DCF remain explicitly blocked. The 20-company UI/formula seam is checked
-offline by `scripts/check_company_scenario_lab_ui.mjs`.
+The Scenarios tab is a deterministic snapshot sensitivity, available only after the same
+financial-truth qualification that gates formal forecasts, valuation, and market expectations. It
+then accepts blank, caller-supplied revenue-growth, net-margin and P/E assumptions and mirrors the
+canonical Python formulas. Until that gate passes, snapshot inputs are visible only as provenance;
+no scenario arithmetic, reverse solve, or implied-price output is available. The 20-company
+UI/formula seam is checked offline by `scripts/check_company_scenario_lab_ui.mjs`.
 
 Market Expectations Gap v1 extends that same caller-only calculation: required revenue growth at
 the current price minus the caller's revenue-growth assumption, holding the caller's margin and P/E
@@ -110,8 +111,8 @@ does not read private user theses or generate forecasts, odds, valuation, prices
 
 Ask Henneth receives only a capped Brain coverage/type/timeline projection plus the snapshot tool
 readiness flags. Raw Brain payloads and unresolved references never enter model context; the server
-continues to own the nine answer sections and now reports snapshot sensitivity/reverse-solving as
-available while keeping formal forecast explicitly blocked.
+continues to own the nine answer sections and reports every formal/snapshot output as blocked until
+financial truth qualifies.
 
 ## Deployment and brand ownership
 

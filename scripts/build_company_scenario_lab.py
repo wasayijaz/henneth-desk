@@ -3,11 +3,13 @@ from __future__ import annotations
 import argparse, json
 from pathlib import Path
 from company_scenario_lab import parse_scaled
+from formal_financial_engines import financial_truth_is_qualified
 
 ROOT = Path(__file__).resolve().parents[1]
 PILOT = ROOT / "state" / "company_profiles.json"
 FUND = ROOT / "state" / "fundamentals.json"
 QUANT = ROOT / "state" / "quant.json"
+FINANCIAL_TRUTH = ROOT / "state" / "company_intel" / "financial_truth_qualification.json"
 OUT = ROOT / "state" / "company_intel" / "scenario_lab.json"
 
 
@@ -16,8 +18,10 @@ def load(path: Path):
 
 
 def build(profile_path: Path = PILOT, fundamentals_path: Path = FUND,
-          quant_path: Path = QUANT) -> dict:
-    profile, fundamentals, quant = load(profile_path), load(fundamentals_path), load(quant_path)
+          quant_path: Path = QUANT, financial_truth_path: Path = FINANCIAL_TRUTH) -> dict:
+    profile, fundamentals, quant, financial_truth = (
+        load(profile_path), load(fundamentals_path), load(quant_path), load(financial_truth_path)
+    )
     symbols = list(profile["pilot"]["symbols"])
     companies = {}
     fundamentals_dates = []
@@ -38,6 +42,12 @@ def build(profile_path: Path = PILOT, fundamentals_path: Path = FUND,
         price = float(q["close"])
         if min(revenue, net_income, shares, eps, price) <= 0:
             raise ValueError(f"non-positive baseline for {symbol}")
+        truth_row = (financial_truth.get("companies") or {}).get(symbol) or {}
+        truth_qualified = financial_truth_is_qualified(truth_row)
+        activation_status = (
+            "ready_snapshot_sensitivity"
+            if truth_qualified else "blocked_financial_truth_not_qualified"
+        )
         fundamentals_dates.append(f.get("fetched"))
         price_dates.append(q.get("date"))
         companies[symbol] = {
@@ -61,11 +71,12 @@ def build(profile_path: Path = PILOT, fundamentals_path: Path = FUND,
             "reverse_expectations": None,
             "market_expectations_gap": None,
             "status": {
-                "scenario_lab": "ready_snapshot_sensitivity",
-                "market_expectations": "ready_snapshot_reverse_solve",
-                "valuation": "ready_scenario_multiple_only",
-                "forecast": "blocked_insufficient_qualified_history",
+                "scenario_lab": activation_status,
+                "market_expectations": activation_status,
+                "valuation": activation_status,
+                "forecast": activation_status,
             },
+            "financial_truth_status": truth_row.get("status") or "missing",
             "ebitda": None, "fcf": None, "dcf": None,
         }
     return {
@@ -74,12 +85,7 @@ def build(profile_path: Path = PILOT, fundamentals_path: Path = FUND,
         "pilot_symbols": symbols,
         "assumptions": {"caller_supplied_only": True,
                         "fields": ["revenue_growth_pct", "net_margin_pct", "exit_pe"]},
-        "status": {
-            "scenario_lab": "ready_snapshot_sensitivity",
-            "market_expectations": "ready_snapshot_reverse_solve",
-            "valuation": "ready_scenario_multiple_only",
-            "forecast": "blocked_insufficient_qualified_history",
-        },
+        "status": _summary_status(companies),
         "companies": companies,
         "formula_operands": {
             "baseline_eps": "net_income / shares_out",
@@ -87,6 +93,25 @@ def build(profile_path: Path = PILOT, fundamentals_path: Path = FUND,
             "reverse": "required_eps=latest_price/exit_pe; required_net_income=required_eps*shares_out; required_revenue=required_net_income/(margin/100)",
             "expectations_gap": "required_revenue_growth_pct - revenue_growth_pct",
         },
+    }
+
+
+def _summary_status(companies: dict) -> dict:
+    statuses = {
+        (row.get("status") or {}).get("scenario_lab")
+        for row in companies.values()
+    }
+    if statuses == {"ready_snapshot_sensitivity"}:
+        scenario_status = "ready_snapshot_sensitivity"
+    elif statuses == {"blocked_financial_truth_not_qualified"}:
+        scenario_status = "blocked_financial_truth_not_qualified"
+    else:
+        scenario_status = "mixed_financial_truth_qualification"
+    return {
+        "scenario_lab": scenario_status,
+        "market_expectations": scenario_status,
+        "valuation": scenario_status,
+        "forecast": scenario_status,
     }
 
 
