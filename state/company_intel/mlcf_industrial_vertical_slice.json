@@ -1,0 +1,204 @@
+{
+ "schema_version": 1,
+ "kind": "mlcf_industrial_vertical_slice",
+ "as_of": "2026-08-31T15:13:14+05:00",
+ "symbol": "MLCF",
+ "target_symbol": "PIOC",
+ "case_id": "case_mlcf_pioc_control_observed_v1",
+ "status": "blocked",
+ "reason": "event_evidence:event_or_source_binding_invalid",
+ "stages": {
+  "event_evidence": {
+   "status": "blocked",
+   "reason": "event_or_source_binding_invalid",
+   "source": "state/company_intel/intelligence_cases.json",
+   "case_id": "case_mlcf_pioc_control_observed_v1",
+   "lifecycle": "Observed",
+   "source_documents": [
+    "psx:267429",
+    "psx:275425"
+   ],
+   "target_symbol": "PIOC",
+   "acquisition_is_not_capacity_expansion": true
+  },
+  "competing_hypotheses": {
+   "status": "available",
+   "reason": null,
+   "source": "state/company_intel/intelligence_cases.json",
+   "rows": [
+    {
+     "alternative_id": "public_offer_not_full_model",
+     "reading": "The December 2025 document is an official offer/control disclosure, not a quantified earnings model.",
+     "status": "retained_as_observed_only",
+     "rejection_condition": "Reject promotion if no later official source preserves acquisition/control or operating inclusion."
+    },
+    {
+     "alternative_id": "dispatch_inclusion_not_financial_impact",
+     "reading": "The April 2026 filing shows operating inclusion after acquisition, but not a standalone PIOC financial impact.",
+     "status": "retained_as_observed_only",
+     "rejection_condition": "Reject modelling if source-qualified incremental revenue, margin, EPS, cash-flow, debt and share-count operands are absent."
+    }
+   ]
+  },
+  "industrial_driver_needs": {
+   "status": "blocked",
+   "reason": "driver_registry_incomplete",
+   "source": "state/company_intel/driver_graphs.json",
+   "required": [
+    "capacity",
+    "utilization",
+    "dispatch",
+    "price",
+    "fuel",
+    "power",
+    "freight",
+    "maintenance",
+    "expansion_capex",
+    "financing"
+   ],
+   "retained": [
+    "clinker_capacity",
+    "coal_cost",
+    "dispatch_volume",
+    "export_price",
+    "power_cost",
+    "realized_price"
+   ]
+  },
+  "analogue_cutoff": {
+   "status": "available",
+   "reason": null,
+   "source": "state/company_intel/event_studies.json",
+   "study_count": 5,
+   "no_lookahead": "retained_event_study_contract"
+  },
+  "financial_truth": {
+   "status": "blocked",
+   "reason": "financial_truth_not_qualified",
+   "source": "state/company_intel/financial_truth_qualification.json",
+   "truth_status": "not_qualified",
+   "counters": {
+    "annual": {
+     "required": 5,
+     "present": 0,
+     "qualified_periods": [],
+     "direct_flow_statement_periods": [],
+     "direct_balance_sheet_periods": [],
+     "derived_ebitda_periods": [],
+     "derived_free_cash_flow_periods": [],
+     "required_direct_metrics": [
+      "revenue",
+      "gross_profit",
+      "operating_profit",
+      "finance_cost",
+      "profit_before_tax",
+      "tax_expense",
+      "profit_after_tax_attributable",
+      "basic_eps",
+      "operating_cash_flow",
+      "capital_expenditure",
+      "net_cash_from_investing_activities",
+      "net_cash_from_financing_activities",
+      "dividends_paid",
+      "cash_and_cash_equivalents",
+      "trade_receivables",
+      "inventories",
+      "total_current_assets",
+      "property_plant_equipment",
+      "total_assets",
+      "short_term_borrowings",
+      "long_term_borrowings",
+      "trade_payables",
+      "total_equity"
+     ],
+     "derived_metric_lineage": {
+      "ebitda": "reported_ebitda OR operating_profit + depreciation_amortization",
+      "free_cash_flow": "operating_cash_flow + capital_expenditure (reported signed cash-flow value)"
+     }
+    },
+    "reported_quarter": {
+     "required": 8,
+     "present": 0,
+     "qualified_periods": [],
+     "direct_flow_statement_periods": [],
+     "direct_balance_sheet_periods": [],
+     "derived_ebitda_periods": [],
+     "derived_free_cash_flow_periods": [],
+     "required_direct_metrics": [
+      "revenue",
+      "gross_profit",
+      "operating_profit",
+      "finance_cost",
+      "profit_before_tax",
+      "tax_expense",
+      "profit_after_tax_attributable",
+      "basic_eps",
+      "operating_cash_flow",
+      "capital_expenditure",
+      "net_cash_from_investing_activities",
+      "net_cash_from_financing_activities",
+      "dividends_paid",
+      "cash_and_cash_equivalents",
+      "trade_receivables",
+      "inventories",
+      "total_current_assets",
+      "property_plant_equipment",
+      "total_assets",
+      "short_term_borrowings",
+      "long_term_borrowings",
+      "trade_payables",
+      "total_equity"
+     ],
+     "derived_metric_lineage": {
+      "ebitda": "reported_ebitda OR operating_profit + depreciation_amortization",
+      "free_cash_flow": "operating_cash_flow + capital_expenditure (reported signed cash-flow value)"
+     }
+    },
+    "limitation": "This is the authoritative full-statement gate. Legacy three-line counters remain visibility-only and cannot activate formal engines."
+   }
+  },
+  "scenario_model": {
+   "status": "blocked",
+   "reason": "financial_truth_or_source_operands_missing",
+   "source": "state/company_intel/impact_scenarios.json",
+   "computed_count": 0
+  },
+  "formal_outputs": {
+   "status": "blocked",
+   "reason": "financial_truth_not_qualified",
+   "source": "state/company_intel/financial_forecasts.json; state/company_intel/formal_valuations.json; state/company_intel/market_expectations.json",
+   "outputs": {
+    "forecast": "blocked",
+    "valuation": "blocked",
+    "market_expectations": "blocked"
+   }
+  },
+  "monitoring": {
+   "status": "available",
+   "reason": null,
+   "source": "state/company_intel/monitoring.json",
+   "monitoring_status": "healthy",
+   "active_watch_count": 1
+  },
+  "ask_and_ui": {
+   "status": "available",
+   "reason": null,
+   "source": "Henneth Desk 2.CI.0/app.js",
+   "ask_status": "owner_gated_contract",
+   "ui_status": "read_only_projection"
+  }
+ },
+ "policy": {
+  "retained_state_only": true,
+  "research_only": true,
+  "acquisition_not_capacity_expansion": true,
+  "formal_engines_require_financial_truth": true
+ },
+ "blockers": [
+  "event_evidence",
+  "industrial_driver_needs",
+  "financial_truth",
+  "scenario_model",
+  "formal_outputs"
+ ]
+}
