@@ -1753,6 +1753,17 @@ def main() -> int:
         else:
             raise AssertionError("non-approved document used retained fallback")
 
+        # A live transport failure plus an absent exact retained original must
+        # retain both safe categories.  The operator can then distinguish an
+        # access problem from a source that was never approved for local
+        # retention, without receiving a raw network exception.
+        try:
+            r.fetch_with_retained_fallback(nonapproved, NoResponseTransport(), r.RunBudget(), repo_root)
+        except r.DegradedDocument as exc:
+            assert str(exc) == "transport_unavailable_retained_original_not_approved"
+        else:
+            raise AssertionError("opaque transport/retention fallback failure was accepted")
+
         # Cleanup boundary/path escape.
         try:
             r.safe_cleanup(root, root)

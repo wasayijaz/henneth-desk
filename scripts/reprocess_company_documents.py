@@ -748,9 +748,20 @@ def fetch_with_retained_fallback(doc: VerifiedDocument, transport: Any, budget: 
         if not (reason.startswith("transport_error:") or reason == "http_status_0"
                 or retained_mismatch):
             raise
-        return fetch_retained_original(doc, root, budget,
-                                       allow_image_only=allow_image_only,
-                                       allow_oversized_chunk=allow_oversized_chunk)
+        try:
+            return fetch_retained_original(doc, root, budget,
+                                           allow_image_only=allow_image_only,
+                                           allow_oversized_chunk=allow_oversized_chunk)
+        except DegradedDocument as retained_exc:
+            # The fallback is intentionally exact-ID only, but its ordinary
+            # "not approved" outcome used to hide the distinct preceding
+            # transport failure. Keep both failure classes without exposing a
+            # network exception, credential, URL or filesystem path.
+            retained_reason = str(retained_exc)
+            if retained_reason in {"retained_original_not_approved", "retained_original_unavailable"}:
+                origin = "transport_unavailable" if reason.startswith(("transport_error:", "http_status_0")) else "live_hash_mismatch"
+                raise DegradedDocument(f"{origin}_{retained_reason}") from retained_exc
+            raise
 
 
 def _load_receipts(path: Path) -> dict[str, Any]:
