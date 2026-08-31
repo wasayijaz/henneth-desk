@@ -408,12 +408,22 @@ def main() -> None:
         raise AssertionError("intelligence case rebuild is not deterministic")
     _assert_builder_source_mutation_tests()
 
+    confidence = load_json(STATE / "company_intel" / "intelligence_confidence.json", {"companies": {}})
+    watchlist = load_json(STATE / "company_intel" / "evidence_watchlist.json", {"companies": {}})
+    expected_slice_row = ci_slice_builder._intelligence_case_row(
+        state,
+        "MLCF",
+        confidence_row=(confidence.get("companies") or {}).get("MLCF"),
+        watchlist_row=(watchlist.get("companies") or {}).get("MLCF"),
+    )
+    if not isinstance(expected_slice_row, dict) or expected_slice_row.get("symbol") != "MLCF":
+        raise AssertionError("MLCF CI slice case projection is missing")
     assert_ci_slice_projection(
         ci_slice_builder,
         ROOT / "Henneth Desk 2.CI.0" / "data" / "company_intelligence.json",
         "MLCF",
         "intelligence_cases",
-        row,
+        expected_slice_row,
     )
     print("intelligence_cases: PASS (MLCF and MARI Observed seeds, 3 official citations)")
 
