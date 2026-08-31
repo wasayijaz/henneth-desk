@@ -61,6 +61,18 @@ RETAINED_ORIGINALS: dict[str, dict[str, Any]] = {
 OVERSIZED_CHUNK_POLICIES: dict[str, dict[str, Any]] = {
     "psx:260032": {"source_url": "https://dps.psx.com.pk/download/document/260032.pdf", "content_sha256": "4fdfb4cbd2eee65576cbb89b43334ce0c09a7e5ffd573d5bf93b414029eba6d1", "page_count": 401, "ranges": ((1, 120), (121, 240), (241, 360), (361, 401))},
 }
+# A first-seen hash may be bound only for this owner-approved exact source.
+# It extends source transport to the run cap, never the normal document or
+# parser caps; parser units are generated only after PDF/hash validation.
+FIRST_SEEN_OVERSIZED_CHUNK_POLICIES: dict[str, dict[str, Any]] = {
+    "psx:280901": {
+        "symbol": "MARI",
+        "title": "Financial Results for the Year Ended 30-06-2026",
+        "source_url": "https://dps.psx.com.pk/download/document/280901.pdf",
+        "max_bytes": MAX_RUN_BYTES,
+        "max_pages": MAX_RUN_PAGES,
+    },
+}
 APPROVED_WAVE3_ALLOWLIST: frozenset[str] = frozenset({
     "psx:219092",
     "psx:225623",
@@ -205,6 +217,41 @@ def chunk_verified_oversized_pdf(doc: "VerifiedDocument", fetched: "FetchResult"
     # back to source pages.  The enclosing reprocess transaction removes the
     # source/chunk directory after the consumer and receipt have completed.
     return records
+
+
+def _first_seen_oversized_policy(doc: "VerifiedDocument") -> dict[str, Any] | None:
+    policy = FIRST_SEEN_OVERSIZED_CHUNK_POLICIES.get(doc.doc_id)
+    if policy is None:
+        return None
+    title = str(doc.row.get("title") or doc.row.get("digest") or "")
+    if (doc.url != policy["source_url"] or policy["symbol"] not in doc.tickers
+            or title != policy["title"] or doc.content_sha256 is not None):
+        raise DegradedDocument("first_seen_oversized_source_identity_mismatch")
+    return policy
+
+
+def chunk_first_seen_oversized_pdf(doc: "VerifiedDocument", fetched: "FetchResult",
+                                   output_dir: Path) -> list[ChunkRecord]:
+    """Split one exact, newly hash-bound oversized source into normal units."""
+    policy = _first_seen_oversized_policy(doc)
+    if policy is None:
+        raise DegradedDocument("first_seen_oversized_chunk_not_approved")
+    if fetched.content_length > int(policy["max_bytes"]) or fetched.page_count > int(policy["max_pages"]):
+        raise DegradedDocument("first_seen_oversized_source_cap_exceeded")
+    ranges = tuple((start, min(start + MAX_FILE_PAGES - 1, fetched.page_count))
+                   for start in range(1, fetched.page_count + 1, MAX_FILE_PAGES))
+    identity = SourceIdentity(
+        document_id=doc.doc_id,
+        title=str(doc.row.get("title") or doc.row.get("digest") or ""),
+        source_url=doc.url,
+        content_sha256=fetched.content_sha256,
+        published_at=doc.row.get("published_at") or doc.row.get("date"),
+        available_on=doc.row.get("available_on"),
+        page_count=fetched.page_count,
+    )
+    source_path = output_dir / f"{doc.doc_id.replace(':', '_')}_{fetched.content_sha256[:16]}_source.pdf"
+    source_path.write_bytes(fetched.body)
+    return split_pdf(source_path, output_dir / "chunks", identity, ranges=ranges)
 
 
 @dataclass(frozen=True)
@@ -539,12 +586,14 @@ def fetch_verified_pdf(doc: VerifiedDocument, transport: Any, budget: RunBudget,
     if content_type not in ALLOWED_CONTENT_TYPES:
         raise DegradedDocument("content_type_not_allowed")
     declared = _header(response, "Content-Length")
+    first_seen_policy = _first_seen_oversized_policy(doc) if allow_oversized_chunk else None
+    file_cap = int(first_seen_policy["max_bytes"]) if first_seen_policy else MAX_FILE_BYTES
     if declared is not None:
         try:
             declared_length = int(declared)
         except ValueError as exc:
             raise DegradedDocument("invalid_content_length") from exc
-        if declared_length > MAX_FILE_BYTES:
+        if declared_length > file_cap:
             raise DegradedDocument("declared_file_cap_exceeded")
         if budget.bytes + declared_length > MAX_RUN_BYTES:
             raise DegradedDocument("declared_run_cap_exceeded")
@@ -552,7 +601,7 @@ def fetch_verified_pdf(doc: VerifiedDocument, transport: Any, budget: RunBudget,
     for chunk in _chunks(response):
         if not chunk:
             continue
-        if len(body) + len(chunk) > MAX_FILE_BYTES:
+        if len(body) + len(chunk) > file_cap:
             raise DegradedDocument("stream_file_cap_exceeded")
         budget.add_bytes(len(chunk))
         body.extend(chunk)
@@ -1267,7 +1316,8 @@ def run_reprocess(
                 try:
                     fetched = fetch_with_retained_fallback(
                         doc, transport, budget, root,
-                        allow_oversized_chunk=(doc.doc_id in OVERSIZED_CHUNK_POLICIES))
+                    allow_oversized_chunk=(doc.doc_id in OVERSIZED_CHUNK_POLICIES
+                                            or doc.doc_id in FIRST_SEEN_OVERSIZED_CHUNK_POLICIES))
                     results.append(_diagnose_document(doc, fetched, requested_diagnostic_pages))
                 except DegradedDocument as exc:
                     results.append({"doc_id": doc.doc_id, "status": "degraded", "reason": str(exc)})
@@ -1277,7 +1327,8 @@ def run_reprocess(
                 results.append({"doc_id": doc.doc_id, "status": "skipped_idempotent"})
                 continue
             try:
-                oversized = doc.doc_id in OVERSIZED_CHUNK_POLICIES
+                oversized = (doc.doc_id in OVERSIZED_CHUNK_POLICIES
+                             or doc.doc_id in FIRST_SEEN_OVERSIZED_CHUNK_POLICIES)
                 fetched = fetch_with_retained_fallback(
                     doc, transport, budget, root,
                     allow_oversized_chunk=oversized)
@@ -1290,8 +1341,11 @@ def run_reprocess(
                     results.append({"doc_id": doc.doc_id, "status": "validated",
                                     "content_sha256": fetched.content_sha256})
                     if oversized and fetched.page_count > MAX_FILE_PAGES:
-                        chunk_records_by_doc[doc.doc_id] = chunk_verified_oversized_pdf(
-                            doc, fetched, raw_dir, expected_page_count=fetched.page_count)
+                        chunker = (chunk_verified_oversized_pdf if doc.doc_id in OVERSIZED_CHUNK_POLICIES
+                                   else chunk_first_seen_oversized_pdf)
+                        chunk_records_by_doc[doc.doc_id] = chunker(
+                            doc, fetched, raw_dir, **({"expected_page_count": fetched.page_count}
+                                                    if chunker is chunk_verified_oversized_pdf else {}))
                         results[-1].update({
                             "chunk_count": len(chunk_records_by_doc[doc.doc_id]),
                             "chunk_ranges": [[r.source_page_start, r.source_page_end]
