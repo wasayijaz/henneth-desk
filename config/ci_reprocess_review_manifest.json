@@ -115,7 +115,7 @@
    "symbol": "MARI",
    "period": "2026-06-30",
    "classification": "financial_results",
-   "require_retained_hash": false
+   "require_retained_hash": true
   },
   {
    "symbol": "MARI",
@@ -392,12 +392,12 @@
    "expected_title_pattern": "Financial Results for the Year Ended 30-06-2026",
    "published_at": "2026-08-07T14:36:00+05:00",
    "source_url": "https://dps.psx.com.pk/download/document/280901.pdf",
-   "content_sha256": null,
-   "content_identity": "transport_hash_required_before_receipt",
+   "content_sha256": "2cd5056a755c182c0ba4b4db0d26e653cd49bf8921220629eb3346ea5131ba09",
+   "content_identity": "retained_hash",
    "safe_period": {
     "period_end": "2026-06-30",
     "period_type": "annual",
-    "source": "owner_approved_counterpart"
+    "source": "owner_approved_exact_source"
    },
    "approval_status": "owner_approved",
    "reason": "owner-approved official exact source; transport hash must bind before any receipt or fact"
@@ -467,7 +467,7 @@
    "MARI",
    "MLCF"
   ],
-  "retained_hash_count": 12,
-  "transport_hash_required_count": 4
+  "retained_hash_count": 13,
+  "transport_hash_required_count": 3
  }
 }

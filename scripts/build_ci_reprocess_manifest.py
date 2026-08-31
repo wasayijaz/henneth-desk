@@ -168,8 +168,9 @@ APPROVED_REVIEW_SLOTS: tuple[dict[str, Any], ...] = (
         "period_type": "annual",
         "classification": "financial_results",
         "title_pattern": r"Financial Results for the Year Ended 30-06-2026",
-        "require_retained_hash": False,
+        "require_retained_hash": True,
         "source_document_id": "psx:280901",
+        "source_content_sha256": "2cd5056a755c182c0ba4b4db0d26e653cd49bf8921220629eb3346ea5131ba09",
         "owner_approved": True,
     },
     {
