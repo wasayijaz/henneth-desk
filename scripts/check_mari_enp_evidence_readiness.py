@@ -117,7 +117,7 @@ def main() -> None:
     check("annual status distinctions",
           annual_status == {
               "2026-06-30": "metadata_lead",
-              "2025-06-30": "metadata_lead",
+              "2025-06-30": "audit_only_or_quarantined",
               "2024-06-30": "audit_only_or_quarantined",
               "2023-06-30": "audit_only_or_quarantined",
               "2022-06-30": "unavailable",
@@ -143,16 +143,24 @@ def main() -> None:
     check("quarter status distinguishes metadata from unavailable",
           quarter_status == {
               "2024-09-30": "unavailable",
-              "2024-12-31": "unavailable",
-              "2025-03-31": "unavailable",
+              "2024-12-31": "audit_only_or_quarantined",
+              "2025-03-31": "audit_only_or_quarantined",
               "2025-06-30": "unavailable",
               "2025-09-30": "metadata_lead",
-              "2025-12-31": "metadata_lead",
-              "2026-03-31": "metadata_lead",
+              "2025-12-31": "audit_only_or_quarantined",
+              "2026-03-31": "audit_only_or_quarantined",
               "2026-06-30": "unavailable",
           })
-    check("quarter rows contain no numeric facts",
-          all(row["facts"] == [] for row in quarterly["periods"]))
+    check("quarter audit facts remain non-model-ready",
+          all(
+              row["facts"] == []
+              or all(
+                  fact["eligibility_scope"] == "not_eligible_financial_truth_gate"
+                  and "unqualified_financial_fact_source" in fact["reasons"]
+                  for fact in row["facts"]
+              )
+              for row in quarterly["periods"]
+          ))
 
     shares = manifest["share_count"]
     check("share count metadata lead only",
