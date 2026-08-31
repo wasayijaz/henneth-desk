@@ -1,6 +1,6 @@
 (() => {
   const PATH = /^\/company\/([A-Za-z0-9]+)\/intelligence\/([A-Za-z0-9._-]+)\/?$/;
-  const LIFECYCLE = Object.freeze(["Observed", "Corroborated", "Modelled", "Validated", "Published"]);
+  const LIFECYCLE = Object.freeze(["Observed", "Corroborated", "Modelled", "Validated", "Published", "Monitoring", "Closed"]);
   const SECTIONS = Object.freeze([
     ["conclusion", "Conditional conclusion"],
     ["evidence", "Evidence"],

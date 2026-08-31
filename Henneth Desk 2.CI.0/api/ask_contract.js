@@ -642,7 +642,7 @@ function projectIntelligenceConfidence(row) {
 function projectIntelligenceCases(row, registry, symbol) {
   const source = isPlainObject(row.intelligence_cases) ? row.intelligence_cases : {};
   if (source.symbol && source.symbol !== symbol) return { status: "invalid_case_symbol", cases: [] };
-  const lifecycle = new Set(["Observed", "Corroborated", "Modelled", "Validated", "Published"]);
+  const lifecycle = new Set(["Observed", "Corroborated", "Modelled", "Validated", "Published", "Monitoring", "Closed"]);
   const cases = Array.isArray(source.cases) ? source.cases : [];
   return {
     status: boundedString(source.status || (cases.length ? "available" : "no_cases"), 80),

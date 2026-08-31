@@ -210,7 +210,7 @@ function assertProjectedShape(context) {
   assert(Array.isArray(context.intelligence_cases.cases) && context.intelligence_cases.cases.length <= 3, `${context.symbol} case cap`);
   for (const caseObject of context.intelligence_cases.cases) {
     assertExactKeys(caseObject, ["case_id", "status", "epistemic_type", "summary", "observed_facts", "hypotheses", "watch_next", "source_lineage"], `${context.symbol} observed case`);
-    assert(["Observed", "Corroborated", "Modelled", "Validated", "Published"].includes(caseObject.status), `${context.symbol} case lifecycle`);
+    assert(["Observed", "Corroborated", "Modelled", "Validated", "Published", "Monitoring", "Closed"].includes(caseObject.status), `${context.symbol} case lifecycle`);
     assert(Array.isArray(caseObject.observed_facts) && caseObject.observed_facts.length <= 4, `${context.symbol} observed fact cap`);
     assert(Array.isArray(caseObject.hypotheses) && caseObject.hypotheses.length <= 4, `${context.symbol} hypothesis cap`);
     assert(Array.isArray(caseObject.watch_next) && caseObject.watch_next.length <= 4, `${context.symbol} watch cap`);

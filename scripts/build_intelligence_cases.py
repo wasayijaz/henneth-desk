@@ -16,7 +16,7 @@ from psx_data import STATE, load_json, save_json
 
 OUT = STATE / "company_intel" / "intelligence_cases.json"
 CASE_PRODUCT_VERSION = "observed_intelligence_case_seed_v3"
-LIFECYCLE = ["Observed", "Corroborated", "Modelled", "Validated", "Published"]
+LIFECYCLE = ["Observed", "Corroborated", "Modelled", "Validated", "Published", "Monitoring", "Closed"]
 PKT = timezone(timedelta(hours=5))
 
 MLCF_CASE_ID = "case_mlcf_pioc_control_observed_v1"

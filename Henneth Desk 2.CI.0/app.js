@@ -2194,7 +2194,7 @@ function renderIntelligenceCase(r, caseId) {
     return '<section class="panel span9 blocked-shell case-shell" aria-labelledby="caseTitle"><span class="kicker">Intelligence case</span><h2 id="caseTitle">' + esc(title) + '</h2><p class="section-note">Read-only case surface. Missing objects stay fail-closed. This is research, not advice.</p><div class="blocked-grid"><span>Ticker <b>' + esc(requestedTicker || "unknown") + '</b></span><span>Requested case <b>' + esc(caseId || "unknown") + '</b></span><span>Reason <b>' + esc(reason) + '</b></span></div><p><button type="button" class="chrome-btn" data-case-close="1">Back to company file</button></p></section>';
   }
   const caseObject = lookup.case;
-  const lifecycle = api.LIFECYCLE || ["Observed", "Corroborated", "Modelled", "Validated", "Published"];
+  const lifecycle = api.LIFECYCLE || ["Observed", "Corroborated", "Modelled", "Validated", "Published", "Monitoring", "Closed"];
   const sections = (api.SECTIONS || []).map(([key, label]) => {
     const section = api.resolveSection(caseObject, key);
     return '<section class="intel-section" data-case-section="' + esc(key) + '"><header><h3>' + esc(label) + '</h3><span class="pill">' + esc(section.status || "blocked") + '</span></header>' + renderCaseSectionBody(section) + '</section>';

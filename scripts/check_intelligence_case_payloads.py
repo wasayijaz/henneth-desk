@@ -93,7 +93,7 @@ def main() -> None:
     check(json.dumps(first, sort_keys=True, ensure_ascii=False, allow_nan=False) == json.dumps(second, sort_keys=True, ensure_ascii=False, allow_nan=False), "case builder is not deterministic")
     check(first["summary"] == {"company_count": 20, "observed_case_count": 2, "published_case_count": 0}, "case summary mismatch")
     check(set(first["companies"]) == set(first["pilot_symbols"]) and len(first["pilot_symbols"]) == 20, "pilot boundary mismatch")
-    check(first["status_lifecycle"] == ["Observed", "Corroborated", "Modelled", "Validated", "Published"], "lifecycle vocabulary mismatch")
+    check(first["status_lifecycle"] == ["Observed", "Corroborated", "Modelled", "Validated", "Published", "Monitoring", "Closed"], "lifecycle vocabulary mismatch")
 
     mlcf = first["companies"]["MLCF"]["cases"][0]
     check(first["companies"]["MLCF"]["symbol"] == "MLCF" and mlcf["case_id"] == MLCF_CASE_ID, "MLCF identity mismatch")
