@@ -22,7 +22,7 @@ function assert(condition, message) {
 
 function main() {
   const rows = Array.isArray(slice.tickers) ? slice.tickers : [];
-  const thesisProjection = /function projectThesisMonitoring\(row\) \{([\s\S]*?)\r?\n\}\r?\n\r?\nexport function projectCompany/.exec(contract)?.[1] || "";
+  const thesisProjection = /function projectThesisMonitoring\(row\) \{([\s\S]*?)\r?\n\}\r?\n\r?\nfunction projectConfidenceComponents/.exec(contract)?.[1] || "";
   assert(rows.length === 20, "CI slice must contain exact 20 rows");
   assert(new Set(rows.map((row) => row?.symbol)).size === 20, "CI slice symbols must be unique");
   assert(app.includes('["thesis", `Thesis monitor ${r.thesis_monitoring?.active_thesis_count || 0}`]'), "Thesis monitor tab is registered");
