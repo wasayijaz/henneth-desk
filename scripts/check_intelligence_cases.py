@@ -156,6 +156,7 @@ def _builder_inputs() -> dict:
         "operating_events": load_json(STATE / "company_intel" / "operating_events.json", {"companies": {}}),
         "financial_truth": load_json(STATE / "company_intel" / "financial_truth_qualification.json", {}),
         "event_studies": load_json(STATE / "company_intel" / "event_studies.json", {"studies": {}}),
+        "mlcf_history": load_json(STATE / "history" / "MLCF.json", []),
     }
 
 
@@ -168,6 +169,7 @@ def _build_with_inputs(inputs: dict) -> None:
         STATE / "company_intel" / "operating_events.json": inputs["operating_events"],
         STATE / "company_intel" / "financial_truth_qualification.json": inputs["financial_truth"],
         STATE / "company_intel" / "event_studies.json": inputs["event_studies"],
+        STATE / "history" / "MLCF.json": inputs["mlcf_history"],
     }
 
     def fake_load_json(path: Path, default: object = None) -> object:
@@ -389,6 +391,29 @@ def _assert_builder_source_mutation_tests() -> None:
     _expect_builder_rejects(
         "unsuppressed small analogue sample",
         lambda inputs: _market_study(inputs)["analogue_aggregate"]["1Q"].__setitem__("status", "available"),
+    )
+    _expect_builder_rejects(
+        "future market data cutoff",
+        lambda inputs: _market_study(inputs).__setitem__("data_cutoff", "2099-01-01"),
+    )
+    _expect_builder_rejects(
+        "market cutoff disconnected from retained history",
+        lambda inputs: _market_study(inputs).__setitem__("data_cutoff", "2026-08-27"),
+    )
+    _expect_builder_rejects(
+        "market mature endpoint beyond retained history",
+        lambda inputs: _market_study(inputs)["horizons"]["1Q"].update({
+            "selected_date": "2099-01-01",
+            "provenance": {"history_file": "state/history/MLCF.json", "baseline_date": "2025-12-17", "endpoint_date": "2099-01-01"},
+        }),
+    )
+    _expect_builder_rejects(
+        "market giant baseline integer",
+        lambda inputs: _market_study(inputs)["baseline"].__setitem__("selected_close", 10**1000),
+    )
+    _expect_builder_rejects(
+        "market giant return integer",
+        lambda inputs: _market_study(inputs)["horizons"]["1Q"].__setitem__("return_pct", 10**1000),
     )
 
 
