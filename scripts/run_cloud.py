@@ -52,6 +52,9 @@ STEPS = [
     # Deterministic market operands for the formal engines. Emits only objective current_price
     # and shares_out records from retained dated state; forward assumptions remain owner-approved.
     "build_financial_engine_assumptions.py",
+    # Empty-by-default, owner-approved conversion of receipt-bound official
+    # share-capital candidates; it never imports an unapproved candidate.
+    "build_official_share_capital_approvals.py",
     "build_financial_evidence_reconciliation.py",
     # Historical reported deltas only; this does not enter the formal-engine path.
     "build_earnings_bridges.py",

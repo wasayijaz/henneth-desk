@@ -7801,6 +7801,150 @@
      ]
     },
     {
+     "scenario_id": "scn_634856aaff32465831d8",
+     "event_id": "evt_6cdb8c02f429bc28beaa",
+     "company_id": "MLCF",
+     "intelligence_type": "scenario",
+     "scenario_type": "scenario",
+     "scenario": "Bear",
+     "probability": 0.25,
+     "assumptions": {
+      "affected_drivers": [
+       "dispatch_volume",
+       "revenue"
+      ],
+      "required_inputs": [
+       "dispatch_volume",
+       "revenue"
+      ],
+      "missing_inputs": [
+       "dispatch_volume",
+       "revenue"
+      ]
+     },
+     "impact_status": "insufficient_data",
+     "timing": {
+      "expected_lag": null,
+      "effective_date": "2025-10-27"
+     },
+     "revenue_impact": null,
+     "ebitda_impact": null,
+     "eps_impact": null,
+     "fcf_impact": null,
+     "valuation_impact": null,
+     "confidence": 82,
+     "evidence": [
+      {
+       "document_id": "psx:263397",
+       "source": "PSX DPS",
+       "source_url": "https://dps.psx.com.pk/download/document/263397.pdf",
+       "page": 14,
+       "text": "a company in Pakistan to which these shares will be transferred. On May 10, 2023, Andalus entered into an agreement with the Company that along with its affiliates, the Company would invest in NHPL, maintaining at least a 66.66% shareholdi…",
+       "content_sha256": "a05eeee23485edd71c6c096a606a3b6fd76d6687e13bdaf032f97b59b9cdcc7e",
+       "evidence_sha256": "fe698dcd654c9e3c8daae16e8e2f536dc4183e3811cae971f92300abc41f3543"
+      }
+     ],
+     "quality_flags": [
+      "insufficient_data"
+     ]
+    },
+    {
+     "scenario_id": "scn_7207367b7c327086851f",
+     "event_id": "evt_6cdb8c02f429bc28beaa",
+     "company_id": "MLCF",
+     "intelligence_type": "scenario",
+     "scenario_type": "scenario",
+     "scenario": "Base",
+     "probability": 0.5,
+     "assumptions": {
+      "affected_drivers": [
+       "dispatch_volume",
+       "revenue"
+      ],
+      "required_inputs": [
+       "dispatch_volume",
+       "revenue"
+      ],
+      "missing_inputs": [
+       "dispatch_volume",
+       "revenue"
+      ]
+     },
+     "impact_status": "insufficient_data",
+     "timing": {
+      "expected_lag": null,
+      "effective_date": "2025-10-27"
+     },
+     "revenue_impact": null,
+     "ebitda_impact": null,
+     "eps_impact": null,
+     "fcf_impact": null,
+     "valuation_impact": null,
+     "confidence": 82,
+     "evidence": [
+      {
+       "document_id": "psx:263397",
+       "source": "PSX DPS",
+       "source_url": "https://dps.psx.com.pk/download/document/263397.pdf",
+       "page": 14,
+       "text": "a company in Pakistan to which these shares will be transferred. On May 10, 2023, Andalus entered into an agreement with the Company that along with its affiliates, the Company would invest in NHPL, maintaining at least a 66.66% shareholdi…",
+       "content_sha256": "a05eeee23485edd71c6c096a606a3b6fd76d6687e13bdaf032f97b59b9cdcc7e",
+       "evidence_sha256": "fe698dcd654c9e3c8daae16e8e2f536dc4183e3811cae971f92300abc41f3543"
+      }
+     ],
+     "quality_flags": [
+      "insufficient_data"
+     ]
+    },
+    {
+     "scenario_id": "scn_265fa2e12590ee158240",
+     "event_id": "evt_6cdb8c02f429bc28beaa",
+     "company_id": "MLCF",
+     "intelligence_type": "scenario",
+     "scenario_type": "scenario",
+     "scenario": "Bull",
+     "probability": 0.25,
+     "assumptions": {
+      "affected_drivers": [
+       "dispatch_volume",
+       "revenue"
+      ],
+      "required_inputs": [
+       "dispatch_volume",
+       "revenue"
+      ],
+      "missing_inputs": [
+       "dispatch_volume",
+       "revenue"
+      ]
+     },
+     "impact_status": "insufficient_data",
+     "timing": {
+      "expected_lag": null,
+      "effective_date": "2025-10-27"
+     },
+     "revenue_impact": null,
+     "ebitda_impact": null,
+     "eps_impact": null,
+     "fcf_impact": null,
+     "valuation_impact": null,
+     "confidence": 82,
+     "evidence": [
+      {
+       "document_id": "psx:263397",
+       "source": "PSX DPS",
+       "source_url": "https://dps.psx.com.pk/download/document/263397.pdf",
+       "page": 14,
+       "text": "a company in Pakistan to which these shares will be transferred. On May 10, 2023, Andalus entered into an agreement with the Company that along with its affiliates, the Company would invest in NHPL, maintaining at least a 66.66% shareholdi…",
+       "content_sha256": "a05eeee23485edd71c6c096a606a3b6fd76d6687e13bdaf032f97b59b9cdcc7e",
+       "evidence_sha256": "fe698dcd654c9e3c8daae16e8e2f536dc4183e3811cae971f92300abc41f3543"
+      }
+     ],
+     "quality_flags": [
+      "insufficient_data"
+     ]
+    },
+    {
      "scenario_id": "scn_c7d100b681537fe98ee1",
      "event_id": "evt_a0c390f2010041e1b8f8",
      "company_id": "MLCF",
@@ -8697,9 +8841,9 @@
  },
  "_meta": {
   "generator_version": "ci_artifact_integrity_v1",
-  "source_commit_sha": "b738a0535ae0d01ed8b59d4658d1269fb8368afb",
-  "build_cutoff_at": "2026-08-31T10:14:17Z",
-  "generated_at": "2026-08-31T10:14:17Z",
+  "source_commit_sha": "cac7753ac5ca78db6b89470ab4134d06c15d3455",
+  "build_cutoff_at": "2026-08-31T10:27:16Z",
+  "generated_at": "2026-08-31T10:27:16Z",
   "artifact_path": "state/company_intel/impact_scenarios.json",
   "timestamp_semantics": {
    "build_cutoff_at": "generation boundary only; not a source-effective or source-published time",

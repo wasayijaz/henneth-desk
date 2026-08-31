@@ -109,6 +109,7 @@ CANONICAL_RELATIVE_PATHS = (
     Path("document_synthesis_queue.json"),
     Path("company_financial_series.json"),
     Path("company_intel") / "official_share_capital_candidates.json",
+    Path("company_intel") / "official_share_capital_approvals.json",
     Path("company_intel") / "financial_model_inputs.json",
     Path("company_intel") / "financial_evidence_reconciliation.json",
     Path("company_intel") / "financial_truth_qualification.json",
@@ -889,6 +890,7 @@ def consume_canonical(registry_path: Path, queue_path: Path, output_root: Path,
 
     from document_intelligence import run as run_document_intelligence
     from build_financial_model_inputs import build as build_model_inputs
+    from build_official_share_capital_approvals import build as build_share_capital_approvals
     from build_financial_evidence_reconciliation import build as build_reconciliation
     from build_financial_truth_qualification import build as build_financial_truth
     from build_formal_financial_engines import build as build_formal_engines
@@ -981,6 +983,8 @@ def consume_canonical(registry_path: Path, queue_path: Path, output_root: Path,
         model_builder()
         stage = "build_financial_evidence_reconciliation"
         reconciliation_builder()
+        stage = "build_official_share_capital_approvals"
+        build_share_capital_approvals()
         stage = "build_financial_truth_qualification"
         truth_builder()
         stage = "build_formal_financial_engines"

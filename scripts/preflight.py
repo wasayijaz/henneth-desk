@@ -969,6 +969,19 @@ def check_financial_truth_qualification():
     except Exception as e:
         fail(f"check_financial_truth_qualification.py did not run — {e}")
 
+def check_official_share_capital_approvals():
+    path = os.path.join(ROOT, "scripts", "check_official_share_capital_approvals.py")
+    if not os.path.exists(path):
+        fail("check_official_share_capital_approvals.py missing")
+        return
+    try:
+        result = subprocess.run([sys.executable, path], capture_output=True, text=True, timeout=30)
+        if result.returncode != 0:
+            fail("official share-capital approval check failed: " + ((result.stdout or result.stderr or "")[-500:].strip()))
+    except Exception as e:
+        fail(f"check_official_share_capital_approvals.py did not run: {e}")
+
+
 def check_financial_statement_v2_candidate_queue():
     path = os.path.join(ROOT, "scripts", "check_financial_statement_v2_candidate_queue.py")
     if not os.path.exists(path):
@@ -1476,6 +1489,7 @@ def main():
     check_cement_operating_series_ui()
     check_financial_coverage()
     check_financial_truth_qualification()
+    check_official_share_capital_approvals()
     check_financial_statement_v2_candidate_queue()
     check_financial_reprocess_blockers()
     check_forecast_contract()

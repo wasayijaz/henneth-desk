@@ -1,0 +1,31 @@
+{
+ "schema_version": 1,
+ "approval_output_version": "official_share_capital_approvals_v1",
+ "source": {
+  "candidates": "state/company_intel/official_share_capital_candidates.json",
+  "receipts": "state/company_intel/reprocess_receipts.json",
+  "manifest": "config/ci_share_capital_approval_manifest.json"
+ },
+ "policy": {
+  "owner_approval_required": true,
+  "receipt_bound": true,
+  "does_not_fetch": true,
+  "does_not_parse": true,
+  "does_not_emit_forecasts": true
+ },
+ "records": [],
+ "summary": {
+  "approved_record_count": 0
+ },
+ "_meta": {
+  "generator_version": "ci_artifact_integrity_v1",
+  "source_commit_sha": "cac7753ac5ca78db6b89470ab4134d06c15d3455",
+  "build_cutoff_at": "2026-08-31T10:27:16Z",
+  "generated_at": "2026-08-31T10:27:16Z",
+  "artifact_path": "state/company_intel/official_share_capital_approvals.json",
+  "timestamp_semantics": {
+   "build_cutoff_at": "generation boundary only; not a source-effective or source-published time",
+   "generated_at": "artifact generation time only; not a source-effective or source-published time"
+  }
+ }
+}

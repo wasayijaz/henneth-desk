@@ -91,6 +91,8 @@ implemented, with reuse limited to workflow contracts proven across sectors.
 | Private thesis storage | `private_thesis_storage_receipt.json` | Schema configured; live CRUD/cross-user RLS proof absent | Persisted owner scenarios/theses stay disabled until verified. |
 | CI release integrity | Generated CI state carries a reproducible build envelope; live preview/production proof has not been run | Deferred by owner | Part 0 remains preserved and does not block current Alpha product development. |
 | Financial truth qualification | `financial_truth_qualification.json`; `financial_reprocess_blockers.json` | DGKC leads on retained coverage but is not golden; MLCF is the selected industrial case | MLCF has 3/5 annual income triplets, 2/5 consolidated annual OCF periods, and 3/8 qualified direct consolidated quarters (FY26 Q1–Q3); no owner-approved official share-count tie-out exists. Formal outputs remain fail-closed. |
+
+Share-capital candidates now have an explicit fail-closed approval bridge: the empty owner manifest cannot add a fact, change a number, or activate an engine. A future approval must name the exact tied-out source candidate and date; the builder then requires its bound successful official reprocess receipt and retains the official source/hash and availability date in the eligible fact. This removes a workflow gap without treating the current candidate as approved.
 | Intelligence Case lifecycle | `state/company_intel/intelligence_cases.json` | 2 `Observed`, 0 `Corroborated`, 0 `Modelled`, 0 `Validated`, 0 `Published`, 0 `Monitoring`, 0 `Closed` | MLCF/PIOC and MARI are source-bound observed seeds only. Neither may activate forecast, valuation, expectations, recommendation, or publication. |
 
 ## Golden-company selection register

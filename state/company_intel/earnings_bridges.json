@@ -1,7 +1,7 @@
 {
  "schema_version": 1,
  "product_version": "historical_earnings_bridge_v1",
- "as_of": "2026-08-27 21:16",
+ "as_of": "2026-08-31 15:13",
  "pilot_symbols": [
   "MLCF",
   "OGDC",
@@ -34,216 +34,28 @@
  },
  "summary": {
   "company_count": 20,
-  "company_with_bridge_count": 1,
-  "bridge_count": 2
+  "company_with_bridge_count": 0,
+  "bridge_count": 0
  },
  "companies": {
   "MLCF": {
    "symbol": "MLCF",
-   "status": "historical_bridge_available",
-   "bridge_count": 2,
-   "qualified_period_count": 3,
-   "blocked_periods": [],
-   "bridges": [
-    {
-     "bridge_id": "ebr_8ecaf66b8c54b2684580",
-     "symbol": "MLCF",
-     "bridge_type": "historical_reported_annual_change",
-     "intelligence_type": "derived_fact",
-     "status": "historical_descriptive_only",
-     "previous_period_end": "2024-06-30",
-     "period_end": "2025-06-30",
-     "available_on": "2026-07-31T08:51:00+05:00",
-     "formula_version": "historical_earnings_bridge_v1",
-     "metrics": {
-      "revenue": {
-       "previous_value": 66452348000,
-       "current_value": 68653999000,
-       "change_amount": 2201651000,
-       "change_pct": 3.3131274759471196,
-       "unit": "PKR",
-       "unit_multiplier": 1,
-       "previous_source": {
-        "fact_id": "manual_fact_66b17ef9298dc2847c1e5371",
-        "document_id": "psx:236626",
-        "source_url": "https://dps.psx.com.pk/download/document/236626.pdf",
-        "content_sha256": "98d81e613a6ebaa06757442f7239bf7471315bca6c7e70dff8052f0af3ec91bf",
-        "page": 1,
-        "text": "MLCF 2024-06-30 revenue owner-verified manual claim",
-        "available_on": "2024-09-11T09:09:00+05:00"
-       },
-       "current_source": {
-        "fact_id": "manual_fact_81f61eff38c0e596815acb84",
-        "document_id": "psx:280589",
-        "source_url": "https://dps.psx.com.pk/download/document/280589.pdf",
-        "content_sha256": "c9c7771eaa6a7fc75f6468318218ec85dd7d947637294e6dab9b19c3067ef696",
-        "page": 3,
-        "text": "MLCF 2025-06-30 revenue owner-verified manual claim",
-        "available_on": "2026-07-31T08:51:00+05:00"
-       }
-      },
-      "profit_after_tax_attributable": {
-       "previous_value": 6891064000,
-       "current_value": 11503305000,
-       "change_amount": 4612241000,
-       "change_pct": 66.9307526384895,
-       "unit": "PKR",
-       "unit_multiplier": 1,
-       "previous_source": {
-        "fact_id": "manual_fact_532ab7b94f52d71ab3797be2",
-        "document_id": "psx:236626",
-        "source_url": "https://dps.psx.com.pk/download/document/236626.pdf",
-        "content_sha256": "98d81e613a6ebaa06757442f7239bf7471315bca6c7e70dff8052f0af3ec91bf",
-        "page": 1,
-        "text": "MLCF 2024-06-30 profit_after_tax_attributable owner-verified manual claim",
-        "available_on": "2024-09-11T09:09:00+05:00"
-       },
-       "current_source": {
-        "fact_id": "manual_fact_1143daa1f48237ac5b1b2534",
-        "document_id": "psx:280589",
-        "source_url": "https://dps.psx.com.pk/download/document/280589.pdf",
-        "content_sha256": "c9c7771eaa6a7fc75f6468318218ec85dd7d947637294e6dab9b19c3067ef696",
-        "page": 3,
-        "text": "MLCF 2025-06-30 profit_after_tax_attributable owner-verified manual claim",
-        "available_on": "2026-07-31T08:51:00+05:00"
-       }
-      },
-      "basic_eps": {
-       "previous_value": 6.51,
-       "current_value": 10.98,
-       "change_amount": 4.470000000000001,
-       "change_pct": 68.66359447004609,
-       "unit": "PKR/share",
-       "unit_multiplier": 1,
-       "previous_source": {
-        "fact_id": "manual_fact_9ada08b53835fb51ea67380e",
-        "document_id": "psx:236626",
-        "source_url": "https://dps.psx.com.pk/download/document/236626.pdf",
-        "content_sha256": "98d81e613a6ebaa06757442f7239bf7471315bca6c7e70dff8052f0af3ec91bf",
-        "page": 1,
-        "text": "MLCF 2024-06-30 basic_eps owner-verified manual claim",
-        "available_on": "2024-09-11T09:09:00+05:00"
-       },
-       "current_source": {
-        "fact_id": "manual_fact_25817c1077196ec499d808b6",
-        "document_id": "psx:280589",
-        "source_url": "https://dps.psx.com.pk/download/document/280589.pdf",
-        "content_sha256": "c9c7771eaa6a7fc75f6468318218ec85dd7d947637294e6dab9b19c3067ef696",
-        "page": 3,
-        "text": "MLCF 2025-06-30 basic_eps owner-verified manual claim",
-        "available_on": "2026-07-31T08:51:00+05:00"
-       }
-      }
-     },
-     "quality_flags": [
-      "not_a_forecast",
-      "not_owner_assumption",
-      "no_formal_engine_activation"
-     ]
-    },
-    {
-     "bridge_id": "ebr_400de84b9699690735cb",
-     "symbol": "MLCF",
-     "bridge_type": "historical_reported_annual_change",
-     "intelligence_type": "derived_fact",
-     "status": "historical_descriptive_only",
-     "previous_period_end": "2025-06-30",
-     "period_end": "2026-06-30",
-     "available_on": "2026-07-31T08:51:00+05:00",
-     "formula_version": "historical_earnings_bridge_v1",
-     "metrics": {
-      "revenue": {
-       "previous_value": 68653999000,
-       "current_value": 85145871000,
-       "change_amount": 16491872000,
-       "change_pct": 24.021720861446095,
-       "unit": "PKR",
-       "unit_multiplier": 1,
-       "previous_source": {
-        "fact_id": "manual_fact_81f61eff38c0e596815acb84",
-        "document_id": "psx:280589",
-        "source_url": "https://dps.psx.com.pk/download/document/280589.pdf",
-        "content_sha256": "c9c7771eaa6a7fc75f6468318218ec85dd7d947637294e6dab9b19c3067ef696",
-        "page": 3,
-        "text": "MLCF 2025-06-30 revenue owner-verified manual claim",
-        "available_on": "2026-07-31T08:51:00+05:00"
-       },
-       "current_source": {
-        "fact_id": "manual_fact_e403069b32de37b41b69c478",
-        "document_id": "psx:280589",
-        "source_url": "https://dps.psx.com.pk/download/document/280589.pdf",
-        "content_sha256": "c9c7771eaa6a7fc75f6468318218ec85dd7d947637294e6dab9b19c3067ef696",
-        "page": 3,
-        "text": "MLCF 2026-06-30 revenue owner-verified manual claim",
-        "available_on": "2026-07-31T08:51:00+05:00"
-       }
-      },
-      "profit_after_tax_attributable": {
-       "previous_value": 11503305000,
-       "current_value": 11884079000,
-       "change_amount": 380774000,
-       "change_pct": 3.310126959165216,
-       "unit": "PKR",
-       "unit_multiplier": 1,
-       "previous_source": {
-        "fact_id": "manual_fact_1143daa1f48237ac5b1b2534",
-        "document_id": "psx:280589",
-        "source_url": "https://dps.psx.com.pk/download/document/280589.pdf",
-        "content_sha256": "c9c7771eaa6a7fc75f6468318218ec85dd7d947637294e6dab9b19c3067ef696",
-        "page": 3,
-        "text": "MLCF 2025-06-30 profit_after_tax_attributable owner-verified manual claim",
-        "available_on": "2026-07-31T08:51:00+05:00"
-       },
-       "current_source": {
-        "fact_id": "manual_fact_a0206ff8968fe917b0aa252c",
-        "document_id": "psx:280589",
-        "source_url": "https://dps.psx.com.pk/download/document/280589.pdf",
-        "content_sha256": "c9c7771eaa6a7fc75f6468318218ec85dd7d947637294e6dab9b19c3067ef696",
-        "page": 3,
-        "text": "MLCF 2026-06-30 profit_after_tax_attributable owner-verified manual claim",
-        "available_on": "2026-07-31T08:51:00+05:00"
-       }
-      },
-      "basic_eps": {
-       "previous_value": 10.98,
-       "current_value": 11.34,
-       "change_amount": 0.35999999999999943,
-       "change_pct": 3.2786885245901676,
-       "unit": "PKR/share",
-       "unit_multiplier": 1,
-       "previous_source": {
-        "fact_id": "manual_fact_25817c1077196ec499d808b6",
-        "document_id": "psx:280589",
-        "source_url": "https://dps.psx.com.pk/download/document/280589.pdf",
-        "content_sha256": "c9c7771eaa6a7fc75f6468318218ec85dd7d947637294e6dab9b19c3067ef696",
-        "page": 3,
-        "text": "MLCF 2025-06-30 basic_eps owner-verified manual claim",
-        "available_on": "2026-07-31T08:51:00+05:00"
-       },
-       "current_source": {
-        "fact_id": "manual_fact_a8861ab3009d249c539955a3",
-        "document_id": "psx:280589",
-        "source_url": "https://dps.psx.com.pk/download/document/280589.pdf",
-        "content_sha256": "c9c7771eaa6a7fc75f6468318218ec85dd7d947637294e6dab9b19c3067ef696",
-        "page": 3,
-        "text": "MLCF 2026-06-30 basic_eps owner-verified manual claim",
-        "available_on": "2026-07-31T08:51:00+05:00"
-       }
-      }
-     },
-     "quality_flags": [
-      "not_a_forecast",
-      "not_owner_assumption",
-      "no_formal_engine_activation"
-     ]
-    }
+   "status": "blocked_insufficient_conflict_free_aligned_history",
+   "bridge_count": 0,
+   "qualified_period_count": 1,
+   "blocked_periods": [
+    "2024-06-30",
+    "2025-06-30"
    ],
+   "bridges": [],
    "formal_engine_status": {
     "forecast": "not_activated",
     "valuation": "not_activated",
     "market_expectations": "not_activated"
    },
-   "quality_flags": []
+   "quality_flags": [
+    "insufficient_conflict_free_aligned_annual_history"
+   ]
   },
   "OGDC": {
    "symbol": "OGDC",
@@ -348,11 +160,12 @@
    "symbol": "LUCK",
    "status": "blocked_insufficient_conflict_free_aligned_history",
    "bridge_count": 0,
-   "qualified_period_count": 1,
+   "qualified_period_count": 0,
    "blocked_periods": [
     "2022-06-30",
     "2023-06-30",
-    "2024-06-30"
+    "2024-06-30",
+    "2025-06-30"
    ],
    "bridges": [],
    "formal_engine_status": {
@@ -562,9 +375,9 @@
  },
  "_meta": {
   "generator_version": "ci_artifact_integrity_v1",
-  "source_commit_sha": "b738a0535ae0d01ed8b59d4658d1269fb8368afb",
-  "build_cutoff_at": "2026-08-31T10:14:17Z",
-  "generated_at": "2026-08-31T10:14:17Z",
+  "source_commit_sha": "cac7753ac5ca78db6b89470ab4134d06c15d3455",
+  "build_cutoff_at": "2026-08-31T10:27:16Z",
+  "generated_at": "2026-08-31T10:27:16Z",
   "artifact_path": "state/company_intel/earnings_bridges.json",
   "timestamp_semantics": {
    "build_cutoff_at": "generation boundary only; not a source-effective or source-published time",

@@ -2,7 +2,7 @@
  "schema_version": 1,
  "engine_version": "formal_financial_engines_v1",
  "kind": "financial_forecasts",
- "as_of": "2026-08-29",
+ "as_of": "2026-08-31",
  "pilot_symbols": [
   "MLCF",
   "OGDC",
@@ -494,6 +494,17 @@
     "research_only": true,
     "no_advice": true
    }
+  }
+ },
+ "_meta": {
+  "generator_version": "ci_artifact_integrity_v1",
+  "source_commit_sha": "cac7753ac5ca78db6b89470ab4134d06c15d3455",
+  "build_cutoff_at": "2026-08-31T10:27:16Z",
+  "generated_at": "2026-08-31T10:27:16Z",
+  "artifact_path": "state/company_intel/financial_forecasts.json",
+  "timestamp_semantics": {
+   "build_cutoff_at": "generation boundary only; not a source-effective or source-published time",
+   "generated_at": "artifact generation time only; not a source-effective or source-published time"
   }
  }
 }

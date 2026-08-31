@@ -22,7 +22,7 @@
   "PSO",
   "UBL"
  ],
- "study_count": 69,
+ "study_count": 70,
  "studies": {
   "evt_b66212b80aa7a12b67b6": {
    "study_id": "study_b66212b80aa7a12b67b6",
@@ -10762,6 +10762,62 @@
      }
     },
     {
+     "event_id": "evt_6cdb8c02f429bc28beaa",
+     "symbol": "MLCF",
+     "classification": "same_company",
+     "effective_date": "2025-10-27",
+     "outcomes": {
+      "1Q": {
+       "endpoint_date": "2026-01-27",
+       "return_pct": 20.697435897435913,
+       "status": "mature",
+       "reason": null,
+       "provenance": {
+        "history_file": "state/history/MLCF.json",
+        "baseline_date": "2025-10-24",
+        "target_date": "2026-01-27",
+        "endpoint_date": "2026-01-27"
+       }
+      },
+      "2Q": {
+       "endpoint_date": null,
+       "return_pct": null,
+       "status": "unavailable",
+       "reason": "no_ex_ante_endpoint",
+       "provenance": {
+        "history_file": "state/history/MLCF.json",
+        "baseline_date": "2025-10-24",
+        "target_date": "2026-04-27",
+        "endpoint_date": null
+       }
+      },
+      "4Q": {
+       "endpoint_date": null,
+       "return_pct": null,
+       "status": "unavailable",
+       "reason": "no_ex_ante_endpoint",
+       "provenance": {
+        "history_file": "state/history/MLCF.json",
+        "baseline_date": "2025-10-24",
+        "target_date": "2026-10-27",
+        "endpoint_date": null
+       }
+      },
+      "8Q": {
+       "endpoint_date": null,
+       "return_pct": null,
+       "status": "unavailable",
+       "reason": "no_ex_ante_endpoint",
+       "provenance": {
+        "history_file": "state/history/MLCF.json",
+        "baseline_date": "2025-10-24",
+        "target_date": "2027-10-27",
+        "endpoint_date": null
+       }
+      }
+     }
+    },
+    {
      "event_id": "evt_a0c390f2010041e1b8f8",
      "symbol": "MLCF",
      "classification": "same_company",
@@ -10820,10 +10876,10 @@
    ],
    "analogue_aggregate": {
     "1Q": {
-     "n": 2,
-     "mean_return_pct": null,
-     "status": "suppressed",
-     "reason": "n_lt_3"
+     "n": 3,
+     "mean_return_pct": 18.28284586438662,
+     "status": "available",
+     "reason": null
     },
     "2Q": {
      "n": 0,
@@ -11039,6 +11095,237 @@
   "evt_d9a05d3b01ea6986febe": {
    "study_id": "study_d9a05d3b01ea6986febe",
    "event_id": "evt_d9a05d3b01ea6986febe",
+   "symbol": "MLCF",
+   "event_type": "contract_tender",
+   "effective_date": "2025-10-27",
+   "data_cutoff": "2026-08-28",
+   "baseline": {
+    "selected_date": "2025-10-24",
+    "selected_close": 97.5,
+    "status": "available",
+    "reason": null,
+    "provenance": {
+     "history_file": "state/history/MLCF.json",
+     "selected_date": "2025-10-24"
+    }
+   },
+   "horizons": {
+    "1Q": {
+     "target_date": "2026-01-27",
+     "selected_date": "2026-01-27",
+     "selected_close": 117.68,
+     "return_pct": 20.697435897435913,
+     "status": "mature",
+     "reason": null,
+     "provenance": {
+      "history_file": "state/history/MLCF.json",
+      "baseline_date": "2025-10-24",
+      "endpoint_date": "2026-01-27",
+      "target_date": "2026-01-27"
+     }
+    },
+    "2Q": {
+     "target_date": "2026-04-27",
+     "selected_date": "2026-04-27",
+     "selected_close": 83.87,
+     "return_pct": -13.97948717948717,
+     "status": "mature",
+     "reason": null,
+     "provenance": {
+      "history_file": "state/history/MLCF.json",
+      "baseline_date": "2025-10-24",
+      "endpoint_date": "2026-04-27",
+      "target_date": "2026-04-27"
+     }
+    },
+    "4Q": {
+     "target_date": "2026-10-27",
+     "selected_date": null,
+     "selected_close": null,
+     "return_pct": null,
+     "status": "immature",
+     "reason": "target_after_last_bar",
+     "provenance": {
+      "history_file": "state/history/MLCF.json",
+      "baseline_date": "2025-10-24",
+      "endpoint_date": null,
+      "target_date": "2026-10-27"
+     }
+    },
+    "8Q": {
+     "target_date": "2027-10-27",
+     "selected_date": null,
+     "selected_close": null,
+     "return_pct": null,
+     "status": "immature",
+     "reason": "target_after_last_bar",
+     "provenance": {
+      "history_file": "state/history/MLCF.json",
+      "baseline_date": "2025-10-24",
+      "endpoint_date": null,
+      "target_date": "2027-10-27"
+     }
+    }
+   },
+   "kse100_relative": {
+    "stock_return_pct": {
+     "1Q": null,
+     "2Q": null,
+     "4Q": null,
+     "8Q": null
+    },
+    "index_return_pct": {
+     "1Q": null,
+     "2Q": null,
+     "4Q": null,
+     "8Q": null
+    },
+    "relative_return_pct": {
+     "1Q": null,
+     "2Q": null,
+     "4Q": null,
+     "8Q": null
+    },
+    "returns_pct": {
+     "1Q": null,
+     "2Q": null,
+     "4Q": null,
+     "8Q": null
+    },
+    "semantics": "stock_raw_price_return_minus_KSE100_raw_price_return",
+    "reasons": {
+     "1Q": "missing_exact_index_dates",
+     "2Q": "missing_exact_index_dates",
+     "4Q": "missing_exact_index_dates",
+     "8Q": "missing_exact_index_dates"
+    },
+    "provenance": {
+     "indices_file": "state/indices.json",
+     "selected_dates": {
+      "1Q": [
+       "2025-10-24",
+       "2026-01-27"
+      ],
+      "2Q": [
+       "2025-10-24",
+       "2026-04-27"
+      ],
+      "4Q": [
+       "2025-10-24",
+       null
+      ],
+      "8Q": [
+       "2025-10-24",
+       null
+      ]
+     }
+    }
+   },
+   "analogues": [
+    {
+     "event_id": "evt_a0c390f2010041e1b8f8",
+     "symbol": "MLCF",
+     "classification": "same_company",
+     "effective_date": "2025-09-25",
+     "outcomes": {
+      "1Q": {
+       "endpoint_date": null,
+       "return_pct": null,
+       "status": "unavailable",
+       "reason": "no_ex_ante_endpoint",
+       "provenance": {
+        "history_file": "state/history/MLCF.json",
+        "baseline_date": "2025-09-24",
+        "target_date": "2025-12-25",
+        "endpoint_date": null
+       }
+      },
+      "2Q": {
+       "endpoint_date": null,
+       "return_pct": null,
+       "status": "unavailable",
+       "reason": "no_ex_ante_endpoint",
+       "provenance": {
+        "history_file": "state/history/MLCF.json",
+        "baseline_date": "2025-09-24",
+        "target_date": "2026-03-25",
+        "endpoint_date": null
+       }
+      },
+      "4Q": {
+       "endpoint_date": null,
+       "return_pct": null,
+       "status": "unavailable",
+       "reason": "no_ex_ante_endpoint",
+       "provenance": {
+        "history_file": "state/history/MLCF.json",
+        "baseline_date": "2025-09-24",
+        "target_date": "2026-09-25",
+        "endpoint_date": null
+       }
+      },
+      "8Q": {
+       "endpoint_date": null,
+       "return_pct": null,
+       "status": "unavailable",
+       "reason": "no_ex_ante_endpoint",
+       "provenance": {
+        "history_file": "state/history/MLCF.json",
+        "baseline_date": "2025-09-24",
+        "target_date": "2027-09-25",
+        "endpoint_date": null
+       }
+      }
+     }
+    }
+   ],
+   "analogue_aggregate": {
+    "1Q": {
+     "n": 0,
+     "mean_return_pct": null,
+     "status": "suppressed",
+     "reason": "n_lt_3"
+    },
+    "2Q": {
+     "n": 0,
+     "mean_return_pct": null,
+     "status": "suppressed",
+     "reason": "n_lt_3"
+    },
+    "4Q": {
+     "n": 0,
+     "mean_return_pct": null,
+     "status": "suppressed",
+     "reason": "n_lt_3"
+    },
+    "8Q": {
+     "n": 0,
+     "mean_return_pct": null,
+     "status": "suppressed",
+     "reason": "n_lt_3"
+    }
+   },
+   "financial_outcomes": {
+    "revenue": null,
+    "margin": null,
+    "eps": null,
+    "roic": null,
+    "fcf": null,
+    "valuation": null,
+    "missing_inputs": [
+     "period_aligned_financials",
+     "event_attribution_model"
+    ]
+   },
+   "limitations": [
+    "raw_price_return_not_adjusted_or_total_return",
+    "historical_association_not_causal",
+    "current_sector_analogues_survivorship_bias"
+   ]
+  },
+  "evt_6cdb8c02f429bc28beaa": {
+   "study_id": "study_6cdb8c02f429bc28beaa",
+   "event_id": "evt_6cdb8c02f429bc28beaa",
    "symbol": "MLCF",
    "event_type": "contract_tender",
    "effective_date": "2025-10-27",
@@ -12771,9 +13058,9 @@
  "source": "state/company_intel/operating_events.json + state/history + state/indices.json",
  "_meta": {
   "generator_version": "ci_artifact_integrity_v1",
-  "source_commit_sha": "b738a0535ae0d01ed8b59d4658d1269fb8368afb",
-  "build_cutoff_at": "2026-08-31T10:14:17Z",
-  "generated_at": "2026-08-31T10:14:17Z",
+  "source_commit_sha": "cac7753ac5ca78db6b89470ab4134d06c15d3455",
+  "build_cutoff_at": "2026-08-31T10:27:16Z",
+  "generated_at": "2026-08-31T10:27:16Z",
   "artifact_path": "state/company_intel/event_studies.json",
   "timestamp_semantics": {
    "build_cutoff_at": "generation boundary only; not a source-effective or source-published time",

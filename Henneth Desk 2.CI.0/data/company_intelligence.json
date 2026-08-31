@@ -1,6 +1,6 @@
 {
  "meta": {
-  "built": "2026-08-31 15:14",
+  "built": "2026-08-31 15:28",
   "source": "Henneth state layer",
   "profile_source": "https://dps.psx.com.pk/company/{symbol}",
   "profile_updated": "2026-08-24 18:30",
@@ -14,15 +14,15 @@
    "note": "Unknown period, unit, currency and consolidation remain explicit; facts retain source/page evidence."
   },
   "graph": {
-   "updated": "2026-08-28 15:20",
-   "node_count": 2995,
-   "edge_count": 5133,
-   "source_documents": 317,
+   "updated": "2026-08-31 15:26",
+   "node_count": 3196,
+   "edge_count": 5549,
+   "source_documents": 318,
    "note": "Every factual edge carries source URL and cited page when available.",
    "generator_version": "ci_artifact_integrity_v1",
-   "source_commit_sha": "b738a0535ae0d01ed8b59d4658d1269fb8368afb",
-   "build_cutoff_at": "2026-08-31T10:14:17Z",
-   "generated_at": "2026-08-31T10:14:17Z",
+   "source_commit_sha": "cac7753ac5ca78db6b89470ab4134d06c15d3455",
+   "build_cutoff_at": "2026-08-31T10:26:58Z",
+   "generated_at": "2026-08-31T10:26:58Z",
    "artifact_path": "state/company_intel/company_graph.json",
    "timestamp_semantics": {
     "build_cutoff_at": "generation boundary only; not a source-effective or source-published time",
@@ -35,9 +35,9 @@
    "item_count": 359,
    "note": "Deterministic official-source change digest. Research, not advice.",
    "generator_version": "ci_artifact_integrity_v1",
-   "source_commit_sha": "b738a0535ae0d01ed8b59d4658d1269fb8368afb",
-   "build_cutoff_at": "2026-08-31T10:14:17Z",
-   "generated_at": "2026-08-31T10:14:17Z",
+   "source_commit_sha": "cac7753ac5ca78db6b89470ab4134d06c15d3455",
+   "build_cutoff_at": "2026-08-31T10:26:58Z",
+   "generated_at": "2026-08-31T10:26:58Z",
    "artifact_path": "state/company_intel/change_intelligence.json",
    "timestamp_semantics": {
     "build_cutoff_at": "generation boundary only; not a source-effective or source-published time",
@@ -46,7 +46,7 @@
   },
   "completion_matrix": {
    "artifact": "state/company_intel/completion_matrix.json",
-   "as_of": "2026-08-29 16:39",
+   "as_of": "2026-08-31 15:13",
    "overall_status": "blocked",
    "requirement_count": 69,
    "complete": 60,
@@ -57,7 +57,7 @@
    "schema_version": 1,
    "engine_version": "formal_financial_engines_v1",
    "kind": "financial_forecasts",
-   "as_of": "2026-08-29",
+   "as_of": "2026-08-31",
    "formula_id": "formal_forecast.revenue_margin_eps.v1",
    "source": {
     "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
@@ -82,7 +82,7 @@
    "schema_version": 1,
    "engine_version": "formal_financial_engines_v1",
    "kind": "formal_valuations",
-   "as_of": "2026-08-29",
+   "as_of": "2026-08-31",
    "formula_id": "formal_valuation.pe_equity_ev.v1",
    "source": {
     "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
@@ -107,7 +107,7 @@
    "schema_version": 1,
    "engine_version": "formal_financial_engines_v1",
    "kind": "market_expectations",
-   "as_of": "2026-08-29",
+   "as_of": "2026-08-31",
    "formula_id": "formal_market_expectations.reverse_growth.v1",
    "source": {
     "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
@@ -130,8 +130,8 @@
   },
   "historical_reference_cases": {
    "schema_version": 1,
-   "as_of": "2026-08-28",
-   "source_cutoff": "2026-08-29",
+   "as_of": "2026-08-31",
+   "source_cutoff": "2026-08-31",
    "source": {
     "company_profiles": "state/company_profiles.json",
     "history": "state/history/{symbol}.json",
@@ -161,7 +161,7 @@
   },
   "financial_engine_assumption_gaps": {
    "schema_version": 1,
-   "as_of": "2026-08-28",
+   "as_of": "2026-08-31",
    "source": {
     "financial_engine_assumptions": "state/company_intel/financial_engine_assumptions.json",
     "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
@@ -3075,10 +3075,10 @@
    "changes": [],
    "graph": {
     "summary": {
-     "document": 35,
-     "period": 12,
-     "fact": 77,
-     "event": 26,
+     "document": 36,
+     "period": 28,
+     "fact": 252,
+     "event": 34,
      "change": 0,
      "source": 14
     },
@@ -3210,22 +3210,13 @@
       "source_url": "https://dps.psx.com.pk/download/document/257465.pdf"
      },
      {
-      "id": "event:evt_027647780f54834193c8",
+      "id": "event:evt_03365f3586a002660b17",
       "type": "event",
-      "label": "board_meeting",
-      "event_id": "evt_027647780f54834193c8",
-      "event_type": "board_meeting",
-      "event_date": "2025-10-27T10:09:00+05:00",
+      "label": "contract",
+      "event_id": "evt_03365f3586a002660b17",
+      "event_type": "contract",
+      "event_date": "2025-09-25T12:43:00+05:00",
       "priority_weight": 3
-     },
-     {
-      "id": "event:evt_0b31307ae4c397ef8415",
-      "type": "event",
-      "label": "dividend",
-      "event_id": "evt_0b31307ae4c397ef8415",
-      "event_type": "dividend",
-      "event_date": "2025-10-27T10:09:00+05:00",
-      "priority_weight": 2
      },
      {
       "id": "event:evt_108bb60aa719738676d0",
@@ -3261,13 +3252,31 @@
       "priority_weight": 4
      },
      {
-      "id": "event:evt_3b99352e80097e6a4c60",
+      "id": "event:evt_310a445ce6dd58451fec",
       "type": "event",
-      "label": "contract",
-      "event_id": "evt_3b99352e80097e6a4c60",
-      "event_type": "contract",
-      "event_date": "2025-10-27T10:09:00+05:00",
+      "label": "briefing",
+      "event_id": "evt_310a445ce6dd58451fec",
+      "event_type": "briefing",
+      "event_date": "2025-09-25T12:43:00+05:00",
       "priority_weight": 3
+     },
+     {
+      "id": "event:evt_377d94804b85d17fe90a",
+      "type": "event",
+      "label": "credit_event",
+      "event_id": "evt_377d94804b85d17fe90a",
+      "event_type": "credit_event",
+      "event_date": "2025-09-25T12:43:00+05:00",
+      "priority_weight": 5
+     },
+     {
+      "id": "event:evt_54631a81a1fbd527f8f3",
+      "type": "event",
+      "label": "dividend",
+      "event_id": "evt_54631a81a1fbd527f8f3",
+      "event_type": "dividend",
+      "event_date": "2025-09-25T12:43:00+05:00",
+      "priority_weight": 2
      },
      {
       "id": "event:evt_54df84cd651ae23dbdb2",
@@ -3287,29 +3296,21 @@
       "priority_weight": 3
      },
      {
+      "id": "event:evt_570777da2358206bf0fc",
+      "type": "event",
+      "label": "contract",
+      "event_id": "evt_570777da2358206bf0fc",
+      "event_type": "contract",
+      "event_date": "2025-10-27T10:09:00+05:00",
+      "priority_weight": 3
+     },
+     {
       "id": "event:evt_5fdcb1b3468f9c2b86bc",
       "type": "event",
       "label": "contract",
       "event_id": "evt_5fdcb1b3468f9c2b86bc",
       "event_type": "contract",
       "priority_weight": 3
-     },
-     {
-      "id": "event:evt_6a803e1f78d7aae93e14",
-      "type": "event",
-      "label": "agm",
-      "event_id": "evt_6a803e1f78d7aae93e14",
-      "event_type": "agm",
-      "priority_weight": 3
-     },
-     {
-      "id": "event:evt_71c2e2ebe51f7f12068f",
-      "type": "event",
-      "label": "acquisition",
-      "event_id": "evt_71c2e2ebe51f7f12068f",
-      "event_type": "acquisition",
-      "event_date": "2025-10-27T10:09:00+05:00",
-      "priority_weight": 4
      },
      {
       "id": "fact:issuer:0041077dadc52bdcd3baaa54:fact_081d3d12f06c762951b5",
@@ -3526,58 +3527,54 @@
       "quality_flags": []
      },
      {
-      "id": "fact:psx:263397:fact_0c6122a197a0cf5a507e",
+      "id": "fact:psx:260032:fact_0129c130e45c61e19f13",
       "type": "fact",
       "label": "revenue",
-      "document_id": "psx:263397",
+      "document_id": "psx:260032",
       "metric": "revenue",
-      "raw_value": "14",
-      "normalized_value": 14,
-      "period_end": "2025-09-30",
-      "period_type": "quarter",
+      "raw_value": "99,521,338",
+      "normalized_value": 99521338000,
+      "period_end": "2025-06-30",
+      "period_type": "annual",
       "consolidation": "unknown",
+      "currency": "PKR",
       "quality_flags": [
        "legacy_extractor_not_model_eligible",
        "legacy_parser_revision_quarantine",
-       "missing_consolidation_basis",
-       "missing_currency"
+       "missing_consolidation_basis"
       ]
      },
      {
-      "id": "fact:psx:263397:fact_146885515de3e34994a4",
+      "id": "fact:psx:260032:fact_016fba04eaed7d7f4fb9",
       "type": "fact",
-      "label": "revenue",
-      "document_id": "psx:263397",
-      "metric": "revenue",
-      "raw_value": "11,501,541",
-      "normalized_value": 11501541,
-      "period_end": "2025-09-30",
-      "period_type": "quarter",
+      "label": "profit",
+      "document_id": "psx:260032",
+      "metric": "profit",
+      "raw_value": "17,036,374",
+      "normalized_value": 17036374,
+      "period_end": "2025-06-30",
+      "period_type": "annual",
       "consolidation": "unknown",
+      "currency": "PKR",
       "quality_flags": [
        "legacy_extractor_not_model_eligible",
        "legacy_parser_revision_quarantine",
-       "missing_consolidation_basis",
-       "missing_currency"
+       "missing_consolidation_basis"
       ]
      },
      {
-      "id": "fact:psx:263397:fact_18746ff0dc7adf34f1c4",
+      "id": "fact:psx:260032:fact_01d61002682dcceb47c34364",
       "type": "fact",
-      "label": "revenue",
-      "document_id": "psx:263397",
-      "metric": "revenue",
-      "raw_value": "684,453",
-      "normalized_value": 684453,
-      "period_end": "2025-09-30",
-      "period_type": "quarter",
-      "consolidation": "unknown",
-      "quality_flags": [
-       "legacy_extractor_not_model_eligible",
-       "legacy_parser_revision_quarantine",
-       "missing_consolidation_basis",
-       "missing_currency"
-      ]
+      "label": "basic_eps",
+      "document_id": "psx:260032",
+      "metric": "basic_eps",
+      "raw_value": "16.26",
+      "normalized_value": 16.26,
+      "period_end": "2025-06-30",
+      "period_type": "annual",
+      "consolidation": "unconsolidated",
+      "currency": "PKR",
+      "quality_flags": []
      },
      {
       "id": "period_0d9cd168008111d69adea11b",
@@ -3587,6 +3584,15 @@
       "period_end": "2025-12-31",
       "period_type": "quarter",
       "consolidation": "unknown"
+     },
+     {
+      "id": "period_0e26008fc02d7b0f4d54f478",
+      "type": "period",
+      "label": "2025-09-30",
+      "ticker": "MLCF",
+      "period_end": "2025-09-30",
+      "period_type": "interim",
+      "consolidation": "unconsolidated"
      },
      {
       "id": "period_16b4309e9dba43cab4692d8e",
@@ -3607,49 +3613,40 @@
       "consolidation": "consolidated"
      },
      {
-      "id": "period_465c95baf68c5364924d19ad",
+      "id": "period_19efb6a4052cebc976234886",
       "type": "period",
-      "label": "2026-03-31",
+      "label": "2025-03-31",
       "ticker": "MLCF",
-      "period_end": "2026-03-31",
-      "period_type": "quarter",
+      "period_end": "2025-03-31",
+      "period_type": "interim",
       "consolidation": "unconsolidated"
      },
      {
-      "id": "period_745b6e25d50de82203f08605",
+      "id": "period_1a3c90f5515d049621494e00",
       "type": "period",
       "label": "2024-06-30",
       "ticker": "MLCF",
       "period_end": "2024-06-30",
       "period_type": "annual",
-      "consolidation": "consolidated"
+      "consolidation": "unconsolidated"
      },
      {
-      "id": "period_8d7a770f021ae28af2a2c64a",
+      "id": "period_289fb3703918ca341a024d86",
       "type": "period",
-      "label": "2026-03-31",
+      "label": "2025-09-30",
       "ticker": "MLCF",
-      "period_end": "2026-03-31",
-      "period_type": "quarter",
-      "consolidation": "unknown"
-     },
-     {
-      "id": "period_90ef4e1252060821581b7839",
-      "type": "period",
-      "label": "2023-06-30",
-      "ticker": "MLCF",
-      "period_end": "2023-06-30",
-      "period_type": "annual",
-      "consolidation": "unknown"
-     },
-     {
-      "id": "period_a692f1ee60882b325e275920",
-      "type": "period",
-      "label": "2025-12-31",
-      "ticker": "MLCF",
-      "period_end": "2025-12-31",
+      "period_end": "2025-09-30",
       "period_type": "quarter",
       "consolidation": "unconsolidated"
+     },
+     {
+      "id": "period_3109234210d022adae309684",
+      "type": "period",
+      "label": "2025-09-30",
+      "ticker": "MLCF",
+      "period_end": "2025-09-30",
+      "period_type": "interim",
+      "consolidation": "consolidated"
      },
      {
       "id": "source:src_0041077dadc52bdcd3baaa54",
@@ -3872,17 +3869,6 @@
       "document_id": "psx:271712"
      },
      {
-      "id": "edge_1ccdebca3a7ed96b77ba95a1",
-      "type": "REPORTS_PERIOD",
-      "from": "document:psx:275425",
-      "to": "period_465c95baf68c5364924d19ad",
-      "evidence": {
-       "source_url": "https://dps.psx.com.pk/download/document/275425.pdf",
-       "page": 9
-      },
-      "document_id": "psx:275425"
-     },
-     {
       "id": "edge_1d2a48258209ed6f725490bd",
       "type": "HAS_SOURCE",
       "from": "company:MLCF",
@@ -3892,6 +3878,17 @@
       },
       "status": "discovered",
       "quality_flags": []
+     },
+     {
+      "id": "edge_1e64accb740e20eb2ca40eba",
+      "type": "HAS_EVENT",
+      "from": "company:MLCF",
+      "to": "event:evt_310a445ce6dd58451fec",
+      "evidence": {
+       "source_url": "https://dps.psx.com.pk/download/document/260032.pdf",
+       "page": 103
+      },
+      "document_id": "psx:260032"
      },
      {
       "id": "edge_227293b1b4aab52eaf13bc4e",
@@ -3949,15 +3946,15 @@
       "document_id": "psx:271712"
      },
      {
-      "id": "edge_3b24f9a598aefa7be872ab3d",
-      "type": "REPORTS_PERIOD",
-      "from": "document:psx:275425",
-      "to": "period_8d7a770f021ae28af2a2c64a",
+      "id": "edge_35d5e938597a87cf1b92cad3",
+      "type": "HAS_EVENT",
+      "from": "company:MLCF",
+      "to": "event:evt_54631a81a1fbd527f8f3",
       "evidence": {
-       "source_url": "https://dps.psx.com.pk/download/document/275425.pdf",
-       "page": 40
+       "source_url": "https://dps.psx.com.pk/download/document/260032.pdf",
+       "page": 77
       },
-      "document_id": "psx:275425"
+      "document_id": "psx:260032"
      },
      {
       "id": "edge_524fc675042c2a1719ba2e1a",
@@ -3982,6 +3979,17 @@
       "quality_flags": []
      },
      {
+      "id": "edge_5fc54d84444835e41254d2d4",
+      "type": "HAS_EVENT",
+      "from": "company:MLCF",
+      "to": "event:evt_377d94804b85d17fe90a",
+      "evidence": {
+       "source_url": "https://dps.psx.com.pk/download/document/260032.pdf",
+       "page": 51
+      },
+      "document_id": "psx:260032"
+     },
+     {
       "id": "edge_60f699bd20cc11583940d08b",
       "type": "HAS_EVENT",
       "from": "company:MLCF",
@@ -4001,28 +4009,6 @@
        "source_url": "https://dps.psx.com.pk/download/document/274750.pdf"
       },
       "document_id": "psx:274750"
-     },
-     {
-      "id": "edge_7005e7a6a61871ae67a5660a",
-      "type": "REPORTS_PERIOD",
-      "from": "document:psx:271712",
-      "to": "period_0d9cd168008111d69adea11b",
-      "evidence": {
-       "source_url": "https://dps.psx.com.pk/download/document/271712.pdf",
-       "page": 29
-      },
-      "document_id": "psx:271712"
-     },
-     {
-      "id": "edge_77dd1a2da35b8750cd55d8a2",
-      "type": "REPORTS_PERIOD",
-      "from": "document:psx:275425",
-      "to": "period_8d7a770f021ae28af2a2c64a",
-      "evidence": {
-       "source_url": "https://dps.psx.com.pk/download/document/275425.pdf",
-       "page": 7
-      },
-      "document_id": "psx:275425"
      },
      {
       "id": "edge_7a79885482420a76d51db76b",
@@ -4056,15 +4042,15 @@
       "document_id": "psx:270683"
      },
      {
-      "id": "edge_85dcc2bb77e079a60871be0a",
+      "id": "edge_8268831f7ef9a8402da74591",
       "type": "HAS_EVENT",
       "from": "company:MLCF",
-      "to": "event:evt_0b31307ae4c397ef8415",
+      "to": "event:evt_03365f3586a002660b17",
       "evidence": {
-       "source_url": "https://dps.psx.com.pk/download/document/263397.pdf",
-       "page": 7
+       "source_url": "https://dps.psx.com.pk/download/document/260032.pdf",
+       "page": 20
       },
-      "document_id": "psx:263397"
+      "document_id": "psx:260032"
      },
      {
       "id": "edge_8b26a64bfa8bff67daa8bf96",
@@ -4077,39 +4063,6 @@
       "document_id": "psx:270983"
      },
      {
-      "id": "edge_8c101f0459d10636549b3792",
-      "type": "HAS_EVENT",
-      "from": "company:MLCF",
-      "to": "event:evt_71c2e2ebe51f7f12068f",
-      "evidence": {
-       "source_url": "https://dps.psx.com.pk/download/document/263397.pdf",
-       "page": 5
-      },
-      "document_id": "psx:263397"
-     },
-     {
-      "id": "edge_8c1d8dd257e830aecfcc2bf9",
-      "type": "REPORTS_PERIOD",
-      "from": "document:psx:275425",
-      "to": "period_8d7a770f021ae28af2a2c64a",
-      "evidence": {
-       "source_url": "https://dps.psx.com.pk/download/document/275425.pdf",
-       "page": 27
-      },
-      "document_id": "psx:275425"
-     },
-     {
-      "id": "edge_8c9dd1b49ad55c9b200471dd",
-      "type": "REPORTS_PERIOD",
-      "from": "document:psx:275425",
-      "to": "period_8d7a770f021ae28af2a2c64a",
-      "evidence": {
-       "source_url": "https://dps.psx.com.pk/download/document/275425.pdf",
-       "page": 25
-      },
-      "document_id": "psx:275425"
-     },
-     {
       "id": "edge_9d6564a512d5cd1f1c9d6bcc",
       "type": "FILED",
       "from": "company:MLCF",
@@ -4118,39 +4071,6 @@
        "source_url": "https://dps.psx.com.pk/download/document/270820.pdf"
       },
       "document_id": "psx:270820"
-     },
-     {
-      "id": "edge_a107cfac4aad034475d873a9",
-      "type": "REPORTS_PERIOD",
-      "from": "document:psx:275425",
-      "to": "period_8d7a770f021ae28af2a2c64a",
-      "evidence": {
-       "source_url": "https://dps.psx.com.pk/download/document/275425.pdf",
-       "page": 20
-      },
-      "document_id": "psx:275425"
-     },
-     {
-      "id": "edge_a68adf30ad6cb5c2fc37f6e1",
-      "type": "REPORTS_PERIOD",
-      "from": "document:psx:275425",
-      "to": "period_465c95baf68c5364924d19ad",
-      "evidence": {
-       "source_url": "https://dps.psx.com.pk/download/document/275425.pdf",
-       "page": 7
-      },
-      "document_id": "psx:275425"
-     },
-     {
-      "id": "edge_a8b89577b28313787b59b6e4",
-      "type": "HAS_EVENT",
-      "from": "company:MLCF",
-      "to": "event:evt_3b99352e80097e6a4c60",
-      "evidence": {
-       "source_url": "https://dps.psx.com.pk/download/document/263397.pdf",
-       "page": 14
-      },
-      "document_id": "psx:263397"
      },
      {
       "id": "edge_a9cfebc0ed487ce060bea3df",
@@ -4227,35 +4147,13 @@
       "document_id": "psx:257465"
      },
      {
-      "id": "edge_c33d6bc8c6bb4a906cdc501a",
-      "type": "REPORTS_PERIOD",
-      "from": "document:psx:271712",
-      "to": "period_a692f1ee60882b325e275920",
-      "evidence": {
-       "source_url": "https://dps.psx.com.pk/download/document/271712.pdf",
-       "page": 10
-      },
-      "document_id": "psx:271712"
-     },
-     {
-      "id": "edge_c60ae58c9bb2ac59ba8241b6",
+      "id": "edge_c271a298298efc6c83cdc680",
       "type": "HAS_EVENT",
       "from": "company:MLCF",
-      "to": "event:evt_6a803e1f78d7aae93e14",
-      "evidence": {
-       "source_url": "https://www.kmlg.com/mlcfl/wp-content/uploads/2025/09/MLCF-Notice-of-AGM-16.10.2025-Final.pdf",
-       "page": 1
-      },
-      "document_id": "issuer:a8f1eabc2c63d1a541e2f1ee"
-     },
-     {
-      "id": "edge_ca577aa005ea7d62b391ccbc",
-      "type": "HAS_EVENT",
-      "from": "company:MLCF",
-      "to": "event:evt_027647780f54834193c8",
+      "to": "event:evt_570777da2358206bf0fc",
       "evidence": {
        "source_url": "https://dps.psx.com.pk/download/document/263397.pdf",
-       "page": 3
+       "page": 14
       },
       "document_id": "psx:263397"
      },
@@ -4271,13 +4169,13 @@
       "document_id": "issuer:a1443a4f74306be8a6969cf3"
      },
      {
-      "id": "edge_cb26ed02fbdf8816f1024737",
+      "id": "edge_d5718f7275bc03b092507a3e",
       "type": "REPORTS_PERIOD",
       "from": "document:psx:275425",
-      "to": "period_8d7a770f021ae28af2a2c64a",
+      "to": "period_19efb6a4052cebc976234886",
       "evidence": {
        "source_url": "https://dps.psx.com.pk/download/document/275425.pdf",
-       "page": 8
+       "page": 9
       },
       "document_id": "psx:275425"
      },
@@ -5072,6 +4970,44 @@
      "quality_flags": []
     },
     {
+     "event_id": "evt_6cdb8c02f429bc28beaa",
+     "company_id": "MLCF",
+     "symbol": "MLCF",
+     "event_type": "contract_tender",
+     "event_subtype": "contract",
+     "intelligence_type": "reported_fact",
+     "priority_weight": 3,
+     "detected_at": "2025-10-27T10:09:00+05:00",
+     "effective_date": "2025-10-27",
+     "expected_completion": null,
+     "business_segment": null,
+     "location": null,
+     "description": "a company in Pakistan to which these shares will be transferred. On May 10, 2023, Andalus entered into an agreement with the Company that along with its affiliates, the Company would invest in NHPL, maintaining at least a 66.66% shareholdi…",
+     "source_url": "https://dps.psx.com.pk/download/document/263397.pdf",
+     "source_quality_level": 1,
+     "confidence": 82,
+     "estimated_scale": null,
+     "expected_cost": null,
+     "affected_drivers": [],
+     "expected_lag": null,
+     "historical_analogues": [],
+     "peer_analogues": [],
+     "scenario_ids": [],
+     "financial_model_version": null,
+     "evidence": [
+      {
+       "document_id": "psx:263397",
+       "source": "PSX DPS",
+       "source_url": "https://dps.psx.com.pk/download/document/263397.pdf",
+       "page": 14,
+       "text": "a company in Pakistan to which these shares will be transferred. On May 10, 2023, Andalus entered into an agreement with the Company that along with its affiliates, the Company would invest in NHPL, maintaining at least a 66.66% shareholdi…",
+       "content_sha256": "a05eeee23485edd71c6c096a606a3b6fd76d6687e13bdaf032f97b59b9cdcc7e",
+       "evidence_sha256": "fe698dcd654c9e3c8daae16e8e2f536dc4183e3811cae971f92300abc41f3543"
+      }
+     ],
+     "quality_flags": []
+    },
+    {
      "event_id": "evt_a0c390f2010041e1b8f8",
      "company_id": "MLCF",
      "symbol": "MLCF",
@@ -5159,37 +5095,37 @@
       "period_end": "2024-06-30",
       "actuals": {
        "revenue": {
-        "value": 66452348000,
+        "value": 66452348000.0,
         "unit": "PKR",
-        "unit_multiplier": 1,
+        "unit_multiplier": 1000,
         "source": {
-         "document_id": "psx:236626",
-         "fact_id": "manual_fact_66b17ef9298dc2847c1e5371",
-         "content_sha256": "98d81e613a6ebaa06757442f7239bf7471315bca6c7e70dff8052f0af3ec91bf",
-         "source_url": "https://dps.psx.com.pk/download/document/236626.pdf",
+         "document_id": "psx:260032",
+         "fact_id": "fact_394f42ea6daa2044e4ad6dac",
+         "content_sha256": "4fdfb4cbd2eee65576cbb89b43334ce0c09a7e5ffd573d5bf93b414029eba6d1",
+         "source_url": "https://dps.psx.com.pk/download/document/260032.pdf",
          "source": "PSX DPS",
-         "page": 1,
-         "text": "MLCF 2024-06-30 revenue owner-verified manual claim",
-         "available_on": "2024-09-11T09:09:00+05:00",
-         "published_at": "2024-09-11T09:09:00+05:00",
-         "retrieved_at": null
+         "page": 293,
+         "text": "Revenue from contracts with customers - net",
+         "available_on": "2025-09-25",
+         "published_at": "2025-09-25T12:43:00+05:00",
+         "retrieved_at": "2026-08-31T10:11:51Z"
         }
        },
        "profit_after_tax_attributable": {
-        "value": 6891064000,
+        "value": 6891064000.0,
         "unit": "PKR",
-        "unit_multiplier": 1,
+        "unit_multiplier": 1000,
         "source": {
-         "document_id": "psx:236626",
-         "fact_id": "manual_fact_532ab7b94f52d71ab3797be2",
-         "content_sha256": "98d81e613a6ebaa06757442f7239bf7471315bca6c7e70dff8052f0af3ec91bf",
-         "source_url": "https://dps.psx.com.pk/download/document/236626.pdf",
+         "document_id": "psx:260032",
+         "fact_id": "fact_4579f98e3b83040dc49dda12",
+         "content_sha256": "4fdfb4cbd2eee65576cbb89b43334ce0c09a7e5ffd573d5bf93b414029eba6d1",
+         "source_url": "https://dps.psx.com.pk/download/document/260032.pdf",
          "source": "PSX DPS",
-         "page": 1,
-         "text": "MLCF 2024-06-30 profit_after_tax_attributable owner-verified manual claim",
-         "available_on": "2024-09-11T09:09:00+05:00",
-         "published_at": "2024-09-11T09:09:00+05:00",
-         "retrieved_at": null
+         "page": 293,
+         "text": "Equity holders of the Holding Company",
+         "available_on": "2025-09-25",
+         "published_at": "2025-09-25T12:43:00+05:00",
+         "retrieved_at": "2026-08-31T10:11:51Z"
         }
        },
        "basic_eps": {
@@ -5215,37 +5151,37 @@
       "period_end": "2025-06-30",
       "actuals": {
        "revenue": {
-        "value": 68653999000,
+        "value": 68653999000.0,
         "unit": "PKR",
-        "unit_multiplier": 1,
+        "unit_multiplier": 1000,
         "source": {
-         "document_id": "psx:280589",
-         "fact_id": "manual_fact_81f61eff38c0e596815acb84",
-         "content_sha256": "c9c7771eaa6a7fc75f6468318218ec85dd7d947637294e6dab9b19c3067ef696",
-         "source_url": "https://dps.psx.com.pk/download/document/280589.pdf",
+         "document_id": "psx:260032",
+         "fact_id": "fact_418ac80a7d5cbc105b272259",
+         "content_sha256": "4fdfb4cbd2eee65576cbb89b43334ce0c09a7e5ffd573d5bf93b414029eba6d1",
+         "source_url": "https://dps.psx.com.pk/download/document/260032.pdf",
          "source": "PSX DPS",
-         "page": 3,
-         "text": "MLCF 2025-06-30 revenue owner-verified manual claim",
-         "available_on": "2026-07-31T08:51:00+05:00",
-         "published_at": "2026-07-31T08:51:00+05:00",
-         "retrieved_at": null
+         "page": 293,
+         "text": "Revenue from contracts with customers - net",
+         "available_on": "2025-09-25",
+         "published_at": "2025-09-25T12:43:00+05:00",
+         "retrieved_at": "2026-08-31T10:11:51Z"
         }
        },
        "profit_after_tax_attributable": {
-        "value": 11503305000,
+        "value": 11503305000.0,
         "unit": "PKR",
-        "unit_multiplier": 1,
+        "unit_multiplier": 1000,
         "source": {
-         "document_id": "psx:280589",
-         "fact_id": "manual_fact_1143daa1f48237ac5b1b2534",
-         "content_sha256": "c9c7771eaa6a7fc75f6468318218ec85dd7d947637294e6dab9b19c3067ef696",
-         "source_url": "https://dps.psx.com.pk/download/document/280589.pdf",
+         "document_id": "psx:260032",
+         "fact_id": "fact_e8d4d3e966945b46f273e243",
+         "content_sha256": "4fdfb4cbd2eee65576cbb89b43334ce0c09a7e5ffd573d5bf93b414029eba6d1",
+         "source_url": "https://dps.psx.com.pk/download/document/260032.pdf",
          "source": "PSX DPS",
-         "page": 3,
-         "text": "MLCF 2025-06-30 profit_after_tax_attributable owner-verified manual claim",
-         "available_on": "2026-07-31T08:51:00+05:00",
-         "published_at": "2026-07-31T08:51:00+05:00",
-         "retrieved_at": null
+         "page": 293,
+         "text": "Equity holders of the Holding Company",
+         "available_on": "2025-09-25",
+         "published_at": "2025-09-25T12:43:00+05:00",
+         "retrieved_at": "2026-08-31T10:11:51Z"
         }
        },
        "basic_eps": {
@@ -5872,6 +5808,150 @@
      ]
     },
     {
+     "scenario_id": "scn_634856aaff32465831d8",
+     "event_id": "evt_6cdb8c02f429bc28beaa",
+     "company_id": "MLCF",
+     "intelligence_type": "scenario",
+     "scenario_type": "scenario",
+     "scenario": "Bear",
+     "probability": 0.25,
+     "assumptions": {
+      "affected_drivers": [
+       "dispatch_volume",
+       "revenue"
+      ],
+      "required_inputs": [
+       "dispatch_volume",
+       "revenue"
+      ],
+      "missing_inputs": [
+       "dispatch_volume",
+       "revenue"
+      ]
+     },
+     "impact_status": "insufficient_data",
+     "timing": {
+      "expected_lag": null,
+      "effective_date": "2025-10-27"
+     },
+     "revenue_impact": null,
+     "ebitda_impact": null,
+     "eps_impact": null,
+     "fcf_impact": null,
+     "valuation_impact": null,
+     "confidence": 82,
+     "evidence": [
+      {
+       "document_id": "psx:263397",
+       "source": "PSX DPS",
+       "source_url": "https://dps.psx.com.pk/download/document/263397.pdf",
+       "page": 14,
+       "text": "a company in Pakistan to which these shares will be transferred. On May 10, 2023, Andalus entered into an agreement with the Company that along with its affiliates, the Company would invest in NHPL, maintaining at least a 66.66% shareholdi…",
+       "content_sha256": "a05eeee23485edd71c6c096a606a3b6fd76d6687e13bdaf032f97b59b9cdcc7e",
+       "evidence_sha256": "fe698dcd654c9e3c8daae16e8e2f536dc4183e3811cae971f92300abc41f3543"
+      }
+     ],
+     "quality_flags": [
+      "insufficient_data"
+     ]
+    },
+    {
+     "scenario_id": "scn_7207367b7c327086851f",
+     "event_id": "evt_6cdb8c02f429bc28beaa",
+     "company_id": "MLCF",
+     "intelligence_type": "scenario",
+     "scenario_type": "scenario",
+     "scenario": "Base",
+     "probability": 0.5,
+     "assumptions": {
+      "affected_drivers": [
+       "dispatch_volume",
+       "revenue"
+      ],
+      "required_inputs": [
+       "dispatch_volume",
+       "revenue"
+      ],
+      "missing_inputs": [
+       "dispatch_volume",
+       "revenue"
+      ]
+     },
+     "impact_status": "insufficient_data",
+     "timing": {
+      "expected_lag": null,
+      "effective_date": "2025-10-27"
+     },
+     "revenue_impact": null,
+     "ebitda_impact": null,
+     "eps_impact": null,
+     "fcf_impact": null,
+     "valuation_impact": null,
+     "confidence": 82,
+     "evidence": [
+      {
+       "document_id": "psx:263397",
+       "source": "PSX DPS",
+       "source_url": "https://dps.psx.com.pk/download/document/263397.pdf",
+       "page": 14,
+       "text": "a company in Pakistan to which these shares will be transferred. On May 10, 2023, Andalus entered into an agreement with the Company that along with its affiliates, the Company would invest in NHPL, maintaining at least a 66.66% shareholdi…",
+       "content_sha256": "a05eeee23485edd71c6c096a606a3b6fd76d6687e13bdaf032f97b59b9cdcc7e",
+       "evidence_sha256": "fe698dcd654c9e3c8daae16e8e2f536dc4183e3811cae971f92300abc41f3543"
+      }
+     ],
+     "quality_flags": [
+      "insufficient_data"
+     ]
+    },
+    {
+     "scenario_id": "scn_265fa2e12590ee158240",
+     "event_id": "evt_6cdb8c02f429bc28beaa",
+     "company_id": "MLCF",
+     "intelligence_type": "scenario",
+     "scenario_type": "scenario",
+     "scenario": "Bull",
+     "probability": 0.25,
+     "assumptions": {
+      "affected_drivers": [
+       "dispatch_volume",
+       "revenue"
+      ],
+      "required_inputs": [
+       "dispatch_volume",
+       "revenue"
+      ],
+      "missing_inputs": [
+       "dispatch_volume",
+       "revenue"
+      ]
+     },
+     "impact_status": "insufficient_data",
+     "timing": {
+      "expected_lag": null,
+      "effective_date": "2025-10-27"
+     },
+     "revenue_impact": null,
+     "ebitda_impact": null,
+     "eps_impact": null,
+     "fcf_impact": null,
+     "valuation_impact": null,
+     "confidence": 82,
+     "evidence": [
+      {
+       "document_id": "psx:263397",
+       "source": "PSX DPS",
+       "source_url": "https://dps.psx.com.pk/download/document/263397.pdf",
+       "page": 14,
+       "text": "a company in Pakistan to which these shares will be transferred. On May 10, 2023, Andalus entered into an agreement with the Company that along with its affiliates, the Company would invest in NHPL, maintaining at least a 66.66% shareholdi…",
+       "content_sha256": "a05eeee23485edd71c6c096a606a3b6fd76d6687e13bdaf032f97b59b9cdcc7e",
+       "evidence_sha256": "fe698dcd654c9e3c8daae16e8e2f536dc4183e3811cae971f92300abc41f3543"
+      }
+     ],
+     "quality_flags": [
+      "insufficient_data"
+     ]
+    },
+    {
      "scenario_id": "scn_c7d100b681537fe98ee1",
      "event_id": "evt_a0c390f2010041e1b8f8",
      "company_id": "MLCF",
@@ -6204,6 +6284,62 @@
        }
       },
       {
+       "event_id": "evt_6cdb8c02f429bc28beaa",
+       "symbol": "MLCF",
+       "classification": "same_company",
+       "effective_date": "2025-10-27",
+       "outcomes": {
+        "1Q": {
+         "endpoint_date": "2026-01-27",
+         "return_pct": 20.697435897435913,
+         "status": "mature",
+         "reason": null,
+         "provenance": {
+          "history_file": "state/history/MLCF.json",
+          "baseline_date": "2025-10-24",
+          "target_date": "2026-01-27",
+          "endpoint_date": "2026-01-27"
+         }
+        },
+        "2Q": {
+         "endpoint_date": null,
+         "return_pct": null,
+         "status": "unavailable",
+         "reason": "no_ex_ante_endpoint",
+         "provenance": {
+          "history_file": "state/history/MLCF.json",
+          "baseline_date": "2025-10-24",
+          "target_date": "2026-04-27",
+          "endpoint_date": null
+         }
+        },
+        "4Q": {
+         "endpoint_date": null,
+         "return_pct": null,
+         "status": "unavailable",
+         "reason": "no_ex_ante_endpoint",
+         "provenance": {
+          "history_file": "state/history/MLCF.json",
+          "baseline_date": "2025-10-24",
+          "target_date": "2026-10-27",
+          "endpoint_date": null
+         }
+        },
+        "8Q": {
+         "endpoint_date": null,
+         "return_pct": null,
+         "status": "unavailable",
+         "reason": "no_ex_ante_endpoint",
+         "provenance": {
+          "history_file": "state/history/MLCF.json",
+          "baseline_date": "2025-10-24",
+          "target_date": "2027-10-27",
+          "endpoint_date": null
+         }
+        }
+       }
+      },
+      {
        "event_id": "evt_a0c390f2010041e1b8f8",
        "symbol": "MLCF",
        "classification": "same_company",
@@ -6262,10 +6398,10 @@
      ],
      "analogue_aggregate": {
       "1Q": {
-       "n": 2,
-       "mean_return_pct": null,
-       "status": "suppressed",
-       "reason": "n_lt_3"
+       "n": 3,
+       "mean_return_pct": 18.28284586438662,
+       "status": "available",
+       "reason": null
       },
       "2Q": {
        "n": 0,
@@ -6710,6 +6846,237 @@
      ]
     },
     {
+     "study_id": "study_6cdb8c02f429bc28beaa",
+     "event_id": "evt_6cdb8c02f429bc28beaa",
+     "symbol": "MLCF",
+     "event_type": "contract_tender",
+     "effective_date": "2025-10-27",
+     "data_cutoff": "2026-08-28",
+     "baseline": {
+      "selected_date": "2025-10-24",
+      "selected_close": 97.5,
+      "status": "available",
+      "reason": null,
+      "provenance": {
+       "history_file": "state/history/MLCF.json",
+       "selected_date": "2025-10-24"
+      }
+     },
+     "horizons": {
+      "1Q": {
+       "target_date": "2026-01-27",
+       "selected_date": "2026-01-27",
+       "selected_close": 117.68,
+       "return_pct": 20.697435897435913,
+       "status": "mature",
+       "reason": null,
+       "provenance": {
+        "history_file": "state/history/MLCF.json",
+        "baseline_date": "2025-10-24",
+        "endpoint_date": "2026-01-27",
+        "target_date": "2026-01-27"
+       }
+      },
+      "2Q": {
+       "target_date": "2026-04-27",
+       "selected_date": "2026-04-27",
+       "selected_close": 83.87,
+       "return_pct": -13.97948717948717,
+       "status": "mature",
+       "reason": null,
+       "provenance": {
+        "history_file": "state/history/MLCF.json",
+        "baseline_date": "2025-10-24",
+        "endpoint_date": "2026-04-27",
+        "target_date": "2026-04-27"
+       }
+      },
+      "4Q": {
+       "target_date": "2026-10-27",
+       "selected_date": null,
+       "selected_close": null,
+       "return_pct": null,
+       "status": "immature",
+       "reason": "target_after_last_bar",
+       "provenance": {
+        "history_file": "state/history/MLCF.json",
+        "baseline_date": "2025-10-24",
+        "endpoint_date": null,
+        "target_date": "2026-10-27"
+       }
+      },
+      "8Q": {
+       "target_date": "2027-10-27",
+       "selected_date": null,
+       "selected_close": null,
+       "return_pct": null,
+       "status": "immature",
+       "reason": "target_after_last_bar",
+       "provenance": {
+        "history_file": "state/history/MLCF.json",
+        "baseline_date": "2025-10-24",
+        "endpoint_date": null,
+        "target_date": "2027-10-27"
+       }
+      }
+     },
+     "kse100_relative": {
+      "stock_return_pct": {
+       "1Q": null,
+       "2Q": null,
+       "4Q": null,
+       "8Q": null
+      },
+      "index_return_pct": {
+       "1Q": null,
+       "2Q": null,
+       "4Q": null,
+       "8Q": null
+      },
+      "relative_return_pct": {
+       "1Q": null,
+       "2Q": null,
+       "4Q": null,
+       "8Q": null
+      },
+      "returns_pct": {
+       "1Q": null,
+       "2Q": null,
+       "4Q": null,
+       "8Q": null
+      },
+      "semantics": "stock_raw_price_return_minus_KSE100_raw_price_return",
+      "reasons": {
+       "1Q": "missing_exact_index_dates",
+       "2Q": "missing_exact_index_dates",
+       "4Q": "missing_exact_index_dates",
+       "8Q": "missing_exact_index_dates"
+      },
+      "provenance": {
+       "indices_file": "state/indices.json",
+       "selected_dates": {
+        "1Q": [
+         "2025-10-24",
+         "2026-01-27"
+        ],
+        "2Q": [
+         "2025-10-24",
+         "2026-04-27"
+        ],
+        "4Q": [
+         "2025-10-24",
+         null
+        ],
+        "8Q": [
+         "2025-10-24",
+         null
+        ]
+       }
+      }
+     },
+     "analogues": [
+      {
+       "event_id": "evt_a0c390f2010041e1b8f8",
+       "symbol": "MLCF",
+       "classification": "same_company",
+       "effective_date": "2025-09-25",
+       "outcomes": {
+        "1Q": {
+         "endpoint_date": null,
+         "return_pct": null,
+         "status": "unavailable",
+         "reason": "no_ex_ante_endpoint",
+         "provenance": {
+          "history_file": "state/history/MLCF.json",
+          "baseline_date": "2025-09-24",
+          "target_date": "2025-12-25",
+          "endpoint_date": null
+         }
+        },
+        "2Q": {
+         "endpoint_date": null,
+         "return_pct": null,
+         "status": "unavailable",
+         "reason": "no_ex_ante_endpoint",
+         "provenance": {
+          "history_file": "state/history/MLCF.json",
+          "baseline_date": "2025-09-24",
+          "target_date": "2026-03-25",
+          "endpoint_date": null
+         }
+        },
+        "4Q": {
+         "endpoint_date": null,
+         "return_pct": null,
+         "status": "unavailable",
+         "reason": "no_ex_ante_endpoint",
+         "provenance": {
+          "history_file": "state/history/MLCF.json",
+          "baseline_date": "2025-09-24",
+          "target_date": "2026-09-25",
+          "endpoint_date": null
+         }
+        },
+        "8Q": {
+         "endpoint_date": null,
+         "return_pct": null,
+         "status": "unavailable",
+         "reason": "no_ex_ante_endpoint",
+         "provenance": {
+          "history_file": "state/history/MLCF.json",
+          "baseline_date": "2025-09-24",
+          "target_date": "2027-09-25",
+          "endpoint_date": null
+         }
+        }
+       }
+      }
+     ],
+     "analogue_aggregate": {
+      "1Q": {
+       "n": 0,
+       "mean_return_pct": null,
+       "status": "suppressed",
+       "reason": "n_lt_3"
+      },
+      "2Q": {
+       "n": 0,
+       "mean_return_pct": null,
+       "status": "suppressed",
+       "reason": "n_lt_3"
+      },
+      "4Q": {
+       "n": 0,
+       "mean_return_pct": null,
+       "status": "suppressed",
+       "reason": "n_lt_3"
+      },
+      "8Q": {
+       "n": 0,
+       "mean_return_pct": null,
+       "status": "suppressed",
+       "reason": "n_lt_3"
+      }
+     },
+     "financial_outcomes": {
+      "revenue": null,
+      "margin": null,
+      "eps": null,
+      "roic": null,
+      "fcf": null,
+      "valuation": null,
+      "missing_inputs": [
+       "period_aligned_financials",
+       "event_attribution_model"
+      ]
+     },
+     "limitations": [
+      "raw_price_return_not_adjusted_or_total_return",
+      "historical_association_not_causal",
+      "current_sector_analogues_survivorship_bias"
+     ]
+    },
+    {
      "study_id": "study_a0c390f2010041e1b8f8",
      "event_id": "evt_a0c390f2010041e1b8f8",
      "symbol": "MLCF",
@@ -6887,7 +7254,7 @@
    "conditional_benchmarks": {
     "symbol": "MLCF",
     "status": "benchmarks_available",
-    "benchmark_count": 4,
+    "benchmark_count": 5,
     "benchmarks": [
      {
       "benchmark_id": "conditional_3113b1593fa6de8d623b",
@@ -6924,6 +7291,70 @@
         {
          "event_id": "evt_d9a05d3b01ea6986febe",
          "study_id": "study_d9a05d3b01ea6986febe",
+         "symbol": "MLCF",
+         "effective_date": "2025-10-27",
+         "classification": "same_company",
+         "event_type": "contract_tender",
+         "event_subtype": "contract",
+         "sector": "Cement",
+         "outcomes": {
+          "1Q": {
+           "endpoint_date": "2026-01-27",
+           "return_pct": 20.697435897435913,
+           "status": "mature",
+           "reason": null,
+           "provenance": {
+            "history_file": "state/history/MLCF.json",
+            "baseline_date": "2025-10-24",
+            "target_date": "2026-01-27",
+            "endpoint_date": "2026-01-27"
+           }
+          },
+          "2Q": {
+           "endpoint_date": null,
+           "return_pct": null,
+           "status": "unavailable",
+           "reason": "no_ex_ante_endpoint",
+           "provenance": {
+            "history_file": "state/history/MLCF.json",
+            "baseline_date": "2025-10-24",
+            "target_date": "2026-04-27",
+            "endpoint_date": null
+           }
+          },
+          "4Q": {
+           "endpoint_date": null,
+           "return_pct": null,
+           "status": "unavailable",
+           "reason": "no_ex_ante_endpoint",
+           "provenance": {
+            "history_file": "state/history/MLCF.json",
+            "baseline_date": "2025-10-24",
+            "target_date": "2026-10-27",
+            "endpoint_date": null
+           }
+          },
+          "8Q": {
+           "endpoint_date": null,
+           "return_pct": null,
+           "status": "unavailable",
+           "reason": "no_ex_ante_endpoint",
+           "provenance": {
+            "history_file": "state/history/MLCF.json",
+            "baseline_date": "2025-10-24",
+            "target_date": "2027-10-27",
+            "endpoint_date": null
+           }
+          }
+         },
+         "outcome_source": {
+          "target_study_id": "study_d7c447a64349aa1b3210",
+          "target_event_id": "evt_d7c447a64349aa1b3210"
+         }
+        },
+        {
+         "event_id": "evt_6cdb8c02f429bc28beaa",
+         "study_id": "study_6cdb8c02f429bc28beaa",
          "symbol": "MLCF",
          "effective_date": "2025-10-27",
          "classification": "same_company",
@@ -7053,13 +7484,13 @@
        "same_sector_exact": []
       },
       "candidate_evidence_summary": {
-       "evidence_status": "thin_history_present",
+       "evidence_status": "aggregate_ready",
        "candidate_counts": {
-        "same_company_exact": 2,
+        "same_company_exact": 3,
         "same_sector_exact": 0
        },
        "mature_horizon_counts": {
-        "1Q": 2,
+        "1Q": 3,
         "2Q": 0,
         "4Q": 0,
         "8Q": 0
@@ -7068,36 +7499,38 @@
        "limitation": "Descriptive prior-event evidence only; it is not causal, a forecast, valuation or advice."
       },
       "readiness_ledger": {
-       "status": "needs_more_mature_outcomes",
+       "status": "aggregate_ready",
        "minimum_mature_outcome_sample": 3,
-       "strict_candidate_count": 2,
+       "strict_candidate_count": 3,
        "mature_horizon_counts": {
-        "1Q": 2,
+        "1Q": 3,
         "2Q": 0,
         "4Q": 0,
         "8Q": 0
        },
        "missing_mature_outcomes_to_minimum": {
-        "1Q": 1,
+        "1Q": 0,
         "2Q": 3,
         "4Q": 3,
         "8Q": 3
        },
-       "aggregate_ready_horizons": [],
+       "aggregate_ready_horizons": [
+        "1Q"
+       ],
        "nearest_ready_horizon": "1Q",
        "latest_prior_candidate_date": "2025-10-27",
-       "next_required_evidence": "1 additional mature strict prior exact analogue outcome(s) for 1Q before publishing aggregate statistics."
+       "next_required_evidence": "No additional mature strict analogue sample is required for already-ready horizons; expand retained exact history before adding new horizons."
       },
       "horizon_aggregates": {
        "1Q": {
-        "n": 2,
-        "status": "suppressed",
-        "reason": "n_lt_3",
+        "n": 3,
+        "status": "available",
+        "reason": null,
         "stats": {
-         "mean_return_pct": null,
-         "median_return_pct": null,
-         "min_return_pct": null,
-         "max_return_pct": null
+         "mean_return_pct": 18.28284586438662,
+         "median_return_pct": 20.697435897435913,
+         "min_return_pct": 13.45366579828804,
+         "max_return_pct": 20.697435897435913
         }
        },
        "2Q": {
@@ -7513,6 +7946,214 @@
       }
      },
      {
+      "benchmark_id": "conditional_6cc83aee645d4bbf25c7",
+      "target_event": {
+       "event_id": "evt_6cdb8c02f429bc28beaa",
+       "study_id": "study_6cdb8c02f429bc28beaa",
+       "symbol": "MLCF",
+       "event_type": "contract_tender",
+       "event_subtype": "contract",
+       "effective_date": "2025-10-27",
+       "sector": "Cement",
+       "description": "a company in Pakistan to which these shares will be transferred. On May 10, 2023, Andalus entered into an agreement with the Company that along with its affiliates, the Company would invest in NHPL, maintaining at least a 66.66% shareholdi…"
+      },
+      "context": {
+       "conditions": [
+        "event_type=contract_tender",
+        "event_subtype=contract",
+        "sector=Cement"
+       ],
+       "summary": "Exact event class and retained current-sector context."
+      },
+      "status": "candidate_history_present",
+      "matching_policy": {
+       "event_type": "exact",
+       "event_subtype": "exact",
+       "candidate_date": "strictly_before_target",
+       "same_company": "same_symbol",
+       "same_sector": "same_current_sector_other_symbol",
+       "returns": "reuse_target_event_study_analogue_outcomes",
+       "minimum_aggregate_sample": 3
+      },
+      "candidates": {
+       "same_company_exact": [
+        {
+         "event_id": "evt_a0c390f2010041e1b8f8",
+         "study_id": "study_a0c390f2010041e1b8f8",
+         "symbol": "MLCF",
+         "effective_date": "2025-09-25",
+         "classification": "same_company",
+         "event_type": "contract_tender",
+         "event_subtype": "contract",
+         "sector": "Cement",
+         "outcomes": {
+          "1Q": {
+           "endpoint_date": null,
+           "return_pct": null,
+           "status": "unavailable",
+           "reason": "no_ex_ante_endpoint",
+           "provenance": {
+            "history_file": "state/history/MLCF.json",
+            "baseline_date": "2025-09-24",
+            "target_date": "2025-12-25",
+            "endpoint_date": null
+           }
+          },
+          "2Q": {
+           "endpoint_date": null,
+           "return_pct": null,
+           "status": "unavailable",
+           "reason": "no_ex_ante_endpoint",
+           "provenance": {
+            "history_file": "state/history/MLCF.json",
+            "baseline_date": "2025-09-24",
+            "target_date": "2026-03-25",
+            "endpoint_date": null
+           }
+          },
+          "4Q": {
+           "endpoint_date": null,
+           "return_pct": null,
+           "status": "unavailable",
+           "reason": "no_ex_ante_endpoint",
+           "provenance": {
+            "history_file": "state/history/MLCF.json",
+            "baseline_date": "2025-09-24",
+            "target_date": "2026-09-25",
+            "endpoint_date": null
+           }
+          },
+          "8Q": {
+           "endpoint_date": null,
+           "return_pct": null,
+           "status": "unavailable",
+           "reason": "no_ex_ante_endpoint",
+           "provenance": {
+            "history_file": "state/history/MLCF.json",
+            "baseline_date": "2025-09-24",
+            "target_date": "2027-09-25",
+            "endpoint_date": null
+           }
+          }
+         },
+         "outcome_source": {
+          "target_study_id": "study_6cdb8c02f429bc28beaa",
+          "target_event_id": "evt_6cdb8c02f429bc28beaa"
+         }
+        }
+       ],
+       "same_sector_exact": []
+      },
+      "candidate_evidence_summary": {
+       "evidence_status": "thin_history_present",
+       "candidate_counts": {
+        "same_company_exact": 1,
+        "same_sector_exact": 0
+       },
+       "mature_horizon_counts": {
+        "1Q": 0,
+        "2Q": 0,
+        "4Q": 0,
+        "8Q": 0
+       },
+       "latest_prior_candidate_date": "2025-09-25",
+       "limitation": "Descriptive prior-event evidence only; it is not causal, a forecast, valuation or advice."
+      },
+      "readiness_ledger": {
+       "status": "needs_more_mature_outcomes",
+       "minimum_mature_outcome_sample": 3,
+       "strict_candidate_count": 1,
+       "mature_horizon_counts": {
+        "1Q": 0,
+        "2Q": 0,
+        "4Q": 0,
+        "8Q": 0
+       },
+       "missing_mature_outcomes_to_minimum": {
+        "1Q": 3,
+        "2Q": 3,
+        "4Q": 3,
+        "8Q": 3
+       },
+       "aggregate_ready_horizons": [],
+       "nearest_ready_horizon": "1Q",
+       "latest_prior_candidate_date": "2025-09-25",
+       "next_required_evidence": "3 additional mature strict prior exact analogue outcome(s) for 1Q before publishing aggregate statistics."
+      },
+      "horizon_aggregates": {
+       "1Q": {
+        "n": 0,
+        "status": "suppressed",
+        "reason": "n_lt_3",
+        "stats": {
+         "mean_return_pct": null,
+         "median_return_pct": null,
+         "min_return_pct": null,
+         "max_return_pct": null
+        }
+       },
+       "2Q": {
+        "n": 0,
+        "status": "suppressed",
+        "reason": "n_lt_3",
+        "stats": {
+         "mean_return_pct": null,
+         "median_return_pct": null,
+         "min_return_pct": null,
+         "max_return_pct": null
+        }
+       },
+       "4Q": {
+        "n": 0,
+        "status": "suppressed",
+        "reason": "n_lt_3",
+        "stats": {
+         "mean_return_pct": null,
+         "median_return_pct": null,
+         "min_return_pct": null,
+         "max_return_pct": null
+        }
+       },
+       "8Q": {
+        "n": 0,
+        "status": "suppressed",
+        "reason": "n_lt_3",
+        "stats": {
+         "mean_return_pct": null,
+         "median_return_pct": null,
+         "min_return_pct": null,
+         "max_return_pct": null
+        }
+       }
+      },
+      "blocked_states": {
+       "peer": {
+        "status": "blocked",
+        "reason": "no_peer_registry"
+       },
+       "international": {
+        "status": "blocked",
+        "reason": "no_international_registry"
+       },
+       "financial": {
+        "status": "blocked",
+        "reason": "no_period_aligned_financials"
+       },
+       "causal": {
+        "status": "blocked",
+        "reason": "descriptive_not_causal"
+       },
+       "forecast": {
+        "status": "blocked",
+        "reason": "not_implemented"
+       },
+       "valuation": {
+        "status": "blocked",
+        "reason": "not_implemented"
+       }
+      }
+     },
+     {
       "benchmark_id": "conditional_2107c0094da180c992d1",
       "target_event": {
        "event_id": "evt_a0c390f2010041e1b8f8",
@@ -7657,12 +8298,12 @@
      }
     ],
     "readiness_summary": {
-     "dated_benchmark_count": 4,
-     "benchmarks_with_candidates": 2,
-     "aggregate_ready_benchmark_count": 0,
+     "dated_benchmark_count": 5,
+     "benchmarks_with_candidates": 3,
+     "aggregate_ready_benchmark_count": 1,
      "suppressed_benchmark_count": 4,
-     "total_strict_candidate_count": 3,
-     "minimum_missing_mature_outcomes_to_publish": 1,
+     "total_strict_candidate_count": 5,
+     "minimum_missing_mature_outcomes_to_publish": 3,
      "event_class_gaps": [
       {
        "event_type": "acquisition_divestment",
@@ -7676,11 +8317,11 @@
       {
        "event_type": "contract_tender",
        "event_subtype": "contract",
-       "benchmark_count": 3,
-       "candidate_history_present_count": 2,
-       "aggregate_ready_count": 0,
-       "total_strict_candidate_count": 3,
-       "minimum_missing_mature_outcomes_to_publish": 1
+       "benchmark_count": 4,
+       "candidate_history_present_count": 3,
+       "aggregate_ready_count": 1,
+       "total_strict_candidate_count": 5,
+       "minimum_missing_mature_outcomes_to_publish": 3
       }
      ],
      "policy": "Metadata-only readiness; counts are recomputed from strict retained candidates and do not relax no-lookahead or minimum-sample rules."
@@ -19514,210 +20155,22 @@
    },
    "earnings_bridges": {
     "symbol": "MLCF",
-    "status": "historical_bridge_available",
-    "bridge_count": 2,
-    "qualified_period_count": 3,
-    "blocked_periods": [],
-    "bridges": [
-     {
-      "bridge_id": "ebr_8ecaf66b8c54b2684580",
-      "symbol": "MLCF",
-      "bridge_type": "historical_reported_annual_change",
-      "intelligence_type": "derived_fact",
-      "status": "historical_descriptive_only",
-      "previous_period_end": "2024-06-30",
-      "period_end": "2025-06-30",
-      "available_on": "2026-07-31T08:51:00+05:00",
-      "formula_version": "historical_earnings_bridge_v1",
-      "metrics": {
-       "revenue": {
-        "previous_value": 66452348000,
-        "current_value": 68653999000,
-        "change_amount": 2201651000,
-        "change_pct": 3.3131274759471196,
-        "unit": "PKR",
-        "unit_multiplier": 1,
-        "previous_source": {
-         "fact_id": "manual_fact_66b17ef9298dc2847c1e5371",
-         "document_id": "psx:236626",
-         "source_url": "https://dps.psx.com.pk/download/document/236626.pdf",
-         "content_sha256": "98d81e613a6ebaa06757442f7239bf7471315bca6c7e70dff8052f0af3ec91bf",
-         "page": 1,
-         "text": "MLCF 2024-06-30 revenue owner-verified manual claim",
-         "available_on": "2024-09-11T09:09:00+05:00"
-        },
-        "current_source": {
-         "fact_id": "manual_fact_81f61eff38c0e596815acb84",
-         "document_id": "psx:280589",
-         "source_url": "https://dps.psx.com.pk/download/document/280589.pdf",
-         "content_sha256": "c9c7771eaa6a7fc75f6468318218ec85dd7d947637294e6dab9b19c3067ef696",
-         "page": 3,
-         "text": "MLCF 2025-06-30 revenue owner-verified manual claim",
-         "available_on": "2026-07-31T08:51:00+05:00"
-        }
-       },
-       "profit_after_tax_attributable": {
-        "previous_value": 6891064000,
-        "current_value": 11503305000,
-        "change_amount": 4612241000,
-        "change_pct": 66.9307526384895,
-        "unit": "PKR",
-        "unit_multiplier": 1,
-        "previous_source": {
-         "fact_id": "manual_fact_532ab7b94f52d71ab3797be2",
-         "document_id": "psx:236626",
-         "source_url": "https://dps.psx.com.pk/download/document/236626.pdf",
-         "content_sha256": "98d81e613a6ebaa06757442f7239bf7471315bca6c7e70dff8052f0af3ec91bf",
-         "page": 1,
-         "text": "MLCF 2024-06-30 profit_after_tax_attributable owner-verified manual claim",
-         "available_on": "2024-09-11T09:09:00+05:00"
-        },
-        "current_source": {
-         "fact_id": "manual_fact_1143daa1f48237ac5b1b2534",
-         "document_id": "psx:280589",
-         "source_url": "https://dps.psx.com.pk/download/document/280589.pdf",
-         "content_sha256": "c9c7771eaa6a7fc75f6468318218ec85dd7d947637294e6dab9b19c3067ef696",
-         "page": 3,
-         "text": "MLCF 2025-06-30 profit_after_tax_attributable owner-verified manual claim",
-         "available_on": "2026-07-31T08:51:00+05:00"
-        }
-       },
-       "basic_eps": {
-        "previous_value": 6.51,
-        "current_value": 10.98,
-        "change_amount": 4.470000000000001,
-        "change_pct": 68.66359447004609,
-        "unit": "PKR/share",
-        "unit_multiplier": 1,
-        "previous_source": {
-         "fact_id": "manual_fact_9ada08b53835fb51ea67380e",
-         "document_id": "psx:236626",
-         "source_url": "https://dps.psx.com.pk/download/document/236626.pdf",
-         "content_sha256": "98d81e613a6ebaa06757442f7239bf7471315bca6c7e70dff8052f0af3ec91bf",
-         "page": 1,
-         "text": "MLCF 2024-06-30 basic_eps owner-verified manual claim",
-         "available_on": "2024-09-11T09:09:00+05:00"
-        },
-        "current_source": {
-         "fact_id": "manual_fact_25817c1077196ec499d808b6",
-         "document_id": "psx:280589",
-         "source_url": "https://dps.psx.com.pk/download/document/280589.pdf",
-         "content_sha256": "c9c7771eaa6a7fc75f6468318218ec85dd7d947637294e6dab9b19c3067ef696",
-         "page": 3,
-         "text": "MLCF 2025-06-30 basic_eps owner-verified manual claim",
-         "available_on": "2026-07-31T08:51:00+05:00"
-        }
-       }
-      },
-      "quality_flags": [
-       "not_a_forecast",
-       "not_owner_assumption",
-       "no_formal_engine_activation"
-      ]
-     },
-     {
-      "bridge_id": "ebr_400de84b9699690735cb",
-      "symbol": "MLCF",
-      "bridge_type": "historical_reported_annual_change",
-      "intelligence_type": "derived_fact",
-      "status": "historical_descriptive_only",
-      "previous_period_end": "2025-06-30",
-      "period_end": "2026-06-30",
-      "available_on": "2026-07-31T08:51:00+05:00",
-      "formula_version": "historical_earnings_bridge_v1",
-      "metrics": {
-       "revenue": {
-        "previous_value": 68653999000,
-        "current_value": 85145871000,
-        "change_amount": 16491872000,
-        "change_pct": 24.021720861446095,
-        "unit": "PKR",
-        "unit_multiplier": 1,
-        "previous_source": {
-         "fact_id": "manual_fact_81f61eff38c0e596815acb84",
-         "document_id": "psx:280589",
-         "source_url": "https://dps.psx.com.pk/download/document/280589.pdf",
-         "content_sha256": "c9c7771eaa6a7fc75f6468318218ec85dd7d947637294e6dab9b19c3067ef696",
-         "page": 3,
-         "text": "MLCF 2025-06-30 revenue owner-verified manual claim",
-         "available_on": "2026-07-31T08:51:00+05:00"
-        },
-        "current_source": {
-         "fact_id": "manual_fact_e403069b32de37b41b69c478",
-         "document_id": "psx:280589",
-         "source_url": "https://dps.psx.com.pk/download/document/280589.pdf",
-         "content_sha256": "c9c7771eaa6a7fc75f6468318218ec85dd7d947637294e6dab9b19c3067ef696",
-         "page": 3,
-         "text": "MLCF 2026-06-30 revenue owner-verified manual claim",
-         "available_on": "2026-07-31T08:51:00+05:00"
-        }
-       },
-       "profit_after_tax_attributable": {
-        "previous_value": 11503305000,
-        "current_value": 11884079000,
-        "change_amount": 380774000,
-        "change_pct": 3.310126959165216,
-        "unit": "PKR",
-        "unit_multiplier": 1,
-        "previous_source": {
-         "fact_id": "manual_fact_1143daa1f48237ac5b1b2534",
-         "document_id": "psx:280589",
-         "source_url": "https://dps.psx.com.pk/download/document/280589.pdf",
-         "content_sha256": "c9c7771eaa6a7fc75f6468318218ec85dd7d947637294e6dab9b19c3067ef696",
-         "page": 3,
-         "text": "MLCF 2025-06-30 profit_after_tax_attributable owner-verified manual claim",
-         "available_on": "2026-07-31T08:51:00+05:00"
-        },
-        "current_source": {
-         "fact_id": "manual_fact_a0206ff8968fe917b0aa252c",
-         "document_id": "psx:280589",
-         "source_url": "https://dps.psx.com.pk/download/document/280589.pdf",
-         "content_sha256": "c9c7771eaa6a7fc75f6468318218ec85dd7d947637294e6dab9b19c3067ef696",
-         "page": 3,
-         "text": "MLCF 2026-06-30 profit_after_tax_attributable owner-verified manual claim",
-         "available_on": "2026-07-31T08:51:00+05:00"
-        }
-       },
-       "basic_eps": {
-        "previous_value": 10.98,
-        "current_value": 11.34,
-        "change_amount": 0.35999999999999943,
-        "change_pct": 3.2786885245901676,
-        "unit": "PKR/share",
-        "unit_multiplier": 1,
-        "previous_source": {
-         "fact_id": "manual_fact_25817c1077196ec499d808b6",
-         "document_id": "psx:280589",
-         "source_url": "https://dps.psx.com.pk/download/document/280589.pdf",
-         "content_sha256": "c9c7771eaa6a7fc75f6468318218ec85dd7d947637294e6dab9b19c3067ef696",
-         "page": 3,
-         "text": "MLCF 2025-06-30 basic_eps owner-verified manual claim",
-         "available_on": "2026-07-31T08:51:00+05:00"
-        },
-        "current_source": {
-         "fact_id": "manual_fact_a8861ab3009d249c539955a3",
-         "document_id": "psx:280589",
-         "source_url": "https://dps.psx.com.pk/download/document/280589.pdf",
-         "content_sha256": "c9c7771eaa6a7fc75f6468318218ec85dd7d947637294e6dab9b19c3067ef696",
-         "page": 3,
-         "text": "MLCF 2026-06-30 basic_eps owner-verified manual claim",
-         "available_on": "2026-07-31T08:51:00+05:00"
-        }
-       }
-      },
-      "quality_flags": [
-       "not_a_forecast",
-       "not_owner_assumption",
-       "no_formal_engine_activation"
-      ]
-     }
+    "status": "blocked_insufficient_conflict_free_aligned_history",
+    "bridge_count": 0,
+    "qualified_period_count": 1,
+    "blocked_periods": [
+     "2024-06-30",
+     "2025-06-30"
     ],
+    "bridges": [],
     "formal_engine_status": {
      "forecast": "not_activated",
      "valuation": "not_activated",
      "market_expectations": "not_activated"
     },
-    "quality_flags": []
+    "quality_flags": [
+     "insufficient_conflict_free_aligned_annual_history"
+    ]
    },
    "financial_coverage": {
     "symbol": "MLCF",
@@ -20481,21 +20934,22 @@
     "qualified_periods": [
      {
       "period_end": "2024-06-30",
-      "available_on": "2024-09-11T09:09:00+05:00",
+      "available_on": "2025-09-25",
       "consolidation": "consolidated",
       "currency": "PKR",
       "statement_type": "income_statement",
       "monetary_unit": "PKR",
-      "monetary_unit_multiplier": 1,
+      "monetary_unit_multiplier": 1000,
       "eps_unit": "PKR/share",
       "eps_unit_multiplier": 1,
       "source_fact_ids": {
-       "revenue": "manual_fact_66b17ef9298dc2847c1e5371",
-       "profit_after_tax_attributable": "manual_fact_532ab7b94f52d71ab3797be2",
+       "revenue": "fact_394f42ea6daa2044e4ad6dac",
+       "profit_after_tax_attributable": "fact_4579f98e3b83040dc49dda12",
        "basic_eps": "manual_fact_9ada08b53835fb51ea67380e"
       },
       "document_ids": [
-       "psx:236626"
+       "psx:236626",
+       "psx:260032"
       ]
      },
      {
@@ -20505,15 +20959,16 @@
       "currency": "PKR",
       "statement_type": "income_statement",
       "monetary_unit": "PKR",
-      "monetary_unit_multiplier": 1,
+      "monetary_unit_multiplier": 1000,
       "eps_unit": "PKR/share",
       "eps_unit_multiplier": 1,
       "source_fact_ids": {
-       "revenue": "manual_fact_81f61eff38c0e596815acb84",
-       "profit_after_tax_attributable": "manual_fact_1143daa1f48237ac5b1b2534",
+       "revenue": "fact_418ac80a7d5cbc105b272259",
+       "profit_after_tax_attributable": "fact_e8d4d3e966945b46f273e243",
        "basic_eps": "manual_fact_25817c1077196ec499d808b6"
       },
       "document_ids": [
+       "psx:260032",
        "psx:280589"
       ]
      },
@@ -20638,12 +21093,12 @@
     "quality_flags": []
    },
    "signal_clusters": {
-    "candidate_count": 4,
+    "candidate_count": 5,
     "eligible_count": 1,
     "clusterable_count": 1,
     "coverage_status": "clusterable",
     "rejection_reasons": {
-     "event_type_not_in_registry": 3
+     "event_type_not_in_registry": 4
     },
     "latest_detected_at": "2026-03-02T08:46:00+05:00",
     "freshness": "older",
@@ -22161,6 +22616,7 @@
      "customers": {
       "status": "available",
       "object_refs": [
+       "bio_47775ffef194baa17fa3",
        "bio_9b1a650e6cf8f651291c",
        "bio_fb20f4a5d9e87c46544c",
        "bio_fdca099a6b34dddebac7"
@@ -22223,6 +22679,7 @@
       "status": "available",
       "object_refs": [
        "bio_13e3a6938ad4dd40b077",
+       "bio_47775ffef194baa17fa3",
        "bio_48788f795e8a836a97c7",
        "bio_5e88ffba007f91039448",
        "bio_9b1a650e6cf8f651291c",
@@ -22245,6 +22702,7 @@
       "object_refs": [
        "bio_13e3a6938ad4dd40b077",
        "bio_326586f29701be0b38ae",
+       "bio_47775ffef194baa17fa3",
        "bio_48788f795e8a836a97c7",
        "bio_5e88ffba007f91039448",
        "bio_9b1a650e6cf8f651291c",
@@ -22259,6 +22717,7 @@
       "object_refs": [
        "bio_13e3a6938ad4dd40b077",
        "bio_326586f29701be0b38ae",
+       "bio_47775ffef194baa17fa3",
        "bio_48788f795e8a836a97c7",
        "bio_5e88ffba007f91039448",
        "bio_9b1a650e6cf8f651291c",
@@ -22266,6 +22725,7 @@
        "bio_d48e98a05c98b687d793",
        "bio_dde5a64b5fef97eeeb47",
        "bio_e00870ce26c41d517471",
+       "bio_e62c392f600fd9cdd06d",
        "bio_e6ec65a3cac50a90d21d",
        "bio_f41fdcd40a780f234869",
        "bio_fb20f4a5d9e87c46544c",
@@ -22297,6 +22757,29 @@
         "content_sha256": "4fdfb4cbd2eee65576cbb89b43334ce0c09a7e5ffd573d5bf93b414029eba6d1",
         "evidence_sha256": "33365323723d6791438233918f768557ab531b21e149353b1f47ef19545d40ca",
         "source_url": "https://dps.psx.com.pk/download/document/260032.pdf"
+       }
+      ],
+      "confidence": 82,
+      "brain_paths": [
+       "companies/MLCF/domains/customers",
+       "companies/MLCF/domains/projects",
+       "companies/MLCF/domains/catalysts",
+       "companies/MLCF/domains/historical_events"
+      ]
+     },
+     {
+      "id": "bio_47775ffef194baa17fa3",
+      "type": "reported_fact",
+      "source_product": "operating_events",
+      "source_id": "evt_6cdb8c02f429bc28beaa",
+      "available_on": "2025-10-27",
+      "evidence_refs": [
+       {
+        "document_id": "psx:263397",
+        "page": 14,
+        "content_sha256": "a05eeee23485edd71c6c096a606a3b6fd76d6687e13bdaf032f97b59b9cdcc7e",
+        "evidence_sha256": "fe698dcd654c9e3c8daae16e8e2f536dc4183e3811cae971f92300abc41f3543",
+        "source_url": "https://dps.psx.com.pk/download/document/263397.pdf"
        }
       ],
       "confidence": 82,
@@ -22619,6 +23102,25 @@
       ]
      },
      {
+      "id": "bio_e62c392f600fd9cdd06d",
+      "type": "derived_fact",
+      "source_product": "event_studies",
+      "source_id": "evt_6cdb8c02f429bc28beaa",
+      "available_on": "2026-08-28",
+      "evidence_refs": [
+       {
+        "source_path": "state/company_intel/event_studies.json#/studies/evt_6cdb8c02f429bc28beaa"
+       }
+      ],
+      "confidence": null,
+      "brain_paths": [
+       "companies/MLCF/domains/historical_events"
+      ],
+      "input_refs": [
+       "evt_6cdb8c02f429bc28beaa"
+      ]
+     },
+     {
       "id": "bio_f41fdcd40a780f234869",
       "type": "derived_fact",
       "source_product": "event_studies",
@@ -22647,7 +23149,7 @@
       "symbol": "MLCF",
       "state_metadata": {
        "schema_version": 2,
-       "as_of": "2026-08-29",
+       "as_of": "2026-08-31",
        "source": "state/company_documents.json + state/company_event_ledger.json",
        "registry_version": "operating_event_registry_v1"
       },
@@ -22683,7 +23185,7 @@
       "symbol": "MLCF",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-31T10:13:14Z",
+       "as_of": "2026-08-31 15:13",
        "source": {
         "company_financial_series": "state/company_financial_series.json",
         "financial_coverage": "state/company_intel/financial_coverage.json",
@@ -22755,7 +23257,7 @@
       "symbol": "MLCF",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-29 16:39",
+       "as_of": "2026-08-31 15:13",
        "source": {
         "company_profiles": "state/company_profiles.json",
         "sectors": "state/sectors.json",
@@ -22800,7 +23302,7 @@
       "symbol": "MLCF",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-29",
+       "as_of": "2026-08-31",
        "source": {
         "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
         "forecast_readiness": "state/company_intel/forecast_readiness.json",
@@ -22844,7 +23346,7 @@
       "symbol": "MLCF",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-29",
+       "as_of": "2026-08-31",
        "source": {
         "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
         "forecast_readiness": "state/company_intel/forecast_readiness.json",
@@ -22890,7 +23392,7 @@
       "symbol": "MLCF",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-29",
+       "as_of": "2026-08-31",
        "source": {
         "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
         "forecast_readiness": "state/company_intel/forecast_readiness.json",
@@ -22942,7 +23444,7 @@
       "row_metadata": {
        "coverage_status": "clusterable",
        "freshness": "older",
-       "candidate_count": 4,
+       "candidate_count": 5,
        "eligible_count": 1,
        "clusterable_count": 1
       }
@@ -23153,7 +23655,7 @@
        "research_only": true,
        "no_advice": true
       },
-      "as_of": "2026-08-29",
+      "as_of": "2026-08-31",
       "brain_path": "companies/MLCF/domains/forecasts",
       "missing_requirements": [
        "approved_net_margin_pct",
@@ -23177,7 +23679,7 @@
        "research_only": true,
        "no_advice": true
       },
-      "as_of": "2026-08-29",
+      "as_of": "2026-08-31",
       "brain_path": "companies/MLCF/domains/valuation",
       "missing_requirements": [
        "approved_exit_pe",
@@ -23203,7 +23705,7 @@
        "research_only": true,
        "no_advice": true
       },
-      "as_of": "2026-08-29",
+      "as_of": "2026-08-31",
       "brain_path": "companies/MLCF/domains/forecasts",
       "missing_requirements": [
        "approved_exit_pe",
@@ -23217,6 +23719,12 @@
      {
       "date": "2025-09-25",
       "object_ref": "bio_fb20f4a5d9e87c46544c",
+      "type": "reported_fact",
+      "source_product": "operating_events"
+     },
+     {
+      "date": "2025-10-27",
+      "object_ref": "bio_47775ffef194baa17fa3",
       "type": "reported_fact",
       "source_product": "operating_events"
      },
@@ -23318,6 +23826,12 @@
      },
      {
       "date": "2026-08-28",
+      "object_ref": "bio_e62c392f600fd9cdd06d",
+      "type": "derived_fact",
+      "source_product": "event_studies"
+     },
+     {
+      "date": "2026-08-28",
       "object_ref": "bio_f41fdcd40a780f234869",
       "type": "derived_fact",
       "source_product": "event_studies"
@@ -23328,7 +23842,7 @@
      "partial_domains": 0,
      "unknown_domains": 10,
      "blocked_domains": 2,
-     "object_count": 18
+     "object_count": 20
     }
    },
    "event_review_windows": {
@@ -23340,6 +23854,7 @@
      "status": "unknown",
      "reason": "past_earnings_cadence_not_stable",
      "historical_dates": [
+      "2025-09-25",
       "2025-10-27",
       "2025-12-18",
       "2026-03-02",
@@ -23412,7 +23927,7 @@
     "status": "available",
     "case_count": 2,
     "rejected_record_count": 0,
-    "source_cutoff": "2026-08-29",
+    "source_cutoff": "2026-08-31",
     "policy": {
      "historical_baselines_only": true,
      "not_owner_approved_assumptions": true,
@@ -23457,90 +23972,90 @@
       "source_facts": [
        {
         "line": "revenue",
-        "fact_id": "manual_fact_66b17ef9298dc2847c1e5371",
-        "document_id": "psx:236626",
-        "content_sha256": "98d81e613a6ebaa06757442f7239bf7471315bca6c7e70dff8052f0af3ec91bf",
-        "source_url": "https://dps.psx.com.pk/download/document/236626.pdf",
+        "fact_id": "fact_394f42ea6daa2044e4ad6dac",
+        "document_id": "psx:260032",
+        "content_sha256": "4fdfb4cbd2eee65576cbb89b43334ce0c09a7e5ffd573d5bf93b414029eba6d1",
+        "source_url": "https://dps.psx.com.pk/download/document/260032.pdf",
         "period_end": "2024-06-30",
-        "available_on": "2024-09-11",
+        "available_on": "2025-09-25",
         "statement_type": "income_statement",
         "period_type": "annual",
         "duration_months": 12,
         "consolidation": "consolidated",
         "currency": "PKR",
         "unit": "PKR",
-        "unit_multiplier": 1,
+        "unit_multiplier": 1000,
         "normalized_value": 66452348000.0,
-        "source_method": "owner_verified_manual_financial_claim_v1",
-        "source_revision": "manual_vision_v1",
+        "source_method": "financial_statement_v2",
+        "source_revision": "block_geometry_v5",
         "evidence_pages": [
-         1
+         293
         ]
        },
        {
         "line": "profit_after_tax_attributable",
-        "fact_id": "manual_fact_532ab7b94f52d71ab3797be2",
-        "document_id": "psx:236626",
-        "content_sha256": "98d81e613a6ebaa06757442f7239bf7471315bca6c7e70dff8052f0af3ec91bf",
-        "source_url": "https://dps.psx.com.pk/download/document/236626.pdf",
+        "fact_id": "fact_4579f98e3b83040dc49dda12",
+        "document_id": "psx:260032",
+        "content_sha256": "4fdfb4cbd2eee65576cbb89b43334ce0c09a7e5ffd573d5bf93b414029eba6d1",
+        "source_url": "https://dps.psx.com.pk/download/document/260032.pdf",
         "period_end": "2024-06-30",
-        "available_on": "2024-09-11",
+        "available_on": "2025-09-25",
         "statement_type": "income_statement",
         "period_type": "annual",
         "duration_months": 12,
         "consolidation": "consolidated",
         "currency": "PKR",
         "unit": "PKR",
-        "unit_multiplier": 1,
+        "unit_multiplier": 1000,
         "normalized_value": 6891064000.0,
-        "source_method": "owner_verified_manual_financial_claim_v1",
-        "source_revision": "manual_vision_v1",
+        "source_method": "financial_statement_v2",
+        "source_revision": "block_geometry_v5",
         "evidence_pages": [
-         1
+         293
         ]
        },
        {
         "line": "revenue",
-        "fact_id": "manual_fact_81f61eff38c0e596815acb84",
-        "document_id": "psx:280589",
-        "content_sha256": "c9c7771eaa6a7fc75f6468318218ec85dd7d947637294e6dab9b19c3067ef696",
-        "source_url": "https://dps.psx.com.pk/download/document/280589.pdf",
+        "fact_id": "fact_418ac80a7d5cbc105b272259",
+        "document_id": "psx:260032",
+        "content_sha256": "4fdfb4cbd2eee65576cbb89b43334ce0c09a7e5ffd573d5bf93b414029eba6d1",
+        "source_url": "https://dps.psx.com.pk/download/document/260032.pdf",
         "period_end": "2025-06-30",
-        "available_on": "2026-07-31",
+        "available_on": "2025-09-25",
         "statement_type": "income_statement",
         "period_type": "annual",
         "duration_months": 12,
         "consolidation": "consolidated",
         "currency": "PKR",
         "unit": "PKR",
-        "unit_multiplier": 1,
+        "unit_multiplier": 1000,
         "normalized_value": 68653999000.0,
-        "source_method": "owner_verified_manual_financial_claim_v1",
-        "source_revision": "manual_vision_v1",
+        "source_method": "financial_statement_v2",
+        "source_revision": "block_geometry_v5",
         "evidence_pages": [
-         3
+         293
         ]
        },
        {
         "line": "profit_after_tax_attributable",
-        "fact_id": "manual_fact_1143daa1f48237ac5b1b2534",
-        "document_id": "psx:280589",
-        "content_sha256": "c9c7771eaa6a7fc75f6468318218ec85dd7d947637294e6dab9b19c3067ef696",
-        "source_url": "https://dps.psx.com.pk/download/document/280589.pdf",
+        "fact_id": "fact_e8d4d3e966945b46f273e243",
+        "document_id": "psx:260032",
+        "content_sha256": "4fdfb4cbd2eee65576cbb89b43334ce0c09a7e5ffd573d5bf93b414029eba6d1",
+        "source_url": "https://dps.psx.com.pk/download/document/260032.pdf",
         "period_end": "2025-06-30",
-        "available_on": "2026-07-31",
+        "available_on": "2025-09-25",
         "statement_type": "income_statement",
         "period_type": "annual",
         "duration_months": 12,
         "consolidation": "consolidated",
         "currency": "PKR",
         "unit": "PKR",
-        "unit_multiplier": 1,
+        "unit_multiplier": 1000,
         "normalized_value": 11503305000.0,
-        "source_method": "owner_verified_manual_financial_claim_v1",
-        "source_revision": "manual_vision_v1",
+        "source_method": "financial_statement_v2",
+        "source_revision": "block_geometry_v5",
         "evidence_pages": [
-         3
+         293
         ]
        },
        {
@@ -23632,46 +24147,46 @@
       "source_facts": [
        {
         "line": "revenue",
-        "fact_id": "manual_fact_66b17ef9298dc2847c1e5371",
-        "document_id": "psx:236626",
-        "content_sha256": "98d81e613a6ebaa06757442f7239bf7471315bca6c7e70dff8052f0af3ec91bf",
-        "source_url": "https://dps.psx.com.pk/download/document/236626.pdf",
+        "fact_id": "fact_394f42ea6daa2044e4ad6dac",
+        "document_id": "psx:260032",
+        "content_sha256": "4fdfb4cbd2eee65576cbb89b43334ce0c09a7e5ffd573d5bf93b414029eba6d1",
+        "source_url": "https://dps.psx.com.pk/download/document/260032.pdf",
         "period_end": "2024-06-30",
-        "available_on": "2024-09-11",
+        "available_on": "2025-09-25",
         "statement_type": "income_statement",
         "period_type": "annual",
         "duration_months": 12,
         "consolidation": "consolidated",
         "currency": "PKR",
         "unit": "PKR",
-        "unit_multiplier": 1,
+        "unit_multiplier": 1000,
         "normalized_value": 66452348000.0,
-        "source_method": "owner_verified_manual_financial_claim_v1",
-        "source_revision": "manual_vision_v1",
+        "source_method": "financial_statement_v2",
+        "source_revision": "block_geometry_v5",
         "evidence_pages": [
-         1
+         293
         ]
        },
        {
         "line": "revenue",
-        "fact_id": "manual_fact_81f61eff38c0e596815acb84",
-        "document_id": "psx:280589",
-        "content_sha256": "c9c7771eaa6a7fc75f6468318218ec85dd7d947637294e6dab9b19c3067ef696",
-        "source_url": "https://dps.psx.com.pk/download/document/280589.pdf",
+        "fact_id": "fact_418ac80a7d5cbc105b272259",
+        "document_id": "psx:260032",
+        "content_sha256": "4fdfb4cbd2eee65576cbb89b43334ce0c09a7e5ffd573d5bf93b414029eba6d1",
+        "source_url": "https://dps.psx.com.pk/download/document/260032.pdf",
         "period_end": "2025-06-30",
-        "available_on": "2026-07-31",
+        "available_on": "2025-09-25",
         "statement_type": "income_statement",
         "period_type": "annual",
         "duration_months": 12,
         "consolidation": "consolidated",
         "currency": "PKR",
         "unit": "PKR",
-        "unit_multiplier": 1,
+        "unit_multiplier": 1000,
         "normalized_value": 68653999000.0,
-        "source_method": "owner_verified_manual_financial_claim_v1",
-        "source_revision": "manual_vision_v1",
+        "source_method": "financial_statement_v2",
+        "source_revision": "block_geometry_v5",
         "evidence_pages": [
-         3
+         293
         ]
        },
        {
@@ -23868,19 +24383,19 @@
     "change_count": 0,
     "financial_fact_count": 40,
     "graph_node_count": 61,
-    "graph_edge_count": 52,
+    "graph_edge_count": 43,
     "change_item_count": 18,
     "brief_status": "approved",
     "pending_synthesis": 25,
     "last_event_at": "2026-04-28T10:25:00+05:00",
     "source_status": "ok",
     "source_quality_flags": 0,
-    "operating_event_count": 4,
+    "operating_event_count": 5,
     "cement_operating_observation_count": 0,
     "cement_qualified_financial_period_count": 3,
-    "impact_scenario_count": 12,
-    "event_study_count": 4,
-    "conditional_benchmark_count": 4,
+    "impact_scenario_count": 15,
+    "event_study_count": 5,
+    "conditional_benchmark_count": 5,
     "causal_row_count": 8,
     "financial_model_status": "ready",
     "financial_reconciliation_status": "eligible_for_review",
@@ -23893,7 +24408,7 @@
     "forecast_qualified_period_count": 3,
     "scenario_lab_status": "blocked_financial_truth_not_qualified",
     "market_expectations_status": "blocked_financial_truth_not_qualified",
-    "brain_object_count": 18,
+    "brain_object_count": 20,
     "management_delivery_records": 1,
     "intelligence_case_count": 1,
     "mlcf_pioc_readiness_manifest_status": "blocked_missing_inputs",
@@ -24997,7 +25512,6 @@
       "consolidation": "consolidated",
       "currency": "PKR",
       "quality_flags": [
-       "conflict",
        "legacy_extractor_not_model_eligible"
       ]
      },
@@ -25030,7 +25544,6 @@
       "consolidation": "consolidated",
       "currency": "PKR",
       "quality_flags": [
-       "conflict",
        "legacy_extractor_not_model_eligible"
       ]
      },
@@ -25047,7 +25560,6 @@
       "consolidation": "consolidated",
       "currency": "PKR",
       "quality_flags": [
-       "conflict",
        "legacy_extractor_not_model_eligible"
       ]
      },
@@ -28136,7 +28648,7 @@
       "symbol": "OGDC",
       "state_metadata": {
        "schema_version": 2,
-       "as_of": "2026-08-29",
+       "as_of": "2026-08-31",
        "source": "state/company_documents.json + state/company_event_ledger.json",
        "registry_version": "operating_event_registry_v1"
       },
@@ -28174,7 +28686,7 @@
       "symbol": "OGDC",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-31T10:13:14Z",
+       "as_of": "2026-08-31 15:13",
        "source": {
         "company_financial_series": "state/company_financial_series.json",
         "financial_coverage": "state/company_intel/financial_coverage.json",
@@ -28246,7 +28758,7 @@
       "symbol": "OGDC",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-29 16:39",
+       "as_of": "2026-08-31 15:13",
        "source": {
         "company_profiles": "state/company_profiles.json",
         "sectors": "state/sectors.json",
@@ -28295,7 +28807,7 @@
       "symbol": "OGDC",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-29",
+       "as_of": "2026-08-31",
        "source": {
         "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
         "forecast_readiness": "state/company_intel/forecast_readiness.json",
@@ -28344,7 +28856,7 @@
       "symbol": "OGDC",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-29",
+       "as_of": "2026-08-31",
        "source": {
         "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
         "forecast_readiness": "state/company_intel/forecast_readiness.json",
@@ -28395,7 +28907,7 @@
       "symbol": "OGDC",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-29",
+       "as_of": "2026-08-31",
        "source": {
         "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
         "forecast_readiness": "state/company_intel/forecast_readiness.json",
@@ -28663,7 +29175,7 @@
        "research_only": true,
        "no_advice": true
       },
-      "as_of": "2026-08-29",
+      "as_of": "2026-08-31",
       "brain_path": "companies/OGDC/domains/forecasts",
       "missing_requirements": [
        "actual_basic_eps",
@@ -28692,7 +29204,7 @@
        "research_only": true,
        "no_advice": true
       },
-      "as_of": "2026-08-29",
+      "as_of": "2026-08-31",
       "brain_path": "companies/OGDC/domains/valuation",
       "missing_requirements": [
        "actual_basic_eps",
@@ -28723,7 +29235,7 @@
        "research_only": true,
        "no_advice": true
       },
-      "as_of": "2026-08-29",
+      "as_of": "2026-08-31",
       "brain_path": "companies/OGDC/domains/forecasts",
       "missing_requirements": [
        "actual_basic_eps",
@@ -28871,7 +29383,7 @@
     "status": "none",
     "case_count": 0,
     "rejected_record_count": 0,
-    "source_cutoff": "2026-08-29",
+    "source_cutoff": "2026-08-31",
     "policy": {
      "historical_baselines_only": true,
      "not_owner_approved_assumptions": true,
@@ -34183,7 +34695,7 @@
       "symbol": "PPL",
       "state_metadata": {
        "schema_version": 2,
-       "as_of": "2026-08-29",
+       "as_of": "2026-08-31",
        "source": "state/company_documents.json + state/company_event_ledger.json",
        "registry_version": "operating_event_registry_v1"
       },
@@ -34221,7 +34733,7 @@
       "symbol": "PPL",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-31T10:13:14Z",
+       "as_of": "2026-08-31 15:13",
        "source": {
         "company_financial_series": "state/company_financial_series.json",
         "financial_coverage": "state/company_intel/financial_coverage.json",
@@ -34293,7 +34805,7 @@
       "symbol": "PPL",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-29 16:39",
+       "as_of": "2026-08-31 15:13",
        "source": {
         "company_profiles": "state/company_profiles.json",
         "sectors": "state/sectors.json",
@@ -34342,7 +34854,7 @@
       "symbol": "PPL",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-29",
+       "as_of": "2026-08-31",
        "source": {
         "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
         "forecast_readiness": "state/company_intel/forecast_readiness.json",
@@ -34391,7 +34903,7 @@
       "symbol": "PPL",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-29",
+       "as_of": "2026-08-31",
        "source": {
         "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
         "forecast_readiness": "state/company_intel/forecast_readiness.json",
@@ -34442,7 +34954,7 @@
       "symbol": "PPL",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-29",
+       "as_of": "2026-08-31",
        "source": {
         "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
         "forecast_readiness": "state/company_intel/forecast_readiness.json",
@@ -34710,7 +35222,7 @@
        "research_only": true,
        "no_advice": true
       },
-      "as_of": "2026-08-29",
+      "as_of": "2026-08-31",
       "brain_path": "companies/PPL/domains/forecasts",
       "missing_requirements": [
        "actual_basic_eps",
@@ -34739,7 +35251,7 @@
        "research_only": true,
        "no_advice": true
       },
-      "as_of": "2026-08-29",
+      "as_of": "2026-08-31",
       "brain_path": "companies/PPL/domains/valuation",
       "missing_requirements": [
        "actual_basic_eps",
@@ -34770,7 +35282,7 @@
        "research_only": true,
        "no_advice": true
       },
-      "as_of": "2026-08-29",
+      "as_of": "2026-08-31",
       "brain_path": "companies/PPL/domains/forecasts",
       "missing_requirements": [
        "actual_basic_eps",
@@ -34930,7 +35442,7 @@
     "status": "none",
     "case_count": 0,
     "rejected_record_count": 0,
-    "source_cutoff": "2026-08-29",
+    "source_cutoff": "2026-08-31",
     "policy": {
      "historical_baselines_only": true,
      "not_owner_approved_assumptions": true,
@@ -39769,7 +40281,6 @@
       "period_type": "annual",
       "consolidation": "consolidated",
       "quality_flags": [
-       "conflict",
        "legacy_extractor_not_model_eligible",
        "legacy_parser_revision_quarantine"
       ]
@@ -39786,7 +40297,6 @@
       "period_type": "annual",
       "consolidation": "consolidated",
       "quality_flags": [
-       "conflict",
        "legacy_extractor_not_model_eligible",
        "legacy_parser_revision_quarantine"
       ]
@@ -94610,7 +95120,7 @@
       "symbol": "DGKC",
       "state_metadata": {
        "schema_version": 2,
-       "as_of": "2026-08-29",
+       "as_of": "2026-08-31",
        "source": "state/company_documents.json + state/company_event_ledger.json",
        "registry_version": "operating_event_registry_v1"
       },
@@ -94646,7 +95156,7 @@
       "symbol": "DGKC",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-31T10:13:14Z",
+       "as_of": "2026-08-31 15:13",
        "source": {
         "company_financial_series": "state/company_financial_series.json",
         "financial_coverage": "state/company_intel/financial_coverage.json",
@@ -94718,7 +95228,7 @@
       "symbol": "DGKC",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-29 16:39",
+       "as_of": "2026-08-31 15:13",
        "source": {
         "company_profiles": "state/company_profiles.json",
         "sectors": "state/sectors.json",
@@ -94763,7 +95273,7 @@
       "symbol": "DGKC",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-29",
+       "as_of": "2026-08-31",
        "source": {
         "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
         "forecast_readiness": "state/company_intel/forecast_readiness.json",
@@ -94807,7 +95317,7 @@
       "symbol": "DGKC",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-29",
+       "as_of": "2026-08-31",
        "source": {
         "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
         "forecast_readiness": "state/company_intel/forecast_readiness.json",
@@ -94853,7 +95363,7 @@
       "symbol": "DGKC",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-29",
+       "as_of": "2026-08-31",
        "source": {
         "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
         "forecast_readiness": "state/company_intel/forecast_readiness.json",
@@ -95116,7 +95626,7 @@
        "research_only": true,
        "no_advice": true
       },
-      "as_of": "2026-08-29",
+      "as_of": "2026-08-31",
       "brain_path": "companies/DGKC/domains/forecasts",
       "missing_requirements": [
        "approved_net_margin_pct",
@@ -95140,7 +95650,7 @@
        "research_only": true,
        "no_advice": true
       },
-      "as_of": "2026-08-29",
+      "as_of": "2026-08-31",
       "brain_path": "companies/DGKC/domains/valuation",
       "missing_requirements": [
        "approved_exit_pe",
@@ -95166,7 +95676,7 @@
        "research_only": true,
        "no_advice": true
       },
-      "as_of": "2026-08-29",
+      "as_of": "2026-08-31",
       "brain_path": "companies/DGKC/domains/forecasts",
       "missing_requirements": [
        "approved_exit_pe",
@@ -95613,7 +96123,7 @@
     "status": "available",
     "case_count": 2,
     "rejected_record_count": 0,
-    "source_cutoff": "2026-08-29",
+    "source_cutoff": "2026-08-31",
     "policy": {
      "historical_baselines_only": true,
      "not_owner_approved_assumptions": true,
@@ -97021,7 +97531,6 @@
       "consolidation": "unconsolidated",
       "currency": "PKR",
       "quality_flags": [
-       "conflict",
        "legacy_extractor_not_model_eligible"
       ]
      },
@@ -97038,7 +97547,6 @@
       "consolidation": "unconsolidated",
       "currency": "PKR",
       "quality_flags": [
-       "conflict",
        "legacy_extractor_not_model_eligible"
       ]
      },
@@ -99989,7 +100497,7 @@
       "symbol": "PSO",
       "state_metadata": {
        "schema_version": 2,
-       "as_of": "2026-08-29",
+       "as_of": "2026-08-31",
        "source": "state/company_documents.json + state/company_event_ledger.json",
        "registry_version": "operating_event_registry_v1"
       },
@@ -100027,7 +100535,7 @@
       "symbol": "PSO",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-31T10:13:14Z",
+       "as_of": "2026-08-31 15:13",
        "source": {
         "company_financial_series": "state/company_financial_series.json",
         "financial_coverage": "state/company_intel/financial_coverage.json",
@@ -100099,7 +100607,7 @@
       "symbol": "PSO",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-29 16:39",
+       "as_of": "2026-08-31 15:13",
        "source": {
         "company_profiles": "state/company_profiles.json",
         "sectors": "state/sectors.json",
@@ -100148,7 +100656,7 @@
       "symbol": "PSO",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-29",
+       "as_of": "2026-08-31",
        "source": {
         "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
         "forecast_readiness": "state/company_intel/forecast_readiness.json",
@@ -100197,7 +100705,7 @@
       "symbol": "PSO",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-29",
+       "as_of": "2026-08-31",
        "source": {
         "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
         "forecast_readiness": "state/company_intel/forecast_readiness.json",
@@ -100248,7 +100756,7 @@
       "symbol": "PSO",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-29",
+       "as_of": "2026-08-31",
        "source": {
         "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
         "forecast_readiness": "state/company_intel/forecast_readiness.json",
@@ -100516,7 +101024,7 @@
        "research_only": true,
        "no_advice": true
       },
-      "as_of": "2026-08-29",
+      "as_of": "2026-08-31",
       "brain_path": "companies/PSO/domains/forecasts",
       "missing_requirements": [
        "actual_basic_eps",
@@ -100545,7 +101053,7 @@
        "research_only": true,
        "no_advice": true
       },
-      "as_of": "2026-08-29",
+      "as_of": "2026-08-31",
       "brain_path": "companies/PSO/domains/valuation",
       "missing_requirements": [
        "actual_basic_eps",
@@ -100576,7 +101084,7 @@
        "research_only": true,
        "no_advice": true
       },
-      "as_of": "2026-08-29",
+      "as_of": "2026-08-31",
       "brain_path": "companies/PSO/domains/forecasts",
       "missing_requirements": [
        "actual_basic_eps",
@@ -100696,7 +101204,7 @@
     "status": "none",
     "case_count": 0,
     "rejected_record_count": 0,
-    "source_cutoff": "2026-08-29",
+    "source_cutoff": "2026-08-31",
     "policy": {
      "historical_baselines_only": true,
      "not_owner_approved_assumptions": true,
@@ -102668,7 +103176,6 @@
       "consolidation": "consolidated",
       "currency": "PKR",
       "quality_flags": [
-       "conflict",
        "legacy_extractor_not_model_eligible",
        "legacy_parser_revision_quarantine"
       ]
@@ -102685,7 +103192,6 @@
       "period_type": "annual",
       "consolidation": "consolidated",
       "quality_flags": [
-       "conflict",
        "legacy_extractor_not_model_eligible",
        "legacy_parser_revision_quarantine"
       ]
@@ -102703,7 +103209,6 @@
       "consolidation": "unconsolidated",
       "currency": "PKR",
       "quality_flags": [
-       "conflict",
        "legacy_extractor_not_model_eligible",
        "legacy_parser_revision_quarantine"
       ]
@@ -102755,7 +103260,6 @@
       "consolidation": "consolidated",
       "currency": "PKR",
       "quality_flags": [
-       "conflict",
        "legacy_extractor_not_model_eligible",
        "legacy_parser_revision_quarantine"
       ]
@@ -102772,7 +103276,6 @@
       "period_type": "annual",
       "consolidation": "consolidated",
       "quality_flags": [
-       "conflict",
        "legacy_extractor_not_model_eligible",
        "legacy_parser_revision_quarantine"
       ]
@@ -102790,7 +103293,6 @@
       "consolidation": "consolidated",
       "currency": "PKR",
       "quality_flags": [
-       "conflict",
        "legacy_extractor_not_model_eligible",
        "legacy_parser_revision_quarantine"
       ]
@@ -102807,7 +103309,6 @@
       "period_type": "annual",
       "consolidation": "consolidated",
       "quality_flags": [
-       "conflict",
        "legacy_extractor_not_model_eligible",
        "legacy_parser_revision_quarantine"
       ]
@@ -102824,7 +103325,6 @@
       "period_type": "annual",
       "consolidation": "consolidated",
       "quality_flags": [
-       "conflict",
        "legacy_extractor_not_model_eligible",
        "legacy_parser_revision_quarantine"
       ]
@@ -102842,7 +103342,6 @@
       "consolidation": "consolidated",
       "currency": "PKR",
       "quality_flags": [
-       "conflict",
        "legacy_extractor_not_model_eligible",
        "legacy_parser_revision_quarantine"
       ]
@@ -102893,7 +103392,6 @@
       "period_type": "annual",
       "consolidation": "consolidated",
       "quality_flags": [
-       "conflict",
        "legacy_extractor_not_model_eligible",
        "legacy_parser_revision_quarantine"
       ]
@@ -102911,7 +103409,6 @@
       "consolidation": "unconsolidated",
       "currency": "PKR",
       "quality_flags": [
-       "conflict",
        "legacy_extractor_not_model_eligible",
        "legacy_parser_revision_quarantine"
       ]
@@ -102929,7 +103426,6 @@
       "consolidation": "consolidated",
       "currency": "PKR",
       "quality_flags": [
-       "conflict",
        "legacy_extractor_not_model_eligible",
        "legacy_parser_revision_quarantine"
       ]
@@ -111938,7 +112434,7 @@
       "symbol": "UBL",
       "state_metadata": {
        "schema_version": 2,
-       "as_of": "2026-08-29",
+       "as_of": "2026-08-31",
        "source": "state/company_documents.json + state/company_event_ledger.json",
        "registry_version": "operating_event_registry_v1"
       },
@@ -111976,7 +112472,7 @@
       "symbol": "UBL",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-31T10:13:14Z",
+       "as_of": "2026-08-31 15:13",
        "source": {
         "company_financial_series": "state/company_financial_series.json",
         "financial_coverage": "state/company_intel/financial_coverage.json",
@@ -112048,7 +112544,7 @@
       "symbol": "UBL",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-29 16:39",
+       "as_of": "2026-08-31 15:13",
        "source": {
         "company_profiles": "state/company_profiles.json",
         "sectors": "state/sectors.json",
@@ -112097,7 +112593,7 @@
       "symbol": "UBL",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-29",
+       "as_of": "2026-08-31",
        "source": {
         "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
         "forecast_readiness": "state/company_intel/forecast_readiness.json",
@@ -112146,7 +112642,7 @@
       "symbol": "UBL",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-29",
+       "as_of": "2026-08-31",
        "source": {
         "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
         "forecast_readiness": "state/company_intel/forecast_readiness.json",
@@ -112197,7 +112693,7 @@
       "symbol": "UBL",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-29",
+       "as_of": "2026-08-31",
        "source": {
         "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
         "forecast_readiness": "state/company_intel/forecast_readiness.json",
@@ -112465,7 +112961,7 @@
        "research_only": true,
        "no_advice": true
       },
-      "as_of": "2026-08-29",
+      "as_of": "2026-08-31",
       "brain_path": "companies/UBL/domains/forecasts",
       "missing_requirements": [
        "actual_basic_eps",
@@ -112494,7 +112990,7 @@
        "research_only": true,
        "no_advice": true
       },
-      "as_of": "2026-08-29",
+      "as_of": "2026-08-31",
       "brain_path": "companies/UBL/domains/valuation",
       "missing_requirements": [
        "actual_basic_eps",
@@ -112525,7 +113021,7 @@
        "research_only": true,
        "no_advice": true
       },
-      "as_of": "2026-08-29",
+      "as_of": "2026-08-31",
       "brain_path": "companies/UBL/domains/forecasts",
       "missing_requirements": [
        "actual_basic_eps",
@@ -112738,7 +113234,7 @@
     "status": "none",
     "case_count": 0,
     "rejected_record_count": 0,
-    "source_cutoff": "2026-08-29",
+    "source_cutoff": "2026-08-31",
     "policy": {
      "historical_baselines_only": true,
      "not_owner_approved_assumptions": true,
@@ -116475,7 +116971,7 @@
       "symbol": "FFC",
       "state_metadata": {
        "schema_version": 2,
-       "as_of": "2026-08-29",
+       "as_of": "2026-08-31",
        "source": "state/company_documents.json + state/company_event_ledger.json",
        "registry_version": "operating_event_registry_v1"
       },
@@ -116513,7 +117009,7 @@
       "symbol": "FFC",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-31T10:13:14Z",
+       "as_of": "2026-08-31 15:13",
        "source": {
         "company_financial_series": "state/company_financial_series.json",
         "financial_coverage": "state/company_intel/financial_coverage.json",
@@ -116585,7 +117081,7 @@
       "symbol": "FFC",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-29 16:39",
+       "as_of": "2026-08-31 15:13",
        "source": {
         "company_profiles": "state/company_profiles.json",
         "sectors": "state/sectors.json",
@@ -116634,7 +117130,7 @@
       "symbol": "FFC",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-29",
+       "as_of": "2026-08-31",
        "source": {
         "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
         "forecast_readiness": "state/company_intel/forecast_readiness.json",
@@ -116683,7 +117179,7 @@
       "symbol": "FFC",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-29",
+       "as_of": "2026-08-31",
        "source": {
         "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
         "forecast_readiness": "state/company_intel/forecast_readiness.json",
@@ -116734,7 +117230,7 @@
       "symbol": "FFC",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-29",
+       "as_of": "2026-08-31",
        "source": {
         "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
         "forecast_readiness": "state/company_intel/forecast_readiness.json",
@@ -117002,7 +117498,7 @@
        "research_only": true,
        "no_advice": true
       },
-      "as_of": "2026-08-29",
+      "as_of": "2026-08-31",
       "brain_path": "companies/FFC/domains/forecasts",
       "missing_requirements": [
        "actual_basic_eps",
@@ -117031,7 +117527,7 @@
        "research_only": true,
        "no_advice": true
       },
-      "as_of": "2026-08-29",
+      "as_of": "2026-08-31",
       "brain_path": "companies/FFC/domains/valuation",
       "missing_requirements": [
        "actual_basic_eps",
@@ -117062,7 +117558,7 @@
        "research_only": true,
        "no_advice": true
       },
-      "as_of": "2026-08-29",
+      "as_of": "2026-08-31",
       "brain_path": "companies/FFC/domains/forecasts",
       "missing_requirements": [
        "actual_basic_eps",
@@ -117179,7 +117675,7 @@
     "status": "none",
     "case_count": 0,
     "rejected_record_count": 0,
-    "source_cutoff": "2026-08-29",
+    "source_cutoff": "2026-08-31",
     "policy": {
      "historical_baselines_only": true,
      "not_owner_approved_assumptions": true,
@@ -122843,193 +123339,8 @@
     "symbol": "LUCK",
     "status": "blocked_insufficient_qualified_financial_history",
     "reconciliation_kind": "historical_actuals_only",
-    "qualified_financial_period_count": 2,
-    "qualified_financial_periods": [
-     {
-      "period_end": "2024-06-30",
-      "actuals": {
-       "revenue": {
-        "value": 489363447000.0,
-        "unit": "PKR",
-        "unit_multiplier": 1000,
-        "source": {
-         "document_id": "issuer:814f586f0a7a9fb56900185d",
-         "fact_id": "fact_887b900f06e64e3f60d52c27",
-         "content_sha256": "86536c063b7fbcd0374a25e82dc1577e4d868591016e58439491d3b6ab880e11",
-         "source_url": "https://assets.lucky-cement.com/Annual_Report_2025_7c9f8f1249.pdf",
-         "source": "Issuer registry",
-         "page": 292,
-         "text": "Gross Revenue",
-         "available_on": "2026-08-27",
-         "published_at": null,
-         "retrieved_at": "2026-08-27 06:15",
-         "issuer_registry_binding": {
-          "status": "qualified",
-          "document_id": "issuer:814f586f0a7a9fb56900185d",
-          "link_id": "issuer:814f586f0a7a9fb56900185d",
-          "source_url": "https://assets.lucky-cement.com/Annual_Report_2025_7c9f8f1249.pdf",
-          "source_page": "https://lucky-cement.com/en/corporate/investor-relations/financial-reports",
-          "root_domain": "lucky-cement.com",
-          "content_sha256": "86536c063b7fbcd0374a25e82dc1577e4d868591016e58439491d3b6ab880e11",
-          "evidence_page": 292,
-          "ticker": "LUCK",
-          "registry_source": "state/company_intel/source_registry.json"
-         }
-        }
-       },
-       "profit_after_tax_attributable": {
-        "value": 65555505000.0,
-        "unit": "PKR",
-        "unit_multiplier": 1000,
-        "source": {
-         "document_id": "issuer:a4ad80e1b79ef02784142ce8",
-         "fact_id": "fact_8a1290edd8af69a086e66181",
-         "content_sha256": "167740e80ab234b1e04e9fd425bb9e784b644a03a8133d5e769a172de36359ec",
-         "source_url": "https://assets.lucky-cement.com/Annual_Report_2024_1b79aefdee.pdf",
-         "source": "Issuer registry",
-         "page": 288,
-         "text": "Owners of the Holding Company",
-         "available_on": "2026-08-27",
-         "published_at": null,
-         "retrieved_at": "2026-08-27 06:15",
-         "issuer_registry_binding": {
-          "status": "qualified",
-          "document_id": "issuer:a4ad80e1b79ef02784142ce8",
-          "link_id": "issuer:a4ad80e1b79ef02784142ce8",
-          "source_url": "https://assets.lucky-cement.com/Annual_Report_2024_1b79aefdee.pdf",
-          "source_page": "https://lucky-cement.com/en/corporate/investor-relations/financial-reports",
-          "root_domain": "lucky-cement.com",
-          "content_sha256": "167740e80ab234b1e04e9fd425bb9e784b644a03a8133d5e769a172de36359ec",
-          "evidence_page": 288,
-          "ticker": "LUCK",
-          "registry_source": "state/company_intel/source_registry.json"
-         }
-        }
-       },
-       "basic_eps": {
-        "value": 44.1,
-        "unit": "PKR/share",
-        "unit_multiplier": 1,
-        "source": {
-         "document_id": "issuer:814f586f0a7a9fb56900185d",
-         "fact_id": "fact_bd8c45a2ab01920ae8c5094c",
-         "content_sha256": "86536c063b7fbcd0374a25e82dc1577e4d868591016e58439491d3b6ab880e11",
-         "source_url": "https://assets.lucky-cement.com/Annual_Report_2025_7c9f8f1249.pdf",
-         "source": "Issuer registry",
-         "page": 292,
-         "text": "Earnings per share - basic and diluted",
-         "available_on": "2026-08-27",
-         "published_at": null,
-         "retrieved_at": "2026-08-27 06:15",
-         "issuer_registry_binding": {
-          "status": "qualified",
-          "document_id": "issuer:814f586f0a7a9fb56900185d",
-          "link_id": "issuer:814f586f0a7a9fb56900185d",
-          "source_url": "https://assets.lucky-cement.com/Annual_Report_2025_7c9f8f1249.pdf",
-          "source_page": "https://lucky-cement.com/en/corporate/investor-relations/financial-reports",
-          "root_domain": "lucky-cement.com",
-          "content_sha256": "86536c063b7fbcd0374a25e82dc1577e4d868591016e58439491d3b6ab880e11",
-          "evidence_page": 292,
-          "ticker": "LUCK",
-          "registry_source": "state/company_intel/source_registry.json"
-         }
-        }
-       }
-      }
-     },
-     {
-      "period_end": "2025-06-30",
-      "actuals": {
-       "revenue": {
-        "value": 559204434000.0,
-        "unit": "PKR",
-        "unit_multiplier": 1000,
-        "source": {
-         "document_id": "issuer:814f586f0a7a9fb56900185d",
-         "fact_id": "fact_0d1e26cd6ab3d94ceb02b69d",
-         "content_sha256": "86536c063b7fbcd0374a25e82dc1577e4d868591016e58439491d3b6ab880e11",
-         "source_url": "https://assets.lucky-cement.com/Annual_Report_2025_7c9f8f1249.pdf",
-         "source": "Issuer registry",
-         "page": 292,
-         "text": "Gross Revenue",
-         "available_on": "2026-08-27",
-         "published_at": null,
-         "retrieved_at": "2026-08-27 06:15",
-         "issuer_registry_binding": {
-          "status": "qualified",
-          "document_id": "issuer:814f586f0a7a9fb56900185d",
-          "link_id": "issuer:814f586f0a7a9fb56900185d",
-          "source_url": "https://assets.lucky-cement.com/Annual_Report_2025_7c9f8f1249.pdf",
-          "source_page": "https://lucky-cement.com/en/corporate/investor-relations/financial-reports",
-          "root_domain": "lucky-cement.com",
-          "content_sha256": "86536c063b7fbcd0374a25e82dc1577e4d868591016e58439491d3b6ab880e11",
-          "evidence_page": 292,
-          "ticker": "LUCK",
-          "registry_source": "state/company_intel/source_registry.json"
-         }
-        }
-       },
-       "profit_after_tax_attributable": {
-        "value": 76956147000.0,
-        "unit": "PKR",
-        "unit_multiplier": 1000,
-        "source": {
-         "document_id": "issuer:814f586f0a7a9fb56900185d",
-         "fact_id": "fact_c36f5d4807f30d47432d2f0c",
-         "content_sha256": "86536c063b7fbcd0374a25e82dc1577e4d868591016e58439491d3b6ab880e11",
-         "source_url": "https://assets.lucky-cement.com/Annual_Report_2025_7c9f8f1249.pdf",
-         "source": "Issuer registry",
-         "page": 292,
-         "text": "Owners of the Holding Company",
-         "available_on": "2026-08-27",
-         "published_at": null,
-         "retrieved_at": "2026-08-27 06:15",
-         "issuer_registry_binding": {
-          "status": "qualified",
-          "document_id": "issuer:814f586f0a7a9fb56900185d",
-          "link_id": "issuer:814f586f0a7a9fb56900185d",
-          "source_url": "https://assets.lucky-cement.com/Annual_Report_2025_7c9f8f1249.pdf",
-          "source_page": "https://lucky-cement.com/en/corporate/investor-relations/financial-reports",
-          "root_domain": "lucky-cement.com",
-          "content_sha256": "86536c063b7fbcd0374a25e82dc1577e4d868591016e58439491d3b6ab880e11",
-          "evidence_page": 292,
-          "ticker": "LUCK",
-          "registry_source": "state/company_intel/source_registry.json"
-         }
-        }
-       },
-       "basic_eps": {
-        "value": 52.53,
-        "unit": "PKR/share",
-        "unit_multiplier": 1,
-        "source": {
-         "document_id": "issuer:814f586f0a7a9fb56900185d",
-         "fact_id": "fact_f93d0864506a39f18933426d",
-         "content_sha256": "86536c063b7fbcd0374a25e82dc1577e4d868591016e58439491d3b6ab880e11",
-         "source_url": "https://assets.lucky-cement.com/Annual_Report_2025_7c9f8f1249.pdf",
-         "source": "Issuer registry",
-         "page": 292,
-         "text": "Earnings per share - basic and diluted",
-         "available_on": "2026-08-27",
-         "published_at": null,
-         "retrieved_at": "2026-08-27 06:15",
-         "issuer_registry_binding": {
-          "status": "qualified",
-          "document_id": "issuer:814f586f0a7a9fb56900185d",
-          "link_id": "issuer:814f586f0a7a9fb56900185d",
-          "source_url": "https://assets.lucky-cement.com/Annual_Report_2025_7c9f8f1249.pdf",
-          "source_page": "https://lucky-cement.com/en/corporate/investor-relations/financial-reports",
-          "root_domain": "lucky-cement.com",
-          "content_sha256": "86536c063b7fbcd0374a25e82dc1577e4d868591016e58439491d3b6ab880e11",
-          "evidence_page": 292,
-          "ticker": "LUCK",
-          "registry_source": "state/company_intel/source_registry.json"
-         }
-        }
-       }
-      }
-     }
-    ],
+    "qualified_financial_period_count": 0,
+    "qualified_financial_periods": [],
     "driver_lanes": {
      "dispatch_volume": {
       "status": "missing",
@@ -149105,7 +149416,7 @@
     "qualified_periods": [],
     "readiness": {
      "forecast_readiness_status": "blocked_insufficient_qualified_history",
-     "forecast_qualified_period_count": 2,
+     "forecast_qualified_period_count": 0,
      "financial_model_input_status": "partial",
      "earnings_bridge_status": "blocked",
      "forecast": "blocked_insufficient_qualified_history",
@@ -149118,11 +149429,12 @@
     "symbol": "LUCK",
     "status": "blocked_insufficient_conflict_free_aligned_history",
     "bridge_count": 0,
-    "qualified_period_count": 1,
+    "qualified_period_count": 0,
     "blocked_periods": [
      "2022-06-30",
      "2023-06-30",
-     "2024-06-30"
+     "2024-06-30",
+     "2025-06-30"
     ],
     "bridges": [],
     "formal_engine_status": {
@@ -149651,48 +149963,8 @@
      },
      "historical_reference_cases_are_not_approved_assumptions": true
     },
-    "qualified_period_count": 2,
-    "qualified_periods": [
-     {
-      "period_end": "2024-06-30",
-      "available_on": "2026-08-27",
-      "consolidation": "consolidated",
-      "currency": "PKR",
-      "statement_type": "income_statement",
-      "monetary_unit": "PKR",
-      "monetary_unit_multiplier": 1000,
-      "eps_unit": "PKR/share",
-      "eps_unit_multiplier": 1,
-      "source_fact_ids": {
-       "revenue": "fact_887b900f06e64e3f60d52c27",
-       "profit_after_tax_attributable": "fact_8a1290edd8af69a086e66181",
-       "basic_eps": "fact_bd8c45a2ab01920ae8c5094c"
-      },
-      "document_ids": [
-       "issuer:814f586f0a7a9fb56900185d",
-       "issuer:a4ad80e1b79ef02784142ce8"
-      ]
-     },
-     {
-      "period_end": "2025-06-30",
-      "available_on": "2026-08-27",
-      "consolidation": "consolidated",
-      "currency": "PKR",
-      "statement_type": "income_statement",
-      "monetary_unit": "PKR",
-      "monetary_unit_multiplier": 1000,
-      "eps_unit": "PKR/share",
-      "eps_unit_multiplier": 1,
-      "source_fact_ids": {
-       "revenue": "fact_0d1e26cd6ab3d94ceb02b69d",
-       "profit_after_tax_attributable": "fact_c36f5d4807f30d47432d2f0c",
-       "basic_eps": "fact_f93d0864506a39f18933426d"
-      },
-      "document_ids": [
-       "issuer:814f586f0a7a9fb56900185d"
-      ]
-     }
-    ],
+    "qualified_period_count": 0,
+    "qualified_periods": [],
     "missing_requirements": [
      "three_aligned_annual_revenue_pat_eps_periods"
     ],
@@ -151026,7 +151298,7 @@
       "symbol": "LUCK",
       "state_metadata": {
        "schema_version": 2,
-       "as_of": "2026-08-29",
+       "as_of": "2026-08-31",
        "source": "state/company_documents.json + state/company_event_ledger.json",
        "registry_version": "operating_event_registry_v1"
       },
@@ -151064,7 +151336,7 @@
       "symbol": "LUCK",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-31T10:13:14Z",
+       "as_of": "2026-08-31 15:13",
        "source": {
         "company_financial_series": "state/company_financial_series.json",
         "financial_coverage": "state/company_intel/financial_coverage.json",
@@ -151136,7 +151408,7 @@
       "symbol": "LUCK",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-29 16:39",
+       "as_of": "2026-08-31 15:13",
        "source": {
         "company_profiles": "state/company_profiles.json",
         "sectors": "state/sectors.json",
@@ -151185,7 +151457,7 @@
       "symbol": "LUCK",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-29",
+       "as_of": "2026-08-31",
        "source": {
         "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
         "forecast_readiness": "state/company_intel/forecast_readiness.json",
@@ -151234,7 +151506,7 @@
       "symbol": "LUCK",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-29",
+       "as_of": "2026-08-31",
        "source": {
         "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
         "forecast_readiness": "state/company_intel/forecast_readiness.json",
@@ -151285,7 +151557,7 @@
       "symbol": "LUCK",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-29",
+       "as_of": "2026-08-31",
        "source": {
         "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
         "forecast_readiness": "state/company_intel/forecast_readiness.json",
@@ -151553,7 +151825,7 @@
        "research_only": true,
        "no_advice": true
       },
-      "as_of": "2026-08-29",
+      "as_of": "2026-08-31",
       "brain_path": "companies/LUCK/domains/forecasts",
       "missing_requirements": [
        "actual_basic_eps",
@@ -151582,7 +151854,7 @@
        "research_only": true,
        "no_advice": true
       },
-      "as_of": "2026-08-29",
+      "as_of": "2026-08-31",
       "brain_path": "companies/LUCK/domains/valuation",
       "missing_requirements": [
        "actual_basic_eps",
@@ -151613,7 +151885,7 @@
        "research_only": true,
        "no_advice": true
       },
-      "as_of": "2026-08-29",
+      "as_of": "2026-08-31",
       "brain_path": "companies/LUCK/domains/forecasts",
       "missing_requirements": [
        "actual_basic_eps",
@@ -151837,7 +152109,7 @@
     "status": "none",
     "case_count": 0,
     "rejected_record_count": 0,
-    "source_cutoff": "2026-08-29",
+    "source_cutoff": "2026-08-31",
     "policy": {
      "historical_baselines_only": true,
      "not_owner_approved_assumptions": true,
@@ -151851,7 +152123,7 @@
     "status": "not_evaluated_until_input_ready",
     "forecast_readiness_status": "blocked_insufficient_qualified_history",
     "financial_model_inputs_status": "partial",
-    "qualified_period_count": 2,
+    "qualified_period_count": 0,
     "products": {
      "forecast": {
       "status": "not_evaluated_until_input_ready",
@@ -151985,7 +152257,7 @@
     "source_quality_flags": 1,
     "operating_event_count": 9,
     "cement_operating_observation_count": 0,
-    "cement_qualified_financial_period_count": 2,
+    "cement_qualified_financial_period_count": 0,
     "impact_scenario_count": 27,
     "event_study_count": 9,
     "conditional_benchmark_count": 0,
@@ -151998,7 +152270,7 @@
     "financial_coverage_status": "queued_for_qualification",
     "financial_coverage_candidates": 5,
     "forecast_readiness_status": "blocked_insufficient_qualified_history",
-    "forecast_qualified_period_count": 2,
+    "forecast_qualified_period_count": 0,
     "scenario_lab_status": "blocked_financial_truth_not_qualified",
     "market_expectations_status": "blocked_financial_truth_not_qualified",
     "brain_object_count": 18,
@@ -157215,7 +157487,7 @@
       "symbol": "HUBC",
       "state_metadata": {
        "schema_version": 2,
-       "as_of": "2026-08-29",
+       "as_of": "2026-08-31",
        "source": "state/company_documents.json + state/company_event_ledger.json",
        "registry_version": "operating_event_registry_v1"
       },
@@ -157253,7 +157525,7 @@
       "symbol": "HUBC",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-31T10:13:14Z",
+       "as_of": "2026-08-31 15:13",
        "source": {
         "company_financial_series": "state/company_financial_series.json",
         "financial_coverage": "state/company_intel/financial_coverage.json",
@@ -157325,7 +157597,7 @@
       "symbol": "HUBC",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-29 16:39",
+       "as_of": "2026-08-31 15:13",
        "source": {
         "company_profiles": "state/company_profiles.json",
         "sectors": "state/sectors.json",
@@ -157374,7 +157646,7 @@
       "symbol": "HUBC",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-29",
+       "as_of": "2026-08-31",
        "source": {
         "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
         "forecast_readiness": "state/company_intel/forecast_readiness.json",
@@ -157423,7 +157695,7 @@
       "symbol": "HUBC",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-29",
+       "as_of": "2026-08-31",
        "source": {
         "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
         "forecast_readiness": "state/company_intel/forecast_readiness.json",
@@ -157474,7 +157746,7 @@
       "symbol": "HUBC",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-29",
+       "as_of": "2026-08-31",
        "source": {
         "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
         "forecast_readiness": "state/company_intel/forecast_readiness.json",
@@ -157742,7 +158014,7 @@
        "research_only": true,
        "no_advice": true
       },
-      "as_of": "2026-08-29",
+      "as_of": "2026-08-31",
       "brain_path": "companies/HUBC/domains/forecasts",
       "missing_requirements": [
        "actual_basic_eps",
@@ -157771,7 +158043,7 @@
        "research_only": true,
        "no_advice": true
       },
-      "as_of": "2026-08-29",
+      "as_of": "2026-08-31",
       "brain_path": "companies/HUBC/domains/valuation",
       "missing_requirements": [
        "actual_basic_eps",
@@ -157802,7 +158074,7 @@
        "research_only": true,
        "no_advice": true
       },
-      "as_of": "2026-08-29",
+      "as_of": "2026-08-31",
       "brain_path": "companies/HUBC/domains/forecasts",
       "missing_requirements": [
        "actual_basic_eps",
@@ -157942,7 +158214,7 @@
     "status": "none",
     "case_count": 0,
     "rejected_record_count": 0,
-    "source_cutoff": "2026-08-29",
+    "source_cutoff": "2026-08-31",
     "policy": {
      "historical_baselines_only": true,
      "not_owner_approved_assumptions": true,
@@ -160522,7 +160794,7 @@
       "symbol": "PRL",
       "state_metadata": {
        "schema_version": 2,
-       "as_of": "2026-08-29",
+       "as_of": "2026-08-31",
        "source": "state/company_documents.json + state/company_event_ledger.json",
        "registry_version": "operating_event_registry_v1"
       },
@@ -160560,7 +160832,7 @@
       "symbol": "PRL",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-31T10:13:14Z",
+       "as_of": "2026-08-31 15:13",
        "source": {
         "company_financial_series": "state/company_financial_series.json",
         "financial_coverage": "state/company_intel/financial_coverage.json",
@@ -160632,7 +160904,7 @@
       "symbol": "PRL",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-29 16:39",
+       "as_of": "2026-08-31 15:13",
        "source": {
         "company_profiles": "state/company_profiles.json",
         "sectors": "state/sectors.json",
@@ -160681,7 +160953,7 @@
       "symbol": "PRL",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-29",
+       "as_of": "2026-08-31",
        "source": {
         "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
         "forecast_readiness": "state/company_intel/forecast_readiness.json",
@@ -160730,7 +161002,7 @@
       "symbol": "PRL",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-29",
+       "as_of": "2026-08-31",
        "source": {
         "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
         "forecast_readiness": "state/company_intel/forecast_readiness.json",
@@ -160781,7 +161053,7 @@
       "symbol": "PRL",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-29",
+       "as_of": "2026-08-31",
        "source": {
         "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
         "forecast_readiness": "state/company_intel/forecast_readiness.json",
@@ -161049,7 +161321,7 @@
        "research_only": true,
        "no_advice": true
       },
-      "as_of": "2026-08-29",
+      "as_of": "2026-08-31",
       "brain_path": "companies/PRL/domains/forecasts",
       "missing_requirements": [
        "actual_basic_eps",
@@ -161078,7 +161350,7 @@
        "research_only": true,
        "no_advice": true
       },
-      "as_of": "2026-08-29",
+      "as_of": "2026-08-31",
       "brain_path": "companies/PRL/domains/valuation",
       "missing_requirements": [
        "actual_basic_eps",
@@ -161109,7 +161381,7 @@
        "research_only": true,
        "no_advice": true
       },
-      "as_of": "2026-08-29",
+      "as_of": "2026-08-31",
       "brain_path": "companies/PRL/domains/forecasts",
       "missing_requirements": [
        "actual_basic_eps",
@@ -161224,7 +161496,7 @@
     "status": "none",
     "case_count": 0,
     "rejected_record_count": 0,
-    "source_cutoff": "2026-08-29",
+    "source_cutoff": "2026-08-31",
     "policy": {
      "historical_baselines_only": true,
      "not_owner_approved_assumptions": true,
@@ -171750,7 +172022,7 @@
       "symbol": "BOP",
       "state_metadata": {
        "schema_version": 2,
-       "as_of": "2026-08-29",
+       "as_of": "2026-08-31",
        "source": "state/company_documents.json + state/company_event_ledger.json",
        "registry_version": "operating_event_registry_v1"
       },
@@ -171788,7 +172060,7 @@
       "symbol": "BOP",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-31T10:13:14Z",
+       "as_of": "2026-08-31 15:13",
        "source": {
         "company_financial_series": "state/company_financial_series.json",
         "financial_coverage": "state/company_intel/financial_coverage.json",
@@ -171860,7 +172132,7 @@
       "symbol": "BOP",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-29 16:39",
+       "as_of": "2026-08-31 15:13",
        "source": {
         "company_profiles": "state/company_profiles.json",
         "sectors": "state/sectors.json",
@@ -171909,7 +172181,7 @@
       "symbol": "BOP",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-29",
+       "as_of": "2026-08-31",
        "source": {
         "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
         "forecast_readiness": "state/company_intel/forecast_readiness.json",
@@ -171958,7 +172230,7 @@
       "symbol": "BOP",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-29",
+       "as_of": "2026-08-31",
        "source": {
         "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
         "forecast_readiness": "state/company_intel/forecast_readiness.json",
@@ -172009,7 +172281,7 @@
       "symbol": "BOP",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-29",
+       "as_of": "2026-08-31",
        "source": {
         "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
         "forecast_readiness": "state/company_intel/forecast_readiness.json",
@@ -172277,7 +172549,7 @@
        "research_only": true,
        "no_advice": true
       },
-      "as_of": "2026-08-29",
+      "as_of": "2026-08-31",
       "brain_path": "companies/BOP/domains/forecasts",
       "missing_requirements": [
        "actual_basic_eps",
@@ -172306,7 +172578,7 @@
        "research_only": true,
        "no_advice": true
       },
-      "as_of": "2026-08-29",
+      "as_of": "2026-08-31",
       "brain_path": "companies/BOP/domains/valuation",
       "missing_requirements": [
        "actual_basic_eps",
@@ -172337,7 +172609,7 @@
        "research_only": true,
        "no_advice": true
       },
-      "as_of": "2026-08-29",
+      "as_of": "2026-08-31",
       "brain_path": "companies/BOP/domains/forecasts",
       "missing_requirements": [
        "actual_basic_eps",
@@ -172535,7 +172807,7 @@
     "status": "none",
     "case_count": 0,
     "rejected_record_count": 0,
-    "source_cutoff": "2026-08-29",
+    "source_cutoff": "2026-08-31",
     "policy": {
      "historical_baselines_only": true,
      "not_owner_approved_assumptions": true,
@@ -177956,7 +178228,7 @@
       "symbol": "NBP",
       "state_metadata": {
        "schema_version": 2,
-       "as_of": "2026-08-29",
+       "as_of": "2026-08-31",
        "source": "state/company_documents.json + state/company_event_ledger.json",
        "registry_version": "operating_event_registry_v1"
       },
@@ -177994,7 +178266,7 @@
       "symbol": "NBP",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-31T10:13:14Z",
+       "as_of": "2026-08-31 15:13",
        "source": {
         "company_financial_series": "state/company_financial_series.json",
         "financial_coverage": "state/company_intel/financial_coverage.json",
@@ -178066,7 +178338,7 @@
       "symbol": "NBP",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-29 16:39",
+       "as_of": "2026-08-31 15:13",
        "source": {
         "company_profiles": "state/company_profiles.json",
         "sectors": "state/sectors.json",
@@ -178115,7 +178387,7 @@
       "symbol": "NBP",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-29",
+       "as_of": "2026-08-31",
        "source": {
         "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
         "forecast_readiness": "state/company_intel/forecast_readiness.json",
@@ -178164,7 +178436,7 @@
       "symbol": "NBP",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-29",
+       "as_of": "2026-08-31",
        "source": {
         "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
         "forecast_readiness": "state/company_intel/forecast_readiness.json",
@@ -178215,7 +178487,7 @@
       "symbol": "NBP",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-29",
+       "as_of": "2026-08-31",
        "source": {
         "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
         "forecast_readiness": "state/company_intel/forecast_readiness.json",
@@ -178483,7 +178755,7 @@
        "research_only": true,
        "no_advice": true
       },
-      "as_of": "2026-08-29",
+      "as_of": "2026-08-31",
       "brain_path": "companies/NBP/domains/forecasts",
       "missing_requirements": [
        "actual_basic_eps",
@@ -178512,7 +178784,7 @@
        "research_only": true,
        "no_advice": true
       },
-      "as_of": "2026-08-29",
+      "as_of": "2026-08-31",
       "brain_path": "companies/NBP/domains/valuation",
       "missing_requirements": [
        "actual_basic_eps",
@@ -178543,7 +178815,7 @@
        "research_only": true,
        "no_advice": true
       },
-      "as_of": "2026-08-29",
+      "as_of": "2026-08-31",
       "brain_path": "companies/NBP/domains/forecasts",
       "missing_requirements": [
        "actual_basic_eps",
@@ -178662,7 +178934,7 @@
     "status": "none",
     "case_count": 0,
     "rejected_record_count": 0,
-    "source_cutoff": "2026-08-29",
+    "source_cutoff": "2026-08-31",
     "policy": {
      "historical_baselines_only": true,
      "not_owner_approved_assumptions": true,
@@ -183021,7 +183293,7 @@
       "symbol": "MEBL",
       "state_metadata": {
        "schema_version": 2,
-       "as_of": "2026-08-29",
+       "as_of": "2026-08-31",
        "source": "state/company_documents.json + state/company_event_ledger.json",
        "registry_version": "operating_event_registry_v1"
       },
@@ -183059,7 +183331,7 @@
       "symbol": "MEBL",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-31T10:13:14Z",
+       "as_of": "2026-08-31 15:13",
        "source": {
         "company_financial_series": "state/company_financial_series.json",
         "financial_coverage": "state/company_intel/financial_coverage.json",
@@ -183131,7 +183403,7 @@
       "symbol": "MEBL",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-29 16:39",
+       "as_of": "2026-08-31 15:13",
        "source": {
         "company_profiles": "state/company_profiles.json",
         "sectors": "state/sectors.json",
@@ -183180,7 +183452,7 @@
       "symbol": "MEBL",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-29",
+       "as_of": "2026-08-31",
        "source": {
         "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
         "forecast_readiness": "state/company_intel/forecast_readiness.json",
@@ -183229,7 +183501,7 @@
       "symbol": "MEBL",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-29",
+       "as_of": "2026-08-31",
        "source": {
         "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
         "forecast_readiness": "state/company_intel/forecast_readiness.json",
@@ -183280,7 +183552,7 @@
       "symbol": "MEBL",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-29",
+       "as_of": "2026-08-31",
        "source": {
         "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
         "forecast_readiness": "state/company_intel/forecast_readiness.json",
@@ -183548,7 +183820,7 @@
        "research_only": true,
        "no_advice": true
       },
-      "as_of": "2026-08-29",
+      "as_of": "2026-08-31",
       "brain_path": "companies/MEBL/domains/forecasts",
       "missing_requirements": [
        "actual_basic_eps",
@@ -183577,7 +183849,7 @@
        "research_only": true,
        "no_advice": true
       },
-      "as_of": "2026-08-29",
+      "as_of": "2026-08-31",
       "brain_path": "companies/MEBL/domains/valuation",
       "missing_requirements": [
        "actual_basic_eps",
@@ -183608,7 +183880,7 @@
        "research_only": true,
        "no_advice": true
       },
-      "as_of": "2026-08-29",
+      "as_of": "2026-08-31",
       "brain_path": "companies/MEBL/domains/forecasts",
       "missing_requirements": [
        "actual_basic_eps",
@@ -183765,7 +184037,7 @@
     "status": "none",
     "case_count": 0,
     "rejected_record_count": 0,
-    "source_cutoff": "2026-08-29",
+    "source_cutoff": "2026-08-31",
     "policy": {
      "historical_baselines_only": true,
      "not_owner_approved_assumptions": true,
@@ -186594,7 +186866,6 @@
       "consolidation": "consolidated",
       "currency": "PKR",
       "quality_flags": [
-       "conflict",
        "legacy_extractor_not_model_eligible",
        "legacy_parser_revision_quarantine"
       ]
@@ -186735,7 +187006,6 @@
       "consolidation": "consolidated",
       "currency": "PKR",
       "quality_flags": [
-       "conflict",
        "legacy_extractor_not_model_eligible",
        "legacy_parser_revision_quarantine"
       ]
@@ -186806,7 +187076,6 @@
       "consolidation": "consolidated",
       "currency": "PKR",
       "quality_flags": [
-       "conflict",
        "legacy_extractor_not_model_eligible",
        "legacy_parser_revision_quarantine"
       ]
@@ -194367,7 +194636,7 @@
       "symbol": "ATRL",
       "state_metadata": {
        "schema_version": 2,
-       "as_of": "2026-08-29",
+       "as_of": "2026-08-31",
        "source": "state/company_documents.json + state/company_event_ledger.json",
        "registry_version": "operating_event_registry_v1"
       },
@@ -194405,7 +194674,7 @@
       "symbol": "ATRL",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-31T10:13:14Z",
+       "as_of": "2026-08-31 15:13",
        "source": {
         "company_financial_series": "state/company_financial_series.json",
         "financial_coverage": "state/company_intel/financial_coverage.json",
@@ -194477,7 +194746,7 @@
       "symbol": "ATRL",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-29 16:39",
+       "as_of": "2026-08-31 15:13",
        "source": {
         "company_profiles": "state/company_profiles.json",
         "sectors": "state/sectors.json",
@@ -194526,7 +194795,7 @@
       "symbol": "ATRL",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-29",
+       "as_of": "2026-08-31",
        "source": {
         "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
         "forecast_readiness": "state/company_intel/forecast_readiness.json",
@@ -194575,7 +194844,7 @@
       "symbol": "ATRL",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-29",
+       "as_of": "2026-08-31",
        "source": {
         "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
         "forecast_readiness": "state/company_intel/forecast_readiness.json",
@@ -194626,7 +194895,7 @@
       "symbol": "ATRL",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-29",
+       "as_of": "2026-08-31",
        "source": {
         "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
         "forecast_readiness": "state/company_intel/forecast_readiness.json",
@@ -194894,7 +195163,7 @@
        "research_only": true,
        "no_advice": true
       },
-      "as_of": "2026-08-29",
+      "as_of": "2026-08-31",
       "brain_path": "companies/ATRL/domains/forecasts",
       "missing_requirements": [
        "actual_basic_eps",
@@ -194923,7 +195192,7 @@
        "research_only": true,
        "no_advice": true
       },
-      "as_of": "2026-08-29",
+      "as_of": "2026-08-31",
       "brain_path": "companies/ATRL/domains/valuation",
       "missing_requirements": [
        "actual_basic_eps",
@@ -194954,7 +195223,7 @@
        "research_only": true,
        "no_advice": true
       },
-      "as_of": "2026-08-29",
+      "as_of": "2026-08-31",
       "brain_path": "companies/ATRL/domains/forecasts",
       "missing_requirements": [
        "actual_basic_eps",
@@ -195110,7 +195379,7 @@
     "status": "none",
     "case_count": 0,
     "rejected_record_count": 0,
-    "source_cutoff": "2026-08-29",
+    "source_cutoff": "2026-08-31",
     "policy": {
      "historical_baselines_only": true,
      "not_owner_approved_assumptions": true,
@@ -198970,7 +199239,7 @@
       "symbol": "HBL",
       "state_metadata": {
        "schema_version": 2,
-       "as_of": "2026-08-29",
+       "as_of": "2026-08-31",
        "source": "state/company_documents.json + state/company_event_ledger.json",
        "registry_version": "operating_event_registry_v1"
       },
@@ -199008,7 +199277,7 @@
       "symbol": "HBL",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-31T10:13:14Z",
+       "as_of": "2026-08-31 15:13",
        "source": {
         "company_financial_series": "state/company_financial_series.json",
         "financial_coverage": "state/company_intel/financial_coverage.json",
@@ -199080,7 +199349,7 @@
       "symbol": "HBL",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-29 16:39",
+       "as_of": "2026-08-31 15:13",
        "source": {
         "company_profiles": "state/company_profiles.json",
         "sectors": "state/sectors.json",
@@ -199129,7 +199398,7 @@
       "symbol": "HBL",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-29",
+       "as_of": "2026-08-31",
        "source": {
         "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
         "forecast_readiness": "state/company_intel/forecast_readiness.json",
@@ -199178,7 +199447,7 @@
       "symbol": "HBL",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-29",
+       "as_of": "2026-08-31",
        "source": {
         "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
         "forecast_readiness": "state/company_intel/forecast_readiness.json",
@@ -199229,7 +199498,7 @@
       "symbol": "HBL",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-29",
+       "as_of": "2026-08-31",
        "source": {
         "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
         "forecast_readiness": "state/company_intel/forecast_readiness.json",
@@ -199497,7 +199766,7 @@
        "research_only": true,
        "no_advice": true
       },
-      "as_of": "2026-08-29",
+      "as_of": "2026-08-31",
       "brain_path": "companies/HBL/domains/forecasts",
       "missing_requirements": [
        "actual_basic_eps",
@@ -199526,7 +199795,7 @@
        "research_only": true,
        "no_advice": true
       },
-      "as_of": "2026-08-29",
+      "as_of": "2026-08-31",
       "brain_path": "companies/HBL/domains/valuation",
       "missing_requirements": [
        "actual_basic_eps",
@@ -199557,7 +199826,7 @@
        "research_only": true,
        "no_advice": true
       },
-      "as_of": "2026-08-29",
+      "as_of": "2026-08-31",
       "brain_path": "companies/HBL/domains/forecasts",
       "missing_requirements": [
        "actual_basic_eps",
@@ -199672,7 +199941,7 @@
     "status": "none",
     "case_count": 0,
     "rejected_record_count": 0,
-    "source_cutoff": "2026-08-29",
+    "source_cutoff": "2026-08-31",
     "policy": {
      "historical_baselines_only": true,
      "not_owner_approved_assumptions": true,
@@ -208603,7 +208872,7 @@
       "symbol": "MARI",
       "state_metadata": {
        "schema_version": 2,
-       "as_of": "2026-08-29",
+       "as_of": "2026-08-31",
        "source": "state/company_documents.json + state/company_event_ledger.json",
        "registry_version": "operating_event_registry_v1"
       },
@@ -208641,7 +208910,7 @@
       "symbol": "MARI",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-31T10:13:14Z",
+       "as_of": "2026-08-31 15:13",
        "source": {
         "company_financial_series": "state/company_financial_series.json",
         "financial_coverage": "state/company_intel/financial_coverage.json",
@@ -208713,7 +208982,7 @@
       "symbol": "MARI",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-29 16:39",
+       "as_of": "2026-08-31 15:13",
        "source": {
         "company_profiles": "state/company_profiles.json",
         "sectors": "state/sectors.json",
@@ -208762,7 +209031,7 @@
       "symbol": "MARI",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-29",
+       "as_of": "2026-08-31",
        "source": {
         "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
         "forecast_readiness": "state/company_intel/forecast_readiness.json",
@@ -208811,7 +209080,7 @@
       "symbol": "MARI",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-29",
+       "as_of": "2026-08-31",
        "source": {
         "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
         "forecast_readiness": "state/company_intel/forecast_readiness.json",
@@ -208862,7 +209131,7 @@
       "symbol": "MARI",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-29",
+       "as_of": "2026-08-31",
        "source": {
         "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
         "forecast_readiness": "state/company_intel/forecast_readiness.json",
@@ -209130,7 +209399,7 @@
        "research_only": true,
        "no_advice": true
       },
-      "as_of": "2026-08-29",
+      "as_of": "2026-08-31",
       "brain_path": "companies/MARI/domains/forecasts",
       "missing_requirements": [
        "actual_basic_eps",
@@ -209159,7 +209428,7 @@
        "research_only": true,
        "no_advice": true
       },
-      "as_of": "2026-08-29",
+      "as_of": "2026-08-31",
       "brain_path": "companies/MARI/domains/valuation",
       "missing_requirements": [
        "actual_basic_eps",
@@ -209190,7 +209459,7 @@
        "research_only": true,
        "no_advice": true
       },
-      "as_of": "2026-08-29",
+      "as_of": "2026-08-31",
       "brain_path": "companies/MARI/domains/forecasts",
       "missing_requirements": [
        "actual_basic_eps",
@@ -209354,7 +209623,7 @@
     "status": "none",
     "case_count": 0,
     "rejected_record_count": 0,
-    "source_cutoff": "2026-08-29",
+    "source_cutoff": "2026-08-31",
     "policy": {
      "historical_baselines_only": true,
      "not_owner_approved_assumptions": true,
@@ -214223,7 +214492,7 @@
       "symbol": "ENGROH",
       "state_metadata": {
        "schema_version": 2,
-       "as_of": "2026-08-29",
+       "as_of": "2026-08-31",
        "source": "state/company_documents.json + state/company_event_ledger.json",
        "registry_version": "operating_event_registry_v1"
       },
@@ -214261,7 +214530,7 @@
       "symbol": "ENGROH",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-31T10:13:14Z",
+       "as_of": "2026-08-31 15:13",
        "source": {
         "company_financial_series": "state/company_financial_series.json",
         "financial_coverage": "state/company_intel/financial_coverage.json",
@@ -214333,7 +214602,7 @@
       "symbol": "ENGROH",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-29 16:39",
+       "as_of": "2026-08-31 15:13",
        "source": {
         "company_profiles": "state/company_profiles.json",
         "sectors": "state/sectors.json",
@@ -214382,7 +214651,7 @@
       "symbol": "ENGROH",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-29",
+       "as_of": "2026-08-31",
        "source": {
         "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
         "forecast_readiness": "state/company_intel/forecast_readiness.json",
@@ -214431,7 +214700,7 @@
       "symbol": "ENGROH",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-29",
+       "as_of": "2026-08-31",
        "source": {
         "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
         "forecast_readiness": "state/company_intel/forecast_readiness.json",
@@ -214482,7 +214751,7 @@
       "symbol": "ENGROH",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-29",
+       "as_of": "2026-08-31",
        "source": {
         "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
         "forecast_readiness": "state/company_intel/forecast_readiness.json",
@@ -214750,7 +215019,7 @@
        "research_only": true,
        "no_advice": true
       },
-      "as_of": "2026-08-29",
+      "as_of": "2026-08-31",
       "brain_path": "companies/ENGROH/domains/forecasts",
       "missing_requirements": [
        "actual_basic_eps",
@@ -214779,7 +215048,7 @@
        "research_only": true,
        "no_advice": true
       },
-      "as_of": "2026-08-29",
+      "as_of": "2026-08-31",
       "brain_path": "companies/ENGROH/domains/valuation",
       "missing_requirements": [
        "actual_basic_eps",
@@ -214810,7 +215079,7 @@
        "research_only": true,
        "no_advice": true
       },
-      "as_of": "2026-08-29",
+      "as_of": "2026-08-31",
       "brain_path": "companies/ENGROH/domains/forecasts",
       "missing_requirements": [
        "actual_basic_eps",
@@ -214968,7 +215237,7 @@
     "status": "none",
     "case_count": 0,
     "rejected_record_count": 0,
-    "source_cutoff": "2026-08-29",
+    "source_cutoff": "2026-08-31",
     "policy": {
      "historical_baselines_only": true,
      "not_owner_approved_assumptions": true,
@@ -217388,7 +217657,7 @@
       "symbol": "GAL",
       "state_metadata": {
        "schema_version": 2,
-       "as_of": "2026-08-29",
+       "as_of": "2026-08-31",
        "source": "state/company_documents.json + state/company_event_ledger.json",
        "registry_version": "operating_event_registry_v1"
       },
@@ -217426,7 +217695,7 @@
       "symbol": "GAL",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-31T10:13:14Z",
+       "as_of": "2026-08-31 15:13",
        "source": {
         "company_financial_series": "state/company_financial_series.json",
         "financial_coverage": "state/company_intel/financial_coverage.json",
@@ -217498,7 +217767,7 @@
       "symbol": "GAL",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-29 16:39",
+       "as_of": "2026-08-31 15:13",
        "source": {
         "company_profiles": "state/company_profiles.json",
         "sectors": "state/sectors.json",
@@ -217547,7 +217816,7 @@
       "symbol": "GAL",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-29",
+       "as_of": "2026-08-31",
        "source": {
         "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
         "forecast_readiness": "state/company_intel/forecast_readiness.json",
@@ -217596,7 +217865,7 @@
       "symbol": "GAL",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-29",
+       "as_of": "2026-08-31",
        "source": {
         "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
         "forecast_readiness": "state/company_intel/forecast_readiness.json",
@@ -217647,7 +217916,7 @@
       "symbol": "GAL",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-29",
+       "as_of": "2026-08-31",
        "source": {
         "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
         "forecast_readiness": "state/company_intel/forecast_readiness.json",
@@ -217915,7 +218184,7 @@
        "research_only": true,
        "no_advice": true
       },
-      "as_of": "2026-08-29",
+      "as_of": "2026-08-31",
       "brain_path": "companies/GAL/domains/forecasts",
       "missing_requirements": [
        "actual_basic_eps",
@@ -217944,7 +218213,7 @@
        "research_only": true,
        "no_advice": true
       },
-      "as_of": "2026-08-29",
+      "as_of": "2026-08-31",
       "brain_path": "companies/GAL/domains/valuation",
       "missing_requirements": [
        "actual_basic_eps",
@@ -217975,7 +218244,7 @@
        "research_only": true,
        "no_advice": true
       },
-      "as_of": "2026-08-29",
+      "as_of": "2026-08-31",
       "brain_path": "companies/GAL/domains/forecasts",
       "missing_requirements": [
        "actual_basic_eps",
@@ -218119,7 +218388,7 @@
     "status": "none",
     "case_count": 0,
     "rejected_record_count": 0,
-    "source_cutoff": "2026-08-29",
+    "source_cutoff": "2026-08-31",
     "policy": {
      "historical_baselines_only": true,
      "not_owner_approved_assumptions": true,
@@ -221152,7 +221421,7 @@
       "symbol": "NRL",
       "state_metadata": {
        "schema_version": 2,
-       "as_of": "2026-08-29",
+       "as_of": "2026-08-31",
        "source": "state/company_documents.json + state/company_event_ledger.json",
        "registry_version": "operating_event_registry_v1"
       },
@@ -221190,7 +221459,7 @@
       "symbol": "NRL",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-31T10:13:14Z",
+       "as_of": "2026-08-31 15:13",
        "source": {
         "company_financial_series": "state/company_financial_series.json",
         "financial_coverage": "state/company_intel/financial_coverage.json",
@@ -221262,7 +221531,7 @@
       "symbol": "NRL",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-29 16:39",
+       "as_of": "2026-08-31 15:13",
        "source": {
         "company_profiles": "state/company_profiles.json",
         "sectors": "state/sectors.json",
@@ -221311,7 +221580,7 @@
       "symbol": "NRL",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-29",
+       "as_of": "2026-08-31",
        "source": {
         "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
         "forecast_readiness": "state/company_intel/forecast_readiness.json",
@@ -221360,7 +221629,7 @@
       "symbol": "NRL",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-29",
+       "as_of": "2026-08-31",
        "source": {
         "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
         "forecast_readiness": "state/company_intel/forecast_readiness.json",
@@ -221411,7 +221680,7 @@
       "symbol": "NRL",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-29",
+       "as_of": "2026-08-31",
        "source": {
         "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
         "forecast_readiness": "state/company_intel/forecast_readiness.json",
@@ -221679,7 +221948,7 @@
        "research_only": true,
        "no_advice": true
       },
-      "as_of": "2026-08-29",
+      "as_of": "2026-08-31",
       "brain_path": "companies/NRL/domains/forecasts",
       "missing_requirements": [
        "actual_basic_eps",
@@ -221708,7 +221977,7 @@
        "research_only": true,
        "no_advice": true
       },
-      "as_of": "2026-08-29",
+      "as_of": "2026-08-31",
       "brain_path": "companies/NRL/domains/valuation",
       "missing_requirements": [
        "actual_basic_eps",
@@ -221739,7 +222008,7 @@
        "research_only": true,
        "no_advice": true
       },
-      "as_of": "2026-08-29",
+      "as_of": "2026-08-31",
       "brain_path": "companies/NRL/domains/forecasts",
       "missing_requirements": [
        "actual_basic_eps",
@@ -221856,7 +222125,7 @@
     "status": "none",
     "case_count": 0,
     "rejected_record_count": 0,
-    "source_cutoff": "2026-08-29",
+    "source_cutoff": "2026-08-31",
     "policy": {
      "historical_baselines_only": true,
      "not_owner_approved_assumptions": true,
@@ -224860,9 +225129,7 @@
       "period_type": "annual",
       "consolidation": "unconsolidated",
       "currency": "PKR",
-      "quality_flags": [
-       "conflict"
-      ]
+      "quality_flags": []
      },
      {
       "id": "fact:issuer:4dcb8d4eb90b45225deca1eb:fact_8d71dd44d9ced3094859d73d",
@@ -236013,7 +236280,7 @@
       "symbol": "CNERGY",
       "state_metadata": {
        "schema_version": 2,
-       "as_of": "2026-08-29",
+       "as_of": "2026-08-31",
        "source": "state/company_documents.json + state/company_event_ledger.json",
        "registry_version": "operating_event_registry_v1"
       },
@@ -236051,7 +236318,7 @@
       "symbol": "CNERGY",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-31T10:13:14Z",
+       "as_of": "2026-08-31 15:13",
        "source": {
         "company_financial_series": "state/company_financial_series.json",
         "financial_coverage": "state/company_intel/financial_coverage.json",
@@ -236123,7 +236390,7 @@
       "symbol": "CNERGY",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-29 16:39",
+       "as_of": "2026-08-31 15:13",
        "source": {
         "company_profiles": "state/company_profiles.json",
         "sectors": "state/sectors.json",
@@ -236172,7 +236439,7 @@
       "symbol": "CNERGY",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-29",
+       "as_of": "2026-08-31",
        "source": {
         "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
         "forecast_readiness": "state/company_intel/forecast_readiness.json",
@@ -236221,7 +236488,7 @@
       "symbol": "CNERGY",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-29",
+       "as_of": "2026-08-31",
        "source": {
         "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
         "forecast_readiness": "state/company_intel/forecast_readiness.json",
@@ -236272,7 +236539,7 @@
       "symbol": "CNERGY",
       "state_metadata": {
        "schema_version": 1,
-       "as_of": "2026-08-29",
+       "as_of": "2026-08-31",
        "source": {
         "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
         "forecast_readiness": "state/company_intel/forecast_readiness.json",
@@ -236540,7 +236807,7 @@
        "research_only": true,
        "no_advice": true
       },
-      "as_of": "2026-08-29",
+      "as_of": "2026-08-31",
       "brain_path": "companies/CNERGY/domains/forecasts",
       "missing_requirements": [
        "actual_basic_eps",
@@ -236569,7 +236836,7 @@
        "research_only": true,
        "no_advice": true
       },
-      "as_of": "2026-08-29",
+      "as_of": "2026-08-31",
       "brain_path": "companies/CNERGY/domains/valuation",
       "missing_requirements": [
        "actual_basic_eps",
@@ -236600,7 +236867,7 @@
        "research_only": true,
        "no_advice": true
       },
-      "as_of": "2026-08-29",
+      "as_of": "2026-08-31",
       "brain_path": "companies/CNERGY/domains/forecasts",
       "missing_requirements": [
        "actual_basic_eps",
@@ -236843,7 +237110,7 @@
     "status": "none",
     "case_count": 0,
     "rejected_record_count": 0,
-    "source_cutoff": "2026-08-29",
+    "source_cutoff": "2026-08-31",
     "policy": {
      "historical_baselines_only": true,
      "not_owner_approved_assumptions": true,
@@ -237051,5 +237318,16 @@
     "retention_days": 90
    }
   }
- ]
+ ],
+ "_meta": {
+  "generator_version": "ci_artifact_integrity_v1",
+  "source_commit_sha": "cac7753ac5ca78db6b89470ab4134d06c15d3455",
+  "build_cutoff_at": "2026-08-31T10:27:16Z",
+  "generated_at": "2026-08-31T10:27:16Z",
+  "artifact_path": "Henneth Desk 2.CI.0/data/company_intelligence.json",
+  "timestamp_semantics": {
+   "build_cutoff_at": "generation boundary only; not a source-effective or source-published time",
+   "generated_at": "artifact generation time only; not a source-effective or source-published time"
+  }
+ }
 }

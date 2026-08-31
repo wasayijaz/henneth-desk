@@ -1,7 +1,7 @@
 {
  "schema_version": 2,
  "registry_version": "operating_event_registry_v1",
- "as_of": "2026-08-29",
+ "as_of": "2026-08-31",
  "pilot_symbols": [
   "ATRL",
   "BOP",
@@ -2568,6 +2568,44 @@
      "quality_flags": []
     },
     {
+     "event_id": "evt_6cdb8c02f429bc28beaa",
+     "company_id": "MLCF",
+     "symbol": "MLCF",
+     "event_type": "contract_tender",
+     "event_subtype": "contract",
+     "intelligence_type": "reported_fact",
+     "priority_weight": 3,
+     "detected_at": "2025-10-27T10:09:00+05:00",
+     "effective_date": "2025-10-27",
+     "expected_completion": null,
+     "business_segment": null,
+     "location": null,
+     "description": "a company in Pakistan to which these shares will be transferred. On May 10, 2023, Andalus entered into an agreement with the Company that along with its affiliates, the Company would invest in NHPL, maintaining at least a 66.66% shareholdi…",
+     "source_url": "https://dps.psx.com.pk/download/document/263397.pdf",
+     "source_quality_level": 1,
+     "confidence": 82,
+     "estimated_scale": null,
+     "expected_cost": null,
+     "affected_drivers": [],
+     "expected_lag": null,
+     "historical_analogues": [],
+     "peer_analogues": [],
+     "scenario_ids": [],
+     "financial_model_version": null,
+     "evidence": [
+      {
+       "document_id": "psx:263397",
+       "source": "PSX DPS",
+       "source_url": "https://dps.psx.com.pk/download/document/263397.pdf",
+       "page": 14,
+       "text": "a company in Pakistan to which these shares will be transferred. On May 10, 2023, Andalus entered into an agreement with the Company that along with its affiliates, the Company would invest in NHPL, maintaining at least a 66.66% shareholdi…",
+       "content_sha256": "a05eeee23485edd71c6c096a606a3b6fd76d6687e13bdaf032f97b59b9cdcc7e",
+       "evidence_sha256": "fe698dcd654c9e3c8daae16e8e2f536dc4183e3811cae971f92300abc41f3543"
+      }
+     ],
+     "quality_flags": []
+    },
+    {
      "event_id": "evt_a0c390f2010041e1b8f8",
      "company_id": "MLCF",
      "symbol": "MLCF",
@@ -2968,9 +3006,9 @@
  "source": "state/company_documents.json + state/company_event_ledger.json",
  "_meta": {
   "generator_version": "ci_artifact_integrity_v1",
-  "source_commit_sha": "b738a0535ae0d01ed8b59d4658d1269fb8368afb",
-  "build_cutoff_at": "2026-08-31T10:14:17Z",
-  "generated_at": "2026-08-31T10:14:17Z",
+  "source_commit_sha": "cac7753ac5ca78db6b89470ab4134d06c15d3455",
+  "build_cutoff_at": "2026-08-31T10:27:16Z",
+  "generated_at": "2026-08-31T10:27:16Z",
   "artifact_path": "state/company_intel/operating_events.json",
   "timestamp_semantics": {
    "build_cutoff_at": "generation boundary only; not a source-effective or source-published time",
