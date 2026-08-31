@@ -1,6 +1,6 @@
 {
  "meta": {
-  "built": "2026-08-31 19:12",
+  "built": "2026-08-31 19:40",
   "source": "Henneth state layer",
   "profile_source": "https://dps.psx.com.pk/company/{symbol}",
   "profile_updated": "2026-08-24 18:30",
@@ -21,8 +21,8 @@
    "note": "Every factual edge carries source URL and cited page when available.",
    "generator_version": "ci_artifact_integrity_v1",
    "source_commit_sha": "2b551c45a1f0f75c77be9c514d058c133bb32eaf",
-   "build_cutoff_at": "2026-08-31T14:11:43Z",
-   "generated_at": "2026-08-31T14:11:43Z",
+   "build_cutoff_at": "2026-08-31T14:12:19Z",
+   "generated_at": "2026-08-31T14:12:19Z",
    "artifact_path": "state/company_intel/company_graph.json",
    "timestamp_semantics": {
     "build_cutoff_at": "generation boundary only; not a source-effective or source-published time",
@@ -36,8 +36,8 @@
    "note": "Deterministic official-source change digest. Research, not advice.",
    "generator_version": "ci_artifact_integrity_v1",
    "source_commit_sha": "2b551c45a1f0f75c77be9c514d058c133bb32eaf",
-   "build_cutoff_at": "2026-08-31T14:11:43Z",
-   "generated_at": "2026-08-31T14:11:43Z",
+   "build_cutoff_at": "2026-08-31T14:12:19Z",
+   "generated_at": "2026-08-31T14:12:19Z",
    "artifact_path": "state/company_intel/change_intelligence.json",
    "timestamp_semantics": {
     "build_cutoff_at": "generation boundary only; not a source-effective or source-published time",
@@ -212588,7 +212588,7 @@
    "intelligence_cases": {
     "symbol": "MARI",
     "status": "observed_seed_available",
-    "case_count": 1,
+    "case_count": 2,
     "cases": [
      {
       "case_id": "case_mari_working_interest_observed_v1",
@@ -212763,6 +212763,180 @@
         "page": 6,
         "text": "x.  The Company entered into a farm-out agreement with Hycarbex-American Energy Inc. for acquisition of 65% working interest in Peshawar Block along with operatorship. FOR THE SIX MONTHS PERIOD ENDED DECEMBER 31 , 2025 05",
         "event_date": "2026-02-27T09:03:00+05:00"
+       }
+      ]
+     },
+     {
+      "case_id": "case_mari_sky47_karakoram1_launch_sales_observed_v1",
+      "symbol": "MARI",
+      "case_family": "ai_data_centre",
+      "case_type": "campus_launch_sales_led",
+      "status": "Observed",
+      "epistemic_type": "reported_fact",
+      "as_of": "2026-08-31T19:11:28+05:00",
+      "summary": "Observed official-source seed: Mari Energies announced the launch of its Karakoram-01 purpose-built AI-ready data centre campus, described as Pakistan's first and largest.",
+      "observed_facts": [
+       {
+        "fact_id": "mari_sky47_karakoram1_campus_launch",
+        "source_event_id": "evt_e9068dbe4b6b8493a0cb",
+        "document_id": "psx:280337",
+        "event_date": "2026-07-24T16:26:00+05:00",
+        "statement": "Mari Energies reported the launch of the Karakoram-01 AI-ready data centre campus.",
+        "reported_values": [
+         {
+          "label": "first_facility",
+          "value": "Karakoram-01"
+         },
+         {
+          "label": "described_as",
+          "value": "Pakistan first and largest purpose-built AI ready data centre campus"
+         }
+        ],
+        "evidence": [
+         {
+          "canonical_event_id": "evt_e9068dbe4b6b8493a0cb",
+          "canonical_event_id_binding": "exact_canonical_operating_event",
+          "document_id": "psx:280337",
+          "document_title": "Launch of Pakistan First and Largest Purpose-Built AI Ready Data Centre Campus",
+          "document_published_at": "2026-07-24T16:26:00+05:00",
+          "document_retrieved_at": "2026-08-31T19:11:28+05:00",
+          "content_sha256": "acdfaac317a7f2650a9ac11f2e98b69ebf37ce30a3134b51b61c084531286996",
+          "source": "PSX DPS",
+          "source_url": "https://dps.psx.com.pk/download/document/280337.pdf",
+          "page": 1,
+          "text": "ri Energies Limited (through its wholly owned subsidiary, Mari Technologies Limited), has officially launched Karakoram-01, Pakistan’s first and largest purpose-built, AI-ready data center campus. The Honourable Prime Minister of Pakistan…",
+          "evidence_sha256": "e6e126be616ee0fe1e656501b3a63953ba1c64b36bd93e545050b741e4db551b"
+         }
+        ]
+       }
+      ],
+      "alternative_readings": [
+       {
+        "alternative_id": "launch_not_financial_qualification",
+        "reading": "A launch announcement establishes the event, not any qualified revenue, capacity, utilisation, pricing or timing contribution.",
+        "status": "unknown_unresolved",
+        "rejection_condition": "Reject promotion while MARI financial truth is not qualified and no source-qualified operands exist."
+       },
+       {
+        "alternative_id": "announcement_not_contracted_demand",
+        "reading": "The campus launch does not establish contracted customers, achieved pricing, utilisation, or a ramp schedule.",
+        "status": "unknown_unresolved",
+        "rejection_condition": "Reject modelling until official sources qualify contracted demand and operating terms."
+       },
+       {
+        "alternative_id": "sales_led_case_distinct_from_e_and_p",
+        "reading": "The data-centre launch case is tracked separately from MARI's E&P case; the two value drivers are not merged.",
+        "status": "retained_as_observed_only",
+        "rejection_condition": "Reject any conflation with case_mari_working_interest_observed_v1."
+       }
+      ],
+      "monitoring": [
+       "Watch for official customer contracts or service agreements tied to Karakoram-01.",
+       "Watch for source-qualified capacity, utilisation, pricing, capex, margin, or ramp disclosures.",
+       "Watch for MARI financial-truth qualification before any formal model, valuation, or expectations work."
+      ],
+      "promotion_blocks": {
+       "Corroborated": "Blocked: retained evidence is a single official Mari/PSX source and no independent-originator corroboration is attached.",
+       "Modelled": "Blocked: financial-model, valuation and market-expectation outputs stay blocked until MARI financial truth is qualified and source-qualified revenue, capacity, utilisation, pricing and ramp inputs are attached.",
+       "Published": "Blocked: no forecast, valuation, reverse-expectations output, investor conclusion or release gate is complete."
+      },
+      "sales_input_readiness": {
+       "status": "observed_only",
+       "kernel_activation": "blocked",
+       "attribution": {
+        "company": "MARI",
+        "campus": "AI-ready data centre campus",
+        "first_facility": "Karakoram-01"
+       },
+       "source_binding": {
+        "event_id": "evt_e9068dbe4b6b8493a0cb",
+        "event_id_binding": "exact_canonical_operating_event",
+        "document_id": "psx:280337",
+        "page": 1,
+        "content_sha256": "acdfaac317a7f2650a9ac11f2e98b69ebf37ce30a3134b51b61c084531286996",
+        "evidence_sha256": "e6e126be616ee0fe1e656501b3a63953ba1c64b36bd93e545050b741e4db551b",
+        "published_at": "2026-07-24T16:26:00+05:00",
+        "effective_date": "2026-07-24"
+       },
+       "financial_truth_gate": {
+        "status": "not_qualified",
+        "formal_output_statuses": {
+         "financial_model_status": "blocked_financial_truth_not_qualified",
+         "formal_valuation_status": "blocked_financial_truth_not_qualified",
+         "reverse_expectations_status": "blocked_financial_truth_not_qualified"
+        }
+       },
+       "event_specific_kernel_requirements": {
+        "incremental_revenue_pkr": {
+         "value": null,
+         "source_label": "retained_state_only:no_source_qualified_event_input",
+         "status": "missing_source_bound_input"
+        },
+        "contracted_capacity_mw": {
+         "value": null,
+         "source_label": "retained_state_only:no_source_qualified_event_input",
+         "status": "missing_source_bound_input"
+        },
+        "utilisation_pct": {
+         "value": null,
+         "source_label": "retained_state_only:no_source_qualified_event_input",
+         "status": "missing_source_bound_input"
+        },
+        "achieved_pricing": {
+         "value": null,
+         "source_label": "retained_state_only:no_source_qualified_event_input",
+         "status": "missing_source_bound_input"
+        },
+        "capex_schedule_pkr": {
+         "value": null,
+         "source_label": "retained_state_only:no_source_qualified_event_input",
+         "status": "missing_source_bound_input"
+        },
+        "commissioning_or_ramp_schedule": {
+         "value": null,
+         "source_label": "retained_state_only:no_source_qualified_event_input",
+         "status": "missing_source_bound_input"
+        },
+        "incremental_margin_pct": {
+         "value": null,
+         "source_label": "retained_state_only:no_source_qualified_event_input",
+         "status": "missing_source_bound_input"
+        },
+        "incremental_eps_pkr": {
+         "value": null,
+         "source_label": "retained_state_only:no_source_qualified_event_input",
+         "status": "missing_source_bound_input"
+        }
+       },
+       "guardrails": {
+        "launch_announcement_not_financial_qualification": true,
+        "no_revenue_capacity_utilisation_pricing_or_timing_claims": true,
+        "distinct_from_mari_e_and_p_case": true,
+        "no_numeric_model_output": true
+       }
+      },
+      "policy": {
+       "observed_only": true,
+       "no_forecast": true,
+       "no_valuation": true,
+       "no_market_expectations": true,
+       "no_recommendation": true,
+       "reported_values_only": true
+      },
+      "source_lineage": [
+       {
+        "canonical_event_id": "evt_e9068dbe4b6b8493a0cb",
+        "canonical_event_id_binding": "exact_canonical_operating_event",
+        "document_id": "psx:280337",
+        "document_title": "Launch of Pakistan First and Largest Purpose-Built AI Ready Data Centre Campus",
+        "document_published_at": "2026-07-24T16:26:00+05:00",
+        "document_retrieved_at": "2026-08-31T19:11:28+05:00",
+        "content_sha256": "acdfaac317a7f2650a9ac11f2e98b69ebf37ce30a3134b51b61c084531286996",
+        "source": "PSX DPS",
+        "source_url": "https://dps.psx.com.pk/download/document/280337.pdf",
+        "page": 1,
+        "text": "ri Energies Limited (through its wholly owned subsidiary, Mari Technologies Limited), has officially launched Karakoram-01, Pakistan’s first and largest purpose-built, AI-ready data center campus. The Honourable Prime Minister of Pakistan…",
+        "evidence_sha256": "e6e126be616ee0fe1e656501b3a63953ba1c64b36bd93e545050b741e4db551b"
        }
       ]
      }
@@ -214501,7 +214675,7 @@
     "market_expectations_status": "blocked_financial_truth_not_qualified",
     "brain_object_count": 12,
     "management_delivery_records": 0,
-    "intelligence_case_count": 1,
+    "intelligence_case_count": 2,
     "mlcf_pioc_readiness_manifest_status": "not_selected",
     "guidance_object_count": 1,
     "guidance_contradiction_count": 0,
@@ -242377,9 +242551,9 @@
  ],
  "_meta": {
   "generator_version": "ci_artifact_integrity_v1",
-  "source_commit_sha": "2b551c45a1f0f75c77be9c514d058c133bb32eaf",
-  "build_cutoff_at": "2026-08-31T14:12:19Z",
-  "generated_at": "2026-08-31T14:12:19Z",
+  "source_commit_sha": "4b0315eefc5552268b1bd1f24bed3042866f5d58",
+  "build_cutoff_at": "2026-08-31T14:40:24Z",
+  "generated_at": "2026-08-31T14:40:24Z",
   "artifact_path": "Henneth Desk 2.CI.0/data/company_intelligence.json",
   "timestamp_semantics": {
    "build_cutoff_at": "generation boundary only; not a source-effective or source-published time",

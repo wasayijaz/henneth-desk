@@ -1,8 +1,9 @@
 """Build compact observed IntelligenceCase seeds from retained official evidence.
 
 This is intentionally not a generic case engine. The current product need is
-one cement/industrial and one E&P observed seed. Later statuses or sector
-models must earn their own dedicated builders/checks.
+one cement/industrial, one E&P, and one sales-led AI data-centre observed
+seed. Later statuses or sector models must earn their own dedicated
+builders/checks.
 """
 from __future__ import annotations
 
@@ -11,7 +12,7 @@ import math
 import re
 from typing import Any
 
-from operating_events import evidence_hash
+from operating_events import evidence_hash, stable_id
 from psx_data import STATE, load_json, save_json
 
 
@@ -83,6 +84,28 @@ MARI_FOLLOW_THROUGH_EVENT_ID = "evt_5cc9795abc3e4cfdda51"
 MARI_FOLLOW_THROUGH_DOC_ID = "psx:271327"
 MARI_FOLLOW_THROUGH_DOC_HASH = "e53fccd6eca58c685dbf9225140056303be704b1f389b876ba33d87aa4b687b3"
 MARI_FOLLOW_THROUGH_SOURCE_URL = "https://dps.psx.com.pk/download/document/271327.pdf"
+
+MARI_SALES_CASE_ID = "case_mari_sky47_karakoram1_launch_sales_observed_v1"
+MARI_SALES_CANONICAL_EVENT_ID = "evt_e9068dbe4b6b8493a0cb"
+MARI_SALES_DOC_ID = "psx:280337"
+MARI_SALES_SOURCE_URL = "https://dps.psx.com.pk/download/document/280337.pdf"
+MARI_SALES_TITLE = "Launch of Pakistan First and Largest Purpose-Built AI Ready Data Centre Campus"
+MARI_SALES_PUBLISHED_AT = "2026-07-24T16:26:00+05:00"
+MARI_SALES_EFFECTIVE_DATE = "2026-07-24"
+MARI_SALES_EXACT_EVENT_ID_BINDING = "exact_canonical_operating_event"
+MARI_SALES_RECOMPUTED_EVENT_ID_BINDING = "recomputed_from_accepted_source"
+MARI_SALES_CAMPUS_RE = re.compile(r"\b(?:sky\s*47|data\s+cent(?:er|re)\s+campus)\b", re.I)
+MARI_SALES_FACILITY_RE = re.compile(r"karakoram[-\s]0?1", re.I)
+MARI_SALES_KERNEL_FIELDS = (
+    "incremental_revenue_pkr",
+    "contracted_capacity_mw",
+    "utilisation_pct",
+    "achieved_pricing",
+    "capex_schedule_pkr",
+    "commissioning_or_ramp_schedule",
+    "incremental_margin_pct",
+    "incremental_eps_pkr",
+)
 
 
 def _parse_time(value: Any) -> datetime | None:
@@ -955,6 +978,288 @@ def _mari_case(
     return case, [], [ref, follow_ref]
 
 
+def _sales_fail(message: str) -> None:
+    raise ValueError(message)
+
+
+def _sales_require_equal(label: str, actual: Any, expected: Any) -> None:
+    if actual != expected:
+        _sales_fail(f"MARI sales-led source mismatch for {label}: {actual!r}")
+
+
+def _sales_require_hex64(label: str, value: Any) -> str:
+    if not isinstance(value, str) or not HEX64.fullmatch(value):
+        _sales_fail(f"MARI sales-led invalid 64-character hash for {label}")
+    return value.lower()
+
+
+def _sales_require_text(label: str, value: Any) -> str:
+    if not isinstance(value, str) or not value.strip():
+        _sales_fail(f"MARI sales-led missing source text for {label}")
+    return value
+
+
+def _mari_sales_candidates(operating_events: dict[str, Any]) -> list[dict[str, Any]]:
+    events = (((operating_events.get("companies") or {}).get("MARI") or {}).get("events") or [])
+    candidates = []
+    for event in events:
+        if not isinstance(event, dict):
+            continue
+        if event.get("event_id") == MARI_SALES_CANONICAL_EVENT_ID:
+            candidates.append(event)
+            continue
+        for row in event.get("evidence") or []:
+            if isinstance(row, dict) and row.get("document_id") == MARI_SALES_DOC_ID:
+                candidates.append(event)
+                break
+    return candidates
+
+
+def _mari_sales_ledger_rows(ledger: dict[str, Any]) -> list[dict[str, Any]]:
+    rows = (((ledger.get("companies") or {}).get("MARI") or {}).get("events") or [])
+    return [
+        row for row in rows
+        if isinstance(row, dict)
+        and row.get("doc_id") == MARI_SALES_DOC_ID
+        and _iso_time(row.get("event_date")) == MARI_SALES_PUBLISHED_AT
+    ]
+
+
+def _validate_mari_sales_source(
+    event: dict[str, Any],
+    doc: dict[str, Any],
+    ledger: dict[str, Any],
+) -> dict[str, Any]:
+    _sales_require_equal("document.doc_id", doc.get("doc_id"), MARI_SALES_DOC_ID)
+    _sales_require_equal("document.source", doc.get("source"), "PSX DPS")
+    _sales_require_equal("document.source_url", doc.get("source_url"), MARI_SALES_SOURCE_URL)
+    _sales_require_equal("document.title", doc.get("title"), MARI_SALES_TITLE)
+    _sales_require_equal("document.classification", doc.get("classification"), "material_information")
+    _sales_require_equal("document.published_at", _iso_time(doc.get("published_at")), MARI_SALES_PUBLISHED_AT)
+    _sales_require_equal("document.available_on", _available_on(doc), MARI_SALES_EFFECTIVE_DATE)
+    content_sha256 = _sales_require_hex64("document.content_sha256", doc.get("content_sha256"))
+    _sales_require_equal(
+        "document.local_sha256",
+        _sales_require_hex64("document.local_sha256", doc.get("local_sha256")),
+        content_sha256,
+    )
+    _sales_require_equal("event.company_id", event.get("company_id"), "MARI")
+    _sales_require_equal("event.symbol", event.get("symbol"), "MARI")
+    _sales_require_equal("event.event_type", event.get("event_type"), "product_launch")
+    _sales_require_equal("event.event_subtype", event.get("event_subtype"), "product_launch")
+    _sales_require_equal("event.intelligence_type", event.get("intelligence_type"), "reported_fact")
+    _sales_require_equal("event.detected_at", _iso_time(event.get("detected_at")), MARI_SALES_PUBLISHED_AT)
+    _sales_require_equal("event.effective_date", event.get("effective_date"), MARI_SALES_EFFECTIVE_DATE)
+    _sales_require_equal("event.source_url", event.get("source_url"), MARI_SALES_SOURCE_URL)
+    evidence = event.get("evidence")
+    if not isinstance(evidence, list) or not evidence or not isinstance(evidence[0], dict):
+        _sales_fail("MARI sales-led canonical event is missing its evidence row")
+    row = evidence[0]
+    _sales_require_equal("event.evidence.document_id", row.get("document_id"), MARI_SALES_DOC_ID)
+    _sales_require_equal("event.evidence.source", row.get("source"), "PSX DPS")
+    _sales_require_equal("event.evidence.source_url", row.get("source_url"), MARI_SALES_SOURCE_URL)
+    page = row.get("page")
+    if not isinstance(page, int) or isinstance(page, bool) or page < 1:
+        _sales_fail("MARI sales-led evidence page must be a one-based integer")
+    text = _sales_require_text("event.evidence.text", row.get("text"))
+    _sales_require_equal("event.evidence.content_sha256", row.get("content_sha256"), content_sha256)
+    evidence_sha256 = _sales_require_hex64("event.evidence.evidence_sha256", row.get("evidence_sha256"))
+    _sales_require_equal(
+        "event.evidence.evidence_sha256",
+        evidence_sha256,
+        evidence_hash(MARI_SALES_DOC_ID, MARI_SALES_SOURCE_URL, page, text),
+    )
+    if not MARI_SALES_CAMPUS_RE.search(text) or not MARI_SALES_FACILITY_RE.search(text):
+        _sales_fail("MARI sales-led evidence text does not name the data-centre campus and Karakoram-01 facility")
+    event_id = event.get("event_id")
+    if event_id == MARI_SALES_CANONICAL_EVENT_ID:
+        event_id_binding = MARI_SALES_EXACT_EVENT_ID_BINDING
+    else:
+        recomputed = {
+            stable_id("MARI", raw.get("event_id"), event.get("event_type"))
+            for raw in _mari_sales_ledger_rows(ledger)
+            if isinstance(raw.get("event_id"), str)
+            and isinstance(raw.get("evidence"), list)
+            and raw["evidence"]
+            and isinstance(raw["evidence"][0], dict)
+            and raw["evidence"][0].get("page") == page
+            and raw["evidence"][0].get("text") == text
+        }
+        if event_id not in recomputed:
+            _sales_fail(
+                "MARI sales-led canonical event id is neither the accepted id nor a "
+                "recomputation from the accepted PSX source"
+            )
+        event_id_binding = MARI_SALES_RECOMPUTED_EVENT_ID_BINDING
+    return {
+        "event_id": event_id,
+        "event_id_binding": event_id_binding,
+        "document_id": MARI_SALES_DOC_ID,
+        "page": page,
+        "content_sha256": content_sha256,
+        "evidence_sha256": evidence_sha256,
+        "published_at": MARI_SALES_PUBLISHED_AT,
+        "effective_date": MARI_SALES_EFFECTIVE_DATE,
+    }
+
+
+def _canonical_evidence_ref(event: dict[str, Any], doc: dict[str, Any], binding: dict[str, Any]) -> dict[str, Any]:
+    row = (event.get("evidence") or [{}])[0]
+    return {
+        "canonical_event_id": event.get("event_id"),
+        "canonical_event_id_binding": binding["event_id_binding"],
+        "document_id": MARI_SALES_DOC_ID,
+        "document_title": doc.get("title"),
+        "document_published_at": _iso_time(doc.get("published_at")),
+        "document_retrieved_at": _iso_time(doc.get("retrieved_at")),
+        "content_sha256": doc.get("content_sha256"),
+        "source": doc.get("source") or "PSX DPS",
+        "source_url": row.get("source_url") or doc.get("source_url"),
+        "page": row.get("page"),
+        "text": row.get("text"),
+        "evidence_sha256": row.get("evidence_sha256"),
+    }
+
+
+def _mari_financial_truth_gate() -> dict[str, Any]:
+    qualification = load_json(STATE / "company_intel" / "financial_truth_qualification.json", {})
+    row = (qualification.get("companies") or {}).get("MARI") if isinstance(qualification, dict) else None
+    row = row if isinstance(row, dict) else {}
+    status = row.get("status") if isinstance(row.get("status"), str) else ""
+    downstream = row.get("downstream") if isinstance(row.get("downstream"), dict) else {}
+
+    def blocked_value(key: str) -> str:
+        value = downstream.get(key)
+        if status == "qualified":
+            return "blocked_missing_source_qualified_event_inputs"
+        return value if isinstance(value, str) and value.startswith("blocked") else "blocked_financial_truth_not_qualified"
+
+    return {
+        "status": "qualified" if status == "qualified" else "not_qualified",
+        "formal_output_statuses": {
+            "financial_model_status": blocked_value("forecast"),
+            "formal_valuation_status": blocked_value("valuation"),
+            "reverse_expectations_status": blocked_value("market_expectations"),
+        },
+    }
+
+
+def _sales_input_readiness(binding: dict[str, Any], gate: dict[str, Any]) -> dict[str, Any]:
+    return {
+        "status": "observed_only",
+        "kernel_activation": "blocked",
+        "attribution": {"company": "MARI", "campus": "AI-ready data centre campus", "first_facility": "Karakoram-01"},
+        "source_binding": binding,
+        "financial_truth_gate": gate,
+        "event_specific_kernel_requirements": {
+            field: {
+                "value": None,
+                "source_label": "retained_state_only:no_source_qualified_event_input",
+                "status": "missing_source_bound_input",
+            }
+            for field in MARI_SALES_KERNEL_FIELDS
+        },
+        "guardrails": {
+            "launch_announcement_not_financial_qualification": True,
+            "no_revenue_capacity_utilisation_pricing_or_timing_claims": True,
+            "distinct_from_mari_e_and_p_case": True,
+            "no_numeric_model_output": True,
+        },
+    }
+
+
+def _mari_sales_case(
+    ledger: dict[str, Any],
+    documents: dict[str, Any],
+    operating_events: dict[str, Any],
+) -> tuple[dict[str, Any] | None, list[str], list[dict[str, Any]]]:
+    candidates = _mari_sales_candidates(operating_events)
+    document = _document(documents, MARI_SALES_DOC_ID)
+    if not candidates and document is None:
+        return None, ["missing_mari_sky47_launch_operating_event", "missing_mari_sky47_launch_document"], []
+    if not candidates:
+        _sales_fail("MARI sales-led source chain incomplete: launch document retained without its canonical operating event")
+    if document is None:
+        _sales_fail("MARI sales-led source chain incomplete: canonical launch event retained without its document")
+    if len(candidates) > 1:
+        _sales_fail("MARI sales-led source chain ambiguous: multiple canonical events bind to the launch document")
+    assert candidates[0] is not None and document is not None
+    binding = _validate_mari_sales_source(candidates[0], document, ledger)
+    refs = [_canonical_evidence_ref(candidates[0], document, binding)]
+    cutoff = _source_cutoff(refs)
+    gate = _mari_financial_truth_gate()
+    readiness = _sales_input_readiness(binding, gate)
+    case = {
+        "case_id": MARI_SALES_CASE_ID,
+        "symbol": "MARI",
+        "case_family": "ai_data_centre",
+        "case_type": "campus_launch_sales_led",
+        "status": "Observed",
+        "epistemic_type": "reported_fact",
+        "as_of": cutoff,
+        "summary": (
+            "Observed official-source seed: Mari Energies announced the launch of its "
+            "Karakoram-01 purpose-built AI-ready data centre campus, described as "
+            "Pakistan's first and largest."
+        ),
+        "observed_facts": [
+            {
+                "fact_id": "mari_sky47_karakoram1_campus_launch",
+                "source_event_id": binding["event_id"],
+                "document_id": MARI_SALES_DOC_ID,
+                "event_date": MARI_SALES_PUBLISHED_AT,
+                "statement": "Mari Energies reported the launch of the Karakoram-01 AI-ready data centre campus.",
+                "reported_values": [
+                    {"label": "first_facility", "value": "Karakoram-01"},
+                    {"label": "described_as", "value": "Pakistan first and largest purpose-built AI ready data centre campus"},
+                ],
+                "evidence": refs,
+            },
+        ],
+        "alternative_readings": [
+            {
+                "alternative_id": "launch_not_financial_qualification",
+                "reading": "A launch announcement establishes the event, not any qualified revenue, capacity, utilisation, pricing or timing contribution.",
+                "status": "unknown_unresolved",
+                "rejection_condition": "Reject promotion while MARI financial truth is not qualified and no source-qualified operands exist.",
+            },
+            {
+                "alternative_id": "announcement_not_contracted_demand",
+                "reading": "The campus launch does not establish contracted customers, achieved pricing, utilisation, or a ramp schedule.",
+                "status": "unknown_unresolved",
+                "rejection_condition": "Reject modelling until official sources qualify contracted demand and operating terms.",
+            },
+            {
+                "alternative_id": "sales_led_case_distinct_from_e_and_p",
+                "reading": "The data-centre launch case is tracked separately from MARI's E&P case; the two value drivers are not merged.",
+                "status": "retained_as_observed_only",
+                "rejection_condition": f"Reject any conflation with {MARI_CASE_ID}.",
+            },
+        ],
+        "monitoring": [
+            "Watch for official customer contracts or service agreements tied to Karakoram-01.",
+            "Watch for source-qualified capacity, utilisation, pricing, capex, margin, or ramp disclosures.",
+            "Watch for MARI financial-truth qualification before any formal model, valuation, or expectations work.",
+        ],
+        "promotion_blocks": {
+            "Corroborated": "Blocked: retained evidence is a single official Mari/PSX source and no independent-originator corroboration is attached.",
+            "Modelled": "Blocked: financial-model, valuation and market-expectation outputs stay blocked until MARI financial truth is qualified and source-qualified revenue, capacity, utilisation, pricing and ramp inputs are attached.",
+            "Published": "Blocked: no forecast, valuation, reverse-expectations output, investor conclusion or release gate is complete.",
+        },
+        "sales_input_readiness": readiness,
+        "policy": {
+            "observed_only": True,
+            "no_forecast": True,
+            "no_valuation": True,
+            "no_market_expectations": True,
+            "no_recommendation": True,
+            "reported_values_only": True,
+        },
+        "source_lineage": refs,
+    }
+    return case, [], refs
+
+
 def build(write: bool = True) -> dict[str, Any]:
     profiles = load_json(STATE / "company_profiles.json", {})
     ledger = load_json(STATE / "company_event_ledger.json", {"companies": {}})
@@ -970,7 +1275,8 @@ def build(write: bool = True) -> dict[str, Any]:
     mari_case, mari_rejections, mari_refs = _mari_case(
         ledger, documents, operating_events, event_studies, mari_history, reprocess_receipts,
     )
-    refs = [*mlcf_refs, *mari_refs]
+    mari_sales_case, mari_sales_rejections, mari_sales_refs = _mari_sales_case(ledger, documents, operating_events)
+    refs = [*mlcf_refs, *mari_refs, *mari_sales_refs]
     as_of = _source_cutoff(refs) if refs else datetime.now(PKT).replace(microsecond=0).isoformat()
     if "MLCF" not in companies:
         companies["MLCF"] = _empty_company("MLCF")
@@ -986,16 +1292,18 @@ def build(write: bool = True) -> dict[str, Any]:
         companies["MLCF"]["rejection_reasons"] = mlcf_rejections
     if "MARI" not in companies:
         companies["MARI"] = _empty_company("MARI")
-    if mari_case:
+    mari_cases = [case for case in (mari_case, mari_sales_case) if case is not None]
+    mari_rejections_all = [*(mari_rejections or []), *(mari_sales_rejections or [])]
+    if mari_cases:
         companies["MARI"] = {
             "symbol": "MARI",
             "status": "observed_seed_available",
-            "case_count": 1,
-            "cases": [mari_case],
-            "rejection_reasons": [],
+            "case_count": len(mari_cases),
+            "cases": mari_cases,
+            "rejection_reasons": mari_rejections_all,
         }
     else:
-        companies["MARI"]["rejection_reasons"] = mari_rejections
+        companies["MARI"]["rejection_reasons"] = mari_rejections_all or ["no_selected_observed_case_seed"]
     result = {
         "schema_version": 1,
         "case_product_version": CASE_PRODUCT_VERSION,

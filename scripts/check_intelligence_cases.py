@@ -18,6 +18,16 @@ from build_intelligence_cases import (
     MARI_EVENT_ID,
     MARI_FOLLOW_THROUGH_DOC_ID,
     MARI_FOLLOW_THROUGH_EVENT_ID,
+    MARI_SALES_CANONICAL_EVENT_ID,
+    MARI_SALES_CASE_ID,
+    MARI_SALES_DOC_ID,
+    MARI_SALES_EFFECTIVE_DATE,
+    MARI_SALES_EXACT_EVENT_ID_BINDING,
+    MARI_SALES_KERNEL_FIELDS,
+    MARI_SALES_PUBLISHED_AT,
+    MARI_SALES_RECOMPUTED_EVENT_ID_BINDING,
+    MARI_SALES_SOURCE_URL,
+    MARI_SALES_TITLE,
     MLCF_CASE_ID,
     MLCF_CANONICAL_CONTROL_EVENT_ID,
     MLCF_FOLLOW_THROUGH_ALIAS_EVENT_ID,
@@ -27,6 +37,7 @@ from build_intelligence_cases import (
     PUBLIC_OFFER_DOC_ID,
     PUBLIC_OFFER_EVENT_ID,
 )
+from operating_events import evidence_hash, stable_id
 from ci_checker_helpers import assert_ci_slice_projection, without_root_meta
 from psx_data import ROOT, STATE, load_json
 
@@ -174,7 +185,7 @@ def _builder_inputs() -> dict:
     }
 
 
-def _build_with_inputs(inputs: dict) -> None:
+def _build_with_inputs(inputs: dict) -> dict:
     original_load_json = cases_builder.load_json
     sources = {
         STATE / "company_profiles.json": inputs["profiles"],
@@ -195,7 +206,7 @@ def _build_with_inputs(inputs: dict) -> None:
 
     cases_builder.load_json = fake_load_json
     try:
-        cases_builder.build(write=False)
+        return cases_builder.build(write=False)
     finally:
         cases_builder.load_json = original_load_json
 
@@ -494,8 +505,8 @@ def main() -> None:
         raise AssertionError("intelligence case schema/version mismatch")
     if set(state.get("pilot_symbols") or []) != pilot or set(state.get("companies") or {}) != pilot:
         raise AssertionError("intelligence case state must preserve the exact pilot boundary")
-    if state.get("summary", {}).get("observed_case_count") != 2 or state.get("summary", {}).get("published_case_count") != 0:
-        raise AssertionError("expected exactly two observed cases and zero published cases")
+    if state.get("summary", {}).get("observed_case_count") != 3 or state.get("summary", {}).get("published_case_count") != 0:
+        raise AssertionError("expected exactly three observed cases and zero published cases")
     row = (state.get("companies") or {}).get("MLCF") or {}
     cases = row.get("cases") or []
     if row.get("status") != "observed_seed_available" or len(cases) != 1:
@@ -533,9 +544,12 @@ def main() -> None:
 
     mari_row = (state.get("companies") or {}).get("MARI") or {}
     mari_cases = mari_row.get("cases") or []
-    if mari_row.get("status") != "observed_seed_available" or len(mari_cases) != 1:
+    if mari_row.get("status") != "observed_seed_available" or len(mari_cases) != 2:
         raise AssertionError("MARI observed seed missing")
-    mari_case = mari_cases[0]
+    mari_case = next((case for case in mari_cases if case.get("case_id") == MARI_CASE_ID), None)
+    mari_sales_case = next((case for case in mari_cases if case.get("case_id") == MARI_SALES_CASE_ID), None)
+    if mari_case is None or mari_sales_case is None:
+        raise AssertionError("MARI E&P and sales-led observed seeds must remain distinct")
     if mari_case.get("case_id") != MARI_CASE_ID or mari_case.get("status") != "Observed":
         raise AssertionError("MARI case identity/status mismatch")
     if mari_case.get("epistemic_type") != "reported_fact" or mari_case.get("symbol") != "MARI":
@@ -573,6 +587,34 @@ def main() -> None:
     for status in ("Corroborated", "Modelled", "Published"):
         if status not in (mari_case.get("promotion_blocks") or {}):
             raise AssertionError(f"MARI missing promotion block for {status}")
+
+    if mari_sales_case.get("status") != "Observed" or mari_sales_case.get("case_family") != "ai_data_centre":
+        raise AssertionError("MARI sales-led observed seed identity mismatch")
+    sales_fact = ((mari_sales_case.get("observed_facts") or [{}])[0])
+    sales_ref = ((sales_fact.get("evidence") or [{}])[0])
+    if (
+        sales_fact.get("document_id") != MARI_SALES_DOC_ID
+        or sales_fact.get("source_event_id") != MARI_SALES_CANONICAL_EVENT_ID
+        or sales_ref.get("source_url") != MARI_SALES_SOURCE_URL
+        or sales_ref.get("content_sha256") != "acdfaac317a7f2650a9ac11f2e98b69ebf37ce30a3134b51b61c084531286996"
+        or sales_ref.get("evidence_sha256") != "e6e126be616ee0fe1e656501b3a63953ba1c64b36bd93e545050b741e4db551b"
+    ):
+        raise AssertionError("MARI sales-led source binding mismatch")
+    readiness = mari_sales_case.get("sales_input_readiness") or {}
+    gate = readiness.get("financial_truth_gate") or {}
+    if gate.get("status") != "not_qualified" or any(
+        value != "blocked_financial_truth_not_qualified"
+        for value in (gate.get("formal_output_statuses") or {}).values()
+    ):
+        raise AssertionError("MARI sales-led formal outputs must remain blocked by red financial truth")
+    requirements = readiness.get("event_specific_kernel_requirements") or {}
+    if set(requirements) != set(MARI_SALES_KERNEL_FIELDS) or any(row.get("value") is not None for row in requirements.values()):
+        raise AssertionError("MARI sales-led case must not invent model operands")
+    if not all((mari_sales_case.get("policy") or {}).get(key) is True for key in ("no_forecast", "no_valuation", "no_market_expectations")):
+        raise AssertionError("MARI sales-led policy must block formal outputs")
+    for status in ("Corroborated", "Modelled", "Published"):
+        if status not in (mari_sales_case.get("promotion_blocks") or {}):
+            raise AssertionError(f"MARI sales-led case missing promotion block for {status}")
     if _dump(without_root_meta(state)) != _dump(without_root_meta(cases_builder.build(write=False))):
         raise AssertionError("intelligence case rebuild is not deterministic")
     _assert_builder_source_mutation_tests()
