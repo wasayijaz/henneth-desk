@@ -34,9 +34,10 @@ Authoritative sources:
 
 | Requirement | Qualified now | Exact retained status | Remaining gate |
 |---|---:|---|---|
-| Annual Revenue / attributable PAT / basic EPS triplets | 3 / 5 | 2026-06-30, 2025-06-30, 2024-06-30 | Two additional distinct eligible annual periods. The gate does not nominate dates, so this map does not invent them. |
-| Direct consolidated three-month Revenue / attributable PAT / basic EPS sets | 3 / 8 | 2026-03-31, 2025-12-31, 2025-09-30 | Five additional qualified direct-quarter periods. Retained metadata or cumulative interim figures do not count. |
-| Annual consolidated operating cash flow | 2 / 5 | 2025-06-30, 2024-06-30 | Three additional eligible annual OCF periods. |
+| Legacy annual Revenue / attributable PAT / basic EPS triplets | 3 / 5 | 2026-06-30, 2025-06-30, 2024-06-30 | Visibility only; not sufficient for formal engines. |
+| Legacy direct consolidated three-month Revenue / attributable PAT / basic EPS sets | 0 / 8 | None qualified in current authoritative reconciliation state. | Visibility only; retained metadata or cumulative interim figures do not count. |
+| Legacy annual consolidated operating cash flow | 0 / 5 | None qualified in current authoritative reconciliation state. | Visibility only; no eligible OCF fact can substitute for a full schedule. |
+| Authoritative model-ready full financial-statement schedules | Annual 0 / 5; direct-quarter 0 / 8 | No period currently has every required income, cash-flow, balance-sheet, EBITDA-lineage and FCF-lineage component. | This is the activation gate for formal engines. |
 | Official share-count/capital-note tie-out | 1 / 1 | Approved source-bound FY25 capital note `psx:260032` p.291: 1,047,562,608 ordinary shares, arithmetically tied, with official availability date 2025-09-25. | Satisfied. The later `psx:271712` candidate remains non-authoritative and does not reopen this gate. |
 
 The current financial-tie-out status is `blocked` by full-statement annual and
@@ -129,9 +130,10 @@ capital—be mapped.
 
 1. MLCF is the only lane with partial qualified financial truth. Its
    share-count tie-out is satisfied; it remains blocked by full-statement
-   annual/quarter schedule coverage and the PIOC/acquisition bridge. Legacy
-   triplet counters (2 annual income, 3 annual OCF and 5 direct quarters
-   remaining) are visibility only and cannot activate formal outputs.
+   annual/quarter schedule coverage and the PIOC/acquisition bridge. The
+   authoritative schedule counters are 0/5 annual and 0/8 direct-quarter;
+   legacy triplet counters are visibility only and cannot activate formal
+   outputs.
 2. MARI is a valid observed E&P seed but has 0/5 annuals, 0/8 quarters, no
    filing-bound share count, and no numeric event-economics operands.
 3. The sales-led lane remains a no-go for case selection under retained evidence.
