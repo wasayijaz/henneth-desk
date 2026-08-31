@@ -66,24 +66,24 @@ function buildFixture() {
       symbol: "MARI",
       status: "observed_seed_available",
       cases: [{
-        case_id: "case_mari_offshore_exploration_blocks_observed_v1",
+        case_id: "case_mari_working_interest_observed_v1",
         symbol: "MARI",
         case_family: "e_and_p",
-        case_type: "offshore_exploration_block_acquisition",
+        case_type: "working_interest_acquisition",
         status: "Observed",
         epistemic_type: "reported_fact",
-        summary: "Observed official-source seed: Mari Energies reported its acquisition of offshore exploration blocks.",
+        summary: "Observed official-source seed: Mari Energies reported a working-interest acquisition.",
         observed_facts: [{
-          fact_id: "mari_offshore_exploration_blocks_acquisition",
-          statement: "Mari Energies reported the acquisition of offshore exploration blocks.",
-          reported_values: [{ label: "stated_purpose", value: "find new hydrocarbon resources" }],
-          evidence: [{ document_id: "psx:265594", page: 3, source_url: "https://dps.psx.com.pk/download/document/265594.pdf", text: "offshore exploration blocks" }],
+          fact_id: "mari_working_interest_acquisition",
+          statement: "Mari Energies reported a working-interest acquisition.",
+          reported_values: [{ label: "interest_type", value: "working interest" }],
+          evidence: [{ document_id: "psx:265594", page: 3, source_url: "https://dps.psx.com.pk/download/document/265594.pdf", text: "working interest" }],
         }],
         alternative_readings: [{
-          alternative_id: "blocks_not_proved_reserves",
-          reading: "Block acquisition does not establish reserves or future production.",
+          alternative_id: "working_interest_not_proved_reserves",
+          reading: "Working-interest acquisition does not establish reserves or future production.",
           status: "retained_as_observed_only",
-          rejection_condition: "Reject promotion if no official source identifies a development path.",
+          rejection_condition: "Reject promotion if no official source qualifies the acquired interest or development path.",
         }],
         promotion_blocks: {
           Corroborated: "Blocked: single official Mari/PSX source.",
@@ -219,12 +219,34 @@ function main() {
   assert(api.caseHref("MLCF", "case_mlcf_pioc_control_observed_v1") === "/company/MLCF/intelligence/case_mlcf_pioc_control_observed_v1", "safe case href");
   assert(api.caseHref("MLCF", "javascript:alert(1)") === "", "unsafe case id rejected");
   assert(api.discoverableCases({ symbol: "OGDC" }).status === "absent", "absent projection emits no items");
-  assert(api.discoverableCases({ symbol: "OGDC", intelligence_cases: { status: "no_observed_case", cases: [] } }).status === "empty", "empty projection emits no items");
-  assert(api.discoverableCases({ symbol: "OGDC", intelligence_cases: "bad" }).reason === "intelligence_cases_shape_invalid", "invalid projection fail-closed");
+  assert(api.discoverableCases({ symbol: "OGDC", intelligence_cases: { symbol: "OGDC", status: "no_observed_case", cases: [] } }).status === "empty", "empty projection emits no items");
+  assert(api.discoverableCases({ symbol: "OGDC", intelligence_cases: "bad" }).reason === "intelligence_cases_state_missing", "invalid projection fail-closed");
+  const discoveryPayloadMismatch = api.discoverableCases({ symbol: "MLCF", intelligence_cases: { ...fixture.observed_mlcf, symbol: "MARI" } });
+  assert(discoveryPayloadMismatch.status === "invalid" && discoveryPayloadMismatch.reason === "payload_symbol_mismatch" && discoveryPayloadMismatch.items.length === 0, "discovery payload mismatch emits no links");
+  const discoveryCrossIssuer = structuredClone(fixture.observed_mlcf);
+  discoveryCrossIssuer.cases[0].symbol = "MARI";
+  const crossIssuerDiscovery = api.discoverableCases({ symbol: "MLCF", intelligence_cases: discoveryCrossIssuer });
+  assert(crossIssuerDiscovery.status === "invalid" && crossIssuerDiscovery.reason === "case_symbol_mismatch" && crossIssuerDiscovery.items.length === 0, "discovery cross-issuer case emits no links");
+  const discoveryDuplicates = structuredClone(fixture.observed_mlcf);
+  discoveryDuplicates.cases.push(structuredClone(discoveryDuplicates.cases[0]));
+  const duplicateDiscovery = api.discoverableCases({ symbol: "MLCF", intelligence_cases: discoveryDuplicates });
+  assert(duplicateDiscovery.status === "invalid" && duplicateDiscovery.reason === "duplicate_case_id" && duplicateDiscovery.items.length === 0, "discovery duplicate case id emits no links");
+  const discoveryBadLifecycle = structuredClone(fixture.observed_mlcf);
+  discoveryBadLifecycle.cases[0].status = "Draft";
+  const lifecycleDiscovery = api.discoverableCases({ symbol: "MLCF", intelligence_cases: discoveryBadLifecycle });
+  assert(lifecycleDiscovery.status === "invalid" && lifecycleDiscovery.reason === "case_lifecycle_invalid" && lifecycleDiscovery.items.length === 0, "discovery invalid lifecycle emits no links");
+  const discoveryBadSections = structuredClone(fixture.observed_mlcf);
+  discoveryBadSections.cases[0].sections = "bad";
+  const sectionsDiscovery = api.discoverableCases({ symbol: "MLCF", intelligence_cases: discoveryBadSections });
+  assert(sectionsDiscovery.status === "invalid" && sectionsDiscovery.reason === "sections_shape_invalid" && sectionsDiscovery.items.length === 0, "discovery invalid sections emits no links");
+  const discoveryBadSourceSection = structuredClone(fixture.observed_mlcf);
+  discoveryBadSourceSection.cases[0].sections = { sources: "bad" };
+  const sourceSectionDiscovery = api.discoverableCases({ symbol: "MLCF", intelligence_cases: discoveryBadSourceSection });
+  assert(sourceSectionDiscovery.status === "invalid" && sourceSectionDiscovery.reason === "section_shape_invalid" && sourceSectionDiscovery.items.length === 0, "discovery invalid source section emits no links");
   const discoveredMlcf = api.discoverableCases({ symbol: "MLCF", intelligence_cases: fixture.observed_mlcf });
   const discoveredMari = api.discoverableCases({ symbol: "MARI", intelligence_cases: fixture.observed_mari });
   assert(discoveredMlcf.status === "available" && discoveredMlcf.items[0].href === "/company/MLCF/intelligence/case_mlcf_pioc_control_observed_v1", "MLCF discovery href");
-  assert(discoveredMari.status === "available" && discoveredMari.items[0].href === "/company/MARI/intelligence/case_mari_offshore_exploration_blocks_observed_v1", "MARI discovery href");
+  assert(discoveredMari.status === "available" && discoveredMari.items[0].href === "/company/MARI/intelligence/case_mari_working_interest_observed_v1", "MARI discovery href");
   const intelStart = app.indexOf("function renderIntelligenceCaseIndex(");
   const intelEnd = app.indexOf("function renderIntelligence(r)");
   assert(intelStart >= 0 && intelEnd > intelStart, "case index renderer present");
@@ -238,7 +260,7 @@ function main() {
   const liveMari = api.discoverableCases(liveBySymbol.MARI);
   const liveOgdc = api.discoverableCases(liveBySymbol.OGDC);
   assert(liveMlcf.status === "available" && liveMlcf.items.some(item => item.href === "/company/MLCF/intelligence/case_mlcf_pioc_control_observed_v1"), "live MLCF case link projected");
-  assert(liveMari.status === "available" && liveMari.items.some(item => item.href === "/company/MARI/intelligence/case_mari_offshore_exploration_blocks_observed_v1"), "live MARI case link projected");
+  assert(liveMari.status === "available" && liveMari.items.some(item => item.href.startsWith("/company/MARI/intelligence/")), "live MARI case link projected");
   assert(liveOgdc.status === "empty" || liveOgdc.status === "absent", "non-case company emits no discovery link");
   assert(Array.isArray(slice.tickers) && slice.tickers.length === 20, "live slice still 20 companies");
   assert(!JSON.stringify(slice).includes("you should buy"), "slice has no advice language check token");

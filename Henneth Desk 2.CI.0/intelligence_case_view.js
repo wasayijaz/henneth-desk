@@ -122,20 +122,13 @@
     if (!row || !Object.prototype.hasOwnProperty.call(row, "intelligence_cases")) {
       return { status: "absent", reason: null, items: [] };
     }
-    const payload = row.intelligence_cases;
-    if (!payload || typeof payload !== "object" || Array.isArray(payload)) {
-      return { status: "invalid", reason: "intelligence_cases_shape_invalid", items: [] };
-    }
-    if (!Array.isArray(payload.cases)) {
-      return { status: "invalid", reason: "intelligence_cases_cases_invalid", items: [] };
-    }
+    const validated = validateCompanyRow(row, row?.symbol);
+    if (validated.reason) return { status: "invalid", reason: validated.reason, items: [] };
+    const payload = validated.payload;
     const items = [];
     for (const item of payload.cases) {
-      if (!item || typeof item !== "object" || Array.isArray(item)) {
-        return { status: "invalid", reason: "intelligence_case_item_invalid", items: [] };
-      }
       const caseId = String(item.case_id || "").trim();
-      const symbol = String(item.symbol || row.symbol || "").trim().toUpperCase();
+      const symbol = String(item.symbol || "").trim().toUpperCase();
       const href = caseHref(symbol, caseId);
       if (!href) return { status: "invalid", reason: "intelligence_case_identity_invalid", items: [] };
       items.push({ case_id: caseId, symbol, href, title: String(item.case_type || item.case_id || "Intelligence case").replaceAll("_", " "), summary: String(item.summary || "").trim(), status: String(item.status || payload.status || "unknown") });
