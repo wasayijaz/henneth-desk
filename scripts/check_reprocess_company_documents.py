@@ -417,6 +417,9 @@ def main() -> int:
         prod_manifest = repo_root / "config" / "ci_reprocess_allowlist.json"
         approved = r.load_allowlist(prod_manifest)
         assert set(approved) == set(r.APPROVED_WAVE3_ALLOWLIST)
+        assert "psx:260947" not in r.RETAINED_ORIGINALS
+        assert "psx:260947" not in r.OVERSIZED_CHUNK_POLICIES
+        assert {"psx:260947", "psx:264230"}.isdisjoint(r.APPROVED_WAVE3_ALLOWLIST)
         resolved = r.resolve_documents(sorted(r.APPROVED_WAVE3_ALLOWLIST), repo_root / "state", approved)
         assert len(resolved) == len(r.APPROVED_WAVE3_ALLOWLIST)
         assert {doc.doc_id for doc in resolved} == set(r.APPROVED_WAVE3_ALLOWLIST)
@@ -1659,16 +1662,11 @@ def main() -> int:
             "content_sha256": "744a0c710043d6e0a7de36bb99f21ca50f0f9346f6972b957f6733a47deae11f",
             "page_count": 43,
         }
-        retained_doc = next(
-            doc for doc in resolved if doc.doc_id == "psx:260947"
-        )
-        original_spec = dict(r.RETAINED_ORIGINALS["psx:260947"])
-        assert original_spec["source_url"] == "https://dps.psx.com.pk/download/document/260947.pdf"
-        assert original_spec["content_sha256"] == "1a10091295cf7a815f1910eb418215d501d42b52e39dcbd0b54a53fd1aceaa7d"
-        assert original_spec["page_count"] == 333
+        retained_doc = next(doc for doc in resolved if doc.doc_id == "psx:260032")
+        original_spec = dict(r.RETAINED_ORIGINALS["psx:260032"])
         retained_fixture = root / "retained_fixture.pdf"
         retained_fixture.write_bytes(good_pdf)
-        r.RETAINED_ORIGINALS["psx:260947"] = {
+        r.RETAINED_ORIGINALS["psx:260032"] = {
             **original_spec,
             "relative_path": retained_fixture,
             "content_sha256": good_sha,
@@ -1712,8 +1710,8 @@ def main() -> int:
         # A modified retained file is rejected by its pinned manifest hash.
         bad_retained = root / "bad_retained.pdf"
         bad_retained.write_bytes(b"%PDF-not-the-approved-original")
-        r.RETAINED_ORIGINALS["psx:260947"] = {
-            **r.RETAINED_ORIGINALS["psx:260947"],
+        r.RETAINED_ORIGINALS["psx:260032"] = {
+            **r.RETAINED_ORIGINALS["psx:260032"],
             "relative_path": bad_retained,
         }
         try:
@@ -1725,7 +1723,7 @@ def main() -> int:
             else:
                 raise AssertionError("modified retained original was accepted")
         finally:
-            r.RETAINED_ORIGINALS["psx:260947"] = original_spec
+            r.RETAINED_ORIGINALS["psx:260032"] = original_spec
 
         # Non-approved IDs never perform a filesystem lookup or use the retained path.
         nonapproved = r.VerifiedDocument(

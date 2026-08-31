@@ -49,12 +49,6 @@ RETAINED_ORIGINALS: dict[str, dict[str, Any]] = {
         "content_sha256": "4fdfb4cbd2eee65576cbb89b43334ce0c09a7e5ffd573d5bf93b414029eba6d1",
         "page_count": 401,
     },
-    "psx:260947": {
-        "relative_path": Path(".cache") / "company_intel" / "raw" / "manual" / "260947.pdf",
-        "source_url": "https://dps.psx.com.pk/download/document/260947.pdf",
-        "content_sha256": "1a10091295cf7a815f1910eb418215d501d42b52e39dcbd0b54a53fd1aceaa7d",
-        "page_count": 333,
-    },
     "psx:275425": {
         "relative_path": Path(".cache") / "company_intel" / "raw" / "275425b.pdf",
         "source_url": "https://dps.psx.com.pk/download/document/275425.pdf",
@@ -65,7 +59,6 @@ RETAINED_ORIGINALS: dict[str, dict[str, Any]] = {
 # Exact owner-reviewed oversized transport policies. The normal 120-page cap
 # remains the default for every other source.
 OVERSIZED_CHUNK_POLICIES: dict[str, dict[str, Any]] = {
-    "psx:260947": {"source_url": "https://dps.psx.com.pk/download/document/260947.pdf", "content_sha256": "1a10091295cf7a815f1910eb418215d501d42b52e39dcbd0b54a53fd1aceaa7d", "page_count": 333, "ranges": ((1, 111), (112, 222), (223, 333))},
     "psx:260032": {"source_url": "https://dps.psx.com.pk/download/document/260032.pdf", "content_sha256": "4fdfb4cbd2eee65576cbb89b43334ce0c09a7e5ffd573d5bf93b414029eba6d1", "page_count": 401, "ranges": ((1, 120), (121, 240), (241, 360), (361, 401))},
 }
 APPROVED_WAVE3_ALLOWLIST: frozenset[str] = frozenset({
@@ -74,8 +67,6 @@ APPROVED_WAVE3_ALLOWLIST: frozenset[str] = frozenset({
     "psx:229941",
     "psx:260032",
     "psx:263397",
-    "psx:260947",
-    "psx:264230",
     "psx:271712",
     "psx:275425",
     "psx:275962",

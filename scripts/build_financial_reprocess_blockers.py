@@ -20,16 +20,6 @@ ALLOWLIST_PATH = ROOT / "config" / "ci_reprocess_allowlist.json"
 # reprocess_company_documents.py on the already owner-reviewed Wave 3 tranche.
 # They are blockers, not receipts: no canonical state was committed for them.
 APPROVED_BLOCKED_OUTCOMES: dict[str, dict[str, str]] = {
-    "psx:260947": {
-        "gate": "transaction_verification",
-        "reason": "full_repository_preflight_not_clean",
-        "next_required_evidence": "Resolve the independent generated-state consistency failures, then re-run the already verified original-page-preserving three-chunk restage; do not loosen the 120-page parser cap.",
-    },
-    "psx:264230": {
-        "gate": "qualified_fact_coverage",
-        "reason": "no_qualified_direct_three_month_fact_set",
-        "next_required_evidence": "A retained official DGKC Q1 FY2026 statement that yields a consolidated, direct three-month Revenue/PAT/EPS fact set under the existing parser; OCR is not approved for this tranche.",
-    },
     "psx:275962": {
         "gate": "parser_statement_geometry",
         "reason": "no_supported_statement_geometry",

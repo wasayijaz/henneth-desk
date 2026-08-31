@@ -69,6 +69,9 @@ def _assert_shape(payload: dict[str, Any]) -> None:
         doc_id for doc_id in (load_json(ROOT / "config" / "ci_reprocess_review_manifest.json", {}).get("document_ids") or [])
         if doc_id in APPROVED_BLOCKED_OUTCOMES
     ]
+    retired = {"psx:260947", "psx:264230"}.intersection(expected_ids)
+    if retired:
+        _fail(f"retired DGKC duplicate/metadata leads remain blocked outputs: {sorted(retired)}")
     if len(documents) != len(expected_ids):
         _fail("blocked document count mismatch")
     ids = [row.get("document_id") for row in documents]

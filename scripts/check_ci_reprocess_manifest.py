@@ -20,6 +20,7 @@ MLCF_FY24_INTERIM_SOURCES = {
     "psx:225623": ("2023-12-31", "921c6bffa5fb9fe8c001bc76288a60d811ddfc9acb2357753008d57f129cbf42"),
     "psx:229941": ("2024-03-31", "9de20cf7a12f2e049ca2cf437be2089f300e7fc8aed8adae4d0be97492374030"),
 }
+RETIRED_DGKC_DUPLICATE_OR_METADATA_LEADS = {"psx:260947", "psx:264230"}
 
 
 def _fail(message: str) -> None:
@@ -63,6 +64,9 @@ def _assert_manifest_shape(manifest: dict) -> None:
     ids = manifest.get("document_ids") or []
     if not ids or len(ids) != len(set(ids)):
         _fail("manifest document_ids must be non-empty and unique")
+    retired = RETIRED_DGKC_DUPLICATE_OR_METADATA_LEADS.intersection(ids)
+    if retired:
+        _fail(f"retired DGKC duplicate/metadata leads remain executable: {sorted(retired)}")
     documents = manifest.get("documents") or {}
     if set(documents) != set(ids):
         _fail("manifest documents map must exactly match document_ids")

@@ -23,7 +23,7 @@ def _fixture(path: Path, pages: int = 333) -> str:
     with pymupdf.open() as pdf:
         for number in range(1, pages + 1):
             page = pdf.new_page()
-            page.insert_text((36, 48), f"DGKC fixture source page {number}")
+            page.insert_text((36, 48), f"fixture source page {number}")
         pdf.save(path)
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
@@ -34,9 +34,9 @@ def main() -> int:
         source = root_path / "annual.pdf"
         source_hash = _fixture(source)
         identity = SourceIdentity(
-            document_id="psx:260947",
-            title="TRANSMISSION OF ANNUAL REPORT FOR THE YEAR ENDED JUNE 30, 2025",
-            source_url="https://dps.psx.com.pk/download/document/260947.pdf",
+            document_id="psx:999001",
+            title="Fixture annual report",
+            source_url="https://dps.psx.com.pk/download/document/999001.pdf",
             content_sha256=source_hash,
             published_at="2025-10-03T11:05:00+05:00",
             available_on="2025-10-03",

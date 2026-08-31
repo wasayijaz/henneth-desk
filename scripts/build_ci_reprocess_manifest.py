@@ -104,21 +104,6 @@ APPROVED_REVIEW_SLOTS: tuple[dict[str, Any], ...] = (
     },
     {
         "symbol": "DGKC",
-        "period": "2025-06-30",
-        "classification": "financial_results",
-        "title_pattern": r"TRANSMISSION OF ANNUAL REPORT FOR THE YEAR ENDED JUNE 30, 2025",
-        "require_retained_hash": True,
-    },
-    {
-        "symbol": "DGKC",
-        "period": "2025-09-30",
-        "classification": "financial_results",
-        "title_pattern": r"TRANSMISSION OF QUARTERLY REPORT FOR THE PERIOD ENDED SEPTEMBER 30, 2025",
-        "require_retained_hash": True,
-        "source_document_id": "psx:264230",
-    },
-    {
-        "symbol": "DGKC",
         "period": "2026-03-31",
         "classification": "financial_results",
         "title_pattern": r"TRANSMISSION OF QUARTERLY REPOR TFOR THE PERIOD ENDED MARCH 31, 2026",

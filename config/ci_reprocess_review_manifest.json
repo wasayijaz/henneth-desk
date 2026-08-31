@@ -1,7 +1,7 @@
 {
  "schema_version": 1,
  "manifest_version": "ci_reprocess_review_manifest_v1",
- "manifest_id": "cirestage_927ed5af0414d59b6acf",
+ "manifest_id": "cirestage_4e93c0716ef17fbdb46c",
  "source": {
   "financial_coverage": "state/company_intel/financial_coverage.json",
   "research_index": "state/research_index.json"
@@ -83,18 +83,6 @@
   },
   {
    "symbol": "DGKC",
-   "period": "2025-06-30",
-   "classification": "financial_results",
-   "require_retained_hash": true
-  },
-  {
-   "symbol": "DGKC",
-   "period": "2025-09-30",
-   "classification": "financial_results",
-   "require_retained_hash": true
-  },
-  {
-   "symbol": "DGKC",
    "period": "2026-03-31",
    "classification": "financial_results",
    "require_retained_hash": true
@@ -108,8 +96,6 @@
   "psx:263397",
   "psx:271712",
   "psx:275425",
-  "psx:260947",
-  "psx:264230",
   "psx:275962"
  ],
  "documents": {
@@ -246,45 +232,6 @@
    "approval_status": "owner_approved",
    "reason": "owner-approved retained official exact source for bounded CI filing restage"
   },
-  "psx:260947": {
-   "document_id": "psx:260947",
-   "symbol": "DGKC",
-   "period": "2025-06-30",
-   "classification": "financial_results",
-   "title": "TRANSMISSION OF ANNUAL REPORT FOR THE YEAR ENDED JUNE 30, 2025",
-   "expected_title_pattern": "TRANSMISSION OF ANNUAL REPORT FOR THE YEAR ENDED JUNE 30, 2025",
-   "published_at": "2025-10-03T11:05:00+05:00",
-   "source_url": "https://dps.psx.com.pk/download/document/260947.pdf",
-   "content_sha256": "1a10091295cf7a815f1910eb418215d501d42b52e39dcbd0b54a53fd1aceaa7d",
-   "content_identity": "retained_hash",
-   "safe_period": {
-    "period_end": "2025-06-30",
-    "period_type": "annual",
-    "source": "title",
-    "matched_text": "YEAR ENDED JUNE 30, 2025"
-   },
-   "approval_status": "owner_review_required",
-   "reason": "metadata-derived approved review candidate for bounded CI filing restage"
-  },
-  "psx:264230": {
-   "document_id": "psx:264230",
-   "symbol": "DGKC",
-   "period": "2025-09-30",
-   "classification": "financial_results",
-   "title": "TRANSMISSION OF QUARTERLY REPORT FOR THE PERIOD ENDED SEPTEMBER 30, 2025",
-   "expected_title_pattern": "TRANSMISSION OF QUARTERLY REPORT FOR THE PERIOD ENDED SEPTEMBER 30, 2025",
-   "published_at": "2025-10-30T10:37:00+05:00",
-   "source_url": "https://dps.psx.com.pk/download/document/264230.pdf",
-   "content_sha256": "4672367d4360dba4230cb82fabdfb3c77282132672b521aa66b71dd66ed052ed",
-   "content_identity": "retained_hash",
-   "safe_period": {
-    "period_end": "2025-09-30",
-    "period_type": "interim",
-    "source": "owner_approved_counterpart"
-   },
-   "approval_status": "owner_approved",
-   "reason": "owner-approved retained official exact source for bounded CI filing restage"
-  },
   "psx:275962": {
    "document_id": "psx:275962",
    "symbol": "DGKC",
@@ -306,12 +253,12 @@
   }
  },
  "summary": {
-  "document_count": 10,
+  "document_count": 8,
   "symbols": [
    "DGKC",
    "MLCF"
   ],
-  "retained_hash_count": 10,
+  "retained_hash_count": 8,
   "transport_hash_required_count": 0
  }
 }
