@@ -68,7 +68,7 @@ The product is a hybrid of five parts:
 | Official company documents | `scripts/fetch_company_documents.py` -> existing `state/research_index.json` + transient ignored PDF handoff | deterministic document extraction |
 | Page evidence, facts and events | `scripts/document_intelligence.py` -> `state/company_documents.json`, `state/company_event_ledger.json` | CI slice, approval queue |
 | Issuer source registry | `scripts/fetch_issuer_sources.py` -> `state/company_intel/source_registry.json` | CI Sources view |
-| Company financial series | `scripts/build_financial_series.py` -> `state/company_financial_series.json` | CI Financials view, graph, synthesis handoff; owner-approved manual claims enter only through `scripts/manual_financial_claims.py` after manifest, dual-review and provenance checks |
+| Company financial series | `scripts/build_financial_series.py` -> `state/company_financial_series.json` | CI Financials view, graph, synthesis handoff; owner-approved manual claims enter only through `scripts/manual_financial_claims.py` after dual review, exact official-source binding, and (for image-only filings) `state/company_intel/manual_document_authority.json` page-geometry authority. That authority ledger contains no numeric facts and cannot create a parser receipt. |
 | Company source QA | `scripts/build_source_qa.py` -> `state/company_source_qa.json` | CI source-health badges and graph |
 | Company knowledge graph | `scripts/build_company_graph.py` -> `state/company_intel/company_graph.json` | CI Graph view |
 | Company change intelligence | `scripts/build_change_intelligence.py` -> `state/company_intel/change_intelligence.json` | CI Changes view and overview metrics |

@@ -17,6 +17,7 @@ from forecast_contract import (
     qualified_financial_fact_source,
     qualified_periods,
 )
+from manual_financial_claims import MANUAL_SOURCE_METHOD, is_qualified_manual_fact
 
 
 RECONCILIATION_VERSION = "financial_evidence_reconciliation_v1"
@@ -182,6 +183,8 @@ def classification_reasons(fact: dict[str, Any], as_of: str | None = None) -> li
         reasons.append("outside_required_financial_truth_metric_set")
     if not qualified_financial_fact_source(fact):
         reasons.append("unqualified_financial_fact_source")
+    if fact.get("source_method") == MANUAL_SOURCE_METHOD and not is_qualified_manual_fact(fact):
+        reasons.append("manual_document_authority_missing_or_mismatch")
     if fact.get("readiness") == "audit_only":
         reasons.append("readiness_is_audit_only")
     elif fact.get("readiness") != "model_loadable":

@@ -29,6 +29,7 @@ FOCUSED_CHECKS: tuple[str, ...] = (
     "check_financial_statement_v2_candidate_queue.py",
     "check_financial_reprocess_blockers.py",
     "check_financial_evidence_reconciliation.py",
+    "check_manual_document_authority.py",
     "check_financial_truth_qualification.py",
     "check_mlcf_financial_truth_gap.py",
     "check_owner_financial_assumption_handoff.py",
