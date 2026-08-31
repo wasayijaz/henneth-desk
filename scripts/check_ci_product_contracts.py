@@ -43,6 +43,7 @@ FOCUSED_CHECKS: tuple[str, ...] = (
     "check_thesis_monitoring.py",
     "check_intelligence_confidence.py",
     "check_intelligence_cases.py",
+    "check_intelligence_case_payloads.py",
     "check_mlcf_pioc_readiness_manifest.py",
     "check_management_delivery.py",
     "check_guidance_contradictions.py",
@@ -253,6 +254,9 @@ def self_test() -> int:
 
         if "check_mlcf_financial_truth_gap.py" not in FOCUSED_CHECKS:
             print("self-test failed: MLCF gap checker is not in the aggregate list")
+            return 1
+        if "check_intelligence_case_payloads.py" not in FOCUSED_CHECKS:
+            print("self-test failed: intelligence case payload checker is not in the aggregate list")
             return 1
         invoked = run_checks(root, ("check_mlcf_financial_truth_gap.py",), timeout=5, finalize_artifacts=False)
         if len(invoked) != 1 or invoked[0].status != "passed" or not (root / "mlcf-gap-invoked").exists():
