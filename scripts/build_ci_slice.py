@@ -781,6 +781,11 @@ def _company_brief(brief_state, document_state, sym):
     }
 
 
+def _intelligence_case_row(state, sym):
+    candidate = (state.get("companies") or {}).get(sym) if isinstance(state, dict) else None
+    return candidate if isinstance(candidate, dict) and candidate.get("symbol") == sym else None
+
+
 def build(write: bool = True):
     universe = load_json(STATE / "universe.json", {"symbols": {}}).get("symbols", {})
     quant = load_json(STATE / "quant.json", {"tickers": {}}).get("tickers", {})
@@ -1002,14 +1007,7 @@ def build(write: bool = True):
         financial_forecast_row = _formal_engine_product(financial_forecasts, sym, "financial_forecasts")
         formal_valuation_row = _formal_engine_product(formal_valuations, sym, "formal_valuations")
         market_expectation_row = _formal_engine_product(market_expectations, sym, "market_expectations")
-        candidate_case_row = (intelligence_cases.get("companies") or {}).get(sym)
-        intelligence_case_row = candidate_case_row if isinstance(candidate_case_row, dict) and candidate_case_row.get("symbol") == sym else {
-            "symbol": sym,
-            "status": "intelligence_cases_state_missing",
-            "case_count": 0,
-            "cases": [],
-            "rejection_reasons": ["intelligence_cases_state_missing"],
-        }
+        intelligence_case_row = _intelligence_case_row(intelligence_cases, sym)
         historical_reference_cases = _historical_reference_cases(financial_engine_assumptions, sym, source_cutoff)
         assumption_gap_review = _assumption_gap_review(financial_engine_assumptions, sym)
         rows.append({
