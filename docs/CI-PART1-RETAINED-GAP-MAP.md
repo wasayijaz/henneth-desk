@@ -37,9 +37,10 @@ Authoritative sources:
 | Annual Revenue / attributable PAT / basic EPS triplets | 3 / 5 | 2026-06-30, 2025-06-30, 2024-06-30 | Two additional distinct eligible annual periods. The gate does not nominate dates, so this map does not invent them. |
 | Direct consolidated three-month Revenue / attributable PAT / basic EPS sets | 3 / 8 | 2026-03-31, 2025-12-31, 2025-09-30 | Five additional qualified direct-quarter periods. Retained metadata or cumulative interim figures do not count. |
 | Annual consolidated operating cash flow | 2 / 5 | 2025-06-30, 2024-06-30 | Three additional eligible annual OCF periods. |
-| Official share-count/capital-note tie-out | 0 / 1 | `psx:271712` p.31 has a source/hash/page-bound, arithmetically tied candidate, but it is `approved: false`, has no `available_on`, and is candidate-only. | Verified restage plus explicit owner approval through the existing gate. The candidate cannot activate financial truth. |
+| Official share-count/capital-note tie-out | 1 / 1 | Approved source-bound FY25 capital note `psx:260032` p.291: 1,047,562,608 ordinary shares, arithmetically tied, with official availability date 2025-09-25. | Satisfied. The later `psx:271712` candidate remains non-authoritative and does not reopen this gate. |
 
-The current financial-tie-out status is `blocked`. Forecast, valuation, and
+The current financial-tie-out status is `blocked` by full-statement annual and
+quarterly coverage, not share count. Forecast, valuation, and
 market-expectations output must remain blocked even though the historical MLCF
 model-input adapter reports ready under its narrower legacy scope.
 
