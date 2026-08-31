@@ -147,10 +147,11 @@ def main() -> None:
               set(row) == {"kind", "document_id", "source_ref"}
               and set(ref) == {"event_id", "document_id", "document_title", "document_published_at",
                                "document_retrieved_at", "content_sha256", "source", "source_url",
-                               "page", "text"}
+                               "page", "text", "event_date"}
               and row.get("document_id") == ref.get("document_id")
               and re.fullmatch(r"[0-9a-f]{64}", str(ref.get("content_sha256") or ""), re.I) is not None
               and isinstance(ref.get("page"), int) and ref.get("page") > 0
+              and bool(ref.get("event_date"))
               and bool(ref.get("text")))
     check("real lineage equals retained binding", real["input_lineage"] == bound_lineage)
     try:
@@ -167,6 +168,7 @@ def main() -> None:
         ("document_title", "Forged retained-looking title"),
         ("document_published_at", "2024-01-01T00:00:00+05:00"),
         ("document_retrieved_at", "2024-01-02T00:00:00+05:00"),
+        ("event_date", "2024-01-01T00:00:00+05:00"),
         ("content_sha256", "0" * 64),
         ("source", "Forged Source"),
         ("source_url", "https://dps.psx.com.pk/download/document/999999.pdf"),
@@ -186,6 +188,7 @@ def main() -> None:
         ("document_title", "Forged retained-looking title"),
         ("document_published_at", "2024-01-01T00:00:00+05:00"),
         ("document_retrieved_at", "2024-01-02T00:00:00+05:00"),
+        ("event_date", "2024-01-01T00:00:00+05:00"),
         ("content_sha256", "0" * 64),
         ("source", "Forged Source"),
         ("source_url", "https://dps.psx.com.pk/download/document/999999.pdf"),
@@ -199,6 +202,8 @@ def main() -> None:
         if field == "document_id":
             forged["observed_facts"][0]["document_id"] = value
         if field == "document_published_at":
+            forged["observed_facts"][0]["event_date"] = value
+        if field == "event_date":
             forged["observed_facts"][0]["event_date"] = value
         must_fail(f"forged observed_facts evidence {field} rejected",
                   lambda forged=forged: adapter.build_real_case_run(forged, manifest),
