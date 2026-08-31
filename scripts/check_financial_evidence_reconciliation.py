@@ -334,12 +334,14 @@ def _synthetic_assertions() -> None:
     for name, fact in {
         "comparative_quarter": _quarter_fact(column_role="comparative_prior_period"),
         "six_month_interim": _quarter_fact(period_type="interim", duration_months=6),
-        "cashflow_quarter": _quarter_fact("operating_cash_flow", statement_type="cash_flow_statement", unit="PKR", unit_multiplier=1_000_000),
     }.items():
         if eligibility_scope(fact) != "not_eligible_financial_truth_gate":
             _fail(f"{name}: invalid quarter fixture exposed eligible scope")
         if fact_status(fact, "2026-08-26") == "eligible":
             _fail(f"{name}: invalid quarter fixture became eligible")
+    clean_cashflow_quarter = _quarter_fact("operating_cash_flow", statement_type="cash_flow_statement", unit="PKR", unit_multiplier=1_000_000)
+    if fact_status(clean_cashflow_quarter, "2026-08-26") != "eligible" or eligibility_scope(clean_cashflow_quarter) != "reported_quarter_financial_truth_gate":
+        _fail("direct consolidated three-month cash-flow fact did not become quarterly eligible")
     issuer_fact = _issuer_fact()
     if not official_financial_fact_provenance(issuer_fact):
         _fail("qualified issuer fixture did not satisfy shared official provenance")

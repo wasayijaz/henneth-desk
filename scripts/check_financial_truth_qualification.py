@@ -7,7 +7,12 @@ import sys
 from pathlib import Path
 
 import build_financial_truth_qualification as builder
-from financial_truth_qualification import build_qualification
+from financial_truth_qualification import (
+    BALANCE_SHEET_METRICS,
+    CASH_FLOW_METRICS,
+    INCOME_STATEMENT_METRICS,
+    build_qualification,
+)
 from psx_data import load_json
 
 
@@ -26,7 +31,7 @@ def _strict_fixture_facts(include_quarter_scope: bool = True) -> list[dict]:
     ]
     facts = []
     for period in annual_periods:
-        for metric in ("revenue", "profit_after_tax_attributable", "basic_eps"):
+        for metric in INCOME_STATEMENT_METRICS:
             facts.append({
                 "status": "eligible",
                 "metric": metric,
@@ -36,17 +41,20 @@ def _strict_fixture_facts(include_quarter_scope: bool = True) -> list[dict]:
                 "consolidation": "consolidated",
                 "eligibility_scope": "annual_income_financial_truth_gate",
             })
-        facts.append({
-            "status": "eligible",
-            "metric": "operating_cash_flow",
-            "period_end": period,
-            "period_type": "annual",
-            "statement_type": "cash_flow_statement",
-            "consolidation": "consolidated",
-            "eligibility_scope": "annual_operating_cash_flow_truth_gate",
-        })
+        for metric in CASH_FLOW_METRICS + ("depreciation_amortization",):
+            facts.append({
+                "status": "eligible", "metric": metric, "period_end": period,
+                "period_type": "annual", "statement_type": "cash_flow_statement",
+                "consolidation": "consolidated", "eligibility_scope": "annual_cash_flow_financial_truth_gate",
+            })
+        for metric in BALANCE_SHEET_METRICS:
+            facts.append({
+                "status": "eligible", "metric": metric, "period_end": period,
+                "period_type": "annual", "statement_type": "balance_sheet",
+                "consolidation": "consolidated", "eligibility_scope": "annual_balance_sheet_financial_truth_gate",
+            })
     for period in quarter_periods:
-        for metric in ("revenue", "profit_after_tax_attributable", "basic_eps"):
+        for metric in INCOME_STATEMENT_METRICS:
             facts.append({
                 "status": "eligible",
                 "metric": metric,
@@ -60,6 +68,20 @@ def _strict_fixture_facts(include_quarter_scope: bool = True) -> list[dict]:
                     if include_quarter_scope
                     else "annual_income_financial_truth_gate"
                 ),
+            })
+        for metric in CASH_FLOW_METRICS + ("depreciation_amortization",):
+            facts.append({
+                "status": "eligible", "metric": metric, "period_end": period,
+                "period_type": "quarter", "duration_months": 3,
+                "statement_type": "cash_flow_statement", "consolidation": "consolidated",
+                "eligibility_scope": "reported_quarter_financial_truth_gate" if include_quarter_scope else "annual_cash_flow_financial_truth_gate",
+            })
+        for metric in BALANCE_SHEET_METRICS:
+            facts.append({
+                "status": "eligible", "metric": metric, "period_end": period,
+                "period_type": "quarter", "statement_type": "balance_sheet",
+                "consolidation": "consolidated",
+                "eligibility_scope": "reported_quarter_balance_sheet_financial_truth_gate" if include_quarter_scope else "annual_balance_sheet_financial_truth_gate",
             })
     return facts
 
@@ -92,6 +114,9 @@ def assert_quarter_scope_fixtures() -> None:
         fail("scoped quarter fixture did not become qualified")
     if scoped_row.get("qualified_reported_quarter_fact_sets", {}).get("present") != 8:
         fail("scoped quarter fixture did not satisfy exactly eight reported-quarter fact sets")
+    coverage = scoped_row.get("model_ready_financial_statement_coverage") or {}
+    if (coverage.get("annual") or {}).get("present") != 5 or (coverage.get("reported_quarter") or {}).get("present") != 8:
+        fail("full-statement fixture did not satisfy the authoritative annual/quarter schedule gates")
     if scoped_row.get("downstream", {}).get("forecast") != "not_activated_owner_approved_forward_inputs_required":
         fail("qualified financial truth activated forecast without owner-approved forward inputs")
 
@@ -109,6 +134,18 @@ def assert_quarter_scope_fixtures() -> None:
         fail("unscoped quarter-like facts counted toward the eight-quarter gate")
     if unscoped_row.get("annual_income_triplets", {}).get("present") != 5:
         fail("unscoped quarter-like facts polluted annual income triplets")
+    if unscoped_row.get("status") == "qualified":
+        fail("unscoped full-statement fixture became qualified")
+
+
+def assert_legacy_three_line_readiness_cannot_activate() -> None:
+    old_style = [fact for fact in _strict_fixture_facts() if fact.get("metric") in {"revenue", "profit_after_tax_attributable", "basic_eps", "operating_cash_flow"}]
+    row = build_qualification(
+        ["AAA"], {"companies": {"AAA": {"facts": old_style, "source_conflict_count": 0}}},
+        {"companies": {"AAA": {"indexed_official_financial_docs": []}}}, {"records": [_share_tie_out()]}, {"companies": {}},
+    )["companies"]["AAA"]
+    if row.get("status") == "qualified" or row.get("downstream", {}).get("forecast") != "blocked_financial_truth_not_qualified":
+        fail("legacy three-line readiness incorrectly activated a formal output")
 
 
 def main() -> None:
@@ -162,6 +199,7 @@ def main() -> None:
     if qualified_fixture.get("summary", {}).get("qualified_company_count") != 1 or qualified_fixture.get("selection", {}).get("status") != "qualified_financial_truth":
         fail("complete strict-evidence fixture did not transition selection state")
     assert_quarter_scope_fixtures()
+    assert_legacy_three_line_readiness_cannot_activate()
     before = builder.OUT.read_bytes()
     result = subprocess.run([sys.executable, str(ROOT / "scripts" / "build_financial_truth_qualification.py")], capture_output=True, text=True, timeout=30)
     if result.returncode != 0 or builder.OUT.read_bytes() != before:

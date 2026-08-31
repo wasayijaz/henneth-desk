@@ -1,5 +1,5 @@
 {
- "schema_version": "financial_truth_qualification_v1",
+ "schema_version": "financial_truth_qualification_v2",
  "pilot_symbols": [
   "MLCF",
   "OGDC",
@@ -33,13 +33,13 @@
  "selection": {
   "status": "leading_candidate_not_golden",
   "leader_symbol": "DGKC",
-  "reason": "ranked only by retained source-grounded coverage; the leader remains unqualified until every financial-truth gate is satisfied"
+  "reason": "ranked only by retained source-grounded full-statement coverage; the leader remains unqualified until every financial-truth gate is satisfied"
  },
  "companies": {
   "MLCF": {
    "symbol": "MLCF",
    "status": "not_qualified",
-   "qualification_scope": "retained_reported_financial_truth",
+   "qualification_scope": "retained_reported_model_ready_financial_truth",
    "annual_income_triplets": {
     "required": 5,
     "present": 3,
@@ -63,7 +63,7 @@
     "documented_periods": [
      "2024-12-31"
     ],
-    "limitation": "Document metadata proves a retained official reporting period, not parsed qualified quarterly financial facts and does not satisfy the eight-quarter gate."
+    "limitation": "Document metadata proves a retained official reporting period, not parsed qualified quarterly financial facts and does not satisfy any financial-truth gate."
    },
    "annual_operating_cash_flow": {
     "required": 5,
@@ -73,6 +73,85 @@
      "2024-06-30"
     ]
    },
+   "model_ready_financial_statement_coverage": {
+    "annual": {
+     "required": 5,
+     "present": 0,
+     "qualified_periods": [],
+     "direct_flow_statement_periods": [],
+     "direct_balance_sheet_periods": [],
+     "derived_ebitda_periods": [],
+     "derived_free_cash_flow_periods": [],
+     "required_direct_metrics": [
+      "revenue",
+      "gross_profit",
+      "operating_profit",
+      "finance_cost",
+      "profit_before_tax",
+      "tax_expense",
+      "profit_after_tax_attributable",
+      "basic_eps",
+      "operating_cash_flow",
+      "capital_expenditure",
+      "net_cash_from_investing_activities",
+      "net_cash_from_financing_activities",
+      "dividends_paid",
+      "cash_and_cash_equivalents",
+      "trade_receivables",
+      "inventories",
+      "total_current_assets",
+      "property_plant_equipment",
+      "total_assets",
+      "short_term_borrowings",
+      "long_term_borrowings",
+      "trade_payables",
+      "total_equity"
+     ],
+     "derived_metric_lineage": {
+      "ebitda": "reported_ebitda OR operating_profit + depreciation_amortization",
+      "free_cash_flow": "operating_cash_flow + capital_expenditure (reported signed cash-flow value)"
+     }
+    },
+    "reported_quarter": {
+     "required": 8,
+     "present": 0,
+     "qualified_periods": [],
+     "direct_flow_statement_periods": [],
+     "direct_balance_sheet_periods": [],
+     "derived_ebitda_periods": [],
+     "derived_free_cash_flow_periods": [],
+     "required_direct_metrics": [
+      "revenue",
+      "gross_profit",
+      "operating_profit",
+      "finance_cost",
+      "profit_before_tax",
+      "tax_expense",
+      "profit_after_tax_attributable",
+      "basic_eps",
+      "operating_cash_flow",
+      "capital_expenditure",
+      "net_cash_from_investing_activities",
+      "net_cash_from_financing_activities",
+      "dividends_paid",
+      "cash_and_cash_equivalents",
+      "trade_receivables",
+      "inventories",
+      "total_current_assets",
+      "property_plant_equipment",
+      "total_assets",
+      "short_term_borrowings",
+      "long_term_borrowings",
+      "trade_payables",
+      "total_equity"
+     ],
+     "derived_metric_lineage": {
+      "ebitda": "reported_ebitda OR operating_profit + depreciation_amortization",
+      "free_cash_flow": "operating_cash_flow + capital_expenditure (reported signed cash-flow value)"
+     }
+    },
+    "limitation": "This is the authoritative full-statement gate. Legacy three-line counters remain visibility-only and cannot activate formal engines."
+   },
    "share_count": {
     "status": "missing_official_share_count_capital_note_tie_out",
     "available_on": null,
@@ -80,7 +159,7 @@
    },
    "financial_tie_out": {
     "status": "blocked",
-    "reason": "requires five qualified annual income triplets, eight qualified reported-quarter fact sets, five qualified annual operating-cash-flow periods, an official share-count capital-note tie-out, and no unresolved conflicts"
+    "reason": "requires five annual and eight direct reported-quarter full-statement schedules, deterministic EBITDA/FCF operand lineage, an official share-count capital-note tie-out, and no unresolved canonical conflicts"
    },
    "operating_lane": {
     "status": "insufficient_aligned_annual_operating_history",
@@ -103,6 +182,18 @@
      "requirement": "qualified_annual_operating_cash_flow",
      "required": 5,
      "present": 2,
+     "status": "blocked"
+    },
+    {
+     "requirement": "qualified_annual_financial_statement_schedules",
+     "required": 5,
+     "present": 0,
+     "status": "blocked"
+    },
+    {
+     "requirement": "qualified_reported_quarter_financial_statement_schedules",
+     "required": 8,
+     "present": 0,
      "status": "blocked"
     },
     {
@@ -191,13 +282,13 @@
     "valuation": "not_emitted",
     "market_expectations": "not_emitted"
    },
-   "candidate_rank": 2,
+   "candidate_rank": 13,
    "selection_status": "not_selected"
   },
   "OGDC": {
    "symbol": "OGDC",
    "status": "not_qualified",
-   "qualification_scope": "retained_reported_financial_truth",
+   "qualification_scope": "retained_reported_model_ready_financial_truth",
    "annual_income_triplets": {
     "required": 5,
     "present": 0,
@@ -214,12 +305,91 @@
      "2026-03-31",
      "2025-09-30"
     ],
-    "limitation": "Document metadata proves a retained official reporting period, not parsed qualified quarterly financial facts and does not satisfy the eight-quarter gate."
+    "limitation": "Document metadata proves a retained official reporting period, not parsed qualified quarterly financial facts and does not satisfy any financial-truth gate."
    },
    "annual_operating_cash_flow": {
     "required": 5,
     "present": 0,
     "qualified_periods": []
+   },
+   "model_ready_financial_statement_coverage": {
+    "annual": {
+     "required": 5,
+     "present": 0,
+     "qualified_periods": [],
+     "direct_flow_statement_periods": [],
+     "direct_balance_sheet_periods": [],
+     "derived_ebitda_periods": [],
+     "derived_free_cash_flow_periods": [],
+     "required_direct_metrics": [
+      "revenue",
+      "gross_profit",
+      "operating_profit",
+      "finance_cost",
+      "profit_before_tax",
+      "tax_expense",
+      "profit_after_tax_attributable",
+      "basic_eps",
+      "operating_cash_flow",
+      "capital_expenditure",
+      "net_cash_from_investing_activities",
+      "net_cash_from_financing_activities",
+      "dividends_paid",
+      "cash_and_cash_equivalents",
+      "trade_receivables",
+      "inventories",
+      "total_current_assets",
+      "property_plant_equipment",
+      "total_assets",
+      "short_term_borrowings",
+      "long_term_borrowings",
+      "trade_payables",
+      "total_equity"
+     ],
+     "derived_metric_lineage": {
+      "ebitda": "reported_ebitda OR operating_profit + depreciation_amortization",
+      "free_cash_flow": "operating_cash_flow + capital_expenditure (reported signed cash-flow value)"
+     }
+    },
+    "reported_quarter": {
+     "required": 8,
+     "present": 0,
+     "qualified_periods": [],
+     "direct_flow_statement_periods": [],
+     "direct_balance_sheet_periods": [],
+     "derived_ebitda_periods": [],
+     "derived_free_cash_flow_periods": [],
+     "required_direct_metrics": [
+      "revenue",
+      "gross_profit",
+      "operating_profit",
+      "finance_cost",
+      "profit_before_tax",
+      "tax_expense",
+      "profit_after_tax_attributable",
+      "basic_eps",
+      "operating_cash_flow",
+      "capital_expenditure",
+      "net_cash_from_investing_activities",
+      "net_cash_from_financing_activities",
+      "dividends_paid",
+      "cash_and_cash_equivalents",
+      "trade_receivables",
+      "inventories",
+      "total_current_assets",
+      "property_plant_equipment",
+      "total_assets",
+      "short_term_borrowings",
+      "long_term_borrowings",
+      "trade_payables",
+      "total_equity"
+     ],
+     "derived_metric_lineage": {
+      "ebitda": "reported_ebitda OR operating_profit + depreciation_amortization",
+      "free_cash_flow": "operating_cash_flow + capital_expenditure (reported signed cash-flow value)"
+     }
+    },
+    "limitation": "This is the authoritative full-statement gate. Legacy three-line counters remain visibility-only and cannot activate formal engines."
    },
    "share_count": {
     "status": "missing_official_share_count_capital_note_tie_out",
@@ -228,7 +398,7 @@
    },
    "financial_tie_out": {
     "status": "blocked",
-    "reason": "requires five qualified annual income triplets, eight qualified reported-quarter fact sets, five qualified annual operating-cash-flow periods, an official share-count capital-note tie-out, and no unresolved conflicts"
+    "reason": "requires five annual and eight direct reported-quarter full-statement schedules, deterministic EBITDA/FCF operand lineage, an official share-count capital-note tie-out, and no unresolved canonical conflicts"
    },
    "operating_lane": {
     "status": "not_applicable",
@@ -250,6 +420,18 @@
     {
      "requirement": "qualified_annual_operating_cash_flow",
      "required": 5,
+     "present": 0,
+     "status": "blocked"
+    },
+    {
+     "requirement": "qualified_annual_financial_statement_schedules",
+     "required": 5,
+     "present": 0,
+     "status": "blocked"
+    },
+    {
+     "requirement": "qualified_reported_quarter_financial_statement_schedules",
+     "required": 8,
      "present": 0,
      "status": "blocked"
     },
@@ -345,7 +527,7 @@
   "PPL": {
    "symbol": "PPL",
    "status": "not_qualified",
-   "qualification_scope": "retained_reported_financial_truth",
+   "qualification_scope": "retained_reported_model_ready_financial_truth",
    "annual_income_triplets": {
     "required": 5,
     "present": 0,
@@ -359,12 +541,91 @@
    "documented_interim_metadata": {
     "present": 0,
     "documented_periods": [],
-    "limitation": "Document metadata proves a retained official reporting period, not parsed qualified quarterly financial facts and does not satisfy the eight-quarter gate."
+    "limitation": "Document metadata proves a retained official reporting period, not parsed qualified quarterly financial facts and does not satisfy any financial-truth gate."
    },
    "annual_operating_cash_flow": {
     "required": 5,
     "present": 0,
     "qualified_periods": []
+   },
+   "model_ready_financial_statement_coverage": {
+    "annual": {
+     "required": 5,
+     "present": 0,
+     "qualified_periods": [],
+     "direct_flow_statement_periods": [],
+     "direct_balance_sheet_periods": [],
+     "derived_ebitda_periods": [],
+     "derived_free_cash_flow_periods": [],
+     "required_direct_metrics": [
+      "revenue",
+      "gross_profit",
+      "operating_profit",
+      "finance_cost",
+      "profit_before_tax",
+      "tax_expense",
+      "profit_after_tax_attributable",
+      "basic_eps",
+      "operating_cash_flow",
+      "capital_expenditure",
+      "net_cash_from_investing_activities",
+      "net_cash_from_financing_activities",
+      "dividends_paid",
+      "cash_and_cash_equivalents",
+      "trade_receivables",
+      "inventories",
+      "total_current_assets",
+      "property_plant_equipment",
+      "total_assets",
+      "short_term_borrowings",
+      "long_term_borrowings",
+      "trade_payables",
+      "total_equity"
+     ],
+     "derived_metric_lineage": {
+      "ebitda": "reported_ebitda OR operating_profit + depreciation_amortization",
+      "free_cash_flow": "operating_cash_flow + capital_expenditure (reported signed cash-flow value)"
+     }
+    },
+    "reported_quarter": {
+     "required": 8,
+     "present": 0,
+     "qualified_periods": [],
+     "direct_flow_statement_periods": [],
+     "direct_balance_sheet_periods": [],
+     "derived_ebitda_periods": [],
+     "derived_free_cash_flow_periods": [],
+     "required_direct_metrics": [
+      "revenue",
+      "gross_profit",
+      "operating_profit",
+      "finance_cost",
+      "profit_before_tax",
+      "tax_expense",
+      "profit_after_tax_attributable",
+      "basic_eps",
+      "operating_cash_flow",
+      "capital_expenditure",
+      "net_cash_from_investing_activities",
+      "net_cash_from_financing_activities",
+      "dividends_paid",
+      "cash_and_cash_equivalents",
+      "trade_receivables",
+      "inventories",
+      "total_current_assets",
+      "property_plant_equipment",
+      "total_assets",
+      "short_term_borrowings",
+      "long_term_borrowings",
+      "trade_payables",
+      "total_equity"
+     ],
+     "derived_metric_lineage": {
+      "ebitda": "reported_ebitda OR operating_profit + depreciation_amortization",
+      "free_cash_flow": "operating_cash_flow + capital_expenditure (reported signed cash-flow value)"
+     }
+    },
+    "limitation": "This is the authoritative full-statement gate. Legacy three-line counters remain visibility-only and cannot activate formal engines."
    },
    "share_count": {
     "status": "missing_official_share_count_capital_note_tie_out",
@@ -373,7 +634,7 @@
    },
    "financial_tie_out": {
     "status": "blocked",
-    "reason": "requires five qualified annual income triplets, eight qualified reported-quarter fact sets, five qualified annual operating-cash-flow periods, an official share-count capital-note tie-out, and no unresolved conflicts"
+    "reason": "requires five annual and eight direct reported-quarter full-statement schedules, deterministic EBITDA/FCF operand lineage, an official share-count capital-note tie-out, and no unresolved canonical conflicts"
    },
    "operating_lane": {
     "status": "not_applicable",
@@ -395,6 +656,18 @@
     {
      "requirement": "qualified_annual_operating_cash_flow",
      "required": 5,
+     "present": 0,
+     "status": "blocked"
+    },
+    {
+     "requirement": "qualified_annual_financial_statement_schedules",
+     "required": 5,
+     "present": 0,
+     "status": "blocked"
+    },
+    {
+     "requirement": "qualified_reported_quarter_financial_statement_schedules",
+     "required": 8,
      "present": 0,
      "status": "blocked"
     },
@@ -465,7 +738,7 @@
   "DGKC": {
    "symbol": "DGKC",
    "status": "not_qualified",
-   "qualification_scope": "retained_reported_financial_truth",
+   "qualification_scope": "retained_reported_model_ready_financial_truth",
    "annual_income_triplets": {
     "required": 5,
     "present": 4,
@@ -488,12 +761,91 @@
      "2025-12-31",
      "2025-09-30"
     ],
-    "limitation": "Document metadata proves a retained official reporting period, not parsed qualified quarterly financial facts and does not satisfy the eight-quarter gate."
+    "limitation": "Document metadata proves a retained official reporting period, not parsed qualified quarterly financial facts and does not satisfy any financial-truth gate."
    },
    "annual_operating_cash_flow": {
     "required": 5,
     "present": 0,
     "qualified_periods": []
+   },
+   "model_ready_financial_statement_coverage": {
+    "annual": {
+     "required": 5,
+     "present": 0,
+     "qualified_periods": [],
+     "direct_flow_statement_periods": [],
+     "direct_balance_sheet_periods": [],
+     "derived_ebitda_periods": [],
+     "derived_free_cash_flow_periods": [],
+     "required_direct_metrics": [
+      "revenue",
+      "gross_profit",
+      "operating_profit",
+      "finance_cost",
+      "profit_before_tax",
+      "tax_expense",
+      "profit_after_tax_attributable",
+      "basic_eps",
+      "operating_cash_flow",
+      "capital_expenditure",
+      "net_cash_from_investing_activities",
+      "net_cash_from_financing_activities",
+      "dividends_paid",
+      "cash_and_cash_equivalents",
+      "trade_receivables",
+      "inventories",
+      "total_current_assets",
+      "property_plant_equipment",
+      "total_assets",
+      "short_term_borrowings",
+      "long_term_borrowings",
+      "trade_payables",
+      "total_equity"
+     ],
+     "derived_metric_lineage": {
+      "ebitda": "reported_ebitda OR operating_profit + depreciation_amortization",
+      "free_cash_flow": "operating_cash_flow + capital_expenditure (reported signed cash-flow value)"
+     }
+    },
+    "reported_quarter": {
+     "required": 8,
+     "present": 0,
+     "qualified_periods": [],
+     "direct_flow_statement_periods": [],
+     "direct_balance_sheet_periods": [],
+     "derived_ebitda_periods": [],
+     "derived_free_cash_flow_periods": [],
+     "required_direct_metrics": [
+      "revenue",
+      "gross_profit",
+      "operating_profit",
+      "finance_cost",
+      "profit_before_tax",
+      "tax_expense",
+      "profit_after_tax_attributable",
+      "basic_eps",
+      "operating_cash_flow",
+      "capital_expenditure",
+      "net_cash_from_investing_activities",
+      "net_cash_from_financing_activities",
+      "dividends_paid",
+      "cash_and_cash_equivalents",
+      "trade_receivables",
+      "inventories",
+      "total_current_assets",
+      "property_plant_equipment",
+      "total_assets",
+      "short_term_borrowings",
+      "long_term_borrowings",
+      "trade_payables",
+      "total_equity"
+     ],
+     "derived_metric_lineage": {
+      "ebitda": "reported_ebitda OR operating_profit + depreciation_amortization",
+      "free_cash_flow": "operating_cash_flow + capital_expenditure (reported signed cash-flow value)"
+     }
+    },
+    "limitation": "This is the authoritative full-statement gate. Legacy three-line counters remain visibility-only and cannot activate formal engines."
    },
    "share_count": {
     "status": "missing_official_share_count_capital_note_tie_out",
@@ -502,7 +854,7 @@
    },
    "financial_tie_out": {
     "status": "blocked",
-    "reason": "requires five qualified annual income triplets, eight qualified reported-quarter fact sets, five qualified annual operating-cash-flow periods, an official share-count capital-note tie-out, and no unresolved conflicts"
+    "reason": "requires five annual and eight direct reported-quarter full-statement schedules, deterministic EBITDA/FCF operand lineage, an official share-count capital-note tie-out, and no unresolved canonical conflicts"
    },
    "operating_lane": {
     "status": "audit_only_series_available",
@@ -524,6 +876,18 @@
     {
      "requirement": "qualified_annual_operating_cash_flow",
      "required": 5,
+     "present": 0,
+     "status": "blocked"
+    },
+    {
+     "requirement": "qualified_annual_financial_statement_schedules",
+     "required": 5,
+     "present": 0,
+     "status": "blocked"
+    },
+    {
+     "requirement": "qualified_reported_quarter_financial_statement_schedules",
+     "required": 8,
      "present": 0,
      "status": "blocked"
     },
@@ -619,7 +983,7 @@
   "PSO": {
    "symbol": "PSO",
    "status": "not_qualified",
-   "qualification_scope": "retained_reported_financial_truth",
+   "qualification_scope": "retained_reported_model_ready_financial_truth",
    "annual_income_triplets": {
     "required": 5,
     "present": 0,
@@ -637,12 +1001,91 @@
      "2025-12-31",
      "2025-09-30"
     ],
-    "limitation": "Document metadata proves a retained official reporting period, not parsed qualified quarterly financial facts and does not satisfy the eight-quarter gate."
+    "limitation": "Document metadata proves a retained official reporting period, not parsed qualified quarterly financial facts and does not satisfy any financial-truth gate."
    },
    "annual_operating_cash_flow": {
     "required": 5,
     "present": 0,
     "qualified_periods": []
+   },
+   "model_ready_financial_statement_coverage": {
+    "annual": {
+     "required": 5,
+     "present": 0,
+     "qualified_periods": [],
+     "direct_flow_statement_periods": [],
+     "direct_balance_sheet_periods": [],
+     "derived_ebitda_periods": [],
+     "derived_free_cash_flow_periods": [],
+     "required_direct_metrics": [
+      "revenue",
+      "gross_profit",
+      "operating_profit",
+      "finance_cost",
+      "profit_before_tax",
+      "tax_expense",
+      "profit_after_tax_attributable",
+      "basic_eps",
+      "operating_cash_flow",
+      "capital_expenditure",
+      "net_cash_from_investing_activities",
+      "net_cash_from_financing_activities",
+      "dividends_paid",
+      "cash_and_cash_equivalents",
+      "trade_receivables",
+      "inventories",
+      "total_current_assets",
+      "property_plant_equipment",
+      "total_assets",
+      "short_term_borrowings",
+      "long_term_borrowings",
+      "trade_payables",
+      "total_equity"
+     ],
+     "derived_metric_lineage": {
+      "ebitda": "reported_ebitda OR operating_profit + depreciation_amortization",
+      "free_cash_flow": "operating_cash_flow + capital_expenditure (reported signed cash-flow value)"
+     }
+    },
+    "reported_quarter": {
+     "required": 8,
+     "present": 0,
+     "qualified_periods": [],
+     "direct_flow_statement_periods": [],
+     "direct_balance_sheet_periods": [],
+     "derived_ebitda_periods": [],
+     "derived_free_cash_flow_periods": [],
+     "required_direct_metrics": [
+      "revenue",
+      "gross_profit",
+      "operating_profit",
+      "finance_cost",
+      "profit_before_tax",
+      "tax_expense",
+      "profit_after_tax_attributable",
+      "basic_eps",
+      "operating_cash_flow",
+      "capital_expenditure",
+      "net_cash_from_investing_activities",
+      "net_cash_from_financing_activities",
+      "dividends_paid",
+      "cash_and_cash_equivalents",
+      "trade_receivables",
+      "inventories",
+      "total_current_assets",
+      "property_plant_equipment",
+      "total_assets",
+      "short_term_borrowings",
+      "long_term_borrowings",
+      "trade_payables",
+      "total_equity"
+     ],
+     "derived_metric_lineage": {
+      "ebitda": "reported_ebitda OR operating_profit + depreciation_amortization",
+      "free_cash_flow": "operating_cash_flow + capital_expenditure (reported signed cash-flow value)"
+     }
+    },
+    "limitation": "This is the authoritative full-statement gate. Legacy three-line counters remain visibility-only and cannot activate formal engines."
    },
    "share_count": {
     "status": "missing_official_share_count_capital_note_tie_out",
@@ -651,7 +1094,7 @@
    },
    "financial_tie_out": {
     "status": "blocked",
-    "reason": "requires five qualified annual income triplets, eight qualified reported-quarter fact sets, five qualified annual operating-cash-flow periods, an official share-count capital-note tie-out, and no unresolved conflicts"
+    "reason": "requires five annual and eight direct reported-quarter full-statement schedules, deterministic EBITDA/FCF operand lineage, an official share-count capital-note tie-out, and no unresolved canonical conflicts"
    },
    "operating_lane": {
     "status": "not_applicable",
@@ -673,6 +1116,18 @@
     {
      "requirement": "qualified_annual_operating_cash_flow",
      "required": 5,
+     "present": 0,
+     "status": "blocked"
+    },
+    {
+     "requirement": "qualified_annual_financial_statement_schedules",
+     "required": 5,
+     "present": 0,
+     "status": "blocked"
+    },
+    {
+     "requirement": "qualified_reported_quarter_financial_statement_schedules",
+     "required": 8,
      "present": 0,
      "status": "blocked"
     },
@@ -768,7 +1223,7 @@
   "UBL": {
    "symbol": "UBL",
    "status": "not_qualified",
-   "qualification_scope": "retained_reported_financial_truth",
+   "qualification_scope": "retained_reported_model_ready_financial_truth",
    "annual_income_triplets": {
     "required": 5,
     "present": 0,
@@ -785,12 +1240,91 @@
      "2026-03-31",
      "2025-09-30"
     ],
-    "limitation": "Document metadata proves a retained official reporting period, not parsed qualified quarterly financial facts and does not satisfy the eight-quarter gate."
+    "limitation": "Document metadata proves a retained official reporting period, not parsed qualified quarterly financial facts and does not satisfy any financial-truth gate."
    },
    "annual_operating_cash_flow": {
     "required": 5,
     "present": 0,
     "qualified_periods": []
+   },
+   "model_ready_financial_statement_coverage": {
+    "annual": {
+     "required": 5,
+     "present": 0,
+     "qualified_periods": [],
+     "direct_flow_statement_periods": [],
+     "direct_balance_sheet_periods": [],
+     "derived_ebitda_periods": [],
+     "derived_free_cash_flow_periods": [],
+     "required_direct_metrics": [
+      "revenue",
+      "gross_profit",
+      "operating_profit",
+      "finance_cost",
+      "profit_before_tax",
+      "tax_expense",
+      "profit_after_tax_attributable",
+      "basic_eps",
+      "operating_cash_flow",
+      "capital_expenditure",
+      "net_cash_from_investing_activities",
+      "net_cash_from_financing_activities",
+      "dividends_paid",
+      "cash_and_cash_equivalents",
+      "trade_receivables",
+      "inventories",
+      "total_current_assets",
+      "property_plant_equipment",
+      "total_assets",
+      "short_term_borrowings",
+      "long_term_borrowings",
+      "trade_payables",
+      "total_equity"
+     ],
+     "derived_metric_lineage": {
+      "ebitda": "reported_ebitda OR operating_profit + depreciation_amortization",
+      "free_cash_flow": "operating_cash_flow + capital_expenditure (reported signed cash-flow value)"
+     }
+    },
+    "reported_quarter": {
+     "required": 8,
+     "present": 0,
+     "qualified_periods": [],
+     "direct_flow_statement_periods": [],
+     "direct_balance_sheet_periods": [],
+     "derived_ebitda_periods": [],
+     "derived_free_cash_flow_periods": [],
+     "required_direct_metrics": [
+      "revenue",
+      "gross_profit",
+      "operating_profit",
+      "finance_cost",
+      "profit_before_tax",
+      "tax_expense",
+      "profit_after_tax_attributable",
+      "basic_eps",
+      "operating_cash_flow",
+      "capital_expenditure",
+      "net_cash_from_investing_activities",
+      "net_cash_from_financing_activities",
+      "dividends_paid",
+      "cash_and_cash_equivalents",
+      "trade_receivables",
+      "inventories",
+      "total_current_assets",
+      "property_plant_equipment",
+      "total_assets",
+      "short_term_borrowings",
+      "long_term_borrowings",
+      "trade_payables",
+      "total_equity"
+     ],
+     "derived_metric_lineage": {
+      "ebitda": "reported_ebitda OR operating_profit + depreciation_amortization",
+      "free_cash_flow": "operating_cash_flow + capital_expenditure (reported signed cash-flow value)"
+     }
+    },
+    "limitation": "This is the authoritative full-statement gate. Legacy three-line counters remain visibility-only and cannot activate formal engines."
    },
    "share_count": {
     "status": "missing_official_share_count_capital_note_tie_out",
@@ -799,7 +1333,7 @@
    },
    "financial_tie_out": {
     "status": "blocked",
-    "reason": "requires five qualified annual income triplets, eight qualified reported-quarter fact sets, five qualified annual operating-cash-flow periods, an official share-count capital-note tie-out, and no unresolved conflicts"
+    "reason": "requires five annual and eight direct reported-quarter full-statement schedules, deterministic EBITDA/FCF operand lineage, an official share-count capital-note tie-out, and no unresolved canonical conflicts"
    },
    "operating_lane": {
     "status": "not_applicable",
@@ -821,6 +1355,18 @@
     {
      "requirement": "qualified_annual_operating_cash_flow",
      "required": 5,
+     "present": 0,
+     "status": "blocked"
+    },
+    {
+     "requirement": "qualified_annual_financial_statement_schedules",
+     "required": 5,
+     "present": 0,
+     "status": "blocked"
+    },
+    {
+     "requirement": "qualified_reported_quarter_financial_statement_schedules",
+     "required": 8,
      "present": 0,
      "status": "blocked"
     },
@@ -906,7 +1452,7 @@
   "FFC": {
    "symbol": "FFC",
    "status": "not_qualified",
-   "qualification_scope": "retained_reported_financial_truth",
+   "qualification_scope": "retained_reported_model_ready_financial_truth",
    "annual_income_triplets": {
     "required": 5,
     "present": 0,
@@ -923,12 +1469,91 @@
      "2025-09-30",
      "2025-06-30"
     ],
-    "limitation": "Document metadata proves a retained official reporting period, not parsed qualified quarterly financial facts and does not satisfy the eight-quarter gate."
+    "limitation": "Document metadata proves a retained official reporting period, not parsed qualified quarterly financial facts and does not satisfy any financial-truth gate."
    },
    "annual_operating_cash_flow": {
     "required": 5,
     "present": 0,
     "qualified_periods": []
+   },
+   "model_ready_financial_statement_coverage": {
+    "annual": {
+     "required": 5,
+     "present": 0,
+     "qualified_periods": [],
+     "direct_flow_statement_periods": [],
+     "direct_balance_sheet_periods": [],
+     "derived_ebitda_periods": [],
+     "derived_free_cash_flow_periods": [],
+     "required_direct_metrics": [
+      "revenue",
+      "gross_profit",
+      "operating_profit",
+      "finance_cost",
+      "profit_before_tax",
+      "tax_expense",
+      "profit_after_tax_attributable",
+      "basic_eps",
+      "operating_cash_flow",
+      "capital_expenditure",
+      "net_cash_from_investing_activities",
+      "net_cash_from_financing_activities",
+      "dividends_paid",
+      "cash_and_cash_equivalents",
+      "trade_receivables",
+      "inventories",
+      "total_current_assets",
+      "property_plant_equipment",
+      "total_assets",
+      "short_term_borrowings",
+      "long_term_borrowings",
+      "trade_payables",
+      "total_equity"
+     ],
+     "derived_metric_lineage": {
+      "ebitda": "reported_ebitda OR operating_profit + depreciation_amortization",
+      "free_cash_flow": "operating_cash_flow + capital_expenditure (reported signed cash-flow value)"
+     }
+    },
+    "reported_quarter": {
+     "required": 8,
+     "present": 0,
+     "qualified_periods": [],
+     "direct_flow_statement_periods": [],
+     "direct_balance_sheet_periods": [],
+     "derived_ebitda_periods": [],
+     "derived_free_cash_flow_periods": [],
+     "required_direct_metrics": [
+      "revenue",
+      "gross_profit",
+      "operating_profit",
+      "finance_cost",
+      "profit_before_tax",
+      "tax_expense",
+      "profit_after_tax_attributable",
+      "basic_eps",
+      "operating_cash_flow",
+      "capital_expenditure",
+      "net_cash_from_investing_activities",
+      "net_cash_from_financing_activities",
+      "dividends_paid",
+      "cash_and_cash_equivalents",
+      "trade_receivables",
+      "inventories",
+      "total_current_assets",
+      "property_plant_equipment",
+      "total_assets",
+      "short_term_borrowings",
+      "long_term_borrowings",
+      "trade_payables",
+      "total_equity"
+     ],
+     "derived_metric_lineage": {
+      "ebitda": "reported_ebitda OR operating_profit + depreciation_amortization",
+      "free_cash_flow": "operating_cash_flow + capital_expenditure (reported signed cash-flow value)"
+     }
+    },
+    "limitation": "This is the authoritative full-statement gate. Legacy three-line counters remain visibility-only and cannot activate formal engines."
    },
    "share_count": {
     "status": "missing_official_share_count_capital_note_tie_out",
@@ -937,7 +1562,7 @@
    },
    "financial_tie_out": {
     "status": "blocked",
-    "reason": "requires five qualified annual income triplets, eight qualified reported-quarter fact sets, five qualified annual operating-cash-flow periods, an official share-count capital-note tie-out, and no unresolved conflicts"
+    "reason": "requires five annual and eight direct reported-quarter full-statement schedules, deterministic EBITDA/FCF operand lineage, an official share-count capital-note tie-out, and no unresolved canonical conflicts"
    },
    "operating_lane": {
     "status": "not_applicable",
@@ -959,6 +1584,18 @@
     {
      "requirement": "qualified_annual_operating_cash_flow",
      "required": 5,
+     "present": 0,
+     "status": "blocked"
+    },
+    {
+     "requirement": "qualified_annual_financial_statement_schedules",
+     "required": 5,
+     "present": 0,
+     "status": "blocked"
+    },
+    {
+     "requirement": "qualified_reported_quarter_financial_statement_schedules",
+     "required": 8,
      "present": 0,
      "status": "blocked"
     },
@@ -1028,13 +1665,13 @@
     "valuation": "not_emitted",
     "market_expectations": "not_emitted"
    },
-   "candidate_rank": 7,
+   "candidate_rank": 6,
    "selection_status": "not_selected"
   },
   "LUCK": {
    "symbol": "LUCK",
    "status": "not_qualified",
-   "qualification_scope": "retained_reported_financial_truth",
+   "qualification_scope": "retained_reported_model_ready_financial_truth",
    "annual_income_triplets": {
     "required": 5,
     "present": 0,
@@ -1048,12 +1685,91 @@
    "documented_interim_metadata": {
     "present": 0,
     "documented_periods": [],
-    "limitation": "Document metadata proves a retained official reporting period, not parsed qualified quarterly financial facts and does not satisfy the eight-quarter gate."
+    "limitation": "Document metadata proves a retained official reporting period, not parsed qualified quarterly financial facts and does not satisfy any financial-truth gate."
    },
    "annual_operating_cash_flow": {
     "required": 5,
     "present": 0,
     "qualified_periods": []
+   },
+   "model_ready_financial_statement_coverage": {
+    "annual": {
+     "required": 5,
+     "present": 0,
+     "qualified_periods": [],
+     "direct_flow_statement_periods": [],
+     "direct_balance_sheet_periods": [],
+     "derived_ebitda_periods": [],
+     "derived_free_cash_flow_periods": [],
+     "required_direct_metrics": [
+      "revenue",
+      "gross_profit",
+      "operating_profit",
+      "finance_cost",
+      "profit_before_tax",
+      "tax_expense",
+      "profit_after_tax_attributable",
+      "basic_eps",
+      "operating_cash_flow",
+      "capital_expenditure",
+      "net_cash_from_investing_activities",
+      "net_cash_from_financing_activities",
+      "dividends_paid",
+      "cash_and_cash_equivalents",
+      "trade_receivables",
+      "inventories",
+      "total_current_assets",
+      "property_plant_equipment",
+      "total_assets",
+      "short_term_borrowings",
+      "long_term_borrowings",
+      "trade_payables",
+      "total_equity"
+     ],
+     "derived_metric_lineage": {
+      "ebitda": "reported_ebitda OR operating_profit + depreciation_amortization",
+      "free_cash_flow": "operating_cash_flow + capital_expenditure (reported signed cash-flow value)"
+     }
+    },
+    "reported_quarter": {
+     "required": 8,
+     "present": 0,
+     "qualified_periods": [],
+     "direct_flow_statement_periods": [],
+     "direct_balance_sheet_periods": [],
+     "derived_ebitda_periods": [],
+     "derived_free_cash_flow_periods": [],
+     "required_direct_metrics": [
+      "revenue",
+      "gross_profit",
+      "operating_profit",
+      "finance_cost",
+      "profit_before_tax",
+      "tax_expense",
+      "profit_after_tax_attributable",
+      "basic_eps",
+      "operating_cash_flow",
+      "capital_expenditure",
+      "net_cash_from_investing_activities",
+      "net_cash_from_financing_activities",
+      "dividends_paid",
+      "cash_and_cash_equivalents",
+      "trade_receivables",
+      "inventories",
+      "total_current_assets",
+      "property_plant_equipment",
+      "total_assets",
+      "short_term_borrowings",
+      "long_term_borrowings",
+      "trade_payables",
+      "total_equity"
+     ],
+     "derived_metric_lineage": {
+      "ebitda": "reported_ebitda OR operating_profit + depreciation_amortization",
+      "free_cash_flow": "operating_cash_flow + capital_expenditure (reported signed cash-flow value)"
+     }
+    },
+    "limitation": "This is the authoritative full-statement gate. Legacy three-line counters remain visibility-only and cannot activate formal engines."
    },
    "share_count": {
     "status": "missing_official_share_count_capital_note_tie_out",
@@ -1062,7 +1778,7 @@
    },
    "financial_tie_out": {
     "status": "blocked",
-    "reason": "requires five qualified annual income triplets, eight qualified reported-quarter fact sets, five qualified annual operating-cash-flow periods, an official share-count capital-note tie-out, and no unresolved conflicts"
+    "reason": "requires five annual and eight direct reported-quarter full-statement schedules, deterministic EBITDA/FCF operand lineage, an official share-count capital-note tie-out, and no unresolved canonical conflicts"
    },
    "operating_lane": {
     "status": "missing_retained_cement_operating_history",
@@ -1084,6 +1800,18 @@
     {
      "requirement": "qualified_annual_operating_cash_flow",
      "required": 5,
+     "present": 0,
+     "status": "blocked"
+    },
+    {
+     "requirement": "qualified_annual_financial_statement_schedules",
+     "required": 5,
+     "present": 0,
+     "status": "blocked"
+    },
+    {
+     "requirement": "qualified_reported_quarter_financial_statement_schedules",
+     "required": 8,
      "present": 0,
      "status": "blocked"
     },
@@ -1153,13 +1881,13 @@
     "valuation": "not_emitted",
     "market_expectations": "not_emitted"
    },
-   "candidate_rank": 11,
+   "candidate_rank": 10,
    "selection_status": "not_selected"
   },
   "HUBC": {
    "symbol": "HUBC",
    "status": "not_qualified",
-   "qualification_scope": "retained_reported_financial_truth",
+   "qualification_scope": "retained_reported_model_ready_financial_truth",
    "annual_income_triplets": {
     "required": 5,
     "present": 0,
@@ -1177,12 +1905,91 @@
      "2025-12-31",
      "2025-09-30"
     ],
-    "limitation": "Document metadata proves a retained official reporting period, not parsed qualified quarterly financial facts and does not satisfy the eight-quarter gate."
+    "limitation": "Document metadata proves a retained official reporting period, not parsed qualified quarterly financial facts and does not satisfy any financial-truth gate."
    },
    "annual_operating_cash_flow": {
     "required": 5,
     "present": 0,
     "qualified_periods": []
+   },
+   "model_ready_financial_statement_coverage": {
+    "annual": {
+     "required": 5,
+     "present": 0,
+     "qualified_periods": [],
+     "direct_flow_statement_periods": [],
+     "direct_balance_sheet_periods": [],
+     "derived_ebitda_periods": [],
+     "derived_free_cash_flow_periods": [],
+     "required_direct_metrics": [
+      "revenue",
+      "gross_profit",
+      "operating_profit",
+      "finance_cost",
+      "profit_before_tax",
+      "tax_expense",
+      "profit_after_tax_attributable",
+      "basic_eps",
+      "operating_cash_flow",
+      "capital_expenditure",
+      "net_cash_from_investing_activities",
+      "net_cash_from_financing_activities",
+      "dividends_paid",
+      "cash_and_cash_equivalents",
+      "trade_receivables",
+      "inventories",
+      "total_current_assets",
+      "property_plant_equipment",
+      "total_assets",
+      "short_term_borrowings",
+      "long_term_borrowings",
+      "trade_payables",
+      "total_equity"
+     ],
+     "derived_metric_lineage": {
+      "ebitda": "reported_ebitda OR operating_profit + depreciation_amortization",
+      "free_cash_flow": "operating_cash_flow + capital_expenditure (reported signed cash-flow value)"
+     }
+    },
+    "reported_quarter": {
+     "required": 8,
+     "present": 0,
+     "qualified_periods": [],
+     "direct_flow_statement_periods": [],
+     "direct_balance_sheet_periods": [],
+     "derived_ebitda_periods": [],
+     "derived_free_cash_flow_periods": [],
+     "required_direct_metrics": [
+      "revenue",
+      "gross_profit",
+      "operating_profit",
+      "finance_cost",
+      "profit_before_tax",
+      "tax_expense",
+      "profit_after_tax_attributable",
+      "basic_eps",
+      "operating_cash_flow",
+      "capital_expenditure",
+      "net_cash_from_investing_activities",
+      "net_cash_from_financing_activities",
+      "dividends_paid",
+      "cash_and_cash_equivalents",
+      "trade_receivables",
+      "inventories",
+      "total_current_assets",
+      "property_plant_equipment",
+      "total_assets",
+      "short_term_borrowings",
+      "long_term_borrowings",
+      "trade_payables",
+      "total_equity"
+     ],
+     "derived_metric_lineage": {
+      "ebitda": "reported_ebitda OR operating_profit + depreciation_amortization",
+      "free_cash_flow": "operating_cash_flow + capital_expenditure (reported signed cash-flow value)"
+     }
+    },
+    "limitation": "This is the authoritative full-statement gate. Legacy three-line counters remain visibility-only and cannot activate formal engines."
    },
    "share_count": {
     "status": "missing_official_share_count_capital_note_tie_out",
@@ -1191,7 +1998,7 @@
    },
    "financial_tie_out": {
     "status": "blocked",
-    "reason": "requires five qualified annual income triplets, eight qualified reported-quarter fact sets, five qualified annual operating-cash-flow periods, an official share-count capital-note tie-out, and no unresolved conflicts"
+    "reason": "requires five annual and eight direct reported-quarter full-statement schedules, deterministic EBITDA/FCF operand lineage, an official share-count capital-note tie-out, and no unresolved canonical conflicts"
    },
    "operating_lane": {
     "status": "not_applicable",
@@ -1213,6 +2020,18 @@
     {
      "requirement": "qualified_annual_operating_cash_flow",
      "required": 5,
+     "present": 0,
+     "status": "blocked"
+    },
+    {
+     "requirement": "qualified_annual_financial_statement_schedules",
+     "required": 5,
+     "present": 0,
+     "status": "blocked"
+    },
+    {
+     "requirement": "qualified_reported_quarter_financial_statement_schedules",
+     "required": 8,
      "present": 0,
      "status": "blocked"
     },
@@ -1302,13 +2121,13 @@
     "valuation": "not_emitted",
     "market_expectations": "not_emitted"
    },
-   "candidate_rank": 10,
+   "candidate_rank": 9,
    "selection_status": "not_selected"
   },
   "PRL": {
    "symbol": "PRL",
    "status": "not_qualified",
-   "qualification_scope": "retained_reported_financial_truth",
+   "qualification_scope": "retained_reported_model_ready_financial_truth",
    "annual_income_triplets": {
     "required": 5,
     "present": 0,
@@ -1326,12 +2145,91 @@
      "2025-12-31",
      "2025-09-30"
     ],
-    "limitation": "Document metadata proves a retained official reporting period, not parsed qualified quarterly financial facts and does not satisfy the eight-quarter gate."
+    "limitation": "Document metadata proves a retained official reporting period, not parsed qualified quarterly financial facts and does not satisfy any financial-truth gate."
    },
    "annual_operating_cash_flow": {
     "required": 5,
     "present": 0,
     "qualified_periods": []
+   },
+   "model_ready_financial_statement_coverage": {
+    "annual": {
+     "required": 5,
+     "present": 0,
+     "qualified_periods": [],
+     "direct_flow_statement_periods": [],
+     "direct_balance_sheet_periods": [],
+     "derived_ebitda_periods": [],
+     "derived_free_cash_flow_periods": [],
+     "required_direct_metrics": [
+      "revenue",
+      "gross_profit",
+      "operating_profit",
+      "finance_cost",
+      "profit_before_tax",
+      "tax_expense",
+      "profit_after_tax_attributable",
+      "basic_eps",
+      "operating_cash_flow",
+      "capital_expenditure",
+      "net_cash_from_investing_activities",
+      "net_cash_from_financing_activities",
+      "dividends_paid",
+      "cash_and_cash_equivalents",
+      "trade_receivables",
+      "inventories",
+      "total_current_assets",
+      "property_plant_equipment",
+      "total_assets",
+      "short_term_borrowings",
+      "long_term_borrowings",
+      "trade_payables",
+      "total_equity"
+     ],
+     "derived_metric_lineage": {
+      "ebitda": "reported_ebitda OR operating_profit + depreciation_amortization",
+      "free_cash_flow": "operating_cash_flow + capital_expenditure (reported signed cash-flow value)"
+     }
+    },
+    "reported_quarter": {
+     "required": 8,
+     "present": 0,
+     "qualified_periods": [],
+     "direct_flow_statement_periods": [],
+     "direct_balance_sheet_periods": [],
+     "derived_ebitda_periods": [],
+     "derived_free_cash_flow_periods": [],
+     "required_direct_metrics": [
+      "revenue",
+      "gross_profit",
+      "operating_profit",
+      "finance_cost",
+      "profit_before_tax",
+      "tax_expense",
+      "profit_after_tax_attributable",
+      "basic_eps",
+      "operating_cash_flow",
+      "capital_expenditure",
+      "net_cash_from_investing_activities",
+      "net_cash_from_financing_activities",
+      "dividends_paid",
+      "cash_and_cash_equivalents",
+      "trade_receivables",
+      "inventories",
+      "total_current_assets",
+      "property_plant_equipment",
+      "total_assets",
+      "short_term_borrowings",
+      "long_term_borrowings",
+      "trade_payables",
+      "total_equity"
+     ],
+     "derived_metric_lineage": {
+      "ebitda": "reported_ebitda OR operating_profit + depreciation_amortization",
+      "free_cash_flow": "operating_cash_flow + capital_expenditure (reported signed cash-flow value)"
+     }
+    },
+    "limitation": "This is the authoritative full-statement gate. Legacy three-line counters remain visibility-only and cannot activate formal engines."
    },
    "share_count": {
     "status": "missing_official_share_count_capital_note_tie_out",
@@ -1340,7 +2238,7 @@
    },
    "financial_tie_out": {
     "status": "blocked",
-    "reason": "requires five qualified annual income triplets, eight qualified reported-quarter fact sets, five qualified annual operating-cash-flow periods, an official share-count capital-note tie-out, and no unresolved conflicts"
+    "reason": "requires five annual and eight direct reported-quarter full-statement schedules, deterministic EBITDA/FCF operand lineage, an official share-count capital-note tie-out, and no unresolved canonical conflicts"
    },
    "operating_lane": {
     "status": "not_applicable",
@@ -1362,6 +2260,18 @@
     {
      "requirement": "qualified_annual_operating_cash_flow",
      "required": 5,
+     "present": 0,
+     "status": "blocked"
+    },
+    {
+     "requirement": "qualified_annual_financial_statement_schedules",
+     "required": 5,
+     "present": 0,
+     "status": "blocked"
+    },
+    {
+     "requirement": "qualified_reported_quarter_financial_statement_schedules",
+     "required": 8,
      "present": 0,
      "status": "blocked"
     },
@@ -1457,7 +2367,7 @@
   "BOP": {
    "symbol": "BOP",
    "status": "not_qualified",
-   "qualification_scope": "retained_reported_financial_truth",
+   "qualification_scope": "retained_reported_model_ready_financial_truth",
    "annual_income_triplets": {
     "required": 5,
     "present": 0,
@@ -1475,12 +2385,91 @@
      "2025-09-30",
      "2025-06-30"
     ],
-    "limitation": "Document metadata proves a retained official reporting period, not parsed qualified quarterly financial facts and does not satisfy the eight-quarter gate."
+    "limitation": "Document metadata proves a retained official reporting period, not parsed qualified quarterly financial facts and does not satisfy any financial-truth gate."
    },
    "annual_operating_cash_flow": {
     "required": 5,
     "present": 0,
     "qualified_periods": []
+   },
+   "model_ready_financial_statement_coverage": {
+    "annual": {
+     "required": 5,
+     "present": 0,
+     "qualified_periods": [],
+     "direct_flow_statement_periods": [],
+     "direct_balance_sheet_periods": [],
+     "derived_ebitda_periods": [],
+     "derived_free_cash_flow_periods": [],
+     "required_direct_metrics": [
+      "revenue",
+      "gross_profit",
+      "operating_profit",
+      "finance_cost",
+      "profit_before_tax",
+      "tax_expense",
+      "profit_after_tax_attributable",
+      "basic_eps",
+      "operating_cash_flow",
+      "capital_expenditure",
+      "net_cash_from_investing_activities",
+      "net_cash_from_financing_activities",
+      "dividends_paid",
+      "cash_and_cash_equivalents",
+      "trade_receivables",
+      "inventories",
+      "total_current_assets",
+      "property_plant_equipment",
+      "total_assets",
+      "short_term_borrowings",
+      "long_term_borrowings",
+      "trade_payables",
+      "total_equity"
+     ],
+     "derived_metric_lineage": {
+      "ebitda": "reported_ebitda OR operating_profit + depreciation_amortization",
+      "free_cash_flow": "operating_cash_flow + capital_expenditure (reported signed cash-flow value)"
+     }
+    },
+    "reported_quarter": {
+     "required": 8,
+     "present": 0,
+     "qualified_periods": [],
+     "direct_flow_statement_periods": [],
+     "direct_balance_sheet_periods": [],
+     "derived_ebitda_periods": [],
+     "derived_free_cash_flow_periods": [],
+     "required_direct_metrics": [
+      "revenue",
+      "gross_profit",
+      "operating_profit",
+      "finance_cost",
+      "profit_before_tax",
+      "tax_expense",
+      "profit_after_tax_attributable",
+      "basic_eps",
+      "operating_cash_flow",
+      "capital_expenditure",
+      "net_cash_from_investing_activities",
+      "net_cash_from_financing_activities",
+      "dividends_paid",
+      "cash_and_cash_equivalents",
+      "trade_receivables",
+      "inventories",
+      "total_current_assets",
+      "property_plant_equipment",
+      "total_assets",
+      "short_term_borrowings",
+      "long_term_borrowings",
+      "trade_payables",
+      "total_equity"
+     ],
+     "derived_metric_lineage": {
+      "ebitda": "reported_ebitda OR operating_profit + depreciation_amortization",
+      "free_cash_flow": "operating_cash_flow + capital_expenditure (reported signed cash-flow value)"
+     }
+    },
+    "limitation": "This is the authoritative full-statement gate. Legacy three-line counters remain visibility-only and cannot activate formal engines."
    },
    "share_count": {
     "status": "missing_official_share_count_capital_note_tie_out",
@@ -1489,7 +2478,7 @@
    },
    "financial_tie_out": {
     "status": "blocked",
-    "reason": "requires five qualified annual income triplets, eight qualified reported-quarter fact sets, five qualified annual operating-cash-flow periods, an official share-count capital-note tie-out, and no unresolved conflicts"
+    "reason": "requires five annual and eight direct reported-quarter full-statement schedules, deterministic EBITDA/FCF operand lineage, an official share-count capital-note tie-out, and no unresolved canonical conflicts"
    },
    "operating_lane": {
     "status": "not_applicable",
@@ -1511,6 +2500,18 @@
     {
      "requirement": "qualified_annual_operating_cash_flow",
      "required": 5,
+     "present": 0,
+     "status": "blocked"
+    },
+    {
+     "requirement": "qualified_annual_financial_statement_schedules",
+     "required": 5,
+     "present": 0,
+     "status": "blocked"
+    },
+    {
+     "requirement": "qualified_reported_quarter_financial_statement_schedules",
+     "required": 8,
      "present": 0,
      "status": "blocked"
     },
@@ -1590,13 +2591,13 @@
     "valuation": "not_emitted",
     "market_expectations": "not_emitted"
    },
-   "candidate_rank": 4,
+   "candidate_rank": 3,
    "selection_status": "not_selected"
   },
   "NBP": {
    "symbol": "NBP",
    "status": "not_qualified",
-   "qualification_scope": "retained_reported_financial_truth",
+   "qualification_scope": "retained_reported_model_ready_financial_truth",
    "annual_income_triplets": {
     "required": 5,
     "present": 0,
@@ -1614,12 +2615,91 @@
      "2025-09-30",
      "2025-06-30"
     ],
-    "limitation": "Document metadata proves a retained official reporting period, not parsed qualified quarterly financial facts and does not satisfy the eight-quarter gate."
+    "limitation": "Document metadata proves a retained official reporting period, not parsed qualified quarterly financial facts and does not satisfy any financial-truth gate."
    },
    "annual_operating_cash_flow": {
     "required": 5,
     "present": 0,
     "qualified_periods": []
+   },
+   "model_ready_financial_statement_coverage": {
+    "annual": {
+     "required": 5,
+     "present": 0,
+     "qualified_periods": [],
+     "direct_flow_statement_periods": [],
+     "direct_balance_sheet_periods": [],
+     "derived_ebitda_periods": [],
+     "derived_free_cash_flow_periods": [],
+     "required_direct_metrics": [
+      "revenue",
+      "gross_profit",
+      "operating_profit",
+      "finance_cost",
+      "profit_before_tax",
+      "tax_expense",
+      "profit_after_tax_attributable",
+      "basic_eps",
+      "operating_cash_flow",
+      "capital_expenditure",
+      "net_cash_from_investing_activities",
+      "net_cash_from_financing_activities",
+      "dividends_paid",
+      "cash_and_cash_equivalents",
+      "trade_receivables",
+      "inventories",
+      "total_current_assets",
+      "property_plant_equipment",
+      "total_assets",
+      "short_term_borrowings",
+      "long_term_borrowings",
+      "trade_payables",
+      "total_equity"
+     ],
+     "derived_metric_lineage": {
+      "ebitda": "reported_ebitda OR operating_profit + depreciation_amortization",
+      "free_cash_flow": "operating_cash_flow + capital_expenditure (reported signed cash-flow value)"
+     }
+    },
+    "reported_quarter": {
+     "required": 8,
+     "present": 0,
+     "qualified_periods": [],
+     "direct_flow_statement_periods": [],
+     "direct_balance_sheet_periods": [],
+     "derived_ebitda_periods": [],
+     "derived_free_cash_flow_periods": [],
+     "required_direct_metrics": [
+      "revenue",
+      "gross_profit",
+      "operating_profit",
+      "finance_cost",
+      "profit_before_tax",
+      "tax_expense",
+      "profit_after_tax_attributable",
+      "basic_eps",
+      "operating_cash_flow",
+      "capital_expenditure",
+      "net_cash_from_investing_activities",
+      "net_cash_from_financing_activities",
+      "dividends_paid",
+      "cash_and_cash_equivalents",
+      "trade_receivables",
+      "inventories",
+      "total_current_assets",
+      "property_plant_equipment",
+      "total_assets",
+      "short_term_borrowings",
+      "long_term_borrowings",
+      "trade_payables",
+      "total_equity"
+     ],
+     "derived_metric_lineage": {
+      "ebitda": "reported_ebitda OR operating_profit + depreciation_amortization",
+      "free_cash_flow": "operating_cash_flow + capital_expenditure (reported signed cash-flow value)"
+     }
+    },
+    "limitation": "This is the authoritative full-statement gate. Legacy three-line counters remain visibility-only and cannot activate formal engines."
    },
    "share_count": {
     "status": "missing_official_share_count_capital_note_tie_out",
@@ -1628,7 +2708,7 @@
    },
    "financial_tie_out": {
     "status": "blocked",
-    "reason": "requires five qualified annual income triplets, eight qualified reported-quarter fact sets, five qualified annual operating-cash-flow periods, an official share-count capital-note tie-out, and no unresolved conflicts"
+    "reason": "requires five annual and eight direct reported-quarter full-statement schedules, deterministic EBITDA/FCF operand lineage, an official share-count capital-note tie-out, and no unresolved canonical conflicts"
    },
    "operating_lane": {
     "status": "not_applicable",
@@ -1650,6 +2730,18 @@
     {
      "requirement": "qualified_annual_operating_cash_flow",
      "required": 5,
+     "present": 0,
+     "status": "blocked"
+    },
+    {
+     "requirement": "qualified_annual_financial_statement_schedules",
+     "required": 5,
+     "present": 0,
+     "status": "blocked"
+    },
+    {
+     "requirement": "qualified_reported_quarter_financial_statement_schedules",
+     "required": 8,
      "present": 0,
      "status": "blocked"
     },
@@ -1745,7 +2837,7 @@
   "MEBL": {
    "symbol": "MEBL",
    "status": "not_qualified",
-   "qualification_scope": "retained_reported_financial_truth",
+   "qualification_scope": "retained_reported_model_ready_financial_truth",
    "annual_income_triplets": {
     "required": 5,
     "present": 0,
@@ -1764,12 +2856,91 @@
      "2025-09-30",
      "2025-06-30"
     ],
-    "limitation": "Document metadata proves a retained official reporting period, not parsed qualified quarterly financial facts and does not satisfy the eight-quarter gate."
+    "limitation": "Document metadata proves a retained official reporting period, not parsed qualified quarterly financial facts and does not satisfy any financial-truth gate."
    },
    "annual_operating_cash_flow": {
     "required": 5,
     "present": 0,
     "qualified_periods": []
+   },
+   "model_ready_financial_statement_coverage": {
+    "annual": {
+     "required": 5,
+     "present": 0,
+     "qualified_periods": [],
+     "direct_flow_statement_periods": [],
+     "direct_balance_sheet_periods": [],
+     "derived_ebitda_periods": [],
+     "derived_free_cash_flow_periods": [],
+     "required_direct_metrics": [
+      "revenue",
+      "gross_profit",
+      "operating_profit",
+      "finance_cost",
+      "profit_before_tax",
+      "tax_expense",
+      "profit_after_tax_attributable",
+      "basic_eps",
+      "operating_cash_flow",
+      "capital_expenditure",
+      "net_cash_from_investing_activities",
+      "net_cash_from_financing_activities",
+      "dividends_paid",
+      "cash_and_cash_equivalents",
+      "trade_receivables",
+      "inventories",
+      "total_current_assets",
+      "property_plant_equipment",
+      "total_assets",
+      "short_term_borrowings",
+      "long_term_borrowings",
+      "trade_payables",
+      "total_equity"
+     ],
+     "derived_metric_lineage": {
+      "ebitda": "reported_ebitda OR operating_profit + depreciation_amortization",
+      "free_cash_flow": "operating_cash_flow + capital_expenditure (reported signed cash-flow value)"
+     }
+    },
+    "reported_quarter": {
+     "required": 8,
+     "present": 0,
+     "qualified_periods": [],
+     "direct_flow_statement_periods": [],
+     "direct_balance_sheet_periods": [],
+     "derived_ebitda_periods": [],
+     "derived_free_cash_flow_periods": [],
+     "required_direct_metrics": [
+      "revenue",
+      "gross_profit",
+      "operating_profit",
+      "finance_cost",
+      "profit_before_tax",
+      "tax_expense",
+      "profit_after_tax_attributable",
+      "basic_eps",
+      "operating_cash_flow",
+      "capital_expenditure",
+      "net_cash_from_investing_activities",
+      "net_cash_from_financing_activities",
+      "dividends_paid",
+      "cash_and_cash_equivalents",
+      "trade_receivables",
+      "inventories",
+      "total_current_assets",
+      "property_plant_equipment",
+      "total_assets",
+      "short_term_borrowings",
+      "long_term_borrowings",
+      "trade_payables",
+      "total_equity"
+     ],
+     "derived_metric_lineage": {
+      "ebitda": "reported_ebitda OR operating_profit + depreciation_amortization",
+      "free_cash_flow": "operating_cash_flow + capital_expenditure (reported signed cash-flow value)"
+     }
+    },
+    "limitation": "This is the authoritative full-statement gate. Legacy three-line counters remain visibility-only and cannot activate formal engines."
    },
    "share_count": {
     "status": "missing_official_share_count_capital_note_tie_out",
@@ -1778,7 +2949,7 @@
    },
    "financial_tie_out": {
     "status": "blocked",
-    "reason": "requires five qualified annual income triplets, eight qualified reported-quarter fact sets, five qualified annual operating-cash-flow periods, an official share-count capital-note tie-out, and no unresolved conflicts"
+    "reason": "requires five annual and eight direct reported-quarter full-statement schedules, deterministic EBITDA/FCF operand lineage, an official share-count capital-note tie-out, and no unresolved canonical conflicts"
    },
    "operating_lane": {
     "status": "not_applicable",
@@ -1800,6 +2971,18 @@
     {
      "requirement": "qualified_annual_operating_cash_flow",
      "required": 5,
+     "present": 0,
+     "status": "blocked"
+    },
+    {
+     "requirement": "qualified_annual_financial_statement_schedules",
+     "required": 5,
+     "present": 0,
+     "status": "blocked"
+    },
+    {
+     "requirement": "qualified_reported_quarter_financial_statement_schedules",
+     "required": 8,
      "present": 0,
      "status": "blocked"
     },
@@ -1889,13 +3072,13 @@
     "valuation": "not_emitted",
     "market_expectations": "not_emitted"
    },
-   "candidate_rank": 13,
+   "candidate_rank": 12,
    "selection_status": "not_selected"
   },
   "ATRL": {
    "symbol": "ATRL",
    "status": "not_qualified",
-   "qualification_scope": "retained_reported_financial_truth",
+   "qualification_scope": "retained_reported_model_ready_financial_truth",
    "annual_income_triplets": {
     "required": 5,
     "present": 0,
@@ -1913,12 +3096,91 @@
      "2025-12-31",
      "2025-09-30"
     ],
-    "limitation": "Document metadata proves a retained official reporting period, not parsed qualified quarterly financial facts and does not satisfy the eight-quarter gate."
+    "limitation": "Document metadata proves a retained official reporting period, not parsed qualified quarterly financial facts and does not satisfy any financial-truth gate."
    },
    "annual_operating_cash_flow": {
     "required": 5,
     "present": 0,
     "qualified_periods": []
+   },
+   "model_ready_financial_statement_coverage": {
+    "annual": {
+     "required": 5,
+     "present": 0,
+     "qualified_periods": [],
+     "direct_flow_statement_periods": [],
+     "direct_balance_sheet_periods": [],
+     "derived_ebitda_periods": [],
+     "derived_free_cash_flow_periods": [],
+     "required_direct_metrics": [
+      "revenue",
+      "gross_profit",
+      "operating_profit",
+      "finance_cost",
+      "profit_before_tax",
+      "tax_expense",
+      "profit_after_tax_attributable",
+      "basic_eps",
+      "operating_cash_flow",
+      "capital_expenditure",
+      "net_cash_from_investing_activities",
+      "net_cash_from_financing_activities",
+      "dividends_paid",
+      "cash_and_cash_equivalents",
+      "trade_receivables",
+      "inventories",
+      "total_current_assets",
+      "property_plant_equipment",
+      "total_assets",
+      "short_term_borrowings",
+      "long_term_borrowings",
+      "trade_payables",
+      "total_equity"
+     ],
+     "derived_metric_lineage": {
+      "ebitda": "reported_ebitda OR operating_profit + depreciation_amortization",
+      "free_cash_flow": "operating_cash_flow + capital_expenditure (reported signed cash-flow value)"
+     }
+    },
+    "reported_quarter": {
+     "required": 8,
+     "present": 0,
+     "qualified_periods": [],
+     "direct_flow_statement_periods": [],
+     "direct_balance_sheet_periods": [],
+     "derived_ebitda_periods": [],
+     "derived_free_cash_flow_periods": [],
+     "required_direct_metrics": [
+      "revenue",
+      "gross_profit",
+      "operating_profit",
+      "finance_cost",
+      "profit_before_tax",
+      "tax_expense",
+      "profit_after_tax_attributable",
+      "basic_eps",
+      "operating_cash_flow",
+      "capital_expenditure",
+      "net_cash_from_investing_activities",
+      "net_cash_from_financing_activities",
+      "dividends_paid",
+      "cash_and_cash_equivalents",
+      "trade_receivables",
+      "inventories",
+      "total_current_assets",
+      "property_plant_equipment",
+      "total_assets",
+      "short_term_borrowings",
+      "long_term_borrowings",
+      "trade_payables",
+      "total_equity"
+     ],
+     "derived_metric_lineage": {
+      "ebitda": "reported_ebitda OR operating_profit + depreciation_amortization",
+      "free_cash_flow": "operating_cash_flow + capital_expenditure (reported signed cash-flow value)"
+     }
+    },
+    "limitation": "This is the authoritative full-statement gate. Legacy three-line counters remain visibility-only and cannot activate formal engines."
    },
    "share_count": {
     "status": "missing_official_share_count_capital_note_tie_out",
@@ -1927,7 +3189,7 @@
    },
    "financial_tie_out": {
     "status": "blocked",
-    "reason": "requires five qualified annual income triplets, eight qualified reported-quarter fact sets, five qualified annual operating-cash-flow periods, an official share-count capital-note tie-out, and no unresolved conflicts"
+    "reason": "requires five annual and eight direct reported-quarter full-statement schedules, deterministic EBITDA/FCF operand lineage, an official share-count capital-note tie-out, and no unresolved canonical conflicts"
    },
    "operating_lane": {
     "status": "not_applicable",
@@ -1949,6 +3211,18 @@
     {
      "requirement": "qualified_annual_operating_cash_flow",
      "required": 5,
+     "present": 0,
+     "status": "blocked"
+    },
+    {
+     "requirement": "qualified_annual_financial_statement_schedules",
+     "required": 5,
+     "present": 0,
+     "status": "blocked"
+    },
+    {
+     "requirement": "qualified_reported_quarter_financial_statement_schedules",
+     "required": 8,
      "present": 0,
      "status": "blocked"
     },
@@ -2028,13 +3302,13 @@
     "valuation": "not_emitted",
     "market_expectations": "not_emitted"
    },
-   "candidate_rank": 3,
+   "candidate_rank": 2,
    "selection_status": "not_selected"
   },
   "HBL": {
    "symbol": "HBL",
    "status": "not_qualified",
-   "qualification_scope": "retained_reported_financial_truth",
+   "qualification_scope": "retained_reported_model_ready_financial_truth",
    "annual_income_triplets": {
     "required": 5,
     "present": 0,
@@ -2053,12 +3327,91 @@
      "2025-09-30",
      "2025-06-30"
     ],
-    "limitation": "Document metadata proves a retained official reporting period, not parsed qualified quarterly financial facts and does not satisfy the eight-quarter gate."
+    "limitation": "Document metadata proves a retained official reporting period, not parsed qualified quarterly financial facts and does not satisfy any financial-truth gate."
    },
    "annual_operating_cash_flow": {
     "required": 5,
     "present": 0,
     "qualified_periods": []
+   },
+   "model_ready_financial_statement_coverage": {
+    "annual": {
+     "required": 5,
+     "present": 0,
+     "qualified_periods": [],
+     "direct_flow_statement_periods": [],
+     "direct_balance_sheet_periods": [],
+     "derived_ebitda_periods": [],
+     "derived_free_cash_flow_periods": [],
+     "required_direct_metrics": [
+      "revenue",
+      "gross_profit",
+      "operating_profit",
+      "finance_cost",
+      "profit_before_tax",
+      "tax_expense",
+      "profit_after_tax_attributable",
+      "basic_eps",
+      "operating_cash_flow",
+      "capital_expenditure",
+      "net_cash_from_investing_activities",
+      "net_cash_from_financing_activities",
+      "dividends_paid",
+      "cash_and_cash_equivalents",
+      "trade_receivables",
+      "inventories",
+      "total_current_assets",
+      "property_plant_equipment",
+      "total_assets",
+      "short_term_borrowings",
+      "long_term_borrowings",
+      "trade_payables",
+      "total_equity"
+     ],
+     "derived_metric_lineage": {
+      "ebitda": "reported_ebitda OR operating_profit + depreciation_amortization",
+      "free_cash_flow": "operating_cash_flow + capital_expenditure (reported signed cash-flow value)"
+     }
+    },
+    "reported_quarter": {
+     "required": 8,
+     "present": 0,
+     "qualified_periods": [],
+     "direct_flow_statement_periods": [],
+     "direct_balance_sheet_periods": [],
+     "derived_ebitda_periods": [],
+     "derived_free_cash_flow_periods": [],
+     "required_direct_metrics": [
+      "revenue",
+      "gross_profit",
+      "operating_profit",
+      "finance_cost",
+      "profit_before_tax",
+      "tax_expense",
+      "profit_after_tax_attributable",
+      "basic_eps",
+      "operating_cash_flow",
+      "capital_expenditure",
+      "net_cash_from_investing_activities",
+      "net_cash_from_financing_activities",
+      "dividends_paid",
+      "cash_and_cash_equivalents",
+      "trade_receivables",
+      "inventories",
+      "total_current_assets",
+      "property_plant_equipment",
+      "total_assets",
+      "short_term_borrowings",
+      "long_term_borrowings",
+      "trade_payables",
+      "total_equity"
+     ],
+     "derived_metric_lineage": {
+      "ebitda": "reported_ebitda OR operating_profit + depreciation_amortization",
+      "free_cash_flow": "operating_cash_flow + capital_expenditure (reported signed cash-flow value)"
+     }
+    },
+    "limitation": "This is the authoritative full-statement gate. Legacy three-line counters remain visibility-only and cannot activate formal engines."
    },
    "share_count": {
     "status": "missing_official_share_count_capital_note_tie_out",
@@ -2067,7 +3420,7 @@
    },
    "financial_tie_out": {
     "status": "blocked",
-    "reason": "requires five qualified annual income triplets, eight qualified reported-quarter fact sets, five qualified annual operating-cash-flow periods, an official share-count capital-note tie-out, and no unresolved conflicts"
+    "reason": "requires five annual and eight direct reported-quarter full-statement schedules, deterministic EBITDA/FCF operand lineage, an official share-count capital-note tie-out, and no unresolved canonical conflicts"
    },
    "operating_lane": {
     "status": "not_applicable",
@@ -2089,6 +3442,18 @@
     {
      "requirement": "qualified_annual_operating_cash_flow",
      "required": 5,
+     "present": 0,
+     "status": "blocked"
+    },
+    {
+     "requirement": "qualified_annual_financial_statement_schedules",
+     "required": 5,
+     "present": 0,
+     "status": "blocked"
+    },
+    {
+     "requirement": "qualified_reported_quarter_financial_statement_schedules",
+     "required": 8,
      "present": 0,
      "status": "blocked"
     },
@@ -2178,13 +3543,13 @@
     "valuation": "not_emitted",
     "market_expectations": "not_emitted"
    },
-   "candidate_rank": 9,
+   "candidate_rank": 8,
    "selection_status": "not_selected"
   },
   "MARI": {
    "symbol": "MARI",
    "status": "not_qualified",
-   "qualification_scope": "retained_reported_financial_truth",
+   "qualification_scope": "retained_reported_model_ready_financial_truth",
    "annual_income_triplets": {
     "required": 5,
     "present": 0,
@@ -2202,12 +3567,91 @@
      "2025-12-31",
      "2025-09-30"
     ],
-    "limitation": "Document metadata proves a retained official reporting period, not parsed qualified quarterly financial facts and does not satisfy the eight-quarter gate."
+    "limitation": "Document metadata proves a retained official reporting period, not parsed qualified quarterly financial facts and does not satisfy any financial-truth gate."
    },
    "annual_operating_cash_flow": {
     "required": 5,
     "present": 0,
     "qualified_periods": []
+   },
+   "model_ready_financial_statement_coverage": {
+    "annual": {
+     "required": 5,
+     "present": 0,
+     "qualified_periods": [],
+     "direct_flow_statement_periods": [],
+     "direct_balance_sheet_periods": [],
+     "derived_ebitda_periods": [],
+     "derived_free_cash_flow_periods": [],
+     "required_direct_metrics": [
+      "revenue",
+      "gross_profit",
+      "operating_profit",
+      "finance_cost",
+      "profit_before_tax",
+      "tax_expense",
+      "profit_after_tax_attributable",
+      "basic_eps",
+      "operating_cash_flow",
+      "capital_expenditure",
+      "net_cash_from_investing_activities",
+      "net_cash_from_financing_activities",
+      "dividends_paid",
+      "cash_and_cash_equivalents",
+      "trade_receivables",
+      "inventories",
+      "total_current_assets",
+      "property_plant_equipment",
+      "total_assets",
+      "short_term_borrowings",
+      "long_term_borrowings",
+      "trade_payables",
+      "total_equity"
+     ],
+     "derived_metric_lineage": {
+      "ebitda": "reported_ebitda OR operating_profit + depreciation_amortization",
+      "free_cash_flow": "operating_cash_flow + capital_expenditure (reported signed cash-flow value)"
+     }
+    },
+    "reported_quarter": {
+     "required": 8,
+     "present": 0,
+     "qualified_periods": [],
+     "direct_flow_statement_periods": [],
+     "direct_balance_sheet_periods": [],
+     "derived_ebitda_periods": [],
+     "derived_free_cash_flow_periods": [],
+     "required_direct_metrics": [
+      "revenue",
+      "gross_profit",
+      "operating_profit",
+      "finance_cost",
+      "profit_before_tax",
+      "tax_expense",
+      "profit_after_tax_attributable",
+      "basic_eps",
+      "operating_cash_flow",
+      "capital_expenditure",
+      "net_cash_from_investing_activities",
+      "net_cash_from_financing_activities",
+      "dividends_paid",
+      "cash_and_cash_equivalents",
+      "trade_receivables",
+      "inventories",
+      "total_current_assets",
+      "property_plant_equipment",
+      "total_assets",
+      "short_term_borrowings",
+      "long_term_borrowings",
+      "trade_payables",
+      "total_equity"
+     ],
+     "derived_metric_lineage": {
+      "ebitda": "reported_ebitda OR operating_profit + depreciation_amortization",
+      "free_cash_flow": "operating_cash_flow + capital_expenditure (reported signed cash-flow value)"
+     }
+    },
+    "limitation": "This is the authoritative full-statement gate. Legacy three-line counters remain visibility-only and cannot activate formal engines."
    },
    "share_count": {
     "status": "missing_official_share_count_capital_note_tie_out",
@@ -2216,7 +3660,7 @@
    },
    "financial_tie_out": {
     "status": "blocked",
-    "reason": "requires five qualified annual income triplets, eight qualified reported-quarter fact sets, five qualified annual operating-cash-flow periods, an official share-count capital-note tie-out, and no unresolved conflicts"
+    "reason": "requires five annual and eight direct reported-quarter full-statement schedules, deterministic EBITDA/FCF operand lineage, an official share-count capital-note tie-out, and no unresolved canonical conflicts"
    },
    "operating_lane": {
     "status": "not_applicable",
@@ -2238,6 +3682,18 @@
     {
      "requirement": "qualified_annual_operating_cash_flow",
      "required": 5,
+     "present": 0,
+     "status": "blocked"
+    },
+    {
+     "requirement": "qualified_annual_financial_statement_schedules",
+     "required": 5,
+     "present": 0,
+     "status": "blocked"
+    },
+    {
+     "requirement": "qualified_reported_quarter_financial_statement_schedules",
+     "required": 8,
      "present": 0,
      "status": "blocked"
     },
@@ -2322,13 +3778,13 @@
     "valuation": "not_emitted",
     "market_expectations": "not_emitted"
    },
-   "candidate_rank": 12,
+   "candidate_rank": 11,
    "selection_status": "not_selected"
   },
   "ENGROH": {
    "symbol": "ENGROH",
    "status": "not_qualified",
-   "qualification_scope": "retained_reported_financial_truth",
+   "qualification_scope": "retained_reported_model_ready_financial_truth",
    "annual_income_triplets": {
     "required": 5,
     "present": 0,
@@ -2347,12 +3803,91 @@
      "2025-09-30",
      "2025-06-30"
     ],
-    "limitation": "Document metadata proves a retained official reporting period, not parsed qualified quarterly financial facts and does not satisfy the eight-quarter gate."
+    "limitation": "Document metadata proves a retained official reporting period, not parsed qualified quarterly financial facts and does not satisfy any financial-truth gate."
    },
    "annual_operating_cash_flow": {
     "required": 5,
     "present": 0,
     "qualified_periods": []
+   },
+   "model_ready_financial_statement_coverage": {
+    "annual": {
+     "required": 5,
+     "present": 0,
+     "qualified_periods": [],
+     "direct_flow_statement_periods": [],
+     "direct_balance_sheet_periods": [],
+     "derived_ebitda_periods": [],
+     "derived_free_cash_flow_periods": [],
+     "required_direct_metrics": [
+      "revenue",
+      "gross_profit",
+      "operating_profit",
+      "finance_cost",
+      "profit_before_tax",
+      "tax_expense",
+      "profit_after_tax_attributable",
+      "basic_eps",
+      "operating_cash_flow",
+      "capital_expenditure",
+      "net_cash_from_investing_activities",
+      "net_cash_from_financing_activities",
+      "dividends_paid",
+      "cash_and_cash_equivalents",
+      "trade_receivables",
+      "inventories",
+      "total_current_assets",
+      "property_plant_equipment",
+      "total_assets",
+      "short_term_borrowings",
+      "long_term_borrowings",
+      "trade_payables",
+      "total_equity"
+     ],
+     "derived_metric_lineage": {
+      "ebitda": "reported_ebitda OR operating_profit + depreciation_amortization",
+      "free_cash_flow": "operating_cash_flow + capital_expenditure (reported signed cash-flow value)"
+     }
+    },
+    "reported_quarter": {
+     "required": 8,
+     "present": 0,
+     "qualified_periods": [],
+     "direct_flow_statement_periods": [],
+     "direct_balance_sheet_periods": [],
+     "derived_ebitda_periods": [],
+     "derived_free_cash_flow_periods": [],
+     "required_direct_metrics": [
+      "revenue",
+      "gross_profit",
+      "operating_profit",
+      "finance_cost",
+      "profit_before_tax",
+      "tax_expense",
+      "profit_after_tax_attributable",
+      "basic_eps",
+      "operating_cash_flow",
+      "capital_expenditure",
+      "net_cash_from_investing_activities",
+      "net_cash_from_financing_activities",
+      "dividends_paid",
+      "cash_and_cash_equivalents",
+      "trade_receivables",
+      "inventories",
+      "total_current_assets",
+      "property_plant_equipment",
+      "total_assets",
+      "short_term_borrowings",
+      "long_term_borrowings",
+      "trade_payables",
+      "total_equity"
+     ],
+     "derived_metric_lineage": {
+      "ebitda": "reported_ebitda OR operating_profit + depreciation_amortization",
+      "free_cash_flow": "operating_cash_flow + capital_expenditure (reported signed cash-flow value)"
+     }
+    },
+    "limitation": "This is the authoritative full-statement gate. Legacy three-line counters remain visibility-only and cannot activate formal engines."
    },
    "share_count": {
     "status": "missing_official_share_count_capital_note_tie_out",
@@ -2361,7 +3896,7 @@
    },
    "financial_tie_out": {
     "status": "blocked",
-    "reason": "requires five qualified annual income triplets, eight qualified reported-quarter fact sets, five qualified annual operating-cash-flow periods, an official share-count capital-note tie-out, and no unresolved conflicts"
+    "reason": "requires five annual and eight direct reported-quarter full-statement schedules, deterministic EBITDA/FCF operand lineage, an official share-count capital-note tie-out, and no unresolved canonical conflicts"
    },
    "operating_lane": {
     "status": "not_applicable",
@@ -2383,6 +3918,18 @@
     {
      "requirement": "qualified_annual_operating_cash_flow",
      "required": 5,
+     "present": 0,
+     "status": "blocked"
+    },
+    {
+     "requirement": "qualified_annual_financial_statement_schedules",
+     "required": 5,
+     "present": 0,
+     "status": "blocked"
+    },
+    {
+     "requirement": "qualified_reported_quarter_financial_statement_schedules",
+     "required": 8,
      "present": 0,
      "status": "blocked"
     },
@@ -2472,13 +4019,13 @@
     "valuation": "not_emitted",
     "market_expectations": "not_emitted"
    },
-   "candidate_rank": 6,
+   "candidate_rank": 5,
    "selection_status": "not_selected"
   },
   "GAL": {
    "symbol": "GAL",
    "status": "not_qualified",
-   "qualification_scope": "retained_reported_financial_truth",
+   "qualification_scope": "retained_reported_model_ready_financial_truth",
    "annual_income_triplets": {
     "required": 5,
     "present": 0,
@@ -2496,12 +4043,91 @@
      "2025-12-31",
      "2025-09-30"
     ],
-    "limitation": "Document metadata proves a retained official reporting period, not parsed qualified quarterly financial facts and does not satisfy the eight-quarter gate."
+    "limitation": "Document metadata proves a retained official reporting period, not parsed qualified quarterly financial facts and does not satisfy any financial-truth gate."
    },
    "annual_operating_cash_flow": {
     "required": 5,
     "present": 0,
     "qualified_periods": []
+   },
+   "model_ready_financial_statement_coverage": {
+    "annual": {
+     "required": 5,
+     "present": 0,
+     "qualified_periods": [],
+     "direct_flow_statement_periods": [],
+     "direct_balance_sheet_periods": [],
+     "derived_ebitda_periods": [],
+     "derived_free_cash_flow_periods": [],
+     "required_direct_metrics": [
+      "revenue",
+      "gross_profit",
+      "operating_profit",
+      "finance_cost",
+      "profit_before_tax",
+      "tax_expense",
+      "profit_after_tax_attributable",
+      "basic_eps",
+      "operating_cash_flow",
+      "capital_expenditure",
+      "net_cash_from_investing_activities",
+      "net_cash_from_financing_activities",
+      "dividends_paid",
+      "cash_and_cash_equivalents",
+      "trade_receivables",
+      "inventories",
+      "total_current_assets",
+      "property_plant_equipment",
+      "total_assets",
+      "short_term_borrowings",
+      "long_term_borrowings",
+      "trade_payables",
+      "total_equity"
+     ],
+     "derived_metric_lineage": {
+      "ebitda": "reported_ebitda OR operating_profit + depreciation_amortization",
+      "free_cash_flow": "operating_cash_flow + capital_expenditure (reported signed cash-flow value)"
+     }
+    },
+    "reported_quarter": {
+     "required": 8,
+     "present": 0,
+     "qualified_periods": [],
+     "direct_flow_statement_periods": [],
+     "direct_balance_sheet_periods": [],
+     "derived_ebitda_periods": [],
+     "derived_free_cash_flow_periods": [],
+     "required_direct_metrics": [
+      "revenue",
+      "gross_profit",
+      "operating_profit",
+      "finance_cost",
+      "profit_before_tax",
+      "tax_expense",
+      "profit_after_tax_attributable",
+      "basic_eps",
+      "operating_cash_flow",
+      "capital_expenditure",
+      "net_cash_from_investing_activities",
+      "net_cash_from_financing_activities",
+      "dividends_paid",
+      "cash_and_cash_equivalents",
+      "trade_receivables",
+      "inventories",
+      "total_current_assets",
+      "property_plant_equipment",
+      "total_assets",
+      "short_term_borrowings",
+      "long_term_borrowings",
+      "trade_payables",
+      "total_equity"
+     ],
+     "derived_metric_lineage": {
+      "ebitda": "reported_ebitda OR operating_profit + depreciation_amortization",
+      "free_cash_flow": "operating_cash_flow + capital_expenditure (reported signed cash-flow value)"
+     }
+    },
+    "limitation": "This is the authoritative full-statement gate. Legacy three-line counters remain visibility-only and cannot activate formal engines."
    },
    "share_count": {
     "status": "missing_official_share_count_capital_note_tie_out",
@@ -2510,7 +4136,7 @@
    },
    "financial_tie_out": {
     "status": "blocked",
-    "reason": "requires five qualified annual income triplets, eight qualified reported-quarter fact sets, five qualified annual operating-cash-flow periods, an official share-count capital-note tie-out, and no unresolved conflicts"
+    "reason": "requires five annual and eight direct reported-quarter full-statement schedules, deterministic EBITDA/FCF operand lineage, an official share-count capital-note tie-out, and no unresolved canonical conflicts"
    },
    "operating_lane": {
     "status": "not_applicable",
@@ -2532,6 +4158,18 @@
     {
      "requirement": "qualified_annual_operating_cash_flow",
      "required": 5,
+     "present": 0,
+     "status": "blocked"
+    },
+    {
+     "requirement": "qualified_annual_financial_statement_schedules",
+     "required": 5,
+     "present": 0,
+     "status": "blocked"
+    },
+    {
+     "requirement": "qualified_reported_quarter_financial_statement_schedules",
+     "required": 8,
      "present": 0,
      "status": "blocked"
     },
@@ -2621,13 +4259,13 @@
     "valuation": "not_emitted",
     "market_expectations": "not_emitted"
    },
-   "candidate_rank": 8,
+   "candidate_rank": 7,
    "selection_status": "not_selected"
   },
   "NRL": {
    "symbol": "NRL",
    "status": "not_qualified",
-   "qualification_scope": "retained_reported_financial_truth",
+   "qualification_scope": "retained_reported_model_ready_financial_truth",
    "annual_income_triplets": {
     "required": 5,
     "present": 0,
@@ -2645,12 +4283,91 @@
      "2025-12-31",
      "2025-09-30"
     ],
-    "limitation": "Document metadata proves a retained official reporting period, not parsed qualified quarterly financial facts and does not satisfy the eight-quarter gate."
+    "limitation": "Document metadata proves a retained official reporting period, not parsed qualified quarterly financial facts and does not satisfy any financial-truth gate."
    },
    "annual_operating_cash_flow": {
     "required": 5,
     "present": 0,
     "qualified_periods": []
+   },
+   "model_ready_financial_statement_coverage": {
+    "annual": {
+     "required": 5,
+     "present": 0,
+     "qualified_periods": [],
+     "direct_flow_statement_periods": [],
+     "direct_balance_sheet_periods": [],
+     "derived_ebitda_periods": [],
+     "derived_free_cash_flow_periods": [],
+     "required_direct_metrics": [
+      "revenue",
+      "gross_profit",
+      "operating_profit",
+      "finance_cost",
+      "profit_before_tax",
+      "tax_expense",
+      "profit_after_tax_attributable",
+      "basic_eps",
+      "operating_cash_flow",
+      "capital_expenditure",
+      "net_cash_from_investing_activities",
+      "net_cash_from_financing_activities",
+      "dividends_paid",
+      "cash_and_cash_equivalents",
+      "trade_receivables",
+      "inventories",
+      "total_current_assets",
+      "property_plant_equipment",
+      "total_assets",
+      "short_term_borrowings",
+      "long_term_borrowings",
+      "trade_payables",
+      "total_equity"
+     ],
+     "derived_metric_lineage": {
+      "ebitda": "reported_ebitda OR operating_profit + depreciation_amortization",
+      "free_cash_flow": "operating_cash_flow + capital_expenditure (reported signed cash-flow value)"
+     }
+    },
+    "reported_quarter": {
+     "required": 8,
+     "present": 0,
+     "qualified_periods": [],
+     "direct_flow_statement_periods": [],
+     "direct_balance_sheet_periods": [],
+     "derived_ebitda_periods": [],
+     "derived_free_cash_flow_periods": [],
+     "required_direct_metrics": [
+      "revenue",
+      "gross_profit",
+      "operating_profit",
+      "finance_cost",
+      "profit_before_tax",
+      "tax_expense",
+      "profit_after_tax_attributable",
+      "basic_eps",
+      "operating_cash_flow",
+      "capital_expenditure",
+      "net_cash_from_investing_activities",
+      "net_cash_from_financing_activities",
+      "dividends_paid",
+      "cash_and_cash_equivalents",
+      "trade_receivables",
+      "inventories",
+      "total_current_assets",
+      "property_plant_equipment",
+      "total_assets",
+      "short_term_borrowings",
+      "long_term_borrowings",
+      "trade_payables",
+      "total_equity"
+     ],
+     "derived_metric_lineage": {
+      "ebitda": "reported_ebitda OR operating_profit + depreciation_amortization",
+      "free_cash_flow": "operating_cash_flow + capital_expenditure (reported signed cash-flow value)"
+     }
+    },
+    "limitation": "This is the authoritative full-statement gate. Legacy three-line counters remain visibility-only and cannot activate formal engines."
    },
    "share_count": {
     "status": "missing_official_share_count_capital_note_tie_out",
@@ -2659,7 +4376,7 @@
    },
    "financial_tie_out": {
     "status": "blocked",
-    "reason": "requires five qualified annual income triplets, eight qualified reported-quarter fact sets, five qualified annual operating-cash-flow periods, an official share-count capital-note tie-out, and no unresolved conflicts"
+    "reason": "requires five annual and eight direct reported-quarter full-statement schedules, deterministic EBITDA/FCF operand lineage, an official share-count capital-note tie-out, and no unresolved canonical conflicts"
    },
    "operating_lane": {
     "status": "not_applicable",
@@ -2681,6 +4398,18 @@
     {
      "requirement": "qualified_annual_operating_cash_flow",
      "required": 5,
+     "present": 0,
+     "status": "blocked"
+    },
+    {
+     "requirement": "qualified_annual_financial_statement_schedules",
+     "required": 5,
+     "present": 0,
+     "status": "blocked"
+    },
+    {
+     "requirement": "qualified_reported_quarter_financial_statement_schedules",
+     "required": 8,
      "present": 0,
      "status": "blocked"
     },
@@ -2776,7 +4505,7 @@
   "CNERGY": {
    "symbol": "CNERGY",
    "status": "not_qualified",
-   "qualification_scope": "retained_reported_financial_truth",
+   "qualification_scope": "retained_reported_model_ready_financial_truth",
    "annual_income_triplets": {
     "required": 5,
     "present": 0,
@@ -2790,12 +4519,91 @@
    "documented_interim_metadata": {
     "present": 0,
     "documented_periods": [],
-    "limitation": "Document metadata proves a retained official reporting period, not parsed qualified quarterly financial facts and does not satisfy the eight-quarter gate."
+    "limitation": "Document metadata proves a retained official reporting period, not parsed qualified quarterly financial facts and does not satisfy any financial-truth gate."
    },
    "annual_operating_cash_flow": {
     "required": 5,
     "present": 0,
     "qualified_periods": []
+   },
+   "model_ready_financial_statement_coverage": {
+    "annual": {
+     "required": 5,
+     "present": 0,
+     "qualified_periods": [],
+     "direct_flow_statement_periods": [],
+     "direct_balance_sheet_periods": [],
+     "derived_ebitda_periods": [],
+     "derived_free_cash_flow_periods": [],
+     "required_direct_metrics": [
+      "revenue",
+      "gross_profit",
+      "operating_profit",
+      "finance_cost",
+      "profit_before_tax",
+      "tax_expense",
+      "profit_after_tax_attributable",
+      "basic_eps",
+      "operating_cash_flow",
+      "capital_expenditure",
+      "net_cash_from_investing_activities",
+      "net_cash_from_financing_activities",
+      "dividends_paid",
+      "cash_and_cash_equivalents",
+      "trade_receivables",
+      "inventories",
+      "total_current_assets",
+      "property_plant_equipment",
+      "total_assets",
+      "short_term_borrowings",
+      "long_term_borrowings",
+      "trade_payables",
+      "total_equity"
+     ],
+     "derived_metric_lineage": {
+      "ebitda": "reported_ebitda OR operating_profit + depreciation_amortization",
+      "free_cash_flow": "operating_cash_flow + capital_expenditure (reported signed cash-flow value)"
+     }
+    },
+    "reported_quarter": {
+     "required": 8,
+     "present": 0,
+     "qualified_periods": [],
+     "direct_flow_statement_periods": [],
+     "direct_balance_sheet_periods": [],
+     "derived_ebitda_periods": [],
+     "derived_free_cash_flow_periods": [],
+     "required_direct_metrics": [
+      "revenue",
+      "gross_profit",
+      "operating_profit",
+      "finance_cost",
+      "profit_before_tax",
+      "tax_expense",
+      "profit_after_tax_attributable",
+      "basic_eps",
+      "operating_cash_flow",
+      "capital_expenditure",
+      "net_cash_from_investing_activities",
+      "net_cash_from_financing_activities",
+      "dividends_paid",
+      "cash_and_cash_equivalents",
+      "trade_receivables",
+      "inventories",
+      "total_current_assets",
+      "property_plant_equipment",
+      "total_assets",
+      "short_term_borrowings",
+      "long_term_borrowings",
+      "trade_payables",
+      "total_equity"
+     ],
+     "derived_metric_lineage": {
+      "ebitda": "reported_ebitda OR operating_profit + depreciation_amortization",
+      "free_cash_flow": "operating_cash_flow + capital_expenditure (reported signed cash-flow value)"
+     }
+    },
+    "limitation": "This is the authoritative full-statement gate. Legacy three-line counters remain visibility-only and cannot activate formal engines."
    },
    "share_count": {
     "status": "missing_official_share_count_capital_note_tie_out",
@@ -2804,7 +4612,7 @@
    },
    "financial_tie_out": {
     "status": "blocked",
-    "reason": "requires five qualified annual income triplets, eight qualified reported-quarter fact sets, five qualified annual operating-cash-flow periods, an official share-count capital-note tie-out, and no unresolved conflicts"
+    "reason": "requires five annual and eight direct reported-quarter full-statement schedules, deterministic EBITDA/FCF operand lineage, an official share-count capital-note tie-out, and no unresolved canonical conflicts"
    },
    "operating_lane": {
     "status": "not_applicable",
@@ -2826,6 +4634,18 @@
     {
      "requirement": "qualified_annual_operating_cash_flow",
      "required": 5,
+     "present": 0,
+     "status": "blocked"
+    },
+    {
+     "requirement": "qualified_annual_financial_statement_schedules",
+     "required": 5,
+     "present": 0,
+     "status": "blocked"
+    },
+    {
+     "requirement": "qualified_reported_quarter_financial_statement_schedules",
+     "required": 8,
      "present": 0,
      "status": "blocked"
     },
@@ -2890,7 +4710,7 @@
     "valuation": "not_emitted",
     "market_expectations": "not_emitted"
    },
-   "candidate_rank": 5,
+   "candidate_rank": 4,
    "selection_status": "not_selected"
   }
  },
@@ -2901,9 +4721,9 @@
  },
  "_meta": {
   "generator_version": "ci_artifact_integrity_v1",
-  "source_commit_sha": "cb1980e19ce825b84ab7cff847263a8f31148d56",
-  "build_cutoff_at": "2026-08-31T10:43:05Z",
-  "generated_at": "2026-08-31T10:43:05Z",
+  "source_commit_sha": "cd90c7aa44408fb232f87d2b66c2c91cedff00a4",
+  "build_cutoff_at": "2026-08-31T10:59:37Z",
+  "generated_at": "2026-08-31T10:59:37Z",
   "artifact_path": "state/company_intel/financial_truth_qualification.json",
   "timestamp_semantics": {
    "build_cutoff_at": "generation boundary only; not a source-effective or source-published time",

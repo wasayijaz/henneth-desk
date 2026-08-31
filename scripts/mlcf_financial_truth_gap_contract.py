@@ -127,6 +127,7 @@ _QUALIFICATION_KEYS = {
     "downstream",
     "evidence_gaps",
     "financial_tie_out",
+    "model_ready_financial_statement_coverage",
     "operating_lane",
     "policy",
     "qualification_scope",
@@ -529,7 +530,7 @@ def _validate_qualification_against_reconciliation(
         _closed_keys(fact, _RECONCILIATION_FACT_KEYS, f"reconciliation.companies.MLCF.facts[{index}]")
         source = _state_row(fact.get("source"), f"reconciliation.companies.MLCF.facts[{index}].source")
         _closed_keys(source, _RECONCILIATION_FACT_SOURCE_KEYS, f"reconciliation.companies.MLCF.facts[{index}].source")
-        if fact.get("eligibility_scope") not in {ANNUAL_INCOME_SCOPE, REPORTED_QUARTER_SCOPE, ANNUAL_CASHFLOW_SCOPE}:
+        if fact.get("eligibility_scope") not in {ANNUAL_INCOME_SCOPE, REPORTED_QUARTER_SCOPE, ANNUAL_CASHFLOW_SCOPE, "annual_balance_sheet_financial_truth_gate", "reported_quarter_balance_sheet_financial_truth_gate"}:
             continue
         if not source.get("document_id"):
             _fail("reconciliation.companies.MLCF.facts", "eligible fact lacks a retained source reference")
@@ -577,6 +578,14 @@ def build_case_from_retained_state(
     _closed_keys(downstream, _DOWNSTREAM_KEYS, "financial_truth.companies.MLCF.downstream")
     _closed_keys(qualification_policy, _QUALIFICATION_POLICY_KEYS, "financial_truth.companies.MLCF.policy")
     _closed_keys(share_state, _SHARE_COUNT_KEYS, "financial_truth.companies.MLCF.share_count")
+    full_coverage = _state_row(qualification.get("model_ready_financial_statement_coverage"), "financial_truth.companies.MLCF.model_ready_financial_statement_coverage")
+    _closed_keys(full_coverage, {"annual", "reported_quarter", "limitation"}, "financial_truth.companies.MLCF.model_ready_financial_statement_coverage")
+    for key, required in (("annual", TARGET_ANNUAL_PERIODS), ("reported_quarter", TARGET_REPORTED_INTERIM_PERIODS)):
+        schedule = _state_row(full_coverage.get(key), f"financial_truth.companies.MLCF.model_ready_financial_statement_coverage.{key}")
+        _closed_keys(schedule, {"required", "present", "qualified_periods", "direct_flow_statement_periods", "direct_balance_sheet_periods", "derived_ebitda_periods", "derived_free_cash_flow_periods", "required_direct_metrics", "derived_metric_lineage"}, f"financial_truth.companies.MLCF.model_ready_financial_statement_coverage.{key}")
+        _validate_coverage({field: schedule.get(field) for field in _COVERAGE_KEYS}, f"financial_truth.companies.MLCF.model_ready_financial_statement_coverage.{key}")
+        if schedule.get("required") != required or schedule.get("present") != 0:
+            _fail(f"financial_truth.companies.MLCF.model_ready_financial_statement_coverage.{key}", "full-statement schedule unexpectedly qualified")
     if financial_tie_out.get("status") != "blocked":
         _fail("financial_truth.companies.MLCF.financial_tie_out", "financial tie-out is no longer blocked")
     if downstream.get("forecast") != "blocked_financial_truth_not_qualified":

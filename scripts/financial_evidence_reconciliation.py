@@ -17,6 +17,16 @@ from forecast_contract import (
     qualified_financial_fact_source,
     qualified_periods,
 )
+from financial_truth_qualification import (
+    ANNUAL_BALANCE_SCOPE,
+    ANNUAL_CASHFLOW_SCOPE,
+    ANNUAL_INCOME_SCOPE,
+    ANNUAL_QUARTERLY_CASHFLOW_METRICS,
+    ANNUAL_QUARTERLY_INCOME_METRICS,
+    BALANCE_SHEET_METRICS,
+    REPORTED_QUARTER_BALANCE_SCOPE,
+    REPORTED_QUARTER_SCOPE,
+)
 from manual_financial_claims import MANUAL_SOURCE_METHOD, is_qualified_manual_fact
 
 
@@ -24,7 +34,9 @@ RECONCILIATION_VERSION = "financial_evidence_reconciliation_v1"
 EARNINGS_BRIDGE_VERSION = "earnings_bridge_readiness_v1"
 REQUIRED_STATUS = ("eligible", "audit_only", "quarantined", "missing")
 ELIGIBLE_LINES = tuple(REQUIRED_LINES)
-FINANCIAL_TRUTH_LINES = ELIGIBLE_LINES + ("operating_cash_flow",)
+FINANCIAL_TRUTH_LINES = tuple(dict.fromkeys(
+    ANNUAL_QUARTERLY_INCOME_METRICS + BALANCE_SHEET_METRICS + ANNUAL_QUARTERLY_CASHFLOW_METRICS
+))
 REPORTED_QUARTER_PERIOD_TYPES = {"quarter", "quarterly", "interim"}
 DIRECT_QUARTER_COLUMN_ROLE = "current_period"
 AUDIT_ONLY_REASONS = {
@@ -134,7 +146,7 @@ def _line(fact: dict[str, Any]) -> Any:
 def _annual_income_context(fact: dict[str, Any], line: Any | None = None) -> bool:
     line = _line(fact) if line is None else line
     return (
-        line in ELIGIBLE_LINES
+        line in ANNUAL_QUARTERLY_INCOME_METRICS
         and fact.get("duration_months") == 12
         and fact.get("period_type") == "annual"
         and fact.get("statement_type") == "income_statement"
@@ -144,7 +156,7 @@ def _annual_income_context(fact: dict[str, Any], line: Any | None = None) -> boo
 def _annual_cashflow_context(fact: dict[str, Any], line: Any | None = None) -> bool:
     line = _line(fact) if line is None else line
     return (
-        line == "operating_cash_flow"
+        line in ANNUAL_QUARTERLY_CASHFLOW_METRICS
         and fact.get("duration_months") == 12
         and fact.get("period_type") == "annual"
         and fact.get("statement_type") == "cash_flow_statement"
@@ -154,10 +166,29 @@ def _annual_cashflow_context(fact: dict[str, Any], line: Any | None = None) -> b
 def _reported_quarter_context(fact: dict[str, Any], line: Any | None = None) -> bool:
     line = _line(fact) if line is None else line
     return (
-        line in ELIGIBLE_LINES
+        line in ANNUAL_QUARTERLY_INCOME_METRICS + ANNUAL_QUARTERLY_CASHFLOW_METRICS
         and fact.get("duration_months") == 3
         and fact.get("period_type") in REPORTED_QUARTER_PERIOD_TYPES
-        and fact.get("statement_type") == "income_statement"
+        and fact.get("statement_type") in {"income_statement", "cash_flow_statement"}
+        and fact.get("column_role") == DIRECT_QUARTER_COLUMN_ROLE
+    )
+
+
+def _annual_balance_context(fact: dict[str, Any], line: Any | None = None) -> bool:
+    line = _line(fact) if line is None else line
+    return (
+        line in BALANCE_SHEET_METRICS
+        and fact.get("period_type") == "annual"
+        and fact.get("statement_type") == "balance_sheet"
+    )
+
+
+def _reported_quarter_balance_context(fact: dict[str, Any], line: Any | None = None) -> bool:
+    line = _line(fact) if line is None else line
+    return (
+        line in BALANCE_SHEET_METRICS
+        and fact.get("period_type") in REPORTED_QUARTER_PERIOD_TYPES
+        and fact.get("statement_type") == "balance_sheet"
         and fact.get("column_role") == DIRECT_QUARTER_COLUMN_ROLE
     )
 
@@ -165,11 +196,15 @@ def _reported_quarter_context(fact: dict[str, Any], line: Any | None = None) -> 
 def eligibility_scope(fact: dict[str, Any]) -> str:
     line = _line(fact)
     if _annual_income_context(fact, line):
-        return "annual_income_financial_truth_gate"
+        return ANNUAL_INCOME_SCOPE
     if _annual_cashflow_context(fact, line):
-        return "annual_operating_cash_flow_truth_gate"
+        return ANNUAL_CASHFLOW_SCOPE
     if _reported_quarter_context(fact, line):
-        return "reported_quarter_financial_truth_gate"
+        return REPORTED_QUARTER_SCOPE
+    if _annual_balance_context(fact, line):
+        return ANNUAL_BALANCE_SCOPE
+    if _reported_quarter_balance_context(fact, line):
+        return REPORTED_QUARTER_BALANCE_SCOPE
     return "not_eligible_financial_truth_gate"
 
 
@@ -192,25 +227,29 @@ def classification_reasons(fact: dict[str, Any], as_of: str | None = None) -> li
     annual_income = _annual_income_context(fact, line)
     annual_cashflow = _annual_cashflow_context(fact, line)
     reported_quarter = _reported_quarter_context(fact, line)
-    if line in ELIGIBLE_LINES:
+    annual_balance = _annual_balance_context(fact, line)
+    reported_quarter_balance = _reported_quarter_balance_context(fact, line)
+    if line in ANNUAL_QUARTERLY_INCOME_METRICS:
         if not (annual_income or reported_quarter):
             if fact.get("duration_months") == 3 and fact.get("period_type") in REPORTED_QUARTER_PERIOD_TYPES:
                 reasons.append("not_direct_current_period_quarter_fact")
             else:
                 reasons.append("not_annual_or_direct_three_month_quarter")
-    elif line == "operating_cash_flow":
-        if not annual_cashflow:
+    elif line in ANNUAL_QUARTERLY_CASHFLOW_METRICS:
+        if not (annual_cashflow or reported_quarter):
             if fact.get("duration_months") != 12:
                 reasons.append("not_twelve_month_annual")
             if fact.get("period_type") != "annual":
                 reasons.append("not_annual_period")
             if fact.get("statement_type") != "cash_flow_statement":
                 reasons.append("not_cash_flow_statement")
+    elif line in BALANCE_SHEET_METRICS and not (annual_balance or reported_quarter_balance):
+        reasons.append("not_annual_or_direct_reported_balance_sheet_fact")
     if fact.get("consolidation") != "consolidated":
         reasons.append("missing_or_nonconsolidated_basis")
     if fact.get("currency") != "PKR":
         reasons.append("missing_or_non_pkr_currency")
-    if line in ELIGIBLE_LINES and fact.get("statement_type") != "income_statement":
+    if line in ANNUAL_QUARTERLY_INCOME_METRICS and fact.get("statement_type") != "income_statement":
         reasons.append("not_income_statement")
     if period_end is None:
         reasons.append("missing_period_end")

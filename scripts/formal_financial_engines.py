@@ -24,7 +24,17 @@ MARKET_OPERANDS = ("shares_out", "net_debt", "current_price")
 
 def financial_truth_is_qualified(financial_truth_row: Mapping[str, Any]) -> bool:
     """Return the single fail-closed activation predicate for formal outputs."""
-    return isinstance(financial_truth_row, Mapping) and financial_truth_row.get("status") == "qualified"
+    if not isinstance(financial_truth_row, Mapping) or financial_truth_row.get("status") != "qualified":
+        return False
+    tie_out = financial_truth_row.get("financial_tie_out") or {}
+    coverage = financial_truth_row.get("model_ready_financial_statement_coverage") or {}
+    annual, quarter = coverage.get("annual") or {}, coverage.get("reported_quarter") or {}
+    return (
+        tie_out.get("status") == "qualified"
+        and annual.get("required") == 5 and annual.get("present") >= 5
+        and quarter.get("required") == 8 and quarter.get("present") >= 8
+        and not any((gap or {}).get("status") == "blocked" for gap in financial_truth_row.get("evidence_gaps") or [])
+    )
 
 
 def finite(value: Any) -> float | None:

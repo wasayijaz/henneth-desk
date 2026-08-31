@@ -97,11 +97,21 @@ def ready_assumptions(extra=None) -> dict:
 
 
 def qualified_financial_truth() -> dict:
-    return {"status": "qualified", "financial_tie_out": {"status": "qualified"}}
+    return {
+        "status": "qualified", "financial_tie_out": {"status": "qualified"},
+        "model_ready_financial_statement_coverage": {
+            "annual": {"required": 5, "present": 5},
+            "reported_quarter": {"required": 8, "present": 8},
+        }, "evidence_gaps": [],
+    }
 
 
 def red_financial_truth() -> dict:
     return {"status": "not_qualified", "financial_tie_out": {"status": "blocked"}}
+
+
+def stale_legacy_truth() -> dict:
+    return {"status": "qualified", "financial_tie_out": {"status": "qualified"}}
 
 
 def assert_synthetic_ready() -> None:
@@ -149,6 +159,7 @@ def assert_blocks() -> None:
         "future_source": (ready_model_row(), {"status": "input_ready"}, qualified_financial_truth(), {"records": [{**r, "available_on": "2025-01-01"} if r["metric"] == "exit_pe" else r for r in ready_assumptions()["records"]]}, {"forecast"}),
         "audit_only_actual": ({**ready_model_row(), "observations": {**ready_model_row()["observations"], "revenue": [{**ready_model_row()["observations"]["revenue"][0], "readiness": "audit_only"}]}}, {"status": "input_ready"}, qualified_financial_truth(), ready_assumptions(), set()),
         "red_financial_truth": (ready_model_row(), {"status": "input_ready"}, red_financial_truth(), ready_assumptions(), set()),
+        "stale_legacy_truth": (ready_model_row(), {"status": "input_ready"}, stale_legacy_truth(), ready_assumptions(), set()),
     }
     for name, (model, readiness, financial_truth, assumptions, computed) in cases.items():
         row = build_company_engines("MLCF", model, readiness, financial_truth, assumptions, "2024-03-01")
@@ -161,8 +172,8 @@ def assert_blocks() -> None:
                 fail(f"{name} {product} exposed stale financial truth status")
             if product not in computed and payload["result"] is not None:
                 fail(f"{name} blocked product carried a result")
-            if name == "red_financial_truth" and "financial_truth_qualified" not in payload.get("missing_requirements", []):
-                fail("red financial truth did not fail-close every formal engine")
+            if name in {"red_financial_truth", "stale_legacy_truth"} and "financial_truth_qualified" not in payload.get("missing_requirements", []):
+                fail("red or stale financial truth did not fail-close every formal engine")
 
 
 def assert_real_state() -> None:

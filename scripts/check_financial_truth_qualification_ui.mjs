@@ -18,7 +18,7 @@ try {
   const end = APP.indexOf("function referenceCaseRows", start);
   assert(start >= 0 && end > start, "financial-truth renderer missing");
   const renderer = APP.slice(start, end);
-  for (const token of ["r.financial_truth_qualification", "annual_income_triplets", "qualified_reported_quarter_fact_sets", "documented_interim_metadata", "annual_operating_cash_flow", "financial_tie_out", "candidate_documents", "does not qualify facts"]) assert(renderer.includes(token), `renderer missing ${token}`);
+  for (const token of ["r.financial_truth_qualification", "annual_income_triplets", "qualified_reported_quarter_fact_sets", "documented_interim_metadata", "annual_operating_cash_flow", "model_ready_financial_statement_coverage", "financial_tie_out", "candidate_documents", "does not qualify facts"]) assert(renderer.includes(token), `renderer missing ${token}`);
   assert(!/fetch\(|filter\(|reduce\(|parsePdf|parsePDF/i.test(renderer), "renderer must display only backend state");
   for (const row of rows) {
     const truth = row.financial_truth_qualification;

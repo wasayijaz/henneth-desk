@@ -19,6 +19,7 @@ INCOME_STATEMENT_LINE_PATTERNS = {
     # as revenue while scanning adjacent geometry lines.
     "revenue": r"(?:revenue|net sales|(?<!cost of )sales|turnover)",
     "gross_profit": r"gross profit",
+    "ebitda": r"(?:ebitda|earnings\s+before\s+interest,?\s+tax(?:es)?,?\s+depreciation\s+(?:and|&)\s+amorti[sz]ation)",
     "operating_profit": r"(?:operating profit|profit from operations)",
     "finance_cost": r"(?:finance cost|finance costs|financial charges)",
     "profit_before_tax": r"(?:profit before tax|profit before taxation)",
@@ -35,8 +36,15 @@ INCOME_STATEMENT_LINE_PATTERNS = {
 
 BALANCE_SHEET_LINE_PATTERNS = {
     "cash_and_cash_equivalents": r"\bcash\s+and\s+(?:cash\s+equivalents|bank\s+balances)\b",
+    "trade_receivables": r"\b(?:trade|accounts?)\s+receivables?\b",
+    "inventories": r"\binventor(?:y|ies)\b",
+    "total_current_assets": r"\btotal\s+current\s+assets\b",
+    "property_plant_equipment": r"\b(?:property,?\s+plant\s+(?:and|&)\s+equipment|fixed\s+assets?)\b",
+    "total_assets": r"\btotal\s+assets\b",
     "short_term_borrowings": r"\bshort[-\s]?term\s+(?:borrowings|financ(?:e|ing)|loans?)\b",
     "long_term_borrowings": r"\blong[-\s]?term\s+(?:borrowings|financ(?:e|ing)|loans?)\b",
+    "trade_payables": r"\b(?:trade|accounts?)\s+payables?\b",
+    "total_equity": r"\b(?:total\s+)?equity\b",
 }
 
 CASH_FLOW_LINE_PATTERNS = {
@@ -48,6 +56,9 @@ CASH_FLOW_LINE_PATTERNS = {
     "operating_cash_flow": r"\b(?:net\s+)?cash\s+(?:generated\s+from|provided\s+by|used\s+in|flows?\s+from|(?:in|out)flow\s+from)\s+operating\s+activities\b",
     "capital_expenditure": r"\b(?:capital\s+expenditure|fixed\s+capital\s+expenditure|(?:purchase|acquisition|additions?)\s+of\s+property,\s+plant\s+and\s+equipment)\b",
     "depreciation_amortization": r"\bdepreciation\s+(?:and|/)\s+amorti[sz]ation\b",
+    "net_cash_from_investing_activities": r"\bnet\s+cash\s+(?:used\s+in|generated\s+from|flows?\s+from|(?:in|out)flow\s+from)\s+investing\s+activities\b",
+    "net_cash_from_financing_activities": r"\bnet\s+cash\s+(?:used\s+in|generated\s+from|flows?\s+from|(?:in|out)flow\s+from)\s+financing\s+activities\b",
+    "dividends_paid": r"\bdividends?\s+(?:paid|distributed)\b",
 }
 
 LINE_PATTERNS = {

@@ -3405,6 +3405,9 @@ function renderFinancialTruthQualification(r) {
   const quarters = truth.qualified_reported_quarter_fact_sets || {};
   const documentedInterim = truth.documented_interim_metadata || {};
   const cashflow = truth.annual_operating_cash_flow || {};
+  const fullStatement = truth.model_ready_financial_statement_coverage || {};
+  const annualStatements = fullStatement.annual || {};
+  const quarterStatements = fullStatement.reported_quarter || {};
   const shares = truth.share_count || {};
   const tieOut = truth.financial_tie_out || {};
   const documents = Array.isArray(truth.candidate_documents) ? truth.candidate_documents : [];
@@ -3422,6 +3425,8 @@ function renderFinancialTruthQualification(r) {
       <article><span>Annual income triplets</span><b>${esc(annual.present ?? 0)} / ${esc(annual.required ?? 5)}</b><small>${esc((annual.qualified_periods || []).join(", ") || "none")}</small></article>
       <article><span>Qualified reported quarters</span><b>${esc(quarters.present ?? 0)} / ${esc(quarters.required ?? 8)}</b><small>${esc((quarters.qualified_periods || []).join(", ") || "none")} · metadata-only docs: ${esc(documentedInterim.present ?? 0)}</small></article>
       <article><span>Annual operating cash flow</span><b>${esc(cashflow.present ?? 0)} / ${esc(cashflow.required ?? 5)}</b><small>${esc((cashflow.qualified_periods || []).join(", ") || "none")}</small></article>
+      <article><span>Annual full statements</span><b>${esc(annualStatements.present ?? 0)} / ${esc(annualStatements.required ?? 5)}</b><small>Source-bound income, balance sheet, cash flow, EBITDA and FCF lineage.</small></article>
+      <article><span>Quarterly full statements</span><b>${esc(quarterStatements.present ?? 0)} / ${esc(quarterStatements.required ?? 8)}</b><small>Direct reported quarter flows and point-in-time balance-sheet coverage.</small></article>
     </div>
     <div class="financial-coverage-audit"><div><span>Shares outstanding</span><b>${esc(shares.status || "unknown")}</b><small>${esc(shares.limitation || "Official capital-note tie-out required.")}</small></div><div><span>Next evidence blocker</span><b>${esc(tieOut.reason || "unknown")}</b><small>Qualification remains intentionally blocked.</small></div></div>
     <div class="financial-coverage-docs"><span class="kicker">Retained official document candidates</span>${documents.length ? documents.map(doc => `<article><b>${coverageDocLink(doc)}</b><span>${esc(doc.title || "untitled official document")}</span><small>${esc(doc.reason || "owner review required")}</small></article>`).join("") : `<div class="empty">No retained candidate document references were emitted.</div>`}</div>
