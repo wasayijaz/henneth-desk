@@ -1,7 +1,9 @@
 # Event-to-Value Alpha — Part 1 retained-evidence gap map
 
-**Audit date:** 2026-08-31 (PKT)  
-**Coordination base:** `b6fee018`  
+**Audit date:** 2026-08-31 (PKT)
+
+**Coordination base:** `b6fee018`
+
 **Scope:** retained state only. This map does not fetch, parse, restage, approve,
 promote, or infer a fact. It records what the current gates accept and what they
 still reject.
