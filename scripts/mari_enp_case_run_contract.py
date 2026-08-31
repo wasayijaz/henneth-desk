@@ -21,7 +21,7 @@ import mari_enp_hypothesis_contract
 
 SCHEMA_VERSION = "mari_enp_case_run_envelope_v1"
 ADAPTER_VERSION = "mari_enp_case_run_adapter_v1"
-CASE_ID = "case_mari_offshore_exploration_blocks_observed_v1"
+CASE_ID = "case_mari_working_interest_observed_v1"
 SYMBOL = "MARI"
 CASE_FAMILY = "e_and_p"
 SCENARIO_LABELS = ("bear", "base", "bull")
@@ -189,18 +189,18 @@ _SOURCE_REF_KEYS = frozenset({
 })
 _SOURCE_REF_REQUIRED = frozenset({"id", "label"})
 _RETAINED_SOURCE_RECEIPTS = {
-    "psx:265594": {
-        "url": "https://dps.psx.com.pk/download/document/265594.pdf",
+    "psx:260446": {
+        "url": "https://dps.psx.com.pk/download/document/260446.pdf",
         "path": None,
-        "page": 3,
-        "content_sha256": "cdc3f69157f5e5803238ba347ecb4e96f7297479df87d345739896913de8aae4",
-        "evidence_sha256": "56c298f041bd756cd184e75d122f5a95cc6879f4b5fa037786007948b76d3d83",
-        "date": "2025-11-13",
-        "event_id": "evt_3d1dae7553f73da60ba3",
+        "page": 1,
+        "content_sha256": "c13ccb4de58ad005bca106942721490593fe219ff45906c68280ea7856192e42",
+        "evidence_sha256": "dd83c62cb781e2a57f5ae595a7184ea786a3e5890f7f7cc96cd93e23f958a177",
+        "date": "2025-09-30",
+        "event_id": "evt_eddfcc381018cb0dff43",
     },
 }
 _RETAINED_OPERAND_SOURCE_IDS = {
-    "block_identity": "psx:265594",
+    "block_identity": "psx:260446",
 }
 _ANALYST_REF_KEYS = frozenset({"note_id", "note"})
 _BLOCKED_STATE_KEYS = frozenset({"status", "reason"})
@@ -330,8 +330,8 @@ def validate_envelope(envelope: Mapping[str, Any]) -> list[str]:
     analogue = envelope.get("analogue_readiness")
     if type(analogue) is dict:
         violations.extend(_keys(analogue, _ANALOGUE_KEYS, "analogue_readiness"))
-        if analogue.get("target_event_id") != "evt_3d1dae7553f73da60ba3":
-            violations.append("analogue_readiness.target_event_id: must match MARI offshore event")
+        if analogue.get("target_event_id") != "evt_b25decfc180474cbe066":
+            violations.append("analogue_readiness.target_event_id: must match MARI Peshawar event")
         if analogue.get("status") not in {"benchmarks_available", "fixture_not_real_analogue_evidence"}:
             violations.append("analogue_readiness.status: unexpected readiness status")
         if not _nonempty(analogue.get("readiness_status")):
@@ -507,9 +507,9 @@ def _validate_lineage(entry: Mapping[str, Any], prefix: str) -> list[str]:
                         f"{prefix}.source_ref.id: does not match authoritative source for retained operand"
                     )
             if entry.get("scope") in {"retained_event_evidence", "retained_ep_operand"}:
-                if ref.get("event_id") != "evt_3d1dae7553f73da60ba3":
+                if ref.get("event_id") != "evt_eddfcc381018cb0dff43":
                     violations.append(
-                        f"{prefix}.source_ref.event_id: must bind canonical MARI offshore target event"
+                        f"{prefix}.source_ref.event_id: must bind canonical MARI Peshawar target event"
                     )
         else:
             violations.append(f"{prefix}.source_ref: source lineage requires id and label")

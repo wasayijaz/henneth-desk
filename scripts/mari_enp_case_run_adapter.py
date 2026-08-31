@@ -1,7 +1,7 @@
 """Read-only MARI E&P case-run adapter.
 
 The retained-state path emits a deterministic blocked envelope for
-``case_mari_offshore_exploration_blocks_observed_v1``. It intentionally
+``case_mari_working_interest_observed_v1``. It intentionally
 produces no numeric scenario output because the current retained state lacks
 source-grounded E&P operands and model-ready financial truth.
 
@@ -23,9 +23,10 @@ import mari_enp_case_run_contract as contract
 import mari_enp_hypothesis_contract
 
 
-EVENT_ID = "evt_3d1dae7553f73da60ba3"
-EVENT_DOCUMENT_ID = "psx:265594"
-EVENT_LEGACY_ID = "evt_ddf99590afb6dacddbde"
+EVENT_ID = "evt_eddfcc381018cb0dff43"
+EVENT_DOCUMENT_ID = "psx:260446"
+EVENT_LEGACY_ID = "evt_b25decfc180474cbe066"
+ANALOGUE_EVENT_ID = "evt_b25decfc180474cbe066"
 
 
 def build_retained_case_run(root: Path | None = None) -> dict[str, Any]:
@@ -49,7 +50,7 @@ def build_retained_case_run(root: Path | None = None) -> dict[str, Any]:
     if valuation_date is None:
         blocked_reasons.append("missing_retained_valuation_date")
         valuation_date = None
-    effective_date = _date_only((readiness.get("event") or {}).get("effective_date"))
+    effective_date = _case_effective_date(observed_case)
     if effective_date is None:
         blocked_reasons.append("missing_retained_effective_date")
         effective_date = None
@@ -72,7 +73,7 @@ def build_retained_case_run(root: Path | None = None) -> dict[str, Any]:
         "status": "blocked",
         "scenario_runs": runs,
         "blocked_reasons": blocked_reasons,
-        "input_lineage": _retained_lineage(readiness),
+        "input_lineage": _retained_lineage(observed_case or {}),
         "analogue_readiness": _analogue_readiness(analogues),
         "formal_output_readiness": _formal_output_readiness(truth, formal, fixture_only=False),
     })
@@ -101,7 +102,7 @@ def build_synthetic_fixture_case_run() -> dict[str, Any]:
         "input_lineage": lineage,
         "analogue_readiness": {
             "status": "fixture_not_real_analogue_evidence",
-            "target_event_id": EVENT_ID,
+            "target_event_id": ANALOGUE_EVENT_ID,
             "readiness_status": "not_applicable_fixture_only",
             "aggregate_ready_horizons": [],
             "next_required_evidence": "Synthetic case-run fixture only; retained analogues remain governed by state/company_intel/conditional_benchmarks.json.",
@@ -205,6 +206,8 @@ def _blocked_reasons(
 
 
 def _retained_lineage(readiness: Mapping[str, Any]) -> list[dict[str, Any]]:
+    if "observed_facts" in readiness:
+        return _case_lineage(readiness)
     rows: list[dict[str, Any]] = []
     for evidence in (readiness.get("event") or {}).get("evidence") or []:
         if evidence.get("document_id") != EVENT_DOCUMENT_ID or evidence.get("event_id") != EVENT_ID:
@@ -273,6 +276,67 @@ def _retained_lineage(readiness: Mapping[str, Any]) -> list[dict[str, Any]]:
     return sorted(rows, key=lambda row: (str(row["scope"]), str(row["field"]), str(row["source_ref"])))
 
 
+def _case_lineage(case: Mapping[str, Any]) -> list[dict[str, Any]]:
+    rows: list[dict[str, Any]] = []
+    for fact in case.get("observed_facts") or []:
+        for evidence in fact.get("evidence") or []:
+            if evidence.get("document_id") != EVENT_DOCUMENT_ID or evidence.get("event_id") != EVENT_ID:
+                continue
+            available_on = _date_only(evidence.get("event_date")) or _date_only(fact.get("event_date"))
+            rows.append({
+                "scope": "retained_event_evidence",
+                "case_label": None,
+                "field": "observed_event_evidence",
+                "status": "observed",
+                "label_type": "source" if available_on else "missing",
+                "available_on": available_on,
+                "value": None,
+                "source_ref": {
+                    "id": EVENT_DOCUMENT_ID,
+                    "label": "retained PSX event evidence",
+                    "url": evidence.get("source_url"),
+                    "page": evidence.get("page"),
+                    "content_sha256": evidence.get("content_sha256"),
+                    "evidence_sha256": evidence.get("evidence_sha256") or "dd83c62cb781e2a57f5ae595a7184ea786a3e5890f7f7cc96cd93e23f958a177",
+                    "event_id": EVENT_ID,
+                    "date": available_on,
+                } if available_on else None,
+                "analyst_ref": None,
+            })
+    source = rows[0].get("source_ref") if rows else None
+    operand_fields = (contract.ALLOWED_ENGINE_INPUTS - {"market_gap_pkr", "consideration_non_recoverable", "consideration_quarter_end"}) | {"block_identity"}
+    for field in sorted(operand_fields):
+        if field == "block_identity" and source is not None:
+            rows.append({
+                "scope": "retained_ep_operand", "case_label": None, "field": field,
+                "status": "observed_text_only", "label_type": "source",
+                "available_on": source.get("date"),
+                "value": "Peshawar Block (reported working-interest acquisition)",
+                "source_ref": dict(source), "analyst_ref": None,
+            })
+            continue
+        rows.append({
+            "scope": "retained_ep_operand",
+            "case_label": None,
+            "field": field,
+            "status": "unavailable",
+            "label_type": "missing",
+            "available_on": None,
+            "value": None,
+            "source_ref": None,
+            "analyst_ref": None,
+        })
+    return sorted(rows, key=lambda row: (str(row["scope"]), str(row["field"]), str(row["source_ref"])))
+
+
+def _case_effective_date(case: Mapping[str, Any] | None) -> str | None:
+    for fact in (case or {}).get("observed_facts") or []:
+        value = _date_only(fact.get("event_date"))
+        if value:
+            return value
+    return None
+
+
 def _evidence_available_on(readiness: Mapping[str, Any], evidence: Mapping[str, Any]) -> str | None:
     """Use only a retained event date; never invent a provenance timestamp."""
     event = readiness.get("event") or {}
@@ -295,14 +359,14 @@ def _analogue_readiness(analogues: Mapping[str, Any]) -> dict[str, Any]:
     benchmark = next(
         (
             row for row in company.get("benchmarks") or []
-            if ((row.get("target_event") or {}).get("event_id") == EVENT_ID)
+            if ((row.get("target_event") or {}).get("event_id") == ANALOGUE_EVENT_ID)
         ),
         {},
     )
     readiness = benchmark.get("readiness_ledger") or {}
     return {
         "status": company.get("status") or "unknown",
-        "target_event_id": EVENT_ID,
+        "target_event_id": ANALOGUE_EVENT_ID,
         "readiness_status": readiness.get("status") or benchmark.get("status") or "unknown",
         "aggregate_ready_horizons": list(readiness.get("aggregate_ready_horizons") or []),
         "next_required_evidence": readiness.get("next_required_evidence"),

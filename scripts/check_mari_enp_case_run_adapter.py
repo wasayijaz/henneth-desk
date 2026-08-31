@@ -52,7 +52,7 @@ def main() -> None:
     check("real identity",
           real["schema_version"] == contract.SCHEMA_VERSION
           and real["adapter_version"] == contract.ADAPTER_VERSION
-          and real["case_id"] == "case_mari_offshore_exploration_blocks_observed_v1"
+          and real["case_id"] == "case_mari_working_interest_observed_v1"
           and real["symbol"] == "MARI"
           and real["case_family"] == "e_and_p")
     check("real path blocked and not fixture", real["status"] == "blocked" and real["fixture_only"] is False)
@@ -89,15 +89,15 @@ def main() -> None:
               "market_expectations": "missing_source_gated_inputs",
           })
     check("real analogue readiness suppressed",
-          real["analogue_readiness"]["target_event_id"] == adapter.EVENT_ID
-          and real["analogue_readiness"]["readiness_status"] == "needs_more_mature_outcomes"
+          real["analogue_readiness"]["target_event_id"] == adapter.ANALOGUE_EVENT_ID
+          and real["analogue_readiness"]["readiness_status"] == "needs_prior_exact_analogues"
           and real["analogue_readiness"]["aggregate_ready_horizons"] == []
-          and "3 additional mature strict prior exact analogue" in real["analogue_readiness"]["next_required_evidence"])
+          and "3 mature strict prior exact analogue" in real["analogue_readiness"]["next_required_evidence"])
     source_rows = [row for row in real["input_lineage"] if row["label_type"] == "source"]
     missing_rows = [row for row in real["input_lineage"] if row["label_type"] == "missing"]
     check("real source lineage retained",
           {row["source_ref"]["id"] for row in source_rows if row["source_ref"]}
-          == {"psx:265594"}
+          == {"psx:260446"}
           and all(row["source_ref"]["event_id"] == adapter.EVENT_ID for row in source_rows))
     check("real missing operand lineage",
           "working_interest_pct" in {row["field"] for row in missing_rows}
@@ -107,7 +107,7 @@ def main() -> None:
     check("real target operand lineage",
           [row["field"] for row in real["input_lineage"]
            if row["scope"] == "retained_ep_operand" and row["label_type"] == "source"] == ["block_identity"]
-          and next(row for row in real["input_lineage"] if row["field"] == "block_identity")["source_ref"]["id"] == "psx:265594")
+          and next(row for row in real["input_lineage"] if row["field"] == "block_identity")["source_ref"]["id"] == "psx:260446")
     check("real policy gates",
           all(real["policy"].values())
           and real["formal_output_readiness"]["financial_truth_status"] == "not_qualified")
@@ -166,15 +166,15 @@ def main() -> None:
     check("fixture receipt hashes pinned",
           {row["case_label"]: row["input_sha256"] for row in fixture["scenario_runs"]}
           == {
-              "bear": "f1ec3bd18471b876bbc440123dde09bedc50e3d4d88b578886bbde1f48bf3652",
-              "base": "cd44aad48e26b7dfb3069f836545da52c87f551d2af5c7b2cbe67b5b40990d9f",
-              "bull": "705cc0095cbeb64133b16087e5b887fb80aab5c5a29d9ccdab5cb0b4061ae780",
+              "bear": "9c3ffa2d179893294fe1dcf5be299fb9085ba959d998964bdbee1908df8b75e4",
+              "base": "60c4d413448d414016a756f90c83eef594c1fb77bd96283a80e636271b78f121",
+              "bull": "dc5d608bda4672d745256a4435048188dbc3bf7437fe699e8ad236262633429d",
           }
           and {row["case_label"]: row["fixture_hash"] for row in fixture["scenario_runs"]}
           == {
-              "bear": "0a7d4787d77bb7fbaac12230d8c381e2fc27a352467e4a70c9f67947bfd23a2f",
-              "base": "0a824a4d9f484c9c9144b2e981afa9ce44e92fcbe5e2587e25cd41af46911194",
-              "bull": "46b93352efa4e21ab53e114645db09b620b11bf72701fde015e3f57151876a6a",
+              "bear": "3775e90fff3365ae3befba81834704dfc3ad2d9293f33475ffdc72e85aa41536",
+              "base": "947677c18c0a1e54d94dcb96477eb4842cb5968694bd1eed54485d5e76d3707e",
+              "bull": "661d2a0f1264bbc89caa563bc9f031e906e442e8468629acf426bf11877aba0d",
           })
     check("fixture does not activate formal outputs",
           fixture["formal_output_readiness"]["status"] == "blocked_fixture_only"
@@ -273,54 +273,54 @@ def main() -> None:
     operator_row["available_on"] = block_row["available_on"]
     check("contract rejects operator source promotion",
           contract.validate_envelope(swapped_operands) != [])
-    peshawar_operator = copy.deepcopy(real)
-    peshawar_operator_row = next(row for row in peshawar_operator["input_lineage"] if row["field"] == "operator_status")
-    peshawar_operator_row.update({
+    offshore_operator = copy.deepcopy(real)
+    offshore_operator_row = next(row for row in offshore_operator["input_lineage"] if row["field"] == "operator_status")
+    offshore_operator_row.update({
         "label_type": "source",
         "value": "Peshawar Block as an Operator",
-        "available_on": "2025-11-13",
+        "available_on": "2025-09-30",
         "source_ref": {
-            "id": "psx:260446",
-            "label": "prior PSX event evidence",
-            "url": "https://dps.psx.com.pk/download/document/260446.pdf",
-            "page": 1,
-            "content_sha256": "c13ccb4de58ad005bca106942721490593fe219ff45906c68280ea7856192e42",
-            "evidence_sha256": "dd83c62cb781e2a57f5ae595a7184ea786a3e5890f7f7cc96cd93e23f958a177",
-            "event_id": "evt_b25decfc180474cbe066",
+            "id": "psx:265594",
+            "label": "retired offshore event evidence",
+            "url": "https://dps.psx.com.pk/download/document/265594.pdf",
+            "page": 3,
+            "content_sha256": "cdc3f69157f5e5803238ba347ecb4e96f7297479df87d345739896913de8aae4",
+            "evidence_sha256": "56c298f041bd756cd184e75d122f5a95cc6879f4b5fa037786007948b76d3d83",
+            "event_id": "evt_3d1dae7553f73da60ba3",
             "date": "2025-11-13",
         },
     })
-    check("contract rejects Peshawar operator injection",
-          contract.validate_envelope(peshawar_operator) != [])
-    peshawar_block = copy.deepcopy(real)
-    peshawar_block_row = next(row for row in peshawar_block["input_lineage"] if row["field"] == "block_identity")
-    peshawar_block_row["source_ref"]["id"] = "psx:260446"
-    check("contract rejects Peshawar target-operand injection",
-          contract.validate_envelope(peshawar_block) != [])
-    peshawar_any_operand = copy.deepcopy(real)
-    peshawar_any_row = next(row for row in peshawar_any_operand["input_lineage"] if row["field"] == "working_interest_pct")
-    peshawar_any_row.update({
+    check("contract rejects retired offshore operator injection",
+          contract.validate_envelope(offshore_operator) != [])
+    retired_block = copy.deepcopy(real)
+    retired_block_row = next(row for row in retired_block["input_lineage"] if row["field"] == "block_identity")
+    retired_block_row["source_ref"]["id"] = "psx:265594"
+    check("contract rejects retired offshore target-operand injection",
+          contract.validate_envelope(retired_block) != [])
+    retired_any_operand = copy.deepcopy(real)
+    retired_any_row = next(row for row in retired_any_operand["input_lineage"] if row["field"] == "working_interest_pct")
+    retired_any_row.update({
         "label_type": "source",
         "value": 25.0,
         "available_on": "2025-11-13",
         "source_ref": {
-            "id": "psx:260446",
-            "label": "prior PSX event evidence",
-            "url": "https://dps.psx.com.pk/download/document/260446.pdf",
-            "page": 1,
-            "content_sha256": "c13ccb4de58ad005bca106942721490593fe219ff45906c68280ea7856192e42",
-            "evidence_sha256": "dd83c62cb781e2a57f5ae595a7184ea786a3e5890f7f7cc96cd93e23f958a177",
-            "event_id": "evt_b25decfc180474cbe066",
+            "id": "psx:265594",
+            "label": "retired offshore event evidence",
+            "url": "https://dps.psx.com.pk/download/document/265594.pdf",
+            "page": 3,
+            "content_sha256": "cdc3f69157f5e5803238ba347ecb4e96f7297479df87d345739896913de8aae4",
+            "evidence_sha256": "56c298f041bd756cd184e75d122f5a95cc6879f4b5fa037786007948b76d3d83",
+            "event_id": "evt_3d1dae7553f73da60ba3",
             "date": "2025-11-13",
         },
     })
-    check("contract rejects Peshawar injection into any target operand",
-          contract.validate_envelope(peshawar_any_operand) != [])
+    check("contract rejects retired offshore injection into any target operand",
+          contract.validate_envelope(retired_any_operand) != [])
     cross_event = copy.deepcopy(real)
     cross_block = next(row for row in cross_event["input_lineage"] if row["field"] == "block_identity")
     cross_block["source_ref"]["event_id"] = "evt_b25decfc180474cbe066"
     check("contract rejects cross-event source binding",
-          any("canonical MARI offshore target event" in violation
+          any("canonical MARI Peshawar target event" in violation
               for violation in contract.validate_envelope(cross_event)))
     duplicate_lineage = copy.deepcopy(real)
     duplicate_lineage["input_lineage"].append(copy.deepcopy(duplicate_lineage["input_lineage"][0]))
