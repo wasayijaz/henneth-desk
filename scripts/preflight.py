@@ -26,6 +26,8 @@ import os
 import subprocess
 import sys
 
+import build_ci_slice
+
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 STATE = os.path.join(ROOT, "state")
 
@@ -452,11 +454,16 @@ def check_ci_slice():
         company_brain_state = (wave1.get("company_brains", {}).get("companies", {}).get(sym) or {})
         thesis_state_row = (thesis_state.get("companies") or {}).get(sym)
         confidence_state_row = (confidence_state.get("companies") or {}).get(sym)
-        intelligence_case_state_row = (intelligence_cases_state.get("companies") or {}).get(sym)
+        evidence_watchlist_state_row = (evidence_watchlist_state.get("companies") or {}).get(sym)
+        intelligence_case_state_row = build_ci_slice._intelligence_case_row(
+            intelligence_cases_state,
+            sym,
+            confidence_row=confidence_state_row,
+            watchlist_row=evidence_watchlist_state_row,
+        )
         mlcf_pioc_readiness_state_row = (mlcf_pioc_readiness_manifest_state.get("companies") or {}).get(sym)
         management_delivery_state_row = (management_delivery_state.get("companies") or {}).get(sym)
         guidance_contradictions_state_row = (guidance_contradictions_state.get("companies") or {}).get(sym)
-        evidence_watchlist_state_row = (evidence_watchlist_state.get("companies") or {}).get(sym)
         monitoring_state_row = (monitoring_state.get("companies") or {}).get(sym)
         peer_registry_state_row = (peer_registry_state.get("companies") or {}).get(sym)
         if "operating_events" not in row or not isinstance(row.get("operating_events"), list):

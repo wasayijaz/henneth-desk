@@ -3317,80 +3317,74 @@
    "observations": {
     "revenue": [
      {
-      "series_id": "series_962982aae7b64a145d51865f",
+      "series_id": "series_c447ca54766bda7a5d05a62d",
       "ticker": "MLCF",
       "metric": "revenue",
+      "parser_version": "financial_statement_v2",
       "line": "revenue",
-      "fact_id": "manual_fact_66b17ef9298dc2847c1e5371",
-      "parser_version": null,
-      "parser_revision": null,
-      "source_method": "owner_verified_manual_financial_claim_v1",
-      "source_revision": "manual_vision_v1",
-      "manual_claim_id": "manual_mlc_2024_revenue",
-      "available_on": "2024-09-11T09:09:00+05:00",
-      "published_at": "2024-09-11T09:09:00+05:00",
-      "retrieved_at": null,
+      "parser_revision": "block_geometry_v5",
+      "available_on": "2025-09-25",
+      "published_at": "2025-09-25T12:43:00+05:00",
+      "retrieved_at": "2026-08-31T10:11:51Z",
       "statement_type": "income_statement",
-      "reported_label": "revenue",
+      "reported_label": "Revenue",
       "duration_months": 12,
-      "column_role": "current_period",
-      "comparative_to_period_end": null,
+      "column_role": "comparative_prior_period",
+      "comparative_to_period_end": "2025-06-30",
       "period_end": "2024-06-30",
       "period_type": "annual",
       "consolidation": "consolidated",
       "currency": "PKR",
       "unit": "PKR",
-      "unit_multiplier": 1,
-      "raw_value": "66452348000",
-      "normalized_value": 66452348000,
-      "document_id": "psx:236626",
-      "content_sha256": "98d81e613a6ebaa06757442f7239bf7471315bca6c7e70dff8052f0af3ec91bf",
-      "source_url": "https://dps.psx.com.pk/download/document/236626.pdf",
+      "unit_multiplier": 1000,
+      "raw_value": "66,452,348",
+      "normalized_value": 66452348000.0,
+      "document_id": "psx:260032",
+      "fact_id": "fact_394f42ea6daa2044e4ad6dac",
+      "content_sha256": "4fdfb4cbd2eee65576cbb89b43334ce0c09a7e5ffd573d5bf93b414029eba6d1",
+      "source_url": "https://dps.psx.com.pk/download/document/260032.pdf",
       "evidence": [
        {
-        "page": 1,
-        "text": "MLCF 2024-06-30 revenue owner-verified manual claim",
-        "source_url": "https://dps.psx.com.pk/download/document/236626.pdf"
+        "page": 293,
+        "text": "Revenue from contracts with customers - net",
+        "source_url": "https://dps.psx.com.pk/download/document/260032.pdf"
        }
       ],
       "quality_flags": [],
       "readiness": "model_loadable"
      },
      {
-      "series_id": "series_a9ea1787d8173cef091f96ab",
+      "series_id": "series_c43ba117eedbfd121f8f743a",
       "ticker": "MLCF",
       "metric": "revenue",
+      "parser_version": "financial_statement_v2",
       "line": "revenue",
-      "fact_id": "manual_fact_81f61eff38c0e596815acb84",
-      "parser_version": null,
-      "parser_revision": null,
-      "source_method": "owner_verified_manual_financial_claim_v1",
-      "source_revision": "manual_vision_v1",
-      "manual_claim_id": "manual_mlc_2025_revenue",
-      "available_on": "2026-07-31T08:51:00+05:00",
-      "published_at": "2026-07-31T08:51:00+05:00",
-      "retrieved_at": null,
+      "parser_revision": "block_geometry_v5",
+      "available_on": "2025-09-25",
+      "published_at": "2025-09-25T12:43:00+05:00",
+      "retrieved_at": "2026-08-31T10:11:51Z",
       "statement_type": "income_statement",
-      "reported_label": "revenue",
+      "reported_label": "Revenue",
       "duration_months": 12,
-      "column_role": "comparative_prior_period",
-      "comparative_to_period_end": "2026-06-30",
+      "column_role": "current_period",
+      "comparative_to_period_end": null,
       "period_end": "2025-06-30",
       "period_type": "annual",
       "consolidation": "consolidated",
       "currency": "PKR",
       "unit": "PKR",
-      "unit_multiplier": 1,
-      "raw_value": "68653999000",
-      "normalized_value": 68653999000,
-      "document_id": "psx:280589",
-      "content_sha256": "c9c7771eaa6a7fc75f6468318218ec85dd7d947637294e6dab9b19c3067ef696",
-      "source_url": "https://dps.psx.com.pk/download/document/280589.pdf",
+      "unit_multiplier": 1000,
+      "raw_value": "68,653,999",
+      "normalized_value": 68653999000.0,
+      "document_id": "psx:260032",
+      "fact_id": "fact_418ac80a7d5cbc105b272259",
+      "content_sha256": "4fdfb4cbd2eee65576cbb89b43334ce0c09a7e5ffd573d5bf93b414029eba6d1",
+      "source_url": "https://dps.psx.com.pk/download/document/260032.pdf",
       "evidence": [
        {
-        "page": 3,
-        "text": "MLCF 2025-06-30 revenue owner-verified manual claim",
-        "source_url": "https://dps.psx.com.pk/download/document/280589.pdf"
+        "page": 293,
+        "text": "Revenue from contracts with customers - net",
+        "source_url": "https://dps.psx.com.pk/download/document/260032.pdf"
        }
       ],
       "quality_flags": [],
@@ -3439,80 +3433,74 @@
     ],
     "profit_after_tax_attributable": [
      {
-      "series_id": "series_93d94276d0cb8540c9c923f4",
+      "series_id": "series_faabcef5ccb801a33dcb24e1",
       "ticker": "MLCF",
       "metric": "profit_after_tax_attributable",
+      "parser_version": "financial_statement_v2",
       "line": "profit_after_tax_attributable",
-      "fact_id": "manual_fact_532ab7b94f52d71ab3797be2",
-      "parser_version": null,
-      "parser_revision": null,
-      "source_method": "owner_verified_manual_financial_claim_v1",
-      "source_revision": "manual_vision_v1",
-      "manual_claim_id": "manual_mlc_2024_pat",
-      "available_on": "2024-09-11T09:09:00+05:00",
-      "published_at": "2024-09-11T09:09:00+05:00",
-      "retrieved_at": null,
+      "parser_revision": "block_geometry_v5",
+      "available_on": "2025-09-25",
+      "published_at": "2025-09-25T12:43:00+05:00",
+      "retrieved_at": "2026-08-31T10:11:51Z",
       "statement_type": "income_statement",
-      "reported_label": "profit_after_tax_attributable",
+      "reported_label": "Equity holders of the Holding Company",
       "duration_months": 12,
-      "column_role": "current_period",
-      "comparative_to_period_end": null,
+      "column_role": "comparative_prior_period",
+      "comparative_to_period_end": "2025-06-30",
       "period_end": "2024-06-30",
       "period_type": "annual",
       "consolidation": "consolidated",
       "currency": "PKR",
       "unit": "PKR",
-      "unit_multiplier": 1,
-      "raw_value": "6891064000",
-      "normalized_value": 6891064000,
-      "document_id": "psx:236626",
-      "content_sha256": "98d81e613a6ebaa06757442f7239bf7471315bca6c7e70dff8052f0af3ec91bf",
-      "source_url": "https://dps.psx.com.pk/download/document/236626.pdf",
+      "unit_multiplier": 1000,
+      "raw_value": "6,891,064",
+      "normalized_value": 6891064000.0,
+      "document_id": "psx:260032",
+      "fact_id": "fact_4579f98e3b83040dc49dda12",
+      "content_sha256": "4fdfb4cbd2eee65576cbb89b43334ce0c09a7e5ffd573d5bf93b414029eba6d1",
+      "source_url": "https://dps.psx.com.pk/download/document/260032.pdf",
       "evidence": [
        {
-        "page": 1,
-        "text": "MLCF 2024-06-30 profit_after_tax_attributable owner-verified manual claim",
-        "source_url": "https://dps.psx.com.pk/download/document/236626.pdf"
+        "page": 293,
+        "text": "Equity holders of the Holding Company",
+        "source_url": "https://dps.psx.com.pk/download/document/260032.pdf"
        }
       ],
       "quality_flags": [],
       "readiness": "model_loadable"
      },
      {
-      "series_id": "series_ea88471ff8015b5c9472dea2",
+      "series_id": "series_40ebbf95b39adabb1a9fdbb9",
       "ticker": "MLCF",
       "metric": "profit_after_tax_attributable",
+      "parser_version": "financial_statement_v2",
       "line": "profit_after_tax_attributable",
-      "fact_id": "manual_fact_1143daa1f48237ac5b1b2534",
-      "parser_version": null,
-      "parser_revision": null,
-      "source_method": "owner_verified_manual_financial_claim_v1",
-      "source_revision": "manual_vision_v1",
-      "manual_claim_id": "manual_mlc_2025_pat",
-      "available_on": "2026-07-31T08:51:00+05:00",
-      "published_at": "2026-07-31T08:51:00+05:00",
-      "retrieved_at": null,
+      "parser_revision": "block_geometry_v5",
+      "available_on": "2025-09-25",
+      "published_at": "2025-09-25T12:43:00+05:00",
+      "retrieved_at": "2026-08-31T10:11:51Z",
       "statement_type": "income_statement",
-      "reported_label": "profit_after_tax_attributable",
+      "reported_label": "Equity holders of the Holding Company",
       "duration_months": 12,
-      "column_role": "comparative_prior_period",
-      "comparative_to_period_end": "2026-06-30",
+      "column_role": "current_period",
+      "comparative_to_period_end": null,
       "period_end": "2025-06-30",
       "period_type": "annual",
       "consolidation": "consolidated",
       "currency": "PKR",
       "unit": "PKR",
-      "unit_multiplier": 1,
-      "raw_value": "11503305000",
-      "normalized_value": 11503305000,
-      "document_id": "psx:280589",
-      "content_sha256": "c9c7771eaa6a7fc75f6468318218ec85dd7d947637294e6dab9b19c3067ef696",
-      "source_url": "https://dps.psx.com.pk/download/document/280589.pdf",
+      "unit_multiplier": 1000,
+      "raw_value": "11,503,305",
+      "normalized_value": 11503305000.0,
+      "document_id": "psx:260032",
+      "fact_id": "fact_e8d4d3e966945b46f273e243",
+      "content_sha256": "4fdfb4cbd2eee65576cbb89b43334ce0c09a7e5ffd573d5bf93b414029eba6d1",
+      "source_url": "https://dps.psx.com.pk/download/document/260032.pdf",
       "evidence": [
        {
-        "page": 3,
-        "text": "MLCF 2025-06-30 profit_after_tax_attributable owner-verified manual claim",
-        "source_url": "https://dps.psx.com.pk/download/document/280589.pdf"
+        "page": 293,
+        "text": "Equity holders of the Holding Company",
+        "source_url": "https://dps.psx.com.pk/download/document/260032.pdf"
        }
       ],
       "quality_flags": [],
@@ -3691,7 +3679,7 @@
       "parser_revision": "block_geometry_v5",
       "available_on": "2025-09-25",
       "published_at": "2025-09-25T12:43:00+05:00",
-      "retrieved_at": "2026-08-29T11:22:34Z",
+      "retrieved_at": "2026-08-31T10:11:51Z",
       "statement_type": "income_statement",
       "reported_label": "Gross profit",
       "duration_months": 12,
@@ -3728,7 +3716,7 @@
       "parser_revision": "block_geometry_v5",
       "available_on": "2025-09-25",
       "published_at": "2025-09-25T12:43:00+05:00",
-      "retrieved_at": "2026-08-29T11:22:34Z",
+      "retrieved_at": "2026-08-31T10:11:51Z",
       "statement_type": "income_statement",
       "reported_label": "Gross profit",
       "duration_months": 12,
@@ -3765,7 +3753,7 @@
       "parser_revision": "block_geometry_v5",
       "available_on": "2025-09-25",
       "published_at": "2025-09-25T12:43:00+05:00",
-      "retrieved_at": "2026-08-29T11:22:34Z",
+      "retrieved_at": "2026-08-31T10:11:51Z",
       "statement_type": "income_statement",
       "reported_label": "Gross profit",
       "duration_months": 12,
@@ -3802,7 +3790,7 @@
       "parser_revision": "block_geometry_v5",
       "available_on": "2025-09-25",
       "published_at": "2025-09-25T12:43:00+05:00",
-      "retrieved_at": "2026-08-29T11:22:34Z",
+      "retrieved_at": "2026-08-31T10:11:51Z",
       "statement_type": "income_statement",
       "reported_label": "Gross profit",
       "duration_months": 12,
@@ -3838,21 +3826,21 @@
      {
       "period_end": "2025-06-30",
       "value": 3.3131274759471196,
-      "availability": "2026-07-31T08:51:00+05:00",
+      "availability": "2025-09-25",
       "formula_version": "financial_model_inputs_v1",
       "source_fact_ids": [
-       "manual_fact_66b17ef9298dc2847c1e5371",
-       "manual_fact_81f61eff38c0e596815acb84"
+       "fact_394f42ea6daa2044e4ad6dac",
+       "fact_418ac80a7d5cbc105b272259"
       ],
       "operand_provenance": [
        {
-        "fact_id": "manual_fact_66b17ef9298dc2847c1e5371",
-        "source_url": "https://dps.psx.com.pk/download/document/236626.pdf",
+        "fact_id": "fact_394f42ea6daa2044e4ad6dac",
+        "source_url": "https://dps.psx.com.pk/download/document/260032.pdf",
         "period_end": "2024-06-30"
        },
        {
-        "fact_id": "manual_fact_81f61eff38c0e596815acb84",
-        "source_url": "https://dps.psx.com.pk/download/document/280589.pdf",
+        "fact_id": "fact_418ac80a7d5cbc105b272259",
+        "source_url": "https://dps.psx.com.pk/download/document/260032.pdf",
         "period_end": "2025-06-30"
        }
       ]
@@ -3863,13 +3851,13 @@
       "availability": "2026-07-31T08:51:00+05:00",
       "formula_version": "financial_model_inputs_v1",
       "source_fact_ids": [
-       "manual_fact_81f61eff38c0e596815acb84",
+       "fact_418ac80a7d5cbc105b272259",
        "manual_fact_e403069b32de37b41b69c478"
       ],
       "operand_provenance": [
        {
-        "fact_id": "manual_fact_81f61eff38c0e596815acb84",
-        "source_url": "https://dps.psx.com.pk/download/document/280589.pdf",
+        "fact_id": "fact_418ac80a7d5cbc105b272259",
+        "source_url": "https://dps.psx.com.pk/download/document/260032.pdf",
         "period_end": "2025-06-30"
        },
        {
@@ -3884,21 +3872,21 @@
      {
       "period_end": "2025-06-30",
       "value": 66.9307526384895,
-      "availability": "2026-07-31T08:51:00+05:00",
+      "availability": "2025-09-25",
       "formula_version": "financial_model_inputs_v1",
       "source_fact_ids": [
-       "manual_fact_532ab7b94f52d71ab3797be2",
-       "manual_fact_1143daa1f48237ac5b1b2534"
+       "fact_4579f98e3b83040dc49dda12",
+       "fact_e8d4d3e966945b46f273e243"
       ],
       "operand_provenance": [
        {
-        "fact_id": "manual_fact_532ab7b94f52d71ab3797be2",
-        "source_url": "https://dps.psx.com.pk/download/document/236626.pdf",
+        "fact_id": "fact_4579f98e3b83040dc49dda12",
+        "source_url": "https://dps.psx.com.pk/download/document/260032.pdf",
         "period_end": "2024-06-30"
        },
        {
-        "fact_id": "manual_fact_1143daa1f48237ac5b1b2534",
-        "source_url": "https://dps.psx.com.pk/download/document/280589.pdf",
+        "fact_id": "fact_e8d4d3e966945b46f273e243",
+        "source_url": "https://dps.psx.com.pk/download/document/260032.pdf",
         "period_end": "2025-06-30"
        }
       ]
@@ -3909,13 +3897,13 @@
       "availability": "2026-07-31T08:51:00+05:00",
       "formula_version": "financial_model_inputs_v1",
       "source_fact_ids": [
-       "manual_fact_1143daa1f48237ac5b1b2534",
+       "fact_e8d4d3e966945b46f273e243",
        "manual_fact_a0206ff8968fe917b0aa252c"
       ],
       "operand_provenance": [
        {
-        "fact_id": "manual_fact_1143daa1f48237ac5b1b2534",
-        "source_url": "https://dps.psx.com.pk/download/document/280589.pdf",
+        "fact_id": "fact_e8d4d3e966945b46f273e243",
+        "source_url": "https://dps.psx.com.pk/download/document/260032.pdf",
         "period_end": "2025-06-30"
        },
        {
@@ -4048,7 +4036,7 @@
       "formula_version": "financial_model_inputs_v1",
       "source_fact_ids": [
        "fact_d32b77c35665cd45bf38b1c9",
-       "manual_fact_66b17ef9298dc2847c1e5371"
+       "fact_394f42ea6daa2044e4ad6dac"
       ],
       "operand_provenance": [
        {
@@ -4057,8 +4045,8 @@
         "period_end": "2024-06-30"
        },
        {
-        "fact_id": "manual_fact_66b17ef9298dc2847c1e5371",
-        "source_url": "https://dps.psx.com.pk/download/document/236626.pdf",
+        "fact_id": "fact_394f42ea6daa2044e4ad6dac",
+        "source_url": "https://dps.psx.com.pk/download/document/260032.pdf",
         "period_end": "2024-06-30"
        }
       ]
@@ -4066,11 +4054,11 @@
      {
       "period_end": "2025-06-30",
       "value": 34.58912276909027,
-      "availability": "2026-07-31T08:51:00+05:00",
+      "availability": "2025-09-25",
       "formula_version": "financial_model_inputs_v1",
       "source_fact_ids": [
        "fact_a896fd6bb2abd53dced52806",
-       "manual_fact_81f61eff38c0e596815acb84"
+       "fact_418ac80a7d5cbc105b272259"
       ],
       "operand_provenance": [
        {
@@ -4079,8 +4067,8 @@
         "period_end": "2025-06-30"
        },
        {
-        "fact_id": "manual_fact_81f61eff38c0e596815acb84",
-        "source_url": "https://dps.psx.com.pk/download/document/280589.pdf",
+        "fact_id": "fact_418ac80a7d5cbc105b272259",
+        "source_url": "https://dps.psx.com.pk/download/document/260032.pdf",
         "period_end": "2025-06-30"
        }
       ]
@@ -4090,21 +4078,21 @@
      {
       "period_end": "2024-06-30",
       "value": 10.36993305338135,
-      "availability": "2024-09-11T09:09:00+05:00",
+      "availability": "2025-09-25",
       "formula_version": "financial_model_inputs_v1",
       "source_fact_ids": [
-       "manual_fact_532ab7b94f52d71ab3797be2",
-       "manual_fact_66b17ef9298dc2847c1e5371"
+       "fact_4579f98e3b83040dc49dda12",
+       "fact_394f42ea6daa2044e4ad6dac"
       ],
       "operand_provenance": [
        {
-        "fact_id": "manual_fact_532ab7b94f52d71ab3797be2",
-        "source_url": "https://dps.psx.com.pk/download/document/236626.pdf",
+        "fact_id": "fact_4579f98e3b83040dc49dda12",
+        "source_url": "https://dps.psx.com.pk/download/document/260032.pdf",
         "period_end": "2024-06-30"
        },
        {
-        "fact_id": "manual_fact_66b17ef9298dc2847c1e5371",
-        "source_url": "https://dps.psx.com.pk/download/document/236626.pdf",
+        "fact_id": "fact_394f42ea6daa2044e4ad6dac",
+        "source_url": "https://dps.psx.com.pk/download/document/260032.pdf",
         "period_end": "2024-06-30"
        }
       ]
@@ -4112,21 +4100,21 @@
      {
       "period_end": "2025-06-30",
       "value": 16.7554769824843,
-      "availability": "2026-07-31T08:51:00+05:00",
+      "availability": "2025-09-25",
       "formula_version": "financial_model_inputs_v1",
       "source_fact_ids": [
-       "manual_fact_1143daa1f48237ac5b1b2534",
-       "manual_fact_81f61eff38c0e596815acb84"
+       "fact_e8d4d3e966945b46f273e243",
+       "fact_418ac80a7d5cbc105b272259"
       ],
       "operand_provenance": [
        {
-        "fact_id": "manual_fact_1143daa1f48237ac5b1b2534",
-        "source_url": "https://dps.psx.com.pk/download/document/280589.pdf",
+        "fact_id": "fact_e8d4d3e966945b46f273e243",
+        "source_url": "https://dps.psx.com.pk/download/document/260032.pdf",
         "period_end": "2025-06-30"
        },
        {
-        "fact_id": "manual_fact_81f61eff38c0e596815acb84",
-        "source_url": "https://dps.psx.com.pk/download/document/280589.pdf",
+        "fact_id": "fact_418ac80a7d5cbc105b272259",
+        "source_url": "https://dps.psx.com.pk/download/document/260032.pdf",
         "period_end": "2025-06-30"
        }
       ]
@@ -4537,9 +4525,9 @@
  },
  "_meta": {
   "generator_version": "ci_artifact_integrity_v1",
-  "source_commit_sha": "836bb68784ce9efad526df6858bc155b0a148450",
-  "build_cutoff_at": "2026-08-31T09:49:21Z",
-  "generated_at": "2026-08-31T09:49:21Z",
+  "source_commit_sha": "b738a0535ae0d01ed8b59d4658d1269fb8368afb",
+  "build_cutoff_at": "2026-08-31T10:14:17Z",
+  "generated_at": "2026-08-31T10:14:17Z",
   "artifact_path": "state/company_intel/financial_model_inputs.json",
   "timestamp_semantics": {
    "build_cutoff_at": "generation boundary only; not a source-effective or source-published time",

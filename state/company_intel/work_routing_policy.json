@@ -1,7 +1,7 @@
 {
  "schema_version": 1,
  "kind": "ci_work_routing_policy",
- "as_of": "2026-08-30",
+ "as_of": "2026-08-31",
  "pilot_symbols": [
   "MLCF",
   "OGDC",
@@ -448,19 +448,9 @@
      "source_url": "https://www.bop.com.pk/",
      "source": "issuer_source_registry",
      "previous_sha256": "db11df0094971c45515dbf4462bcf80d03f425dcd8d992d727818ea18149f4f9"
-    },
-    {
-     "trigger_type": "active_event_review_window",
-     "event_type": "results",
-     "date": "2026-08-28",
-     "window_start": "2026-08-26",
-     "window_end": "2026-08-30",
-     "confirmed": false,
-     "source_kind": "earnings_calendar",
-     "source_url": "https://stockanalysis.com/quote/psx/BOP/"
     }
    ],
-   "targeted_trigger_count": 6,
+   "targeted_trigger_count": 5,
    "allowed_targeted_work": [
     "owner_review",
     "single_company_ai_analysis"
@@ -743,14 +733,14 @@
  "summary": {
   "company_count": 20,
   "targeted_candidate_count": 13,
-  "targeted_trigger_count": 33,
+  "targeted_trigger_count": 32,
   "scheduled_ai_task_count": 0
  },
  "_meta": {
   "generator_version": "ci_artifact_integrity_v1",
-  "source_commit_sha": "836bb68784ce9efad526df6858bc155b0a148450",
-  "build_cutoff_at": "2026-08-31T09:49:21Z",
-  "generated_at": "2026-08-31T09:49:21Z",
+  "source_commit_sha": "b738a0535ae0d01ed8b59d4658d1269fb8368afb",
+  "build_cutoff_at": "2026-08-31T10:14:17Z",
+  "generated_at": "2026-08-31T10:14:17Z",
   "artifact_path": "state/company_intel/work_routing_policy.json",
   "timestamp_semantics": {
    "build_cutoff_at": "generation boundary only; not a source-effective or source-published time",
