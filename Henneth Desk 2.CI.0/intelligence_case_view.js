@@ -189,7 +189,13 @@
     if (key === "mechanism" || key === "financial_impact") {
       return blocked(key, blocks.Modelled || "not_yet_modelled");
     }
-    if (key === "analogues" || key === "scenarios" || key === "watch_next" || key === "confidence") {
+    if (key === "watch_next") {
+      const items = Array.isArray(caseObject?.monitoring)
+        ? caseObject.monitoring.filter(item => typeof item === "string" && item.trim()).map(text => ({ id: "monitoring", text }))
+        : [];
+      if (items.length) return { key, status: "available", reason: null, items };
+    }
+    if (key === "analogues" || key === "scenarios" || key === "confidence") {
       return blocked(key, "not_yet_modelled");
     }
     if (key === "valuation") {

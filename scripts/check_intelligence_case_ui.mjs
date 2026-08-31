@@ -17,6 +17,7 @@ const NAV_CHECK = path.join(ROOT, "scripts", "check_company_navigation_ui.mjs");
 const FIXTURE = path.join(ROOT, "scripts", "fixtures", "intelligence_case_ui.json");
 const MLCF_CASE_ID = "case_mlcf_pioc_control_observed_v1";
 const MARI_CASE_ID = "case_mari_working_interest_observed_v1";
+const MARI_SALES_CASE_ID = "case_mari_sky47_karakoram1_launch_sales_observed_v1";
 const RETIRED_MARI_CASE_IDS = Object.freeze(["case_mari_offshore_exploration_blocks_observed_v1"]);
 
 let checks = 0;
@@ -105,6 +106,34 @@ function buildFixture() {
         },
         policy: { observed_only: true, no_forecast: true, no_valuation: true, no_market_expectations: true, no_recommendation: true },
         source_lineage: [{ document_id: "psx:260446", page: 1, source_url: "https://dps.psx.com.pk/download/document/260446.pdf" }],
+      }, {
+        case_id: MARI_SALES_CASE_ID,
+        symbol: "MARI",
+        case_family: "ai_data_centre",
+        case_type: "campus_launch_sales_led",
+        status: "Observed",
+        epistemic_type: "reported_fact",
+        summary: "Observed official-source seed: Mari Energies reported the Karakoram-01 AI-ready data centre campus launch.",
+        observed_facts: [{
+          fact_id: "mari_sky47_karakoram1_campus_launch",
+          statement: "Mari Energies reported the launch of the Karakoram-01 AI-ready data centre campus.",
+          reported_values: [{ label: "first_facility", value: "Karakoram-01" }],
+          evidence: [{ document_id: "psx:280337", page: 1, source_url: "https://dps.psx.com.pk/download/document/280337.pdf", text: "Karakoram-01 launch" }],
+        }],
+        alternative_readings: [{
+          alternative_id: "launch_not_financial_qualification",
+          reading: "A launch announcement does not establish revenue or operating contribution.",
+          status: "unknown_unresolved",
+          rejection_condition: "Reject modelling without qualified financial truth and source-bound inputs.",
+        }],
+        monitoring: ["Watch for official customer contracts.", "Watch for qualified capacity disclosures.", "Watch for financial-truth qualification."],
+        promotion_blocks: {
+          Corroborated: "Blocked: no independent-originator corroboration is attached.",
+          Modelled: "Blocked: no source-qualified financial model inputs are attached.",
+          Published: "Blocked: no forecast, valuation or market-expectations output is complete.",
+        },
+        policy: { observed_only: true, no_forecast: true, no_valuation: true, no_market_expectations: true, no_recommendation: true },
+        source_lineage: [{ document_id: "psx:280337", page: 1, source_url: "https://dps.psx.com.pk/download/document/280337.pdf" }],
       }],
     },
     explicit_sections: {
@@ -202,8 +231,9 @@ function main() {
   const currentMariDiscovery = api.discoverableCases(currentMariRow);
   assert(currentMari.ok && currentMari.case.case_id === MARI_CASE_ID, "current MARI working-interest route accepted");
   assert(retiredMariLookups.every(lookup => lookup.ok === false && lookup.reason === "case_not_found"), "retired MARI offshore route fails closed with no alias");
-  assert(currentMariDiscovery.status === "available" && currentMariDiscovery.items.length === 1, "current MARI discovery emits one case");
-  assert(currentMariDiscovery.items[0].href === "/company/MARI/intelligence/" + MARI_CASE_ID, "current MARI discovery emits only working-interest href");
+  assert(currentMariDiscovery.status === "available" && currentMariDiscovery.items.length === 2, "current MARI discovery emits distinct E&P and sales-led cases");
+  assert(currentMariDiscovery.items.some(item => item.href === "/company/MARI/intelligence/" + MARI_CASE_ID), "current MARI discovery emits working-interest href");
+  assert(currentMariDiscovery.items.some(item => item.href === "/company/MARI/intelligence/" + MARI_SALES_CASE_ID), "current MARI discovery emits sales-led href");
   assert(!currentMariDiscovery.items.some(item => RETIRED_MARI_CASE_IDS.includes(item.case_id) || RETIRED_MARI_CASE_IDS.some(caseId => item.href.endsWith(caseId))), "retired MARI offshore case is not discoverable");
 
   const mlcfRow = { symbol: "MLCF", intelligence_cases: fixture.observed_mlcf };
@@ -274,7 +304,7 @@ function main() {
   const discoveredMlcf = api.discoverableCases({ symbol: "MLCF", intelligence_cases: fixture.observed_mlcf });
   const discoveredMari = api.discoverableCases({ symbol: "MARI", intelligence_cases: fixture.observed_mari });
   assert(discoveredMlcf.status === "available" && discoveredMlcf.items[0].href === "/company/MLCF/intelligence/" + MLCF_CASE_ID, "MLCF discovery href");
-  assert(discoveredMari.status === "available" && discoveredMari.items[0].href === "/company/MARI/intelligence/" + MARI_CASE_ID, "MARI discovery href");
+  assert(discoveredMari.status === "available" && discoveredMari.items.some(item => item.href === "/company/MARI/intelligence/" + MARI_CASE_ID) && discoveredMari.items.some(item => item.href === "/company/MARI/intelligence/" + MARI_SALES_CASE_ID), "MARI discovery hrefs");
   const intelStart = app.indexOf("function renderIntelligenceCaseIndex(");
   const intelEnd = app.indexOf("function renderIntelligence(r)");
   assert(intelStart >= 0 && intelEnd > intelStart, "case index renderer present");
@@ -288,8 +318,23 @@ function main() {
   const liveMari = api.discoverableCases(liveBySymbol.MARI);
   const liveOgdc = api.discoverableCases(liveBySymbol.OGDC);
   assert(liveMlcf.status === "available" && liveMlcf.items.some(item => item.href === "/company/MLCF/intelligence/" + MLCF_CASE_ID), "live MLCF case link projected");
-  assert(liveMari.status === "available" && liveMari.items.length === 1 && liveMari.items[0].href === "/company/MARI/intelligence/" + MARI_CASE_ID, "live MARI working-interest case link projected");
+  assert(liveMari.status === "available" && liveMari.items.length === 2 && liveMari.items.some(item => item.href === "/company/MARI/intelligence/" + MARI_CASE_ID) && liveMari.items.some(item => item.href === "/company/MARI/intelligence/" + MARI_SALES_CASE_ID), "live MARI E&P and sales-led case links projected");
   assert(api.findCase(liveBySymbol.MARI, MARI_CASE_ID, "MARI").ok, "live MARI working-interest route accepted");
+  const liveMariSales = api.findCase(liveBySymbol.MARI, MARI_SALES_CASE_ID, "MARI");
+  assert(liveMariSales.ok && liveMariSales.case.status === "Observed" && liveMariSales.case.case_family === "ai_data_centre", "live MARI sales-led route accepted");
+  const liveSalesFact = (liveMariSales.case.observed_facts || [])[0] || {};
+  assert(liveSalesFact.document_id === "psx:280337" && liveSalesFact.event_date === "2026-07-24T16:26:00+05:00" && /Karakoram-01/.test(liveSalesFact.statement || ""), "live sales case retains reported launch evidence");
+  const liveSalesWatch = api.resolveSection(liveMariSales.case, "watch_next");
+  assert(liveSalesWatch.status === "available" && liveSalesWatch.items.length === 3, "live sales case exposes its three monitoring items");
+  for (const sectionKey of ["mechanism", "financial_impact", "valuation", "expectations"]) {
+    const section = api.resolveSection(liveMariSales.case, sectionKey);
+    assert(section.status === "blocked" && section.reason && section.reason !== "placeholder", "live sales " + sectionKey + " remains specifically blocked");
+  }
+  const salesGate = liveMariSales.case.sales_input_readiness?.financial_truth_gate || {};
+  assert(salesGate.status === "not_qualified" && Object.values(salesGate.formal_output_statuses || {}).every(value => value === "blocked_financial_truth_not_qualified"), "live sales financial-truth gate blocks all formal outputs");
+  const kernelLabels = ["incremental_revenue_pkr", "contracted_capacity_mw", "utilisation_pct", "achieved_pricing", "capex_schedule_pkr", "commissioning_or_ramp_schedule", "incremental_margin_pct", "incremental_eps_pkr"];
+  assert(!liveSalesFact.reported_values.some(item => kernelLabels.includes(item.label)), "live sales reported values contain no model inputs");
+  assert(!app.includes("sales_input_readiness") && !view.includes("incremental_revenue_pkr"), "case UI does not render sales model inputs");
   const liveMlcfCase = api.findCase(liveBySymbol.MLCF, MLCF_CASE_ID, "MLCF");
   assert(liveMlcfCase.ok, "live MLCF observed case accepted");
   const liveConfidence = api.resolveSection(liveMlcfCase.case, "confidence");
