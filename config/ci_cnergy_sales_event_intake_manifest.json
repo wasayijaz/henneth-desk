@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "kind": "ci_cnergy_sales_event_intake_manifest",
+  "policy": {
+    "official_issuer_sources_only": true,
+    "exact_source_registry_ids_only": true,
+    "original_bytes_hash_bound_before_receipt": true,
+    "no_ocr": true,
+    "no_case_seed": true,
+    "no_fact_promotion": true
+  },
+  "issuer": {
+    "ticker": "CNERGY",
+    "legal_name": "Cnergyico PK Limited",
+    "legacy_name_in_documents": "Byco Petroleum Pakistan Limited"
+  },
+  "sources": [
+    {
+      "source_registry_id": "issuer:d9fcb2cee8c47f0960533b9f",
+      "url": "https://www.cnergyico.com/Bycosets%20highestsalesrecordinApril.pdf",
+      "title": "Byco sets highest sales record in April",
+      "issuer_news_index_url": "https://www.cnergyico.com/company-news/",
+      "issuer_index_publication_date": "2018-07-18",
+      "availability": "unavailable_http_404",
+      "content_length": null,
+      "content_sha256": null,
+      "citation_page": null,
+      "original_document_date": null,
+      "date_year_defensible": false,
+      "event_status": "observed_event_blocked",
+      "block_reason": "Exact official PDF URL returned HTTP 404; original bytes, page citation and document date cannot be verified. The issuer-index date is retained as availability metadata only."
+    },
+    {
+      "source_registry_id": "issuer:439f94b15635143d5d16b663",
+      "url": "https://www.cnergyico.com/files/bycoincrease0001.pdf",
+      "title": "Byco Increases share in gasoline supply sevenfold",
+      "issuer_news_index_url": "https://www.cnergyico.com/company-news/",
+      "issuer_index_publication_date": "2018-12-06",
+      "availability": "retrieved",
+      "content_length": 4785382,
+      "content_sha256": "c864722949a72c43c7ed6f4a7bcb7b9e5dccfa6d0532039bc59fc78fa94097df",
+      "raw_path": ".cache/company_intel/cnergy_sales_event_intake/byco_increases_share_2018.pdf",
+      "citation_page": 1,
+      "original_document_date": "2018-12-04",
+      "date_year_defensible": true,
+      "event_status": "observed_only",
+      "event_type": "sales_mix_expansion",
+      "evidence_note": "Page 1 image visibly carries the newspaper dateline 'BUSINESS RECORDER KARACHI TUESDAY 4 DECEMBER 2018'. No OCR or numeric fact extraction was used.",
+      "case_seed": null,
+      "promoted_facts": []
+    }
+  ],
+  "promotion": {
+    "case_seeds": [],
+    "facts": [],
+    "financial_truth_changed": false
+  }
+}

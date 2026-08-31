@@ -98,6 +98,12 @@ backend error is rendered.
     size, page-count or text/geometry gates. It must never become a second transport path: it does
     not download PDFs, change caps/allowlists, extract values, write receipts, or activate a model.
     A future parser or source-policy change requires separate owner review before any new restage.
+15b. `ocr_quarantine.py` is a controlled local evidence lane for image-only official PDFs that have
+    already been hash-bound. It accepts only exact PSX PDF/page identity, rechecks the original bytes,
+    and may append machine-read text candidates with OCR engine/version, confidence, geometry and
+    render receipts. Every record is `audit_only`/quarantined: it cannot create parser receipts,
+    canonical financial facts, financial truth, forecasts, valuations or market expectations. Any
+    later promotion must pass the separate deterministic statement/tie-out path.
 16. `build_company_scenario_lab.py` runs after fundamentals and quant, then before the CI slice. It
     publishes only dated snapshot operands, formula metadata and readiness. The browser supplies all
     revenue-growth, net-margin and P/E assumptions; generated state contains no selected case. The

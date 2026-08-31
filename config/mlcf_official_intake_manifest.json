@@ -1,0 +1,88 @@
+{
+  "schema_version": 1,
+  "manifest_version": "mlcf_official_intake_v1",
+  "symbol": "MLCF",
+  "scope": "first_tranche_fy2021_fy2022_plus_earliest_retained_interims",
+  "source_policy": {
+    "official_only": true,
+    "allowed_hosts": ["dps.psx.com.pk", "financials.psx.com.pk", "www.kmlg.com"],
+    "no_non_official_provider": true,
+    "no_fact_promotion_from_ocr": true
+  },
+  "ocr_policy": {
+    "engine": "tesseract",
+    "engine_version_required": true,
+    "page_numbers_one_based": true,
+    "confidence_and_geometry_required": true,
+    "original_bytes_immutable": true,
+    "quarantine_until": ["statement_identity_pass", "annual_or_quarterly_tie_out_pass", "auditor_reconciliation_pass"],
+    "promotion": "blocked_without_deterministic_review"
+  },
+  "documents": [
+    {
+      "document_id": "psx:194111",
+      "period_end": "2022-06-30",
+      "period_type": "annual",
+      "title": "Annual Report 2022",
+      "source_url": "https://financials.psx.com.pk/lib/DownloadPDF.php?id=194111",
+      "source": "PSX Financials",
+      "content_sha256": "5103d0a5eaaa8ce2c8c435ae50de6ee5000248ad05094e3f0ac086212e687aae",
+      "content_length": 4803163,
+      "page_count": 370,
+      "text_extractable": true,
+      "intake_status": "retained_for_deterministic_review"
+    },
+    {
+      "document_id": "psx:170305",
+      "period_end": "2021-06-30",
+      "period_type": "annual",
+      "title": "Maple Leaf Cement Factory Limited audited financial results for year ended 30.06.2021",
+      "source_url": "https://dps.psx.com.pk/download/document/170305.pdf",
+      "source": "PSX DPS",
+      "content_sha256": "21c90beb8e631c911234af7c5c619448c36e0f415b726fb47e8ff52e6a1afd6e",
+      "content_length": 593187,
+      "page_count": 2,
+      "text_extractable": false,
+      "intake_status": "ocr_quarantined"
+    },
+    {
+      "document_id": "issuer:mlcf:1q-2021-09",
+      "period_end": "2021-09-30",
+      "period_type": "interim",
+      "title": "Quarterly Report September 30, 2021",
+      "source_url": "https://www.kmlg.com/mlcfl/wp-content/uploads/2021/10/MLCFL-1Q-Sep-21.pdf",
+      "source": "Issuer website",
+      "content_sha256": "42c675f3cfa973684d5e04be00f9ef330c6554484f09714193556d2110b42f01",
+      "content_length": 812695,
+      "page_count": 47,
+      "text_extractable": true,
+      "intake_status": "retained_for_deterministic_review"
+    },
+    {
+      "document_id": "issuer:mlcf:hy-2021-12",
+      "period_end": "2021-12-31",
+      "period_type": "interim",
+      "title": "Half Yearly Report December 31, 2021",
+      "source_url": "https://www.kmlg.com/mlcfl/wp-content/uploads/2022/02/MLCFL-HY-Dec-21.pdf",
+      "source": "Issuer website",
+      "content_sha256": "f363e99782080db7c405f4afc418cd77915317a0fa47a3dff2f3525e6c5f1b10",
+      "content_length": 1131439,
+      "page_count": 63,
+      "text_extractable": true,
+      "intake_status": "retained_for_deterministic_review"
+    },
+    {
+      "document_id": "issuer:mlcf:q3-2022-03",
+      "period_end": "2022-03-31",
+      "period_type": "interim",
+      "title": "Third Quarterly Report March 31, 2022",
+      "source_url": "https://www.kmlg.com/mlcfl/wp-content/uploads/2022/03/MLCFL-3Q-Mar-22.pdf",
+      "source": "Issuer website",
+      "content_sha256": "1d01533de7d12b8c8d480dd58b137f38888abe88c9557a2ca7e09170dc9aecd5",
+      "content_length": 823476,
+      "page_count": 51,
+      "text_extractable": true,
+      "intake_status": "retained_for_deterministic_review"
+    }
+  ]
+}

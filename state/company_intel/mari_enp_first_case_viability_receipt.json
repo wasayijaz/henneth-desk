@@ -1,0 +1,156 @@
+{
+ "schema_version": "mari_enp_first_case_viability_receipt_v1",
+ "symbol": "MARI",
+ "receipt_status": "observed_seed_ready",
+ "candidate": {
+  "case_family": "e_and_p",
+  "candidate_event_id": "evt_3d1dae7553f73da60ba3",
+  "original_event_id": "evt_ddf99590afb6dacddbde",
+  "original_event_id_binding": "recomputed_from_company_event_ledger_by_stable_id",
+  "document_id": "psx:265594",
+  "document_title": "Material Information",
+  "document_type": "acquisition",
+  "source": "PSX DPS",
+  "source_url": "https://dps.psx.com.pk/download/document/265594.pdf",
+  "published_at": "2025-11-13T10:10:00+05:00",
+  "event_date": "2025-11-13",
+  "availability_date": "2025-11-13",
+  "availability_date_basis": "retained document has no available_on field; derived from published_at date",
+  "company_identity": {
+   "company_id": "MARI",
+   "symbol": "MARI",
+   "tickers": [
+    "MARI"
+   ]
+  },
+  "event_classification": {
+   "event_type": "acquisition_divestment",
+   "event_subtype": "acquisition",
+   "intelligence_type": "reported_fact",
+   "priority_weight": 4
+  },
+  "initial_business_mechanism": {
+   "mechanism": "acquisition of offshore exploration blocks as part of long-term hydrocarbon-resource exploration",
+   "evidence_text": "The acquisition of these offshore exploration blocks is a part of Company’s long term strategy where it aims to not only find new hydrocarbon resources but also to l",
+   "allowed_use": "Observed E&P investor-case seed only",
+   "not_evidenced": [
+    "block names",
+    "working interest percentage",
+    "operator status for this target event",
+    "consideration",
+    "resource or reserve size",
+    "production timing",
+    "revenue, margin, cash-flow, EPS, valuation or expectations impact"
+   ]
+  },
+  "evidence_binding": {
+   "page": 3,
+   "content_sha256": "cdc3f69157f5e5803238ba347ecb4e96f7297479df87d345739896913de8aae4",
+   "local_sha256": "cdc3f69157f5e5803238ba347ecb4e96f7297479df87d345739896913de8aae4",
+   "evidence_sha256": "56c298f041bd756cd184e75d122f5a95cc6879f4b5fa037786007948b76d3d83",
+   "evidence_class": "exact_hash_page_backed"
+  }
+ },
+ "bounded_first_vertical_slice": {
+  "status": "blocked_for_formal_outputs",
+  "observed_event_path": "ready",
+  "financial_truth_status": "not_qualified",
+  "financial_truth_gaps": [
+   {
+    "requirement": "qualified_annual_income_triplets",
+    "required": 5,
+    "present": 0,
+    "status": "blocked"
+   },
+   {
+    "requirement": "qualified_reported_quarter_fact_sets",
+    "required": 8,
+    "present": 0,
+    "status": "blocked"
+   },
+   {
+    "requirement": "qualified_annual_operating_cash_flow",
+    "required": 5,
+    "present": 0,
+    "status": "blocked"
+   },
+   {
+    "requirement": "official_share_count_capital_note_tie_out",
+    "required": 1,
+    "present": 0,
+    "status": "blocked"
+   }
+  ],
+  "retained_evidence_readiness": {
+   "event_status": "observed_only",
+   "exact_hash_page_backed_evidence_count_min": 1,
+   "ep_operands_status": "blocked_missing_numeric_operands",
+   "activation_status": "blocked",
+   "kernel_activated": false,
+   "forecast_activated": false,
+   "valuation_activated": false,
+   "market_expectations_activated": false
+  },
+  "formal_output_policy": {
+   "forecast": "blocked_financial_truth_not_qualified",
+   "valuation": "blocked_financial_truth_not_qualified",
+   "market_expectations": "blocked_financial_truth_not_qualified"
+  }
+ },
+ "decision": {
+  "candidate_category": "observed_seed_ready",
+  "why": "The retained operating event is a dated MARI acquisition_divestment reported fact, bound to PSX document psx:265594 by exact document, URL, page, content hash and evidence hash. It can seed an Observed E&P case, but nothing more.",
+  "blocking_reason_for_formal_slice": "MARI financial truth is not_qualified, annual income triplets are 0/5, reported-quarter fact sets are 0/8, annual operating cash flow is 0/5, official share-count capital-note tie-out is missing, and retained E&P operands are qualitative or unavailable."
+ },
+ "citations": [
+  {
+   "claim": "candidate operating event identity/date/type/company/source",
+   "path": "state/company_intel/operating_events.json",
+   "json_pointer": "/companies/MARI/events[event_id=evt_3d1dae7553f73da60ba3]"
+  },
+  {
+   "claim": "original ledger binding to psx:265594",
+   "path": "state/company_event_ledger.json",
+   "json_pointer": "/companies/MARI/events[event_id=evt_ddf99590afb6dacddbde]"
+  },
+  {
+   "claim": "document title/source/hash and publication timestamp",
+   "path": "state/company_documents.json",
+   "json_pointer": "/documents/psx:265594"
+  },
+  {
+   "claim": "MARI source registry identity",
+   "path": "state/company_intel/source_registry.json",
+   "json_pointer": "/companies/MARI"
+  },
+  {
+   "claim": "financial truth is not qualified and formal outputs are blocked",
+   "path": "state/company_intel/financial_truth_qualification.json",
+   "json_pointer": "/companies/MARI"
+  },
+  {
+   "claim": "bounded retained E&P evidence-readiness path remains observed-only and blocked for activation",
+   "path": "state/company_intel/mari_enp_evidence_readiness.json",
+   "json_pointer": "/"
+  }
+ ],
+ "policy": {
+  "read_only_retained_state_only": true,
+  "no_network_or_new_provider": true,
+  "no_case_model_change": true,
+  "no_formal_engine_activation": true,
+  "no_invented_inputs": true,
+  "no_advice_language": true
+ },
+ "_meta": {
+  "generator_version": "ci_artifact_integrity_v1",
+  "source_commit_sha": "febb2ce0985aa4975241e622aed9ef2457516983",
+  "build_cutoff_at": "2026-08-31T15:46:34Z",
+  "generated_at": "2026-08-31T15:46:34Z",
+  "artifact_path": "state/company_intel/mari_enp_first_case_viability_receipt.json",
+  "timestamp_semantics": {
+   "build_cutoff_at": "generation boundary only; not a source-effective or source-published time",
+   "generated_at": "artifact generation time only; not a source-effective or source-published time"
+  }
+ }
+}

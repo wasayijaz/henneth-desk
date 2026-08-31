@@ -1,0 +1,171 @@
+{
+ "schema_version": 1,
+ "receipt_version": "mlcf_official_intake_receipts_v1",
+ "symbol": "MLCF",
+ "manifest": "config/mlcf_official_intake_manifest.json",
+ "policy": {
+  "official_sources_only": true,
+  "original_bytes_retained": true,
+  "ocr_facts_quarantined": true,
+  "model_ready_promotion": "blocked_until_identity_tie_out_and_auditor_reconciliation",
+  "canonical_financial_state_modified": false
+ },
+ "receipts": [
+  {
+   "document_id": "psx:194111",
+   "raw_path": ".cache/company_intel/mlcf_official_intake/194111.pdf",
+   "source_url": "https://financials.psx.com.pk/lib/DownloadPDF.php?id=194111",
+   "original_page": 1,
+   "content_sha256": "5103d0a5eaaa8ce2c8c435ae50de6ee5000248ad05094e3f0ac086212e687aae",
+   "content_length": 4803163,
+   "page_count": 370,
+   "media_type": "application/pdf",
+   "text_extractable": true,
+   "ocr": {
+    "status": "not_required",
+    "engine": null,
+    "engine_version": null,
+    "confidence": null,
+    "geometry": []
+   },
+   "statement_identity": "pending_deterministic_review",
+   "tie_out": "pending_deterministic_review",
+   "facts": [],
+   "promotion_status": "quarantined"
+  },
+  {
+   "document_id": "psx:170305",
+   "raw_path": ".cache/company_intel/mlcf_official_intake/170305.pdf",
+   "source_url": "https://dps.psx.com.pk/download/document/170305.pdf",
+   "original_page": 1,
+   "content_sha256": "21c90beb8e631c911234af7c5c619448c36e0f415b726fb47e8ff52e6a1afd6e",
+   "content_length": 593187,
+   "page_count": 2,
+   "media_type": "application/pdf",
+   "text_extractable": false,
+   "ocr": {
+    "status": "blocked_engine_unavailable",
+    "engine": "tesseract",
+    "engine_version": null,
+    "confidence": null,
+    "geometry": []
+   },
+   "statement_identity": "pending_ocr_review",
+   "tie_out": "blocked_until_ocr_and_deterministic_review",
+   "facts": [],
+   "promotion_status": "quarantined"
+  },
+  {
+   "document_id": "issuer:mlcf:1q-2021-09",
+   "raw_path": ".cache/company_intel/mlcf_official_intake/q1_2021.pdf",
+   "source_url": "https://www.kmlg.com/mlcfl/wp-content/uploads/2021/10/MLCFL-1Q-Sep-21.pdf",
+   "original_page": 1,
+   "content_sha256": "42c675f3cfa973684d5e04be00f9ef330c6554484f09714193556d2110b42f01",
+   "content_length": 812695,
+   "page_count": 47,
+   "media_type": "application/pdf",
+   "text_extractable": true,
+   "ocr": {
+    "status": "not_required",
+    "engine": null,
+    "engine_version": null,
+    "confidence": null,
+    "geometry": []
+   },
+   "statement_identity": "pending_deterministic_review",
+   "tie_out": "pending_deterministic_review",
+   "facts": [],
+   "promotion_status": "quarantined"
+  },
+  {
+   "document_id": "issuer:mlcf:hy-2021-12",
+   "raw_path": ".cache/company_intel/mlcf_official_intake/hy_2021.pdf",
+   "source_url": "https://www.kmlg.com/mlcfl/wp-content/uploads/2022/02/MLCFL-HY-Dec-21.pdf",
+   "original_page": 1,
+   "content_sha256": "f363e99782080db7c405f4afc418cd77915317a0fa47a3dff2f3525e6c5f1b10",
+   "content_length": 1131439,
+   "page_count": 63,
+   "media_type": "application/pdf",
+   "text_extractable": true,
+   "ocr": {
+    "status": "not_required",
+    "engine": null,
+    "engine_version": null,
+    "confidence": null,
+    "geometry": []
+   },
+   "statement_identity": "pending_deterministic_review",
+   "tie_out": "pending_deterministic_review",
+   "facts": [],
+   "promotion_status": "quarantined"
+  },
+  {
+   "document_id": "issuer:mlcf:q3-2022-03",
+   "raw_path": ".cache/company_intel/mlcf_official_intake/q3_2022.pdf",
+   "source_url": "https://www.kmlg.com/mlcfl/wp-content/uploads/2022/03/MLCFL-3Q-Mar-22.pdf",
+   "original_page": 1,
+   "content_sha256": "1d01533de7d12b8c8d480dd58b137f38888abe88c9557a2ca7e09170dc9aecd5",
+   "content_length": 823476,
+   "page_count": 51,
+   "media_type": "application/pdf",
+   "text_extractable": true,
+   "ocr": {
+    "status": "not_required",
+    "engine": null,
+    "engine_version": null,
+    "confidence": null,
+    "geometry": []
+   },
+   "statement_identity": "pending_deterministic_review",
+   "tie_out": "pending_deterministic_review",
+   "facts": [],
+   "promotion_status": "quarantined"
+  }
+ ],
+ "coverage_before": {
+  "annual_income_triplets": {
+   "required": 5,
+   "present": 3
+  },
+  "annual_operating_cash_flow": {
+   "required": 5,
+   "present": 2
+  },
+  "direct_reported_quarters": {
+   "required": 8,
+   "present": 3
+  }
+ },
+ "coverage_after": {
+  "annual_income_triplets": {
+   "required": 5,
+   "present": 3
+  },
+  "annual_operating_cash_flow": {
+   "required": 5,
+   "present": 2
+  },
+  "direct_reported_quarters": {
+   "required": 8,
+   "present": 3
+  }
+ },
+ "unresolved_requirements": [
+  "deterministic full-statement extraction",
+  "annual and interim tie-outs",
+  "auditor reconciliation",
+  "tesseract engine/version for image-only FY2021 filing"
+ ],
+ "note": "No numeric facts are emitted or promoted by this intake receipt. Canonical financial_truth and reconciliation state remain unchanged.",
+ "_meta": {
+  "generator_version": "ci_artifact_integrity_v1",
+  "source_commit_sha": "febb2ce0985aa4975241e622aed9ef2457516983",
+  "build_cutoff_at": "2026-08-31T15:46:34Z",
+  "generated_at": "2026-08-31T15:46:34Z",
+  "artifact_path": "state/company_intel/mlcf_official_intake_receipts.json",
+  "timestamp_semantics": {
+   "build_cutoff_at": "generation boundary only; not a source-effective or source-published time",
+   "generated_at": "artifact generation time only; not a source-effective or source-published time"
+  }
+ }
+}

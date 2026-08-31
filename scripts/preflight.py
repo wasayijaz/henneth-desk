@@ -1403,6 +1403,15 @@ def check_reprocess_documents():
     if result.returncode != 0:
         fail("reprocess document check failed — " + ((result.stdout or result.stderr or "")[-500:].strip()))
 
+def check_ocr_quarantine():
+    path = os.path.join(ROOT, "scripts", "check_ocr_quarantine.py")
+    if not os.path.exists(path):
+        fail("check_ocr_quarantine.py missing")
+        return
+    result = subprocess.run([sys.executable, path], capture_output=True, text=True, timeout=30)
+    if result.returncode != 0:
+        fail("OCR quarantine check failed — " + ((result.stdout or result.stderr or "")[-500:].strip()))
+
 def check_ci_reprocess_manifest():
     path = os.path.join(ROOT, "scripts", "check_ci_reprocess_manifest.py")
     if not os.path.exists(path):
@@ -1541,6 +1550,7 @@ def main():
     check_management_delivery_ui()
     check_guidance_contradictions_ui()
     check_reprocess_documents()
+    check_ocr_quarantine()
     check_ci_reprocess_manifest()
     check_mari_sales_event_intake()
     check_ownership_source_manifest()
