@@ -20,6 +20,11 @@ MLCF_FY24_INTERIM_SOURCES = {
     "psx:225623": ("2023-12-31", "921c6bffa5fb9fe8c001bc76288a60d811ddfc9acb2357753008d57f129cbf42"),
     "psx:229941": ("2024-03-31", "9de20cf7a12f2e049ca2cf437be2089f300e7fc8aed8adae4d0be97492374030"),
 }
+MLCF_FY25_INTERIM_SOURCES = {
+    "psx:240505": ("2024-09-30", "d847db117f27029b9053fd1de61238d5474a7185ffd73c0aee6dd6ce74c159c7"),
+    "psx:247754": ("2024-12-31", "3ed9475293c88b4c73b84766bdfbc67df6382794dac34ade5faf210f3d0214a9"),
+    "psx:251879": ("2025-03-31", "d3ed7696b04b83d3aa9974c47a3176da6f47eb6d721afe0f31b0af877ed72937"),
+}
 RETIRED_DGKC_DUPLICATE_OR_METADATA_LEADS = {"psx:260947", "psx:264230"}
 
 
@@ -161,6 +166,20 @@ def _assert_mlcf_fy24_interim_sources(expected: dict) -> None:
             _fail(f"{doc_id}: MLCF FY24 source is not owner-approved")
 
 
+def _assert_mlcf_fy25_interim_sources(expected: dict) -> None:
+    documents = expected.get("documents") or {}
+    for doc_id, (period, content_sha256) in MLCF_FY25_INTERIM_SOURCES.items():
+        doc = documents.get(doc_id) or {}
+        if doc.get("symbol") != "MLCF" or doc.get("classification") != "financial_results":
+            _fail(f"{doc_id}: MLCF FY25 interim source identity drift")
+        if doc.get("period") != period or (doc.get("safe_period") or {}).get("period_type") != "interim":
+            _fail(f"{doc_id}: MLCF FY25 interim period identity drift")
+        if doc.get("content_sha256") != content_sha256 or doc.get("content_identity") != "retained_hash":
+            _fail(f"{doc_id}: MLCF FY25 source hash binding drift")
+        if doc.get("approval_status") != "owner_approved":
+            _fail(f"{doc_id}: MLCF FY25 source is not owner-approved")
+
+
 def _assert_stale_execution_payloads_fail(expected: dict) -> None:
     good_docs = {}
     for doc_id, doc in (expected.get("documents") or {}).items():
@@ -197,6 +216,7 @@ def main() -> int:
     _assert_manifest_shape(expected)
     _assert_exact_oversized_policy(expected)
     _assert_mlcf_fy24_interim_sources(expected)
+    _assert_mlcf_fy25_interim_sources(expected)
     _assert_no_numeric_facts(expected)
     committed = load_json(OUT, {})
     if _dump(committed) != _dump(expected):

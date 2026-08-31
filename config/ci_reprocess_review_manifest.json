@@ -1,7 +1,7 @@
 {
  "schema_version": 1,
  "manifest_version": "ci_reprocess_review_manifest_v1",
- "manifest_id": "cirestage_bbf471e37373231cda10",
+ "manifest_id": "cirestage_e5d968e53f55badffa28",
  "source": {
   "financial_coverage": "state/company_intel/financial_coverage.json",
   "research_index": "state/research_index.json"
@@ -54,6 +54,24 @@
   {
    "symbol": "MLCF",
    "period": "2024-03-31",
+   "classification": "financial_results",
+   "require_retained_hash": true
+  },
+  {
+   "symbol": "MLCF",
+   "period": "2024-09-30",
+   "classification": "financial_results",
+   "require_retained_hash": true
+  },
+  {
+   "symbol": "MLCF",
+   "period": "2024-12-31",
+   "classification": "financial_results",
+   "require_retained_hash": true
+  },
+  {
+   "symbol": "MLCF",
+   "period": "2025-03-31",
    "classification": "financial_results",
    "require_retained_hash": true
   },
@@ -122,6 +140,9 @@
   "psx:219092",
   "psx:225623",
   "psx:229941",
+  "psx:240505",
+  "psx:247754",
+  "psx:251879",
   "psx:260032",
   "psx:263397",
   "psx:271712",
@@ -185,6 +206,63 @@
    "content_identity": "retained_hash",
    "safe_period": {
     "period_end": "2024-03-31",
+    "period_type": "interim",
+    "source": "owner_approved_exact_source"
+   },
+   "approval_status": "owner_approved",
+   "reason": "owner-approved retained official exact source for bounded CI filing restage"
+  },
+  "psx:240505": {
+   "document_id": "psx:240505",
+   "symbol": "MLCF",
+   "period": "2024-09-30",
+   "classification": "financial_results",
+   "title": "MLCFL-Financial Results for the Quarter Ended 30 Sep 2024",
+   "expected_title_pattern": "MLCFL-Financial Results for the Quarter Ended 30 Sep 2024",
+   "published_at": "2024-10-24T09:01:00+05:00",
+   "source_url": "https://dps.psx.com.pk/download/document/240505.pdf",
+   "content_sha256": "d847db117f27029b9053fd1de61238d5474a7185ffd73c0aee6dd6ce74c159c7",
+   "content_identity": "retained_hash",
+   "safe_period": {
+    "period_end": "2024-09-30",
+    "period_type": "interim",
+    "source": "owner_approved_exact_source"
+   },
+   "approval_status": "owner_approved",
+   "reason": "owner-approved retained official exact source for bounded CI filing restage"
+  },
+  "psx:247754": {
+   "document_id": "psx:247754",
+   "symbol": "MLCF",
+   "period": "2024-12-31",
+   "classification": "financial_results",
+   "title": "MLCF-Financial Results for the Quarter Ended 31.12.2024",
+   "expected_title_pattern": "MLCF-Financial Results for the Quarter Ended 31\\.12\\.2024",
+   "published_at": "2025-02-20T09:02:00+05:00",
+   "source_url": "https://dps.psx.com.pk/download/document/247754.pdf",
+   "content_sha256": "3ed9475293c88b4c73b84766bdfbc67df6382794dac34ade5faf210f3d0214a9",
+   "content_identity": "retained_hash",
+   "safe_period": {
+    "period_end": "2024-12-31",
+    "period_type": "interim",
+    "source": "owner_approved_exact_source"
+   },
+   "approval_status": "owner_approved",
+   "reason": "owner-approved retained official exact source for bounded CI filing restage"
+  },
+  "psx:251879": {
+   "document_id": "psx:251879",
+   "symbol": "MLCF",
+   "period": "2025-03-31",
+   "classification": "financial_results",
+   "title": "MLCF-Financial Results 31.03.2025",
+   "expected_title_pattern": "MLCF-Financial Results 31\\.03\\.2025",
+   "published_at": "2025-04-23T08:54:00+05:00",
+   "source_url": "https://dps.psx.com.pk/download/document/251879.pdf",
+   "content_sha256": "d3ed7696b04b83d3aa9974c47a3176da6f47eb6d721afe0f31b0af877ed72937",
+   "content_identity": "retained_hash",
+   "safe_period": {
+    "period_end": "2025-03-31",
     "period_type": "interim",
     "source": "owner_approved_exact_source"
    },
@@ -383,13 +461,13 @@
   }
  },
  "summary": {
-  "document_count": 13,
+  "document_count": 16,
   "symbols": [
    "DGKC",
    "MARI",
    "MLCF"
   ],
-  "retained_hash_count": 9,
+  "retained_hash_count": 12,
   "transport_hash_required_count": 4
  }
 }

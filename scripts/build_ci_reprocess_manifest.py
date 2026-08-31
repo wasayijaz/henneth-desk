@@ -60,6 +60,40 @@ APPROVED_REVIEW_SLOTS: tuple[dict[str, Any], ...] = (
         "source_document_id": "psx:229941",
         "source_content_sha256": "9de20cf7a12f2e049ca2cf437be2089f300e7fc8aed8adae4d0be97492374030",
     },
+    # Owner-approved exact FY25 result notices.  These are a bounded
+    # diagnostic/restage tranche for the missing direct standalone quarters;
+    # they remain hash-bound and may add nothing if their text geometry cannot
+    # support a consolidated three-month financial fact set.
+    {
+        "symbol": "MLCF",
+        "period": "2024-09-30",
+        "period_type": "interim",
+        "classification": "financial_results",
+        "title_pattern": r"MLCFL-Financial Results for the Quarter Ended 30 Sep 2024",
+        "require_retained_hash": True,
+        "source_document_id": "psx:240505",
+        "source_content_sha256": "d847db117f27029b9053fd1de61238d5474a7185ffd73c0aee6dd6ce74c159c7",
+    },
+    {
+        "symbol": "MLCF",
+        "period": "2024-12-31",
+        "period_type": "interim",
+        "classification": "financial_results",
+        "title_pattern": r"MLCF-Financial Results for the Quarter Ended 31\.12\.2024",
+        "require_retained_hash": True,
+        "source_document_id": "psx:247754",
+        "source_content_sha256": "3ed9475293c88b4c73b84766bdfbc67df6382794dac34ade5faf210f3d0214a9",
+    },
+    {
+        "symbol": "MLCF",
+        "period": "2025-03-31",
+        "period_type": "interim",
+        "classification": "financial_results",
+        "title_pattern": r"MLCF-Financial Results 31\.03\.2025",
+        "require_retained_hash": True,
+        "source_document_id": "psx:251879",
+        "source_content_sha256": "d3ed7696b04b83d3aa9974c47a3176da6f47eb6d721afe0f31b0af877ed72937",
+    },
     {
         "symbol": "MLCF",
         "period": "2025-06-30",
