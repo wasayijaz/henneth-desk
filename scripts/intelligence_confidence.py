@@ -8,7 +8,8 @@ already-persisted state:
 * signal_independence: distinct originators only; PSX vs issuer distribution of
   the same official disclosure is not independent corroboration.
 * historical_precedent: strict no-lookahead analogues from event_studies.
-* financial_model_quality: financial_model_inputs readiness.
+* financial_model_quality: financial-truth qualification, with model-input
+  readiness retained as descriptive provenance only.
 * peer_evidence: strict no-lookahead peer analogues from event_studies.
 * data_completeness: retained evidence/proposition/financial coverage.
 * recency: effective/detected date distance from signal_state.as_of.
@@ -21,7 +22,7 @@ from typing import Any
 
 
 SCHEMA_VERSION = 1
-CONFIDENCE_VERSION = "intelligence_confidence_v1"
+CONFIDENCE_VERSION = "intelligence_confidence_v2"
 PKT = timezone(timedelta(hours=5))
 
 COMPONENT_WEIGHTS = {
@@ -207,26 +208,39 @@ def _historical_precedent(cluster: dict[str, Any], studies_by_event: dict[str, d
     )
 
 
-def _financial_model_quality(model_row: dict[str, Any]) -> dict[str, Any]:
-    status = model_row.get("status") or "unknown"
+def _financial_model_quality(model_row: dict[str, Any], financial_truth_row: dict[str, Any]) -> dict[str, Any]:
+    model_status = model_row.get("status") or "unknown"
+    financial_truth_status = financial_truth_row.get("status") or "not_qualified"
     observations = model_row.get("observations") or {}
     derived = model_row.get("derived") or {}
     observation_count = sum(len(v or []) for v in observations.values() if isinstance(v, list))
     derived_count = sum(len(v or []) for v in derived.values() if isinstance(v, list))
-    score = MODEL_READINESS_SCORES.get(status, 20)
-    if status == "partial" and observation_count >= 6 and derived_count >= 2:
-        score = 75
+    if financial_truth_status == "qualified":
+        score = MODEL_READINESS_SCORES.get(model_status, 20)
+        if model_status == "partial" and observation_count >= 6 and derived_count >= 2:
+            score = 75
+        rationale = "Financial-truth qualification passed; score is then mapped from retained model-input readiness."
+    else:
+        score = 0
+        rationale = "Financial-truth qualification has not passed, so legacy model-input readiness cannot contribute financial-model confidence."
     return _component(
         "financial_model_quality",
         {
-            "status": status,
+            "status": financial_truth_status,
+            "financial_truth_status": financial_truth_status,
+            "financial_truth_downstream": financial_truth_row.get("downstream") or {},
+            "model_input_readiness": {
+                "status": model_status,
+                "model_version": model_row.get("model_version"),
+                "quality_flags": model_row.get("quality_flags") or [],
+            },
             "model_version": model_row.get("model_version"),
             "observation_count": observation_count,
             "derived_count": derived_count,
-            "quality_flags": model_row.get("quality_flags") or [],
+            "quality_flags": (["financial_truth_not_qualified"] if financial_truth_status != "qualified" else []),
         },
         score,
-        "Mapped from financial_model_inputs readiness; richer partial inputs can score 75, unsupported sectors score 35.",
+        rationale,
     )
 
 
@@ -337,6 +351,7 @@ def _cluster_assessment(
     symbol: str,
     cluster: dict[str, Any],
     model_row: dict[str, Any],
+    financial_truth_row: dict[str, Any],
     studies_by_event: dict[str, dict[str, Any]],
     as_of: str | None,
 ) -> dict[str, Any]:
@@ -345,7 +360,7 @@ def _cluster_assessment(
         "source_reliability": _source_reliability(cluster),
         "signal_independence": _signal_independence(cluster),
         "historical_precedent": _historical_precedent(cluster, studies_by_event),
-        "financial_model_quality": _financial_model_quality(model_row),
+        "financial_model_quality": _financial_model_quality(model_row, financial_truth_row),
         "peer_evidence": _peer_evidence(cluster, study),
         "data_completeness": _data_completeness(cluster, model_row),
         "recency": _recency(cluster, as_of),
@@ -372,6 +387,7 @@ def build_intelligence_confidence(
     operating_events: dict[str, Any],
     event_studies: dict[str, Any],
     financial_model_inputs: dict[str, Any],
+    financial_truth_qualification: dict[str, Any],
 ) -> dict[str, Any]:
     symbols = list(signal_state.get("pilot_symbols") or [])
     studies_by_event = {
@@ -384,9 +400,10 @@ def build_intelligence_confidence(
     for symbol in symbols:
         signal_row = (signal_state.get("companies") or {}).get(symbol) or {}
         model_row = (financial_model_inputs.get("companies") or {}).get(symbol) or {}
+        financial_truth_row = (financial_truth_qualification.get("companies") or {}).get(symbol) or {}
         clusters = [cluster for cluster in signal_row.get("clusters") or [] if isinstance(cluster, dict)]
         assessments = [
-            _cluster_assessment(symbol, cluster, model_row, studies_by_event, as_of)
+            _cluster_assessment(symbol, cluster, model_row, financial_truth_row, studies_by_event, as_of)
             for cluster in clusters
         ]
         total = round(sum(row["score"] for row in assessments) / len(assessments), 2) if assessments else None
@@ -412,6 +429,7 @@ def build_intelligence_confidence(
             "operating_events": "state/company_intel/operating_events.json",
             "event_studies": "state/company_intel/event_studies.json",
             "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
+            "financial_truth_qualification": "state/company_intel/financial_truth_qualification.json",
         },
         "policy": {
             "research_only": True,

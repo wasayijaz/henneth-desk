@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import copy
 import subprocess
 import sys
 
@@ -38,7 +39,7 @@ def _assert_safe_language(data: dict) -> None:
                 _fail(f"forbidden confidence term present: {term}")
 
 
-def _assert_shape(data: dict, signal_state: dict, event_studies: dict, model_inputs: dict) -> int:
+def _assert_shape(data: dict, signal_state: dict, event_studies: dict, model_inputs: dict, financial_truth: dict) -> int:
     symbols = list(signal_state.get("pilot_symbols") or [])
     if len(symbols) != 20 or len(set(symbols)) != 20:
         _fail("pilot boundary must be exactly 20")
@@ -60,6 +61,7 @@ def _assert_shape(data: dict, signal_state: dict, event_studies: dict, model_inp
         row = companies.get(symbol) or {}
         signal_row = (signal_state.get("companies") or {}).get(symbol) or {}
         model_row = (model_inputs.get("companies") or {}).get(symbol) or {}
+        truth_row = (financial_truth.get("companies") or {}).get(symbol) or {}
         clusters = signal_row.get("clusters") or []
         assessments = row.get("assessments") or []
         if row.get("source_cluster_count") != len(clusters):
@@ -114,8 +116,15 @@ def _assert_shape(data: dict, signal_state: dict, event_studies: dict, model_inp
                         _fail(f"{symbol}: incomplete signal provenance ref")
                 else:
                     _fail(f"{symbol}: invalid provenance source product")
-            if (model_row.get("status") or "unknown") != components["financial_model_quality"]["raw_facts"].get("status"):
-                _fail(f"{symbol}: financial readiness raw fact mismatch")
+            financial_component = components["financial_model_quality"]
+            raw_facts = financial_component["raw_facts"]
+            expected_truth_status = truth_row.get("status") or "not_qualified"
+            if raw_facts.get("status") != expected_truth_status or raw_facts.get("financial_truth_status") != expected_truth_status:
+                _fail(f"{symbol}: financial-truth raw fact mismatch")
+            if (raw_facts.get("model_input_readiness") or {}).get("status") != (model_row.get("status") or "unknown"):
+                _fail(f"{symbol}: model-input readiness provenance mismatch")
+            if expected_truth_status != "qualified" and financial_component.get("normalized_score") != 0:
+                _fail(f"{symbol}: unqualified financial truth contributed model confidence")
             independence = components["signal_independence"]["raw_facts"]
             if len(independence.get("originators") or []) == 1 and components["signal_independence"]["normalized_score"] > 25:
                 _fail(f"{symbol}: single originator over-scored for independence")
@@ -127,12 +136,25 @@ def main() -> None:
     operating_events = load_json(STATE / "company_intel" / "operating_events.json", {"companies": {}})
     event_studies = load_json(STATE / "company_intel" / "event_studies.json", {"studies": {}})
     model_inputs = load_json(STATE / "company_intel" / "financial_model_inputs.json", {"companies": {}})
-    expected = build_intelligence_confidence(signal_state, operating_events, event_studies, model_inputs)
-    expected_again = build_intelligence_confidence(signal_state, operating_events, event_studies, model_inputs)
+    financial_truth = load_json(STATE / "company_intel" / "financial_truth_qualification.json", {"companies": {}})
+    expected = build_intelligence_confidence(signal_state, operating_events, event_studies, model_inputs, financial_truth)
+    expected_again = build_intelligence_confidence(signal_state, operating_events, event_studies, model_inputs, financial_truth)
     if _dump(expected) != _dump(expected_again):
         _fail("pure builder is not deterministic")
     _assert_safe_language(expected)
-    total = _assert_shape(expected, signal_state, event_studies, model_inputs)
+    total = _assert_shape(expected, signal_state, event_studies, model_inputs, financial_truth)
+    mlcf_model = (model_inputs.get("companies") or {}).get("MLCF") or {}
+    mlcf_truth = (financial_truth.get("companies") or {}).get("MLCF") or {}
+    if mlcf_model.get("status") == "ready" and mlcf_truth.get("status") != "qualified":
+        live_component = ((expected.get("companies", {}).get("MLCF", {}).get("assessments") or [{}])[0].get("components") or {}).get("financial_model_quality") or {}
+        if live_component.get("normalized_score") != 0:
+            _fail("MLCF: legacy ready inputs must not bypass red financial truth")
+    qualified_truth = copy.deepcopy(financial_truth)
+    qualified_truth.setdefault("companies", {}).setdefault("MLCF", {})["status"] = "qualified"
+    qualified_component = ((build_intelligence_confidence(signal_state, operating_events, event_studies, model_inputs, qualified_truth)
+                            .get("companies", {}).get("MLCF", {}).get("assessments") or [{}])[0].get("components") or {}).get("financial_model_quality") or {}
+    if mlcf_model.get("status") == "ready" and qualified_component.get("normalized_score") != 100:
+        _fail("MLCF: qualified financial truth must permit model-quality scoring")
     real = build()
     if _dump(expected) != _dump(real):
         _fail("writer output differs from pure builder")
