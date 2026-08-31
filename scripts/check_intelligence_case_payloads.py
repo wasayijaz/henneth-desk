@@ -29,6 +29,8 @@ from psx_data import ROOT, STATE, load_json
 
 OUT = STATE / "company_intel" / "intelligence_cases.json"
 SLICE_OUT = ROOT / "Henneth Desk 2.CI.0" / "data" / "company_intelligence.json"
+CONFIDENCE_OUT = STATE / "company_intel" / "intelligence_confidence.json"
+WATCHLIST_OUT = STATE / "company_intel" / "evidence_watchlist.json"
 HEX64 = re.compile(r"^[0-9a-f]{64}$", re.I)
 FORBIDDEN_KEYS = {"forecast", "valuation", "market_expectations", "price_target", "target_price", "recommendation", "probability", "expected_return"}
 checks = 0
@@ -141,7 +143,17 @@ def main() -> None:
 
     sliced = build_slice(write=False)
     rows = {row["symbol"]: row for row in sliced["tickers"]}
-    check(rows["MLCF"]["intelligence_cases"] == first["companies"]["MLCF"], "MLCF case row not attached exactly")
+    raw_mlcf = load_json(OUT, {})["companies"]["MLCF"]
+    check(raw_mlcf == first["companies"]["MLCF"], "raw MLCF case state changed during UI projection")
+    projected_mlcf = rows["MLCF"]["intelligence_cases"]
+    check(projected_mlcf["symbol"] == "MLCF" and projected_mlcf["cases"][0]["case_id"] == MLCF_CASE_ID, "MLCF projected case identity mismatch")
+    sections = projected_mlcf["cases"][0].get("sections") or {}
+    check(sections.get("confidence", {}).get("status") == "available", "MLCF source-bound confidence was not projected")
+    check(sections.get("watch_next", {}).get("status") == "available", "MLCF source-bound watch list was not projected")
+    dimensions = sections["confidence"].get("dimensions") or []
+    check(dimensions and dimensions[0].get("status") == "low (42.0/100)", "MLCF projected confidence did not preserve financial-truth-gated score")
+    watch_items = sections["watch_next"].get("items") or []
+    check(len(watch_items) == 4 and all(item.get("reason") for item in watch_items), "MLCF projected watch items missing source requirements")
     check(rows["MARI"]["intelligence_cases"] == first["companies"]["MARI"], "MARI case row not attached exactly")
     for symbol, row in rows.items():
         payload = row.get("intelligence_cases")
@@ -151,6 +163,26 @@ def main() -> None:
             check(payload is None or (payload.get("case_count") == 0 and payload.get("cases") == []), f"unexpected case on {symbol}")
     check(_intelligence_case_row({}, "MLCF") is None, "missing case state produced a synthetic row")
     check(_intelligence_case_row({"companies": {"MLCF": {"symbol": "MARI", "case_count": 1}}}, "MLCF") is None, "mismatched case state crossed ticker boundary")
+    confidence_state = load_json(CONFIDENCE_OUT, {})
+    watchlist_state = load_json(WATCHLIST_OUT, {})
+    hostile_confidence = deepcopy(confidence_state["companies"]["MLCF"])
+    hostile_confidence["assessments"][0]["provenance_refs"][0]["content_sha256"] = "0" * 64
+    rejected_projection = _intelligence_case_row(
+        first,
+        "MLCF",
+        confidence_row=hostile_confidence,
+        watchlist_row=watchlist_state["companies"]["MLCF"],
+    )
+    check("sections" not in rejected_projection["cases"][0], "mismatched evidence hash was projected into MLCF case")
+    hostile_watch = deepcopy(watchlist_state["companies"]["MLCF"])
+    hostile_watch["items"][0]["ids"]["assertion_key"] = "different_assertion"
+    rejected_watch = _intelligence_case_row(
+        first,
+        "MLCF",
+        confidence_row=confidence_state["companies"]["MLCF"],
+        watchlist_row=hostile_watch,
+    )
+    check("sections" not in rejected_watch["cases"][0], "mismatched assertion was projected into MLCF case")
 
     after = snapshot(watched)
     check(before == after, "payload checker wrote an artifact")

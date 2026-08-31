@@ -290,6 +290,14 @@ function main() {
   assert(liveMlcf.status === "available" && liveMlcf.items.some(item => item.href === "/company/MLCF/intelligence/" + MLCF_CASE_ID), "live MLCF case link projected");
   assert(liveMari.status === "available" && liveMari.items.length === 1 && liveMari.items[0].href === "/company/MARI/intelligence/" + MARI_CASE_ID, "live MARI working-interest case link projected");
   assert(api.findCase(liveBySymbol.MARI, MARI_CASE_ID, "MARI").ok, "live MARI working-interest route accepted");
+  const liveMlcfCase = api.findCase(liveBySymbol.MLCF, MLCF_CASE_ID, "MLCF");
+  assert(liveMlcfCase.ok, "live MLCF observed case accepted");
+  const liveConfidence = api.resolveSection(liveMlcfCase.case, "confidence");
+  const liveWatchNext = api.resolveSection(liveMlcfCase.case, "watch_next");
+  assert(liveConfidence.status === "available" && liveConfidence.epistemic_type === "inference", "live MLCF confidence projection is explicit and derived");
+  assert(liveConfidence.dimensions?.[0]?.status === "low (42.0/100)", "live MLCF confidence respects financial-truth gate");
+  assert(liveWatchNext.status === "available" && liveWatchNext.epistemic_type === "inference", "live MLCF watch projection is explicit and derived");
+  assert(Array.isArray(liveWatchNext.items) && liveWatchNext.items.length === 4 && liveWatchNext.items.every(item => item.reason), "live MLCF watch projection retains source requirements");
   assert(api.findCase(liveBySymbol.MARI, RETIRED_MARI_CASE_IDS[0], "MARI").reason === "case_not_found", "live retired MARI offshore route fails closed");
   assert(!liveMari.items.some(item => RETIRED_MARI_CASE_IDS.includes(item.case_id)), "live retired MARI offshore case is not discoverable");
   assert(liveOgdc.status === "empty" || liveOgdc.status === "absent", "non-case company emits no discovery link");

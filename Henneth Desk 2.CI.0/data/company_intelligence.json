@@ -1,6 +1,6 @@
 {
  "meta": {
-  "built": "2026-08-31 13:34",
+  "built": "2026-08-31 13:46",
   "source": "Henneth state layer",
   "profile_source": "https://dps.psx.com.pk/company/{symbol}",
   "profile_updated": "2026-08-24 18:30",
@@ -20,9 +20,9 @@
    "source_documents": 317,
    "note": "Every factual edge carries source URL and cited page when available.",
    "generator_version": "ci_artifact_integrity_v1",
-   "source_commit_sha": "999ab9c2e82463584440ee8d59b508f5fd67bfbf",
-   "build_cutoff_at": "2026-08-31T08:33:49Z",
-   "generated_at": "2026-08-31T08:33:49Z",
+   "source_commit_sha": "e0ae7f9de4563a8e1f98f76b9f05d23d91fee734",
+   "build_cutoff_at": "2026-08-31T08:45:17Z",
+   "generated_at": "2026-08-31T08:45:17Z",
    "artifact_path": "state/company_intel/company_graph.json",
    "timestamp_semantics": {
     "build_cutoff_at": "generation boundary only; not a source-effective or source-published time",
@@ -35,9 +35,9 @@
    "item_count": 359,
    "note": "Deterministic official-source change digest. Research, not advice.",
    "generator_version": "ci_artifact_integrity_v1",
-   "source_commit_sha": "999ab9c2e82463584440ee8d59b508f5fd67bfbf",
-   "build_cutoff_at": "2026-08-31T08:33:49Z",
-   "generated_at": "2026-08-31T08:33:49Z",
+   "source_commit_sha": "e0ae7f9de4563a8e1f98f76b9f05d23d91fee734",
+   "build_cutoff_at": "2026-08-31T08:45:17Z",
+   "generated_at": "2026-08-31T08:45:17Z",
    "artifact_path": "state/company_intel/change_intelligence.json",
    "timestamp_semantics": {
     "build_cutoff_at": "generation boundary only; not a source-effective or source-published time",
@@ -21061,7 +21061,77 @@
         "text": "in local market and inclusion of Pioneer Cement Limited’s dispatches in total due to its acquisition during the month of February 2026. The export sales volume reduced from 173,489 tons to 78,135 tons, a decline of 54.96% from the previous…",
         "event_date": "2026-04-28T10:25:00+05:00"
        }
-      ]
+      ],
+      "sections": {
+       "confidence": {
+        "status": "available",
+        "epistemic_type": "inference",
+        "dimensions": [
+         {
+          "name": "Overall confidence",
+          "status": "low (42.0/100)"
+         },
+         {
+          "name": "source reliability",
+          "status": "100/100 · weight 20"
+         },
+         {
+          "name": "signal independence",
+          "status": "25/100 · weight 20"
+         },
+         {
+          "name": "historical precedent",
+          "status": "25/100 · weight 20"
+         },
+         {
+          "name": "financial model quality",
+          "status": "0/100 · weight 15"
+         },
+         {
+          "name": "peer evidence",
+          "status": "0/100 · weight 10"
+         },
+         {
+          "name": "data completeness",
+          "status": "100/100 · weight 10"
+         },
+         {
+          "name": "recency",
+          "status": "40/100 · weight 5"
+         }
+        ]
+       },
+       "watch_next": {
+        "status": "available",
+        "epistemic_type": "inference",
+        "items": [
+         {
+          "id": "Confirm: prove_254bcc2c99ddfb1f3bf4",
+          "text": "subsequent official disclosure confirms stage progression or completion",
+          "status": "not_observed",
+          "reason": "official_company_or_psx_disclosure"
+         },
+         {
+          "id": "Break: kill_5c4b4ba0e29152624364",
+          "text": "official disclosure cancels, terminates, rejects, or materially contradicts the same target assertion",
+          "status": "not_observed",
+          "reason": "official_company_or_psx_disclosure"
+         },
+         {
+          "id": "Watch: watch_554ed192f3d26bb04deb",
+          "text": "Monitor future retained operating events with the same conflict key.",
+          "status": "official_disclosure_refresh",
+          "reason": "state/company_intel/operating_events.json"
+         },
+         {
+          "id": "Watch: watch_f9d0fe9ec22dbc299a28",
+          "text": "Monitor financial model input readiness before any quantified impact can be calculated.",
+          "status": "model_readiness",
+          "reason": "state/company_intel/financial_model_inputs.json"
+         }
+        ]
+       }
+      }
      }
     ],
     "rejection_reasons": []
@@ -236677,9 +236747,9 @@
  ],
  "_meta": {
   "generator_version": "ci_artifact_integrity_v1",
-  "source_commit_sha": "999ab9c2e82463584440ee8d59b508f5fd67bfbf",
-  "build_cutoff_at": "2026-08-31T08:35:01Z",
-  "generated_at": "2026-08-31T08:35:01Z",
+  "source_commit_sha": "e0ae7f9de4563a8e1f98f76b9f05d23d91fee734",
+  "build_cutoff_at": "2026-08-31T08:46:32Z",
+  "generated_at": "2026-08-31T08:46:32Z",
   "artifact_path": "Henneth Desk 2.CI.0/data/company_intelligence.json",
   "timestamp_semantics": {
    "build_cutoff_at": "generation boundary only; not a source-effective or source-published time",
