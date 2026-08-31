@@ -1030,6 +1030,9 @@ def consume_canonical(registry_path: Path, queue_path: Path, output_root: Path,
     from build_management_delivery import build as build_management_delivery
     from build_intelligence_cases import build as build_intelligence_cases
     from build_operating_events import build as build_operating_events
+    from build_event_studies import build as build_event_studies
+    from build_conditional_benchmarks import build as build_conditional_benchmarks
+    from build_causal_foundations import build as build_causal_foundations
     from build_signal_clusters import build as build_signal_clusters
     from build_ci_monitoring import build as build_ci_monitoring
     from build_ci_work_routing_policy import build as build_ci_work_routing_policy
@@ -1092,6 +1095,11 @@ def consume_canonical(registry_path: Path, queue_path: Path, output_root: Path,
             build_management_delivery,
         )
     )
+    event_derived_builders = (
+        build_event_studies,
+        build_conditional_benchmarks,
+        build_causal_foundations,
+    )
     post_watchlist_builders = (
         () if ci_builder_injected else (
             build_ci_monitoring,
@@ -1108,6 +1116,9 @@ def consume_canonical(registry_path: Path, queue_path: Path, output_root: Path,
                 _atomic_replace_file(work_state / rel, state_root / rel)
         stage = "build_operating_events"
         build_operating_events()
+        for builder in event_derived_builders:
+            stage = f"build:{getattr(builder, '__module__', 'unknown')}"
+            builder()
         stage = "build_intelligence_cases"
         build_intelligence_cases()
         stage = "build_financial_model_inputs"
@@ -1162,6 +1173,9 @@ def consume_canonical(registry_path: Path, queue_path: Path, output_root: Path,
         # coherent final artifact set rather than a stale watchlist/slice.
         stage = "rebuild_operating_events"
         build_operating_events()
+        for builder in event_derived_builders:
+            stage = f"rebuild:{getattr(builder, '__module__', 'unknown')}"
+            builder()
         stage = "rebuild_intelligence_cases"
         build_intelligence_cases()
         for builder in source_ci_builders:
