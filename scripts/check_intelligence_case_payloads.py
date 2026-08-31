@@ -134,12 +134,14 @@ def main() -> None:
 
     for case in (mlcf, mari):
         check(case["promotion_blocks"].keys() >= {"Corroborated", "Modelled", "Published"}, f"promotion blocks missing for {case['case_id']}")
-        check(all(case["policy"].get(key) is True for key in ("observed_only", "no_forecast", "no_valuation", "no_market_expectations", "no_recommendation", "reported_values_only")), f"policy missing for {case['case_id']}")
+        check(all(case["policy"].get(key) is True for key in ("observed_only", "no_forecast", "no_valuation", "no_market_expectations", "no_recommendation")), f"policy missing for {case['case_id']}")
         cutoff = case["as_of"]
         for ref in case["source_lineage"]:
             check(ref["event_date"] <= cutoff and ref["document_published_at"] <= cutoff, f"evidence after case cutoff for {case['case_id']}")
         for key, _value in walk(case):
             check(str(key).lower() not in FORBIDDEN_KEYS, f"formal output key emitted: {key}")
+    check(mlcf["policy"].get("reported_values_only") is False and mlcf["policy"].get("deterministic_derived_context_only") is True, "MLCF derived-market-context policy mismatch")
+    check(mari["policy"].get("reported_values_only") is True and "deterministic_derived_context_only" not in mari["policy"], "MARI observed policy mismatch")
 
     sliced = build_slice(write=False)
     rows = {row["symbol"]: row for row in sliced["tickers"]}
@@ -173,7 +175,8 @@ def main() -> None:
         confidence_row=hostile_confidence,
         watchlist_row=watchlist_state["companies"]["MLCF"],
     )
-    check("sections" not in rejected_projection["cases"][0], "mismatched evidence hash was projected into MLCF case")
+    rejected_sections = rejected_projection["cases"][0].get("sections") or {}
+    check(set(rejected_sections) == {"analogues"}, "mismatched evidence hash was projected into MLCF case")
     hostile_watch = deepcopy(watchlist_state["companies"]["MLCF"])
     hostile_watch["items"][0]["ids"]["assertion_key"] = "different_assertion"
     rejected_watch = _intelligence_case_row(
@@ -182,7 +185,8 @@ def main() -> None:
         confidence_row=confidence_state["companies"]["MLCF"],
         watchlist_row=hostile_watch,
     )
-    check("sections" not in rejected_watch["cases"][0], "mismatched assertion was projected into MLCF case")
+    rejected_watch_sections = rejected_watch["cases"][0].get("sections") or {}
+    check(set(rejected_watch_sections) == {"analogues"}, "mismatched assertion was projected into MLCF case")
 
     after = snapshot(watched)
     check(before == after, "payload checker wrote an artifact")

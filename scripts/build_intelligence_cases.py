@@ -7,6 +7,7 @@ models must earn their own dedicated builders/checks.
 from __future__ import annotations
 
 from datetime import datetime, timedelta, timezone
+import math
 import re
 from typing import Any
 
@@ -15,7 +16,7 @@ from psx_data import STATE, load_json, save_json
 
 
 OUT = STATE / "company_intel" / "intelligence_cases.json"
-CASE_PRODUCT_VERSION = "observed_intelligence_case_seed_v3"
+CASE_PRODUCT_VERSION = "observed_intelligence_case_seed_v4"
 LIFECYCLE = ["Observed", "Corroborated", "Modelled", "Validated", "Published", "Monitoring", "Closed"]
 PKT = timezone(timedelta(hours=5))
 
@@ -467,15 +468,132 @@ def _source_cutoff(refs: list[dict[str, Any]]) -> str:
     return (max(parsed) if parsed else datetime.now(PKT).replace(microsecond=0)).isoformat()
 
 
-def _policy() -> dict[str, bool]:
-    return {
+def _policy(*, deterministic_derived_context: bool = False) -> dict[str, bool]:
+    policy = {
         "observed_only": True,
         "no_forecast": True,
         "no_valuation": True,
         "no_market_expectations": True,
         "no_recommendation": True,
-        "reported_values_only": True,
+        "reported_values_only": not deterministic_derived_context,
     }
+    if deterministic_derived_context:
+        policy["deterministic_derived_context_only"] = True
+    return policy
+
+
+def _finite_positive(label: str, value: Any) -> float:
+    if isinstance(value, bool) or not isinstance(value, (int, float)) or not math.isfinite(float(value)) or float(value) <= 0:
+        _fail(f"MLCF market context invalid positive numeric value: {label}")
+    return float(value)
+
+
+def _finite_number(label: str, value: Any) -> float:
+    if isinstance(value, bool) or not isinstance(value, (int, float)) or not math.isfinite(float(value)):
+        _fail(f"MLCF market context invalid numeric value: {label}")
+    return float(value)
+
+
+def _mlcf_market_context(event_studies: dict[str, Any]) -> tuple[dict[str, Any], datetime]:
+    """Return a narrowly-scoped historical outcome for the exact observed control event.
+
+    This deliberately publishes raw-price context only. It is not an analogue
+    aggregate, causal attribution, financial output, forecast, or valuation input.
+    """
+    studies = event_studies.get("studies") if isinstance(event_studies, dict) else None
+    if not isinstance(studies, dict):
+        _fail("MLCF market context study index is missing")
+    study = studies.get(MLCF_CANONICAL_CONTROL_EVENT_ID)
+    if not isinstance(study, dict):
+        _fail("MLCF market context study is missing")
+    _require_equal(
+        "MLCF market context.study_id",
+        study.get("study_id"),
+        f"study_{MLCF_CANONICAL_CONTROL_EVENT_ID.removeprefix('evt_')}",
+    )
+    _require_equal("MLCF market context.event_id", study.get("event_id"), MLCF_CANONICAL_CONTROL_EVENT_ID)
+    _require_equal("MLCF market context.symbol", study.get("symbol"), "MLCF")
+    _require_equal("MLCF market context.event_type", study.get("event_type"), "acquisition_divestment")
+    _require_equal("MLCF market context.effective_date", study.get("effective_date"), "2025-12-18")
+    data_cutoff = _parse_time(study.get("data_cutoff"))
+    if data_cutoff is None or data_cutoff.date().isoformat() < "2025-12-18":
+        _fail("MLCF market context cutoff is invalid")
+
+    baseline = study.get("baseline")
+    if not isinstance(baseline, dict):
+        _fail("MLCF market context baseline is missing")
+    _require_equal("MLCF market context.baseline.status", baseline.get("status"), "available")
+    _require_equal("MLCF market context.baseline.selected_date", baseline.get("selected_date"), "2025-12-17")
+    _finite_positive("baseline.selected_close", baseline.get("selected_close"))
+    baseline_provenance = baseline.get("provenance")
+    if not isinstance(baseline_provenance, dict):
+        _fail("MLCF market context baseline provenance is missing")
+    _require_equal("MLCF market context.baseline.history_file", baseline_provenance.get("history_file"), "state/history/MLCF.json")
+    _require_equal("MLCF market context.baseline.provenance_date", baseline_provenance.get("selected_date"), "2025-12-17")
+
+    horizons = study.get("horizons")
+    if not isinstance(horizons, dict):
+        _fail("MLCF market context horizons are missing")
+    items: list[dict[str, Any]] = []
+    for horizon in ("1Q", "2Q", "4Q", "8Q"):
+        row = horizons.get(horizon)
+        if not isinstance(row, dict):
+            _fail(f"MLCF market context horizon is missing: {horizon}")
+        provenance = row.get("provenance")
+        if not isinstance(provenance, dict):
+            _fail(f"MLCF market context horizon provenance is missing: {horizon}")
+        _require_equal(f"MLCF market context.{horizon}.history_file", provenance.get("history_file"), "state/history/MLCF.json")
+        _require_equal(f"MLCF market context.{horizon}.baseline_date", provenance.get("baseline_date"), "2025-12-17")
+        status = row.get("status")
+        if status == "mature":
+            endpoint = row.get("selected_date")
+            if not isinstance(endpoint, str) or _date(endpoint) != endpoint:
+                _fail(f"MLCF market context mature endpoint is invalid: {horizon}")
+            _require_equal(f"MLCF market context.{horizon}.endpoint_date", provenance.get("endpoint_date"), endpoint)
+            _finite_positive(f"{horizon}.selected_close", row.get("selected_close"))
+            result = _finite_number(f"{horizon}.return_pct", row.get("return_pct"))
+            items.append({
+                "id": horizon,
+                "text": f"Raw price return: {result:.2f}% (2025-12-17 to {endpoint}).",
+                "reason": "Derived from retained MLCF raw closing prices; descriptive and non-causal.",
+            })
+        elif status in {"immature", "unavailable"}:
+            if row.get("return_pct") is not None or row.get("selected_close") is not None or row.get("selected_date") is not None:
+                _fail(f"MLCF market context non-mature horizon emits an outcome: {horizon}")
+            if not isinstance(row.get("reason"), str) or not row.get("reason"):
+                _fail(f"MLCF market context non-mature horizon reason is missing: {horizon}")
+            items.append({"id": horizon, "text": "Outcome not yet mature.", "reason": str(row["reason"])})
+        else:
+            _fail(f"MLCF market context horizon status is invalid: {horizon}")
+
+    aggregate = study.get("analogue_aggregate")
+    if not isinstance(aggregate, dict):
+        _fail("MLCF market context analogue aggregate is missing")
+    for horizon in ("1Q", "2Q", "4Q", "8Q"):
+        row = aggregate.get(horizon)
+        if not isinstance(row, dict) or row.get("status") != "suppressed" or row.get("reason") != "n_lt_3" or row.get("n") != 0:
+            _fail(f"MLCF market context analogue suppression mismatch: {horizon}")
+        if row.get("mean_return_pct") is not None:
+            _fail(f"MLCF market context analogue average must remain suppressed: {horizon}")
+    items.append({
+        "id": "analogue_sample",
+        "text": "No same-company or peer analogue sample meets the minimum threshold for a reliable benchmark.",
+        "reason": "All retained aggregate horizons are suppressed because n < 3.",
+    })
+    return {
+        "status": "available",
+        "epistemic_type": "derived_fact",
+        "text": (
+            "Cutoff-safe raw-price context for this exact MLCF control event. It is descriptive only: "
+            "not causal, not adjusted or total return, not an analogue benchmark, and not a forecast or valuation input."
+        ),
+        "items": items,
+        "formulas": [{
+            "formula_id": "event_study.raw_price_return.v1",
+            "operands": ["baseline_close", "endpoint_close"],
+            "source": "state/company_intel/event_studies.json; retained bars: state/history/MLCF.json",
+        }],
+    }, data_cutoff
 
 
 def _empty_company(symbol: str) -> dict[str, Any]:
@@ -492,6 +610,7 @@ def _mlcf_case(
     ledger: dict[str, Any],
     documents: dict[str, Any],
     operating_events: dict[str, Any],
+    event_studies: dict[str, Any] | None = None,
 ) -> tuple[dict[str, Any] | None, list[str], list[dict[str, Any]]]:
     public_offer = _event(ledger, "MLCF", PUBLIC_OFFER_EVENT_ID)
     follow_through = _event(ledger, "MLCF", FOLLOW_THROUGH_EVENT_ID)
@@ -521,6 +640,13 @@ def _mlcf_case(
     readiness = _cement_input_readiness(source_join, financial_truth_counters)
     refs = [_evidence_ref(public_offer, public_offer_doc), _evidence_ref(follow_through, follow_through_doc)]
     cutoff = _source_cutoff(refs)
+    if event_studies is None:
+        event_studies = load_json(STATE / "company_intel" / "event_studies.json", {})
+    market_context, market_cutoff = _mlcf_market_context(event_studies)
+    source_cutoff = _parse_time(cutoff)
+    if source_cutoff is None:
+        _fail("MLCF source cutoff is invalid")
+    cutoff = max(source_cutoff, market_cutoff).isoformat()
     case = {
         "case_id": MLCF_CASE_ID,
         "symbol": "MLCF",
@@ -586,7 +712,8 @@ def _mlcf_case(
             "Published": "Blocked: no forecast, valuation, reverse-expectations output, investor conclusion or release gate is complete.",
         },
         "cement_input_readiness": readiness,
-        "policy": _policy(),
+        "sections": {"analogues": market_context},
+        "policy": _policy(deterministic_derived_context=True),
         "source_lineage": refs,
     }
     return case, [], refs
@@ -658,9 +785,10 @@ def build(write: bool = True) -> dict[str, Any]:
     ledger = load_json(STATE / "company_event_ledger.json", {"companies": {}})
     documents = load_json(STATE / "company_documents.json", {"documents": {}})
     operating_events = load_json(STATE / "company_intel" / "operating_events.json", {"companies": {}})
+    event_studies = load_json(STATE / "company_intel" / "event_studies.json", {"studies": {}})
     pilot = sorted((profiles.get("pilot") or {}).get("symbols") or [])
     companies = {symbol: _empty_company(symbol) for symbol in pilot}
-    mlcf_case, mlcf_rejections, mlcf_refs = _mlcf_case(ledger, documents, operating_events)
+    mlcf_case, mlcf_rejections, mlcf_refs = _mlcf_case(ledger, documents, operating_events, event_studies)
     mari_case, mari_rejections, mari_refs = _mari_case(ledger, documents)
     refs = [*mlcf_refs, *mari_refs]
     as_of = _source_cutoff(refs) if refs else datetime.now(PKT).replace(microsecond=0).isoformat()
@@ -698,7 +826,8 @@ def build(write: bool = True) -> dict[str, Any]:
         "policy": {
             "dedicated_observed_seeds_only": True,
             "no_generic_case_engine": True,
-            "reported_values_only": True,
+            "reported_values_only": False,
+            "deterministic_derived_context_only": True,
             "formal_engines_unchanged": True,
         },
         "summary": {

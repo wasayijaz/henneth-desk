@@ -1,6 +1,6 @@
 {
  "meta": {
-  "built": "2026-08-31 14:17",
+  "built": "2026-08-31 14:36",
   "source": "Henneth state layer",
   "profile_source": "https://dps.psx.com.pk/company/{symbol}",
   "profile_updated": "2026-08-24 18:30",
@@ -21,8 +21,8 @@
    "note": "Every factual edge carries source URL and cited page when available.",
    "generator_version": "ci_artifact_integrity_v1",
    "source_commit_sha": "f606a4fa71d5a0c358419422332f88dcc6c82146",
-   "build_cutoff_at": "2026-08-31T09:16:11Z",
-   "generated_at": "2026-08-31T09:16:11Z",
+   "build_cutoff_at": "2026-08-31T09:17:29Z",
+   "generated_at": "2026-08-31T09:17:29Z",
    "artifact_path": "state/company_intel/company_graph.json",
    "timestamp_semantics": {
     "build_cutoff_at": "generation boundary only; not a source-effective or source-published time",
@@ -36,8 +36,8 @@
    "note": "Deterministic official-source change digest. Research, not advice.",
    "generator_version": "ci_artifact_integrity_v1",
    "source_commit_sha": "f606a4fa71d5a0c358419422332f88dcc6c82146",
-   "build_cutoff_at": "2026-08-31T09:16:11Z",
-   "generated_at": "2026-08-31T09:16:11Z",
+   "build_cutoff_at": "2026-08-31T09:17:29Z",
+   "generated_at": "2026-08-31T09:17:29Z",
    "artifact_path": "state/company_intel/change_intelligence.json",
    "timestamp_semantics": {
     "build_cutoff_at": "generation boundary only; not a source-effective or source-published time",
@@ -21026,43 +21026,49 @@
         "no_numeric_model_output": true
        }
       },
-      "policy": {
-       "observed_only": true,
-       "no_forecast": true,
-       "no_valuation": true,
-       "no_market_expectations": true,
-       "no_recommendation": true,
-       "reported_values_only": true
-      },
-      "source_lineage": [
-       {
-        "event_id": "evt_cb44dc32c91b0c5712a5",
-        "document_id": "psx:267429",
-        "document_title": "MLCF-Material Information to PSX",
-        "document_published_at": "2025-12-18T12:52:00+05:00",
-        "document_retrieved_at": "2026-08-18T01:54:00+05:00",
-        "content_sha256": "98cf83c9a286999c8006a7f73f490248f26694c9edbfc815b3dbd9188ee22a54",
-        "source": "PSX DPS",
-        "source_url": "https://dps.psx.com.pk/download/document/267429.pdf",
-        "page": 3,
-        "text": "8904_5, Fax: +9242.38373067 EqnaH: mjgfl@kmlg.earn PUBLIC ANNOUNCEMENT OF PUBLIC OFFER TO ACQUIRE UP TO 26,623,096 SHARES (1.E. 11.72% SHARES) AND CONTROL OF PIONEER CEMENT LIMITED (“PIOC” OR 'TARGrr COMPANY”) BY MAPLE LEAF CEMENT FACrORY…",
-        "event_date": "2025-12-18T12:52:00+05:00"
-       },
-       {
-        "event_id": "evt_25bfb52e721191c7b644",
-        "document_id": "psx:275425",
-        "document_title": "Transmission of Quarterly Financial Statements for the Period Ended 31.03.2026",
-        "document_published_at": "2026-04-28T10:25:00+05:00",
-        "document_retrieved_at": "2026-08-30T21:42:58+05:00",
-        "content_sha256": "744a0c710043d6e0a7de36bb99f21ca50f0f9346f6972b957f6733a47deae11f",
-        "source": "PSX DPS",
-        "source_url": "https://dps.psx.com.pk/download/document/275425.pdf",
-        "page": 4,
-        "text": "in local market and inclusion of Pioneer Cement Limited’s dispatches in total due to its acquisition during the month of February 2026. The export sales volume reduced from 173,489 tons to 78,135 tons, a decline of 54.96% from the previous…",
-        "event_date": "2026-04-28T10:25:00+05:00"
-       }
-      ],
       "sections": {
+       "analogues": {
+        "status": "available",
+        "epistemic_type": "derived_fact",
+        "text": "Cutoff-safe raw-price context for this exact MLCF control event. It is descriptive only: not causal, not adjusted or total return, not an analogue benchmark, and not a forecast or valuation input.",
+        "items": [
+         {
+          "id": "1Q",
+          "text": "Raw price return: -34.54% (2025-12-17 to 2026-03-18).",
+          "reason": "Derived from retained MLCF raw closing prices; descriptive and non-causal."
+         },
+         {
+          "id": "2Q",
+          "text": "Raw price return: -19.40% (2025-12-17 to 2026-06-18).",
+          "reason": "Derived from retained MLCF raw closing prices; descriptive and non-causal."
+         },
+         {
+          "id": "4Q",
+          "text": "Outcome not yet mature.",
+          "reason": "target_after_last_bar"
+         },
+         {
+          "id": "8Q",
+          "text": "Outcome not yet mature.",
+          "reason": "target_after_last_bar"
+         },
+         {
+          "id": "analogue_sample",
+          "text": "No same-company or peer analogue sample meets the minimum threshold for a reliable benchmark.",
+          "reason": "All retained aggregate horizons are suppressed because n < 3."
+         }
+        ],
+        "formulas": [
+         {
+          "formula_id": "event_study.raw_price_return.v1",
+          "operands": [
+           "baseline_close",
+           "endpoint_close"
+          ],
+          "source": "state/company_intel/event_studies.json; retained bars: state/history/MLCF.json"
+         }
+        ]
+       },
        "confidence": {
         "status": "available",
         "epistemic_type": "inference",
@@ -21131,7 +21137,44 @@
          }
         ]
        }
-      }
+      },
+      "policy": {
+       "observed_only": true,
+       "no_forecast": true,
+       "no_valuation": true,
+       "no_market_expectations": true,
+       "no_recommendation": true,
+       "reported_values_only": false,
+       "deterministic_derived_context_only": true
+      },
+      "source_lineage": [
+       {
+        "event_id": "evt_cb44dc32c91b0c5712a5",
+        "document_id": "psx:267429",
+        "document_title": "MLCF-Material Information to PSX",
+        "document_published_at": "2025-12-18T12:52:00+05:00",
+        "document_retrieved_at": "2026-08-18T01:54:00+05:00",
+        "content_sha256": "98cf83c9a286999c8006a7f73f490248f26694c9edbfc815b3dbd9188ee22a54",
+        "source": "PSX DPS",
+        "source_url": "https://dps.psx.com.pk/download/document/267429.pdf",
+        "page": 3,
+        "text": "8904_5, Fax: +9242.38373067 EqnaH: mjgfl@kmlg.earn PUBLIC ANNOUNCEMENT OF PUBLIC OFFER TO ACQUIRE UP TO 26,623,096 SHARES (1.E. 11.72% SHARES) AND CONTROL OF PIONEER CEMENT LIMITED (“PIOC” OR 'TARGrr COMPANY”) BY MAPLE LEAF CEMENT FACrORY…",
+        "event_date": "2025-12-18T12:52:00+05:00"
+       },
+       {
+        "event_id": "evt_25bfb52e721191c7b644",
+        "document_id": "psx:275425",
+        "document_title": "Transmission of Quarterly Financial Statements for the Period Ended 31.03.2026",
+        "document_published_at": "2026-04-28T10:25:00+05:00",
+        "document_retrieved_at": "2026-08-30T21:42:58+05:00",
+        "content_sha256": "744a0c710043d6e0a7de36bb99f21ca50f0f9346f6972b957f6733a47deae11f",
+        "source": "PSX DPS",
+        "source_url": "https://dps.psx.com.pk/download/document/275425.pdf",
+        "page": 4,
+        "text": "in local market and inclusion of Pioneer Cement Limited’s dispatches in total due to its acquisition during the month of February 2026. The export sales volume reduced from 173,489 tons to 78,135 tons, a decline of 54.96% from the previous…",
+        "event_date": "2026-04-28T10:25:00+05:00"
+       }
+      ]
      }
     ],
     "rejection_reasons": []
@@ -236787,9 +236830,9 @@
  ],
  "_meta": {
   "generator_version": "ci_artifact_integrity_v1",
-  "source_commit_sha": "f606a4fa71d5a0c358419422332f88dcc6c82146",
-  "build_cutoff_at": "2026-08-31T09:17:29Z",
-  "generated_at": "2026-08-31T09:17:29Z",
+  "source_commit_sha": "9d03a1dbee910bb0e16ce33f83771cd75d8df02d",
+  "build_cutoff_at": "2026-08-31T09:36:16Z",
+  "generated_at": "2026-08-31T09:36:16Z",
   "artifact_path": "Henneth Desk 2.CI.0/data/company_intelligence.json",
   "timestamp_semantics": {
    "build_cutoff_at": "generation boundary only; not a source-effective or source-published time",

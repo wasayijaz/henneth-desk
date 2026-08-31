@@ -1,6 +1,6 @@
 {
  "schema_version": 1,
- "case_product_version": "observed_intelligence_case_seed_v3",
+ "case_product_version": "observed_intelligence_case_seed_v4",
  "as_of": "2026-08-30T21:42:58+05:00",
  "pilot_symbols": [
   "ATRL",
@@ -40,7 +40,8 @@
  "policy": {
   "dedicated_observed_seeds_only": true,
   "no_generic_case_engine": true,
-  "reported_values_only": true,
+  "reported_values_only": false,
+  "deterministic_derived_context_only": true,
   "formal_engines_unchanged": true
  },
  "summary": {
@@ -476,13 +477,58 @@
        "no_numeric_model_output": true
       }
      },
+     "sections": {
+      "analogues": {
+       "status": "available",
+       "epistemic_type": "derived_fact",
+       "text": "Cutoff-safe raw-price context for this exact MLCF control event. It is descriptive only: not causal, not adjusted or total return, not an analogue benchmark, and not a forecast or valuation input.",
+       "items": [
+        {
+         "id": "1Q",
+         "text": "Raw price return: -34.54% (2025-12-17 to 2026-03-18).",
+         "reason": "Derived from retained MLCF raw closing prices; descriptive and non-causal."
+        },
+        {
+         "id": "2Q",
+         "text": "Raw price return: -19.40% (2025-12-17 to 2026-06-18).",
+         "reason": "Derived from retained MLCF raw closing prices; descriptive and non-causal."
+        },
+        {
+         "id": "4Q",
+         "text": "Outcome not yet mature.",
+         "reason": "target_after_last_bar"
+        },
+        {
+         "id": "8Q",
+         "text": "Outcome not yet mature.",
+         "reason": "target_after_last_bar"
+        },
+        {
+         "id": "analogue_sample",
+         "text": "No same-company or peer analogue sample meets the minimum threshold for a reliable benchmark.",
+         "reason": "All retained aggregate horizons are suppressed because n < 3."
+        }
+       ],
+       "formulas": [
+        {
+         "formula_id": "event_study.raw_price_return.v1",
+         "operands": [
+          "baseline_close",
+          "endpoint_close"
+         ],
+         "source": "state/company_intel/event_studies.json; retained bars: state/history/MLCF.json"
+        }
+       ]
+      }
+     },
      "policy": {
       "observed_only": true,
       "no_forecast": true,
       "no_valuation": true,
       "no_market_expectations": true,
       "no_recommendation": true,
-      "reported_values_only": true
+      "reported_values_only": false,
+      "deterministic_derived_context_only": true
      },
      "source_lineage": [
       {
@@ -582,9 +628,9 @@
  },
  "_meta": {
   "generator_version": "ci_artifact_integrity_v1",
-  "source_commit_sha": "f606a4fa71d5a0c358419422332f88dcc6c82146",
-  "build_cutoff_at": "2026-08-31T09:17:29Z",
-  "generated_at": "2026-08-31T09:17:29Z",
+  "source_commit_sha": "9d03a1dbee910bb0e16ce33f83771cd75d8df02d",
+  "build_cutoff_at": "2026-08-31T09:36:16Z",
+  "generated_at": "2026-08-31T09:36:16Z",
   "artifact_path": "state/company_intel/intelligence_cases.json",
   "timestamp_semantics": {
    "build_cutoff_at": "generation boundary only; not a source-effective or source-published time",

@@ -155,6 +155,7 @@ def _builder_inputs() -> dict:
         "documents": load_json(STATE / "company_documents.json", {"documents": {}}),
         "operating_events": load_json(STATE / "company_intel" / "operating_events.json", {"companies": {}}),
         "financial_truth": load_json(STATE / "company_intel" / "financial_truth_qualification.json", {}),
+        "event_studies": load_json(STATE / "company_intel" / "event_studies.json", {"studies": {}}),
     }
 
 
@@ -166,6 +167,7 @@ def _build_with_inputs(inputs: dict) -> None:
         STATE / "company_documents.json": inputs["documents"],
         STATE / "company_intel" / "operating_events.json": inputs["operating_events"],
         STATE / "company_intel" / "financial_truth_qualification.json": inputs["financial_truth"],
+        STATE / "company_intel" / "event_studies.json": inputs["event_studies"],
     }
 
     def fake_load_json(path: Path, default: object = None) -> object:
@@ -207,6 +209,47 @@ def _counter_section(inputs: dict, section: str) -> dict:
     if not isinstance(row, dict):
         raise AssertionError(f"fixture missing financial counter: {section}")
     return row
+
+
+def _market_study(inputs: dict) -> dict:
+    study = inputs["event_studies"].get("studies", {}).get(MLCF_CANONICAL_CONTROL_EVENT_ID)
+    if not isinstance(study, dict):
+        raise AssertionError("fixture missing MLCF canonical event study")
+    return study
+
+
+def _assert_mlcf_market_context(case: dict) -> None:
+    context = (case.get("sections") or {}).get("analogues") or {}
+    if context.get("status") != "available" or context.get("epistemic_type") != "derived_fact":
+        raise AssertionError("MLCF market context must be an available derived fact")
+    text = context.get("text") or ""
+    for required in ("descriptive only", "not causal", "not adjusted or total return", "not an analogue benchmark", "not a forecast or valuation input"):
+        if required not in text:
+            raise AssertionError(f"MLCF market-context limitation missing: {required}")
+    items = {item.get("id"): item for item in context.get("items") or []}
+    for horizon, endpoint, expected_return in (
+        ("1Q", "2026-03-18", -34.539447809329026),
+        ("2Q", "2026-06-18", -19.397467159600414),
+    ):
+        item = items.get(horizon) or {}
+        if f"{expected_return:.2f}%" not in str(item.get("text")) or endpoint not in str(item.get("text")):
+            raise AssertionError(f"MLCF {horizon} raw-return context mismatch")
+        if "descriptive and non-causal" not in str(item.get("reason")):
+            raise AssertionError(f"MLCF {horizon} limitation missing")
+    for horizon in ("4Q", "8Q"):
+        item = items.get(horizon) or {}
+        if item.get("text") != "Outcome not yet mature." or item.get("reason") != "target_after_last_bar":
+            raise AssertionError(f"MLCF {horizon} maturity handling mismatch")
+    aggregate = items.get("analogue_sample") or {}
+    if "minimum threshold" not in str(aggregate.get("text")) or aggregate.get("reason") != "All retained aggregate horizons are suppressed because n < 3.":
+        raise AssertionError("MLCF suppressed analogue status mismatch")
+    formulas = context.get("formulas") or []
+    if formulas != [{
+        "formula_id": "event_study.raw_price_return.v1",
+        "operands": ["baseline_close", "endpoint_close"],
+        "source": "state/company_intel/event_studies.json; retained bars: state/history/MLCF.json",
+    }]:
+        raise AssertionError("MLCF market-context formula lineage mismatch")
 
 
 def _expect_builder_rejects(label: str, mutate) -> None:
@@ -327,6 +370,26 @@ def _assert_builder_source_mutation_tests() -> None:
         "bad share-count shape",
         lambda inputs: inputs["financial_truth"]["companies"]["MLCF"].__setitem__("share_count", []),
     )
+    _expect_builder_rejects(
+        "bad market study event binding",
+        lambda inputs: _market_study(inputs).__setitem__("event_id", "evt_bad"),
+    )
+    _expect_builder_rejects(
+        "bad market study source history",
+        lambda inputs: _market_study(inputs)["baseline"]["provenance"].__setitem__("history_file", "state/history/OTHER.json"),
+    )
+    _expect_builder_rejects(
+        "bad mature market return",
+        lambda inputs: _market_study(inputs)["horizons"]["1Q"].__setitem__("return_pct", float("nan")),
+    )
+    _expect_builder_rejects(
+        "premature market horizon outcome",
+        lambda inputs: _market_study(inputs)["horizons"]["4Q"].__setitem__("return_pct", 1.0),
+    )
+    _expect_builder_rejects(
+        "unsuppressed small analogue sample",
+        lambda inputs: _market_study(inputs)["analogue_aggregate"]["1Q"].__setitem__("status", "available"),
+    )
 
 
 def main() -> None:
@@ -373,6 +436,7 @@ def main() -> None:
     _assert_evidence(facts["mlcf_pioc_public_offer_control"]["evidence"][0], PUBLIC_OFFER_EVENT_ID, PUBLIC_OFFER_DOC_ID, 3)
     _assert_evidence(facts["mlcf_pioc_dispatch_inclusion"]["evidence"][0], FOLLOW_THROUGH_EVENT_ID, FOLLOW_THROUGH_DOC_ID, 4)
     _assert_mlcf_cement_readiness(case)
+    _assert_mlcf_market_context(case)
     blocks = case.get("promotion_blocks") or {}
     for status in ("Corroborated", "Modelled", "Published"):
         if status not in blocks:
