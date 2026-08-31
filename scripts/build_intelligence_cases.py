@@ -38,38 +38,10 @@ MLCF_PRIMARY_CONTROL_CONTENT_SHA256 = "98cf83c9a286999c8006a7f73f490248f26694c9e
 MLCF_FOLLOW_THROUGH_CONTENT_SHA256 = "744a0c710043d6e0a7de36bb99f21ca50f0f9346f6972b957f6733a47deae11f"
 MLCF_PRIMARY_CONTROL_URL = "https://dps.psx.com.pk/download/document/267429.pdf"
 MLCF_FOLLOW_THROUGH_URL = "https://dps.psx.com.pk/download/document/275425.pdf"
-MLCF_EXPECTED_COUNTER_SECTIONS = {
-    "annual_income_triplets": {
-        "required": 5,
-        "present": 3,
-        "qualified_periods": ["2026-06-30", "2025-06-30", "2024-06-30"],
-    },
-    "qualified_reported_quarter_fact_sets": {
-        "required": 8,
-        "present": 3,
-        "qualified_periods": ["2026-03-31", "2025-12-31", "2025-09-30"],
-    },
-    "annual_operating_cash_flow": {
-        "required": 5,
-        "present": 2,
-        "qualified_periods": ["2025-06-30", "2024-06-30"],
-    },
-}
-MLCF_EXPECTED_SHARE_COUNT_COUNTER = {
-    "status": "missing_official_share_count_capital_note_tie_out",
-    "available_on": None,
-    "source": None,
-}
-MLCF_APPROVED_SHARE_COUNT_COUNTER = {
-    "status": "official_share_count_capital_note_tied_out",
-    "available_on": "2025-09-25",
-    "source": {
-        "id": "psx:260032",
-        "label": "MLCF Transmission of Annual Financial Statements for the Year Ended 30.06.2025",
-        "path": None,
-        "url": "https://dps.psx.com.pk/download/document/260032.pdf",
-    },
-    "limitation": "The source-bound official capital-note record satisfies the share-count tie-out gate.",
+MLCF_COUNTER_REQUIREMENTS = {
+    "annual_income_triplets": 5,
+    "qualified_reported_quarter_fact_sets": 8,
+    "annual_operating_cash_flow": 5,
 }
 HEX64 = re.compile(r"^[0-9a-f]{64}$", re.I)
 
@@ -198,7 +170,7 @@ def _validate_counter_section(
     row: dict[str, Any],
     section: str,
 ) -> dict[str, Any]:
-    expected = MLCF_EXPECTED_COUNTER_SECTIONS[section]
+    expected_required = MLCF_COUNTER_REQUIREMENTS[section]
     source = row.get(section)
     if not isinstance(source, dict):
         _fail(f"MLCF financial counter section missing: {section}")
@@ -226,11 +198,7 @@ def _validate_counter_section(
         if not isinstance(period, str) or parsed != period:
             _fail(f"MLCF financial counter invalid period: {section}[{index}]")
         clean_periods.append(period)
-    if (
-        required != expected["required"]
-        or present != expected["present"]
-        or clean_periods != expected["qualified_periods"]
-    ):
+    if required != expected_required or clean_periods != sorted(set(clean_periods), reverse=True):
         _fail(f"MLCF financial counter source semantics mismatch: {section}")
     return {
         "required": required,
@@ -254,15 +222,18 @@ def _validate_share_count_counter(row: dict[str, Any]) -> dict[str, Any]:
         _fail("MLCF share-count counter status mismatch")
     if available_on is not None and (_date(available_on) != available_on):
         _fail("MLCF share-count counter available_on mismatch")
-    missing = {
-        "status": status,
-        "available_on": available_on,
-        "source": source_label,
-    }
-    if missing == MLCF_EXPECTED_SHARE_COUNT_COUNTER:
-        return missing
-    if source != MLCF_APPROVED_SHARE_COUNT_COUNTER:
+    if status == "missing_official_share_count_capital_note_tie_out":
+        if available_on is not None or source_label is not None:
+            _fail("MLCF missing share-count counter carries unsupported evidence")
+        return source
+    if status != "official_share_count_capital_note_tied_out":
         _fail("MLCF share-count counter source semantics mismatch")
+    if not isinstance(source_label, dict) or set(source_label) != {"id", "label", "path", "url"}:
+        _fail("MLCF qualified share-count source shape mismatch")
+    if not all(isinstance(source_label.get(key), str) and source_label.get(key) for key in ("id", "label", "url")):
+        _fail("MLCF qualified share-count source binding mismatch")
+    if source_label.get("path") is not None or available_on is None:
+        _fail("MLCF qualified share-count source availability mismatch")
     return source
 
 
@@ -271,9 +242,35 @@ def _financial_truth_counters(qualification: dict[str, Any] | None = None) -> di
         qualification = load_json(STATE / "company_intel" / "financial_truth_qualification.json", {})
     if not isinstance(qualification, dict):
         _fail("MLCF financial truth qualification source is not an object")
+    if qualification.get("schema_version") != "financial_truth_qualification_v2":
+        _fail("MLCF financial truth qualification schema mismatch")
+    if qualification.get("source") != "retained_state_only":
+        _fail("MLCF financial truth qualification source provenance mismatch")
+    policy = qualification.get("policy")
+    if not isinstance(policy, dict) or policy.get("does_not_activate_formal_engines") is not True:
+        _fail("MLCF financial truth qualification formal-engine policy mismatch")
     row = (qualification.get("companies") or {}).get("MLCF") or {}
     if not isinstance(row, dict):
         _fail("MLCF financial truth qualification row is not an object")
+    if row.get("symbol") != "MLCF" or row.get("status") not in {"not_qualified", "qualified"}:
+        _fail("MLCF financial truth qualification state mismatch")
+    downstream = row.get("downstream")
+    if not isinstance(downstream, dict):
+        _fail("MLCF financial truth downstream activation mismatch")
+    financial_tie_out = row.get("financial_tie_out")
+    if not isinstance(financial_tie_out, dict):
+        _fail("MLCF financial truth tie-out state mismatch")
+    if row["status"] == "not_qualified":
+        if financial_tie_out.get("status") != "blocked" or any(
+            downstream.get(key) != "blocked_financial_truth_not_qualified"
+            for key in ("forecast", "valuation", "market_expectations")
+        ):
+            _fail("MLCF unqualified truth activated a formal output")
+    elif financial_tie_out.get("status") != "qualified" or any(
+        downstream.get(key) != "not_activated_owner_approved_forward_inputs_required"
+        for key in ("forecast", "valuation", "market_expectations")
+    ):
+        _fail("MLCF qualified truth activation boundary mismatch")
     return {
         "annual_income_triplets": _validate_counter_section(row, "annual_income_triplets"),
         "qualified_reported_quarter_fact_sets": _validate_counter_section(row, "qualified_reported_quarter_fact_sets"),

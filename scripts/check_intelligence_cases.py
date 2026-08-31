@@ -30,6 +30,7 @@ from build_intelligence_cases import (
     MARI_SALES_TITLE,
     MLCF_CASE_ID,
     MLCF_CANONICAL_CONTROL_EVENT_ID,
+    MLCF_COUNTER_REQUIREMENTS,
     MLCF_FOLLOW_THROUGH_ALIAS_EVENT_ID,
     MLCF_INDEPENDENT_CANONICAL_EVENT_BINDING,
     MLCF_LEGACY_ALIAS_EVENT_BINDING,
@@ -134,27 +135,18 @@ def _assert_mlcf_cement_readiness(case: dict) -> None:
         if ref.get("published_at") != published or ref.get("effective_date") != effective or ref.get("available_on") != available:
             raise AssertionError("MLCF cement readiness date mismatch")
     counters = readiness.get("financial_truth_counters") or {}
-    for section, required, present, periods in (
-        ("annual_income_triplets", 5, 3, ["2026-06-30", "2025-06-30", "2024-06-30"]),
-        ("qualified_reported_quarter_fact_sets", 8, 3, ["2026-03-31", "2025-12-31", "2025-09-30"]),
-        ("annual_operating_cash_flow", 5, 2, ["2025-06-30", "2024-06-30"]),
-    ):
+    truth_row = (load_json(STATE / "company_intel" / "financial_truth_qualification.json", {}).get("companies") or {}).get("MLCF") or {}
+    for section, required in MLCF_COUNTER_REQUIREMENTS.items():
         row = counters.get(section) or {}
-        if row.get("required") != required or row.get("present") != present or row.get("qualified_periods") != periods:
+        truth_counter = truth_row.get(section) or {}
+        if (
+            row.get("required") != required
+            or row.get("present") != truth_counter.get("present")
+            or row.get("qualified_periods") != truth_counter.get("qualified_periods")
+        ):
             raise AssertionError(f"MLCF financial counter mismatch: {section}")
     share = counters.get("share_count") or {}
-    expected_share = {
-        "status": "official_share_count_capital_note_tied_out",
-        "available_on": "2025-09-25",
-        "source": {
-            "id": "psx:260032",
-            "label": "MLCF Transmission of Annual Financial Statements for the Year Ended 30.06.2025",
-            "path": None,
-            "url": "https://dps.psx.com.pk/download/document/260032.pdf",
-        },
-        "limitation": "The source-bound official capital-note record satisfies the share-count tie-out gate.",
-    }
-    if share != expected_share:
+    if share != truth_row.get("share_count"):
         raise AssertionError("MLCF share-count tie-out projection mismatch")
     requirements = readiness.get("event_specific_kernel_requirements") or {}
     if not requirements or any(
@@ -323,6 +315,69 @@ def _expect_builder_rejects(label: str, mutate) -> None:
     raise AssertionError(f"builder accepted bad MLCF source fixture: {label}")
 
 
+def _mlcf_case_from_result(result: dict) -> dict:
+    row = (result.get("companies") or {}).get("MLCF") or {}
+    cases = row.get("cases") or []
+    for case in cases:
+        if isinstance(case, dict) and case.get("case_id") == MLCF_CASE_ID:
+            return case
+    raise AssertionError("MLCF case missing from builder result")
+
+
+def _assert_mlcf_counters_project_source_truth_only() -> None:
+    inputs = _builder_inputs()
+    truth = inputs["financial_truth"]["companies"]["MLCF"]
+    truth["qualified_reported_quarter_fact_sets"] = {
+        "required": MLCF_COUNTER_REQUIREMENTS["qualified_reported_quarter_fact_sets"],
+        "present": 4,
+        "qualified_periods": ["2026-03-31", "2025-12-31", "2025-09-30", "2025-06-30"],
+    }
+    result = _build_with_inputs(inputs)
+    counters = (
+        _mlcf_case_from_result(result)
+        .get("cement_input_readiness", {})
+        .get("financial_truth_counters", {})
+    )
+    if counters.get("qualified_reported_quarter_fact_sets") != truth["qualified_reported_quarter_fact_sets"]:
+        raise AssertionError("MLCF quarter counter did not advance from source truth")
+    if _mlcf_case_from_result(result).get("status") != "Observed":
+        raise AssertionError("MLCF counter progression promoted the observed case")
+    _assert_no_forbidden_payload(_mlcf_case_from_result(result))
+    _expect_builder_rejects(
+        "counter advanced without source truth",
+        lambda bad_inputs: bad_inputs["financial_truth"]["companies"]["MLCF"]["qualified_reported_quarter_fact_sets"].update({
+            "present": 4,
+            "qualified_periods": ["2026-03-31", "2025-12-31", "2025-09-30"],
+        }),
+    )
+    qualified_inputs = _builder_inputs()
+    qualified_truth = qualified_inputs["financial_truth"]["companies"]["MLCF"]
+    for section, periods in {
+        "annual_income_triplets": ["2026-06-30", "2025-06-30", "2024-06-30", "2023-06-30", "2022-06-30"],
+        "qualified_reported_quarter_fact_sets": ["2026-06-30", "2026-03-31", "2025-12-31", "2025-09-30", "2025-06-30", "2025-03-31", "2024-12-31", "2024-09-30"],
+        "annual_operating_cash_flow": ["2026-06-30", "2025-06-30", "2024-06-30", "2023-06-30", "2022-06-30"],
+    }.items():
+        qualified_truth[section] = {
+            "required": MLCF_COUNTER_REQUIREMENTS[section],
+            "present": len(periods),
+            "qualified_periods": periods,
+        }
+    qualified_truth.update({
+        "status": "qualified",
+        "financial_tie_out": {"status": "qualified"},
+        "downstream": {
+            "forecast": "not_activated_owner_approved_forward_inputs_required",
+            "valuation": "not_activated_owner_approved_forward_inputs_required",
+            "market_expectations": "not_activated_owner_approved_forward_inputs_required",
+        },
+    })
+    qualified_result = _build_with_inputs(qualified_inputs)
+    qualified_case = _mlcf_case_from_result(qualified_result)
+    if qualified_case.get("status") != "Observed":
+        raise AssertionError("qualified financial truth promoted an unevidenced case")
+    _assert_no_forbidden_payload(qualified_case)
+
+
 def _assert_builder_source_mutation_tests() -> None:
     _expect_builder_rejects(
         "bad canonical event id",
@@ -420,6 +475,12 @@ def _assert_builder_source_mutation_tests() -> None:
         lambda inputs: _counter_section(inputs, "annual_income_triplets").__setitem__("required", 6),
     )
     _expect_builder_rejects(
+        "bad counter ordering",
+        lambda inputs: _counter_section(inputs, "qualified_reported_quarter_fact_sets").__setitem__(
+            "qualified_periods", ["2025-09-30", "2025-12-31", "2026-03-31"]
+        ),
+    )
+    _expect_builder_rejects(
         "bad share-count source",
         lambda inputs: inputs["financial_truth"]["companies"]["MLCF"]["share_count"].__setitem__("source", "manual"),
     )
@@ -428,8 +489,8 @@ def _assert_builder_source_mutation_tests() -> None:
         lambda inputs: inputs["financial_truth"]["companies"]["MLCF"]["share_count"].__setitem__("status", "ready"),
     )
     _expect_builder_rejects(
-        "bad share-count source id",
-        lambda inputs: inputs["financial_truth"]["companies"]["MLCF"]["share_count"]["source"].__setitem__("id", "psx:bad"),
+        "empty share-count source id",
+        lambda inputs: inputs["financial_truth"]["companies"]["MLCF"]["share_count"]["source"].__setitem__("id", ""),
     )
     _expect_builder_rejects(
         "bad share-count shape",
@@ -617,6 +678,7 @@ def main() -> None:
             raise AssertionError(f"MARI sales-led case missing promotion block for {status}")
     if _dump(without_root_meta(state)) != _dump(without_root_meta(cases_builder.build(write=False))):
         raise AssertionError("intelligence case rebuild is not deterministic")
+    _assert_mlcf_counters_project_source_truth_only()
     _assert_builder_source_mutation_tests()
 
     confidence = load_json(STATE / "company_intel" / "intelligence_confidence.json", {"companies": {}})
