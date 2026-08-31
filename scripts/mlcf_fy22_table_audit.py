@@ -1,144 +1,152 @@
-"""Audit-only extraction of four geometry-bound FY2022 MLCF statement cells.
-
-This is deliberately not a financial-fact writer.  It records the current-year
-column, row label, units and source geometry needed for a later independent
-statement/tie-out review.
-"""
+#!/usr/bin/env python3
+"""Hash-bound, audit-only table extraction for MLCF FY2022 consolidated pages."""
 from __future__ import annotations
 
 import hashlib
 import json
+import re
 from pathlib import Path
 
 import pymupdf
-
 
 ROOT = Path(__file__).resolve().parents[1]
 PDF = ROOT / ".cache/company_intel/mlcf_official_intake/194111.pdf"
 MANIFEST = ROOT / "config/mlcf_official_intake_manifest.json"
 OUT = ROOT / "state/company_intel/mlcf_fy22_table_audit.json"
-DOCUMENT_ID = "psx:194111"
-SOURCE_URL = "https://financials.psx.com.pk/lib/DownloadPDF.php?id=194111"
-EXPECTED_HASH = "5103d0a5eaaa8ce2c8c435ae50de6ee5000248ad05094e3f0ac086212e687aae"
+
+HEADER_X = (403.88, 426.12)
+HEADER_Y = (141.80, 153.98)
+OCF_HEADER_X = (406.10, 423.90)
+OCF_HEADER_Y = (99.60, 109.36)
+MISSING_OFFICIAL_AVAILABILITY_REASON = "source_manifest_has_no_official_published_at_or_available_on"
 
 
-def words_by_line(page: pymupdf.Page) -> dict[float, list[tuple[float, float, float, float, str]]]:
-    lines: dict[float, list[tuple[float, float, float, float, str]]] = {}
-    # PyMuPDF's line indexes restart inside blocks.  Physical baseline is the
-    # stable statement-table row key for an immutable, hash-bound page.
-    for x0, y0, x1, y1, text, _block, _line, _word in page.get_text("words"):
-        lines.setdefault(round(y0, 1), []).append((x0, y0, x1, y1, text))
-    return lines
+def rect(w: tuple[float, ...]) -> dict[str, float]:
+    return {k: round(float(v), 2) for k, v in zip(("x0", "y0", "x1", "y1"), w[:4])}
 
 
-def phrase(words: list[tuple[float, float, float, float, str]]) -> str:
-    return " ".join(word[4] for word in sorted(words, key=lambda item: item[0])).replace(" - ", "-")
+def in_range(value: float, bounds: tuple[float, float], tol: float = 0.25) -> bool:
+    return bounds[0] - tol <= value <= bounds[1] + tol
 
 
-def value_at_current_column(
-    page: pymupdf.Page, *, label: str, value: str, header_y_max: float
-) -> tuple[dict[str, float | str], dict[str, float | str]]:
-    lines = words_by_line(page)
-    header = next(
-        (word for row in lines.values() for word in row if word[4] == "2022" and word[1] <= header_y_max),
-        None,
-    )
-    if header is None:
-        raise ValueError(f"current-period 2022 header missing on page {page.number + 1}")
-    for row in lines.values():
-        text = phrase(row)
-        if label not in text:
+def header_words(page: pymupdf.Page, expected_year: str, x_bounds: tuple[float, float], y_bounds: tuple[float, float]):
+    matches = [w for w in page.get_text("words") if w[4] == expected_year and in_range(w[0], x_bounds) and in_range(w[1], y_bounds)]
+    return matches[0] if len(matches) == 1 else None
+
+
+def numeric_token(text: str) -> float | None:
+    m = re.fullmatch(r"\(?-?[\d,]+(?:\.\d+)?\)?", text.strip())
+    if not m:
+        return None
+    value = float(text.strip("()").replace(",", ""))
+    return -value if text.startswith("(") else value
+
+
+def find_row(page: pymupdf.Page, label_re: str, value_x: tuple[float, float], y_bounds: tuple[float, float]):
+    # PyMuPDF keeps a whole statement in one text block.  Group words by
+    # (block,line) so each row's left label and current-period cell are bound
+    # to the same baseline rather than scraping the block as a whole.
+    grouped: dict[float, list[tuple]] = {}
+    for w in page.get_text("words"):
+        if y_bounds[0] <= w[1] <= y_bounds[1]:
+            grouped.setdefault(round(float(w[1]), 1), []).append(w)
+    rows = []
+    for words in grouped.values():
+        words.sort(key=lambda w: w[0])
+        labels = [w for w in words if w[0] < 330]
+        label = " ".join(w[4] for w in labels).strip()
+        if not re.search(label_re, label, re.I):
             continue
-        row_y = sum(word[1] for word in row) / len(row)
-        # Number cells are positioned on a slightly different PDF baseline
-        # from their row labels, so resolve within a tight physical tolerance.
-        current = [
-            word
-            for candidate_row in lines.values()
-            for word in candidate_row
-            if word[4] == value and 380 <= word[0] <= 445 and abs(word[1] - row_y) <= 2
-        ]
-        if len(current) != 1:
-            raise ValueError(f"{label}: current-period cell not unique on page {page.number + 1}")
-        cell = current[0]
-        return (
-            {"text": "2022", "x0": round(header[0], 1), "y0": round(header[1], 1), "x1": round(header[2], 1), "y1": round(header[3], 1)},
-            {"text": value, "x0": round(cell[0], 1), "y0": round(cell[1], 1), "x1": round(cell[2], 1), "y1": round(cell[3], 1)},
-        )
-    raise ValueError(f"{label}: statement row missing on page {page.number + 1}")
+        cells = []
+        for w in words:
+            if in_range(w[0], value_x, 0.5):
+                val = numeric_token(w[4])
+                if val is not None:
+                    cells.append((val, w))
+        if len(cells) == 1:
+            rows.append((label, cells[0]))
+    return rows[0] if len(rows) == 1 else None
 
 
-def candidate(
-    *, metric: str, reported_label: str, reported_value: float, normalized_value: float,
-    unit: str, page: int, header: dict[str, float | str], cell: dict[str, float | str]
-) -> dict[str, object]:
-    return {
-        "metric": metric,
-        "reported_label": reported_label,
-        "reported_value": reported_value,
-        "normalized_value": normalized_value,
-        "unit": unit,
-        "currency": "PKR",
-        "period_start": "2021-07-01",
-        "period_end": "2022-06-30",
-        "duration_months": 12,
-        "statement_identity": "consolidated",
-        "document_id": DOCUMENT_ID,
-        "source_url": SOURCE_URL,
-        "content_sha256": EXPECTED_HASH,
-        "original_page": page,
-        "current_period_header_geometry": header,
-        "cell_geometry": cell,
-        "status": "audit_only",
-        "promotion_status": "blocked_pending_independent_statement_and_period_tie_out",
-    }
-
-
-def build() -> dict[str, object]:
+def main() -> int:
     manifest = json.loads(MANIFEST.read_text(encoding="utf-8"))
-    manifest_row = next(row for row in manifest["documents"] if row["document_id"] == DOCUMENT_ID)
+    row = next(d for d in manifest["documents"] if d["document_id"] == "psx:194111")
     raw = PDF.read_bytes()
-    if hashlib.sha256(raw).hexdigest() != EXPECTED_HASH or manifest_row["content_sha256"] != EXPECTED_HASH:
-        raise ValueError("FY2022 original-byte hash mismatch")
-    with pymupdf.open(stream=raw, filetype="pdf") as pdf:
-        profit_loss = pdf[272]
-        cash_flow = pdf[274]
-        h_sales, c_sales = value_at_current_column(profit_loss, label="Sales-net", value="48,519,622", header_y_max=170)
-        h_pat, c_pat = value_at_current_column(profit_loss, label="Profit after taxation", value="4,553,125", header_y_max=170)
-        h_eps, c_eps = value_at_current_column(profit_loss, label="Earnings per share-basic and diluted", value="4.15", header_y_max=170)
-        h_ocf, c_ocf = value_at_current_column(cash_flow, label="Net cash generated from operating activities", value="9,389,176", header_y_max=130)
-    candidates = [
-        candidate(metric="revenue", reported_label="Sales - net", reported_value=48_519_622, normalized_value=48_519_622_000, unit="PKR thousands", page=273, header=h_sales, cell=c_sales),
-        candidate(metric="profit_after_tax", reported_label="Profit after taxation", reported_value=4_553_125, normalized_value=4_553_125_000, unit="PKR thousands", page=273, header=h_pat, cell=c_pat),
-        candidate(metric="basic_eps", reported_label="Earnings per share - basic and diluted", reported_value=4.15, normalized_value=4.15, unit="PKR per share", page=273, header=h_eps, cell=c_eps),
-        candidate(metric="operating_cash_flow", reported_label="Net cash generated from operating activities", reported_value=9_389_176, normalized_value=9_389_176_000, unit="PKR thousands", page=275, header=h_ocf, cell=c_ocf),
-    ]
-    return {
+    digest = hashlib.sha256(raw).hexdigest()
+    if digest != row["content_sha256"]:
+        raise ValueError("194111.pdf hash mismatch")
+    doc = pymupdf.open(stream=raw, filetype="pdf")
+    pages = {}
+    candidates = []
+    for number in (271, 273, 275):
+        page = doc[number - 1]
+        upper = " ".join(page.get_text().split()).upper()
+        if "CONSOLIDATED" not in upper or "UNCONSOLIDATED" in upper:
+            raise ValueError(f"page {number} is not consolidated")
+        hw = header_words(page, "2022", OCF_HEADER_X if number == 275 else HEADER_X, OCF_HEADER_Y if number == 275 else HEADER_Y)
+        if hw is None:
+            raise ValueError(f"page {number}: deterministic current-period header missing")
+        pages[str(number)] = {
+            "page": number,
+            "identity": "consolidated",
+            "current_period": "2022",
+            "period_end": "2022-06-30",
+            "duration_months": 12,
+            "unit": "PKR_thousand",
+            "table_header_geometry": rect(hw),
+        }
+        if number == 273:
+            specs = [
+                ("sales_net", r"^Sales\s*-\s*net$", (389.96, 440.0), (185, 205), "PKR_thousand"),
+                ("profit_after_taxation", r"^Profit\s+after\s+taxation$", (395.52, 440.0), (437, 458), "PKR_thousand"),
+                ("eps_basic_diluted", r"^Earnings\s+per\s+share\s*-\s+basic\s+and\s+diluted$", (420.54, 440.0), (497, 518), "PKR/share"),
+            ]
+            for metric, pattern, xb, yb, unit in specs:
+                hit = find_row(page, pattern, xb, yb)
+                if hit is None:
+                    continue
+                label, (value, word) = hit
+                candidates.append({"metric": metric, "label": label, "raw_value": value, "unit": unit, "cell_geometry": rect(word), "page": 273})
+        elif number == 275:
+            hit = find_row(page, r"^Net\s+cash\s+generated\s+from\s+operating\s+activities$", (404.416, 440.0), (519, 538))
+            if hit is not None:
+                label, (value, word) = hit
+                candidates.append({"metric": "net_cash_generated_from_operating_activities", "label": label, "raw_value": value, "unit": "PKR_thousand", "cell_geometry": rect(word), "page": 275})
+    availability = {
+        "published_at": row.get("published_at"),
+        "available_on": row.get("available_on"),
+        "status": "missing",
+        "reason": MISSING_OFFICIAL_AVAILABILITY_REASON,
+        "binding_required_before_promotion": True,
+        "no_date_inferred": True,
+    }
+    for c in candidates:
+        c.update({"document_id": "psx:194111", "statement_identity": "consolidated", "period_end": "2022-06-30", "duration_months": 12, "content_sha256": digest, "status": "audit_only", "promotion_status": "blocked", "model_readiness": "not_ready", "model_readiness_reason": MISSING_OFFICIAL_AVAILABILITY_REASON})
+    result = {
         "schema_version": 1,
         "receipt_version": "mlcf_fy22_table_audit_v1",
         "symbol": "MLCF",
-        "scope": "one official FY2022 annual report, four audit-only current-period table cells",
-        "policy": {
-            "official_hash_bound_original_only": True,
-            "consolidated_statement_only": True,
-            "current_period_header_geometry_required": True,
-            "no_network": True,
-            "no_ocr": True,
-            "audit_only": True,
-            "canonical_financial_facts_written": False,
-            "financial_truth_changed": False,
-            "formal_outputs_activated": False,
-        },
+        "source_pdf": ".cache/company_intel/mlcf_official_intake/194111.pdf",
+        "source_url": row["source_url"],
+        "content_sha256": digest,
+        "official_availability": availability,
+        "pages": pages,
         "candidates": candidates,
+        "policy": {"local_original_only": True, "native_text_geometry_required": True, "hash_bound": True, "consolidated_only": True, "audit_only": True, "facts_promoted": False, "coverage_changed": False, "case_changed": False, "promotion_status": "blocked"},
+        "summary": {"candidate_count": len(candidates), "facts": [], "promotion_status": "blocked", "reason": MISSING_OFFICIAL_AVAILABILITY_REASON},
         "required_before_promotion": [
+            "official availability-date binding from source manifest published_at or available_on",
             "independent full-statement extraction",
             "annual period tie-out",
             "existing canonical fact conflict check",
             "financial-truth builder acceptance",
         ],
     }
+    OUT.parent.mkdir(parents=True, exist_ok=True)
+    OUT.write_text(json.dumps(result, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    print(f"wrote {OUT.relative_to(ROOT)}; candidates={len(candidates)}")
+    return 0
 
 
 if __name__ == "__main__":
-    OUT.write_text(json.dumps(build(), indent=2) + "\n", encoding="utf-8")
-    print(f"wrote {OUT.relative_to(ROOT)}")
+    raise SystemExit(main())
