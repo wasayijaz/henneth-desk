@@ -4620,8 +4620,423 @@
   "MARI": {
    "symbol": "MARI",
    "status": "benchmarks_available",
-   "benchmark_count": 2,
+   "benchmark_count": 4,
    "benchmarks": [
+    {
+     "benchmark_id": "conditional_17e13b9d765b5542a142",
+     "target_event": {
+      "event_id": "evt_e9068dbe4b6b8493a0cb",
+      "study_id": "study_e9068dbe4b6b8493a0cb",
+      "symbol": "MARI",
+      "event_type": "product_launch",
+      "event_subtype": "product_launch",
+      "effective_date": "2026-07-24",
+      "sector": "Oil & Gas Exploration Companies",
+      "description": "ri Energies Limited (through its wholly owned subsidiary, Mari Technologies Limited), has officially launched Karakoram-01, Pakistan’s first and largest purpose-built, AI-ready data center campus. The Honourable Prime Minister of Pakistan…"
+     },
+     "context": {
+      "conditions": [
+       "event_type=product_launch",
+       "event_subtype=product_launch",
+       "sector=Oil & Gas Exploration Companies"
+      ],
+      "summary": "Exact event class and retained current-sector context."
+     },
+     "status": "no_prior_exact_analogues",
+     "matching_policy": {
+      "event_type": "exact",
+      "event_subtype": "exact",
+      "candidate_date": "strictly_before_target",
+      "same_company": "same_symbol",
+      "same_sector": "same_current_sector_other_symbol",
+      "returns": "reuse_target_event_study_analogue_outcomes",
+      "minimum_aggregate_sample": 3
+     },
+     "candidates": {
+      "same_company_exact": [],
+      "same_sector_exact": []
+     },
+     "candidate_evidence_summary": {
+      "evidence_status": "no_prior_exact_analogues",
+      "candidate_counts": {
+       "same_company_exact": 0,
+       "same_sector_exact": 0
+      },
+      "mature_horizon_counts": {
+       "1Q": 0,
+       "2Q": 0,
+       "4Q": 0,
+       "8Q": 0
+      },
+      "latest_prior_candidate_date": null,
+      "limitation": "Descriptive prior-event evidence only; it is not causal, a forecast, valuation or advice."
+     },
+     "readiness_ledger": {
+      "status": "needs_prior_exact_analogues",
+      "minimum_mature_outcome_sample": 3,
+      "strict_candidate_count": 0,
+      "mature_horizon_counts": {
+       "1Q": 0,
+       "2Q": 0,
+       "4Q": 0,
+       "8Q": 0
+      },
+      "missing_mature_outcomes_to_minimum": {
+       "1Q": 3,
+       "2Q": 3,
+       "4Q": 3,
+       "8Q": 3
+      },
+      "aggregate_ready_horizons": [],
+      "nearest_ready_horizon": "1Q",
+      "latest_prior_candidate_date": null,
+      "next_required_evidence": "3 mature strict prior exact analogue outcome(s) for one horizon before publishing aggregate statistics."
+     },
+     "horizon_aggregates": {
+      "1Q": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "stats": {
+        "mean_return_pct": null,
+        "median_return_pct": null,
+        "min_return_pct": null,
+        "max_return_pct": null
+       }
+      },
+      "2Q": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "stats": {
+        "mean_return_pct": null,
+        "median_return_pct": null,
+        "min_return_pct": null,
+        "max_return_pct": null
+       }
+      },
+      "4Q": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "stats": {
+        "mean_return_pct": null,
+        "median_return_pct": null,
+        "min_return_pct": null,
+        "max_return_pct": null
+       }
+      },
+      "8Q": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "stats": {
+        "mean_return_pct": null,
+        "median_return_pct": null,
+        "min_return_pct": null,
+        "max_return_pct": null
+       }
+      }
+     },
+     "blocked_states": {
+      "peer": {
+       "status": "blocked",
+       "reason": "no_peer_registry"
+      },
+      "international": {
+       "status": "blocked",
+       "reason": "no_international_registry"
+      },
+      "financial": {
+       "status": "blocked",
+       "reason": "no_period_aligned_financials"
+      },
+      "causal": {
+       "status": "blocked",
+       "reason": "descriptive_not_causal"
+      },
+      "forecast": {
+       "status": "blocked",
+       "reason": "not_implemented"
+      },
+      "valuation": {
+       "status": "blocked",
+       "reason": "not_implemented"
+      }
+     }
+    },
+    {
+     "benchmark_id": "conditional_31b99c702592d0ccb589",
+     "target_event": {
+      "event_id": "evt_90372372ccc7d6561be7",
+      "study_id": "study_90372372ccc7d6561be7",
+      "symbol": "MARI",
+      "event_type": "acquisition_divestment",
+      "event_subtype": "acquisition",
+      "effective_date": "2026-02-27",
+      "sector": "Oil & Gas Exploration Companies",
+      "description": "x.  The Company entered into a farm-out agreement with Hycarbex-American Energy Inc. for acquisition of 65% working interest in Peshawar Block along with operatorship. FOR THE SIX MONTHS PERIOD ENDED DECEMBER 31 , 2025 05"
+     },
+     "context": {
+      "conditions": [
+       "event_type=acquisition_divestment",
+       "event_subtype=acquisition",
+       "sector=Oil & Gas Exploration Companies"
+      ],
+      "summary": "Exact event class and retained current-sector context."
+     },
+     "status": "candidate_history_present",
+     "matching_policy": {
+      "event_type": "exact",
+      "event_subtype": "exact",
+      "candidate_date": "strictly_before_target",
+      "same_company": "same_symbol",
+      "same_sector": "same_current_sector_other_symbol",
+      "returns": "reuse_target_event_study_analogue_outcomes",
+      "minimum_aggregate_sample": 3
+     },
+     "candidates": {
+      "same_company_exact": [
+       {
+        "event_id": "evt_3d1dae7553f73da60ba3",
+        "study_id": "study_3d1dae7553f73da60ba3",
+        "symbol": "MARI",
+        "effective_date": "2025-11-13",
+        "classification": "same_company",
+        "event_type": "acquisition_divestment",
+        "event_subtype": "acquisition",
+        "sector": "Oil & Gas Exploration Companies",
+        "outcomes": {
+         "1Q": {
+          "endpoint_date": "2026-02-13",
+          "return_pct": 0.8526062455975536,
+          "status": "mature",
+          "reason": null,
+          "provenance": {
+           "history_file": "state/history/MARI.json",
+           "baseline_date": "2025-11-12",
+           "target_date": "2026-02-13",
+           "endpoint_date": "2026-02-13"
+          }
+         },
+         "2Q": {
+          "endpoint_date": null,
+          "return_pct": null,
+          "status": "unavailable",
+          "reason": "no_ex_ante_endpoint",
+          "provenance": {
+           "history_file": "state/history/MARI.json",
+           "baseline_date": "2025-11-12",
+           "target_date": "2026-05-13",
+           "endpoint_date": null
+          }
+         },
+         "4Q": {
+          "endpoint_date": null,
+          "return_pct": null,
+          "status": "unavailable",
+          "reason": "no_ex_ante_endpoint",
+          "provenance": {
+           "history_file": "state/history/MARI.json",
+           "baseline_date": "2025-11-12",
+           "target_date": "2026-11-13",
+           "endpoint_date": null
+          }
+         },
+         "8Q": {
+          "endpoint_date": null,
+          "return_pct": null,
+          "status": "unavailable",
+          "reason": "no_ex_ante_endpoint",
+          "provenance": {
+           "history_file": "state/history/MARI.json",
+           "baseline_date": "2025-11-12",
+           "target_date": "2027-11-13",
+           "endpoint_date": null
+          }
+         }
+        },
+        "outcome_source": {
+         "target_study_id": "study_90372372ccc7d6561be7",
+         "target_event_id": "evt_90372372ccc7d6561be7"
+        }
+       },
+       {
+        "event_id": "evt_b25decfc180474cbe066",
+        "study_id": "study_b25decfc180474cbe066",
+        "symbol": "MARI",
+        "effective_date": "2025-09-30",
+        "classification": "same_company",
+        "event_type": "acquisition_divestment",
+        "event_subtype": "acquisition",
+        "sector": "Oil & Gas Exploration Companies",
+        "outcomes": {
+         "1Q": {
+          "endpoint_date": "2025-12-30",
+          "return_pct": -2.708014258413405,
+          "status": "mature",
+          "reason": null,
+          "provenance": {
+           "history_file": "state/history/MARI.json",
+           "baseline_date": "2025-09-29",
+           "target_date": "2025-12-30",
+           "endpoint_date": "2025-12-30"
+          }
+         },
+         "2Q": {
+          "endpoint_date": null,
+          "return_pct": null,
+          "status": "unavailable",
+          "reason": "no_ex_ante_endpoint",
+          "provenance": {
+           "history_file": "state/history/MARI.json",
+           "baseline_date": "2025-09-29",
+           "target_date": "2026-03-30",
+           "endpoint_date": null
+          }
+         },
+         "4Q": {
+          "endpoint_date": null,
+          "return_pct": null,
+          "status": "unavailable",
+          "reason": "no_ex_ante_endpoint",
+          "provenance": {
+           "history_file": "state/history/MARI.json",
+           "baseline_date": "2025-09-29",
+           "target_date": "2026-09-30",
+           "endpoint_date": null
+          }
+         },
+         "8Q": {
+          "endpoint_date": null,
+          "return_pct": null,
+          "status": "unavailable",
+          "reason": "no_ex_ante_endpoint",
+          "provenance": {
+           "history_file": "state/history/MARI.json",
+           "baseline_date": "2025-09-29",
+           "target_date": "2027-09-30",
+           "endpoint_date": null
+          }
+         }
+        },
+        "outcome_source": {
+         "target_study_id": "study_90372372ccc7d6561be7",
+         "target_event_id": "evt_90372372ccc7d6561be7"
+        }
+       }
+      ],
+      "same_sector_exact": []
+     },
+     "candidate_evidence_summary": {
+      "evidence_status": "thin_history_present",
+      "candidate_counts": {
+       "same_company_exact": 2,
+       "same_sector_exact": 0
+      },
+      "mature_horizon_counts": {
+       "1Q": 2,
+       "2Q": 0,
+       "4Q": 0,
+       "8Q": 0
+      },
+      "latest_prior_candidate_date": "2025-11-13",
+      "limitation": "Descriptive prior-event evidence only; it is not causal, a forecast, valuation or advice."
+     },
+     "readiness_ledger": {
+      "status": "needs_more_mature_outcomes",
+      "minimum_mature_outcome_sample": 3,
+      "strict_candidate_count": 2,
+      "mature_horizon_counts": {
+       "1Q": 2,
+       "2Q": 0,
+       "4Q": 0,
+       "8Q": 0
+      },
+      "missing_mature_outcomes_to_minimum": {
+       "1Q": 1,
+       "2Q": 3,
+       "4Q": 3,
+       "8Q": 3
+      },
+      "aggregate_ready_horizons": [],
+      "nearest_ready_horizon": "1Q",
+      "latest_prior_candidate_date": "2025-11-13",
+      "next_required_evidence": "1 additional mature strict prior exact analogue outcome(s) for 1Q before publishing aggregate statistics."
+     },
+     "horizon_aggregates": {
+      "1Q": {
+       "n": 2,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "stats": {
+        "mean_return_pct": null,
+        "median_return_pct": null,
+        "min_return_pct": null,
+        "max_return_pct": null
+       }
+      },
+      "2Q": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "stats": {
+        "mean_return_pct": null,
+        "median_return_pct": null,
+        "min_return_pct": null,
+        "max_return_pct": null
+       }
+      },
+      "4Q": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "stats": {
+        "mean_return_pct": null,
+        "median_return_pct": null,
+        "min_return_pct": null,
+        "max_return_pct": null
+       }
+      },
+      "8Q": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "stats": {
+        "mean_return_pct": null,
+        "median_return_pct": null,
+        "min_return_pct": null,
+        "max_return_pct": null
+       }
+      }
+     },
+     "blocked_states": {
+      "peer": {
+       "status": "blocked",
+       "reason": "no_peer_registry"
+      },
+      "international": {
+       "status": "blocked",
+       "reason": "no_international_registry"
+      },
+      "financial": {
+       "status": "blocked",
+       "reason": "no_period_aligned_financials"
+      },
+      "causal": {
+       "status": "blocked",
+       "reason": "descriptive_not_causal"
+      },
+      "forecast": {
+       "status": "blocked",
+       "reason": "not_implemented"
+      },
+      "valuation": {
+       "status": "blocked",
+       "reason": "not_implemented"
+      }
+     }
+    },
     {
      "benchmark_id": "conditional_f1899cc8a7e91f38095a",
      "target_event": {
@@ -4975,20 +5390,29 @@
     }
    ],
    "readiness_summary": {
-    "dated_benchmark_count": 2,
-    "benchmarks_with_candidates": 1,
+    "dated_benchmark_count": 4,
+    "benchmarks_with_candidates": 2,
     "aggregate_ready_benchmark_count": 0,
-    "suppressed_benchmark_count": 2,
-    "total_strict_candidate_count": 1,
-    "minimum_missing_mature_outcomes_to_publish": 3,
+    "suppressed_benchmark_count": 4,
+    "total_strict_candidate_count": 3,
+    "minimum_missing_mature_outcomes_to_publish": 1,
     "event_class_gaps": [
      {
       "event_type": "acquisition_divestment",
       "event_subtype": "acquisition",
-      "benchmark_count": 2,
-      "candidate_history_present_count": 1,
+      "benchmark_count": 3,
+      "candidate_history_present_count": 2,
       "aggregate_ready_count": 0,
-      "total_strict_candidate_count": 1,
+      "total_strict_candidate_count": 3,
+      "minimum_missing_mature_outcomes_to_publish": 1
+     },
+     {
+      "event_type": "product_launch",
+      "event_subtype": "product_launch",
+      "benchmark_count": 1,
+      "candidate_history_present_count": 0,
+      "aggregate_ready_count": 0,
+      "total_strict_candidate_count": 0,
       "minimum_missing_mature_outcomes_to_publish": 3
      }
     ],
@@ -5360,21 +5784,21 @@
   }
  },
  "readiness_summary": {
-  "dated_benchmark_count": 23,
-  "benchmarks_with_candidates": 10,
+  "dated_benchmark_count": 25,
+  "benchmarks_with_candidates": 11,
   "aggregate_ready_benchmark_count": 2,
-  "suppressed_benchmark_count": 21,
-  "total_strict_candidate_count": 15,
-  "minimum_missing_mature_outcomes_to_publish": 2,
+  "suppressed_benchmark_count": 23,
+  "total_strict_candidate_count": 17,
+  "minimum_missing_mature_outcomes_to_publish": 1,
   "event_class_gaps": [
    {
     "event_type": "acquisition_divestment",
     "event_subtype": "acquisition",
-    "benchmark_count": 6,
-    "candidate_history_present_count": 2,
+    "benchmark_count": 7,
+    "candidate_history_present_count": 3,
     "aggregate_ready_count": 0,
-    "total_strict_candidate_count": 2,
-    "minimum_missing_mature_outcomes_to_publish": 2
+    "total_strict_candidate_count": 4,
+    "minimum_missing_mature_outcomes_to_publish": 1
    },
    {
     "event_type": "contract_tender",
@@ -5404,6 +5828,15 @@
     "minimum_missing_mature_outcomes_to_publish": 3
    },
    {
+    "event_type": "product_launch",
+    "event_subtype": "product_launch",
+    "benchmark_count": 1,
+    "candidate_history_present_count": 0,
+    "aggregate_ready_count": 0,
+    "total_strict_candidate_count": 0,
+    "minimum_missing_mature_outcomes_to_publish": 3
+   },
+   {
     "event_type": "regulatory_change",
     "event_subtype": "regulatory_action",
     "benchmark_count": 1,
@@ -5429,9 +5862,9 @@
  "as_of": "2026-08-28",
  "_meta": {
   "generator_version": "ci_artifact_integrity_v1",
-  "source_commit_sha": "79d5e756dffb5569894f7279a26dcbe68de3157b",
-  "build_cutoff_at": "2026-08-31T13:41:50Z",
-  "generated_at": "2026-08-31T13:41:50Z",
+  "source_commit_sha": "2b551c45a1f0f75c77be9c514d058c133bb32eaf",
+  "build_cutoff_at": "2026-08-31T14:12:19Z",
+  "generated_at": "2026-08-31T14:12:19Z",
   "artifact_path": "state/company_intel/conditional_benchmarks.json",
   "timestamp_semantics": {
    "build_cutoff_at": "generation boundary only; not a source-effective or source-published time",

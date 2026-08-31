@@ -491,7 +491,7 @@
      "label": "canonical event rows",
      "path": "state/company_intel/operating_events.json",
      "ok": true,
-     "detail": "70 events"
+     "detail": "72 events"
     }
    ],
    "blockers": [],
@@ -508,7 +508,7 @@
      "label": "closed event type registry",
      "path": "state/company_intel/operating_events.json",
      "ok": true,
-     "detail": "5 closed event types"
+     "detail": "6 closed event types"
     },
     {
      "label": "event support rules",
@@ -757,7 +757,7 @@
      "label": "event-study state",
      "path": "state/company_intel/event_studies.json",
      "ok": true,
-     "detail": "70 studies for 70 events"
+     "detail": "72 studies for 72 events"
     },
     {
      "label": "pilot boundary",
@@ -780,7 +780,7 @@
      "label": "strict baseline derivation",
      "path": "state/company_intel/event_studies.json",
      "ok": true,
-     "detail": "23/23 baseline-available studies have baseline.selected_date before effective_date; 70 total studies"
+     "detail": "25/25 baseline-available studies have baseline.selected_date before effective_date; 72 total studies"
     },
     {
      "label": "event study checker",
@@ -803,7 +803,7 @@
      "label": "1Q/2Q/4Q/8Q horizons",
      "path": "state/company_intel/event_studies.json",
      "ok": true,
-     "detail": "70/70 studies"
+     "detail": "72/72 studies"
     },
     {
      "label": "raw return limitations",
@@ -826,7 +826,7 @@
      "label": "analogue contract",
      "path": "state/company_intel/event_studies.json",
      "ok": true,
-     "detail": "70/70 studies"
+     "detail": "72/72 studies"
     },
     {
      "label": "thin sample suppression",
@@ -884,13 +884,13 @@
      "label": "dated benchmark count",
      "path": "state/company_intel/conditional_benchmarks.json",
      "ok": true,
-     "detail": "23/23 dated events; 47 undated events excluded by no-lookahead"
+     "detail": "25/25 dated events; 47 undated events excluded by no-lookahead"
     },
     {
      "label": "readiness ledger",
      "path": "state/company_intel/conditional_benchmarks.json",
      "ok": true,
-     "detail": "10 rows with candidates; 2 aggregate-ready; 21 suppressed"
+     "detail": "11 rows with candidates; 2 aggregate-ready; 23 suppressed"
     }
    ],
    "blockers": [],
@@ -919,7 +919,7 @@
      "label": "strict sample readiness",
      "path": "state/company_intel/conditional_benchmarks.json",
      "ok": true,
-     "detail": "15 retained strict candidates; nearest missing mature outcomes to publish: 2"
+     "detail": "17 retained strict candidates; nearest missing mature outcomes to publish: 1"
     },
     {
      "label": "conditional benchmark checker",
@@ -1897,9 +1897,9 @@
  ],
  "_meta": {
   "generator_version": "ci_artifact_integrity_v1",
-  "source_commit_sha": "79d5e756dffb5569894f7279a26dcbe68de3157b",
-  "build_cutoff_at": "2026-08-31T13:41:50Z",
-  "generated_at": "2026-08-31T13:41:50Z",
+  "source_commit_sha": "2b551c45a1f0f75c77be9c514d058c133bb32eaf",
+  "build_cutoff_at": "2026-08-31T14:12:19Z",
+  "generated_at": "2026-08-31T14:12:19Z",
   "artifact_path": "state/company_intel/completion_matrix.json",
   "timestamp_semantics": {
    "build_cutoff_at": "generation boundary only; not a source-effective or source-published time",

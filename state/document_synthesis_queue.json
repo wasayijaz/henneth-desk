@@ -1710,6 +1710,20 @@
    "synthesis_status": "not_started"
   },
   {
+   "queue_id": "syn_psx:280337_acdfaac317a7",
+   "doc_id": "psx:280337",
+   "content_sha256": "acdfaac317a7f2650a9ac11f2e98b69ebf37ce30a3134b51b61c084531286996",
+   "tickers": [
+    "MARI"
+   ],
+   "doc_type": "other",
+   "priority": 3,
+   "queued_at": "2026-08-31 19:11",
+   "approval_status": "pending",
+   "training_mode": true,
+   "synthesis_status": "not_started"
+  },
+  {
    "queue_id": "syn_psx:277794_7d8cb4a98514",
    "doc_id": "psx:277794",
    "content_sha256": "7d8cb4a98514b45a9799f9663a4b85cd8639f80ef6b474b2a0b47f6e10084d9f",
@@ -2779,20 +2793,6 @@
    "content_sha256": "ac7f46219c013ab955fb5245c1a6bc17c4707220aedf4275ded32bd430946ce6",
    "tickers": [
     "MEBL"
-   ],
-   "doc_type": "other",
-   "priority": 0,
-   "queued_at": "2026-08-18 03:23",
-   "approval_status": "pending",
-   "training_mode": true,
-   "synthesis_status": "not_started"
-  },
-  {
-   "queue_id": "syn_issuer:a397cbbea481fb7a8003c1b1_5b4acc1fa353",
-   "doc_id": "issuer:a397cbbea481fb7a8003c1b1",
-   "content_sha256": "5b4acc1fa3537fb30bd0cbbb5114af20126ad28005a0c078c5154e1fbdc47b25",
-   "tickers": [
-    "HUBC"
    ],
    "doc_type": "other",
    "priority": 0,
@@ -7282,12 +7282,26 @@
    "approval_status": "pending",
    "training_mode": true,
    "synthesis_status": "not_started"
+  },
+  {
+   "queue_id": "syn_psx:280337_acdfaac317a7",
+   "doc_id": "psx:280337",
+   "content_sha256": "acdfaac317a7f2650a9ac11f2e98b69ebf37ce30a3134b51b61c084531286996",
+   "tickers": [
+    "MARI"
+   ],
+   "doc_type": "other",
+   "priority": 3,
+   "queued_at": "2026-08-31 19:11",
+   "approval_status": "pending",
+   "training_mode": true,
+   "synthesis_status": "not_started"
   }
  ],
  "_meta": {
-  "updated": "2026-08-31 16:43",
+  "updated": "2026-08-31 19:11",
   "pending": 200,
-  "overflow": 107,
+  "overflow": 108,
   "retention_max": 200,
   "training_mode": true,
   "approved_receipts": 13,

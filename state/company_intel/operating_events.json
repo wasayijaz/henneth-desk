@@ -2289,6 +2289,82 @@
   "MARI": {
    "events": [
     {
+     "event_id": "evt_e9068dbe4b6b8493a0cb",
+     "company_id": "MARI",
+     "symbol": "MARI",
+     "event_type": "product_launch",
+     "event_subtype": "product_launch",
+     "intelligence_type": "reported_fact",
+     "priority_weight": 3,
+     "detected_at": "2026-07-24T16:26:00+05:00",
+     "effective_date": "2026-07-24",
+     "expected_completion": null,
+     "business_segment": null,
+     "location": null,
+     "description": "ri Energies Limited (through its wholly owned subsidiary, Mari Technologies Limited), has officially launched Karakoram-01, Pakistan’s first and largest purpose-built, AI-ready data center campus. The Honourable Prime Minister of Pakistan…",
+     "source_url": "https://dps.psx.com.pk/download/document/280337.pdf",
+     "source_quality_level": 1,
+     "confidence": 82,
+     "estimated_scale": null,
+     "expected_cost": null,
+     "affected_drivers": [],
+     "expected_lag": null,
+     "historical_analogues": [],
+     "peer_analogues": [],
+     "scenario_ids": [],
+     "financial_model_version": null,
+     "evidence": [
+      {
+       "document_id": "psx:280337",
+       "source": "PSX DPS",
+       "source_url": "https://dps.psx.com.pk/download/document/280337.pdf",
+       "page": 1,
+       "text": "ri Energies Limited (through its wholly owned subsidiary, Mari Technologies Limited), has officially launched Karakoram-01, Pakistan’s first and largest purpose-built, AI-ready data center campus. The Honourable Prime Minister of Pakistan…",
+       "content_sha256": "acdfaac317a7f2650a9ac11f2e98b69ebf37ce30a3134b51b61c084531286996",
+       "evidence_sha256": "e6e126be616ee0fe1e656501b3a63953ba1c64b36bd93e545050b741e4db551b"
+      }
+     ],
+     "quality_flags": []
+    },
+    {
+     "event_id": "evt_90372372ccc7d6561be7",
+     "company_id": "MARI",
+     "symbol": "MARI",
+     "event_type": "acquisition_divestment",
+     "event_subtype": "acquisition",
+     "intelligence_type": "reported_fact",
+     "priority_weight": 4,
+     "detected_at": "2026-02-27T09:03:00+05:00",
+     "effective_date": "2026-02-27",
+     "expected_completion": null,
+     "business_segment": null,
+     "location": null,
+     "description": "x.  The Company entered into a farm-out agreement with Hycarbex-American Energy Inc. for acquisition of 65% working interest in Peshawar Block along with operatorship. FOR THE SIX MONTHS PERIOD ENDED DECEMBER 31 , 2025 05",
+     "source_url": "https://dps.psx.com.pk/download/document/271327.pdf",
+     "source_quality_level": 1,
+     "confidence": 82,
+     "estimated_scale": null,
+     "expected_cost": null,
+     "affected_drivers": [],
+     "expected_lag": null,
+     "historical_analogues": [],
+     "peer_analogues": [],
+     "scenario_ids": [],
+     "financial_model_version": null,
+     "evidence": [
+      {
+       "document_id": "psx:271327",
+       "source": "PSX DPS",
+       "source_url": "https://dps.psx.com.pk/download/document/271327.pdf",
+       "page": 6,
+       "text": "x.  The Company entered into a farm-out agreement with Hycarbex-American Energy Inc. for acquisition of 65% working interest in Peshawar Block along with operatorship. FOR THE SIX MONTHS PERIOD ENDED DECEMBER 31 , 2025 05",
+       "content_sha256": "e53fccd6eca58c685dbf9225140056303be704b1f389b876ba33d87aa4b687b3",
+       "evidence_sha256": "20a3739cf00a452554d4ebe6a14df76d6c097eaa32d35e9df63f6b3d0bf93b32"
+      }
+     ],
+     "quality_flags": []
+    },
+    {
      "event_id": "evt_3d1dae7553f73da60ba3",
      "company_id": "MARI",
      "symbol": "MARI",
@@ -2902,6 +2978,7 @@
   "contract_tender",
   "debt_refinancing",
   "management_change",
+  "product_launch",
   "regulatory_change"
  ],
  "event_registry": {
@@ -3000,15 +3077,25 @@
      4
     ],
     "strict_pattern_key": "regulatory_change"
+   },
+   {
+    "event_type": "product_launch",
+    "raw_event_types": [
+     "product_launch"
+    ],
+    "allowed_priority_weights": [
+     3
+    ],
+    "strict_pattern_key": "product_launch"
    }
   ]
  },
  "source": "state/company_documents.json + state/company_event_ledger.json",
  "_meta": {
   "generator_version": "ci_artifact_integrity_v1",
-  "source_commit_sha": "79d5e756dffb5569894f7279a26dcbe68de3157b",
-  "build_cutoff_at": "2026-08-31T13:41:50Z",
-  "generated_at": "2026-08-31T13:41:50Z",
+  "source_commit_sha": "2b551c45a1f0f75c77be9c514d058c133bb32eaf",
+  "build_cutoff_at": "2026-08-31T14:12:19Z",
+  "generated_at": "2026-08-31T14:12:19Z",
   "artifact_path": "state/company_intel/operating_events.json",
   "timestamp_semantics": {
    "build_cutoff_at": "generation boundary only; not a source-effective or source-published time",
