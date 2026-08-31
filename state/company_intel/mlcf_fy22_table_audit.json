@@ -1,0 +1,164 @@
+{
+ "schema_version": 1,
+ "receipt_version": "mlcf_fy22_table_audit_v1",
+ "symbol": "MLCF",
+ "scope": "one official FY2022 annual report, four audit-only current-period table cells",
+ "policy": {
+  "official_hash_bound_original_only": true,
+  "consolidated_statement_only": true,
+  "current_period_header_geometry_required": true,
+  "no_network": true,
+  "no_ocr": true,
+  "audit_only": true,
+  "canonical_financial_facts_written": false,
+  "financial_truth_changed": false,
+  "formal_outputs_activated": false
+ },
+ "candidates": [
+  {
+   "metric": "revenue",
+   "reported_label": "Sales - net",
+   "reported_value": 48519622,
+   "normalized_value": 48519622000,
+   "unit": "PKR thousands",
+   "currency": "PKR",
+   "period_start": "2021-07-01",
+   "period_end": "2022-06-30",
+   "duration_months": 12,
+   "statement_identity": "consolidated",
+   "document_id": "psx:194111",
+   "source_url": "https://financials.psx.com.pk/lib/DownloadPDF.php?id=194111",
+   "content_sha256": "5103d0a5eaaa8ce2c8c435ae50de6ee5000248ad05094e3f0ac086212e687aae",
+   "original_page": 273,
+   "current_period_header_geometry": {
+    "text": "2022",
+    "x0": 403.9,
+    "y0": 141.8,
+    "x1": 426.1,
+    "y1": 154.0
+   },
+   "cell_geometry": {
+    "text": "48,519,622",
+    "x0": 390.0,
+    "y0": 190.0,
+    "x1": 440.0,
+    "y1": 201.8
+   },
+   "status": "audit_only",
+   "promotion_status": "blocked_pending_independent_statement_and_period_tie_out"
+  },
+  {
+   "metric": "profit_after_tax",
+   "reported_label": "Profit after taxation",
+   "reported_value": 4553125,
+   "normalized_value": 4553125000,
+   "unit": "PKR thousands",
+   "currency": "PKR",
+   "period_start": "2021-07-01",
+   "period_end": "2022-06-30",
+   "duration_months": 12,
+   "statement_identity": "consolidated",
+   "document_id": "psx:194111",
+   "source_url": "https://financials.psx.com.pk/lib/DownloadPDF.php?id=194111",
+   "content_sha256": "5103d0a5eaaa8ce2c8c435ae50de6ee5000248ad05094e3f0ac086212e687aae",
+   "original_page": 273,
+   "current_period_header_geometry": {
+    "text": "2022",
+    "x0": 403.9,
+    "y0": 141.8,
+    "x1": 426.1,
+    "y1": 154.0
+   },
+   "cell_geometry": {
+    "text": "4,553,125",
+    "x0": 395.5,
+    "y0": 442.0,
+    "x1": 440.0,
+    "y1": 453.8
+   },
+   "status": "audit_only",
+   "promotion_status": "blocked_pending_independent_statement_and_period_tie_out"
+  },
+  {
+   "metric": "basic_eps",
+   "reported_label": "Earnings per share - basic and diluted",
+   "reported_value": 4.15,
+   "normalized_value": 4.15,
+   "unit": "PKR per share",
+   "currency": "PKR",
+   "period_start": "2021-07-01",
+   "period_end": "2022-06-30",
+   "duration_months": 12,
+   "statement_identity": "consolidated",
+   "document_id": "psx:194111",
+   "source_url": "https://financials.psx.com.pk/lib/DownloadPDF.php?id=194111",
+   "content_sha256": "5103d0a5eaaa8ce2c8c435ae50de6ee5000248ad05094e3f0ac086212e687aae",
+   "original_page": 273,
+   "current_period_header_geometry": {
+    "text": "2022",
+    "x0": 403.9,
+    "y0": 141.8,
+    "x1": 426.1,
+    "y1": 154.0
+   },
+   "cell_geometry": {
+    "text": "4.15",
+    "x0": 420.5,
+    "y0": 502.0,
+    "x1": 440.0,
+    "y1": 513.8
+   },
+   "status": "audit_only",
+   "promotion_status": "blocked_pending_independent_statement_and_period_tie_out"
+  },
+  {
+   "metric": "operating_cash_flow",
+   "reported_label": "Net cash generated from operating activities",
+   "reported_value": 9389176,
+   "normalized_value": 9389176000,
+   "unit": "PKR thousands",
+   "currency": "PKR",
+   "period_start": "2021-07-01",
+   "period_end": "2022-06-30",
+   "duration_months": 12,
+   "statement_identity": "consolidated",
+   "document_id": "psx:194111",
+   "source_url": "https://financials.psx.com.pk/lib/DownloadPDF.php?id=194111",
+   "content_sha256": "5103d0a5eaaa8ce2c8c435ae50de6ee5000248ad05094e3f0ac086212e687aae",
+   "original_page": 275,
+   "current_period_header_geometry": {
+    "text": "2022",
+    "x0": 406.1,
+    "y0": 99.6,
+    "x1": 423.9,
+    "y1": 109.3
+   },
+   "cell_geometry": {
+    "text": "9,389,176",
+    "x0": 404.4,
+    "y0": 524.0,
+    "x1": 440.0,
+    "y1": 533.4
+   },
+   "status": "audit_only",
+   "promotion_status": "blocked_pending_independent_statement_and_period_tie_out"
+  }
+ ],
+ "required_before_promotion": [
+  "independent full-statement extraction",
+  "annual period tie-out",
+  "existing canonical fact conflict check",
+  "financial-truth builder acceptance"
+ ],
+ "_meta": {
+  "generator_version": "ci_artifact_integrity_v1",
+  "source_commit_sha": "1dc08fa56ad5d31971cd3cf10708a74c946da8b1",
+  "build_cutoff_at": "2026-08-31T16:06:55Z",
+  "generated_at": "2026-08-31T16:06:55Z",
+  "artifact_path": "state/company_intel/mlcf_fy22_table_audit.json",
+  "timestamp_semantics": {
+   "build_cutoff_at": "generation boundary only; not a source-effective or source-published time",
+   "generated_at": "artifact generation time only; not a source-effective or source-published time"
+  }
+ }
+}
