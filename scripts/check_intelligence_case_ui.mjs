@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 import fs from "node:fs";
+import crypto from "node:crypto";
 import path from "node:path";
 import vm from "node:vm";
 import { fileURLToPath } from "node:url";
@@ -13,6 +14,10 @@ const VERCEL = path.join(ROOT, "Henneth Desk 2.CI.0", "vercel.json");
 const SLICE = path.join(ROOT, "Henneth Desk 2.CI.0", "data", "company_intelligence.json");
 const MIDDLEWARE = path.join(ROOT, "Henneth Desk 2.CI.0", "middleware.js");
 const NAV_CHECK = path.join(ROOT, "scripts", "check_company_navigation_ui.mjs");
+const FIXTURE = path.join(ROOT, "scripts", "fixtures", "intelligence_case_ui.json");
+const MLCF_CASE_ID = "case_mlcf_pioc_control_observed_v1";
+const MARI_CASE_ID = "case_mari_working_interest_observed_v1";
+const RETIRED_MARI_CASE_IDS = Object.freeze(["case_mari_offshore_exploration_blocks_observed_v1"]);
 
 let checks = 0;
 const assert = (condition, message) => {
@@ -27,13 +32,21 @@ function loadView() {
   return context.window.HennethIntelligenceCaseView;
 }
 
+function fileSnapshot(filePath) {
+  if (!fs.existsSync(filePath)) return { exists: false, sha256: null };
+  return {
+    exists: true,
+    sha256: crypto.createHash("sha256").update(fs.readFileSync(filePath)).digest("hex"),
+  };
+}
+
 function buildFixture() {
   const fixture = {
     observed_mlcf: {
       symbol: "MLCF",
       status: "observed_seed_available",
       cases: [{
-        case_id: "case_mlcf_pioc_control_observed_v1",
+        case_id: MLCF_CASE_ID,
         symbol: "MLCF",
         target_symbol: "PIOC",
         case_family: "industrial_cement",
@@ -66,24 +79,24 @@ function buildFixture() {
       symbol: "MARI",
       status: "observed_seed_available",
       cases: [{
-        case_id: "case_mari_offshore_exploration_blocks_observed_v1",
+        case_id: MARI_CASE_ID,
         symbol: "MARI",
         case_family: "e_and_p",
-        case_type: "offshore_exploration_block_acquisition",
+        case_type: "working_interest_acquisition",
         status: "Observed",
         epistemic_type: "reported_fact",
-        summary: "Observed official-source seed: Mari Energies reported its acquisition of offshore exploration blocks.",
+        summary: "Observed official-source seed: Mari Energies reported a working-interest acquisition.",
         observed_facts: [{
-          fact_id: "mari_offshore_exploration_blocks_acquisition",
-          statement: "Mari Energies reported the acquisition of offshore exploration blocks.",
-          reported_values: [{ label: "stated_purpose", value: "find new hydrocarbon resources" }],
-          evidence: [{ document_id: "psx:265594", page: 3, source_url: "https://dps.psx.com.pk/download/document/265594.pdf", text: "offshore exploration blocks" }],
+          fact_id: "mari_working_interest_acquisition",
+          statement: "Mari Energies reported a working-interest acquisition.",
+          reported_values: [{ label: "interest_type", value: "working interest" }],
+          evidence: [{ document_id: "psx:260446", page: 1, source_url: "https://dps.psx.com.pk/download/document/260446.pdf", text: "working interest" }],
         }],
         alternative_readings: [{
-          alternative_id: "blocks_not_proved_reserves",
-          reading: "Block acquisition does not establish reserves or future production.",
+          alternative_id: "working_interest_not_proved_reserves",
+          reading: "Working-interest acquisition does not establish reserves or future production.",
           status: "retained_as_observed_only",
-          rejection_condition: "Reject promotion if no official source identifies a development path.",
+          rejection_condition: "Reject promotion if no official source qualifies the acquired interest or development path.",
         }],
         promotion_blocks: {
           Corroborated: "Blocked: single official Mari/PSX source.",
@@ -112,7 +125,10 @@ function buildFixture() {
 }
 
 function main() {
+  const beforeSlice = fileSnapshot(SLICE);
+  const beforeFixture = fileSnapshot(FIXTURE);
   const app = fs.readFileSync(APP, "utf8");
+  const view = fs.readFileSync(VIEW, "utf8");
   const css = fs.readFileSync(CSS, "utf8");
   const index = fs.readFileSync(INDEX, "utf8");
   const vercel = JSON.parse(fs.readFileSync(VERCEL, "utf8"));
@@ -148,12 +164,14 @@ function main() {
   assert(!navCheck.includes("intelligence_case"), "navigation checker left untouched");
   assert(app.includes('fetch("data/company_intelligence.json"'), "live surface still reads the private slice");
   assert(!checker.includes("write" + "FileSync") && !checker.includes("make" + "dirSync"), "checker is read-only");
+  assert(RETIRED_MARI_CASE_IDS.length === 1 && checker.includes(RETIRED_MARI_CASE_IDS[0]), "retired MARI case id remains an explicit checker-only rejection list");
+  assert(!view.includes(RETIRED_MARI_CASE_IDS[0]), "production helper does not hard-code retired MARI case ids");
 
-  const parsed = api.parsePath("/company/mlcf/intelligence/case_mlcf_pioc_control_observed_v1");
-  assert(parsed.ticker === "MLCF" && parsed.caseId === "case_mlcf_pioc_control_observed_v1", "path parse");
+  const parsed = api.parsePath("/company/mlcf/intelligence/" + MLCF_CASE_ID);
+  assert(parsed.ticker === "MLCF" && parsed.caseId === MLCF_CASE_ID, "path parse");
   assert(api.parsePath("/company/MLCF") === null, "non-case path ignored");
 
-  const missing = api.findCase({ symbol: "MLCF" }, "case_mlcf_pioc_control_observed_v1", "MLCF");
+  const missing = api.findCase({ symbol: "MLCF" }, MLCF_CASE_ID, "MLCF");
   assert(missing.ok === false && missing.reason === "intelligence_cases_state_missing", "missing state fail-closed");
 
   for (const key of ["observed_mlcf", "observed_mari"]) {
@@ -177,6 +195,16 @@ function main() {
     const unknown = api.findCase(row, "case_does_not_exist", fixture[key].symbol);
     assert(unknown.ok === false && unknown.reason === "case_not_found", key + " unknown case");
   }
+
+  const currentMariRow = { symbol: "MARI", intelligence_cases: fixture.observed_mari };
+  const currentMari = api.findCase(currentMariRow, MARI_CASE_ID, "MARI");
+  const retiredMariLookups = RETIRED_MARI_CASE_IDS.map(caseId => api.findCase(currentMariRow, caseId, "MARI"));
+  const currentMariDiscovery = api.discoverableCases(currentMariRow);
+  assert(currentMari.ok && currentMari.case.case_id === MARI_CASE_ID, "current MARI working-interest route accepted");
+  assert(retiredMariLookups.every(lookup => lookup.ok === false && lookup.reason === "case_not_found"), "retired MARI offshore route fails closed with no alias");
+  assert(currentMariDiscovery.status === "available" && currentMariDiscovery.items.length === 1, "current MARI discovery emits one case");
+  assert(currentMariDiscovery.items[0].href === "/company/MARI/intelligence/" + MARI_CASE_ID, "current MARI discovery emits only working-interest href");
+  assert(!currentMariDiscovery.items.some(item => RETIRED_MARI_CASE_IDS.includes(item.case_id) || RETIRED_MARI_CASE_IDS.some(caseId => item.href.endsWith(caseId))), "retired MARI offshore case is not discoverable");
 
   const mlcfRow = { symbol: "MLCF", intelligence_cases: fixture.observed_mlcf };
   assert(api.findCase(mlcfRow, fixture.observed_mlcf.cases[0].case_id, "MARI").reason === "ticker_identity_mismatch", "unknown or mismatched ticker fails closed");
@@ -216,15 +244,15 @@ function main() {
   assert(api.resolveSection(fixture.explicit_sections.cases[0], "formulas").reason === "formula_id_not_emitted", "explicit formula reason preserved");
 
   assert(typeof api.discoverableCases === "function", "discoverableCases exported");
-  assert(api.caseHref("MLCF", "case_mlcf_pioc_control_observed_v1") === "/company/MLCF/intelligence/case_mlcf_pioc_control_observed_v1", "safe case href");
+  assert(api.caseHref("MLCF", MLCF_CASE_ID) === "/company/MLCF/intelligence/" + MLCF_CASE_ID, "safe case href");
   assert(api.caseHref("MLCF", "javascript:alert(1)") === "", "unsafe case id rejected");
   assert(api.discoverableCases({ symbol: "OGDC" }).status === "absent", "absent projection emits no items");
   assert(api.discoverableCases({ symbol: "OGDC", intelligence_cases: { status: "no_observed_case", cases: [] } }).status === "empty", "empty projection emits no items");
   assert(api.discoverableCases({ symbol: "OGDC", intelligence_cases: "bad" }).reason === "intelligence_cases_shape_invalid", "invalid projection fail-closed");
   const discoveredMlcf = api.discoverableCases({ symbol: "MLCF", intelligence_cases: fixture.observed_mlcf });
   const discoveredMari = api.discoverableCases({ symbol: "MARI", intelligence_cases: fixture.observed_mari });
-  assert(discoveredMlcf.status === "available" && discoveredMlcf.items[0].href === "/company/MLCF/intelligence/case_mlcf_pioc_control_observed_v1", "MLCF discovery href");
-  assert(discoveredMari.status === "available" && discoveredMari.items[0].href === "/company/MARI/intelligence/case_mari_offshore_exploration_blocks_observed_v1", "MARI discovery href");
+  assert(discoveredMlcf.status === "available" && discoveredMlcf.items[0].href === "/company/MLCF/intelligence/" + MLCF_CASE_ID, "MLCF discovery href");
+  assert(discoveredMari.status === "available" && discoveredMari.items[0].href === "/company/MARI/intelligence/" + MARI_CASE_ID, "MARI discovery href");
   const intelStart = app.indexOf("function renderIntelligenceCaseIndex(");
   const intelEnd = app.indexOf("function renderIntelligence(r)");
   assert(intelStart >= 0 && intelEnd > intelStart, "case index renderer present");
@@ -237,11 +265,17 @@ function main() {
   const liveMlcf = api.discoverableCases(liveBySymbol.MLCF);
   const liveMari = api.discoverableCases(liveBySymbol.MARI);
   const liveOgdc = api.discoverableCases(liveBySymbol.OGDC);
-  assert(liveMlcf.status === "available" && liveMlcf.items.some(item => item.href === "/company/MLCF/intelligence/case_mlcf_pioc_control_observed_v1"), "live MLCF case link projected");
-  assert(liveMari.status === "available" && liveMari.items.some(item => item.href === "/company/MARI/intelligence/case_mari_offshore_exploration_blocks_observed_v1"), "live MARI case link projected");
+  assert(liveMlcf.status === "available" && liveMlcf.items.some(item => item.href === "/company/MLCF/intelligence/" + MLCF_CASE_ID), "live MLCF case link projected");
+  if (liveMari.status === "available" && liveMari.items.some(item => item.case_id === MARI_CASE_ID)) {
+    assert(liveMari.items.length === 1 && !liveMari.items.some(item => RETIRED_MARI_CASE_IDS.includes(item.case_id)), "current live MARI slice exposes only the working-interest case");
+  }
   assert(liveOgdc.status === "empty" || liveOgdc.status === "absent", "non-case company emits no discovery link");
   assert(Array.isArray(slice.tickers) && slice.tickers.length === 20, "live slice still 20 companies");
   assert(!JSON.stringify(slice).includes("you should buy"), "slice has no advice language check token");
+  const afterSlice = fileSnapshot(SLICE);
+  const afterFixture = fileSnapshot(FIXTURE);
+  assert(beforeSlice.exists === afterSlice.exists && beforeSlice.sha256 === afterSlice.sha256, "checker leaves served slice hash unchanged");
+  assert(beforeFixture.exists === afterFixture.exists && beforeFixture.sha256 === afterFixture.sha256, "checker leaves fixture hash unchanged");
 
   console.log("intelligence_case_ui: PASS (" + checks + " assertions)");
 }
