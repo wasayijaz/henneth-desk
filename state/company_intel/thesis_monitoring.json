@@ -25,7 +25,8 @@
  ],
  "source": {
   "signal_clusters": "state/company_intel/signal_clusters.json",
-  "financial_model_inputs": "state/company_intel/financial_model_inputs.json"
+  "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
+  "financial_truth_qualification": "state/company_intel/financial_truth_qualification.json"
  },
  "policy": {
   "research_only": true,
@@ -41,16 +42,28 @@
    "source_cluster_count": 0,
    "active_thesis_count": 0,
    "financial_readiness": {
-    "status": "partial",
+    "status": "not_qualified",
     "downstream_status": {
-     "forecast": "blocked_insufficient_qualified_history",
-     "valuation": "blocked_insufficient_qualified_history",
-     "market_expectations": "blocked_insufficient_qualified_history",
-     "scenario_lab": "blocked_insufficient_qualified_history"
+     "forecast": "blocked_financial_truth_not_qualified",
+     "valuation": "blocked_financial_truth_not_qualified",
+     "market_expectations": "blocked_financial_truth_not_qualified"
     },
     "quality_flags": [
-     "insufficient_three_year_consolidated_v2_history"
-    ]
+     "insufficient_three_year_consolidated_v2_history",
+     "financial_truth_not_qualified"
+    ],
+    "model_input_readiness": {
+     "status": "partial",
+     "downstream_status": {
+      "forecast": "blocked_insufficient_qualified_history",
+      "valuation": "blocked_insufficient_qualified_history",
+      "market_expectations": "blocked_insufficient_qualified_history",
+      "scenario_lab": "blocked_insufficient_qualified_history"
+     },
+     "quality_flags": [
+      "insufficient_three_year_consolidated_v2_history"
+     ]
+    }
    },
    "theses": []
   },
@@ -60,16 +73,28 @@
    "source_cluster_count": 0,
    "active_thesis_count": 0,
    "financial_readiness": {
-    "status": "partial",
+    "status": "not_qualified",
     "downstream_status": {
-     "forecast": "blocked_insufficient_qualified_history",
-     "valuation": "blocked_insufficient_qualified_history",
-     "market_expectations": "blocked_insufficient_qualified_history",
-     "scenario_lab": "blocked_insufficient_qualified_history"
+     "forecast": "blocked_financial_truth_not_qualified",
+     "valuation": "blocked_financial_truth_not_qualified",
+     "market_expectations": "blocked_financial_truth_not_qualified"
     },
     "quality_flags": [
-     "insufficient_three_year_consolidated_v2_history"
-    ]
+     "insufficient_three_year_consolidated_v2_history",
+     "financial_truth_not_qualified"
+    ],
+    "model_input_readiness": {
+     "status": "partial",
+     "downstream_status": {
+      "forecast": "blocked_insufficient_qualified_history",
+      "valuation": "blocked_insufficient_qualified_history",
+      "market_expectations": "blocked_insufficient_qualified_history",
+      "scenario_lab": "blocked_insufficient_qualified_history"
+     },
+     "quality_flags": [
+      "insufficient_three_year_consolidated_v2_history"
+     ]
+    }
    },
    "theses": []
   },
@@ -79,16 +104,28 @@
    "source_cluster_count": 0,
    "active_thesis_count": 0,
    "financial_readiness": {
-    "status": "partial",
+    "status": "not_qualified",
     "downstream_status": {
-     "forecast": "blocked_insufficient_qualified_history",
-     "valuation": "blocked_insufficient_qualified_history",
-     "market_expectations": "blocked_insufficient_qualified_history",
-     "scenario_lab": "blocked_insufficient_qualified_history"
+     "forecast": "blocked_financial_truth_not_qualified",
+     "valuation": "blocked_financial_truth_not_qualified",
+     "market_expectations": "blocked_financial_truth_not_qualified"
     },
     "quality_flags": [
-     "insufficient_three_year_consolidated_v2_history"
-    ]
+     "insufficient_three_year_consolidated_v2_history",
+     "financial_truth_not_qualified"
+    ],
+    "model_input_readiness": {
+     "status": "partial",
+     "downstream_status": {
+      "forecast": "blocked_insufficient_qualified_history",
+      "valuation": "blocked_insufficient_qualified_history",
+      "market_expectations": "blocked_insufficient_qualified_history",
+      "scenario_lab": "blocked_insufficient_qualified_history"
+     },
+     "quality_flags": [
+      "insufficient_three_year_consolidated_v2_history"
+     ]
+    }
    },
    "theses": []
   },
@@ -98,14 +135,25 @@
    "source_cluster_count": 0,
    "active_thesis_count": 0,
    "financial_readiness": {
-    "status": "ready",
+    "status": "not_qualified",
     "downstream_status": {
-     "forecast": "blocked_pending_owner_approved_assumptions",
-     "valuation": "blocked_pending_owner_approved_assumptions",
-     "market_expectations": "blocked_pending_owner_approved_assumptions",
-     "scenario_lab": "blocked_pending_owner_approved_assumptions"
+     "forecast": "blocked_financial_truth_not_qualified",
+     "valuation": "blocked_financial_truth_not_qualified",
+     "market_expectations": "blocked_financial_truth_not_qualified"
     },
-    "quality_flags": []
+    "quality_flags": [
+     "financial_truth_not_qualified"
+    ],
+    "model_input_readiness": {
+     "status": "ready",
+     "downstream_status": {
+      "forecast": "blocked_pending_owner_approved_assumptions",
+      "valuation": "blocked_pending_owner_approved_assumptions",
+      "market_expectations": "blocked_pending_owner_approved_assumptions",
+      "scenario_lab": "blocked_pending_owner_approved_assumptions"
+     },
+     "quality_flags": []
+    }
    },
    "theses": []
   },
@@ -115,16 +163,28 @@
    "source_cluster_count": 1,
    "active_thesis_count": 1,
    "financial_readiness": {
-    "status": "partial",
+    "status": "not_qualified",
     "downstream_status": {
-     "forecast": "blocked_insufficient_qualified_history",
-     "valuation": "blocked_insufficient_qualified_history",
-     "market_expectations": "blocked_insufficient_qualified_history",
-     "scenario_lab": "blocked_insufficient_qualified_history"
+     "forecast": "blocked_financial_truth_not_qualified",
+     "valuation": "blocked_financial_truth_not_qualified",
+     "market_expectations": "blocked_financial_truth_not_qualified"
     },
     "quality_flags": [
-     "insufficient_three_year_consolidated_v2_history"
-    ]
+     "insufficient_three_year_consolidated_v2_history",
+     "financial_truth_not_qualified"
+    ],
+    "model_input_readiness": {
+     "status": "partial",
+     "downstream_status": {
+      "forecast": "blocked_insufficient_qualified_history",
+      "valuation": "blocked_insufficient_qualified_history",
+      "market_expectations": "blocked_insufficient_qualified_history",
+      "scenario_lab": "blocked_insufficient_qualified_history"
+     },
+     "quality_flags": [
+      "insufficient_three_year_consolidated_v2_history"
+     ]
+    }
    },
    "theses": [
     {
@@ -192,16 +252,28 @@
    "source_cluster_count": 0,
    "active_thesis_count": 0,
    "financial_readiness": {
-    "status": "partial",
+    "status": "not_qualified",
     "downstream_status": {
-     "forecast": "blocked_insufficient_qualified_history",
-     "valuation": "blocked_insufficient_qualified_history",
-     "market_expectations": "blocked_insufficient_qualified_history",
-     "scenario_lab": "blocked_insufficient_qualified_history"
+     "forecast": "blocked_financial_truth_not_qualified",
+     "valuation": "blocked_financial_truth_not_qualified",
+     "market_expectations": "blocked_financial_truth_not_qualified"
     },
     "quality_flags": [
-     "insufficient_three_year_consolidated_v2_history"
-    ]
+     "insufficient_three_year_consolidated_v2_history",
+     "financial_truth_not_qualified"
+    ],
+    "model_input_readiness": {
+     "status": "partial",
+     "downstream_status": {
+      "forecast": "blocked_insufficient_qualified_history",
+      "valuation": "blocked_insufficient_qualified_history",
+      "market_expectations": "blocked_insufficient_qualified_history",
+      "scenario_lab": "blocked_insufficient_qualified_history"
+     },
+     "quality_flags": [
+      "insufficient_three_year_consolidated_v2_history"
+     ]
+    }
    },
    "theses": []
   },
@@ -211,16 +283,28 @@
    "source_cluster_count": 0,
    "active_thesis_count": 0,
    "financial_readiness": {
-    "status": "partial",
+    "status": "not_qualified",
     "downstream_status": {
-     "forecast": "blocked_insufficient_qualified_history",
-     "valuation": "blocked_insufficient_qualified_history",
-     "market_expectations": "blocked_insufficient_qualified_history",
-     "scenario_lab": "blocked_insufficient_qualified_history"
+     "forecast": "blocked_financial_truth_not_qualified",
+     "valuation": "blocked_financial_truth_not_qualified",
+     "market_expectations": "blocked_financial_truth_not_qualified"
     },
     "quality_flags": [
-     "insufficient_three_year_consolidated_v2_history"
-    ]
+     "insufficient_three_year_consolidated_v2_history",
+     "financial_truth_not_qualified"
+    ],
+    "model_input_readiness": {
+     "status": "partial",
+     "downstream_status": {
+      "forecast": "blocked_insufficient_qualified_history",
+      "valuation": "blocked_insufficient_qualified_history",
+      "market_expectations": "blocked_insufficient_qualified_history",
+      "scenario_lab": "blocked_insufficient_qualified_history"
+     },
+     "quality_flags": [
+      "insufficient_three_year_consolidated_v2_history"
+     ]
+    }
    },
    "theses": []
   },
@@ -230,16 +314,28 @@
    "source_cluster_count": 0,
    "active_thesis_count": 0,
    "financial_readiness": {
-    "status": "partial",
+    "status": "not_qualified",
     "downstream_status": {
-     "forecast": "blocked_insufficient_qualified_history",
-     "valuation": "blocked_insufficient_qualified_history",
-     "market_expectations": "blocked_insufficient_qualified_history",
-     "scenario_lab": "blocked_insufficient_qualified_history"
+     "forecast": "blocked_financial_truth_not_qualified",
+     "valuation": "blocked_financial_truth_not_qualified",
+     "market_expectations": "blocked_financial_truth_not_qualified"
     },
     "quality_flags": [
-     "insufficient_three_year_consolidated_v2_history"
-    ]
+     "insufficient_three_year_consolidated_v2_history",
+     "financial_truth_not_qualified"
+    ],
+    "model_input_readiness": {
+     "status": "partial",
+     "downstream_status": {
+      "forecast": "blocked_insufficient_qualified_history",
+      "valuation": "blocked_insufficient_qualified_history",
+      "market_expectations": "blocked_insufficient_qualified_history",
+      "scenario_lab": "blocked_insufficient_qualified_history"
+     },
+     "quality_flags": [
+      "insufficient_three_year_consolidated_v2_history"
+     ]
+    }
    },
    "theses": []
   },
@@ -249,16 +345,28 @@
    "source_cluster_count": 0,
    "active_thesis_count": 0,
    "financial_readiness": {
-    "status": "partial",
+    "status": "not_qualified",
     "downstream_status": {
-     "forecast": "blocked_insufficient_qualified_history",
-     "valuation": "blocked_insufficient_qualified_history",
-     "market_expectations": "blocked_insufficient_qualified_history",
-     "scenario_lab": "blocked_insufficient_qualified_history"
+     "forecast": "blocked_financial_truth_not_qualified",
+     "valuation": "blocked_financial_truth_not_qualified",
+     "market_expectations": "blocked_financial_truth_not_qualified"
     },
     "quality_flags": [
-     "insufficient_three_year_consolidated_v2_history"
-    ]
+     "insufficient_three_year_consolidated_v2_history",
+     "financial_truth_not_qualified"
+    ],
+    "model_input_readiness": {
+     "status": "partial",
+     "downstream_status": {
+      "forecast": "blocked_insufficient_qualified_history",
+      "valuation": "blocked_insufficient_qualified_history",
+      "market_expectations": "blocked_insufficient_qualified_history",
+      "scenario_lab": "blocked_insufficient_qualified_history"
+     },
+     "quality_flags": [
+      "insufficient_three_year_consolidated_v2_history"
+     ]
+    }
    },
    "theses": []
   },
@@ -268,16 +376,28 @@
    "source_cluster_count": 0,
    "active_thesis_count": 0,
    "financial_readiness": {
-    "status": "partial",
+    "status": "not_qualified",
     "downstream_status": {
-     "forecast": "blocked_insufficient_qualified_history",
-     "valuation": "blocked_insufficient_qualified_history",
-     "market_expectations": "blocked_insufficient_qualified_history",
-     "scenario_lab": "blocked_insufficient_qualified_history"
+     "forecast": "blocked_financial_truth_not_qualified",
+     "valuation": "blocked_financial_truth_not_qualified",
+     "market_expectations": "blocked_financial_truth_not_qualified"
     },
     "quality_flags": [
-     "insufficient_three_year_consolidated_v2_history"
-    ]
+     "insufficient_three_year_consolidated_v2_history",
+     "financial_truth_not_qualified"
+    ],
+    "model_input_readiness": {
+     "status": "partial",
+     "downstream_status": {
+      "forecast": "blocked_insufficient_qualified_history",
+      "valuation": "blocked_insufficient_qualified_history",
+      "market_expectations": "blocked_insufficient_qualified_history",
+      "scenario_lab": "blocked_insufficient_qualified_history"
+     },
+     "quality_flags": [
+      "insufficient_three_year_consolidated_v2_history"
+     ]
+    }
    },
    "theses": []
   },
@@ -287,16 +407,28 @@
    "source_cluster_count": 0,
    "active_thesis_count": 0,
    "financial_readiness": {
-    "status": "partial",
+    "status": "not_qualified",
     "downstream_status": {
-     "forecast": "blocked_insufficient_qualified_history",
-     "valuation": "blocked_insufficient_qualified_history",
-     "market_expectations": "blocked_insufficient_qualified_history",
-     "scenario_lab": "blocked_insufficient_qualified_history"
+     "forecast": "blocked_financial_truth_not_qualified",
+     "valuation": "blocked_financial_truth_not_qualified",
+     "market_expectations": "blocked_financial_truth_not_qualified"
     },
     "quality_flags": [
-     "insufficient_three_year_consolidated_v2_history"
-    ]
+     "insufficient_three_year_consolidated_v2_history",
+     "financial_truth_not_qualified"
+    ],
+    "model_input_readiness": {
+     "status": "partial",
+     "downstream_status": {
+      "forecast": "blocked_insufficient_qualified_history",
+      "valuation": "blocked_insufficient_qualified_history",
+      "market_expectations": "blocked_insufficient_qualified_history",
+      "scenario_lab": "blocked_insufficient_qualified_history"
+     },
+     "quality_flags": [
+      "insufficient_three_year_consolidated_v2_history"
+     ]
+    }
    },
    "theses": []
   },
@@ -306,16 +438,28 @@
    "source_cluster_count": 0,
    "active_thesis_count": 0,
    "financial_readiness": {
-    "status": "partial",
+    "status": "not_qualified",
     "downstream_status": {
-     "forecast": "blocked_insufficient_qualified_history",
-     "valuation": "blocked_insufficient_qualified_history",
-     "market_expectations": "blocked_insufficient_qualified_history",
-     "scenario_lab": "blocked_insufficient_qualified_history"
+     "forecast": "blocked_financial_truth_not_qualified",
+     "valuation": "blocked_financial_truth_not_qualified",
+     "market_expectations": "blocked_financial_truth_not_qualified"
     },
     "quality_flags": [
-     "insufficient_three_year_consolidated_v2_history"
-    ]
+     "insufficient_three_year_consolidated_v2_history",
+     "financial_truth_not_qualified"
+    ],
+    "model_input_readiness": {
+     "status": "partial",
+     "downstream_status": {
+      "forecast": "blocked_insufficient_qualified_history",
+      "valuation": "blocked_insufficient_qualified_history",
+      "market_expectations": "blocked_insufficient_qualified_history",
+      "scenario_lab": "blocked_insufficient_qualified_history"
+     },
+     "quality_flags": [
+      "insufficient_three_year_consolidated_v2_history"
+     ]
+    }
    },
    "theses": []
   },
@@ -325,14 +469,25 @@
    "source_cluster_count": 1,
    "active_thesis_count": 1,
    "financial_readiness": {
-    "status": "ready",
+    "status": "not_qualified",
     "downstream_status": {
-     "forecast": "blocked_pending_owner_approved_assumptions",
-     "valuation": "blocked_pending_owner_approved_assumptions",
-     "market_expectations": "blocked_pending_owner_approved_assumptions",
-     "scenario_lab": "blocked_pending_owner_approved_assumptions"
+     "forecast": "blocked_financial_truth_not_qualified",
+     "valuation": "blocked_financial_truth_not_qualified",
+     "market_expectations": "blocked_financial_truth_not_qualified"
     },
-    "quality_flags": []
+    "quality_flags": [
+     "financial_truth_not_qualified"
+    ],
+    "model_input_readiness": {
+     "status": "ready",
+     "downstream_status": {
+      "forecast": "blocked_pending_owner_approved_assumptions",
+      "valuation": "blocked_pending_owner_approved_assumptions",
+      "market_expectations": "blocked_pending_owner_approved_assumptions",
+      "scenario_lab": "blocked_pending_owner_approved_assumptions"
+     },
+     "quality_flags": []
+    }
    },
    "theses": [
     {
@@ -400,16 +555,28 @@
    "source_cluster_count": 0,
    "active_thesis_count": 0,
    "financial_readiness": {
-    "status": "partial",
+    "status": "not_qualified",
     "downstream_status": {
-     "forecast": "blocked_insufficient_qualified_history",
-     "valuation": "blocked_insufficient_qualified_history",
-     "market_expectations": "blocked_insufficient_qualified_history",
-     "scenario_lab": "blocked_insufficient_qualified_history"
+     "forecast": "blocked_financial_truth_not_qualified",
+     "valuation": "blocked_financial_truth_not_qualified",
+     "market_expectations": "blocked_financial_truth_not_qualified"
     },
     "quality_flags": [
-     "insufficient_three_year_consolidated_v2_history"
-    ]
+     "insufficient_three_year_consolidated_v2_history",
+     "financial_truth_not_qualified"
+    ],
+    "model_input_readiness": {
+     "status": "partial",
+     "downstream_status": {
+      "forecast": "blocked_insufficient_qualified_history",
+      "valuation": "blocked_insufficient_qualified_history",
+      "market_expectations": "blocked_insufficient_qualified_history",
+      "scenario_lab": "blocked_insufficient_qualified_history"
+     },
+     "quality_flags": [
+      "insufficient_three_year_consolidated_v2_history"
+     ]
+    }
    },
    "theses": []
   },
@@ -419,16 +586,28 @@
    "source_cluster_count": 0,
    "active_thesis_count": 0,
    "financial_readiness": {
-    "status": "partial",
+    "status": "not_qualified",
     "downstream_status": {
-     "forecast": "blocked_insufficient_qualified_history",
-     "valuation": "blocked_insufficient_qualified_history",
-     "market_expectations": "blocked_insufficient_qualified_history",
-     "scenario_lab": "blocked_insufficient_qualified_history"
+     "forecast": "blocked_financial_truth_not_qualified",
+     "valuation": "blocked_financial_truth_not_qualified",
+     "market_expectations": "blocked_financial_truth_not_qualified"
     },
     "quality_flags": [
-     "insufficient_three_year_consolidated_v2_history"
-    ]
+     "insufficient_three_year_consolidated_v2_history",
+     "financial_truth_not_qualified"
+    ],
+    "model_input_readiness": {
+     "status": "partial",
+     "downstream_status": {
+      "forecast": "blocked_insufficient_qualified_history",
+      "valuation": "blocked_insufficient_qualified_history",
+      "market_expectations": "blocked_insufficient_qualified_history",
+      "scenario_lab": "blocked_insufficient_qualified_history"
+     },
+     "quality_flags": [
+      "insufficient_three_year_consolidated_v2_history"
+     ]
+    }
    },
    "theses": []
   },
@@ -438,16 +617,28 @@
    "source_cluster_count": 0,
    "active_thesis_count": 0,
    "financial_readiness": {
-    "status": "partial",
+    "status": "not_qualified",
     "downstream_status": {
-     "forecast": "blocked_insufficient_qualified_history",
-     "valuation": "blocked_insufficient_qualified_history",
-     "market_expectations": "blocked_insufficient_qualified_history",
-     "scenario_lab": "blocked_insufficient_qualified_history"
+     "forecast": "blocked_financial_truth_not_qualified",
+     "valuation": "blocked_financial_truth_not_qualified",
+     "market_expectations": "blocked_financial_truth_not_qualified"
     },
     "quality_flags": [
-     "insufficient_three_year_consolidated_v2_history"
-    ]
+     "insufficient_three_year_consolidated_v2_history",
+     "financial_truth_not_qualified"
+    ],
+    "model_input_readiness": {
+     "status": "partial",
+     "downstream_status": {
+      "forecast": "blocked_insufficient_qualified_history",
+      "valuation": "blocked_insufficient_qualified_history",
+      "market_expectations": "blocked_insufficient_qualified_history",
+      "scenario_lab": "blocked_insufficient_qualified_history"
+     },
+     "quality_flags": [
+      "insufficient_three_year_consolidated_v2_history"
+     ]
+    }
    },
    "theses": []
   },
@@ -457,16 +648,28 @@
    "source_cluster_count": 1,
    "active_thesis_count": 1,
    "financial_readiness": {
-    "status": "partial",
+    "status": "not_qualified",
     "downstream_status": {
-     "forecast": "blocked_insufficient_qualified_history",
-     "valuation": "blocked_insufficient_qualified_history",
-     "market_expectations": "blocked_insufficient_qualified_history",
-     "scenario_lab": "blocked_insufficient_qualified_history"
+     "forecast": "blocked_financial_truth_not_qualified",
+     "valuation": "blocked_financial_truth_not_qualified",
+     "market_expectations": "blocked_financial_truth_not_qualified"
     },
     "quality_flags": [
-     "insufficient_three_year_consolidated_v2_history"
-    ]
+     "insufficient_three_year_consolidated_v2_history",
+     "financial_truth_not_qualified"
+    ],
+    "model_input_readiness": {
+     "status": "partial",
+     "downstream_status": {
+      "forecast": "blocked_insufficient_qualified_history",
+      "valuation": "blocked_insufficient_qualified_history",
+      "market_expectations": "blocked_insufficient_qualified_history",
+      "scenario_lab": "blocked_insufficient_qualified_history"
+     },
+     "quality_flags": [
+      "insufficient_three_year_consolidated_v2_history"
+     ]
+    }
    },
    "theses": [
     {
@@ -534,16 +737,28 @@
    "source_cluster_count": 0,
    "active_thesis_count": 0,
    "financial_readiness": {
-    "status": "partial",
+    "status": "not_qualified",
     "downstream_status": {
-     "forecast": "blocked_insufficient_qualified_history",
-     "valuation": "blocked_insufficient_qualified_history",
-     "market_expectations": "blocked_insufficient_qualified_history",
-     "scenario_lab": "blocked_insufficient_qualified_history"
+     "forecast": "blocked_financial_truth_not_qualified",
+     "valuation": "blocked_financial_truth_not_qualified",
+     "market_expectations": "blocked_financial_truth_not_qualified"
     },
     "quality_flags": [
-     "insufficient_three_year_consolidated_v2_history"
-    ]
+     "insufficient_three_year_consolidated_v2_history",
+     "financial_truth_not_qualified"
+    ],
+    "model_input_readiness": {
+     "status": "partial",
+     "downstream_status": {
+      "forecast": "blocked_insufficient_qualified_history",
+      "valuation": "blocked_insufficient_qualified_history",
+      "market_expectations": "blocked_insufficient_qualified_history",
+      "scenario_lab": "blocked_insufficient_qualified_history"
+     },
+     "quality_flags": [
+      "insufficient_three_year_consolidated_v2_history"
+     ]
+    }
    },
    "theses": []
   },
@@ -553,16 +768,28 @@
    "source_cluster_count": 0,
    "active_thesis_count": 0,
    "financial_readiness": {
-    "status": "partial",
+    "status": "not_qualified",
     "downstream_status": {
-     "forecast": "blocked_insufficient_qualified_history",
-     "valuation": "blocked_insufficient_qualified_history",
-     "market_expectations": "blocked_insufficient_qualified_history",
-     "scenario_lab": "blocked_insufficient_qualified_history"
+     "forecast": "blocked_financial_truth_not_qualified",
+     "valuation": "blocked_financial_truth_not_qualified",
+     "market_expectations": "blocked_financial_truth_not_qualified"
     },
     "quality_flags": [
-     "insufficient_three_year_consolidated_v2_history"
-    ]
+     "insufficient_three_year_consolidated_v2_history",
+     "financial_truth_not_qualified"
+    ],
+    "model_input_readiness": {
+     "status": "partial",
+     "downstream_status": {
+      "forecast": "blocked_insufficient_qualified_history",
+      "valuation": "blocked_insufficient_qualified_history",
+      "market_expectations": "blocked_insufficient_qualified_history",
+      "scenario_lab": "blocked_insufficient_qualified_history"
+     },
+     "quality_flags": [
+      "insufficient_three_year_consolidated_v2_history"
+     ]
+    }
    },
    "theses": []
   },
@@ -572,16 +799,28 @@
    "source_cluster_count": 3,
    "active_thesis_count": 3,
    "financial_readiness": {
-    "status": "partial",
+    "status": "not_qualified",
     "downstream_status": {
-     "forecast": "blocked_insufficient_qualified_history",
-     "valuation": "blocked_insufficient_qualified_history",
-     "market_expectations": "blocked_insufficient_qualified_history",
-     "scenario_lab": "blocked_insufficient_qualified_history"
+     "forecast": "blocked_financial_truth_not_qualified",
+     "valuation": "blocked_financial_truth_not_qualified",
+     "market_expectations": "blocked_financial_truth_not_qualified"
     },
     "quality_flags": [
-     "insufficient_three_year_consolidated_v2_history"
-    ]
+     "insufficient_three_year_consolidated_v2_history",
+     "financial_truth_not_qualified"
+    ],
+    "model_input_readiness": {
+     "status": "partial",
+     "downstream_status": {
+      "forecast": "blocked_insufficient_qualified_history",
+      "valuation": "blocked_insufficient_qualified_history",
+      "market_expectations": "blocked_insufficient_qualified_history",
+      "scenario_lab": "blocked_insufficient_qualified_history"
+     },
+     "quality_flags": [
+      "insufficient_three_year_consolidated_v2_history"
+     ]
+    }
    },
    "theses": [
     {
@@ -760,9 +999,9 @@
  },
  "_meta": {
   "generator_version": "ci_artifact_integrity_v1",
-  "source_commit_sha": "e1868452a5248facfeae7a846a3b8a31919c865d",
-  "build_cutoff_at": "2026-08-31T01:20:00Z",
-  "generated_at": "2026-08-31T01:20:00Z",
+  "source_commit_sha": "6060abc398b14446c87a20463f06937d35492025",
+  "build_cutoff_at": "2026-08-31T08:16:40Z",
+  "generated_at": "2026-08-31T08:16:40Z",
   "artifact_path": "state/company_intel/thesis_monitoring.json",
   "timestamp_semantics": {
    "build_cutoff_at": "generation boundary only; not a source-effective or source-published time",

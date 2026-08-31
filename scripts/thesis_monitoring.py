@@ -169,9 +169,33 @@ def _cluster_thesis(symbol: str, cluster: dict[str, Any]) -> dict[str, Any]:
     }
 
 
+def _financial_readiness(model_row: dict[str, Any], truth_row: dict[str, Any]) -> dict[str, Any]:
+    """Expose the authoritative qualification gate without losing input detail."""
+    model_status = model_row.get("status") or "unknown"
+    model_downstream = model_row.get("downstream_status") or {}
+    model_flags = list(model_row.get("quality_flags") or [])
+    truth_status = truth_row.get("status") or "not_qualified"
+    truth_downstream = truth_row.get("downstream") or {}
+    qualified = truth_status == "qualified"
+    flags = list(model_flags)
+    if not qualified and "financial_truth_not_qualified" not in flags:
+        flags.append("financial_truth_not_qualified")
+    return {
+        "status": "qualified" if qualified else "not_qualified",
+        "downstream_status": truth_downstream,
+        "quality_flags": flags,
+        "model_input_readiness": {
+            "status": model_status,
+            "downstream_status": model_downstream,
+            "quality_flags": model_flags,
+        },
+    }
+
+
 def build_thesis_monitoring(
     signal_state: dict[str, Any],
     financial_model_state: dict[str, Any],
+    financial_truth_state: dict[str, Any],
     *,
     as_of: str | None = None,
 ) -> dict[str, Any]:
@@ -180,6 +204,7 @@ def build_thesis_monitoring(
     for symbol in symbols:
         signal_row = (signal_state.get("companies") or {}).get(symbol) or {}
         model_row = (financial_model_state.get("companies") or {}).get(symbol) or {}
+        truth_row = (financial_truth_state.get("companies") or {}).get(symbol) or {}
         theses = [
             _cluster_thesis(symbol, cluster)
             for cluster in (signal_row.get("clusters") or [])
@@ -190,16 +215,12 @@ def build_thesis_monitoring(
             "status": "active_monitoring" if theses else "no_active_thesis",
             "source_cluster_count": len(signal_row.get("clusters") or []),
             "active_thesis_count": len(theses),
-            "financial_readiness": {
-                "status": model_row.get("status") or "unknown",
-                "downstream_status": model_row.get("downstream_status") or {},
-                "quality_flags": model_row.get("quality_flags") or [],
-            },
+            "financial_readiness": _financial_readiness(model_row, truth_row),
             "theses": theses,
         }
     # ``as_of`` is inherited from the deterministic source products. Never use
     # wall-clock time here: repeated runs over unchanged state must be byte-stable.
-    stable_as_of = as_of or signal_state.get("as_of") or financial_model_state.get("as_of") or "unknown"
+    stable_as_of = as_of or signal_state.get("as_of") or financial_model_state.get("as_of") or financial_truth_state.get("as_of") or "unknown"
     return {
         "schema_version": 1,
         "as_of": stable_as_of,
@@ -207,6 +228,7 @@ def build_thesis_monitoring(
         "source": {
             "signal_clusters": "state/company_intel/signal_clusters.json",
             "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
+            "financial_truth_qualification": "state/company_intel/financial_truth_qualification.json",
         },
         "policy": {
             "research_only": True,

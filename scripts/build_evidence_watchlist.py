@@ -18,6 +18,7 @@ def build(output_path: Path = OUT) -> dict:
     management_delivery = load_json(STATE / "company_intel" / "management_delivery.json", {"companies": {}})
     confidence_state = load_json(STATE / "company_intel" / "intelligence_confidence.json", {"companies": {}})
     financial_model_inputs = load_json(STATE / "company_intel" / "financial_model_inputs.json", {"companies": {}})
+    financial_truth = load_json(STATE / "company_intel" / "financial_truth_qualification.json", {"companies": {}})
     operating_events = load_json(STATE / "company_intel" / "operating_events.json", {"companies": {}})
     signal_clusters = load_json(STATE / "company_intel" / "signal_clusters.json", {"companies": {}})
     result = build_evidence_watchlist(
@@ -25,6 +26,7 @@ def build(output_path: Path = OUT) -> dict:
         management_delivery,
         confidence_state,
         financial_model_inputs,
+        financial_truth,
         operating_events,
         signal_clusters,
         pilot_symbols=list(pilot),

@@ -7,6 +7,7 @@
   "management_delivery": "2026-08-30T22:48:38+05:00",
   "intelligence_confidence": "2026-08-30T22:48:38+05:00",
   "financial_model_inputs": "unknown",
+  "financial_truth_qualification": "unknown",
   "operating_events": "2026-08-29",
   "signal_clusters": "2026-08-30T22:48:38+05:00"
  },
@@ -37,6 +38,7 @@
   "management_delivery": "state/company_intel/management_delivery.json",
   "intelligence_confidence": "state/company_intel/intelligence_confidence.json",
   "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
+  "financial_truth_qualification": "state/company_intel/financial_truth_qualification.json",
   "operating_events": "state/company_intel/operating_events.json",
   "signal_clusters": "state/company_intel/signal_clusters.json"
  },
@@ -83,8 +85,19 @@
     "watching": 1
    },
    "financial_readiness": {
-    "status": "ready",
-    "quality_flags": []
+    "status": "not_qualified",
+    "downstream_status": {
+     "forecast": "blocked_financial_truth_not_qualified",
+     "valuation": "blocked_financial_truth_not_qualified",
+     "market_expectations": "blocked_financial_truth_not_qualified"
+    },
+    "quality_flags": [
+     "financial_truth_not_qualified"
+    ],
+    "model_input_readiness": {
+     "status": "ready",
+     "quality_flags": []
+    }
    },
    "items": [
     {
@@ -97,7 +110,7 @@
      "monitored_assertion": "type=acquisition; stage=public_offer; target=PIONEER CEMENT LIMITED; modality=public_offer",
      "delivery_status": "not_observed",
      "confidence_band": "medium",
-     "financial_readiness_status": "ready",
+     "financial_readiness_status": "not_qualified",
      "status_reason": "no later official event matched the exact assertion or conflict key",
      "confirmation_check": [
       {
@@ -134,8 +147,19 @@
       "band": "medium"
      },
      "financial_readiness": {
-      "status": "ready",
-      "quality_flags": []
+      "status": "not_qualified",
+      "downstream_status": {
+       "forecast": "blocked_financial_truth_not_qualified",
+       "valuation": "blocked_financial_truth_not_qualified",
+       "market_expectations": "blocked_financial_truth_not_qualified"
+      },
+      "quality_flags": [
+       "financial_truth_not_qualified"
+      ],
+      "model_input_readiness": {
+       "status": "ready",
+       "quality_flags": []
+      }
      },
      "source_evidence": [
       {
@@ -235,10 +259,22 @@
     "watching": 0
    },
    "financial_readiness": {
-    "status": "partial",
+    "status": "not_qualified",
+    "downstream_status": {
+     "forecast": "blocked_financial_truth_not_qualified",
+     "valuation": "blocked_financial_truth_not_qualified",
+     "market_expectations": "blocked_financial_truth_not_qualified"
+    },
     "quality_flags": [
-     "insufficient_three_year_consolidated_v2_history"
-    ]
+     "insufficient_three_year_consolidated_v2_history",
+     "financial_truth_not_qualified"
+    ],
+    "model_input_readiness": {
+     "status": "partial",
+     "quality_flags": [
+      "insufficient_three_year_consolidated_v2_history"
+     ]
+    }
    },
    "items": []
   },
@@ -254,10 +290,22 @@
     "watching": 1
    },
    "financial_readiness": {
-    "status": "partial",
+    "status": "not_qualified",
+    "downstream_status": {
+     "forecast": "blocked_financial_truth_not_qualified",
+     "valuation": "blocked_financial_truth_not_qualified",
+     "market_expectations": "blocked_financial_truth_not_qualified"
+    },
     "quality_flags": [
-     "insufficient_three_year_consolidated_v2_history"
-    ]
+     "insufficient_three_year_consolidated_v2_history",
+     "financial_truth_not_qualified"
+    ],
+    "model_input_readiness": {
+     "status": "partial",
+     "quality_flags": [
+      "insufficient_three_year_consolidated_v2_history"
+     ]
+    }
    },
    "items": [
     {
@@ -270,7 +318,7 @@
      "monitored_assertion": "type=management_change; person=Mr Mirza Nasiruddin Mashhood Ahmad; role=Director; modality=appointment",
      "delivery_status": "not_observed",
      "confidence_band": "medium",
-     "financial_readiness_status": "partial",
+     "financial_readiness_status": "not_qualified",
      "status_reason": "no later official event matched the exact assertion or conflict key",
      "confirmation_check": [
       {
@@ -307,10 +355,22 @@
       "band": "medium"
      },
      "financial_readiness": {
-      "status": "partial",
+      "status": "not_qualified",
+      "downstream_status": {
+       "forecast": "blocked_financial_truth_not_qualified",
+       "valuation": "blocked_financial_truth_not_qualified",
+       "market_expectations": "blocked_financial_truth_not_qualified"
+      },
       "quality_flags": [
-       "insufficient_three_year_consolidated_v2_history"
-      ]
+       "insufficient_three_year_consolidated_v2_history",
+       "financial_truth_not_qualified"
+      ],
+      "model_input_readiness": {
+       "status": "partial",
+       "quality_flags": [
+        "insufficient_three_year_consolidated_v2_history"
+       ]
+      }
      },
      "source_evidence": [
       {
@@ -410,8 +470,19 @@
     "watching": 0
    },
    "financial_readiness": {
-    "status": "ready",
-    "quality_flags": []
+    "status": "not_qualified",
+    "downstream_status": {
+     "forecast": "blocked_financial_truth_not_qualified",
+     "valuation": "blocked_financial_truth_not_qualified",
+     "market_expectations": "blocked_financial_truth_not_qualified"
+    },
+    "quality_flags": [
+     "financial_truth_not_qualified"
+    ],
+    "model_input_readiness": {
+     "status": "ready",
+     "quality_flags": []
+    }
    },
    "items": []
   },
@@ -427,10 +498,22 @@
     "watching": 0
    },
    "financial_readiness": {
-    "status": "partial",
+    "status": "not_qualified",
+    "downstream_status": {
+     "forecast": "blocked_financial_truth_not_qualified",
+     "valuation": "blocked_financial_truth_not_qualified",
+     "market_expectations": "blocked_financial_truth_not_qualified"
+    },
     "quality_flags": [
-     "insufficient_three_year_consolidated_v2_history"
-    ]
+     "insufficient_three_year_consolidated_v2_history",
+     "financial_truth_not_qualified"
+    ],
+    "model_input_readiness": {
+     "status": "partial",
+     "quality_flags": [
+      "insufficient_three_year_consolidated_v2_history"
+     ]
+    }
    },
    "items": []
   },
@@ -446,10 +529,22 @@
     "watching": 3
    },
    "financial_readiness": {
-    "status": "partial",
+    "status": "not_qualified",
+    "downstream_status": {
+     "forecast": "blocked_financial_truth_not_qualified",
+     "valuation": "blocked_financial_truth_not_qualified",
+     "market_expectations": "blocked_financial_truth_not_qualified"
+    },
     "quality_flags": [
-     "insufficient_three_year_consolidated_v2_history"
-    ]
+     "insufficient_three_year_consolidated_v2_history",
+     "financial_truth_not_qualified"
+    ],
+    "model_input_readiness": {
+     "status": "partial",
+     "quality_flags": [
+      "insufficient_three_year_consolidated_v2_history"
+     ]
+    }
    },
    "items": [
     {
@@ -462,7 +557,7 @@
      "monitored_assertion": "type=management_change; person=he; role=Chairman of the Board of Directors; modality=appointment",
      "delivery_status": "not_observed",
      "confidence_band": "medium",
-     "financial_readiness_status": "partial",
+     "financial_readiness_status": "not_qualified",
      "status_reason": "no later official event matched the exact assertion or conflict key",
      "confirmation_check": [
       {
@@ -499,10 +594,22 @@
       "band": "medium"
      },
      "financial_readiness": {
-      "status": "partial",
+      "status": "not_qualified",
+      "downstream_status": {
+       "forecast": "blocked_financial_truth_not_qualified",
+       "valuation": "blocked_financial_truth_not_qualified",
+       "market_expectations": "blocked_financial_truth_not_qualified"
+      },
       "quality_flags": [
-       "insufficient_three_year_consolidated_v2_history"
-      ]
+       "insufficient_three_year_consolidated_v2_history",
+       "financial_truth_not_qualified"
+      ],
+      "model_input_readiness": {
+       "status": "partial",
+       "quality_flags": [
+        "insufficient_three_year_consolidated_v2_history"
+       ]
+      }
      },
      "source_evidence": [
       {
@@ -598,7 +705,7 @@
      "monitored_assertion": "type=management_change; person=Lord Zameer M. Choudrey; role=Chairman of the Board of Directors; modality=appointment",
      "delivery_status": "not_observed",
      "confidence_band": "medium",
-     "financial_readiness_status": "partial",
+     "financial_readiness_status": "not_qualified",
      "status_reason": "no later official event matched the exact assertion or conflict key",
      "confirmation_check": [
       {
@@ -635,10 +742,22 @@
       "band": "medium"
      },
      "financial_readiness": {
-      "status": "partial",
+      "status": "not_qualified",
+      "downstream_status": {
+       "forecast": "blocked_financial_truth_not_qualified",
+       "valuation": "blocked_financial_truth_not_qualified",
+       "market_expectations": "blocked_financial_truth_not_qualified"
+      },
       "quality_flags": [
-       "insufficient_three_year_consolidated_v2_history"
-      ]
+       "insufficient_three_year_consolidated_v2_history",
+       "financial_truth_not_qualified"
+      ],
+      "model_input_readiness": {
+       "status": "partial",
+       "quality_flags": [
+        "insufficient_three_year_consolidated_v2_history"
+       ]
+      }
      },
      "source_evidence": [
       {
@@ -734,7 +853,7 @@
      "monitored_assertion": "type=management_change; person=Mr. Shoukat Ali; role=Company Secretary; modality=appointment",
      "delivery_status": "not_observed",
      "confidence_band": "medium",
-     "financial_readiness_status": "partial",
+     "financial_readiness_status": "not_qualified",
      "status_reason": "no later official event matched the exact assertion or conflict key",
      "confirmation_check": [
       {
@@ -771,10 +890,22 @@
       "band": "medium"
      },
      "financial_readiness": {
-      "status": "partial",
+      "status": "not_qualified",
+      "downstream_status": {
+       "forecast": "blocked_financial_truth_not_qualified",
+       "valuation": "blocked_financial_truth_not_qualified",
+       "market_expectations": "blocked_financial_truth_not_qualified"
+      },
       "quality_flags": [
-       "insufficient_three_year_consolidated_v2_history"
-      ]
+       "insufficient_three_year_consolidated_v2_history",
+       "financial_truth_not_qualified"
+      ],
+      "model_input_readiness": {
+       "status": "partial",
+       "quality_flags": [
+        "insufficient_three_year_consolidated_v2_history"
+       ]
+      }
      },
      "source_evidence": [
       {
@@ -874,10 +1005,22 @@
     "watching": 0
    },
    "financial_readiness": {
-    "status": "partial",
+    "status": "not_qualified",
+    "downstream_status": {
+     "forecast": "blocked_financial_truth_not_qualified",
+     "valuation": "blocked_financial_truth_not_qualified",
+     "market_expectations": "blocked_financial_truth_not_qualified"
+    },
     "quality_flags": [
-     "insufficient_three_year_consolidated_v2_history"
-    ]
+     "insufficient_three_year_consolidated_v2_history",
+     "financial_truth_not_qualified"
+    ],
+    "model_input_readiness": {
+     "status": "partial",
+     "quality_flags": [
+      "insufficient_three_year_consolidated_v2_history"
+     ]
+    }
    },
    "items": []
   },
@@ -893,10 +1036,22 @@
     "watching": 0
    },
    "financial_readiness": {
-    "status": "partial",
+    "status": "not_qualified",
+    "downstream_status": {
+     "forecast": "blocked_financial_truth_not_qualified",
+     "valuation": "blocked_financial_truth_not_qualified",
+     "market_expectations": "blocked_financial_truth_not_qualified"
+    },
     "quality_flags": [
-     "insufficient_three_year_consolidated_v2_history"
-    ]
+     "insufficient_three_year_consolidated_v2_history",
+     "financial_truth_not_qualified"
+    ],
+    "model_input_readiness": {
+     "status": "partial",
+     "quality_flags": [
+      "insufficient_three_year_consolidated_v2_history"
+     ]
+    }
    },
    "items": []
   },
@@ -912,10 +1067,22 @@
     "watching": 0
    },
    "financial_readiness": {
-    "status": "partial",
+    "status": "not_qualified",
+    "downstream_status": {
+     "forecast": "blocked_financial_truth_not_qualified",
+     "valuation": "blocked_financial_truth_not_qualified",
+     "market_expectations": "blocked_financial_truth_not_qualified"
+    },
     "quality_flags": [
-     "insufficient_three_year_consolidated_v2_history"
-    ]
+     "insufficient_three_year_consolidated_v2_history",
+     "financial_truth_not_qualified"
+    ],
+    "model_input_readiness": {
+     "status": "partial",
+     "quality_flags": [
+      "insufficient_three_year_consolidated_v2_history"
+     ]
+    }
    },
    "items": []
   },
@@ -931,10 +1098,22 @@
     "watching": 0
    },
    "financial_readiness": {
-    "status": "partial",
+    "status": "not_qualified",
+    "downstream_status": {
+     "forecast": "blocked_financial_truth_not_qualified",
+     "valuation": "blocked_financial_truth_not_qualified",
+     "market_expectations": "blocked_financial_truth_not_qualified"
+    },
     "quality_flags": [
-     "insufficient_three_year_consolidated_v2_history"
-    ]
+     "insufficient_three_year_consolidated_v2_history",
+     "financial_truth_not_qualified"
+    ],
+    "model_input_readiness": {
+     "status": "partial",
+     "quality_flags": [
+      "insufficient_three_year_consolidated_v2_history"
+     ]
+    }
    },
    "items": []
   },
@@ -950,10 +1129,22 @@
     "watching": 0
    },
    "financial_readiness": {
-    "status": "partial",
+    "status": "not_qualified",
+    "downstream_status": {
+     "forecast": "blocked_financial_truth_not_qualified",
+     "valuation": "blocked_financial_truth_not_qualified",
+     "market_expectations": "blocked_financial_truth_not_qualified"
+    },
     "quality_flags": [
-     "insufficient_three_year_consolidated_v2_history"
-    ]
+     "insufficient_three_year_consolidated_v2_history",
+     "financial_truth_not_qualified"
+    ],
+    "model_input_readiness": {
+     "status": "partial",
+     "quality_flags": [
+      "insufficient_three_year_consolidated_v2_history"
+     ]
+    }
    },
    "items": []
   },
@@ -969,10 +1160,22 @@
     "watching": 0
    },
    "financial_readiness": {
-    "status": "partial",
+    "status": "not_qualified",
+    "downstream_status": {
+     "forecast": "blocked_financial_truth_not_qualified",
+     "valuation": "blocked_financial_truth_not_qualified",
+     "market_expectations": "blocked_financial_truth_not_qualified"
+    },
     "quality_flags": [
-     "insufficient_three_year_consolidated_v2_history"
-    ]
+     "insufficient_three_year_consolidated_v2_history",
+     "financial_truth_not_qualified"
+    ],
+    "model_input_readiness": {
+     "status": "partial",
+     "quality_flags": [
+      "insufficient_three_year_consolidated_v2_history"
+     ]
+    }
    },
    "items": []
   },
@@ -988,10 +1191,22 @@
     "watching": 0
    },
    "financial_readiness": {
-    "status": "partial",
+    "status": "not_qualified",
+    "downstream_status": {
+     "forecast": "blocked_financial_truth_not_qualified",
+     "valuation": "blocked_financial_truth_not_qualified",
+     "market_expectations": "blocked_financial_truth_not_qualified"
+    },
     "quality_flags": [
-     "insufficient_three_year_consolidated_v2_history"
-    ]
+     "insufficient_three_year_consolidated_v2_history",
+     "financial_truth_not_qualified"
+    ],
+    "model_input_readiness": {
+     "status": "partial",
+     "quality_flags": [
+      "insufficient_three_year_consolidated_v2_history"
+     ]
+    }
    },
    "items": []
   },
@@ -1007,10 +1222,22 @@
     "watching": 0
    },
    "financial_readiness": {
-    "status": "partial",
+    "status": "not_qualified",
+    "downstream_status": {
+     "forecast": "blocked_financial_truth_not_qualified",
+     "valuation": "blocked_financial_truth_not_qualified",
+     "market_expectations": "blocked_financial_truth_not_qualified"
+    },
     "quality_flags": [
-     "insufficient_three_year_consolidated_v2_history"
-    ]
+     "insufficient_three_year_consolidated_v2_history",
+     "financial_truth_not_qualified"
+    ],
+    "model_input_readiness": {
+     "status": "partial",
+     "quality_flags": [
+      "insufficient_three_year_consolidated_v2_history"
+     ]
+    }
    },
    "items": []
   },
@@ -1026,10 +1253,22 @@
     "watching": 0
    },
    "financial_readiness": {
-    "status": "partial",
+    "status": "not_qualified",
+    "downstream_status": {
+     "forecast": "blocked_financial_truth_not_qualified",
+     "valuation": "blocked_financial_truth_not_qualified",
+     "market_expectations": "blocked_financial_truth_not_qualified"
+    },
     "quality_flags": [
-     "insufficient_three_year_consolidated_v2_history"
-    ]
+     "insufficient_three_year_consolidated_v2_history",
+     "financial_truth_not_qualified"
+    ],
+    "model_input_readiness": {
+     "status": "partial",
+     "quality_flags": [
+      "insufficient_three_year_consolidated_v2_history"
+     ]
+    }
    },
    "items": []
   },
@@ -1045,10 +1284,22 @@
     "watching": 0
    },
    "financial_readiness": {
-    "status": "partial",
+    "status": "not_qualified",
+    "downstream_status": {
+     "forecast": "blocked_financial_truth_not_qualified",
+     "valuation": "blocked_financial_truth_not_qualified",
+     "market_expectations": "blocked_financial_truth_not_qualified"
+    },
     "quality_flags": [
-     "insufficient_three_year_consolidated_v2_history"
-    ]
+     "insufficient_three_year_consolidated_v2_history",
+     "financial_truth_not_qualified"
+    ],
+    "model_input_readiness": {
+     "status": "partial",
+     "quality_flags": [
+      "insufficient_three_year_consolidated_v2_history"
+     ]
+    }
    },
    "items": []
   },
@@ -1064,10 +1315,22 @@
     "watching": 1
    },
    "financial_readiness": {
-    "status": "partial",
+    "status": "not_qualified",
+    "downstream_status": {
+     "forecast": "blocked_financial_truth_not_qualified",
+     "valuation": "blocked_financial_truth_not_qualified",
+     "market_expectations": "blocked_financial_truth_not_qualified"
+    },
     "quality_flags": [
-     "insufficient_three_year_consolidated_v2_history"
-    ]
+     "insufficient_three_year_consolidated_v2_history",
+     "financial_truth_not_qualified"
+    ],
+    "model_input_readiness": {
+     "status": "partial",
+     "quality_flags": [
+      "insufficient_three_year_consolidated_v2_history"
+     ]
+    }
    },
    "items": [
     {
@@ -1080,7 +1343,7 @@
      "monitored_assertion": "type=acquisition; stage=intention; target=Engro Polymer & Chemicals Limited; modality=intention",
      "delivery_status": "not_observed",
      "confidence_band": "medium",
-     "financial_readiness_status": "partial",
+     "financial_readiness_status": "not_qualified",
      "status_reason": "no later official event matched the exact assertion or conflict key",
      "confirmation_check": [
       {
@@ -1117,10 +1380,22 @@
       "band": "medium"
      },
      "financial_readiness": {
-      "status": "partial",
+      "status": "not_qualified",
+      "downstream_status": {
+       "forecast": "blocked_financial_truth_not_qualified",
+       "valuation": "blocked_financial_truth_not_qualified",
+       "market_expectations": "blocked_financial_truth_not_qualified"
+      },
       "quality_flags": [
-       "insufficient_three_year_consolidated_v2_history"
-      ]
+       "insufficient_three_year_consolidated_v2_history",
+       "financial_truth_not_qualified"
+      ],
+      "model_input_readiness": {
+       "status": "partial",
+       "quality_flags": [
+        "insufficient_three_year_consolidated_v2_history"
+       ]
+      }
      },
      "source_evidence": [
       {
@@ -1220,10 +1495,22 @@
     "watching": 0
    },
    "financial_readiness": {
-    "status": "partial",
+    "status": "not_qualified",
+    "downstream_status": {
+     "forecast": "blocked_financial_truth_not_qualified",
+     "valuation": "blocked_financial_truth_not_qualified",
+     "market_expectations": "blocked_financial_truth_not_qualified"
+    },
     "quality_flags": [
-     "insufficient_three_year_consolidated_v2_history"
-    ]
+     "insufficient_three_year_consolidated_v2_history",
+     "financial_truth_not_qualified"
+    ],
+    "model_input_readiness": {
+     "status": "partial",
+     "quality_flags": [
+      "insufficient_three_year_consolidated_v2_history"
+     ]
+    }
    },
    "items": []
   },
@@ -1239,10 +1526,22 @@
     "watching": 0
    },
    "financial_readiness": {
-    "status": "partial",
+    "status": "not_qualified",
+    "downstream_status": {
+     "forecast": "blocked_financial_truth_not_qualified",
+     "valuation": "blocked_financial_truth_not_qualified",
+     "market_expectations": "blocked_financial_truth_not_qualified"
+    },
     "quality_flags": [
-     "insufficient_three_year_consolidated_v2_history"
-    ]
+     "insufficient_three_year_consolidated_v2_history",
+     "financial_truth_not_qualified"
+    ],
+    "model_input_readiness": {
+     "status": "partial",
+     "quality_flags": [
+      "insufficient_three_year_consolidated_v2_history"
+     ]
+    }
    },
    "items": []
   },
@@ -1258,19 +1557,31 @@
     "watching": 0
    },
    "financial_readiness": {
-    "status": "partial",
+    "status": "not_qualified",
+    "downstream_status": {
+     "forecast": "blocked_financial_truth_not_qualified",
+     "valuation": "blocked_financial_truth_not_qualified",
+     "market_expectations": "blocked_financial_truth_not_qualified"
+    },
     "quality_flags": [
-     "insufficient_three_year_consolidated_v2_history"
-    ]
+     "insufficient_three_year_consolidated_v2_history",
+     "financial_truth_not_qualified"
+    ],
+    "model_input_readiness": {
+     "status": "partial",
+     "quality_flags": [
+      "insufficient_three_year_consolidated_v2_history"
+     ]
+    }
    },
    "items": []
   }
  },
  "_meta": {
   "generator_version": "ci_artifact_integrity_v1",
-  "source_commit_sha": "e1868452a5248facfeae7a846a3b8a31919c865d",
-  "build_cutoff_at": "2026-08-31T01:20:00Z",
-  "generated_at": "2026-08-31T01:20:00Z",
+  "source_commit_sha": "6060abc398b14446c87a20463f06937d35492025",
+  "build_cutoff_at": "2026-08-31T08:16:40Z",
+  "generated_at": "2026-08-31T08:16:40Z",
   "artifact_path": "state/company_intel/evidence_watchlist.json",
   "timestamp_semantics": {
    "build_cutoff_at": "generation boundary only; not a source-effective or source-published time",
