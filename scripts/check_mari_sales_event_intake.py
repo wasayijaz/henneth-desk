@@ -9,6 +9,8 @@ import tempfile
 from pathlib import Path
 
 import document_intelligence
+from document_events import event_is_supported, extract_events
+from operating_events import TYPE_MAP, strict_event_is_supported
 import reprocess_company_documents as reprocess
 from psx_data import ROOT, load_json
 
@@ -81,6 +83,7 @@ def main() -> int:
         else:
             _fail("event intake accepted a mutable research-index content hash")
         _assert_material_event_intake_never_writes_financial_facts(Path(tmp))
+    _assert_exact_product_launch_event()
     print("mari_sales_event_intake: PASS (2 exact source-bound event leads)")
     return 0
 
@@ -130,6 +133,35 @@ def _assert_material_event_intake_never_writes_financial_facts(root: Path) -> No
     series = load_json(state / "company_financial_series.json", {}).get("tickers") or {}
     if any((row.get("document_id") == "psx:280337") for value in series.values() if isinstance(value, dict) for row in (value.get("facts") or [])):
         _fail("material-event fixture leaked a financial-series fact")
+
+
+def _assert_exact_product_launch_event() -> None:
+    text = (
+        "Sky47, a majority-owned subsidiary of Mari Energies Limited, has officially launched "
+        "Karakoram-01, Pakistan's first and largest purpose-built, AI-ready data center campus."
+    )
+    _, events, _ = extract_events(
+        "psx:280337", "Launch of Pakistan First and Largest Purpose-Built AI Ready Data Centre Campus",
+        text, [text], ["MARI"],
+        source_url="https://dps.psx.com.pk/download/document/280337.pdf",
+        published_at="2026-07-24T16:26:00+05:00",
+        content_sha256="acdfaac317a7f2650a9ac11f2e98b69ebf37ce30a3134b51b61c084531286996",
+        material_information=True,
+    )
+    launches = [event for event in events if event.get("event_type") == "product_launch"]
+    if len(launches) != 1 or not event_is_supported(launches[0]):
+        _fail("exact MARI launch source did not emit one supported raw product_launch event")
+    if TYPE_MAP.get("product_launch") != "product_launch" or not strict_event_is_supported("product_launch", launches[0]["evidence"]):
+        _fail("exact MARI launch source did not satisfy the closed canonical product-launch gate")
+    _, untrusted, _ = extract_events(
+        "psx:280337", "Launch of Pakistan First and Largest Purpose-Built AI Ready Data Centre Campus",
+        text, [text], ["MARI"],
+        source_url="https://dps.psx.com.pk/download/document/280337.pdf",
+        published_at="2026-07-24T16:26:00+05:00",
+        content_sha256="b" * 64, material_information=True,
+    )
+    if any(event.get("event_type") == "product_launch" for event in untrusted):
+        _fail("wrong-hash MARI material information emitted a product_launch event")
 
 
 if __name__ == "__main__":

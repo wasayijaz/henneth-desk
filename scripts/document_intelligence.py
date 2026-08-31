@@ -207,11 +207,11 @@ def run(index_path: Path = STATE / "research_index.json", output_path: Path = OU
             if entry.get("content_sha256") and content_sha != extracted["content_sha256"]:
                 raise ValueError("content_sha256 does not match extracted local bytes")
             title = entry.get("title") or entry.get("digest") or ""
+            material_event_only = entry.get("classification") == "material_information"
             doc_type, doc_events, facts = extract_events(
                 doc_id, title, extracted["text"], extracted["pages"], _ticks(entry),
                 source_url=url, published_at=entry.get("published_at") or entry.get("date"),
-                content_sha256=content_sha)
-            material_event_only = entry.get("classification") == "material_information"
+                content_sha256=content_sha, material_information=material_event_only)
             if material_event_only:
                 # Exact material-information intake may yield source-bound
                 # operating evidence, never financial, capital, or model

@@ -16,7 +16,7 @@ SOURCE_LEVELS = {1, 2, 3, 4, 5, 6}
 TYPE_MAP = {
     "contract": "contract_tender", "management_change": "management_change",
     "credit_event": "debt_refinancing", "acquisition": "acquisition_divestment",
-    "regulatory_action": "regulatory_change",
+    "regulatory_action": "regulatory_change", "product_launch": "product_launch",
 }
 STRICT_EVENT_PATTERNS = {
     "contract_tender": r"\b(contract\s+(?:awarded|signed|secured)|awarded\s+(?:a\s+)?contract|order\s+worth|entered\s+into\s+(?:an?\s+)?agreement|memorandum\s+of\s+understanding|mou\s+(?:signed|with))\b",
@@ -24,11 +24,13 @@ STRICT_EVENT_PATTERNS = {
     "debt_refinancing": r"\b(default\s+in\s+payment\s+of\s+debts|strategy\s+for\s+liquidity\s+problems|debt\s+restructur(?:e|ing)|refinanc(?:e|ing)|going\s+concern|insolvency|trading\s+halt)\b",
     "acquisition_divestment": r"\b(public\s+announcement\s+of\s+(?:intention|offer)|offer\s+to\s+acquire|acquisition\s+of\s+(?:ordinary\s+)?shares|paid-up\s+share\s+capital|takeover|divest(?:ment|ed)|disposal\s+of\s+(?:subsidiary|shares|business)|acquired\s+(?:control|stake|shareholding)|acquisition\s+of\s+.+(?:plant|business|company|subsidiary|blocks?))\b",
     "regulatory_change": r"\b(regulatory\s+action|show[- ]cause|competition\s+ordinance|secp|regulator)\b",
+    "product_launch": r"\bofficially\s+launched\s+Karakoram-01\b.{0,180}\b(?:data\s+cent(?:er|re)|campus)\b",
 }
 STRICT_EXCLUSIONS = {
     "management_change": r"\b(external\s+auditors?|auditors?|kpmg|remuneration)\b",
     "debt_refinancing": r"\b(customer\s+debts?|credit\s+limit|when\s+a\s+customer|delinquency)\b",
     "acquisition_divestment": r"\b(computer\s+software|power\s+acquisition\s+program)\b",
+    "product_launch": r"\b(?:plan(?:s|ned)?|intend(?:s|ed)?|strategy|proposal|media\s+report)\b",
 }
 
 def stable_id(*parts: Any, prefix: str = "evt") -> str:

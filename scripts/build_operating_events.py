@@ -79,6 +79,12 @@ OPERATING_EVENT_REGISTRY = {
             "allowed_priority_weights": [4],
             "strict_pattern_key": "regulatory_change",
         },
+        {
+            "event_type": "product_launch",
+            "raw_event_types": ["product_launch"],
+            "allowed_priority_weights": [3],
+            "strict_pattern_key": "product_launch",
+        },
     ],
 }
 

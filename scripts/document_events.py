@@ -13,13 +13,14 @@ import re
 from typing import Any
 
 from document_extract import evidence_for
+from mari_sales_event_contract import MARI_SALES_EVENT_DOCUMENTS
 
 
 DOC_TYPES = ("results", "board_meeting", "agm", "corporate_briefing", "dividend",
              "acquisition", "regulatory", "rating", "appointment", "company_note", "other")
 EVENT_TYPES = ("earnings", "board_meeting", "agm", "briefing", "dividend", "acquisition",
                "regulatory_action", "management_change", "rating_change", "contract",
-               "credit_event", "other")
+               "credit_event", "product_launch", "other")
 
 _DOC_RULES = (
     ("results", r"\b(results?|profit|loss|eps|financial statements?|quarter|half[- ]year)\b"),
@@ -48,6 +49,7 @@ _EVENT_RULES = (
     ("credit_event", r"\b(default|trading halt|insolvency|going concern)\b", 5),
 )
 _EVENT_PATTERNS = {event_type: pattern for event_type, pattern, _ in _EVENT_RULES}
+_EVENT_PATTERNS["product_launch"] = r"\bofficially\s+launched\s+Karakoram-01\b"
 
 # Labelled values only; this avoids mistaking page numbers for financial facts.
 _FACT_RULES = (
@@ -94,7 +96,8 @@ def event_is_supported(event: dict[str, Any]) -> bool:
 def extract_events(doc_id: str, title: str | None, text: str, pages: list[str],
                    tickers: list[str], source_url: str | None = None,
                    published_at: str | None = None,
-                   content_sha256: str | None = None) -> tuple[str, list[dict[str, Any]], list[dict[str, Any]]]:
+                   content_sha256: str | None = None,
+                   material_information: bool = False) -> tuple[str, list[dict[str, Any]], list[dict[str, Any]]]:
     """Return ``doc_type, events, facts`` with stable IDs and bounded evidence.
 
     ``priority_weight`` is a deterministic extraction-routing weight (1 routine
@@ -113,6 +116,27 @@ def extract_events(doc_id: str, title: str | None, text: str, pages: list[str],
         events.append({"event_id": event_id, "doc_id": doc_id, "event_type": event_type,
                        "priority_weight": weight, "tickers": sorted(set(tickers)),
                        "event_date": published_at, "evidence": [evidence]})
+
+    # Material-information documents normally remain excluded from event
+    # intake.  The sole exception is the exact owner-approved, transport-hash-
+    # bound MARI launch source; its event is evidence-led, not title-led.
+    policy = MARI_SALES_EVENT_DOCUMENTS.get(doc_id) if material_information else None
+    if policy and (content_sha256 == policy.get("observed_transport_sha256")
+                   and title == policy.get("title")
+                   and published_at == policy.get("published_at")
+                   and sorted(set(tickers)) == [policy.get("symbol")]):
+        pattern = policy.get("evidence_pattern")
+        event_type = policy.get("event_type")
+        evidence_match = evidence_for(pattern, pages) if pattern and event_type else None
+        if evidence_match:
+            evidence = {**evidence_base, **evidence_match}
+            seed = f"{doc_id}|{content_sha256}|{event_type}|{published_at}|{json.dumps(evidence, sort_keys=True)}"
+            events.append({
+                "event_id": "evt_" + hashlib.sha256(seed.encode()).hexdigest()[:20],
+                "doc_id": doc_id, "event_type": event_type, "priority_weight": 3,
+                "tickers": sorted(set(tickers)), "event_date": published_at,
+                "content_sha256": content_sha256, "evidence": [evidence],
+            })
 
     facts: list[dict[str, Any]] = []
     for fact_type, pattern, unit in _FACT_RULES:

@@ -26,6 +26,7 @@ from typing import Any, Callable, Iterable
 from urllib.parse import urljoin, urlparse
 
 from financial_statement_facts import diagnose_page_records, PARSER_VERSION, PARSER_REVISION
+from mari_sales_event_contract import MARI_SALES_EVENT_DOCUMENTS, MARI_SALES_EVENT_INTAKE_IDS
 from psx_data import ROOT, STATE, load_json, save_json
 from pdf_chunking import SourceIdentity, split_pdf, ChunkRecord
 
@@ -73,23 +74,7 @@ FIRST_SEEN_OVERSIZED_CHUNK_POLICIES: dict[str, dict[str, Any]] = {
         "max_pages": MAX_RUN_PAGES,
     },
 }
-APPROVED_EVENT_DOCUMENTS: dict[str, dict[str, str]] = {
-    "psx:280337": {
-        "symbol": "MARI",
-        "company_name": "Mari Energies Limited",
-        "title": "Launch of Pakistan First and Largest Purpose-Built AI Ready Data Centre Campus",
-        "published_at": "2026-07-24T16:26:00+05:00",
-        "source_url": "https://dps.psx.com.pk/download/document/280337.pdf",
-    },
-    "psx:280161": {
-        "symbol": "MARI",
-        "company_name": "Mari Energies Limited",
-        "title": "Clarification of News Item",
-        "published_at": "2026-07-21T14:07:00+05:00",
-        "source_url": "https://dps.psx.com.pk/download/document/280161.pdf",
-    },
-}
-MARI_SALES_EVENT_INTAKE_IDS: frozenset[str] = frozenset(APPROVED_EVENT_DOCUMENTS)
+APPROVED_EVENT_DOCUMENTS = MARI_SALES_EVENT_DOCUMENTS
 MARI_SALES_EVENT_INTAKE_MANIFEST = ROOT / "config" / "ci_mari_sales_event_intake_allowlist.json"
 APPROVED_WAVE3_ALLOWLIST: frozenset[str] = frozenset({
     "psx:219092",
@@ -131,7 +116,7 @@ EXCLUDED_TITLE_RE = re.compile(
 # with {"document_ids": ["psx:..."]}. Keeping this empty prevents accidental
 # broad restages when the manifest is not wired yet.
 BUILTIN_ALLOWLIST: frozenset[str] = frozenset()
-RETAINED_HASH_RECEIPT_STATUSES = {"success", "processed_unsupported"}
+RETAINED_HASH_RECEIPT_STATUSES = {"success", "event_success", "processed_unsupported"}
 CANONICAL_RELATIVE_PATHS = (
     Path("company_documents.json"),
     Path("company_event_ledger.json"),
@@ -408,11 +393,16 @@ def load_allowlist(manifest_path: Path | None = None,
                     raise UnsafeInput(f"{doc_id}: event allowlist requires the exact approved MARI identity")
                 if not re.fullmatch(re.escape(event_policy["title"]), pattern):
                     raise UnsafeInput(f"{doc_id}: event title pattern must be exact")
+                observed_hash = str(meta.get("observed_transport_sha256") or "").strip().lower()
+                expected_hash = str(event_policy.get("observed_transport_sha256") or "").strip().lower()
+                if observed_hash != expected_hash:
+                    raise UnsafeInput(f"{doc_id}: event allowlist observed transport hash drift")
                 event_fields = {
                     "expected_title": event_policy["title"],
                     "published_at": event_policy["published_at"],
                     "source_url": event_policy["source_url"],
                     "classification": "material_information",
+                    "observed_transport_sha256": expected_hash,
                 }
             pinned_sha = meta.get("content_sha256")
             if pinned_sha is not None:
@@ -504,7 +494,8 @@ def _event_manifest_matches(doc_id: str, row: dict[str, Any], tickers: list[str]
         return False
     if (meta.get("expected_title") != policy["title"]
             or meta.get("published_at") != policy["published_at"]
-            or meta.get("source_url") != policy["source_url"]):
+            or meta.get("source_url") != policy["source_url"]
+            or meta.get("observed_transport_sha256") != policy.get("observed_transport_sha256", "")):
         return False
     try:
         return _validated_dps_url(doc_id, row.get("url") or row.get("source_url")) == policy["source_url"]
@@ -799,7 +790,10 @@ def success_receipt_exists(receipts: dict[str, Any], doc_id: str, content_sha256
     if not content_sha256:
         return False
     wanted = (doc_id, content_sha256, parser_version, parser_revision, parser_code_sha256())
-    return any(_receipt_key(row) == wanted and row.get("status") == "success"
+    accepted_statuses = {"success"}
+    if doc_id in APPROVED_EVENT_DOCUMENTS:
+        accepted_statuses.add("event_success")
+    return any(_receipt_key(row) == wanted and row.get("status") in accepted_statuses
                for row in receipts.get("receipts") or [] if isinstance(row, dict))
 
 
@@ -903,10 +897,20 @@ def _verified_commits(state_root: Path, fetched_docs: list[tuple[VerifiedDocumen
                     break
             if has_v2:
                 break
+        has_material_event = (
+            (doc.manifest or {}).get("classification") == "material_information"
+            and any(
+                isinstance(event, dict) and event.get("doc_id") == doc.doc_id
+                and event.get("content_sha256") == fetched.content_sha256
+                and event.get("event_type") == APPROVED_EVENT_DOCUMENTS.get(doc.doc_id, {}).get("event_type")
+                for event in (row.get("events") or [])
+            )
+        )
         committed.append({
             "doc_id": doc.doc_id,
             "content_sha256": fetched.content_sha256,
-            "status": "success" if has_v2 else "processed_unsupported",
+            "status": ("success" if has_v2 else "event_success" if has_material_event
+                       else "processed_unsupported"),
         })
     return committed
 
@@ -1025,6 +1029,7 @@ def consume_canonical(registry_path: Path, queue_path: Path, output_root: Path,
     from build_guidance_contradictions import build as build_guidance_contradictions
     from build_management_delivery import build as build_management_delivery
     from build_intelligence_cases import build as build_intelligence_cases
+    from build_operating_events import build as build_operating_events
     from build_signal_clusters import build as build_signal_clusters
     from build_ci_monitoring import build as build_ci_monitoring
     from build_ci_work_routing_policy import build as build_ci_work_routing_policy
@@ -1101,6 +1106,8 @@ def consume_canonical(registry_path: Path, queue_path: Path, output_root: Path,
             stage = f"publish:{rel.as_posix()}"
             if (work_state / rel).exists():
                 _atomic_replace_file(work_state / rel, state_root / rel)
+        stage = "build_operating_events"
+        build_operating_events()
         stage = "build_intelligence_cases"
         build_intelligence_cases()
         stage = "build_financial_model_inputs"
@@ -1153,6 +1160,8 @@ def consume_canonical(registry_path: Path, queue_path: Path, output_root: Path,
         # part of their idempotency proof.  Rebuild the dependent CI surface
         # once more after those checks, then run the aggregate gate against a
         # coherent final artifact set rather than a stale watchlist/slice.
+        stage = "rebuild_operating_events"
+        build_operating_events()
         stage = "rebuild_intelligence_cases"
         build_intelligence_cases()
         for builder in source_ci_builders:
@@ -1502,7 +1511,8 @@ def run_reprocess(
                 raise RuntimeError("restage consumer did not return a verifiable durable commit")
             for doc, fetched in pending_docs:
                 processed_status = str((processed_by_doc.get(doc.doc_id) or {}).get("status") or "")
-                receipt_status = "success" if processed_status == "success" else "processed_unsupported"
+                receipt_status = ("success" if processed_status == "success" else "event_success"
+                                  if processed_status == "event_success" else "processed_unsupported")
                 append_receipt(receipts_file, {
                     "doc_id": doc.doc_id,
                     "content_sha256": fetched.content_sha256,
@@ -1533,8 +1543,8 @@ def run_reprocess(
             for row in results:
                 if row.get("status") == "validated":
                     processed_status = str((processed_by_doc.get(str(row.get("doc_id"))) or {}).get("status") or "")
-                    row["status"] = "committed" if processed_status == "success" else "processed_unsupported"
-                    row["receipt"] = "success" if processed_status == "success" else "processed_unsupported"
+                    row["status"] = "committed" if processed_status in {"success", "event_success"} else "processed_unsupported"
+                    row["receipt"] = processed_status if processed_status in {"success", "event_success"} else "processed_unsupported"
         return {
             "schema_version": 1,
             "run_id": run_id,
