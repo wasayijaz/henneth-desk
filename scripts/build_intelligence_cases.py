@@ -992,28 +992,12 @@ def _mari_case(
             "Published": "Blocked: no forecast, valuation, reverse-expectations output, investor conclusion or release gate is complete.",
         },
         "sections": {
-            "mechanism": {
-                "status": "available",
-                "epistemic_type": "reported_fact",
-                "text": (
-                    "Observed E&P operating linkage only: MARI disclosed acquisition of working interest "
-                    "in Peshawar Block as operator, and a later MARI filing reported a 65% working interest "
-                    "with operatorship."
+            "mechanism": _mari_mechanism_blocked_section(
+                missing_event_inputs=(
+                    "the retained Peshawar Block filings do not provide reserves, discovery, production, "
+                    "well-cost, development-timing, capex, operating-cost, commodity-exposure or project-economics inputs"
                 ),
-                "items": [{
-                    "id": "reported_working_interest_to_operator_linkage",
-                    "text": (
-                        "The two retained filings establish MARI's reported Peshawar Block interest and "
-                        "operating role, not a project outcome."
-                    ),
-                    "reason": (
-                        "Does not establish reserves, a commercial discovery, production, well cost, development "
-                        "timing, capex, operating cost, commodity exposure, project economics, or a forecast; it does "
-                        "not activate a financial model."
-                    ),
-                    "evidence": [ref, follow_ref],
-                }],
-            },
+            ),
             "analogues": market_context,
         },
         "policy": _policy(deterministic_derived_context=True),
@@ -1188,6 +1172,40 @@ def _mari_financial_truth_gate() -> dict[str, Any]:
     }
 
 
+def _mari_counter_text(row: dict[str, Any], key: str, label: str) -> str:
+    counter = row.get(key)
+    if not isinstance(counter, dict):
+        return f"{label} unavailable"
+    required = counter.get("required")
+    present = counter.get("present")
+    if isinstance(required, int) and not isinstance(required, bool) and isinstance(present, int) and not isinstance(present, bool):
+        return f"{present}/{required} {label}"
+    return f"{label} unavailable"
+
+
+def _mari_mechanism_blocked_section(*, missing_event_inputs: str) -> dict[str, Any]:
+    qualification = load_json(STATE / "company_intel" / "financial_truth_qualification.json", {})
+    row = (qualification.get("companies") or {}).get("MARI") if isinstance(qualification, dict) else None
+    row = row if isinstance(row, dict) else {}
+    status = row.get("status") if isinstance(row.get("status"), str) else "missing"
+    share_count = row.get("share_count") if isinstance(row.get("share_count"), dict) else {}
+    share_count_status = share_count.get("status") if isinstance(share_count.get("status"), str) else "share-count status unavailable"
+    tie_out = row.get("financial_tie_out") if isinstance(row.get("financial_tie_out"), dict) else {}
+    tie_reason = tie_out.get("reason") if isinstance(tie_out.get("reason"), str) and tie_out.get("reason") else "financial tie-out is incomplete"
+    counter_text = ", ".join([
+        _mari_counter_text(row, "annual_income_triplets", "annual income triplets"),
+        _mari_counter_text(row, "qualified_reported_quarter_fact_sets", "reported-quarter fact sets"),
+        _mari_counter_text(row, "annual_operating_cash_flow", "annual operating cash-flow periods"),
+    ])
+    return {
+        "status": "blocked",
+        "reason": (
+            f"MARI mechanism remains blocked: financial truth is {status} ({counter_text}; "
+            f"{share_count_status}) and {missing_event_inputs}. {tie_reason}."
+        ),
+    }
+
+
 def _sales_input_readiness(binding: dict[str, Any], gate: dict[str, Any]) -> dict[str, Any]:
     return {
         "status": "observed_only",
@@ -1291,6 +1309,14 @@ def _mari_sales_case(
             "Published": "Blocked: no forecast, valuation, reverse-expectations output, investor conclusion or release gate is complete.",
         },
         "sales_input_readiness": readiness,
+        "sections": {
+            "mechanism": _mari_mechanism_blocked_section(
+                missing_event_inputs=(
+                    "the retained Karakoram-01 launch filing does not provide source-qualified revenue, "
+                    "contracted-capacity, utilisation, pricing, capex, ramp, margin or EPS inputs"
+                ),
+            ),
+        },
         "policy": {
             "observed_only": True,
             "no_forecast": True,

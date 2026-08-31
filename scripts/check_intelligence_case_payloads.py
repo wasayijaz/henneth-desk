@@ -16,6 +16,7 @@ from build_intelligence_cases import (
     FOLLOW_THROUGH_DOC_ID,
     FOLLOW_THROUGH_EVENT_ID,
     MARI_CASE_ID,
+    MARI_SALES_CASE_ID,
     MARI_DOC_HASH,
     MARI_DOC_ID,
     MARI_EVENT_ID,
@@ -165,10 +166,23 @@ def main() -> None:
     check(rows["MARI"]["intelligence_cases"] == first["companies"]["MARI"], "MARI case row not attached exactly")
     projected_mari_case = next(case for case in rows["MARI"]["intelligence_cases"]["cases"] if case.get("case_id") == MARI_CASE_ID)
     mari_mechanism = (projected_mari_case.get("sections") or {}).get("mechanism") or {}
-    check(mari_mechanism.get("status") == "available" and mari_mechanism.get("epistemic_type") == "reported_fact", "MARI reported mechanism was not projected")
-    mari_mechanism_refs = ((mari_mechanism.get("items") or [{}])[0].get("evidence") or [])
-    check([ref.get("document_id") for ref in mari_mechanism_refs] == ["psx:260446", "psx:271327"], "MARI mechanism source order mismatch")
-    check("not a project outcome" in str((mari_mechanism.get("items") or [{}])[0].get("text") or "") and "forecast" in str((mari_mechanism.get("items") or [{}])[0].get("reason") or ""), "MARI mechanism boundary missing")
+    check(mari_mechanism.get("status") == "blocked" and mari_mechanism.get("reason"), "MARI mechanism was not blocked")
+    check(
+        "financial truth is not_qualified" in str(mari_mechanism.get("reason") or "")
+        and "project-economics inputs" in str(mari_mechanism.get("reason") or ""),
+        "MARI mechanism block reason missing concrete evidence gaps",
+    )
+    projected_mari_sales_case = next(
+        case for case in rows["MARI"]["intelligence_cases"]["cases"]
+        if case.get("case_id") == MARI_SALES_CASE_ID
+    )
+    mari_sales_mechanism = (projected_mari_sales_case.get("sections") or {}).get("mechanism") or {}
+    check(
+        mari_sales_mechanism.get("status") == "blocked"
+        and "financial truth is not_qualified" in str(mari_sales_mechanism.get("reason") or "")
+        and "contracted-capacity" in str(mari_sales_mechanism.get("reason") or ""),
+        "MARI sales-led mechanism block reason missing concrete evidence gaps",
+    )
     for symbol, row in rows.items():
         payload = row.get("intelligence_cases")
         if payload:

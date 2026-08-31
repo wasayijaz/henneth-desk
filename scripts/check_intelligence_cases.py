@@ -97,6 +97,19 @@ def _assert_evidence(ref: dict, expected_event_id: str, expected_doc_id: str, ex
         raise AssertionError(f"missing evidence text for {expected_doc_id}")
 
 
+def _resolve_case_section(case: dict, section_key: str) -> dict:
+    section = (case.get("sections") or {}).get(section_key)
+    if isinstance(section, dict):
+        return section
+    return {"status": "blocked", "reason": "section_not_emitted"}
+
+
+def _assert_mari_mechanism_blocked(case: dict, label: str) -> None:
+    mechanism = _resolve_case_section(case, "mechanism")
+    if mechanism.get("status") != "blocked" or not mechanism.get("reason"):
+        raise AssertionError(f"{label} mechanism must resolve as blocked")
+
+
 def _assert_mlcf_cement_readiness(case: dict) -> None:
     readiness = case.get("cement_input_readiness") or {}
     if readiness.get("status") != "observed_only" or readiness.get("kernel_activation") != "blocked":
@@ -659,23 +672,7 @@ def main() -> None:
         (mari_follow.get("evidence") or [{}])[0],
         MARI_FOLLOW_THROUGH_EVENT_ID, MARI_FOLLOW_THROUGH_DOC_ID, 6,
     )
-    mari_mechanism = (mari_case.get("sections") or {}).get("mechanism") or {}
-    if mari_mechanism.get("status") != "available" or mari_mechanism.get("epistemic_type") != "reported_fact":
-        raise AssertionError("MARI mechanism must be an available reported fact")
-    mari_mechanism_text = str(mari_mechanism.get("text") or "")
-    for required in ("Peshawar Block", "65%", "operatorship"):
-        if required not in mari_mechanism_text:
-            raise AssertionError(f"MARI mechanism missing retained linkage: {required}")
-    mari_mechanism_item = (mari_mechanism.get("items") or [{}])[0]
-    mari_limitation = str(mari_mechanism_item.get("reason") or "")
-    for forbidden_claim in ("reserves", "commercial discovery", "production", "well cost", "capex", "project economics", "forecast"):
-        if forbidden_claim not in mari_limitation:
-            raise AssertionError(f"MARI mechanism boundary missing: {forbidden_claim}")
-    mari_mechanism_refs = mari_mechanism_item.get("evidence") or []
-    if len(mari_mechanism_refs) != 2:
-        raise AssertionError("MARI mechanism must retain exactly its two source refs")
-    _assert_evidence(mari_mechanism_refs[0], MARI_EVENT_ID, MARI_DOC_ID, 1)
-    _assert_evidence(mari_mechanism_refs[1], MARI_FOLLOW_THROUGH_EVENT_ID, MARI_FOLLOW_THROUGH_DOC_ID, 6)
+    _assert_mari_mechanism_blocked(mari_case, "MARI E&P")
     if "not independent-originator corroboration" not in str((mari_case.get("promotion_blocks") or {}).get("Corroborated")):
         raise AssertionError("MARI follow-through incorrectly promoted the case")
     _assert_mari_market_context(mari_case)
@@ -710,6 +707,7 @@ def main() -> None:
     for status in ("Corroborated", "Modelled", "Published"):
         if status not in (mari_sales_case.get("promotion_blocks") or {}):
             raise AssertionError(f"MARI sales-led case missing promotion block for {status}")
+    _assert_mari_mechanism_blocked(mari_sales_case, "MARI sales-led")
     if _dump(without_root_meta(state)) != _dump(without_root_meta(cases_builder.build(write=False))):
         raise AssertionError("intelligence case rebuild is not deterministic")
     _assert_mlcf_counters_project_source_truth_only()
