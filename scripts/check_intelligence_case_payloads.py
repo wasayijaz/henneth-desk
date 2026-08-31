@@ -61,6 +61,11 @@ def snapshot(paths: list[Path]) -> dict[str, tuple[bool, str | None]]:
     return result
 
 
+def without_root_meta(value: dict) -> dict:
+    """Compare deterministic case content independently of the final build envelope."""
+    return {key: item for key, item in value.items() if key != "_meta"}
+
+
 def assert_evidence(ref: dict, event_id: str, document_id: str, page: int, content_hash: str) -> None:
     check(ref.get("event_id") == event_id, f"event mismatch: {ref.get('event_id')}")
     check(ref.get("document_id") == document_id, f"document mismatch: {ref.get('document_id')}")
@@ -150,7 +155,10 @@ def main() -> None:
     after = snapshot(watched)
     check(before == after, "payload checker wrote an artifact")
     if OUT.exists():
-        check(load_json(OUT, {}) == first, "generated case state differs from deterministic builder output")
+        check(
+            without_root_meta(load_json(OUT, {})) == without_root_meta(first),
+            "generated case state differs from deterministic builder output",
+        )
     print(f"intelligence_case_payloads: PASS ({checks} assertions)")
 
 

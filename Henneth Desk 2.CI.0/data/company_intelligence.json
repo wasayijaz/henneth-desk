@@ -1,6 +1,6 @@
 {
  "meta": {
-  "built": "2026-08-30 22:58",
+  "built": "2026-08-31 06:31",
   "source": "Henneth state layer",
   "profile_source": "https://dps.psx.com.pk/company/{symbol}",
   "profile_updated": "2026-08-24 18:30",
@@ -20819,7 +20819,8 @@
           "source": "PSX DPS",
           "source_url": "https://dps.psx.com.pk/download/document/267429.pdf",
           "page": 3,
-          "text": "8904_5, Fax: +9242.38373067 EqnaH: mjgfl@kmlg.earn PUBLIC ANNOUNCEMENT OF PUBLIC OFFER TO ACQUIRE UP TO 26,623,096 SHARES (1.E. 11.72% SHARES) AND CONTROL OF PIONEER CEMENT LIMITED (“PIOC” OR 'TARGrr COMPANY”) BY MAPLE LEAF CEMENT FACrORY…"
+          "text": "8904_5, Fax: +9242.38373067 EqnaH: mjgfl@kmlg.earn PUBLIC ANNOUNCEMENT OF PUBLIC OFFER TO ACQUIRE UP TO 26,623,096 SHARES (1.E. 11.72% SHARES) AND CONTROL OF PIONEER CEMENT LIMITED (“PIOC” OR 'TARGrr COMPANY”) BY MAPLE LEAF CEMENT FACrORY…",
+          "event_date": "2025-12-18T12:52:00+05:00"
          }
         ]
        },
@@ -20850,7 +20851,8 @@
           "source": "PSX DPS",
           "source_url": "https://dps.psx.com.pk/download/document/275425.pdf",
           "page": 4,
-          "text": "in local market and inclusion of Pioneer Cement Limited’s dispatches in total due to its acquisition during the month of February 2026. The export sales volume reduced from 173,489 tons to 78,135 tons, a decline of 54.96% from the previous…"
+          "text": "in local market and inclusion of Pioneer Cement Limited’s dispatches in total due to its acquisition during the month of February 2026. The export sales volume reduced from 173,489 tons to 78,135 tons, a decline of 54.96% from the previous…",
+          "event_date": "2026-04-28T10:25:00+05:00"
          }
         ]
        }
@@ -20874,6 +20876,132 @@
        "Modelled": "Blocked: no source-qualified financial impact model or owner-approved assumptions are attached.",
        "Published": "Blocked: no forecast, valuation, reverse-expectations output, investor conclusion or release gate is complete."
       },
+      "cement_input_readiness": {
+       "status": "observed_only",
+       "kernel_activation": "blocked",
+       "attribution": {
+        "acquirer": "MLCF",
+        "target": "PIOC",
+        "follow_through": "dispatch_inclusion"
+       },
+       "source_join": [
+        {
+         "role": "primary_control",
+         "canonical_event_id": "evt_6e9b520a122b8f2d4a59",
+         "canonical_event_id_binding": "independent_operating_event",
+         "legacy_event_id": "evt_cb44dc32c91b0c5712a5",
+         "document_id": "psx:267429",
+         "page": 3,
+         "content_sha256": "98cf83c9a286999c8006a7f73f490248f26694c9edbfc815b3dbd9188ee22a54",
+         "evidence_sha256": "70a110272f96813a4d6693b596c99d9dbc4c4781d42a519543557a04ec4c581f",
+         "published_at": "2025-12-18T12:52:00+05:00",
+         "effective_date": "2025-12-18",
+         "available_on": "2025-12-18"
+        },
+        {
+         "role": "operating_follow_through",
+         "canonical_event_id": "evt_25bfb52e721191c7b644",
+         "canonical_event_id_binding": "legacy_alias_no_independent_operating_event",
+         "legacy_event_id": "evt_25bfb52e721191c7b644",
+         "document_id": "psx:275425",
+         "page": 4,
+         "content_sha256": "744a0c710043d6e0a7de36bb99f21ca50f0f9346f6972b957f6733a47deae11f",
+         "evidence_sha256": "725f04c3c6d7f36bbffd6c205d574750f65b8c0546ae9f1b50683fe07b292b66",
+         "published_at": "2026-04-28T10:25:00+05:00",
+         "effective_date": "2026-04-28",
+         "available_on": "2026-04-28"
+        }
+       ],
+       "financial_truth_counters": {
+        "annual_income_triplets": {
+         "required": 5,
+         "present": 3,
+         "qualified_periods": [
+          "2026-06-30",
+          "2025-06-30",
+          "2024-06-30"
+         ]
+        },
+        "qualified_reported_quarter_fact_sets": {
+         "required": 8,
+         "present": 3,
+         "qualified_periods": [
+          "2026-03-31",
+          "2025-12-31",
+          "2025-09-30"
+         ]
+        },
+        "annual_operating_cash_flow": {
+         "required": 5,
+         "present": 2,
+         "qualified_periods": [
+          "2025-06-30",
+          "2024-06-30"
+         ]
+        },
+        "share_count": {
+         "status": "missing_official_share_count_capital_note_tie_out",
+         "available_on": null,
+         "source": null
+        }
+       },
+       "event_specific_kernel_requirements": {
+        "incremental_revenue_pkr": {
+         "value": null,
+         "source_label": "retained_state_only:no_source_qualified_event_input",
+         "status": "missing_source_bound_input"
+        },
+        "incremental_margin_pct": {
+         "value": null,
+         "source_label": "retained_state_only:no_source_qualified_event_input",
+         "status": "missing_source_bound_input"
+        },
+        "incremental_eps_pkr": {
+         "value": null,
+         "source_label": "retained_state_only:no_source_qualified_event_input",
+         "status": "missing_source_bound_input"
+        },
+        "incremental_operating_cash_flow_pkr": {
+         "value": null,
+         "source_label": "retained_state_only:no_source_qualified_event_input",
+         "status": "missing_source_bound_input"
+        },
+        "incremental_debt_pkr": {
+         "value": null,
+         "source_label": "retained_state_only:no_source_qualified_event_input",
+         "status": "missing_source_bound_input"
+        },
+        "incremental_share_count": {
+         "value": null,
+         "source_label": "retained_state_only:no_source_qualified_event_input",
+         "status": "missing_source_bound_input"
+        },
+        "cement_capacity_units": {
+         "value": null,
+         "source_label": "retained_state_only:no_source_qualified_event_input",
+         "status": "missing_source_bound_input"
+        },
+        "commissioning_or_ramp_schedule": {
+         "value": null,
+         "source_label": "retained_state_only:no_source_qualified_event_input",
+         "status": "missing_source_bound_input"
+        },
+        "capex_schedule_pkr": {
+         "value": null,
+         "source_label": "retained_state_only:no_source_qualified_event_input",
+         "status": "missing_source_bound_input"
+        },
+        "fuel_power_freight_cost_schedule": {
+         "value": null,
+         "source_label": "retained_state_only:no_source_qualified_event_input",
+         "status": "missing_source_bound_input"
+        }
+       },
+       "guardrails": {
+        "dispatch_inclusion_not_standalone_pioc_earnings_or_capacity_impact": true,
+        "no_numeric_model_output": true
+       }
+      },
       "policy": {
        "observed_only": true,
        "no_forecast": true,
@@ -20893,7 +21021,8 @@
         "source": "PSX DPS",
         "source_url": "https://dps.psx.com.pk/download/document/267429.pdf",
         "page": 3,
-        "text": "8904_5, Fax: +9242.38373067 EqnaH: mjgfl@kmlg.earn PUBLIC ANNOUNCEMENT OF PUBLIC OFFER TO ACQUIRE UP TO 26,623,096 SHARES (1.E. 11.72% SHARES) AND CONTROL OF PIONEER CEMENT LIMITED (“PIOC” OR 'TARGrr COMPANY”) BY MAPLE LEAF CEMENT FACrORY…"
+        "text": "8904_5, Fax: +9242.38373067 EqnaH: mjgfl@kmlg.earn PUBLIC ANNOUNCEMENT OF PUBLIC OFFER TO ACQUIRE UP TO 26,623,096 SHARES (1.E. 11.72% SHARES) AND CONTROL OF PIONEER CEMENT LIMITED (“PIOC” OR 'TARGrr COMPANY”) BY MAPLE LEAF CEMENT FACrORY…",
+        "event_date": "2025-12-18T12:52:00+05:00"
        },
        {
         "event_id": "evt_25bfb52e721191c7b644",
@@ -20905,7 +21034,8 @@
         "source": "PSX DPS",
         "source_url": "https://dps.psx.com.pk/download/document/275425.pdf",
         "page": 4,
-        "text": "in local market and inclusion of Pioneer Cement Limited’s dispatches in total due to its acquisition during the month of February 2026. The export sales volume reduced from 173,489 tons to 78,135 tons, a decline of 54.96% from the previous…"
+        "text": "in local market and inclusion of Pioneer Cement Limited’s dispatches in total due to its acquisition during the month of February 2026. The export sales volume reduced from 173,489 tons to 78,135 tons, a decline of 54.96% from the previous…",
+        "event_date": "2026-04-28T10:25:00+05:00"
        }
       ]
      }
@@ -206813,60 +206943,65 @@
     "case_count": 1,
     "cases": [
      {
-      "case_id": "case_mari_offshore_exploration_blocks_observed_v1",
+      "case_id": "case_mari_working_interest_observed_v1",
       "symbol": "MARI",
       "case_family": "e_and_p",
-      "case_type": "offshore_exploration_block_acquisition",
+      "case_type": "working_interest_acquisition",
       "status": "Observed",
       "epistemic_type": "reported_fact",
-      "as_of": "2026-08-22T16:04:00+05:00",
-      "summary": "Observed official-source seed: Mari Energies reported its acquisition of offshore exploration blocks as part of its long-term strategy to find new hydrocarbon resources.",
+      "as_of": "2026-08-25T17:13:00+05:00",
+      "summary": "Observed official-source seed: Mari Energies reported acquisition of working interest in Peshawar Block as an operator.",
       "observed_facts": [
        {
-        "fact_id": "mari_offshore_exploration_blocks_acquisition",
-        "source_event_id": "evt_ddf99590afb6dacddbde",
-        "document_id": "psx:265594",
-        "event_date": "2025-11-13T10:10:00+05:00",
-        "statement": "Mari Energies reported the acquisition of offshore exploration blocks.",
+        "fact_id": "mari_peshawar_working_interest_acquisition",
+        "source_event_id": "evt_eddfcc381018cb0dff43",
+        "document_id": "psx:260446",
+        "event_date": "2025-09-30T10:46:00+05:00",
+        "statement": "Mari Energies reported acquisition of working interest in Peshawar Block as an operator.",
         "reported_values": [
          {
-          "label": "stated_purpose",
-          "value": "find new hydrocarbon resources"
+          "label": "block",
+          "value": "Peshawar Block"
+         },
+         {
+          "label": "operator_status",
+          "value": "as an Operator"
          }
         ],
         "evidence": [
          {
-          "event_id": "evt_ddf99590afb6dacddbde",
-          "document_id": "psx:265594",
+          "event_id": "evt_eddfcc381018cb0dff43",
+          "document_id": "psx:260446",
           "document_title": "Material Information",
-          "document_published_at": "2025-11-13T10:10:00+05:00",
-          "document_retrieved_at": "2026-08-22T16:04:00+05:00",
-          "content_sha256": "cdc3f69157f5e5803238ba347ecb4e96f7297479df87d345739896913de8aae4",
+          "document_published_at": "2025-09-30T10:46:00+05:00",
+          "document_retrieved_at": "2026-08-25T17:13:00+05:00",
+          "content_sha256": "c13ccb4de58ad005bca106942721490593fe219ff45906c68280ea7856192e42",
           "source": "PSX DPS",
-          "source_url": "https://dps.psx.com.pk/download/document/265594.pdf",
-          "page": 3,
-          "text": "The acquisition of these offshore exploration blocks is a part of Company’s long term strategy where it aims to not only find new hydrocarbon resources but also to l"
+          "source_url": "https://dps.psx.com.pk/download/document/260446.pdf",
+          "page": 1,
+          "text": "and Clause 5.6.1 (a) of the PSX Regulations, we hereby convey the following information: Acquisition of Working Interest in Peshawar Block (as an Operator) from Hycarbex- American Energ~ We are pleased to inform you that Mari Energies Limi…",
+          "event_date": "2025-09-30T10:46:00+05:00"
          }
         ]
        }
       ],
       "alternative_readings": [
        {
-        "alternative_id": "blocks_not_proved_reserves",
-        "reading": "The reported block acquisition does not establish reserves, a commercial discovery, or future production.",
+        "alternative_id": "working_interest_not_reserves",
+        "reading": "Working-interest acquisition does not establish reserves, a commercial discovery, or future production.",
         "status": "retained_as_observed_only",
         "rejection_condition": "Reject promotion if no official source identifies technical results, resource potential, or a development path."
        },
        {
-        "alternative_id": "strategy_not_execution_schedule",
-        "reading": "The stated long-term exploration strategy does not establish working interest, operator status, cost, timing, or economic terms.",
+        "alternative_id": "operator_status_not_economics",
+        "reading": "The notice does not establish cost, timing, resource, production or project economics.",
         "status": "retained_as_observed_only",
-        "rejection_condition": "Reject modelling if source-qualified project economics and a qualified company financial history remain absent."
+        "rejection_condition": "Reject modelling if source-qualified project economics and qualified company financial inputs remain absent."
        }
       ],
       "promotion_blocks": {
-       "Corroborated": "Blocked: retained evidence is a single official Mari/PSX source and no independent-originator corroboration is attached.",
-       "Modelled": "Blocked: no source-qualified working interest, operator status, cost, timing, resource, production or financial-model inputs are attached.",
+       "Corroborated": "Blocked: retained evidence is a single official MARI/PSX source and no independent-originator corroboration is attached.",
+       "Modelled": "Blocked: no source-qualified financial model or owner-approved assumptions are attached.",
        "Published": "Blocked: no forecast, valuation, reverse-expectations output, investor conclusion or release gate is complete."
       },
       "policy": {
@@ -206879,16 +207014,17 @@
       },
       "source_lineage": [
        {
-        "event_id": "evt_ddf99590afb6dacddbde",
-        "document_id": "psx:265594",
+        "event_id": "evt_eddfcc381018cb0dff43",
+        "document_id": "psx:260446",
         "document_title": "Material Information",
-        "document_published_at": "2025-11-13T10:10:00+05:00",
-        "document_retrieved_at": "2026-08-22T16:04:00+05:00",
-        "content_sha256": "cdc3f69157f5e5803238ba347ecb4e96f7297479df87d345739896913de8aae4",
+        "document_published_at": "2025-09-30T10:46:00+05:00",
+        "document_retrieved_at": "2026-08-25T17:13:00+05:00",
+        "content_sha256": "c13ccb4de58ad005bca106942721490593fe219ff45906c68280ea7856192e42",
         "source": "PSX DPS",
-        "source_url": "https://dps.psx.com.pk/download/document/265594.pdf",
-        "page": 3,
-        "text": "The acquisition of these offshore exploration blocks is a part of Company’s long term strategy where it aims to not only find new hydrocarbon resources but also to l"
+        "source_url": "https://dps.psx.com.pk/download/document/260446.pdf",
+        "page": 1,
+        "text": "and Clause 5.6.1 (a) of the PSX Regulations, we hereby convey the following information: Acquisition of Working Interest in Peshawar Block (as an Operator) from Hycarbex- American Energ~ We are pleased to inform you that Mari Energies Limi…",
+        "event_date": "2025-09-30T10:46:00+05:00"
        }
       ]
      }
@@ -235893,5 +236029,16 @@
     "retention_days": 90
    }
   }
- ]
+ ],
+ "_meta": {
+  "generator_version": "ci_artifact_integrity_v1",
+  "source_commit_sha": "e1868452a5248facfeae7a846a3b8a31919c865d",
+  "build_cutoff_at": "2026-08-31T01:20:00Z",
+  "generated_at": "2026-08-31T01:20:00Z",
+  "artifact_path": "Henneth Desk 2.CI.0/data/company_intelligence.json",
+  "timestamp_semantics": {
+   "build_cutoff_at": "generation boundary only; not a source-effective or source-published time",
+   "generated_at": "artifact generation time only; not a source-effective or source-published time"
+  }
+ }
 }
