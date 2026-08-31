@@ -25,6 +25,7 @@ from financial_evidence_reconciliation import (
 )
 from financial_statement_facts import PARSER_REVISION, PARSER_VERSION
 from forecast_contract import official_financial_fact_provenance
+from manual_financial_claims import qualified_manual_rows
 from psx_data import load_json
 
 
@@ -368,6 +369,12 @@ def _synthetic_assertions() -> None:
     current_records = current_snapshot["companies"]["MLCF"]["facts"]
     if any(record.get("source", {}).get("available_on") == "2027-02-01" for record in current_records):
         _fail("future available_on fact advanced reconciliation snapshot")
+    manual_rows, manual_meta = qualified_manual_rows()
+    if manual_meta.get("qualified_count") != 9 or any(fact_status(row, "2026-08-31") != "eligible" for row in manual_rows):
+        _fail("approved manual claims did not require or satisfy document authority")
+    uncovered_manual = {**manual_rows[0], "evidence": [{"page": 2, "source_url": manual_rows[0]["source_url"]}]}
+    if fact_status(uncovered_manual, "2026-08-31") == "eligible":
+        _fail("manual fact outside its approved document-authority page became eligible")
 
 
 def main() -> None:

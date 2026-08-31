@@ -13,6 +13,7 @@ sys.path.insert(0, str(ROOT / "scripts"))
 
 from forecast_contract import qualified_periods
 from manual_financial_claims import MANUAL_SOURCE_METHOD, is_qualified_manual_fact, qualified_manual_rows
+from manual_document_authority import AUTHORITY_PATH
 
 
 def _fail(message: str) -> None:
@@ -82,6 +83,7 @@ def main() -> None:
     _assert_rejects("bad url", _first_claim_mutation(source_url="https://example.com/document.pdf"), "non_official_manual_source_url")
     _assert_rejects("bad hash", _first_claim_mutation(content_sha256="abc"), "invalid_manual_content_sha256")
     _assert_rejects("bad page", _first_claim_mutation(page=0), "invalid_manual_page")
+    _assert_rejects("uncovered page", _first_claim_mutation(page=2), "manual_document_authority_missing_or_mismatch")
     _assert_rejects("bad availability", _first_claim_mutation(available_on="2024-06-30T00:00:00+05:00"), "manual_available_before_period_end")
     bad_comparative = _base_ledger()
     bad_comparative["claims"][3]["comparative_to_period_end"] = "2025-06-30"
@@ -131,9 +133,10 @@ def main() -> None:
     orphan.pop("manual_claim_id", None)
     parser_like = {**good, "parser_version": "financial_statement_v2"}
     wrong_revision = {**good, "source_revision": "manual_vision_v2"}
+    uncovered_fact = {**good, "evidence": [{"page": 2, "source_url": good["source_url"]}]}
     if not is_qualified_manual_fact(good):
         _fail("valid manual series fact was not accepted by source predicate")
-    if any(is_qualified_manual_fact(row) for row in (forged, orphan, parser_like, wrong_revision)):
+    if any(is_qualified_manual_fact(row) for row in (forged, orphan, parser_like, wrong_revision, uncovered_fact)):
         _fail("forged/orphan manual fact passed source predicate")
 
     print("manual_financial_claims: PASS (approved ledger + approval/provenance/conflict gates)")

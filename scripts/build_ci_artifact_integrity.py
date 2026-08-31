@@ -36,6 +36,10 @@ EXCLUDED_STATE_NAMES = {
     "reprocess_receipts.json",
     "supabase_archive_receipt.json",
     "private_thesis_storage_receipt.json",
+    # Owner-approved, append-only page geometry for image-only documents. It
+    # is a provenance ledger, not a generated investor-facing artifact; its
+    # closed schema must not receive a generated metadata envelope.
+    "manual_document_authority.json",
     # A manual, append-only deployment-verification record. It is release
     # evidence rather than a generated investor-facing CI product artifact.
     "release_integrity_receipt.json",

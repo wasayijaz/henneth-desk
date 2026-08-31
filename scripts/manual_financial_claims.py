@@ -14,6 +14,7 @@ from datetime import date, datetime
 from pathlib import Path
 from typing import Any
 
+from manual_document_authority import AUTHORITY_PATH, claim_has_authority
 from psx_data import STATE, load_json
 
 
@@ -172,6 +173,8 @@ def _validate_claim(
             flags.append("invalid_manual_comparative_linkage")
     else:
         flags.append("invalid_manual_column_role")
+    if not claim_has_authority(claim, authority_path=AUTHORITY_PATH):
+        flags.append("manual_document_authority_missing_or_mismatch")
 
     key = _claim_key(claim)
     prior = seen_claim_keys.get(key)
@@ -353,6 +356,8 @@ def is_qualified_manual_fact(fact: dict[str, Any]) -> bool:
         or claim.get("unit_multiplier") != fact.get("unit_multiplier")
         or not _same_value(claim.get("value"), fact.get("normalized_value"))
     ):
+        return False
+    if not claim_has_authority(claim, authority_path=AUTHORITY_PATH):
         return False
     claim_role = claim.get("column_role") or "current_period"
     if fact.get("column_role") != claim_role:
