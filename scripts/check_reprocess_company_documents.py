@@ -1343,6 +1343,21 @@ def main() -> int:
         assert "Financial statements revenue" not in blob and "%PDF" not in blob and str(diag) not in blob
         assert '"words"' not in blob and '"path"' not in blob and ".cache" not in blob
         _assert_diagnostic_metadata_only(diag_result["results"][0]["diagnostic"])
+        targeted_transport = FakeTransport(responses)
+        targeted = r.run_reprocess(["psx:111"], root=diag, state_root=diag / "state",
+                                   allowlist_manifest=diag_manifest, transport=targeted_transport,
+                                   expected_allowlist=frozenset(["psx:111"]), diagnose=True,
+                                   diagnostic_pages=[1],
+                                   receipts_path=diag / "state" / "company_intel" / "reprocess_receipts.json")
+        assert [row["page"] for row in targeted["results"][0]["diagnostic"]["pages"]] == [1]
+        try:
+            r.run_reprocess(["psx:111"], root=diag, state_root=diag / "state",
+                            allowlist_manifest=diag_manifest, transport=FakeTransport(responses),
+                            expected_allowlist=frozenset(["psx:111"]), diagnostic_pages=[1])
+        except r.UnsafeInput:
+            pass
+        else:
+            raise AssertionError("diagnostic page selection accepted outside diagnose mode")
         page_diag = diag_result["results"][0]["diagnostic"]["pages"][0]
         assert {"page", "duration_groups", "year_token_candidates", "year_headers", "rows",
                 "reason_codes", "parser_decision"}.issubset(page_diag)

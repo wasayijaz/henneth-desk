@@ -6,6 +6,8 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from company_scenario_lab import forward_scenario, market_expectations_gap, reverse_expectations, parse_scaled
 from build_company_scenario_lab import build
 from ci_checker_helpers import without_root_meta
+from financial_truth_qualification import build_qualification
+from check_financial_truth_qualification import _share_tie_out, _strict_fixture_facts
 
 ROOT = Path(__file__).resolve().parents[1]
 STATE = ROOT / "state" / "company_intel" / "scenario_lab.json"
@@ -52,7 +54,17 @@ def main():
         rebuilt = build(); old = json.dumps(without_root_meta(d), sort_keys=True); new = json.dumps(without_root_meta(rebuilt), sort_keys=True)
         if old != new: fail("non-deterministic rebuild")
         truth = json.loads((ROOT / "state" / "company_intel" / "financial_truth_qualification.json").read_text(encoding="utf-8"))
-        truth["companies"][expected[0]]["status"] = "qualified"
+        # A status flip is deliberately insufficient.  The positive boundary
+        # fixture must satisfy the same full-statement and share-tie-out gate
+        # used by the formal engines.
+        qualified = build_qualification(
+            [expected[0]],
+            {"companies": {expected[0]: {"facts": _strict_fixture_facts(), "source_conflict_count": 0}}},
+            {"companies": {expected[0]: {"indexed_official_financial_docs": []}}},
+            {"records": [_share_tie_out(expected[0])]},
+            {"companies": {}},
+        )["companies"][expected[0]]
+        truth["companies"][expected[0]] = qualified
         truth_path = Path(td) / "financial_truth_qualification.json"
         truth_path.write_text(json.dumps(truth), encoding="utf-8")
         positive = build(financial_truth_path=truth_path)

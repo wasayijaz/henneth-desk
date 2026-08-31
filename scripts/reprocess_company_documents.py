@@ -1158,13 +1158,21 @@ def _write_scoped_inputs(stage_dir: Path, raw_dir: Path, docs: list[tuple[Verifi
     return registry_path, queue_path
 
 
-def _diagnostic_page_records(fetched: FetchResult, *, max_pages: int = 25) -> list[dict[str, Any]]:
+def _diagnostic_page_records(
+    fetched: FetchResult, *, page_numbers: list[int] | None = None, max_pages: int = 25,
+) -> list[dict[str, Any]]:
     import pymupdf
 
     doc = pymupdf.open(stream=fetched.body, filetype="pdf")
     try:
         records = []
-        for index in range(min(len(doc), max_pages)):
+        if page_numbers:
+            if any(page > len(doc) for page in page_numbers):
+                raise DegradedDocument("diagnostic_page_out_of_range")
+            indexes = [page - 1 for page in page_numbers]
+        else:
+            indexes = range(min(len(doc), max_pages))
+        for index in indexes:
             page = doc[index]
             records.append({
                 "page": index + 1,
@@ -1176,7 +1184,7 @@ def _diagnostic_page_records(fetched: FetchResult, *, max_pages: int = 25) -> li
         doc.close()
 
 
-def _diagnose_document(doc: VerifiedDocument, fetched: FetchResult) -> dict[str, Any]:
+def _diagnose_document(doc: VerifiedDocument, fetched: FetchResult, page_numbers: list[int] | None = None) -> dict[str, Any]:
     parser_doc = {
         "doc_id": doc.doc_id,
         "title": doc.row.get("title") or doc.row.get("digest") or "",
@@ -1186,7 +1194,7 @@ def _diagnose_document(doc: VerifiedDocument, fetched: FetchResult) -> dict[str,
         "published_at": doc.row.get("published_at") or doc.row.get("date"),
         "retrieved_at": doc.row.get("retrieved_at"),
     }
-    summary = diagnose_page_records(parser_doc, _diagnostic_page_records(fetched))
+    summary = diagnose_page_records(parser_doc, _diagnostic_page_records(fetched, page_numbers=page_numbers))
     return {
         "doc_id": doc.doc_id,
         "status": "diagnosed",
@@ -1206,6 +1214,7 @@ def run_reprocess(
     transport: Any | None = None,
     consume: bool = False,
     diagnose: bool = False,
+    diagnostic_pages: Iterable[int] | None = None,
     _consumer: Callable[[Path, Path, Path, list[tuple[VerifiedDocument, FetchResult]]], dict[str, Any]] | None = None,
     receipts_path: Path | None = None,
     expected_allowlist: frozenset[str] = APPROVED_WAVE3_ALLOWLIST,
@@ -1221,6 +1230,11 @@ def run_reprocess(
 ) -> dict[str, Any]:
     if diagnose and (consume or _consumer is not None):
         raise UnsafeInput("diagnose mode cannot consume canonical state")
+    requested_diagnostic_pages = sorted(set(int(page) for page in (diagnostic_pages or [])))
+    if requested_diagnostic_pages and not diagnose:
+        raise UnsafeInput("diagnostic pages require diagnose mode")
+    if any(page < 1 for page in requested_diagnostic_pages) or len(requested_diagnostic_pages) > 32:
+        raise UnsafeInput("diagnostic pages must be 1-based and limited to 32")
     ids = validate_operator_ids(document_ids)
     allowlist = load_allowlist(allowlist_manifest, expected_allowlist)
     docs = resolve_documents(ids, state_root, allowlist)
@@ -1246,7 +1260,7 @@ def run_reprocess(
                     fetched = fetch_with_retained_fallback(
                         doc, transport, budget, root,
                         allow_oversized_chunk=(doc.doc_id in OVERSIZED_CHUNK_POLICIES))
-                    results.append(_diagnose_document(doc, fetched))
+                    results.append(_diagnose_document(doc, fetched, requested_diagnostic_pages))
                 except DegradedDocument as exc:
                     results.append({"doc_id": doc.doc_id, "status": "degraded", "reason": str(exc)})
                 continue
@@ -1407,10 +1421,13 @@ def main(argv: list[str] | None = None) -> int:
                         help="After offline transport validation, consume through existing canonical owners and receipt only verified durable results")
     parser.add_argument("--diagnose", action="store_true",
                         help="Fetch through exact-ID gates and emit bounded parser diagnostics only; writes no receipts or canonical state")
+    parser.add_argument("--diagnose-page", action="append", type=int,
+                        help="One original 1-based page for read-only diagnosis; repeat up to 32 times and use only with --diagnose")
     args = parser.parse_args(argv)
     try:
         result = run_reprocess(args.document_id, allowlist_manifest=args.allowlist_manifest,
-                               consume=args.consume, diagnose=args.diagnose)
+                               consume=args.consume, diagnose=args.diagnose,
+                               diagnostic_pages=args.diagnose_page)
     except UnsafeInput as exc:
         print(f"reprocess_company_documents: unsafe input: {exc}", file=sys.stderr)
         return 2
