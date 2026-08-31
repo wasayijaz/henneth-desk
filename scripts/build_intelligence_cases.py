@@ -991,7 +991,31 @@ def _mari_case(
             "Modelled": "Blocked: no source-qualified financial model or owner-approved assumptions are attached.",
             "Published": "Blocked: no forecast, valuation, reverse-expectations output, investor conclusion or release gate is complete.",
         },
-        "sections": {"analogues": market_context},
+        "sections": {
+            "mechanism": {
+                "status": "available",
+                "epistemic_type": "reported_fact",
+                "text": (
+                    "Observed E&P operating linkage only: MARI disclosed acquisition of working interest "
+                    "in Peshawar Block as operator, and a later MARI filing reported a 65% working interest "
+                    "with operatorship."
+                ),
+                "items": [{
+                    "id": "reported_working_interest_to_operator_linkage",
+                    "text": (
+                        "The two retained filings establish MARI's reported Peshawar Block interest and "
+                        "operating role, not a project outcome."
+                    ),
+                    "reason": (
+                        "Does not establish reserves, a commercial discovery, production, well cost, development "
+                        "timing, capex, operating cost, commodity exposure, project economics, or a forecast; it does "
+                        "not activate a financial model."
+                    ),
+                    "evidence": [ref, follow_ref],
+                }],
+            },
+            "analogues": market_context,
+        },
         "policy": _policy(deterministic_derived_context=True),
         "source_lineage": [ref, follow_ref],
     }

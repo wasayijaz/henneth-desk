@@ -163,6 +163,12 @@ def main() -> None:
     watch_items = sections["watch_next"].get("items") or []
     check(len(watch_items) == 4 and all(item.get("reason") for item in watch_items), "MLCF projected watch items missing source requirements")
     check(rows["MARI"]["intelligence_cases"] == first["companies"]["MARI"], "MARI case row not attached exactly")
+    projected_mari_case = next(case for case in rows["MARI"]["intelligence_cases"]["cases"] if case.get("case_id") == MARI_CASE_ID)
+    mari_mechanism = (projected_mari_case.get("sections") or {}).get("mechanism") or {}
+    check(mari_mechanism.get("status") == "available" and mari_mechanism.get("epistemic_type") == "reported_fact", "MARI reported mechanism was not projected")
+    mari_mechanism_refs = ((mari_mechanism.get("items") or [{}])[0].get("evidence") or [])
+    check([ref.get("document_id") for ref in mari_mechanism_refs] == ["psx:260446", "psx:271327"], "MARI mechanism source order mismatch")
+    check("not a project outcome" in str((mari_mechanism.get("items") or [{}])[0].get("text") or "") and "forecast" in str((mari_mechanism.get("items") or [{}])[0].get("reason") or ""), "MARI mechanism boundary missing")
     for symbol, row in rows.items():
         payload = row.get("intelligence_cases")
         if payload:

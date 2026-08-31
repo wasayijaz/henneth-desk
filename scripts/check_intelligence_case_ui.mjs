@@ -321,7 +321,9 @@ function main() {
   assert(liveMari.status === "available" && liveMari.items.length === 2 && liveMari.items.some(item => item.href === "/company/MARI/intelligence/" + MARI_CASE_ID) && liveMari.items.some(item => item.href === "/company/MARI/intelligence/" + MARI_SALES_CASE_ID), "live MARI E&P and sales-led case links projected");
   assert(api.findCase(liveBySymbol.MARI, MARI_CASE_ID, "MARI").ok, "live MARI working-interest route accepted");
   const liveMariMechanism = api.resolveSection(api.findCase(liveBySymbol.MARI, MARI_CASE_ID, "MARI").case, "mechanism");
-  assert(liveMariMechanism.status === "blocked" && liveMariMechanism.reason, "live MARI E&P mechanism remains blocked");
+  assert(liveMariMechanism.status === "available" && liveMariMechanism.epistemic_type === "reported_fact", "live MARI E&P mechanism is a reported-fact section");
+  assert(liveMariMechanism.items?.length === 1 && liveMariMechanism.items[0]?.evidence?.map(ref => ref.document_id).join(",") === "psx:260446,psx:271327", "live MARI E&P mechanism retains exact two-source linkage");
+  assert(/not a project outcome/.test(liveMariMechanism.items[0]?.text || "") && /forecast/.test(liveMariMechanism.items[0]?.reason || ""), "live MARI E&P mechanism retains formal-output boundary");
   const liveMariSales = api.findCase(liveBySymbol.MARI, MARI_SALES_CASE_ID, "MARI");
   assert(liveMariSales.ok && liveMariSales.case.status === "Observed" && liveMariSales.case.case_family === "ai_data_centre", "live MARI sales-led route accepted");
   const liveMariSalesMechanism = api.resolveSection(liveMariSales.case, "mechanism");

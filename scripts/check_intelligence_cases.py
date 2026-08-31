@@ -659,6 +659,23 @@ def main() -> None:
         (mari_follow.get("evidence") or [{}])[0],
         MARI_FOLLOW_THROUGH_EVENT_ID, MARI_FOLLOW_THROUGH_DOC_ID, 6,
     )
+    mari_mechanism = (mari_case.get("sections") or {}).get("mechanism") or {}
+    if mari_mechanism.get("status") != "available" or mari_mechanism.get("epistemic_type") != "reported_fact":
+        raise AssertionError("MARI mechanism must be an available reported fact")
+    mari_mechanism_text = str(mari_mechanism.get("text") or "")
+    for required in ("Peshawar Block", "65%", "operatorship"):
+        if required not in mari_mechanism_text:
+            raise AssertionError(f"MARI mechanism missing retained linkage: {required}")
+    mari_mechanism_item = (mari_mechanism.get("items") or [{}])[0]
+    mari_limitation = str(mari_mechanism_item.get("reason") or "")
+    for forbidden_claim in ("reserves", "commercial discovery", "production", "well cost", "capex", "project economics", "forecast"):
+        if forbidden_claim not in mari_limitation:
+            raise AssertionError(f"MARI mechanism boundary missing: {forbidden_claim}")
+    mari_mechanism_refs = mari_mechanism_item.get("evidence") or []
+    if len(mari_mechanism_refs) != 2:
+        raise AssertionError("MARI mechanism must retain exactly its two source refs")
+    _assert_evidence(mari_mechanism_refs[0], MARI_EVENT_ID, MARI_DOC_ID, 1)
+    _assert_evidence(mari_mechanism_refs[1], MARI_FOLLOW_THROUGH_EVENT_ID, MARI_FOLLOW_THROUGH_DOC_ID, 6)
     if "not independent-originator corroboration" not in str((mari_case.get("promotion_blocks") or {}).get("Corroborated")):
         raise AssertionError("MARI follow-through incorrectly promoted the case")
     _assert_mari_market_context(mari_case)
