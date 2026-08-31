@@ -59,6 +59,17 @@ MLCF_EXPECTED_SHARE_COUNT_COUNTER = {
     "available_on": None,
     "source": None,
 }
+MLCF_APPROVED_SHARE_COUNT_COUNTER = {
+    "status": "official_share_count_capital_note_tied_out",
+    "available_on": "2025-09-25",
+    "source": {
+        "id": "psx:260032",
+        "label": "MLCF Transmission of Annual Financial Statements for the Year Ended 30.06.2025",
+        "path": None,
+        "url": "https://dps.psx.com.pk/download/document/260032.pdf",
+    },
+    "limitation": "The source-bound official capital-note record satisfies the share-count tie-out gate.",
+}
 HEX64 = re.compile(r"^[0-9a-f]{64}$", re.I)
 
 MARI_CASE_ID = "case_mari_working_interest_observed_v1"
@@ -210,7 +221,8 @@ def _validate_share_count_counter(row: dict[str, Any]) -> dict[str, Any]:
     if not isinstance(source, dict):
         _fail("MLCF share-count counter section missing")
     allowed = {"status", "available_on", "source"}
-    if set(source) != allowed:
+    approved_allowed = allowed | {"limitation"}
+    if set(source) != allowed and set(source) != approved_allowed:
         _fail("MLCF share-count counter keys mismatch")
     status = source.get("status")
     available_on = source.get("available_on")
@@ -219,19 +231,16 @@ def _validate_share_count_counter(row: dict[str, Any]) -> dict[str, Any]:
         _fail("MLCF share-count counter status mismatch")
     if available_on is not None and (_date(available_on) != available_on):
         _fail("MLCF share-count counter available_on mismatch")
-    if source_label is not None and not isinstance(source_label, str):
-        _fail("MLCF share-count counter source type mismatch")
-    if {
-        "status": status,
-        "available_on": available_on,
-        "source": source_label,
-    } != MLCF_EXPECTED_SHARE_COUNT_COUNTER:
-        _fail("MLCF share-count counter source semantics mismatch")
-    return {
+    missing = {
         "status": status,
         "available_on": available_on,
         "source": source_label,
     }
+    if missing == MLCF_EXPECTED_SHARE_COUNT_COUNTER:
+        return missing
+    if source != MLCF_APPROVED_SHARE_COUNT_COUNTER:
+        _fail("MLCF share-count counter source semantics mismatch")
+    return source
 
 
 def _financial_truth_counters(qualification: dict[str, Any] | None = None) -> dict[str, Any]:

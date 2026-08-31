@@ -132,8 +132,19 @@ def _assert_mlcf_cement_readiness(case: dict) -> None:
         if row.get("required") != required or row.get("present") != present or row.get("qualified_periods") != periods:
             raise AssertionError(f"MLCF financial counter mismatch: {section}")
     share = counters.get("share_count") or {}
-    if share.get("status") != "missing_official_share_count_capital_note_tie_out" or share.get("available_on") is not None or share.get("source") is not None:
-        raise AssertionError("MLCF share-count tie-out must remain missing")
+    expected_share = {
+        "status": "official_share_count_capital_note_tied_out",
+        "available_on": "2025-09-25",
+        "source": {
+            "id": "psx:260032",
+            "label": "MLCF Transmission of Annual Financial Statements for the Year Ended 30.06.2025",
+            "path": None,
+            "url": "https://dps.psx.com.pk/download/document/260032.pdf",
+        },
+        "limitation": "The source-bound official capital-note record satisfies the share-count tie-out gate.",
+    }
+    if share != expected_share:
+        raise AssertionError("MLCF share-count tie-out projection mismatch")
     requirements = readiness.get("event_specific_kernel_requirements") or {}
     if not requirements or any(
         not isinstance(record, dict)
@@ -404,6 +415,10 @@ def _assert_builder_source_mutation_tests() -> None:
     _expect_builder_rejects(
         "bad share-count status",
         lambda inputs: inputs["financial_truth"]["companies"]["MLCF"]["share_count"].__setitem__("status", "ready"),
+    )
+    _expect_builder_rejects(
+        "bad share-count source id",
+        lambda inputs: inputs["financial_truth"]["companies"]["MLCF"]["share_count"]["source"].__setitem__("id", "psx:bad"),
     )
     _expect_builder_rejects(
         "bad share-count shape",

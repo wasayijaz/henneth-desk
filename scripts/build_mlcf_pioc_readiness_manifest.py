@@ -142,7 +142,9 @@ def _missing_inputs(
                 "annual_income_triplets": (truth.get("annual_income_triplets") or {}).get("present"),
                 "reported_quarter_fact_sets": (truth.get("qualified_reported_quarter_fact_sets") or {}).get("present"),
                 "annual_operating_cash_flow": (truth.get("annual_operating_cash_flow") or {}).get("present"),
-                "official_share_count_capital_note_tie_out": 0,
+                "official_share_count_capital_note_tie_out": int(
+                    (truth.get("share_count") or {}).get("status") == "official_share_count_capital_note_tied_out"
+                ),
             },
             "source_path": "state/company_intel/financial_truth_qualification.json",
         },

@@ -106,19 +106,83 @@ def _assert_missing_inputs(manifest: dict[str, Any]) -> None:
         raise AssertionError("PIOC financial-truth absence must be explicit")
     if inputs["pioc_model_input_row"].get("present") != 0:
         raise AssertionError("PIOC model-input absence must be explicit")
-    truth = inputs["mlcf_full_financial_truth_gate"]
-    present = truth.get("present") or {}
-    truth = ((load_json(STATE / "company_intel" / "financial_truth_qualification.json", {}).get("companies") or {}).get(MLCF) or {})
+    truth_gate = inputs["mlcf_full_financial_truth_gate"]
+    present = truth_gate.get("present") or {}
+    required_counts = truth_gate.get("required") or {}
+    truth_row = ((load_json(STATE / "company_intel" / "financial_truth_qualification.json", {}).get("companies") or {}).get(MLCF) or {})
     expected_present = {
-        "annual_income_triplets": int((truth.get("annual_income_triplets") or {}).get("present") or 0),
-        "reported_quarter_fact_sets": int((truth.get("qualified_reported_quarter_fact_sets") or {}).get("present") or 0),
-        "annual_operating_cash_flow": int((truth.get("annual_operating_cash_flow") or {}).get("present") or 0),
-        "official_share_count_capital_note_tie_out": int((truth.get("share_count") or {}).get("status") == "official_share_count_capital_note_tied_out"),
+        "annual_income_triplets": int((truth_row.get("annual_income_triplets") or {}).get("present") or 0),
+        "reported_quarter_fact_sets": int((truth_row.get("qualified_reported_quarter_fact_sets") or {}).get("present") or 0),
+        "annual_operating_cash_flow": int((truth_row.get("annual_operating_cash_flow") or {}).get("present") or 0),
+        "official_share_count_capital_note_tie_out": int((truth_row.get("share_count") or {}).get("status") == "official_share_count_capital_note_tied_out"),
     }
     if present != expected_present:
         raise AssertionError(f"MLCF financial-truth present counts drifted: {present}")
+    if required_counts.get("official_share_count_capital_note_tie_out") != 1:
+        raise AssertionError("share-capital tie-out requirement must stay exactly one official record")
+    if truth_gate.get("status") != "missing":
+        raise AssertionError("full financial-truth gate must stay missing while history gaps remain")
+    if inputs["event_specific_incremental_financial_bridge"].get("present") != []:
+        raise AssertionError("event-specific financial bridge must stay absent")
+    approvals = load_json(STATE / "company_intel" / "official_share_capital_approvals.json", {})
+    approved_tie_outs = [
+        record
+        for record in (approvals.get("records") or [])
+        if record.get("symbol") == MLCF
+        and record.get("approved") is True
+        and record.get("record_type") == "official_share_count_capital_note_tie_out"
+    ]
+    if len(approved_tie_outs) != expected_present["official_share_count_capital_note_tie_out"]:
+        raise AssertionError(
+            "approved share-capital records and financial-truth tie-out presence disagree: "
+            f"{len(approved_tie_outs)} approved vs {expected_present['official_share_count_capital_note_tie_out']} present"
+        )
     if inputs["mlcf_historical_adapter_scope"].get("status") != "insufficient_for_event_model":
         raise AssertionError("MLCF historical adapter scope must not be treated as event-model ready")
+
+
+def _synthetic_truth_with_share_count(status: str | None) -> dict[str, Any]:
+    truth = load_json(STATE / "company_intel" / "financial_truth_qualification.json", {})
+    row = dict(((truth.get("companies") or {}).get(MLCF) or {}))
+    if status is None:
+        row.pop("share_count", None)
+    else:
+        row["share_count"] = dict(row.get("share_count") or {}, status=status)
+    companies = dict(truth.get("companies") or {})
+    companies[MLCF] = row
+    return dict(truth, companies=companies)
+
+
+def _assert_tie_out_fail_closed() -> None:
+    """Without an owner-approved tied-out share count the manifest must report zero."""
+    intelligence_cases = load_json(STATE / "company_intel" / "intelligence_cases.json", {"companies": {}})
+    model_inputs = load_json(STATE / "company_intel" / "financial_model_inputs.json", {"companies": {}})
+    profiles = load_json(STATE / "company_profiles.json", {})
+    pilot_symbols = list((profiles.get("pilot") or {}).get("symbols") or [])
+    for label, synthetic in (
+        ("share-count gate is not tied out", _synthetic_truth_with_share_count("pending_official_capital_note")),
+        ("share-count row is absent", _synthetic_truth_with_share_count(None)),
+    ):
+        result = build(
+            write=False,
+            intelligence_cases=intelligence_cases,
+            financial_truth=synthetic,
+            model_inputs=model_inputs,
+            pilot_symbols=pilot_symbols,
+        )
+        manifest = ((result.get("companies") or {}).get(MLCF) or {}).get("manifest") or {}
+        inputs = {item.get("input_id"): item for item in manifest.get("missing_inputs") or []}
+        gate = inputs.get("mlcf_full_financial_truth_gate") or {}
+        tie_out = int((gate.get("present") or {}).get("official_share_count_capital_note_tie_out") or 0)
+        if tie_out != 0:
+            raise AssertionError(f"share-capital tie-out must fail closed when {label}")
+        if gate.get("status") != "missing":
+            raise AssertionError(f"financial-truth gate must stay missing when {label}")
+        if (inputs.get("event_specific_incremental_financial_bridge") or {}).get("present") != []:
+            raise AssertionError(f"event-specific financial bridge must stay absent when {label}")
+        policy = manifest.get("formal_output_policy") or {}
+        if policy.get("status") != "blocked" or policy.get("hard_block") is not True:
+            raise AssertionError(f"formal outputs must stay hard-blocked when {label}")
 
 
 def main() -> None:
@@ -177,6 +241,7 @@ def main() -> None:
     if {PUBLIC_OFFER_FACT_ID, FOLLOW_THROUGH_FACT_ID} - fact_ids:
         raise AssertionError("source intelligence case no longer contains required facts")
     _assert_missing_inputs(manifest)
+    _assert_tie_out_fail_closed()
     policy = manifest.get("formal_output_policy") or {}
     if policy.get("status") != "blocked" or policy.get("hard_block") is not True or policy.get("accepted_outputs") != []:
         raise AssertionError("formal output hard-block policy missing")

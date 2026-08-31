@@ -153,9 +153,15 @@
     "limitation": "This is the authoritative full-statement gate. Legacy three-line counters remain visibility-only and cannot activate formal engines."
    },
    "share_count": {
-    "status": "missing_official_share_count_capital_note_tie_out",
-    "available_on": null,
-    "source": null
+    "status": "official_share_count_capital_note_tied_out",
+    "available_on": "2025-09-25",
+    "source": {
+     "id": "psx:260032",
+     "label": "MLCF Transmission of Annual Financial Statements for the Year Ended 30.06.2025",
+     "path": null,
+     "url": "https://dps.psx.com.pk/download/document/260032.pdf"
+    },
+    "limitation": "The source-bound official capital-note record satisfies the share-count tie-out gate."
    },
    "financial_tie_out": {
     "status": "blocked",
@@ -193,12 +199,6 @@
     {
      "requirement": "qualified_reported_quarter_financial_statement_schedules",
      "required": 8,
-     "present": 0,
-     "status": "blocked"
-    },
-    {
-     "requirement": "official_share_count_capital_note_tie_out",
-     "required": 1,
      "present": 0,
      "status": "blocked"
     }
@@ -4721,9 +4721,9 @@
  },
  "_meta": {
   "generator_version": "ci_artifact_integrity_v1",
-  "source_commit_sha": "e4be870e4a560acb1b1109c645a1ddef0db27e3a",
-  "build_cutoff_at": "2026-08-31T11:57:24Z",
-  "generated_at": "2026-08-31T11:57:24Z",
+  "source_commit_sha": "bb80414bd98b16ab1b434d4be5db49f69cf002fe",
+  "build_cutoff_at": "2026-08-31T12:52:28Z",
+  "generated_at": "2026-08-31T12:52:28Z",
   "artifact_path": "state/company_intel/financial_truth_qualification.json",
   "timestamp_semantics": {
    "build_cutoff_at": "generation boundary only; not a source-effective or source-published time",
