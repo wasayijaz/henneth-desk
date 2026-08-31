@@ -275,6 +275,24 @@ def main() -> None:
     bad = copy.deepcopy(fixture)
     bad["scenario_runs"][0]["case"]["inputs"]["starting_revenue_pkr"]["value"] = True
     check("bool numeric rejected", bool(contract.validate_case_run(bad)))
+    # Integer magnitude is bounded before any canonical JSON or receipt hash;
+    # both nested containers and the exact boundary are covered here.
+    projected, projection_errors = contract.safe_json_projection(
+        {"nested": [contract.MAX_ABS_INTEGER, {"ok": -contract.MAX_ABS_INTEGER}]}
+    )
+    check("integer boundary remains valid", not projection_errors and projected["nested"][0] == contract.MAX_ABS_INTEGER)
+    giant = copy.deepcopy(real)
+    giant["retained_projection"]["derivation"]["huge"] = 10**100000
+    try:
+        giant_errors = contract.validate_case_run(giant)
+    except Exception as error:
+        raise AssertionError(f"giant integer raised: {error}")
+    check("giant integer rejected without raising", bool(giant_errors) and any("integer exceeds magnitude limit" in item for item in giant_errors))
+    class SneakyList(list):
+        pass
+    list_alias = copy.deepcopy(real)
+    list_alias["input_lineage"] = SneakyList(list_alias["input_lineage"])
+    check("list subclass rejected", bool(contract.validate_case_run(list_alias)))
 
     source = Path(adapter.__file__).read_text(encoding="utf-8").lower()
     check("adapter no writer/network symbols", not any(token in source for token in ("save_json", "requests", "urllib", "httpx")))

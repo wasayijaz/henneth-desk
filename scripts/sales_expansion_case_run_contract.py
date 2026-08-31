@@ -37,6 +37,7 @@ ADVICE_RE = re.compile(
 MAX_JSON_DEPTH = 48
 MAX_JSON_NODES = 20_000
 MAX_STRING_LENGTH = 20_000
+MAX_ABS_INTEGER = 10**16
 
 
 def canonical_json(value: Any) -> str:
@@ -95,7 +96,11 @@ def safe_json_projection(value: Any) -> tuple[Any, list[str]]:
             if len(item) > MAX_STRING_LENGTH:
                 return None, [f"{path}: string exceeds {MAX_STRING_LENGTH} characters"]
             return item, []
-        if item is None or type(item) is bool or type(item) is int:
+        if item is None or type(item) is bool:
+            return item, []
+        if type(item) is int:
+            if abs(item) > MAX_ABS_INTEGER:
+                return None, [f"{path}: integer exceeds magnitude limit {MAX_ABS_INTEGER}"]
             return item, []
         if type(item) is float:
             if not math.isfinite(item):
