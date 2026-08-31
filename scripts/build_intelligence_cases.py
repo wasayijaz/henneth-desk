@@ -47,7 +47,7 @@ def _iso_time(value: Any) -> str | None:
 def _event(ledger: dict[str, Any], symbol: str, event_id: str) -> dict[str, Any] | None:
     events = (((ledger.get("companies") or {}).get(symbol) or {}).get("events") or [])
     for event in events:
-        if isinstance(event, dict) and event.get("event_id") == event_id:
+        if isinstance(event, dict) and event.get("event_id") == event_id and event.get("tickers") == [symbol]:
             return event
     return None
 
@@ -57,12 +57,12 @@ def _document(documents: dict[str, Any], doc_id: str) -> dict[str, Any] | None:
     return document if isinstance(document, dict) else None
 
 
-def _evidence_ref(event: dict[str, Any], document: dict[str, Any], page: int, content_hash: str) -> dict[str, Any] | None:
+def _evidence_ref(event: dict[str, Any], document: dict[str, Any], symbol: str, page: int, content_hash: str) -> dict[str, Any] | None:
     if event.get("doc_id") != document.get("doc_id") or document.get("status") != "ready":
         return None
     if content_hash and document.get("content_sha256") != content_hash:
         return None
-    if not isinstance(document.get("tickers"), list) or len(document["tickers"]) != 1:
+    if document.get("tickers") != [symbol]:
         return None
     source_url = document.get("source_url")
     for evidence in event.get("evidence") or []:
@@ -120,8 +120,8 @@ def _mlcf_case(ledger: dict[str, Any], documents: dict[str, Any]) -> tuple[dict[
     follow_event = _event(ledger, "MLCF", FOLLOW_THROUGH_EVENT_ID)
     offer_doc = _document(documents, PUBLIC_OFFER_DOC_ID)
     follow_doc = _document(documents, FOLLOW_THROUGH_DOC_ID)
-    offer_ref = _evidence_ref(offer_event, offer_doc, 3, "98cf83c9a286999c8006a7f73f490248f26694c9edbfc815b3dbd9188ee22a54") if offer_event and offer_doc else None
-    follow_ref = _evidence_ref(follow_event, follow_doc, 4, "744a0c710043d6e0a7de36bb99f21ca50f0f9346f6972b957f6733a47deae11f") if follow_event and follow_doc else None
+    offer_ref = _evidence_ref(offer_event, offer_doc, "MLCF", 3, "98cf83c9a286999c8006a7f73f490248f26694c9edbfc815b3dbd9188ee22a54") if offer_event and offer_doc else None
+    follow_ref = _evidence_ref(follow_event, follow_doc, "MLCF", 4, "744a0c710043d6e0a7de36bb99f21ca50f0f9346f6972b957f6733a47deae11f") if follow_event and follow_doc else None
     if not offer_ref or not follow_ref:
         return None, ["mlcf_retained_source_mismatch"]
     refs = [offer_ref, follow_ref]
@@ -176,7 +176,7 @@ def _mlcf_case(ledger: dict[str, Any], documents: dict[str, Any]) -> tuple[dict[
 def _mari_case(ledger: dict[str, Any], documents: dict[str, Any]) -> tuple[dict[str, Any] | None, list[str]]:
     event = _event(ledger, "MARI", MARI_EVENT_ID)
     document = _document(documents, MARI_DOC_ID)
-    ref = _evidence_ref(event, document, 1, MARI_DOC_HASH) if event and document else None
+    ref = _evidence_ref(event, document, "MARI", 1, MARI_DOC_HASH) if event and document else None
     if not ref:
         return None, ["mari_retained_source_mismatch"]
     return {

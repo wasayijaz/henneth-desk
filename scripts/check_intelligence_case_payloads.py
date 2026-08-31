@@ -6,10 +6,12 @@ import hashlib
 import json
 import re
 import sys
+from copy import deepcopy
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from build_ci_slice import build as build_slice
+from build_ci_slice import _intelligence_case_row, build as build_slice
+import build_intelligence_cases as case_builder
 from build_intelligence_cases import (
     FOLLOW_THROUGH_DOC_ID,
     FOLLOW_THROUGH_EVENT_ID,
@@ -96,6 +98,24 @@ def main() -> None:
     assert_evidence(mari_fact["evidence"][0], MARI_EVENT_ID, MARI_DOC_ID, 1, MARI_DOC_HASH)
     check(MARI_DOC_ID != "psx:265594" and MARI_DOC_HASH == "c13ccb4de58ad005bca106942721490593fe219ff45906c68280ea7856192e42", "MARI strategy document substituted")
 
+    ledger = load_json(STATE / "company_event_ledger.json", {"companies": {}})
+    documents = load_json(STATE / "company_documents.json", {"documents": {}})
+    for symbol, event_id, doc_id, case_fn in (
+        ("MLCF", PUBLIC_OFFER_EVENT_ID, PUBLIC_OFFER_DOC_ID, case_builder._mlcf_case),
+        ("MARI", MARI_EVENT_ID, MARI_DOC_ID, case_builder._mari_case),
+    ):
+        for hostile_tickers in (["OTHER"], [], [symbol, "OTHER"], [1]):
+            hostile_ledger = deepcopy(ledger)
+            event = next(item for item in hostile_ledger["companies"][symbol]["events"] if item.get("event_id") == event_id)
+            event["tickers"] = hostile_tickers
+            case, _reasons = case_fn(hostile_ledger, documents)
+            check(case is None, f"{symbol} malformed event ticker binding was not rejected")
+        for hostile_tickers in (["OTHER"], [], [symbol, "OTHER"], [1]):
+            hostile_documents = deepcopy(documents)
+            hostile_documents["documents"][doc_id]["tickers"] = hostile_tickers
+            case, _reasons = case_fn(ledger, hostile_documents)
+            check(case is None, f"{symbol} malformed document ticker binding was not rejected")
+
     for case in (mlcf, mari):
         check(case["promotion_blocks"].keys() >= {"Corroborated", "Modelled", "Published"}, f"promotion blocks missing for {case['case_id']}")
         check(all(case["policy"].get(key) is True for key in ("observed_only", "no_forecast", "no_valuation", "no_market_expectations", "no_recommendation", "reported_values_only")), f"policy missing for {case['case_id']}")
@@ -110,10 +130,13 @@ def main() -> None:
     check(rows["MLCF"]["intelligence_cases"] == first["companies"]["MLCF"], "MLCF case row not attached exactly")
     check(rows["MARI"]["intelligence_cases"] == first["companies"]["MARI"], "MARI case row not attached exactly")
     for symbol, row in rows.items():
-        payload = row.get("intelligence_cases") or {}
-        check(payload.get("symbol") == symbol, f"case payload crossed ticker boundary: {symbol}")
+        payload = row.get("intelligence_cases")
+        if payload:
+            check(payload.get("symbol") == symbol, f"case payload crossed ticker boundary: {symbol}")
         if symbol not in {"MLCF", "MARI"}:
-            check(payload.get("case_count") == 0 and payload.get("cases") == [], f"unexpected case on {symbol}")
+            check(payload is None or (payload.get("case_count") == 0 and payload.get("cases") == []), f"unexpected case on {symbol}")
+    check(_intelligence_case_row({}, "MLCF") is None, "missing case state produced a synthetic row")
+    check(_intelligence_case_row({"companies": {"MLCF": {"symbol": "MARI", "case_count": 1}}}, "MLCF") is None, "mismatched case state crossed ticker boundary")
 
     after = snapshot(watched)
     check(before == after, "payload checker wrote an artifact")
