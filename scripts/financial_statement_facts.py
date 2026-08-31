@@ -293,6 +293,36 @@ def _has_header_noise(lines: list[dict[str, Any]], duration_band: list[dict[str,
     return len(basis_seen) > 1 or len(scale_seen) > 1
 
 
+def _has_exact_local_period(lines: list[dict[str, Any]], manifest_date: date,
+                            year: int, duration_band: list[dict[str, Any]]) -> bool:
+    """Require an independently bound local statement date before year-shifting.
+
+    Some PSX filings are published in the following calendar year while their
+    statement table remains headed by the prior reporting year.  A shifted
+    header is safe only when the page itself carries the exact day/month of the
+    bound period immediately above the candidate table; publication metadata
+    or a date elsewhere on the page is not sufficient evidence.
+    """
+    if year < 1900:
+        return False
+    day, month = manifest_date.day, manifest_date.month
+    numeric = re.compile(rf"\b{day}[./-]{month}[./-]{year}\b")
+    named_month = date(year, month, day).strftime("%B")
+    named = re.compile(rf"\b{named_month}\s+{day}(?:st|nd|rd|th)?[,]?\s+{year}\b", re.I)
+    duration_y0 = min(float(item["y0"]) for item in duration_band)
+    for line in lines:
+        # The period label must belong to this visual table rather than an
+        # unrelated narrative or another statement on the same page.
+        if not 0 <= duration_y0 - float(line["y1"]) <= 45:
+            continue
+        text = str(line.get("text") or "")
+        if not re.search(r"\b(?:ended|ending|period)\b", text, re.I):
+            continue
+        if numeric.search(text) or named.search(text):
+            return True
+    return False
+
+
 def _wrapped_header_descriptors(lines: list[dict[str, Any]], occurrences: list[dict[str, Any]],
                                 manifest_date: date) -> list[dict[str, Any]]:
     current_year = manifest_date.year
@@ -319,17 +349,32 @@ def _wrapped_header_descriptors(lines: list[dict[str, Any]], occurrences: list[d
         months = [int(d["months"]) for d in durations]
         if len(set(months)) != len(months):
             continue
-        expected_years = [year for _ in durations for year in (current_year, prior_year)]
+        year_pairs = [(current_year, prior_year)]
+        # A filing published in the next calendar year can still carry a
+        # prior-year statement table.  Permit that narrow shift only when the
+        # local page proves the exact bound period date (e.g. 31.12.2025).
+        shifted_period_proven = _has_exact_local_period(
+            lines, manifest_date, current_year - 1, durations,
+        )
+        if shifted_period_proven:
+            year_pairs.append((current_year - 1, current_year - 2))
         eligible = []
         duration_y1 = max(float(d["y1"]) for d in durations)
         for year_band in year_bands:
             headers = sorted(year_band, key=lambda h: h["cx"])
             if len(headers) != 2 * len(durations):
                 continue
-            if any(h["year"] > current_year for h in headers):
-                continue
             year_gap = min(float(h["y0"]) for h in headers) - duration_y1
-            if not (0 <= year_gap <= 60):
+            # PSX tables may print exact day/month/year headers on the line
+            # immediately below (and a few points overlapping) the wrapped
+            # duration labels.  Permit only that bounded overlap when the
+            # page proves the independently bound period date.
+            date_header_band = all(re.fullmatch(r"\d{1,2}[./-]\d{1,2}[./-]20\d{2}", str(h.get("text") or "")) for h in headers)
+            local_date_proven = (
+                _has_exact_local_period(lines, manifest_date, current_year, durations)
+                or shifted_period_proven
+            )
+            if not (0 <= year_gap <= 60 or (date_header_band and local_date_proven and -12 <= year_gap < 0)):
                 continue
             header_min_x = min(float(h["x0"]) for h in headers)
             header_max_x = max(float(h["x1"]) for h in headers)
@@ -345,15 +390,20 @@ def _wrapped_header_descriptors(lines: list[dict[str, Any]], occurrences: list[d
                             if re.fullmatch(r"notes?", tok["text"], re.I)), default=header_min_x)
                    > header_max_x for line in lines):
                 continue
-            if [h["year"] for h in headers] != expected_years:
-                continue
-            if _has_header_noise(lines, durations, headers):
-                continue
-            assigned = []
-            for idx, duration in enumerate(durations):
-                for header in headers[idx * 2:idx * 2 + 2]:
-                    assigned.append({**header, "duration_months": duration["months"], "group_cx": duration["cx"]})
-            eligible.append({"line": _synthetic_header_line(headers, durations), "headers": assigned})
+            for pair_current, pair_prior in year_pairs:
+                expected_years = [year for _ in durations for year in (pair_current, pair_prior)]
+                if [h["year"] for h in headers] != expected_years:
+                    continue
+                if any(h["year"] > pair_current for h in headers):
+                    continue
+                if _has_header_noise(lines, durations, headers):
+                    continue
+                assigned = []
+                for idx, duration in enumerate(durations):
+                    for header in headers[idx * 2:idx * 2 + 2]:
+                        assigned.append({**header, "duration_months": duration["months"], "group_cx": duration["cx"]})
+                eligible.append({"line": _synthetic_header_line(headers, durations),
+                                 "headers": assigned, "period_year": pair_current})
         if len(eligible) == 1:
             candidates.extend(eligible)
     return candidates
@@ -787,7 +837,8 @@ def _structured_page_facts(doc: dict[str, Any], page_no: int, page_words: list[t
                 period_end = date(header["year"], manifest_date.month, manifest_date.day).isoformat()
             except ValueError:
                 continue
-            role = "current_period" if header["year"] == manifest_date.year else "comparative_prior_period"
+            header_current_year = int(headers.get("period_year") or manifest_date.year)
+            role = "current_period" if header["year"] == header_current_year else "comparative_prior_period"
             flags: list[str] = []
             if not basis:
                 flags.append("missing_consolidation_basis")

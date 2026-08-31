@@ -173,6 +173,64 @@ def main() -> int:
                and f["duration_months"] == 3 and f["consolidation"] == "consolidated" and f["currency"] == "PKR"
                and f["unit"] in {"PKR", "PKR/share"} and f["readiness"] == "model_loadable" for f in q1_by_line.values())
 
+    # MARI Q2 geometry: the filing is published in 2026, while the local
+    # statement period is explicitly 31.12.2025 and its wrapped year headers
+    # are 2025/2024.  The strict shifted-year rule may bind the direct 3M
+    # current column, retaining consolidated basis, scale and source identity.
+    mari_words = [
+        _w(50, 50, "Consolidated", 0, 0), _w(125, 50, "statement", 0, 0, 1),
+        _w(205, 50, "of", 0, 0, 2), _w(230, 50, "profit", 0, 0, 3),
+        _w(275, 50, "or", 0, 0, 4), _w(300, 50, "loss", 0, 0, 5),
+        _w(80, 75, "For", 0, 1), _w(110, 75, "the", 0, 1, 1),
+        _w(140, 75, "period", 0, 1, 2), _w(185, 75, "ended", 0, 1, 3),
+        _w(240, 75, "31.12.2025", 0, 1, 4),
+        _w(268, 105, "Quarter", 1, 0), _w(305, 105, "ended", 1, 0, 1),
+        _w(428, 105, "Six", 1, 1), _w(450, 105, "months", 1, 1, 1), _w(495, 105, "ended", 1, 1, 2),
+        _w(280, 130, "2025", 2, 0), _w(355, 130, "2024", 2, 1),
+        _w(435, 130, "2025", 2, 2), _w(510, 130, "2024", 2, 3),
+        _w(180, 150, "(Rupees", 2, 4), _w(230, 150, "in", 2, 4, 1), _w(245, 150, "thousand)", 2, 4, 2),
+        _w(50, 180, "Revenue", 3, 0), _w(280, 180, "300", 3, 1), _w(355, 180, "250", 3, 2), _w(435, 180, "700", 3, 3), _w(510, 180, "650", 3, 4),
+        _w(50, 205, "Profit", 4, 0), _w(90, 205, "after", 4, 0, 1), _w(125, 205, "taxation", 4, 0, 2), _w(180, 205, "attributable", 4, 0, 3), _w(245, 205, "to", 4, 0, 4), _w(265, 205, "owners", 4, 0, 5), _w(280, 205, "of", 4, 0, 6), _w(300, 205, "the", 4, 0, 7), _w(325, 205, "parent", 4, 0, 8),
+        _w(280, 205, "30", 4, 1), _w(355, 205, "20", 4, 2), _w(435, 205, "80", 4, 3), _w(510, 205, "70", 4, 4),
+        _w(50, 230, "Earnings", 5, 0), _w(105, 230, "per", 5, 0, 1), _w(130, 230, "share", 5, 0, 2),
+        _w(280, 230, "3.0", 5, 1), _w(355, 230, "2.0", 5, 2), _w(435, 230, "7.0", 5, 3), _w(510, 230, "6.0", 5, 4),
+    ]
+    mari_doc = {"doc_id": "psx:271327", "title": "Transmission of Quarterly Financial Statements",
+                "source_url": "https://dps.psx.com.pk/download/document/271327.pdf",
+                "content_sha256": "e53fccd6eca58c685dbf9225140056303be704b1f389b876ba33d87aa4b687b3",
+                "period_end": "2026-12-31", "published_at": "2026-02-27T09:03:00+05:00"}
+    mari_facts = extract_facts(mari_doc, ["Consolidated statement of profit or loss for the period ended 31.12.2025"],
+                                [mari_words], [{"page": 38, "text": "Consolidated statement of profit or loss for the period ended 31.12.2025", "words": mari_words}])
+    mari_current = {f["line"]: f for f in mari_facts if f["column_role"] == "current_period" and f["duration_months"] == 3}
+    assert set(mari_current) == {"revenue", "profit_after_tax_attributable", "basic_eps"}
+    assert {line: mari_current[line]["value"] for line in mari_current} == {"revenue": 300_000, "profit_after_tax_attributable": 30_000, "basic_eps": 3.0}
+    assert all(f["period_end"] == "2025-12-31" and f["consolidation"] == "consolidated" and f["readiness"] == "model_loadable" and f["page"] == 38 and f["content_sha256"] == mari_doc["content_sha256"] for f in mari_current.values())
+
+    # The same geometry without a local consolidated basis is audit-only; it
+    # must never become a model-loadable direct-quarter triplet.
+    mari_no_basis = [tuple(list(w[:4]) + [w[4].replace("Consolidated", "Statement")] + list(w[5:])) if w[4] == "Consolidated" else w for w in mari_words]
+    no_basis_facts = extract_facts({**mari_doc, "doc_id": "mari-no-basis"}, ["Statement of profit or loss for the period ended 31.12.2025"], [mari_no_basis], [{"page": 38, "text": "Statement of profit or loss for the period ended 31.12.2025", "words": mari_no_basis}])
+    assert no_basis_facts and all(f["readiness"] == "audit_only" and f["consolidation"] is None for f in no_basis_facts)
+
+    # A shifted year without an exact independently bound period must fail
+    # closed rather than relabelling an unrelated table as the current quarter.
+    mismatched = extract_facts({**mari_doc, "doc_id": "mari-mismatched-period", "period_end": "2026-11-30"}, ["Consolidated statement of profit or loss for the period ended 31.12.2025"], [mari_words], [{"page": 38, "text": "Consolidated statement of profit or loss for the period ended 31.12.2025", "words": mari_words}])
+    assert not [f for f in mismatched if f["column_role"] == "current_period" and f["duration_months"] == 3]
+
+    # A matching date elsewhere on the page cannot authorize a different
+    # wrapped table.  The proof must sit immediately above its duration band.
+    remote_date_words = [
+        (word[0], 5.0, word[2], 15.0, *word[4:]) if word[1] == 75 else word
+        for word in mari_words
+    ]
+    remote_date = extract_facts(
+        mari_doc,
+        ["Consolidated statement of profit or loss for the period ended 31.12.2025"],
+        [remote_date_words],
+        [{"page": 38, "text": "Consolidated statement of profit or loss for the period ended 31.12.2025", "words": remote_date_words}],
+    )
+    assert not [f for f in remote_date if f["column_role"] == "current_period" and f["duration_months"] == 3]
+
     # Wrong basis must not be promoted as consolidated evidence.
     bad_words = [tuple(list(w[:4]) + [w[4].replace("CONSOLIDATED", "UNCONSOLIDATED")] + list(w[5:])) if w[4] == "CONSOLIDATED" else w for w in ([
         _w(50, 40, "CONSOLIDATED", 0, 0), _w(130, 40, "Statement", 0, 0, 1), _w(220, 40, "of", 0, 0, 2), _w(250, 40, "Profit", 0, 0, 3), _w(300, 40, "or", 0, 0, 4), _w(325, 40, "Loss", 0, 0, 5)])]
