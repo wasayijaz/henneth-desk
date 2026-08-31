@@ -47,6 +47,7 @@ ALLOWED_ENGINE_INPUTS = frozenset({
     "discount_rate_pct_annual",
     "geological_success_pct",
     "commercial_success_pct",
+    "operator_status",
     "shares_out",
     "market_gap_pkr",
 })

@@ -147,12 +147,35 @@ def main() -> None:
               for item in row["quarterly_schedule"]))
     check("fixture labels produce distinct receipts",
           len({row["input_sha256"] for row in fixture["scenario_runs"]}) == 3)
+    check("fixture input fields include hardened kernel requirements",
+          all("operator_status" in row["input_fields"] and "shares_out" in row["input_fields"]
+              for row in fixture["scenario_runs"]))
     check("fixture contains analyst provenance for every input",
-          len(fixture["input_lineage"]) == 3 * 19
+          len(fixture["input_lineage"]) == 3 * 20
           and all(row["label_type"] == "analyst"
                   and row["status"] == "fixture_only"
                   and row["analyst_ref"]["note"].startswith("synthetic_fixture_only_")
                   for row in fixture["input_lineage"]))
+    fixture_operator_statuses = {
+        row["case_label"]: row["value"]
+        for row in fixture["input_lineage"]
+        if row["field"] == "operator_status"
+    }
+    check("fixture operator statuses are explicit descriptive inputs",
+          fixture_operator_statuses == {"bear": "operator", "base": "operator", "bull": "non_operator"})
+    check("fixture receipt hashes pinned",
+          {row["case_label"]: row["input_sha256"] for row in fixture["scenario_runs"]}
+          == {
+              "bear": "f1ec3bd18471b876bbc440123dde09bedc50e3d4d88b578886bbde1f48bf3652",
+              "base": "cd44aad48e26b7dfb3069f836545da52c87f551d2af5c7b2cbe67b5b40990d9f",
+              "bull": "705cc0095cbeb64133b16087e5b887fb80aab5c5a29d9ccdab5cb0b4061ae780",
+          }
+          and {row["case_label"]: row["fixture_hash"] for row in fixture["scenario_runs"]}
+          == {
+              "bear": "0a7d4787d77bb7fbaac12230d8c381e2fc27a352467e4a70c9f67947bfd23a2f",
+              "base": "0a824a4d9f484c9c9144b2e981afa9ce44e92fcbe5e2587e25cd41af46911194",
+              "bull": "46b93352efa4e21ab53e114645db09b620b11bf72701fde015e3f57151876a6a",
+          })
     check("fixture does not activate formal outputs",
           fixture["formal_output_readiness"]["status"] == "blocked_fixture_only"
           and {row["blocked_reason"] for row in fixture["formal_output_readiness"]["products"]}
@@ -170,6 +193,17 @@ def main() -> None:
     mutated["scenario_runs"][0]["values"]["risked_npv_pkr"] += 1.0
     check("mutation changes copied fixture only", json.dumps(fixture, sort_keys=True) == frozen
           and json.dumps(mutated, sort_keys=True) != frozen)
+    operator_case = adapter._synthetic_case("base")
+    operator_result = enp_event_engine.evaluate_case(operator_case)
+    non_operator_case = copy.deepcopy(operator_case)
+    non_operator_case["inputs"]["operator_status"]["value"] = "non_operator"
+    non_operator_result = enp_event_engine.evaluate_case(non_operator_case)
+    check("operator status changes receipt but not arithmetic",
+          operator_result["run_receipt"]["inputs_sha256"] != non_operator_result["run_receipt"]["inputs_sha256"]
+          and operator_result["values"] == non_operator_result["values"]
+          and operator_result["per_share"] == non_operator_result["per_share"]
+          and operator_result["probabilities"] == non_operator_result["probabilities"]
+          and operator_result["quarterly_schedule"] == non_operator_result["quarterly_schedule"])
 
     bad_envelope = copy.deepcopy(real)
     bad_envelope["extra"] = True
@@ -375,16 +409,58 @@ def main() -> None:
     bad_case["inputs"]["surprise_field"] = adapter._analyst(1.0, "synthetic_fixture_only_bad")
     check("strict engine-case wrapper rejects unknown input",
           "surprise_field: unknown E&P input field" in contract.validate_engine_case(bad_case))
+    non_operator_case = adapter._synthetic_case("bull")
+    check("strict engine-case wrapper accepts synthetic non-operator",
+          contract.validate_engine_case(non_operator_case) == [])
+    missing_operator = adapter._synthetic_case("base")
+    missing_operator["inputs"].pop("operator_status")
+    check("strict engine-case wrapper rejects missing operator status",
+          "operator_status: missing required input" in contract.validate_engine_case(missing_operator))
+    invalid_operator = adapter._synthetic_case("base")
+    invalid_operator["inputs"]["operator_status"]["value"] = "operator_from_text"
+    check("strict engine-case wrapper rejects invalid operator status",
+          "operator_status: must be operator or non_operator" in contract.validate_engine_case(invalid_operator))
+    bool_operator = adapter._synthetic_case("base")
+    bool_operator["inputs"]["operator_status"]["value"] = True
+    check("strict engine-case wrapper rejects boolean operator status",
+          "operator_status: must be operator or non_operator" in contract.validate_engine_case(bool_operator))
+    missing_shares = adapter._synthetic_case("base")
+    missing_shares["inputs"].pop("shares_out")
+    check("strict engine-case wrapper rejects missing shares_out",
+          "shares_out: missing required input" in contract.validate_engine_case(missing_shares))
     bad_case2 = adapter._synthetic_case("base")
     bad_case2["inputs"]["working_interest_pct"]["value"] = float("inf")
     check("strict engine-case wrapper rejects nonfinite input",
           any("working_interest_pct: must be a finite number" in violation
               for violation in contract.validate_engine_case(bad_case2)))
+    oversized_case = adapter._synthetic_case("base")
+    oversized_case["inputs"]["fx_pkr_usd"]["value"] = 1.0e101
+    check("strict engine-case wrapper rejects oversized finite input",
+          any("fx_pkr_usd: must be a finite number" in violation
+              for violation in contract.validate_engine_case(oversized_case)))
     bad_case3 = adapter._synthetic_case("base")
     bad_case3["inputs"]["working_interest_pct"]["available_on"] = "2026-01-01"
     check("strict engine-case wrapper rejects lookahead input",
           any("working_interest_pct: available_on must be on or before valuation_date" in violation
               for violation in contract.validate_engine_case(bad_case3)))
+    bad_case4 = adapter._synthetic_case("base")
+    bad_case4["valuation_date"] = "2025-12-XX"
+    check("strict engine-case wrapper rejects malformed valuation date",
+          any("valuation_date: must be an ISO date" in violation
+              for violation in contract.validate_engine_case(bad_case4)))
+    duplicate_spend = adapter._synthetic_case("base")
+    duplicate_spend["inputs"]["spend_schedule"]["value"].append(
+        copy.deepcopy(duplicate_spend["inputs"]["spend_schedule"]["value"][0])
+    )
+    check("strict engine-case wrapper rejects duplicate spend row",
+          any("duplicate spend row" in violation
+              for violation in contract.validate_engine_case(duplicate_spend)))
+    class DictAlias(dict):
+        pass
+    alias_case = DictAlias(adapter._synthetic_case("base"))
+    check("strict engine-case wrapper rejects dict aliases",
+          any("case: must be an exact mapping" in violation
+              for violation in contract.validate_engine_case(alias_case)))
 
     assert_clean(real, "real")
     assert_clean(fixture, "fixture")

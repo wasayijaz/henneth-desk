@@ -387,6 +387,7 @@ def _fixture_lineage(label: str, engine_lineage: list[Mapping[str, Any]]) -> lis
 def _synthetic_case(label: str) -> dict[str, Any]:
     profile = {
         "bear": {
+            "operator_status": "operator",
             "working_interest_pct": 20.0,
             "spend": [1.2e9, 0.7e9, 4.2e9],
             "initial_production_boe_pd": 750.0,
@@ -397,6 +398,7 @@ def _synthetic_case(label: str) -> dict[str, Any]:
             "commercial_success_pct": 45.0,
         },
         "base": {
+            "operator_status": "operator",
             "working_interest_pct": 35.0,
             "spend": [1.0e9, 0.6e9, 3.4e9],
             "initial_production_boe_pd": 1250.0,
@@ -407,6 +409,7 @@ def _synthetic_case(label: str) -> dict[str, Any]:
             "commercial_success_pct": 58.0,
         },
         "bull": {
+            "operator_status": "non_operator",
             "working_interest_pct": 50.0,
             "spend": [0.9e9, 0.5e9, 2.8e9],
             "initial_production_boe_pd": 1900.0,
@@ -447,6 +450,7 @@ def _synthetic_case(label: str) -> dict[str, Any]:
             "discount_rate_pct_annual": _analyst(16.0, note),
             "geological_success_pct": _analyst(profile["geological_success_pct"], note),
             "commercial_success_pct": _analyst(profile["commercial_success_pct"], note),
+            "operator_status": _analyst(profile["operator_status"], note),
             "shares_out": _analyst(1_000_000_000.0, note),
         },
     }
