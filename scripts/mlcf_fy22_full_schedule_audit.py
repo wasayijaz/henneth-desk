@@ -21,6 +21,8 @@ OUT = ROOT / "state/company_intel/mlcf_fy22_full_schedule_audit.json"
 DOCUMENT_ID = "psx:194111"
 SOURCE_URL = "https://financials.psx.com.pk/lib/DownloadPDF.php?id=194111"
 EXPECTED_HASH = "5103d0a5eaaa8ce2c8c435ae50de6ee5000248ad05094e3f0ac086212e687aae"
+MISSING_OFFICIAL_AVAILABILITY_REASON = "source_manifest_has_no_official_published_at_or_available_on"
+OFFICIAL_AVAILABILITY_REQUIREMENT = "official availability-date binding from source manifest published_at or available_on"
 
 SPECS: dict[str, tuple[str, list[tuple[int, str]]]] = {
     "balance_sheet": ("balance_sheet", [
@@ -136,6 +138,8 @@ def _extract(page: pymupdf.Page, canonical: str, pattern: str, scale: int) -> di
         "cell_geometry": {"current": _bbox([cur[0]]), "comparison": _bbox([comp[0]])},
         "status": "audit_only",
         "promotion_status": "blocked",
+        "model_readiness": "not_ready",
+        "model_readiness_reason": MISSING_OFFICIAL_AVAILABILITY_REASON,
         "document_id": DOCUMENT_ID,
         "source_url": SOURCE_URL,
         "content_sha256": EXPECTED_HASH,
@@ -149,6 +153,14 @@ def build() -> dict[str, object]:
     digest = hashlib.sha256(raw).hexdigest()
     if digest != EXPECTED_HASH or manifest_row.get("content_sha256") != EXPECTED_HASH:
         raise ValueError("FY2022 original-byte hash mismatch")
+    official_availability = {
+        "published_at": manifest_row.get("published_at"),
+        "available_on": manifest_row.get("available_on"),
+        "status": "missing",
+        "reason": MISSING_OFFICIAL_AVAILABILITY_REASON,
+        "binding_required_before_promotion": True,
+        "no_date_inferred": True,
+    }
     candidates: list[dict[str, object]] = []
     omissions: list[dict[str, str]] = []
     with pymupdf.open(stream=raw, filetype="pdf") as pdf:
@@ -175,13 +187,13 @@ def build() -> dict[str, object]:
         "receipt_version": "mlcf_fy22_full_schedule_audit_v1",
         "symbol": "MLCF",
         "document_id": DOCUMENT_ID,
-        "source": {"document_id": DOCUMENT_ID, "source_url": SOURCE_URL, "raw_path": str(PDF.relative_to(ROOT)).replace("\\", "/"), "content_sha256": EXPECTED_HASH, "page_scope": [271, 272, 273, 275]},
+        "source": {"document_id": DOCUMENT_ID, "source_url": SOURCE_URL, "raw_path": str(PDF.relative_to(ROOT)).replace("\\", "/"), "content_sha256": EXPECTED_HASH, "page_scope": [271, 272, 273, 275], "official_availability": official_availability},
         "period": {"period_end": "2022-06-30", "duration_months": 12, "comparison_period_end": "2021-06-30"},
         "policy": {"official_hash_bound_original_only": True, "consolidated_statement_only": True, "local_scale_required": True, "current_column_header_required": True, "row_geometry_required": True, "no_network": True, "no_ocr": True, "audit_only": True, "canonical_financial_facts_written": False, "qualification_changed": False, "formal_outputs_activated": False},
         "candidates": candidates,
         "omissions": omissions,
-        "qualification": {"status": "blocked", "full_schedule_qualified": False, "reason": "candidate evidence only; independent statement/tie-out and canonical acceptance remain required"},
-        "required_before_promotion": ["independent full-statement extraction", "annual period tie-out", "existing canonical conflict check", "financial-truth builder acceptance"],
+        "qualification": {"status": "blocked", "full_schedule_qualified": False, "reason": "candidate evidence only; official availability-date binding, independent statement/tie-out and canonical acceptance remain required"},
+        "required_before_promotion": [OFFICIAL_AVAILABILITY_REQUIREMENT, "independent full-statement extraction", "annual period tie-out", "existing canonical conflict check", "financial-truth builder acceptance"],
     }
 
 
