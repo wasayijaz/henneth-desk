@@ -63,6 +63,7 @@ const RESEARCH_TOOL_TABS = [
   ["trends", "Financial trends"],
   ["baseline", "Financial baseline"],
   ["forecast", "Forecast readiness"],
+  ["alpha_readiness", "Event-to-Value readiness"],
   ["thesis", "Thesis monitor"],
   ["watchlist", "Evidence watchlist"],
   ["monitoring", "CI monitoring"],
@@ -80,7 +81,7 @@ const RESEARCH_TOOL_TABS = [
 const TREE_GROUPS = [
   { key: "overview", label: "Overview", routes: [["snapshot", "Investor Snapshot"], ["overview", "Company Profile"], ["business", "Business profile (legacy)"]] },
   { key: "intelligence", label: "Intelligence", routes: [["research", "Research"], ["ask", "Ask Henneth"], ["graph", "Knowledge Graph"], ["operating", "Operating Intelligence"], ["intelligence", "Intelligence index (legacy)"], ["timeline", "Typed timeline (legacy)"]] },
-  { key: "financials", label: "Financials", routes: [["trends", "Financial Trends"], ["baseline", "Financial Baseline"], ["forecast", "Forecast Readiness"], ["financials", "Accounting Snapshot"]] },
+  { key: "financials", label: "Financials", routes: [["trends", "Financial Trends"], ["baseline", "Financial Baseline"], ["forecast", "Forecast Readiness"], ["alpha_readiness", "Event-to-Value readiness"], ["financials", "Accounting Snapshot"]] },
   { key: "events", label: "Events & Filings", routes: [["earnings", "Earnings"], ["events", "Events"], ["filings", "Filings"], ["sources", "Sources"], ["changes", "Change Digest (legacy)"], ["brief", "Brief queue (legacy)"]] },
   { key: "strategy", label: "Strategy", routes: [["scenarios", "Scenarios"], ["valuation", "Valuation"], ["guidance", "Guidance"], ["catalysts", "Catalysts"], ["risks", "Risks"], ["quant", "Quant (legacy)"]] },
   { key: "ownership", label: "Ownership & Peers", routes: [["ownership", "Ownership"], ["peers", "Peers"], ["watchlist", "Watchlist"], ["conditional", "Conditional Benchmarks"], ["causal", "Causal Map"], ["coverage", "Coverage"], ["thesis", "Thesis Monitor"], ["monitoring", "Monitoring"], ["operations", "Operations (legacy)"]] },
@@ -829,6 +830,7 @@ function detail(r) {
       : state.view === "trends" ? renderFinancials(r)
       : state.view === "baseline" ? renderFinancialBaseline(r)
       : state.view === "forecast" ? renderForecastReadiness(r)
+      : state.view === "alpha_readiness" ? renderEventToValueProductReadiness()
       : state.view === "intelligence" ? renderIntelligence(r)
       : state.view === "thesis" ? renderThesisMonitor(r)
       : state.view === "watchlist" ? renderEvidenceWatchlist(r)
@@ -3317,6 +3319,16 @@ function renderFinancialEngineAssumptionReview(r) {
       </div>
     </section>
   </section>`;
+}
+
+function renderEventToValueProductReadiness() {
+  const audit = state.data?.meta?.event_to_value_product_readiness;
+  if (!audit || typeof audit !== "object" || Array.isArray(audit) || !Array.isArray(audit.metrics)) {
+    return '<section class="panel span9 alpha-readiness-shell"><span class="kicker">Event-to-Value Alpha</span><h2>Product readiness not generated</h2><p class="section-note">Retained-state audit unavailable; no progress is inferred.</p></section>';
+  }
+  const summary = audit.summary || {};
+  const cards = audit.metrics.map(metric => `<article class="alpha-readiness-card" data-status="${esc(metric.status || "unknown")}"><header><span class="pill">${esc(metric.status || "unknown")}</span><h3>${esc(metric.label || metric.id || "metric")}</h3></header><b>${esc(metric.display || (metric.value == null ? "unknown" : metric.value))}</b><p>${esc(metric.definition || "Retained-state metric")}</p><div class="blocked-grid"><span>Source <b>${esc(metric.source_path || "unknown")}</b></span><span>Reason <b>${esc(metric.reason || "none")}</b></span></div></article>`).join("");
+  return `<section class="panel span9 alpha-readiness-shell"><span class="kicker">Event-to-Value Alpha</span><h2>Product readiness from retained artifacts</h2><p class="section-note">Research-only gate. Implemented engines remain distinct from proven live outputs; blocked evidence is shown explicitly.</p><div class="blocked-grid"><span>Status <b>${esc(audit.status || "unknown")}</b></span><span>Available <b>${esc(summary.available_metric_count ?? "unknown")}</b></span><span>Blocked <b>${esc(summary.blocked_metric_count ?? "unknown")}</b></span><span>As of <b>${esc(audit.as_of || "unknown")}</b></span></div><div class="alpha-readiness-grid">${cards}</div></section>`;
 }
 
 function renderForecastReadiness(r) {

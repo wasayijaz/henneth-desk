@@ -1,0 +1,394 @@
+{
+ "schema_version": 1,
+ "product_version": "event_to_value_product_readiness_v1",
+ "kind": "event_to_value_product_readiness",
+ "as_of": "2026-09-01T00:00:00Z",
+ "status": "blocked",
+ "reason": "selected_symbols_not_exactly_three:count=2",
+ "policy": {
+  "research_only": true,
+  "read_only_audit": true,
+  "no_inferred_success": true,
+  "no_advice": true,
+  "distinct_from_intelligence_case_ui": true,
+  "selected_golden_cases_only": true
+ },
+ "source_paths": {
+  "intelligence_cases": "state/company_intel/intelligence_cases.json",
+  "financial_truth_qualification": "state/company_intel/financial_truth_qualification.json",
+  "forecast_readiness": "state/company_intel/forecast_readiness.json",
+  "impact_scenarios": "state/company_intel/impact_scenarios.json",
+  "financial_forecasts": "state/company_intel/financial_forecasts.json",
+  "formal_valuations": "state/company_intel/formal_valuations.json",
+  "market_expectations": "state/company_intel/market_expectations.json",
+  "thesis_monitoring": "state/company_intel/thesis_monitoring.json",
+  "artifact_integrity": "state/company_intel/artifact_integrity.json",
+  "release_integrity_receipt": "state/company_intel/release_integrity_receipt.json"
+ },
+ "lineage": {
+  "product_version": "event_to_value_product_readiness_v1",
+  "generated_at": "2026-09-01T00:00:00Z",
+  "source_as_of": {
+   "intelligence_cases": "2026-08-31T19:11:28+05:00",
+   "financial_truth_qualification": "2026-09-01T00:00:00Z",
+   "forecast_readiness": "2026-08-31 15:13",
+   "impact_scenarios": "2026-09-01T00:00:00Z",
+   "financial_forecasts": "2026-08-31",
+   "formal_valuations": "2026-08-31",
+   "market_expectations": "2026-08-31",
+   "thesis_monitoring": "2026-08-31T19:11:28+05:00",
+   "artifact_integrity": "2026-09-01T00:00:00Z",
+   "release_integrity_receipt": "2026-08-28T00:00:00Z"
+  },
+  "source_schema_version": {
+   "intelligence_cases": 1,
+   "financial_truth_qualification": "financial_truth_qualification_v2",
+   "forecast_readiness": 1,
+   "impact_scenarios": 1,
+   "financial_forecasts": 1,
+   "formal_valuations": 1,
+   "market_expectations": 1,
+   "thesis_monitoring": 1,
+   "artifact_integrity": 1,
+   "release_integrity_receipt": 1
+  },
+  "source_kind": {
+   "intelligence_cases": null,
+   "financial_truth_qualification": null,
+   "forecast_readiness": null,
+   "impact_scenarios": null,
+   "financial_forecasts": "financial_forecasts",
+   "formal_valuations": "formal_valuations",
+   "market_expectations": "market_expectations",
+   "thesis_monitoring": null,
+   "artifact_integrity": "ci_artifact_integrity_manifest",
+   "release_integrity_receipt": "ci_release_integrity_receipt"
+  },
+  "source_status": {
+   "intelligence_cases": "blocked",
+   "financial_truth_qualification": "available",
+   "forecast_readiness": "blocked",
+   "impact_scenarios": "available",
+   "financial_forecasts": "available",
+   "formal_valuations": "available",
+   "market_expectations": "available",
+   "thesis_monitoring": "available",
+   "artifact_integrity": "available",
+   "release_integrity_receipt": "blocked"
+  },
+  "source_reason": {
+   "intelligence_cases": "selected_symbols_not_exactly_three:count=2",
+   "financial_truth_qualification": null,
+   "forecast_readiness": "forecast_readiness_as_of_invalid",
+   "impact_scenarios": null,
+   "financial_forecasts": null,
+   "formal_valuations": null,
+   "market_expectations": null,
+   "thesis_monitoring": null,
+   "artifact_integrity": null,
+   "release_integrity_receipt": "release_integrity_receipt_release_status_not_verified:not_verified"
+  },
+  "source_commit_sha": "a3a8c614209b41c18ab3e948e4ad439e77d51d7e",
+  "build_cutoff_at": "2026-09-01T00:00:00Z",
+  "artifact_integrity_status": "available",
+  "artifact_integrity_reason": null,
+  "artifact_integrity": {
+   "expected_artifact_count": 53,
+   "manifest_artifact_count": 53,
+   "missing_paths": [],
+   "extra_paths": [],
+   "covered": true
+  },
+  "selected_symbols": [],
+  "selected_symbols_source_path": "state/company_intel/intelligence_cases.json",
+  "selected_symbols_status": "blocked",
+  "selected_symbols_reason": "selected_symbols_not_exactly_three:count=2"
+ },
+ "summary": {
+  "metric_count": 12,
+  "available_metric_count": 1,
+  "blocked_metric_count": 11,
+  "blocked_metric_ids": [
+   "model_ready_companies",
+   "published_cases",
+   "financially_computed_scenarios",
+   "live_forecast_outputs",
+   "live_valuation_outputs",
+   "live_market_expectation_outputs",
+   "ask_henneth_test_status",
+   "active_thesis_monitoring_cases",
+   "required_output_nulls",
+   "no_lookahead_status",
+   "production_gate_status"
+  ],
+  "alpha_denominators": {
+   "model_ready_companies": 3,
+   "published_cases": 3,
+   "financially_computed_scenarios": 9,
+   "live_forecast_outputs": 3,
+   "live_valuation_outputs": 3,
+   "live_market_expectation_outputs": 3
+  },
+  "selected_symbols": [],
+  "selected_symbols_status": "blocked",
+  "selected_symbols_reason": "selected_symbols_not_exactly_three:count=2",
+  "selected_symbols_source_path": "state/company_intel/intelligence_cases.json",
+  "forecast_readiness_input_ready_count": 2,
+  "forecast_readiness_is_not_model_ready": true
+ },
+ "metrics": [
+  {
+   "id": "model_ready_companies",
+   "label": "Model-ready companies",
+   "status": "blocked",
+   "value": null,
+   "denominator": 3,
+   "display": null,
+   "definition": "Count of selected golden-case companies whose financial_truth_qualification.status is qualified. Unselected companies and forecast-readiness input_ready do not count.",
+   "source_path": "state/company_intel/financial_truth_qualification.json",
+   "as_of": "2026-09-01T00:00:00Z",
+   "reason": "selected_symbols_not_exactly_three:count=2",
+   "notes": [
+    "selected_symbols=['MARI', 'MLCF']"
+   ],
+   "lineage": {
+    "source_path": "state/company_intel/financial_truth_qualification.json",
+    "as_of": "2026-09-01T00:00:00Z",
+    "status": "blocked",
+    "reason": "selected_symbols_not_exactly_three:count=2"
+   }
+  },
+  {
+   "id": "published_cases",
+   "label": "Published Intelligence Cases",
+   "status": "blocked",
+   "value": null,
+   "denominator": 3,
+   "display": null,
+   "definition": "Count of Published intelligence_cases on the selected golden-case symbols only.",
+   "source_path": "state/company_intel/intelligence_cases.json",
+   "as_of": "2026-08-31T19:11:28+05:00",
+   "reason": "selected_symbols_not_exactly_three:count=2",
+   "notes": [
+    "selected_symbols=['MARI', 'MLCF']"
+   ],
+   "lineage": {
+    "source_path": "state/company_intel/intelligence_cases.json",
+    "as_of": "2026-08-31T19:11:28+05:00",
+    "status": "blocked",
+    "reason": "selected_symbols_not_exactly_three:count=2"
+   }
+  },
+  {
+   "id": "financially_computed_scenarios",
+   "label": "Financially computed scenarios",
+   "status": "blocked",
+   "value": null,
+   "denominator": 9,
+   "display": null,
+   "definition": "Count of selected-symbol impact_scenarios with explicit computed/modelled status, a finite numeric impact, and source/lineage. unmodeled_driver and blocked/not_generated/inferred rows do not count even if a number is present.",
+   "source_path": "state/company_intel/impact_scenarios.json",
+   "as_of": "2026-09-01T00:00:00Z",
+   "reason": "selected_symbols_not_exactly_three:count=2",
+   "notes": [
+    "selected_symbols=['MARI', 'MLCF']"
+   ],
+   "lineage": {
+    "source_path": "state/company_intel/impact_scenarios.json",
+    "as_of": "2026-09-01T00:00:00Z",
+    "status": "blocked",
+    "reason": "selected_symbols_not_exactly_three:count=2"
+   }
+  },
+  {
+   "id": "live_forecast_outputs",
+   "label": "Live forecast outputs",
+   "status": "blocked",
+   "value": null,
+   "denominator": 3,
+   "display": null,
+   "definition": "Count of selected-symbol financial_forecasts rows with status computed and a non-null result.",
+   "source_path": "state/company_intel/financial_forecasts.json",
+   "as_of": "2026-08-31",
+   "reason": "selected_symbols_not_exactly_three:count=2",
+   "notes": [
+    "selected_symbols=['MARI', 'MLCF']"
+   ],
+   "lineage": {
+    "source_path": "state/company_intel/financial_forecasts.json",
+    "as_of": "2026-08-31",
+    "status": "blocked",
+    "reason": "selected_symbols_not_exactly_three:count=2"
+   }
+  },
+  {
+   "id": "live_valuation_outputs",
+   "label": "Live valuation outputs",
+   "status": "blocked",
+   "value": null,
+   "denominator": 3,
+   "display": null,
+   "definition": "Count of selected-symbol formal_valuations rows with status computed and a non-null result.",
+   "source_path": "state/company_intel/formal_valuations.json",
+   "as_of": "2026-08-31",
+   "reason": "selected_symbols_not_exactly_three:count=2",
+   "notes": [
+    "selected_symbols=['MARI', 'MLCF']"
+   ],
+   "lineage": {
+    "source_path": "state/company_intel/formal_valuations.json",
+    "as_of": "2026-08-31",
+    "status": "blocked",
+    "reason": "selected_symbols_not_exactly_three:count=2"
+   }
+  },
+  {
+   "id": "live_market_expectation_outputs",
+   "label": "Live market-expectation outputs",
+   "status": "blocked",
+   "value": null,
+   "denominator": 3,
+   "display": null,
+   "definition": "Count of selected-symbol market_expectations rows with status computed and a non-null result.",
+   "source_path": "state/company_intel/market_expectations.json",
+   "as_of": "2026-08-31",
+   "reason": "selected_symbols_not_exactly_three:count=2",
+   "notes": [
+    "selected_symbols=['MARI', 'MLCF']"
+   ],
+   "lineage": {
+    "source_path": "state/company_intel/market_expectations.json",
+    "as_of": "2026-08-31",
+    "status": "blocked",
+    "reason": "selected_symbols_not_exactly_three:count=2"
+   }
+  },
+  {
+   "id": "ask_henneth_test_status",
+   "label": "Ask Henneth test status",
+   "status": "blocked",
+   "value": null,
+   "denominator": null,
+   "display": null,
+   "definition": "Live Ask runtime proof must be a stored receipt. Local contract checkers are not treated as a production pass.",
+   "source_path": "scripts/check_ask_henneth.mjs",
+   "as_of": null,
+   "reason": "ask_henneth_live_runtime_not_recorded_in_authoritative_ci_state",
+   "notes": [
+    "Focused contract checkers exist at scripts/check_ask_henneth.mjs, but they are not a live production Ask receipt."
+   ],
+   "lineage": {
+    "source_path": "scripts/check_ask_henneth.mjs",
+    "as_of": null,
+    "status": "blocked",
+    "reason": "ask_henneth_live_runtime_not_recorded_in_authoritative_ci_state"
+   }
+  },
+  {
+   "id": "active_thesis_monitoring_cases",
+   "label": "Active thesis-monitoring cases",
+   "status": "blocked",
+   "value": null,
+   "denominator": null,
+   "display": null,
+   "definition": "Sum of thesis_monitoring.active_thesis_count across the selected golden-case symbols only.",
+   "source_path": "state/company_intel/thesis_monitoring.json",
+   "as_of": "2026-08-31T19:11:28+05:00",
+   "reason": "selected_symbols_not_exactly_three:count=2",
+   "notes": [
+    "selected_symbols=['MARI', 'MLCF']"
+   ],
+   "lineage": {
+    "source_path": "state/company_intel/thesis_monitoring.json",
+    "as_of": "2026-08-31T19:11:28+05:00",
+    "status": "blocked",
+    "reason": "selected_symbols_not_exactly_three:count=2"
+   }
+  },
+  {
+   "id": "required_output_nulls",
+   "label": "Required-output nulls",
+   "status": "blocked",
+   "value": null,
+   "denominator": null,
+   "display": null,
+   "definition": "Count of selected-symbol forecast, valuation, and market-expectation rows whose result is null or not computed.",
+   "source_path": "state/company_intel/financial_forecasts.json",
+   "as_of": "2026-08-31",
+   "reason": "selected_symbols_not_exactly_three:count=2",
+   "notes": [
+    "selected_symbols=['MARI', 'MLCF']"
+   ],
+   "lineage": {
+    "source_path": "state/company_intel/financial_forecasts.json",
+    "as_of": "2026-08-31",
+    "status": "blocked",
+    "reason": "selected_symbols_not_exactly_three:count=2"
+   }
+  },
+  {
+   "id": "provenance_coverage",
+   "label": "Provenance coverage",
+   "status": "available",
+   "value": "53/53",
+   "denominator": null,
+   "display": null,
+   "definition": "Hashed artifact_integrity rows versus artifact_count. The generated readiness artifact itself must be covered by the sealed manifest.",
+   "source_path": "state/company_intel/artifact_integrity.json",
+   "as_of": "2026-09-01T00:00:00Z",
+   "reason": null,
+   "notes": [
+    "a3a8c614209b41c18ab3e948e4ad439e77d51d7e",
+    "artifact_count=53",
+    "expected_artifact_count=53",
+    "state/company_intel/event_to_value_product_readiness.json"
+   ],
+   "lineage": {
+    "source_path": "state/company_intel/artifact_integrity.json",
+    "as_of": "2026-09-01T00:00:00Z",
+    "status": "available",
+    "reason": null
+   }
+  },
+  {
+   "id": "no_lookahead_status",
+   "label": "No-lookahead status",
+   "status": "blocked",
+   "value": null,
+   "denominator": null,
+   "display": null,
+   "definition": "No stored no-lookahead receipt exists. A pass requires scripts/check_ci_global_no_lookahead.py against the current tree.",
+   "source_path": "scripts/check_ci_global_no_lookahead.py",
+   "as_of": null,
+   "reason": "no_lookahead_pass_is_not_stored_as_authoritative_state; scripts/check_ci_global_no_lookahead.py must be run to prove the current tree",
+   "notes": [
+    "Checker exists. This audit does not treat a missing stored receipt as a pass."
+   ],
+   "lineage": {
+    "source_path": "scripts/check_ci_global_no_lookahead.py",
+    "as_of": null,
+    "status": "blocked",
+    "reason": "no_lookahead_pass_is_not_stored_as_authoritative_state; scripts/check_ci_global_no_lookahead.py must be run to prove the current tree"
+   }
+  },
+  {
+   "id": "production_gate_status",
+   "label": "Production gate status",
+   "status": "blocked",
+   "value": null,
+   "denominator": null,
+   "display": null,
+   "definition": "Release is verified only when release_integrity_receipt.release_status is verified and every required_evidence row is pass for one commit.",
+   "source_path": "state/company_intel/release_integrity_receipt.json",
+   "as_of": "2026-08-28T00:00:00Z",
+   "reason": "release_integrity_receipt_release_status_not_verified:not_verified",
+   "notes": [],
+   "lineage": {
+    "source_path": "state/company_intel/release_integrity_receipt.json",
+    "as_of": "2026-08-28T00:00:00Z",
+    "status": "blocked",
+    "reason": "release_integrity_receipt_release_status_not_verified:not_verified"
+   }
+  }
+ ]
+}

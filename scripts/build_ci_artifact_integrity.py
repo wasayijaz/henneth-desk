@@ -27,6 +27,7 @@ from psx_data import ROOT, STATE, load_json, save_json
 CI_DIR = STATE / "company_intel"
 SLICE = ROOT / "Henneth Desk 2.CI.0" / "data" / "company_intelligence.json"
 MANIFEST = CI_DIR / "artifact_integrity.json"
+READINESS = CI_DIR / "event_to_value_product_readiness.json"
 GENERATOR_VERSION = "ci_artifact_integrity_v1"
 COMMIT_SHA = re.compile(r"^[0-9a-fA-F]{40}$")
 EXCLUDED_STATE_NAMES = {
@@ -115,8 +116,12 @@ def build(*, cutoff: str | None = None, source_sha: str | None = None) -> dict[s
         raw = load_json(path, None)
         if not isinstance(raw, dict):
             raise ValueError(f"{rel(path)} must be a JSON object to receive integrity metadata")
-        stamped = stamp(raw, cutoff=build_cutoff, sha=sha, source_path=rel(path))
-        save_json(path, stamped)
+        # The readiness artifact consumes this manifest.  Stamp every other
+        # artifact, but hash readiness as-is to avoid a self-referential
+        # manifest/readiness update loop.
+        stamped = raw if path == READINESS else stamp(raw, cutoff=build_cutoff, sha=sha, source_path=rel(path))
+        if path != READINESS:
+            save_json(path, stamped)
         artifacts.append({
             "path": rel(path),
             "sha256": canonical_hash(stamped),
