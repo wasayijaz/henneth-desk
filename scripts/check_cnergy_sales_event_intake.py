@@ -38,10 +38,18 @@ def main() -> int:
     ]:
         fail("source scope/order drifted")
     primary, alternative = rows
-    if primary.get("availability") != "unavailable_http_404" or primary.get("date_year_defensible") is not False:
-        fail("primary source must remain explicitly date-blocked")
-    if primary.get("content_sha256") is not None or primary.get("citation_page") is not None:
-        fail("blocked primary cannot claim bytes/page evidence")
+    if primary.get("availability") != "retrieved" or primary.get("citation_page") != 1:
+        fail("recovered primary retrieval/page evidence missing")
+    primary_digest = primary.get("content_sha256")
+    if not isinstance(primary_digest, str) or len(primary_digest) != 64 or any(c not in "0123456789abcdef" for c in primary_digest):
+        fail("primary content hash invalid")
+    primary_raw = ROOT / str(primary.get("raw_path") or "")
+    if not primary_raw.is_file() or primary_raw.stat().st_size != primary.get("content_length"):
+        fail("recovered primary original PDF is not retained exactly")
+    if hashlib.sha256(primary_raw.read_bytes()).hexdigest() != primary_digest:
+        fail("recovered primary original hash mismatch")
+    if primary.get("event_status") != "observed_performance_record_not_sales_expansion":
+        fail("primary must remain outside the sales-expansion case lane")
     if alternative.get("availability") != "retrieved" or alternative.get("citation_page") != 1:
         fail("verified alternative retrieval/page evidence missing")
     digest = alternative.get("content_sha256")
@@ -68,15 +76,17 @@ def main() -> int:
         fail("source registry URL bindings drifted")
     if receipt.get("ticker") != "CNERGY" or receipt.get("manifest") != "config/ci_cnergy_sales_event_intake_manifest.json":
         fail("receipt identity drifted")
-    if receipt.get("primary_event", {}).get("event_status") != "observed_event_blocked":
-        fail("receipt must expose primary observed-event-blocked status")
+    if receipt.get("status") != "observed_only_no_case_eligible_sales_expansion":
+        fail("receipt must expose the no-case-eligible-sales-expansion boundary")
+    if receipt.get("primary_event", {}).get("event_status") != "observed_performance_record_not_sales_expansion":
+        fail("receipt must expose recovered primary performance-record status")
     if receipt.get("verified_alternative", {}).get("content_sha256") != digest:
         fail("receipt hash does not match manifest")
     if receipt.get("promotion", {}).get("case_seeds") != [] or receipt.get("promotion", {}).get("facts") != []:
         fail("case/fact promotion must remain zero")
     if receipt.get("promotion", {}).get("financial_truth_changed") is not False:
         fail("financial truth must remain unchanged")
-    print("cnergy_sales_event_intake: PASS (primary blocked; dated alternative observed-only; zero promotion)")
+    print("cnergy_sales_event_intake: PASS (two issuer PDFs retained; neither is a case-eligible sales expansion; zero promotion)")
     return 0
 
 

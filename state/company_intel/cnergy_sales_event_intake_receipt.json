@@ -4,20 +4,22 @@
  "ticker": "CNERGY",
  "issuer": "Cnergyico PK Limited",
  "manifest": "config/ci_cnergy_sales_event_intake_manifest.json",
- "status": "observed_only_with_primary_blocked",
+ "status": "observed_only_no_case_eligible_sales_expansion",
  "primary_source_registry_id": "issuer:d9fcb2cee8c47f0960533b9f",
  "primary_event": {
   "title": "Byco sets highest sales record in April",
   "source_url": "https://www.cnergyico.com/Bycosets%20highestsalesrecordinApril.pdf",
   "issuer_index_publication_date": "2018-07-18",
   "original_document_date": null,
-  "date_year_defensible": false,
-  "availability": "unavailable_http_404",
-  "citation_page": null,
-  "content_length": null,
-  "content_sha256": null,
-  "event_status": "observed_event_blocked",
-  "block_reason": "Primary PDF is unavailable at the exact official URL; no original page/date can be cited."
+  "date_year_defensible": true,
+  "availability": "retrieved",
+  "citation_page": 1,
+  "content_length": 349315,
+  "content_sha256": "5144eb2f0e5daa102f19279d5027dd2574f65337c832da3813a5029d6d7a9d76",
+  "event_status": "observed_performance_record_not_sales_expansion",
+  "event_type": "sales_performance_record",
+  "evidence_class": "exact_hash_page_backed_text",
+  "block_reason": "The recovered issuer PDF reports April 2018 sales and throughput records, not an attributable sales-expansion operating event. The issuer-index date remains availability metadata only."
  },
  "verified_alternative": {
   "source_registry_id": "issuer:439f94b15635143d5d16b663",
@@ -40,7 +42,7 @@
   "case_seeds": [],
   "facts": [],
   "financial_truth_changed": false,
-  "reason": "Sales-event intake is evidence-only; primary requested source is date-blocked and the verified alternative remains observed-only."
+  "reason": "Sales-event intake is evidence-only; neither recovered issuer performance record nor verified alternative establishes a case-eligible sales expansion."
  },
  "_meta": {
   "generator_version": "ci_artifact_integrity_v1",

@@ -131,13 +131,13 @@ def _assert_current_cnergy_lead_non_promoted(state: dict[str, Any], receipt: dic
     if "CNERGY" in (state.get("selected_symbols") or []):
         _fail("CNERGY must not be selected while its retained lead is evidence-only")
 
-    if receipt.get("ticker") != "CNERGY" or receipt.get("status") != "observed_only_with_primary_blocked":
+    if receipt.get("ticker") != "CNERGY" or receipt.get("status") != "observed_only_no_case_eligible_sales_expansion":
         _fail("CNERGY sales-event receipt identity/status drifted")
     primary = receipt.get("primary_event") or {}
     alternative = receipt.get("verified_alternative") or {}
     promotion = receipt.get("promotion") or {}
-    if primary.get("event_status") != "observed_event_blocked" or primary.get("content_sha256") is not None:
-        _fail("CNERGY primary sales-record source must remain blocked without bytes/hash evidence")
+    if primary.get("event_status") != "observed_performance_record_not_sales_expansion" or not primary.get("content_sha256"):
+        _fail("CNERGY primary sales-record source must be retained yet remain outside sales expansion")
     if (
         alternative.get("event_status") != "observed_only"
         or alternative.get("case_seed") is not None
