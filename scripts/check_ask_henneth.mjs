@@ -23,12 +23,14 @@ const READINESS_STATUSES = new Set([
   "blocked_insufficient_qualified_history",
   "blocked_unsupported_sector_model",
   "blocked_pending_owner_approved_assumptions",
+  "blocked_financial_truth_not_qualified",
   "input_ready",
 ]);
 const BLOCKED_READINESS_STATUSES = new Set([
   "blocked_model_adapter_unavailable",
   "blocked_insufficient_qualified_history",
   "blocked_unsupported_sector_model",
+  "blocked_financial_truth_not_qualified",
 ]);
 let checks = 0;
 
@@ -170,11 +172,12 @@ function assertProjectedShape(context) {
       "snapshot_readiness",
       "thesis_monitoring",
       "intelligence_confidence",
+      "intelligence_cases",
       "citation_registry",
     ],
     `${context.symbol} projected context`,
   );
-  assert(context.schema_version === "ask_phase_b_v1", `${context.symbol} schema version`);
+  assert(context.schema_version === "ask_phase_c_case_v1", `${context.symbol} schema version`);
   assert(PILOT_SET.has(context.symbol), `${context.symbol} pilot scope`);
   assertStringOrNull(context.name, `${context.symbol} name`, 160);
   assertStringOrNull(context.sector, `${context.symbol} sector`, 120);
@@ -200,6 +203,25 @@ function assertProjectedShape(context) {
     const text = compactJson(assessment);
     for (const token of ["source_url", "excerpt", '"evidence":', "provenance_refs", '"price":', "forecast", "advice", "buy", "sell"]) {
       assert(!text.toLowerCase().includes(token), `${context.symbol} confidence leaked ${token}`);
+    }
+  }
+
+  assertExactKeys(context.intelligence_cases, ["status", "cases"], `${context.symbol} intelligence cases`);
+  assert(Array.isArray(context.intelligence_cases.cases) && context.intelligence_cases.cases.length <= 3, `${context.symbol} case cap`);
+  for (const caseObject of context.intelligence_cases.cases) {
+    assertExactKeys(caseObject, ["case_id", "status", "epistemic_type", "summary", "observed_facts", "hypotheses", "watch_next", "source_lineage"], `${context.symbol} observed case`);
+    assert(["Observed", "Corroborated", "Modelled", "Validated", "Published"].includes(caseObject.status), `${context.symbol} case lifecycle`);
+    assert(Array.isArray(caseObject.observed_facts) && caseObject.observed_facts.length <= 4, `${context.symbol} observed fact cap`);
+    assert(Array.isArray(caseObject.hypotheses) && caseObject.hypotheses.length <= 4, `${context.symbol} hypothesis cap`);
+    assert(Array.isArray(caseObject.watch_next) && caseObject.watch_next.length <= 4, `${context.symbol} watch cap`);
+    assert(Array.isArray(caseObject.source_lineage) && caseObject.source_lineage.length <= 4, `${context.symbol} lineage cap`);
+    const caseText = compactJson(caseObject);
+    for (const token of ["reported_values", "forecast", "valuation", "market_expectations", "price_target", "recommendation"]) {
+      assert(!caseText.includes(token), `${context.symbol} case leaked ${token}`);
+    }
+    for (const lineage of caseObject.source_lineage) {
+      assert(typeof lineage.citation_id === "string" && lineage.citation_id, `${context.symbol} case citation missing`);
+      assertStringOrNull(lineage.document_id, `${context.symbol} case document id`, 80);
     }
   }
 
@@ -379,6 +401,13 @@ function assertProjectedShape(context) {
   assert(Array.isArray(context.financial_model_inputs.observations), `${context.symbol} observations`);
   assert(Array.isArray(context.financial_model_inputs.derived), `${context.symbol} derived`);
 
+  if (context.snapshot_readiness.forecast === "blocked_financial_truth_not_qualified") {
+    for (const key of ["forecast", "valuation", "market_expectations", "scenario_lab"]) {
+      assert(context.financial_model_inputs.downstream_status[key] === "blocked_financial_truth_not_qualified", `${context.symbol} model input ${key} hard blocked by financial truth`);
+      assert(context.snapshot_readiness[key] === "blocked_financial_truth_not_qualified", `${context.symbol} snapshot ${key} hard blocked by financial truth`);
+    }
+  }
+
   assertExactKeys(context.company_brain, ["domains", "type_counts", "coverage", "recent_timeline"], `${context.symbol} company brain`);
   assert(Object.keys(context.company_brain.domains).length === 21, `${context.symbol} brain domain count`);
   for (const [name, domain] of Object.entries(context.company_brain.domains)) {
@@ -392,10 +421,16 @@ function assertProjectedShape(context) {
     assertExactKeys(item, ["date", "intelligence_type", "source_product"], `${context.symbol} brain timeline item`);
   }
   assertExactKeys(context.snapshot_readiness, ["scenario_lab", "market_expectations", "valuation", "forecast"], `${context.symbol} snapshot readiness`);
-  assert(context.snapshot_readiness.scenario_lab === "ready_snapshot_sensitivity", `${context.symbol} scenario readiness`);
-  assert(context.snapshot_readiness.market_expectations === "ready_snapshot_reverse_solve", `${context.symbol} reverse readiness`);
-  assert(context.snapshot_readiness.valuation === "ready_scenario_multiple_only", `${context.symbol} multiple readiness`);
-  assertBlockedReadinessStatus(context.snapshot_readiness.forecast, `${context.symbol} forecast readiness`);
+  if (context.snapshot_readiness.forecast !== "blocked_financial_truth_not_qualified") {
+    assert(context.snapshot_readiness.scenario_lab === "ready_snapshot_sensitivity", `${context.symbol} scenario readiness`);
+    assert(context.snapshot_readiness.market_expectations === "ready_snapshot_reverse_solve", `${context.symbol} reverse readiness`);
+    assert(context.snapshot_readiness.valuation === "ready_scenario_multiple_only", `${context.symbol} multiple readiness`);
+    assertBlockedReadinessStatus(context.snapshot_readiness.forecast, `${context.symbol} forecast readiness`);
+  } else {
+    for (const key of ["scenario_lab", "market_expectations", "valuation", "forecast"]) {
+      assert(context.snapshot_readiness[key] === "blocked_financial_truth_not_qualified", `${context.symbol} ${key} remains financially blocked`);
+    }
+  }
 
   assertExactKeys(context.citation_registry, ["owner_symbol", "citations"], `${context.symbol} citation registry`);
   assert(context.citation_registry.owner_symbol === context.symbol, `${context.symbol} citation owner`);
@@ -452,7 +487,8 @@ function assertAnswerShape(answer, context) {
   assert(answer.sections.historical_benchmark.methodology.includes("not causal"), `${context.symbol} benchmark methodology`);
   assert(answer.sections.financial_impact.status === "unknown_current", `${context.symbol} financial impact unknown`);
   assert(answer.sections.financial_impact.text.startsWith("Unknown"), `${context.symbol} financial impact text`);
-  assert(answer.sections.valuation_readiness.status === "snapshot_tools_available", `${context.symbol} snapshot readiness surfaced`);
+  const expectedReadiness = context.snapshot_readiness.forecast === "blocked_financial_truth_not_qualified" ? "unknown_current" : "snapshot_tools_available";
+  assert(answer.sections.valuation_readiness.status === expectedReadiness, `${context.symbol} snapshot readiness surfaced`);
   for (const key of ["scenario_lab", "market_expectations", "valuation", "forecast"]) {
     assert(answer.sections.valuation_readiness.downstream_status[key] === context.snapshot_readiness[key], `${context.symbol} snapshot downstream ${key}`);
   }
@@ -638,6 +674,25 @@ function main() {
   const withoutClusters = contexts.filter((context) => context.signals.clusters.length === 0);
   assert(withCitations.length >= 6, "expected at least 6 projected source-backed contexts");
   assert(withoutClusters.length > 0, "expected missing-data/no-cluster contexts");
+  const mlcfContext = contexts.find((context) => context.symbol === "MLCF");
+  assert(mlcfContext.intelligence_cases.cases.length === 1, "MLCF observed case is projected to Ask");
+  const mlcfCase = mlcfContext.intelligence_cases.cases[0];
+  assert(mlcfCase.case_id === "case_mlcf_pioc_control_observed_v1" && mlcfCase.status === "Observed", "MLCF Ask case lifecycle preserved");
+  assert(mlcfCase.hypotheses.length >= 2 && mlcfCase.watch_next.length === 2, "MLCF Ask case includes alternatives and watch conditions");
+  assert(mlcfCase.source_lineage.every((item) => mlcfContext.citation_registry.citations.some((citation) => citation.citation_id === item.citation_id)), "MLCF Ask case citations are server-owned");
+  const crossSymbolCase = clone(rowsBySymbol.get("MLCF"));
+  crossSymbolCase.intelligence_cases.symbol = "MARI";
+  const rejectedCaseContext = projectCompany(crossSymbolCase, { symbol: "MLCF" });
+  assert(rejectedCaseContext.intelligence_cases.status === "invalid_case_symbol" && rejectedCaseContext.intelligence_cases.cases.length === 0, "cross-symbol Ask case context fails closed");
+  const qualifiedRow = clone(rowsBySymbol.get("MLCF"));
+  qualifiedRow.financial_truth_qualification = {
+    ...(qualifiedRow.financial_truth_qualification || {}),
+    status: "qualified",
+    downstream: { forecast: "ready", valuation: "ready", market_expectations: "ready" },
+  };
+  const qualifiedContext = projectCompany(qualifiedRow, { symbol: "MLCF" });
+  assert(qualifiedContext.snapshot_readiness.scenario_lab === "ready_snapshot_sensitivity", "qualified financial truth may reach snapshot scenario tools");
+  assert(qualifiedContext.snapshot_readiness.valuation === "ready_scenario_multiple_only", "qualified financial truth may reach valuation snapshot tools");
   const approvedBriefContexts = contexts.filter((context) => context.approved_brief.sections.length > 0);
   assert(approvedBriefContexts.length === 6, "expected exact six approved brief projections");
   for (const context of approvedBriefContexts) {

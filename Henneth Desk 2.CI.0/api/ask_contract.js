@@ -518,9 +518,13 @@ function flattenObservationRows(source) {
 
 function projectFinancialInputs(row) {
   const source = isPlainObject(row.financial_model_inputs) ? row.financial_model_inputs : {};
+  const truth = isPlainObject(row.financial_truth_qualification) ? row.financial_truth_qualification : {};
+  const truthQualified = truth.status === "qualified";
   const downstream = {};
   for (const key of DOWNSTREAM_KEYS) {
-    downstream[key] = boundedString(source.downstream_status?.[key] || BLOCKED_DOWNSTREAM[key], 120);
+    downstream[key] = truthQualified
+      ? boundedString(source.downstream_status?.[key] || BLOCKED_DOWNSTREAM[key], 120)
+      : "blocked_financial_truth_not_qualified";
   }
   return {
     status: boundedString(source.status || "unsupported", 80),
@@ -529,8 +533,8 @@ function projectFinancialInputs(row) {
     quality_flags: Array.isArray(source.quality_flags)
       ? source.quality_flags.slice(0, 10).map((item) => boundedString(item, 120)).filter(Boolean)
       : [],
-    observations: flattenObservationRows(source.observations || source),
-    derived: Array.isArray(source.derived)
+    observations: truthQualified ? flattenObservationRows(source.observations || source) : [],
+    derived: truthQualified && Array.isArray(source.derived)
       ? source.derived.slice(0, 12).map((item) =>
           boundedObject(item, ["metric", "period_end", "value", "status", "source_observation_ids"]),
         )
@@ -571,6 +575,15 @@ function projectCompanyBrain(row) {
 
 function projectSnapshotReadiness(row) {
   const status = isPlainObject(row.scenario_lab?.status) ? row.scenario_lab.status : {};
+  const truth = isPlainObject(row.financial_truth_qualification) ? row.financial_truth_qualification : {};
+  if (truth.status !== "qualified") {
+    return {
+      scenario_lab: "blocked_financial_truth_not_qualified",
+      market_expectations: "blocked_financial_truth_not_qualified",
+      valuation: "blocked_financial_truth_not_qualified",
+      forecast: "blocked_financial_truth_not_qualified",
+    };
+  }
   return {
     scenario_lab: boundedString(status.scenario_lab || "blocked_missing_snapshot_inputs", 120),
     market_expectations: boundedString(status.market_expectations || "blocked_missing_snapshot_inputs", 120),
@@ -626,6 +639,57 @@ function projectIntelligenceConfidence(row) {
   };
 }
 
+function projectIntelligenceCases(row, registry, symbol) {
+  const source = isPlainObject(row.intelligence_cases) ? row.intelligence_cases : {};
+  if (source.symbol && source.symbol !== symbol) return { status: "invalid_case_symbol", cases: [] };
+  const lifecycle = new Set(["Observed", "Corroborated", "Modelled", "Validated", "Published"]);
+  const cases = Array.isArray(source.cases) ? source.cases : [];
+  return {
+    status: boundedString(source.status || (cases.length ? "available" : "no_cases"), 80),
+    cases: cases.slice(0, 1).flatMap((caseObject) => {
+      if (!isPlainObject(caseObject) || caseObject.symbol !== symbol || !lifecycle.has(caseObject.status)) return [];
+      const source_lineage = (Array.isArray(caseObject.source_lineage) ? caseObject.source_lineage : [])
+        .slice(0, 1)
+        .map((evidence) => ({
+          citation_id: addCitation(registry, symbol, evidence, "intelligence_case", caseObject.case_id),
+          document_id: boundedString(evidence?.document_id, 80),
+        }))
+        .filter((item) => item.citation_id);
+      const observed_facts = (Array.isArray(caseObject.observed_facts) ? caseObject.observed_facts : [])
+        .slice(0, 1)
+        .map((fact) => ({
+          fact_id: boundedString(fact?.fact_id, 120),
+          statement: boundedString(fact?.statement, 180),
+        }));
+      const hypotheses = (Array.isArray(caseObject.alternative_readings) ? caseObject.alternative_readings : [])
+        .slice(0, 2)
+        .map((item) => ({
+          hypothesis_id: boundedString(item?.alternative_id, 120),
+          reading: boundedString(item?.reading, 180),
+          rejection_condition: boundedString(item?.rejection_condition, 180),
+        }));
+      const watch_next = (Array.isArray(caseObject.sections?.watch_next?.items) ? caseObject.sections.watch_next.items : [])
+        .slice(0, 2)
+        .map((item) => ({
+          watch_id: boundedString(item?.id, 160),
+          condition: boundedString(item?.text, 180),
+          status: boundedString(item?.status, 80),
+          source_required: boundedString(item?.reason, 120),
+        }));
+      return [{
+        case_id: boundedString(caseObject.case_id, 120),
+        status: boundedString(caseObject.status, 40),
+        epistemic_type: boundedString(caseObject.epistemic_type, 80),
+        summary: boundedString(caseObject.summary, 180),
+        observed_facts,
+        hypotheses,
+        watch_next,
+        source_lineage,
+      }];
+    }),
+  };
+}
+
 export function projectCompany(row = {}, options = {}) {
   if (!isPlainObject(row)) throw new Error("invalid_company_row");
   const requestedSymbol = typeof options === "string" ? options : options.symbol;
@@ -636,7 +700,7 @@ export function projectCompany(row = {}, options = {}) {
   const { signals, linkedEventIds } = projectSignals(row, registry, symbol);
   const operating_events = projectEvents(row, registry, symbol, linkedEventIds);
   const projected = {
-    schema_version: "ask_phase_b_v1",
+    schema_version: "ask_phase_c_case_v1",
     symbol,
     name: boundedString(row.name, 160),
     sector: boundedString(row.sector, 120),
@@ -651,6 +715,7 @@ export function projectCompany(row = {}, options = {}) {
     snapshot_readiness: projectSnapshotReadiness(row),
     thesis_monitoring: projectThesisMonitoring(row),
     intelligence_confidence: projectIntelligenceConfidence(row),
+    intelligence_cases: projectIntelligenceCases(row, registry, symbol),
     citation_registry: {
       owner_symbol: symbol,
       citations: [...registry.byId.values()].sort((a, b) => a.citation_id.localeCompare(b.citation_id)),

@@ -132,7 +132,7 @@ export function createHandler(deps = {}) {
     let modelOutput = {};
     try {
       const allowed = new Set((context.citation_registry?.citations || []).map((citation) => citation.citation_id));
-      const raw = await groqImpl(apiKey, [{ role: "system", content: "Return only qualitative source-tied JSON. No numbers, dates, prices, advice, URLs, or other company symbols." }, { role: "user", content: JSON.stringify({ context, question: cleanRequest.question }) }], OUTPUT_SCHEMA, fetchImpl);
+      const raw = await groqImpl(apiKey, [{ role: "system", content: "Return only qualitative source-tied JSON. Use an Intelligence Case only at its emitted lifecycle and epistemic type; do not upgrade an Observed case or invent model outputs. No numbers, dates, prices, advice, URLs, or other company symbols." }, { role: "user", content: JSON.stringify({ context, question: cleanRequest.question }) }], OUTPUT_SCHEMA, fetchImpl);
       modelOutput = validateModelOutput(raw, allowed, { symbol: context.symbol, allowEmpty: true });
     } catch { modelOutput = {}; }
     const answer = buildAnswerSections(context, modelOutput);
