@@ -73,6 +73,24 @@ FIRST_SEEN_OVERSIZED_CHUNK_POLICIES: dict[str, dict[str, Any]] = {
         "max_pages": MAX_RUN_PAGES,
     },
 }
+APPROVED_EVENT_DOCUMENTS: dict[str, dict[str, str]] = {
+    "psx:280337": {
+        "symbol": "MARI",
+        "company_name": "Mari Energies Limited",
+        "title": "Launch of Pakistan First and Largest Purpose-Built AI Ready Data Centre Campus",
+        "published_at": "2026-07-24T16:26:00+05:00",
+        "source_url": "https://dps.psx.com.pk/download/document/280337.pdf",
+    },
+    "psx:280161": {
+        "symbol": "MARI",
+        "company_name": "Mari Energies Limited",
+        "title": "Clarification of News Item",
+        "published_at": "2026-07-21T14:07:00+05:00",
+        "source_url": "https://dps.psx.com.pk/download/document/280161.pdf",
+    },
+}
+MARI_SALES_EVENT_INTAKE_IDS: frozenset[str] = frozenset(APPROVED_EVENT_DOCUMENTS)
+MARI_SALES_EVENT_INTAKE_MANIFEST = ROOT / "config" / "ci_mari_sales_event_intake_allowlist.json"
 APPROVED_WAVE3_ALLOWLIST: frozenset[str] = frozenset({
     "psx:219092",
     "psx:225623",
@@ -374,17 +392,42 @@ def load_allowlist(manifest_path: Path | None = None,
                 re.compile(pattern)
             except re.error as exc:
                 raise UnsafeInput(f"{doc_id}: invalid expected_title_pattern") from exc
+            event_policy = APPROVED_EVENT_DOCUMENTS.get(doc_id)
+            event_fields: dict[str, str] = {}
+            if event_policy is not None:
+                expected_title = _clean_text(meta.get("expected_title"))
+                published_at = str(meta.get("published_at") or "").strip()
+                source_url = str(meta.get("source_url") or "").strip()
+                if expected_title != event_policy["title"]:
+                    raise UnsafeInput(f"{doc_id}: event allowlist requires the exact approved title")
+                if published_at != event_policy["published_at"]:
+                    raise UnsafeInput(f"{doc_id}: event allowlist requires the exact approved published_at")
+                if source_url != event_policy["source_url"]:
+                    raise UnsafeInput(f"{doc_id}: event allowlist requires the exact approved DPS URL")
+                if symbol.strip().upper() != event_policy["symbol"] or _clean_text(company) != event_policy["company_name"]:
+                    raise UnsafeInput(f"{doc_id}: event allowlist requires the exact approved MARI identity")
+                if not re.fullmatch(re.escape(event_policy["title"]), pattern):
+                    raise UnsafeInput(f"{doc_id}: event title pattern must be exact")
+                event_fields = {
+                    "expected_title": event_policy["title"],
+                    "published_at": event_policy["published_at"],
+                    "source_url": event_policy["source_url"],
+                    "classification": "material_information",
+                }
             pinned_sha = meta.get("content_sha256")
             if pinned_sha is not None:
                 pinned_sha = str(pinned_sha).strip().lower()
                 if not re.fullmatch(r"[0-9a-f]{64}", pinned_sha):
                     raise UnsafeInput(f"{doc_id}: invalid content_sha256")
+                if event_policy is not None:
+                    raise UnsafeInput(f"{doc_id}: event documents must bind content by transport before receipt")
             allowed[doc_id] = {
                 "doc_id": doc_id,
                 "symbol": symbol.strip().upper(),
                 "company_name": _clean_text(company),
                 "expected_title_pattern": pattern,
                 "period": period.strip(),
+                **event_fields,
                 **({"content_sha256": pinned_sha} if pinned_sha else {}),
             }
     return allowed
@@ -442,6 +485,33 @@ def _manifest_matches(row: dict[str, Any], tickers: list[str], title: str, meta:
     )
 
 
+def _event_manifest_matches(doc_id: str, row: dict[str, Any], tickers: list[str], title: str,
+                            meta: dict[str, Any]) -> bool:
+    policy = APPROVED_EVENT_DOCUMENTS.get(doc_id)
+    if policy is None:
+        return False
+    if meta.get("classification") != "material_information":
+        return False
+    if tickers != [policy["symbol"]]:
+        return False
+    if _clean_text(row.get("company_name")) != policy["company_name"]:
+        return False
+    if title != policy["title"]:
+        return False
+    if str(row.get("published_at") or "") != policy["published_at"]:
+        return False
+    if str(row.get("date") or "") != policy["published_at"][:10]:
+        return False
+    if (meta.get("expected_title") != policy["title"]
+            or meta.get("published_at") != policy["published_at"]
+            or meta.get("source_url") != policy["source_url"]):
+        return False
+    try:
+        return _validated_dps_url(doc_id, row.get("url") or row.get("source_url")) == policy["source_url"]
+    except UnsafeInput:
+        return False
+
+
 def _validate_row(doc_id: str, row: dict[str, Any], key: str, pilot: set[str],
                   allowlist: dict[str, dict[str, Any]]) -> VerifiedDocument:
     if doc_id not in allowlist:
@@ -458,16 +528,22 @@ def _validate_row(doc_id: str, row: dict[str, Any], key: str, pilot: set[str],
     doc_type = str(row.get("doc_type") or "")
     title = _clean_text(row.get("title") or row.get("digest"))
     manifest_report = _manifest_matches(row, tickers, title, manifest_meta)
-    if doc_type not in ALLOWED_DOC_TYPES and not (doc_type == "company_announcement" and manifest_report):
+    manifest_event = _event_manifest_matches(doc_id, row, tickers, title, manifest_meta)
+    if doc_type not in ALLOWED_DOC_TYPES and not (doc_type == "company_announcement" and (manifest_report or manifest_event)):
         raise UnsafeInput(f"{doc_id}: document must be a financial statement/results filing or exact manifest-pinned report")
-    if not ALLOWED_TITLE_RE.search(title) and not manifest_report:
+    if not ALLOWED_TITLE_RE.search(title) and not (manifest_report or manifest_event):
         raise UnsafeInput(f"{doc_id}: document title must match a statement/report predicate")
-    if EXCLUDED_TITLE_RE.search(title):
+    if EXCLUDED_TITLE_RE.search(title) and not manifest_event:
         raise UnsafeInput(f"{doc_id}: notices/revoked/nonstatement filings are excluded")
     url = _validated_dps_url(doc_id, row.get("url") or row.get("source_url"))
     numeric_id = DOCUMENT_ID_RE.fullmatch(doc_id).group(1)  # type: ignore[union-attr]
     known = row.get("content_sha256")
     known_sha = str(known).lower() if isinstance(known, str) and re.fullmatch(r"[0-9a-fA-F]{64}", known) else None
+    if doc_id in APPROVED_EVENT_DOCUMENTS and known_sha is not None:
+        # This tightly scoped first-seen lane may establish content identity
+        # only from the exact transport (and subsequently from its receipt),
+        # never from mutable research-index metadata.
+        raise UnsafeInput(f"{doc_id}: event content identity must bind by exact transport, not research-index metadata")
     pinned_sha = manifest_meta.get("content_sha256")
     if pinned_sha and known_sha and pinned_sha != known_sha:
         raise UnsafeInput(f"{doc_id}: retained metadata hash mismatches exact policy hash")
@@ -1175,6 +1251,7 @@ def _write_scoped_inputs(stage_dir: Path, raw_dir: Path, docs: list[tuple[Verifi
             "expected_symbol": (doc.manifest or {}).get("symbol"),
             "expected_company_name": (doc.manifest or {}).get("company_name"),
             "expected_title_pattern": (doc.manifest or {}).get("expected_title_pattern"),
+            "classification": (doc.manifest or {}).get("classification"),
             "period": (doc.manifest or {}).get("period"),
             "period_end": (doc.manifest or {}).get("period"),
             "published_at": doc.row.get("published_at") or doc.row.get("date"),
@@ -1478,7 +1555,9 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--document-id", action="append", required=True,
                         help="Exact PSX DPS document id, repeated 1-5 times, e.g. psx:280589")
     parser.add_argument("--allowlist-manifest", type=Path,
-                        help="Exact Wave 3 manifest containing document_ids; fail-closed if omitted and no built-in IDs exist")
+                        help="Exact Wave 3 financial-restage manifest; fail-closed if omitted")
+    parser.add_argument("--mari-sales-event-intake", action="store_true",
+                        help="Use only the approved exact MARI material-information pair; cannot be combined with a manifest")
     parser.add_argument("--consume", action="store_true",
                         help="After offline transport validation, consume through existing canonical owners and receipt only verified durable results")
     parser.add_argument("--diagnose", action="store_true",
@@ -1486,10 +1565,20 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--diagnose-page", action="append", type=int,
                         help="One original 1-based page for read-only diagnosis; repeat up to 32 times and use only with --diagnose")
     args = parser.parse_args(argv)
+    if args.mari_sales_event_intake and args.allowlist_manifest is not None:
+        parser.error("--mari-sales-event-intake cannot be combined with --allowlist-manifest")
+    if args.mari_sales_event_intake and set(args.document_id) != set(MARI_SALES_EVENT_INTAKE_IDS):
+        parser.error("--mari-sales-event-intake requires exactly psx:280337 and psx:280161")
     try:
-        result = run_reprocess(args.document_id, allowlist_manifest=args.allowlist_manifest,
-                               consume=args.consume, diagnose=args.diagnose,
-                               diagnostic_pages=args.diagnose_page)
+        result = run_reprocess(
+            args.document_id,
+            allowlist_manifest=(MARI_SALES_EVENT_INTAKE_MANIFEST if args.mari_sales_event_intake
+                                else args.allowlist_manifest),
+            consume=args.consume, diagnose=args.diagnose,
+            diagnostic_pages=args.diagnose_page,
+            expected_allowlist=(MARI_SALES_EVENT_INTAKE_IDS if args.mari_sales_event_intake
+                                else APPROVED_WAVE3_ALLOWLIST),
+        )
     except UnsafeInput as exc:
         print(f"reprocess_company_documents: unsafe input: {exc}", file=sys.stderr)
         return 2

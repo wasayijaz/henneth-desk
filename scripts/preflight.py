@@ -1412,6 +1412,15 @@ def check_ci_reprocess_manifest():
     if result.returncode != 0:
         fail("CI reprocess manifest check failed — " + ((result.stdout or result.stderr or "")[-500:].strip()))
 
+def check_mari_sales_event_intake():
+    path = os.path.join(ROOT, "scripts", "check_mari_sales_event_intake.py")
+    if not os.path.exists(path):
+        fail("check_mari_sales_event_intake.py missing")
+        return
+    result = subprocess.run([sys.executable, path], capture_output=True, text=True, timeout=30)
+    if result.returncode != 0:
+        fail("MARI sales event intake check failed — " + ((result.stdout or result.stderr or "")[-500:].strip()))
+
 def check_ownership_source_manifest():
     path = os.path.join(ROOT, "scripts", "check_ownership_source_manifest.py")
     if not os.path.exists(path):
@@ -1533,6 +1542,7 @@ def main():
     check_guidance_contradictions_ui()
     check_reprocess_documents()
     check_ci_reprocess_manifest()
+    check_mari_sales_event_intake()
     check_ownership_source_manifest()
     check_no_raw_artifacts()
     # --- Company intelligence shape: every populated row, not a sample ---

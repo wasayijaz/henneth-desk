@@ -1,0 +1,38 @@
+{
+ "schema_version": 1,
+ "kind": "ci_mari_sales_event_intake_allowlist",
+ "policy": {
+  "owner_approved_exact_ids_only": true,
+  "official_psx_dps_pdfs_only": true,
+  "material_event_evidence_only": true,
+  "transport_hash_required_before_receipt": true,
+  "no_bulk_discovery": true,
+  "no_new_provider": true,
+  "no_ocr": true,
+  "no_financial_truth_activation": true
+ },
+ "document_ids": [
+  "psx:280337",
+  "psx:280161"
+ ],
+ "documents": {
+  "psx:280337": {
+   "symbol": "MARI",
+   "company_name": "Mari Energies Limited",
+   "expected_title_pattern": "Launch of Pakistan First and Largest Purpose-Built AI Ready Data Centre Campus",
+   "expected_title": "Launch of Pakistan First and Largest Purpose-Built AI Ready Data Centre Campus",
+   "published_at": "2026-07-24T16:26:00+05:00",
+   "source_url": "https://dps.psx.com.pk/download/document/280337.pdf",
+   "period": "2026-07-24"
+  },
+  "psx:280161": {
+   "symbol": "MARI",
+   "company_name": "Mari Energies Limited",
+   "expected_title_pattern": "Clarification of News Item",
+   "expected_title": "Clarification of News Item",
+   "published_at": "2026-07-21T14:07:00+05:00",
+   "source_url": "https://dps.psx.com.pk/download/document/280161.pdf",
+   "period": "2026-07-21"
+  }
+ }
+}

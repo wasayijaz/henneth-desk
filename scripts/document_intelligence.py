@@ -211,13 +211,23 @@ def run(index_path: Path = STATE / "research_index.json", output_path: Path = OU
                 doc_id, title, extracted["text"], extracted["pages"], _ticks(entry),
                 source_url=url, published_at=entry.get("published_at") or entry.get("date"),
                 content_sha256=content_sha)
+            material_event_only = entry.get("classification") == "material_information"
+            if material_event_only:
+                # Exact material-information intake may yield source-bound
+                # operating evidence, never financial, capital, or model
+                # inputs.  The transport manifest is the sole authority for
+                # this narrow classification; unclassified announcements do
+                # not reach this path.
+                facts = []
             v2_doc = {"doc_id": doc_id, "title": title, "source_url": url, "content_sha256": content_sha, "period_end": entry.get("period_end"), "published_at": entry.get("published_at") or entry.get("date"), "retrieved_at": entry.get("retrieved_at"), "available_on": entry.get("available_on")}
             v2_doc["symbol"] = (_ticks(entry) or [None])[0]
             v2_doc["page_count"] = len(extracted["pages"])
-            v2_facts = extract_facts(v2_doc, extracted["pages"], extracted.get("words"), extracted.get("page_records"))
-            transient_share_capital_candidates.extend(
-                extract_share_capital_evidence(v2_doc, extracted["pages"], extracted.get("page_records"))
-            )
+            v2_facts = [] if material_event_only else extract_facts(
+                v2_doc, extracted["pages"], extracted.get("words"), extracted.get("page_records"))
+            if not material_event_only:
+                transient_share_capital_candidates.extend(
+                    extract_share_capital_evidence(v2_doc, extracted["pages"], extracted.get("page_records"))
+                )
             # Retain geometry-backed facts first.  Legacy extractor claims can
             # be numerous, and a shared evidence cap must never evict the
             # stricter page/table facts that downstream financial models need.
@@ -240,6 +250,7 @@ def run(index_path: Path = STATE / "research_index.json", output_path: Path = OU
             record = {
                 "schema_version": 1, "doc_id": doc_id, "tickers": _ticks(entry),
                 "title": title, "doc_type": doc_type,
+                "classification": entry.get("classification"),
                 "published_at": entry.get("published_at") or entry.get("date"),
                 "retrieved_at": entry.get("retrieved_at") or (old.get("retrieved_at") if old.get("content_sha256") == content_sha else time.strftime("%Y-%m-%d %H:%M")),
                 "available_on": _available_on(v2_doc),
