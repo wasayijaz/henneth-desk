@@ -8,6 +8,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
+import build_intelligence_cases
 import dgkc_commissioning_seed_contract as contract
 
 
@@ -31,6 +32,12 @@ def main() -> None:
     check("no event hash invented", seed["event"]["event_evidence_hash"] is None)
     check("economics blocked", seed["reported_operating_operands"]["capex"] is None and seed["reported_operating_operands"]["ramp_or_utilization"] is None)
     check("blockers explicit", len(seed["blockers"]) >= 5)
+    cases = build_intelligence_cases.build(write=False)
+    dgkc = cases["companies"]["DGKC"]
+    reasons = dgkc["rejection_reasons"]
+    check("no intelligence case promoted", dgkc["status"] == "no_observed_case" and dgkc["case_count"] == 0 and dgkc["cases"] == [])
+    check("source date rejection exposed", reasons == [build_intelligence_cases.DGKC_COMMISSIONING_MISSING_SOURCE_EVENT_DATE_REJECTION])
+    check("generic rejection replaced", "no_selected_observed_case_seed" not in reasons)
     baseline = json.dumps(seed, sort_keys=True)
 
     for label, mutate in (

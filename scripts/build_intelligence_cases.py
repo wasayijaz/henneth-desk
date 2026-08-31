@@ -45,6 +45,12 @@ MLCF_COUNTER_REQUIREMENTS = {
 }
 HEX64 = re.compile(r"^[0-9a-f]{64}$", re.I)
 
+DGKC_COMMISSIONING_EVENT_ID = "evt_c66c444c35780cf5951e"
+DGKC_COMMISSIONING_DOC_ID = "issuer:c7230a44854c74a77777465a"
+DGKC_COMMISSIONING_MISSING_SOURCE_EVENT_DATE_REJECTION = (
+    "dgkc_pp_bag_commissioning_rejected_missing_source_published_at_available_on_and_event_date"
+)
+
 MARI_CASE_ID = "case_mari_working_interest_observed_v1"
 MARI_EVENT_ID = "evt_eddfcc381018cb0dff43"
 MARI_CANONICAL_CONTROL_EVENT_ID = "evt_b25decfc180474cbe066"
@@ -752,6 +758,25 @@ def _empty_company(symbol: str) -> dict[str, Any]:
     }
 
 
+def _dgkc_commissioning_rejections(
+    ledger: dict[str, Any],
+    documents: dict[str, Any],
+) -> list[str]:
+    event = _event(ledger, "DGKC", DGKC_COMMISSIONING_EVENT_ID)
+    doc = _document(documents, DGKC_COMMISSIONING_DOC_ID)
+    if event is None and doc is None:
+        return []
+    event_date = _iso_time(event.get("event_date")) if event else None
+    source_date = (
+        _iso_time(doc.get("published_at")) or _date(doc.get("available_on"))
+        if doc
+        else None
+    )
+    if event_date is None and source_date is None:
+        return [DGKC_COMMISSIONING_MISSING_SOURCE_EVENT_DATE_REJECTION]
+    return []
+
+
 def _mlcf_case(
     ledger: dict[str, Any],
     documents: dict[str, Any],
@@ -1374,6 +1399,11 @@ def build(write: bool = True) -> dict[str, Any]:
         }
     else:
         companies["MARI"]["rejection_reasons"] = mari_rejections_all or ["no_selected_observed_case_seed"]
+    dgkc_rejections = _dgkc_commissioning_rejections(ledger, documents)
+    if dgkc_rejections:
+        if "DGKC" not in companies:
+            companies["DGKC"] = _empty_company("DGKC")
+        companies["DGKC"]["rejection_reasons"] = dgkc_rejections
     result = {
         "schema_version": 1,
         "case_product_version": CASE_PRODUCT_VERSION,
