@@ -320,8 +320,12 @@ function main() {
   assert(liveMlcf.status === "available" && liveMlcf.items.some(item => item.href === "/company/MLCF/intelligence/" + MLCF_CASE_ID), "live MLCF case link projected");
   assert(liveMari.status === "available" && liveMari.items.length === 2 && liveMari.items.some(item => item.href === "/company/MARI/intelligence/" + MARI_CASE_ID) && liveMari.items.some(item => item.href === "/company/MARI/intelligence/" + MARI_SALES_CASE_ID), "live MARI E&P and sales-led case links projected");
   assert(api.findCase(liveBySymbol.MARI, MARI_CASE_ID, "MARI").ok, "live MARI working-interest route accepted");
+  const liveMariMechanism = api.resolveSection(api.findCase(liveBySymbol.MARI, MARI_CASE_ID, "MARI").case, "mechanism");
+  assert(liveMariMechanism.status === "blocked" && liveMariMechanism.reason, "live MARI E&P mechanism remains blocked");
   const liveMariSales = api.findCase(liveBySymbol.MARI, MARI_SALES_CASE_ID, "MARI");
   assert(liveMariSales.ok && liveMariSales.case.status === "Observed" && liveMariSales.case.case_family === "ai_data_centre", "live MARI sales-led route accepted");
+  const liveMariSalesMechanism = api.resolveSection(liveMariSales.case, "mechanism");
+  assert(liveMariSalesMechanism.status === "blocked" && liveMariSalesMechanism.reason, "live MARI sales mechanism remains blocked");
   const liveSalesFact = (liveMariSales.case.observed_facts || [])[0] || {};
   assert(liveSalesFact.document_id === "psx:280337" && liveSalesFact.event_date === "2026-07-24T16:26:00+05:00" && /Karakoram-01/.test(liveSalesFact.statement || ""), "live sales case retains reported launch evidence");
   const liveSalesWatch = api.resolveSection(liveMariSales.case, "watch_next");
@@ -337,6 +341,11 @@ function main() {
   assert(!app.includes("sales_input_readiness") && !view.includes("incremental_revenue_pkr"), "case UI does not render sales model inputs");
   const liveMlcfCase = api.findCase(liveBySymbol.MLCF, MLCF_CASE_ID, "MLCF");
   assert(liveMlcfCase.ok, "live MLCF observed case accepted");
+  const liveMechanism = api.resolveSection(liveMlcfCase.case, "mechanism");
+  assert(liveMechanism.status === "available" && liveMechanism.epistemic_type === "reported_fact", "live MLCF mechanism is a reported-fact section");
+  assert(liveMechanism.items?.length === 1 && liveMechanism.items[0]?.evidence?.map(ref => ref.document_id).join(",") === "psx:267429,psx:275425", "live MLCF mechanism retains exact two-source linkage");
+  assert(/not a quantified transaction outcome/.test(liveMechanism.items[0]?.text || "") && /forecast/.test(liveMechanism.items[0]?.reason || ""), "live MLCF mechanism retains formal-output boundary");
+  assert(app.includes('section.key === "mechanism"') && app.includes("caseEvidenceLink(ref)"), "mechanism renderer keeps evidence links");
   const liveConfidence = api.resolveSection(liveMlcfCase.case, "confidence");
   const liveWatchNext = api.resolveSection(liveMlcfCase.case, "watch_next");
   assert(liveConfidence.status === "available" && liveConfidence.epistemic_type === "inference", "live MLCF confidence projection is explicit and derived");

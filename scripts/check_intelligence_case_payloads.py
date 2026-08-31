@@ -91,7 +91,7 @@ def main() -> None:
     first = build_cases(write=False)
     second = build_cases(write=False)
     check(json.dumps(first, sort_keys=True, ensure_ascii=False, allow_nan=False) == json.dumps(second, sort_keys=True, ensure_ascii=False, allow_nan=False), "case builder is not deterministic")
-    check(first["summary"] == {"company_count": 20, "observed_case_count": 2, "published_case_count": 0}, "case summary mismatch")
+    check(first["summary"] == {"company_count": 20, "observed_case_count": 3, "published_case_count": 0}, "case summary mismatch")
     check(set(first["companies"]) == set(first["pilot_symbols"]) and len(first["pilot_symbols"]) == 20, "pilot boundary mismatch")
     check(first["status_lifecycle"] == ["Observed", "Corroborated", "Modelled", "Validated", "Published", "Monitoring", "Closed"], "lifecycle vocabulary mismatch")
 
@@ -150,6 +150,12 @@ def main() -> None:
     projected_mlcf = rows["MLCF"]["intelligence_cases"]
     check(projected_mlcf["symbol"] == "MLCF" and projected_mlcf["cases"][0]["case_id"] == MLCF_CASE_ID, "MLCF projected case identity mismatch")
     sections = projected_mlcf["cases"][0].get("sections") or {}
+    mechanism = sections.get("mechanism") or {}
+    check(mechanism.get("status") == "available" and mechanism.get("epistemic_type") == "reported_fact", "MLCF reported mechanism was not projected")
+    mechanism_item = (mechanism.get("items") or [{}])[0]
+    mechanism_refs = mechanism_item.get("evidence") or []
+    check(len(mechanism_refs) == 2 and [ref.get("document_id") for ref in mechanism_refs] == ["psx:267429", "psx:275425"], "MLCF mechanism source order mismatch")
+    check("not a quantified transaction outcome" in str(mechanism_item.get("text") or "") and "forecast" in str(mechanism_item.get("reason") or ""), "MLCF mechanism boundary missing")
     check(sections.get("confidence", {}).get("status") == "available", "MLCF source-bound confidence was not projected")
     check(sections.get("watch_next", {}).get("status") == "available", "MLCF source-bound watch list was not projected")
     dimensions = sections["confidence"].get("dimensions") or []
@@ -176,7 +182,7 @@ def main() -> None:
         watchlist_row=watchlist_state["companies"]["MLCF"],
     )
     rejected_sections = rejected_projection["cases"][0].get("sections") or {}
-    check(set(rejected_sections) == {"analogues"}, "mismatched evidence hash was projected into MLCF case")
+    check(set(rejected_sections) == {"mechanism", "analogues"}, "mismatched evidence hash was projected into MLCF case")
     hostile_watch = deepcopy(watchlist_state["companies"]["MLCF"])
     hostile_watch["items"][0]["ids"]["assertion_key"] = "different_assertion"
     rejected_watch = _intelligence_case_row(
@@ -186,7 +192,7 @@ def main() -> None:
         watchlist_row=hostile_watch,
     )
     rejected_watch_sections = rejected_watch["cases"][0].get("sections") or {}
-    check(set(rejected_watch_sections) == {"analogues"}, "mismatched assertion was projected into MLCF case")
+    check(set(rejected_watch_sections) == {"mechanism", "analogues"}, "mismatched assertion was projected into MLCF case")
 
     after = snapshot(watched)
     check(before == after, "payload checker wrote an artifact")

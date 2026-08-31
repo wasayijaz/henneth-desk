@@ -596,6 +596,23 @@ def main() -> None:
         raise AssertionError("February 2026 acquisition timing was not preserved")
     _assert_evidence(facts["mlcf_pioc_public_offer_control"]["evidence"][0], PUBLIC_OFFER_EVENT_ID, PUBLIC_OFFER_DOC_ID, 3)
     _assert_evidence(facts["mlcf_pioc_dispatch_inclusion"]["evidence"][0], FOLLOW_THROUGH_EVENT_ID, FOLLOW_THROUGH_DOC_ID, 4)
+    mechanism = (case.get("sections") or {}).get("mechanism") or {}
+    if mechanism.get("status") != "available" or mechanism.get("epistemic_type") != "reported_fact":
+        raise AssertionError("MLCF mechanism must be an available reported fact")
+    mechanism_text = str(mechanism.get("text") or "")
+    for required in ("public offer/control", "dispatches included", "February 2026"):
+        if required not in mechanism_text:
+            raise AssertionError(f"MLCF mechanism missing retained linkage: {required}")
+    mechanism_item = (mechanism.get("items") or [{}])[0]
+    limitation = str(mechanism_item.get("reason") or "")
+    for forbidden_claim in ("capacity", "revenue", "margin", "EPS", "debt", "cash flow", "synergies", "forecast"):
+        if forbidden_claim not in limitation:
+            raise AssertionError(f"MLCF mechanism boundary missing: {forbidden_claim}")
+    mechanism_refs = mechanism_item.get("evidence") or []
+    if len(mechanism_refs) != 2:
+        raise AssertionError("MLCF mechanism must retain exactly its two source refs")
+    _assert_evidence(mechanism_refs[0], PUBLIC_OFFER_EVENT_ID, PUBLIC_OFFER_DOC_ID, 3)
+    _assert_evidence(mechanism_refs[1], FOLLOW_THROUGH_EVENT_ID, FOLLOW_THROUGH_DOC_ID, 4)
     _assert_mlcf_cement_readiness(case)
     _assert_mlcf_market_context(case)
     blocks = case.get("promotion_blocks") or {}

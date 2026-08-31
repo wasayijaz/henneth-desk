@@ -2161,6 +2161,19 @@ function renderCaseSectionBody(section) {
     const items = Array.isArray(section.items) ? section.items : [];
     return items.length ? '<div class="intel-grid">' + items.map(renderCaseHypothesis).join("") + '</div>' : '<div class="empty">No competing hypotheses emitted.</div>';
   }
+  if (section.key === "mechanism") {
+    const items = Array.isArray(section.items) ? section.items : [];
+    const text = section.text ? '<p>' + esc(section.text) + '</p>' : '';
+    const rows = items.map(item => {
+      const evidence = Array.isArray(item?.evidence) ? item.evidence : [];
+      return '<article><b>' + esc(item?.id || "reported_operating_linkage") + '</b>'
+        + '<span>' + esc(item?.text || "No reported operating linkage emitted.") + '</span>'
+        + '<em>' + esc(item?.reason || "") + '</em>'
+        + evidence.map(ref => '<div class="intel-evidence">' + caseEvidenceLink(ref) + ' · ' + esc(ref?.source || "source unknown") + '</div>').join("")
+        + '</article>';
+    }).join("");
+    return text + (rows ? '<div class="intel-list">' + rows + '</div>' : '<div class="empty">No operating linkage emitted.</div>');
+  }
   if (section.key === "confidence") {
     const dims = Array.isArray(section.dimensions) ? section.dimensions : [];
     return dims.length

@@ -861,7 +861,30 @@ def _mlcf_case(
             "Published": "Blocked: no forecast, valuation, reverse-expectations output, investor conclusion or release gate is complete.",
         },
         "cement_input_readiness": readiness,
-        "sections": {"analogues": market_context},
+        "sections": {
+            "mechanism": {
+                "status": "available",
+                "epistemic_type": "reported_fact",
+                "text": (
+                    "Observed operating linkage only: MLCF first disclosed a public offer/control "
+                    "transaction for PIOC. A later MLCF filing then reported PIOC dispatches included "
+                    "in MLCF local-market totals after the February 2026 acquisition."
+                ),
+                "items": [{
+                    "id": "reported_control_to_dispatch_linkage",
+                    "text": (
+                        "The two retained filings establish a control-to-dispatch reporting linkage, "
+                        "not a quantified transaction outcome."
+                    ),
+                    "reason": (
+                        "Does not establish standalone PIOC capacity, volume, revenue, margin, EPS, debt, "
+                        "cash flow, synergies, or a forecast; it does not activate a financial model."
+                    ),
+                    "evidence": refs,
+                }],
+            },
+            "analogues": market_context,
+        },
         "policy": _policy(deterministic_derived_context=True),
         "source_lineage": refs,
     }
