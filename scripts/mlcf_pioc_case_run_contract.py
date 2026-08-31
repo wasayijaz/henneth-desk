@@ -24,7 +24,9 @@ REAL_TARGET_SYMBOL = "PIOC"
 REAL_CASE_FAMILY = "industrial_cement"
 REAL_CASE_TYPE = "acquisition_control"
 REAL_MANIFEST_ID = "mlcf_pioc_event_model_readiness_v1"
-REAL_SOURCE_CHAIN_SHA256 = "fa19d63ef163bf55e6a3b658bba386833929e5c314ae74a4541c249d589b4531"
+# Includes the producer's source event timestamp.  This is immutable evidence
+# lineage, not a generated/build timestamp.
+REAL_SOURCE_CHAIN_SHA256 = "9497a1d7b6ba23c1e3983a164a807437042ca3ec139224c40f885289feccc4be"
 REAL_SOURCE_CHAIN_IDS = (
     ("mlcf_pioc_public_offer_control", "evt_cb44dc32c91b0c5712a5", "psx:267429"),
     ("mlcf_pioc_dispatch_inclusion", "evt_25bfb52e721191c7b644", "psx:275425"),
@@ -193,9 +195,11 @@ _SOURCE_REF_BASE_KEYS = {"id", "label"}
 _EVIDENCE_REF_KEYS = {
     "event_id", "document_id", "document_title", "document_published_at",
     "document_retrieved_at", "content_sha256", "source", "source_url",
-    "page", "text",
+    "page", "text", "event_date",
 }
-_MANIFEST_EVIDENCE_REF_KEYS = _EVIDENCE_REF_KEYS - {"text"}
+# The readiness manifest is a compact projection of source evidence.  It does
+# not duplicate the full text or the event timestamp held by the case facts.
+_MANIFEST_EVIDENCE_REF_KEYS = _EVIDENCE_REF_KEYS - {"text", "event_date"}
 _REAL_CASE_KEYS = {
     "case_id", "symbol", "target_symbol", "case_family", "case_type", "status",
     "epistemic_type", "as_of", "summary", "observed_facts", "alternative_readings",
@@ -328,6 +332,7 @@ def _evidence_ref_valid(row: Mapping[str, Any]) -> bool:
         and _nonempty(ref.get("document_title"))
         and _datetime(ref.get("document_published_at")) is not None
         and _datetime(ref.get("document_retrieved_at")) is not None
+        and _datetime(ref.get("event_date")) is not None
         and isinstance(ref.get("content_sha256"), str)
         and _HASH_RE.fullmatch(ref.get("content_sha256", "")) is not None
         and _nonempty(ref.get("source"))
@@ -353,6 +358,8 @@ def _strict_evidence_ref(ref: Any, path: str, *, require_text: bool) -> tuple[di
         violations.append(f"{path}.document_published_at: must be an ISO datetime")
     if _datetime(ref.get("document_retrieved_at")) is None:
         violations.append(f"{path}.document_retrieved_at: must be an ISO datetime")
+    if require_text and _datetime(ref.get("event_date")) is None:
+        violations.append(f"{path}.event_date: must be an ISO datetime")
     for key in ("event_id", "document_id", "document_title", "source", "source_url"):
         if not _nonempty(ref.get(key)):
             violations.append(f"{path}.{key}: must be a non-empty string")
