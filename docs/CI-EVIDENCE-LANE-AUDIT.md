@@ -40,6 +40,28 @@ most without retained hashes), and the readiness/watchlist products retain the
 **observed event seed only**, not a forecast, valuation, or quantified impact
 case; 5Y/8Q history and qualified cash-flow/share-count tie-outs remain absent.
 
+### Executed MARI filing pilot — zero financial-truth delta
+
+The owner-approved, exact-ID official-PSX tranche was tested under the existing
+transport and parser caps. `psx:264550` (FY26 Q1, 59 pages), `psx:271327`
+(FY26 Q2, 66 pages), and `psx:275583` (FY26 Q3, 64 pages) are now bound to
+their transport hashes and current parser receipts. The first is
+`processed_unsupported`; the latter two have successful transport/parser
+receipts. Their candidate statement geometry did not establish the required
+consolidated, direct three-month full-statement schedule, so the authoritative
+financial-truth counters remain annual Revenue/PAT/EPS **0/5**, annual OCF
+**0/5**, direct reported-quarter sets **0/8**, and official share-count tie-out
+**missing**. No *financial* fact was promoted merely because a receipt
+succeeded. The Q2 filing separately supplies source-bound event mechanics:
+65% Peshawar Block working interest with operatorship; that strengthens the
+Observed E&P case only and does not corroborate, model, or value it.
+
+The FY26 annual `psx:280901` is an official exact-ID lead but was rejected at
+the existing 12 MiB transport cap before bytes could be hash-bound. It was not
+split, retried as a different source, or used to infer FY25/26 values. A future
+annual path must use an independently approved compliant transport decision or
+an exact approved smaller official counterpart; neither exists in this wave.
+
 ### Why OGDC and PPL do not replace MARI
 
 The research index contains compelling *headline metadata* for OGDC and PPL,

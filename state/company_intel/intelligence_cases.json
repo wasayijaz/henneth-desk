@@ -1,7 +1,7 @@
 {
  "schema_version": 1,
  "case_product_version": "observed_intelligence_case_seed_v5",
- "as_of": "2026-08-31T15:13:14+05:00",
+ "as_of": "2026-08-31T16:43:41+05:00",
  "pilot_symbols": [
   "ATRL",
   "BOP",
@@ -152,8 +152,8 @@
      "case_type": "working_interest_acquisition",
      "status": "Observed",
      "epistemic_type": "reported_fact",
-     "as_of": "2026-08-25T17:13:00+05:00",
-     "summary": "Observed official-source seed: Mari Energies reported acquisition of working interest in Peshawar Block as an operator.",
+     "as_of": "2026-08-31T16:43:41+05:00",
+     "summary": "Observed official-source seed: Mari Energies reported acquisition of a 65% working interest in Peshawar Block with operatorship.",
      "observed_facts": [
       {
        "fact_id": "mari_peshawar_working_interest_acquisition",
@@ -186,6 +186,38 @@
          "event_date": "2025-09-30T10:46:00+05:00"
         }
        ]
+      },
+      {
+       "fact_id": "mari_peshawar_follow_through_interest",
+       "source_event_id": "evt_5cc9795abc3e4cfdda51",
+       "document_id": "psx:271327",
+       "event_date": "2026-02-27T09:03:00+05:00",
+       "statement": "A later MARI quarterly filing reported a 65% Peshawar Block working interest together with operatorship.",
+       "reported_values": [
+        {
+         "label": "working_interest",
+         "value": "65%"
+        },
+        {
+         "label": "operator_status",
+         "value": "operatorship"
+        }
+       ],
+       "evidence": [
+        {
+         "event_id": "evt_5cc9795abc3e4cfdda51",
+         "document_id": "psx:271327",
+         "document_title": "Transmission of Quarterly Financial Statements for the Period Ended 2025-12-31",
+         "document_published_at": "2026-02-27T09:03:00+05:00",
+         "document_retrieved_at": "2026-08-31T16:43:41+05:00",
+         "content_sha256": "e53fccd6eca58c685dbf9225140056303be704b1f389b876ba33d87aa4b687b3",
+         "source": "PSX DPS",
+         "source_url": "https://dps.psx.com.pk/download/document/271327.pdf",
+         "page": 6,
+         "text": "x.  The Company entered into a farm-out agreement with Hycarbex-American Energy Inc. for acquisition of 65% working interest in Peshawar Block along with operatorship. FOR THE SIX MONTHS PERIOD ENDED DECEMBER 31 , 2025 05",
+         "event_date": "2026-02-27T09:03:00+05:00"
+        }
+       ]
       }
      ],
      "alternative_readings": [
@@ -197,13 +229,13 @@
       },
       {
        "alternative_id": "operator_status_not_economics",
-       "reading": "The notice does not establish cost, timing, resource, production or project economics.",
+       "reading": "The later filing confirms a 65% working interest and operatorship, but does not establish cost, timing, resource, production or project economics.",
        "status": "retained_as_observed_only",
        "rejection_condition": "Reject modelling if source-qualified project economics and qualified company financial inputs remain absent."
       }
      ],
      "promotion_blocks": {
-      "Corroborated": "Blocked: retained evidence is a single official MARI/PSX source and no independent-originator corroboration is attached.",
+      "Corroborated": "Blocked: retained evidence is a MARI/PSX filing chain, not independent-originator corroboration.",
       "Modelled": "Blocked: no source-qualified financial model or owner-approved assumptions are attached.",
       "Published": "Blocked: no forecast, valuation, reverse-expectations output, investor conclusion or release gate is complete."
      },
@@ -273,6 +305,19 @@
        "page": 1,
        "text": "and Clause 5.6.1 (a) of the PSX Regulations, we hereby convey the following information: Acquisition of Working Interest in Peshawar Block (as an Operator) from Hycarbex- American Energ~ We are pleased to inform you that Mari Energies Limi…",
        "event_date": "2025-09-30T10:46:00+05:00"
+      },
+      {
+       "event_id": "evt_5cc9795abc3e4cfdda51",
+       "document_id": "psx:271327",
+       "document_title": "Transmission of Quarterly Financial Statements for the Period Ended 2025-12-31",
+       "document_published_at": "2026-02-27T09:03:00+05:00",
+       "document_retrieved_at": "2026-08-31T16:43:41+05:00",
+       "content_sha256": "e53fccd6eca58c685dbf9225140056303be704b1f389b876ba33d87aa4b687b3",
+       "source": "PSX DPS",
+       "source_url": "https://dps.psx.com.pk/download/document/271327.pdf",
+       "page": 6,
+       "text": "x.  The Company entered into a farm-out agreement with Hycarbex-American Energy Inc. for acquisition of 65% working interest in Peshawar Block along with operatorship. FOR THE SIX MONTHS PERIOD ENDED DECEMBER 31 , 2025 05",
+       "event_date": "2026-02-27T09:03:00+05:00"
       }
      ]
     }
@@ -673,9 +718,9 @@
  },
  "_meta": {
   "generator_version": "ci_artifact_integrity_v1",
-  "source_commit_sha": "1e022a3552d24ea930766cc95ec6e2c2a725b237",
-  "build_cutoff_at": "2026-08-31T11:29:27Z",
-  "generated_at": "2026-08-31T11:29:27Z",
+  "source_commit_sha": "e4be870e4a560acb1b1109c645a1ddef0db27e3a",
+  "build_cutoff_at": "2026-08-31T11:57:24Z",
+  "generated_at": "2026-08-31T11:57:24Z",
   "artifact_path": "state/company_intel/intelligence_cases.json",
   "timestamp_semantics": {
    "build_cutoff_at": "generation boundary only; not a source-effective or source-published time",

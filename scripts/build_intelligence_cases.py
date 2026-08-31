@@ -68,6 +68,10 @@ MARI_DOC_ID = "psx:260446"
 MARI_DOC_HASH = "c13ccb4de58ad005bca106942721490593fe219ff45906c68280ea7856192e42"
 MARI_EVIDENCE_SHA256 = "dd83c62cb781e2a57f5ae595a7184ea786a3e5890f7f7cc96cd93e23f958a177"
 MARI_SOURCE_URL = "https://dps.psx.com.pk/download/document/260446.pdf"
+MARI_FOLLOW_THROUGH_EVENT_ID = "evt_5cc9795abc3e4cfdda51"
+MARI_FOLLOW_THROUGH_DOC_ID = "psx:271327"
+MARI_FOLLOW_THROUGH_DOC_HASH = "e53fccd6eca58c685dbf9225140056303be704b1f389b876ba33d87aa4b687b3"
+MARI_FOLLOW_THROUGH_SOURCE_URL = "https://dps.psx.com.pk/download/document/271327.pdf"
 
 
 def _parse_time(value: Any) -> datetime | None:
@@ -375,6 +379,41 @@ def _validate_mari_source(event: dict[str, Any], doc: dict[str, Any]) -> dict[st
     _require_equal("mari.doc.local_sha256", _require_hex64("mari.doc.local_sha256", doc.get("local_sha256")), MARI_DOC_HASH)
     _require_iso_time("mari.doc.published_at", doc.get("published_at"), "2025-09-30T10:46:00+05:00")
     _require_equal("mari.doc.available_on", _available_on(doc), "2025-09-30")
+    return _evidence_ref(event, doc)
+
+
+def _validate_mari_follow_through_source(
+    event: dict[str, Any], doc: dict[str, Any], receipts: dict[str, Any],
+) -> dict[str, Any]:
+    """Accept the later filing only as source-bound mechanics, never corroboration."""
+    _require_equal("mari_follow.event_id", event.get("event_id"), MARI_FOLLOW_THROUGH_EVENT_ID)
+    _require_equal("mari_follow.doc_id", event.get("doc_id"), MARI_FOLLOW_THROUGH_DOC_ID)
+    _require_equal("mari_follow.event_type", event.get("event_type"), "acquisition")
+    _require_equal("mari_follow.priority_weight", event.get("priority_weight"), 4)
+    _require_equal("mari_follow.tickers", event.get("tickers"), ["MARI"])
+    _require_iso_time("mari_follow.event_date", event.get("event_date"), "2026-02-27T09:03:00+05:00")
+    evidence = _first_evidence(event, MARI_FOLLOW_THROUGH_EVENT_ID)
+    _require_equal("mari_follow.evidence.source_url", evidence.get("source_url"), MARI_FOLLOW_THROUGH_SOURCE_URL)
+    _require_equal("mari_follow.evidence.page", evidence.get("page"), 6)
+    text = _require_text("mari_follow.evidence.text", evidence.get("text"))
+    if "65% working interest" not in text or "operatorship" not in text:
+        _fail("MARI follow-through source does not state the exact working-interest/operator mechanics")
+    _require_equal("mari_follow.doc.status", doc.get("status"), "ready")
+    _require_equal("mari_follow.doc.source_url", doc.get("source_url"), MARI_FOLLOW_THROUGH_SOURCE_URL)
+    _require_equal(
+        "mari_follow.doc.content_sha256",
+        _require_hex64("mari_follow.doc.content_sha256", doc.get("content_sha256")),
+        MARI_FOLLOW_THROUGH_DOC_HASH,
+    )
+    rows = receipts.get("receipts") if isinstance(receipts, dict) else None
+    if not any(
+        isinstance(row, dict)
+        and row.get("doc_id") == MARI_FOLLOW_THROUGH_DOC_ID
+        and row.get("content_sha256") == MARI_FOLLOW_THROUGH_DOC_HASH
+        and row.get("status") == "success"
+        for row in (rows or [])
+    ):
+        _fail("MARI follow-through document lacks a matching successful exact-ID receipt")
     return _evidence_ref(event, doc)
 
 
@@ -806,9 +845,12 @@ def _mari_case(
     operating_events: dict[str, Any] | None = None,
     event_studies: dict[str, Any] | None = None,
     history: Any = None,
+    receipts: dict[str, Any] | None = None,
 ) -> tuple[dict[str, Any] | None, list[str], list[dict[str, Any]]]:
     event = _event(ledger, "MARI", MARI_EVENT_ID)
+    follow_through = _event(ledger, "MARI", MARI_FOLLOW_THROUGH_EVENT_ID)
     document = _document(documents, MARI_DOC_ID)
+    follow_through_document = _document(documents, MARI_FOLLOW_THROUGH_DOC_ID)
     if operating_events is None:
         operating_events = load_json(STATE / "company_intel" / "operating_events.json", {"companies": {}})
     canonical_event = _operating_event(operating_events, "MARI", MARI_CANONICAL_CONTROL_EVENT_ID)
@@ -819,12 +861,21 @@ def _mari_case(
         missing.append("missing_mari_peshawar_working_interest_document")
     if canonical_event is None:
         missing.append("missing_mari_canonical_peshawar_event")
+    if follow_through is None:
+        missing.append("missing_mari_peshawar_follow_through_event")
+    if follow_through_document is None:
+        missing.append("missing_mari_peshawar_follow_through_document")
     if missing:
         return None, missing, []
     assert event is not None and document is not None and canonical_event is not None
+    assert follow_through is not None and follow_through_document is not None
     ref = _validate_mari_source(event, document)
+    follow_ref = _validate_mari_follow_through_source(
+        follow_through, follow_through_document,
+        receipts or load_json(STATE / "company_intel" / "reprocess_receipts.json", {"receipts": []}),
+    )
     _validate_mari_canonical_control_source(canonical_event)
-    cutoff = _source_cutoff([ref])
+    cutoff = _source_cutoff([ref, follow_ref])
     if event_studies is None:
         event_studies = load_json(STATE / "company_intel" / "event_studies.json", {})
     if history is None:
@@ -842,7 +893,7 @@ def _mari_case(
         "status": "Observed",
         "epistemic_type": "reported_fact",
         "as_of": cutoff,
-        "summary": "Observed official-source seed: Mari Energies reported acquisition of working interest in Peshawar Block as an operator.",
+        "summary": "Observed official-source seed: Mari Energies reported acquisition of a 65% working interest in Peshawar Block with operatorship.",
         "observed_facts": [
             {
                 "fact_id": "mari_peshawar_working_interest_acquisition",
@@ -856,6 +907,18 @@ def _mari_case(
                 ],
                 "evidence": [ref],
             },
+            {
+                "fact_id": "mari_peshawar_follow_through_interest",
+                "source_event_id": MARI_FOLLOW_THROUGH_EVENT_ID,
+                "document_id": MARI_FOLLOW_THROUGH_DOC_ID,
+                "event_date": _iso_time(follow_through.get("event_date")),
+                "statement": "A later MARI quarterly filing reported a 65% Peshawar Block working interest together with operatorship.",
+                "reported_values": [
+                    {"label": "working_interest", "value": "65%"},
+                    {"label": "operator_status", "value": "operatorship"},
+                ],
+                "evidence": [follow_ref],
+            },
         ],
         "alternative_readings": [
             {
@@ -866,21 +929,21 @@ def _mari_case(
             },
             {
                 "alternative_id": "operator_status_not_economics",
-                "reading": "The notice does not establish cost, timing, resource, production or project economics.",
+                "reading": "The later filing confirms a 65% working interest and operatorship, but does not establish cost, timing, resource, production or project economics.",
                 "status": "retained_as_observed_only",
                 "rejection_condition": "Reject modelling if source-qualified project economics and qualified company financial inputs remain absent.",
             },
         ],
         "promotion_blocks": {
-            "Corroborated": "Blocked: retained evidence is a single official MARI/PSX source and no independent-originator corroboration is attached.",
+            "Corroborated": "Blocked: retained evidence is a MARI/PSX filing chain, not independent-originator corroboration.",
             "Modelled": "Blocked: no source-qualified financial model or owner-approved assumptions are attached.",
             "Published": "Blocked: no forecast, valuation, reverse-expectations output, investor conclusion or release gate is complete.",
         },
         "sections": {"analogues": market_context},
         "policy": _policy(deterministic_derived_context=True),
-        "source_lineage": [ref],
+        "source_lineage": [ref, follow_ref],
     }
-    return case, [], [ref]
+    return case, [], [ref, follow_ref]
 
 
 def build(write: bool = True) -> dict[str, Any]:
@@ -891,10 +954,13 @@ def build(write: bool = True) -> dict[str, Any]:
     event_studies = load_json(STATE / "company_intel" / "event_studies.json", {"studies": {}})
     mlcf_history = load_json(STATE / "history" / "MLCF.json", [])
     mari_history = load_json(STATE / "history" / "MARI.json", [])
+    reprocess_receipts = load_json(STATE / "company_intel" / "reprocess_receipts.json", {"receipts": []})
     pilot = sorted((profiles.get("pilot") or {}).get("symbols") or [])
     companies = {symbol: _empty_company(symbol) for symbol in pilot}
     mlcf_case, mlcf_rejections, mlcf_refs = _mlcf_case(ledger, documents, operating_events, event_studies, mlcf_history)
-    mari_case, mari_rejections, mari_refs = _mari_case(ledger, documents, operating_events, event_studies, mari_history)
+    mari_case, mari_rejections, mari_refs = _mari_case(
+        ledger, documents, operating_events, event_studies, mari_history, reprocess_receipts,
+    )
     refs = [*mlcf_refs, *mari_refs]
     as_of = _source_cutoff(refs) if refs else datetime.now(PKT).replace(microsecond=0).isoformat()
     if "MLCF" not in companies:

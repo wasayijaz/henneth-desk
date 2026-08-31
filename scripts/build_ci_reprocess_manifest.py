@@ -110,6 +110,50 @@ APPROVED_REVIEW_SLOTS: tuple[dict[str, Any], ...] = (
         "require_retained_hash": True,
         "source_document_id": "psx:275962",
     },
+    # Owner-approved MARI evidence-path pilot.  FY26 annual includes the FY25
+    # comparative, so a separate FY25 annual would duplicate the first
+    # financial-history increment.  The three exact FY26 quarter reports test
+    # standalone three-month extraction without widening provider scope.
+    {
+        "symbol": "MARI",
+        "period": "2026-06-30",
+        "period_type": "annual",
+        "classification": "financial_results",
+        "title_pattern": r"Financial Results for the Year Ended 30-06-2026",
+        "require_retained_hash": False,
+        "source_document_id": "psx:280901",
+        "owner_approved": True,
+    },
+    {
+        "symbol": "MARI",
+        "period": "2025-09-30",
+        "period_type": "interim",
+        "classification": "financial_statement",
+        "title_pattern": r"Transmission of Quarterly Report for the period ended September 30\. 2025",
+        "require_retained_hash": False,
+        "source_document_id": "psx:264550",
+        "owner_approved": True,
+    },
+    {
+        "symbol": "MARI",
+        "period": "2025-12-31",
+        "period_type": "interim",
+        "classification": "financial_statement",
+        "title_pattern": r"Transmission of Quarterly Financial Statements for the Period Ended 2025-12-31",
+        "require_retained_hash": False,
+        "source_document_id": "psx:271327",
+        "owner_approved": True,
+    },
+    {
+        "symbol": "MARI",
+        "period": "2026-03-31",
+        "period_type": "interim",
+        "classification": "financial_statement",
+        "title_pattern": r"Transmission of Quarterly Report for the Period Ended 2026-03-31",
+        "require_retained_hash": False,
+        "source_document_id": "psx:275583",
+        "owner_approved": True,
+    },
 )
 
 
@@ -188,8 +232,11 @@ def _resolve_slot(coverage: dict[str, Any], slot: dict[str, Any], research_index
             "classification": classification, "title": title,
             "expected_title_pattern": pattern, "published_at": row.get("published_at"),
             "source_url": source_url, "content_sha256": content_sha256,
-            "content_identity": "retained_hash", "safe_period": {"period_end": period, "period_type": (slot.get("period_type") or ("annual" if classification == "financial_statement" else "interim")), "source": ("owner_approved_exact_source" if slot.get("source_content_sha256") else "owner_approved_counterpart")},
-            "approval_status": "owner_approved", "reason": "owner-approved retained official exact source for bounded CI filing restage",
+            "content_identity": ("retained_hash" if content_sha256 else "transport_hash_required_before_receipt"),
+            "safe_period": {"period_end": period, "period_type": (slot.get("period_type") or ("annual" if classification == "financial_statement" else "interim")), "source": ("owner_approved_exact_source" if slot.get("source_content_sha256") else "owner_approved_counterpart")},
+            "approval_status": "owner_approved" if (slot.get("owner_approved") or slot.get("source_content_sha256")) else "owner_review_required",
+            "reason": ("owner-approved official exact source; transport hash must bind before any receipt or fact"
+                       if slot.get("owner_approved") else "owner-approved retained official exact source for bounded CI filing restage"),
         }
     matches = []
     for doc in _candidate_docs(coverage, symbol):

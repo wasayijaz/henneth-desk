@@ -5076,12 +5076,12 @@
     {
      "document_id": "psx:275583",
      "title": "Transmission of Quarterly Report for the Period Ended 2026-03-31",
-     "doc_type": "company_announcement",
-     "classification": "financial_statement",
+     "doc_type": "results",
+     "classification": "financial_results",
      "published_at": "2026-04-28T15:21:00+05:00",
      "source_url": "https://dps.psx.com.pk/download/document/275583.pdf",
-     "status": null,
-     "content_sha256": null,
+     "status": "ready",
+     "content_sha256": "b2d9a7ce564306b3fccfb301801f774c90accb69ceffa8e3c0c1c9e69137c02b",
      "safe_period": {
       "period_end": "2026-03-31",
       "period_type": "interim",
@@ -5103,12 +5103,12 @@
     {
      "document_id": "psx:271327",
      "title": "Transmission of Quarterly Financial Statements for the Period Ended 2025-12-31",
-     "doc_type": "financial_statement",
-     "classification": "financial_statement",
+     "doc_type": "results",
+     "classification": "financial_results",
      "published_at": "2026-02-27T09:03:00+05:00",
      "source_url": "https://dps.psx.com.pk/download/document/271327.pdf",
-     "status": null,
-     "content_sha256": null,
+     "status": "ready",
+     "content_sha256": "e53fccd6eca58c685dbf9225140056303be704b1f389b876ba33d87aa4b687b3",
      "safe_period": {
       "period_end": "2025-12-31",
       "period_type": "interim",
@@ -5135,12 +5135,12 @@
     {
      "document_id": "psx:264550",
      "title": "Transmission of Quarterly Report for the period ended September 30. 2025",
-     "doc_type": "company_announcement",
-     "classification": "financial_statement",
+     "doc_type": "results",
+     "classification": "financial_results",
      "published_at": "2025-10-30T15:11:00+05:00",
      "source_url": "https://dps.psx.com.pk/download/document/264550.pdf",
-     "status": null,
-     "content_sha256": null,
+     "status": "ready",
+     "content_sha256": "7f4cf3461439d968407a7cb06d446dc02876f13e923893c165d36a9e0e7f88f5",
      "safe_period": null
     },
     {
@@ -5282,7 +5282,7 @@
     ]
    },
    "audit_only_series": {
-    "audit_only_fact_count": 31,
+    "audit_only_fact_count": 56,
     "audit_only_metrics": [
      {
       "metric": "change_pct",
@@ -5290,18 +5290,22 @@
      },
      {
       "metric": "dividend",
-      "fact_count": 5
+      "fact_count": 8
+     },
+     {
+      "metric": "operating_cash_flow",
+      "fact_count": 2
      },
      {
       "metric": "profit",
-      "fact_count": 6
+      "fact_count": 16
      },
      {
       "metric": "revenue",
-      "fact_count": 11
+      "fact_count": 21
      }
     ],
-    "model_loadable_count": 0,
+    "model_loadable_count": 4,
     "note": "Audit-only facts are retained as coverage signals only and are not promoted into required values."
    },
    "qualification_queue": {
@@ -6661,9 +6665,9 @@
  },
  "_meta": {
   "generator_version": "ci_artifact_integrity_v1",
-  "source_commit_sha": "1e022a3552d24ea930766cc95ec6e2c2a725b237",
-  "build_cutoff_at": "2026-08-31T11:29:27Z",
-  "generated_at": "2026-08-31T11:29:27Z",
+  "source_commit_sha": "e4be870e4a560acb1b1109c645a1ddef0db27e3a",
+  "build_cutoff_at": "2026-08-31T11:57:24Z",
+  "generated_at": "2026-08-31T11:57:24Z",
   "artifact_path": "state/company_intel/financial_coverage.json",
   "timestamp_semantics": {
    "build_cutoff_at": "generation boundary only; not a source-effective or source-published time",

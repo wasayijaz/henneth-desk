@@ -1,7 +1,7 @@
 {
  "schema_version": 1,
  "manifest_version": "ci_reprocess_review_manifest_v1",
- "manifest_id": "cirestage_4e93c0716ef17fbdb46c",
+ "manifest_id": "cirestage_cdb4f6c35d2bdf27e7fa",
  "source": {
   "financial_coverage": "state/company_intel/financial_coverage.json",
   "research_index": "state/research_index.json"
@@ -86,6 +86,30 @@
    "period": "2026-03-31",
    "classification": "financial_results",
    "require_retained_hash": true
+  },
+  {
+   "symbol": "MARI",
+   "period": "2026-06-30",
+   "classification": "financial_results",
+   "require_retained_hash": false
+  },
+  {
+   "symbol": "MARI",
+   "period": "2025-09-30",
+   "classification": "financial_statement",
+   "require_retained_hash": false
+  },
+  {
+   "symbol": "MARI",
+   "period": "2025-12-31",
+   "classification": "financial_statement",
+   "require_retained_hash": false
+  },
+  {
+   "symbol": "MARI",
+   "period": "2026-03-31",
+   "classification": "financial_statement",
+   "require_retained_hash": false
   }
  ],
  "document_ids": [
@@ -96,7 +120,11 @@
   "psx:263397",
   "psx:271712",
   "psx:275425",
-  "psx:275962"
+  "psx:275962",
+  "psx:280901",
+  "psx:264550",
+  "psx:271327",
+  "psx:275583"
  ],
  "documents": {
   "psx:219092": {
@@ -248,17 +276,94 @@
     "period_type": "interim",
     "source": "owner_approved_counterpart"
    },
-   "approval_status": "owner_approved",
+   "approval_status": "owner_review_required",
    "reason": "owner-approved retained official exact source for bounded CI filing restage"
+  },
+  "psx:280901": {
+   "document_id": "psx:280901",
+   "symbol": "MARI",
+   "period": "2026-06-30",
+   "classification": "financial_results",
+   "title": "Financial Results for the Year Ended 30-06-2026",
+   "expected_title_pattern": "Financial Results for the Year Ended 30-06-2026",
+   "published_at": "2026-08-07T14:36:00+05:00",
+   "source_url": "https://dps.psx.com.pk/download/document/280901.pdf",
+   "content_sha256": null,
+   "content_identity": "transport_hash_required_before_receipt",
+   "safe_period": {
+    "period_end": "2026-06-30",
+    "period_type": "annual",
+    "source": "owner_approved_counterpart"
+   },
+   "approval_status": "owner_approved",
+   "reason": "owner-approved official exact source; transport hash must bind before any receipt or fact"
+  },
+  "psx:264550": {
+   "document_id": "psx:264550",
+   "symbol": "MARI",
+   "period": "2025-09-30",
+   "classification": "financial_statement",
+   "title": "Transmission of Quarterly Report for the period ended September 30. 2025",
+   "expected_title_pattern": "Transmission of Quarterly Report for the period ended September 30\\. 2025",
+   "published_at": "2025-10-30T15:11:00+05:00",
+   "source_url": "https://dps.psx.com.pk/download/document/264550.pdf",
+   "content_sha256": null,
+   "content_identity": "transport_hash_required_before_receipt",
+   "safe_period": {
+    "period_end": "2025-09-30",
+    "period_type": "interim",
+    "source": "owner_approved_counterpart"
+   },
+   "approval_status": "owner_approved",
+   "reason": "owner-approved official exact source; transport hash must bind before any receipt or fact"
+  },
+  "psx:271327": {
+   "document_id": "psx:271327",
+   "symbol": "MARI",
+   "period": "2025-12-31",
+   "classification": "financial_statement",
+   "title": "Transmission of Quarterly Financial Statements for the Period Ended 2025-12-31",
+   "expected_title_pattern": "Transmission of Quarterly Financial Statements for the Period Ended 2025-12-31",
+   "published_at": "2026-02-27T09:03:00+05:00",
+   "source_url": "https://dps.psx.com.pk/download/document/271327.pdf",
+   "content_sha256": null,
+   "content_identity": "transport_hash_required_before_receipt",
+   "safe_period": {
+    "period_end": "2025-12-31",
+    "period_type": "interim",
+    "source": "owner_approved_counterpart"
+   },
+   "approval_status": "owner_approved",
+   "reason": "owner-approved official exact source; transport hash must bind before any receipt or fact"
+  },
+  "psx:275583": {
+   "document_id": "psx:275583",
+   "symbol": "MARI",
+   "period": "2026-03-31",
+   "classification": "financial_statement",
+   "title": "Transmission of Quarterly Report for the Period Ended 2026-03-31",
+   "expected_title_pattern": "Transmission of Quarterly Report for the Period Ended 2026-03-31",
+   "published_at": "2026-04-28T15:21:00+05:00",
+   "source_url": "https://dps.psx.com.pk/download/document/275583.pdf",
+   "content_sha256": null,
+   "content_identity": "transport_hash_required_before_receipt",
+   "safe_period": {
+    "period_end": "2026-03-31",
+    "period_type": "interim",
+    "source": "owner_approved_counterpart"
+   },
+   "approval_status": "owner_approved",
+   "reason": "owner-approved official exact source; transport hash must bind before any receipt or fact"
   }
  },
  "summary": {
-  "document_count": 8,
+  "document_count": 12,
   "symbols": [
    "DGKC",
+   "MARI",
    "MLCF"
   ],
   "retained_hash_count": 8,
-  "transport_hash_required_count": 0
+  "transport_hash_required_count": 4
  }
 }

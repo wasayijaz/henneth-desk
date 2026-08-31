@@ -16,6 +16,8 @@ from build_intelligence_cases import (
     MARI_CASE_ID,
     MARI_DOC_ID,
     MARI_EVENT_ID,
+    MARI_FOLLOW_THROUGH_DOC_ID,
+    MARI_FOLLOW_THROUGH_EVENT_ID,
     MLCF_CASE_ID,
     MLCF_CANONICAL_CONTROL_EVENT_ID,
     MLCF_FOLLOW_THROUGH_ALIAS_EVENT_ID,
@@ -525,7 +527,10 @@ def main() -> None:
         raise AssertionError("MARI case epistemic or issuer identity mismatch")
     _assert_no_forbidden_payload(mari_case)
     mari_facts = {fact.get("fact_id"): fact for fact in mari_case.get("observed_facts") or []}
-    if set(mari_facts) != {"mari_peshawar_working_interest_acquisition"}:
+    if set(mari_facts) != {
+        "mari_peshawar_working_interest_acquisition",
+        "mari_peshawar_follow_through_interest",
+    }:
         raise AssertionError("MARI observed facts mismatch")
     mari_fact = mari_facts["mari_peshawar_working_interest_acquisition"]
     if {row.get("label"): row.get("value") for row in mari_fact.get("reported_values") or []} != {
@@ -537,6 +542,18 @@ def main() -> None:
     _assert_evidence(mari_ref, MARI_EVENT_ID, MARI_DOC_ID, 1)
     if mari_ref.get("content_sha256") != "c13ccb4de58ad005bca106942721490593fe219ff45906c68280ea7856192e42":
         raise AssertionError("MARI source hash mismatch")
+    mari_follow = mari_facts["mari_peshawar_follow_through_interest"]
+    if {row.get("label"): row.get("value") for row in mari_follow.get("reported_values") or []} != {
+        "working_interest": "65%",
+        "operator_status": "operatorship",
+    }:
+        raise AssertionError("MARI follow-through working-interest mechanics mismatch")
+    _assert_evidence(
+        (mari_follow.get("evidence") or [{}])[0],
+        MARI_FOLLOW_THROUGH_EVENT_ID, MARI_FOLLOW_THROUGH_DOC_ID, 6,
+    )
+    if "not independent-originator corroboration" not in str((mari_case.get("promotion_blocks") or {}).get("Corroborated")):
+        raise AssertionError("MARI follow-through incorrectly promoted the case")
     _assert_mari_market_context(mari_case)
     for status in ("Corroborated", "Modelled", "Published"):
         if status not in (mari_case.get("promotion_blocks") or {}):
