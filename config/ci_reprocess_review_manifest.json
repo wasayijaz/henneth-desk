@@ -1,7 +1,7 @@
 {
  "schema_version": 1,
  "manifest_version": "ci_reprocess_review_manifest_v1",
- "manifest_id": "cirestage_cdb4f6c35d2bdf27e7fa",
+ "manifest_id": "cirestage_bbf471e37373231cda10",
  "source": {
   "financial_coverage": "state/company_intel/financial_coverage.json",
   "research_index": "state/research_index.json"
@@ -82,6 +82,12 @@
    "require_retained_hash": true
   },
   {
+   "symbol": "MLCF",
+   "period": "2026-06-30",
+   "classification": "financial_results",
+   "require_retained_hash": true
+  },
+  {
    "symbol": "DGKC",
    "period": "2026-03-31",
    "classification": "financial_results",
@@ -120,6 +126,7 @@
   "psx:263397",
   "psx:271712",
   "psx:275425",
+  "psx:280589",
   "psx:275962",
   "psx:280901",
   "psx:264550",
@@ -260,6 +267,25 @@
    "approval_status": "owner_approved",
    "reason": "owner-approved retained official exact source for bounded CI filing restage"
   },
+  "psx:280589": {
+   "document_id": "psx:280589",
+   "symbol": "MLCF",
+   "period": "2026-06-30",
+   "classification": "financial_results",
+   "title": "MLCF-Financial Results for the year ended June 30, 2026",
+   "expected_title_pattern": "MLCF-Financial Results for the year ended June 30, 2026",
+   "published_at": "2026-07-31T08:51:00+05:00",
+   "source_url": "https://dps.psx.com.pk/download/document/280589.pdf",
+   "content_sha256": "c9c7771eaa6a7fc75f6468318218ec85dd7d947637294e6dab9b19c3067ef696",
+   "content_identity": "retained_hash",
+   "safe_period": {
+    "period_end": "2026-06-30",
+    "period_type": "annual",
+    "source": "owner_approved_exact_source"
+   },
+   "approval_status": "owner_approved",
+   "reason": "owner-approved retained official exact source for bounded CI filing restage"
+  },
   "psx:275962": {
    "document_id": "psx:275962",
    "symbol": "DGKC",
@@ -357,13 +383,13 @@
   }
  },
  "summary": {
-  "document_count": 12,
+  "document_count": 13,
   "symbols": [
    "DGKC",
    "MARI",
    "MLCF"
   ],
-  "retained_hash_count": 8,
+  "retained_hash_count": 9,
   "transport_hash_required_count": 4
  }
 }

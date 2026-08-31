@@ -69,6 +69,7 @@ APPROVED_WAVE3_ALLOWLIST: frozenset[str] = frozenset({
     "psx:263397",
     "psx:271712",
     "psx:275425",
+    "psx:280589",
     "psx:275962",
     "psx:264550",
     "psx:271327",

@@ -102,6 +102,20 @@ APPROVED_REVIEW_SLOTS: tuple[dict[str, Any], ...] = (
         "source_document_id": "psx:275425",
         "source_content_sha256": "744a0c710043d6e0a7de36bb99f21ca50f0f9346f6972b957f6733a47deae11f",
     },
+    # The selected industrial case's next fiscal annual is already retained
+    # with an exact official hash.  It is a distinct FY26 period, not a second
+    # copy of the FY25 annual, and is the smallest path to annual OCF/capital
+    # note evidence for the MLCF/PIOC case.
+    {
+        "symbol": "MLCF",
+        "period": "2026-06-30",
+        "period_type": "annual",
+        "classification": "financial_results",
+        "title_pattern": r"MLCF-Financial Results for the year ended June 30, 2026",
+        "require_retained_hash": True,
+        "source_document_id": "psx:280589",
+        "source_content_sha256": "c9c7771eaa6a7fc75f6468318218ec85dd7d947637294e6dab9b19c3067ef696",
+    },
     {
         "symbol": "DGKC",
         "period": "2026-03-31",

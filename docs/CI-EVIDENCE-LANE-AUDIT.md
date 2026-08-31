@@ -62,6 +62,16 @@ split, retried as a different source, or used to infer FY25/26 values. A future
 annual path must use an independently approved compliant transport decision or
 an exact approved smaller official counterpart; neither exists in this wave.
 
+## Industrial / cement: MLCF FY26 annual is image-only
+
+The selected industrial case's exact official FY26 annual `psx:280589`
+(`c9c7771eaa6a7fc75f6468318218ec85dd7d947637294e6dab9b19c3067ef696`;
+10 pages; published 2026-07-31) passed its source-identity and byte checks.
+Its text layer is below the parser's minimum threshold, so the diagnostic
+returned `unsupported_image_only`. It adds **zero** annual Revenue/PAT/EPS,
+annual OCF, share-count, or qualified-quarter coverage. OCR, a parser-cap
+change, and a substitute provider were not introduced.
+
 ### Why OGDC and PPL do not replace MARI
 
 The research index contains compelling *headline metadata* for OGDC and PPL,
