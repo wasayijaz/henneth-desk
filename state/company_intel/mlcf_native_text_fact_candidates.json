@@ -1,0 +1,127 @@
+{
+ "candidate_counts": {
+  "issuer:mlcf:1q-2021-09": {
+   "basic_eps": 0,
+   "operating_cash_flow": 0,
+   "profit_after_tax_attributable": 0,
+   "revenue": 0
+  },
+  "issuer:mlcf:hy-2021-12": {
+   "basic_eps": 0,
+   "operating_cash_flow": 0,
+   "profit_after_tax_attributable": 0,
+   "revenue": 0
+  },
+  "issuer:mlcf:q3-2022-03": {
+   "basic_eps": 0,
+   "operating_cash_flow": 0,
+   "profit_after_tax_attributable": 0,
+   "revenue": 0
+  },
+  "psx:194111": {
+   "basic_eps": 0,
+   "operating_cash_flow": 0,
+   "profit_after_tax_attributable": 0,
+   "revenue": 0
+  }
+ },
+ "documents": [
+  {
+   "candidates": [],
+   "content_length": 4803163,
+   "content_sha256": "5103d0a5eaaa8ce2c8c435ae50de6ee5000248ad05094e3f0ac086212e687aae",
+   "document_id": "psx:194111",
+   "omitted": [
+    {
+     "label": "Sales - net 33 48,519,622 35,538,301 Cost of sales 34 (35,280,283) (27,039,661) Gross profit 13,239,339 8,498,640 Distribution cost 35 (1,483,876) (1,013,851) Administrative expenses 36 (977,472) (820,165) Other charges 37 (1,040,516) (590,393) (3,501,864) (2,424,409) Other income 38 60,209 223,015 Profit from operations 9,797,684 6,297,246 Finance cost 39 (1,658,272) (1,327,203) Profit before taxation 8,139,412 4,970,043 Taxation 40 (3,586,287) (1,141,549) Profit after taxation 4,553,125 3,828,494 ----------------Rupees---------------- Earnings per share - basic and diluted 41 4.15 3.49",
+     "page": 273,
+     "reason": "multiple_numeric_cells_ambiguous"
+    },
+    {
+     "label": "Profit after taxation 4,553,125 3,828,494 Other comprehensive income Items that will not be subsequently reclassified to statement of profit or loss: Remeasurement of defined benefit liability 14.2.3 1,726 (27,456) Related tax (557) 7,832 1,169 (19,624) Surplus on revaluation of fixed assets - - Related tax - (3,339) - (3,339) Total comprehensive income for the year 4,554,294 3,805,531 The annexed notes from 1 to 54 form an integral part of these consolidated financial statements.",
+     "page": 274,
+     "reason": "multiple_numeric_cells_ambiguous"
+    },
+    {
+     "label": "Net cash generated from operating activities 9,389,176 8,421,562",
+     "page": 275,
+     "reason": "multiple_numeric_cells_ambiguous"
+    }
+   ],
+   "page_count": 370,
+   "promotion_status": "audit_only",
+   "raw_path": ".cache/company_intel/mlcf_official_intake/194111.pdf",
+   "source_url": "https://financials.psx.com.pk/lib/DownloadPDF.php?id=194111"
+  },
+  {
+   "candidates": [],
+   "content_length": 812695,
+   "content_sha256": "42c675f3cfa973684d5e04be00f9ef330c6554484f09714193556d2110b42f01",
+   "document_id": "issuer:mlcf:1q-2021-09",
+   "omitted": [
+    {
+     "label": "Earnings per share - basic and diluted 0.76 0.51 The annexed notes from 1 to 19 form an integral part of this consolidated financial information.",
+     "page": 32,
+     "reason": "multiple_numeric_cells_ambiguous"
+    }
+   ],
+   "page_count": 47,
+   "promotion_status": "audit_only",
+   "raw_path": ".cache/company_intel/mlcf_official_intake/q1_2021.pdf",
+   "source_url": "https://www.kmlg.com/mlcfl/wp-content/uploads/2021/10/MLCFL-1Q-Sep-21.pdf"
+  },
+  {
+   "candidates": [],
+   "content_length": 1131439,
+   "content_sha256": "f363e99782080db7c405f4afc418cd77915317a0fa47a3dff2f3525e6c5f1b10",
+   "document_id": "issuer:mlcf:hy-2021-12",
+   "omitted": [],
+   "page_count": 63,
+   "promotion_status": "audit_only",
+   "raw_path": ".cache/company_intel/mlcf_official_intake/hy_2021.pdf",
+   "source_url": "https://www.kmlg.com/mlcfl/wp-content/uploads/2022/02/MLCFL-HY-Dec-21.pdf"
+  },
+  {
+   "candidates": [],
+   "content_length": 823476,
+   "content_sha256": "1d01533de7d12b8c8d480dd58b137f38888abe88c9557a2ca7e09170dc9aecd5",
+   "document_id": "issuer:mlcf:q3-2022-03",
+   "omitted": [],
+   "page_count": 51,
+   "promotion_status": "audit_only",
+   "raw_path": ".cache/company_intel/mlcf_official_intake/q3_2022.pdf",
+   "source_url": "https://www.kmlg.com/mlcfl/wp-content/uploads/2022/03/MLCFL-3Q-Mar-22.pdf"
+  }
+ ],
+ "manifest": "config/mlcf_official_intake_manifest.json",
+ "policy": {
+  "audit_only": true,
+  "case_changed": false,
+  "consolidated_only": true,
+  "coverage_changed": false,
+  "facts_promoted": false,
+  "local_originals_only": true,
+  "native_text_geometry_required": true,
+  "no_network": true,
+  "no_ocr": true
+ },
+ "receipt_version": "mlcf_native_text_fact_candidates_v1",
+ "schema_version": 1,
+ "summary": {
+  "facts": [],
+  "promotion_status": "blocked",
+  "total_candidates": 0
+ },
+ "symbol": "MLCF",
+ "_meta": {
+  "generator_version": "ci_artifact_integrity_v1",
+  "source_commit_sha": "9a50f3b548a8ae052febdb20e808413f1644653d",
+  "build_cutoff_at": "2026-08-31T15:55:15Z",
+  "generated_at": "2026-08-31T15:55:15Z",
+  "artifact_path": "state/company_intel/mlcf_native_text_fact_candidates.json",
+  "timestamp_semantics": {
+   "build_cutoff_at": "generation boundary only; not a source-effective or source-published time",
+   "generated_at": "artifact generation time only; not a source-effective or source-published time"
+  }
+ }
+}
