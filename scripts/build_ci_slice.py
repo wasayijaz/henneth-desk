@@ -6,6 +6,7 @@ This is the only data file the CI app reads. It is a private research surface, b
 keeps the same rule: every displayed fact traces to the state layer or is marked unknown.
 """
 import time
+from copy import deepcopy
 from datetime import date
 from pathlib import Path
 
@@ -781,9 +782,149 @@ def _company_brief(brief_state, document_state, sym):
     }
 
 
-def _intelligence_case_row(state, sym):
+def _case_evidence_keys(case):
+    """Return exact document/hash/page bindings from one observed case."""
+    if not isinstance(case, dict):
+        return set()
+    keys = set()
+    for ref in case.get("source_lineage") or []:
+        if not isinstance(ref, dict):
+            continue
+        document_id = str(ref.get("document_id") or "").strip()
+        content_hash = str(ref.get("content_sha256") or "").strip().lower()
+        page = ref.get("page")
+        if document_id and content_hash and isinstance(page, int) and page > 0:
+            keys.add((document_id, content_hash, page))
+    return keys
+
+
+def _evidence_key(ref):
+    if not isinstance(ref, dict):
+        return None
+    document_id = str(ref.get("document_id") or "").strip()
+    content_hash = str(ref.get("content_sha256") or "").strip().lower()
+    page = ref.get("page")
+    if not document_id or not content_hash or not isinstance(page, int) or page <= 0:
+        return None
+    return document_id, content_hash, page
+
+
+def _case_context_sections(case, symbol, confidence_row, watchlist_row):
+    """Project derived confidence/watch evidence only when it binds to this case.
+
+    The displayed context is a read-only UI projection. It never changes the
+    retained intelligence-case state and refuses ticker-only or document-id-only
+    joins, so another assertion cannot leak into a case.
+    """
+    evidence_keys = _case_evidence_keys(case)
+    if not evidence_keys or not isinstance(confidence_row, dict) or not isinstance(watchlist_row, dict):
+        return None
+    if confidence_row.get("symbol") not in (None, symbol) or watchlist_row.get("symbol") not in (None, symbol):
+        return None
+
+    assessments = []
+    for assessment in confidence_row.get("assessments") or []:
+        if not isinstance(assessment, dict):
+            continue
+        refs = {_evidence_key(ref) for ref in assessment.get("provenance_refs") or []}
+        if evidence_keys.intersection(refs - {None}):
+            assessments.append(assessment)
+    # A confidence score is contextual only if one exact source-bound
+    # assessment owns the case. Ambiguity is intentionally omitted.
+    if len(assessments) != 1:
+        return None
+
+    assessment = assessments[0]
+    confidence_id = assessment.get("confidence_id")
+    assertion_key = assessment.get("assertion_key")
+    cluster_id = assessment.get("source_cluster_id")
+    if not all(isinstance(value, str) and value for value in (confidence_id, assertion_key, cluster_id)):
+        return None
+
+    watches = []
+    for watch in watchlist_row.get("items") or []:
+        if not isinstance(watch, dict):
+            continue
+        ids = watch.get("ids") or {}
+        watch_evidence = {_evidence_key(ref) for ref in watch.get("source_evidence") or []}
+        if (
+            watch.get("symbol") == symbol
+            and (watch.get("confidence") or {}).get("confidence_id") == confidence_id
+            and ids.get("confidence_id") == confidence_id
+            and ids.get("assertion_key") == assertion_key
+            and ids.get("source_cluster_id") == cluster_id
+            and evidence_keys.intersection(watch_evidence - {None})
+        ):
+            watches.append(watch)
+    # The watch section needs the same single ownership proof as confidence.
+    if len(watches) != 1:
+        return None
+
+    dimensions = [{
+        "name": "Overall confidence",
+        "status": f"{assessment.get('band') or 'unknown'} ({assessment.get('score') if assessment.get('score') is not None else 'no score'}/100)",
+    }]
+    for name, component in (assessment.get("components") or {}).items():
+        if not isinstance(component, dict):
+            continue
+        normalized = component.get("normalized_score")
+        weight = component.get("weight")
+        status = "unknown"
+        if normalized is not None and weight is not None:
+            status = f"{normalized}/100 · weight {weight}"
+        elif normalized is not None:
+            status = f"{normalized}/100"
+        dimensions.append({"name": str(name).replace("_", " "), "status": status})
+
+    watch = watches[0]
+    items = []
+    for kind, checks in (("Confirm", watch.get("confirmation_check")), ("Break", watch.get("break_check"))):
+        for item in checks or []:
+            if not isinstance(item, dict) or not item.get("condition"):
+                continue
+            items.append({
+                "id": f"{kind}: {item.get('check_id') or 'official_check'}",
+                "text": item["condition"],
+                "status": item.get("current_status") or "unknown",
+                "reason": item.get("source_required") or "official_source_required",
+            })
+    for item in watch.get("next_evidence") or []:
+        if not isinstance(item, dict) or not item.get("description"):
+            continue
+        items.append({
+            "id": f"Watch: {item.get('watch_id') or item.get('watch_type') or 'next_evidence'}",
+            "text": item["description"],
+            "status": item.get("watch_type") or "watching",
+            "reason": item.get("source_required") or "official_source_required",
+        })
+    if not items:
+        return None
+    return {
+        "confidence": {
+            "status": "available",
+            "epistemic_type": "inference",
+            "dimensions": dimensions,
+        },
+        "watch_next": {
+            "status": "available",
+            "epistemic_type": "inference",
+            "items": items,
+        },
+    }
+
+
+def _intelligence_case_row(state, sym, confidence_row=None, watchlist_row=None):
     candidate = (state.get("companies") or {}).get(sym) if isinstance(state, dict) else None
-    return candidate if isinstance(candidate, dict) and candidate.get("symbol") == sym else None
+    if not isinstance(candidate, dict) or candidate.get("symbol") != sym:
+        return None
+    projected = deepcopy(candidate)
+    for case in projected.get("cases") or []:
+        if not isinstance(case, dict) or case.get("symbol") != sym:
+            continue
+        sections = _case_context_sections(case, sym, confidence_row, watchlist_row)
+        if sections:
+            case["sections"] = {**(case.get("sections") or {}), **sections}
+    return projected
 
 
 def build(write: bool = True):
@@ -1007,7 +1148,12 @@ def build(write: bool = True):
         financial_forecast_row = _formal_engine_product(financial_forecasts, sym, "financial_forecasts")
         formal_valuation_row = _formal_engine_product(formal_valuations, sym, "formal_valuations")
         market_expectation_row = _formal_engine_product(market_expectations, sym, "market_expectations")
-        intelligence_case_row = _intelligence_case_row(intelligence_cases, sym)
+        intelligence_case_row = _intelligence_case_row(
+            intelligence_cases,
+            sym,
+            confidence_row=confidence_row,
+            watchlist_row=evidence_watchlist_row,
+        )
         historical_reference_cases = _historical_reference_cases(financial_engine_assumptions, sym, source_cutoff)
         assumption_gap_review = _assumption_gap_review(financial_engine_assumptions, sym)
         rows.append({
