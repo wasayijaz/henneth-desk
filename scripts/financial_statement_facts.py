@@ -11,7 +11,7 @@ from datetime import date, timedelta
 from typing import Any
 
 PARSER_VERSION = "financial_statement_v2"
-PARSER_REVISION = "block_geometry_v5"
+PARSER_REVISION = "block_geometry_v6"
 
 INCOME_STATEMENT_LINE_PATTERNS = {
     # ``sales`` by itself also occurs in ``cost of sales``.  Keep revenue
@@ -509,6 +509,40 @@ def _numeric_only_continuation(line: dict[str, Any], label_end_x: float,
     return sorted(cells, key=lambda c: c["cx"])
 
 
+def _single_separated_numeric_band(lines: list[dict[str, Any]], row: dict[str, Any],
+                                   headers: list[dict[str, Any]], label_end_x: float,
+                                   note_bands: list[tuple[float, float]]) -> list[dict[str, Any]]:
+    # PyMuPDF can expose one physical values row as one block per column.  Keep
+    # the group local to the label (same baseline or no more than 8pt below),
+    # and require the whole group to align exactly to the active headers.
+    # This is deliberately not a general continuation mechanism: a second
+    # eligible numeric band makes the row ambiguous and therefore unusable.
+    visual_bands: list[dict[str, Any]] = []
+    for line in lines:
+        if line is row:
+            continue
+        same_baseline = abs(float(line["cy"]) - float(row["cy"])) <= 3
+        adjacent_baseline = 0 <= float(line["y0"]) - float(row["y1"]) <= 8
+        if not (same_baseline or adjacent_baseline):
+            continue
+        nums = _numeric_only_continuation(line, label_end_x, note_bands)
+        if not nums or len(nums) > len(headers):
+            continue
+        for band in visual_bands:
+            if abs(float(band["cy"]) - float(line["cy"])) <= 3:
+                band["cells"].extend(nums)
+                break
+        else:
+            visual_bands.append({"cy": float(line["cy"]), "cells": list(nums)})
+
+    candidates = []
+    for band in visual_bands:
+        nums = sorted(band["cells"], key=lambda c: c["cx"])
+        if len(nums) == len(headers) and _aligned_cells(headers, nums) is not None:
+            candidates.append(nums)
+    return candidates[0] if len(candidates) == 1 else []
+
+
 def _continuation_cells_or_invalid(line: dict[str, Any], label_end_x: float,
                                    note_bands: list[tuple[float, float]]) -> tuple[list[dict[str, Any]], bool]:
     if _line_match(line):
@@ -668,25 +702,16 @@ def _structured_page_facts(doc: dict[str, Any], page_no: int, page_words: list[t
         note_bands = _note_bands(lines, headers["line"], row)
         nums = _numeric_cells(row, label_end, note_bands)
         needed = len(headers["headers"])
-        # PyMuPDF may place the label, note number, and each year value in
-        # separate blocks despite sharing one visual baseline.  Collect only
-        # numeric cells from that exact baseline before considering wrapped
-        # continuation lines; otherwise the next row's label (sorted first by
-        # x-coordinate) can incorrectly invalidate this row.
-        if len(nums) < needed:
-            for band_line in lines:
-                if len(nums) >= needed:
-                    break
-                if band_line is row:
-                    continue
-                same_baseline = abs(float(band_line["y0"]) - float(row["y0"])) <= 3
-                wrapped_numeric_band = 0 <= float(band_line["y0"]) - float(row["y1"]) <= 6
-                if not (same_baseline or wrapped_numeric_band):
-                    continue
-                part = _numeric_only_continuation(band_line, label_end, note_bands)
-                if part:
-                    nums.extend(part)
-            nums = sorted(nums, key=lambda c: c["cx"])
+        # A note reference can be the only numeric token on a label line while
+        # the actual statement values sit in a separately extracted but
+        # visually adjacent numeric band.  Only replace an incomplete label
+        # row when that band is unique and fully column-aligned; never merge
+        # the two, because doing so could treat the note number as a value.
+        if len(nums) != needed:
+            separated = _single_separated_numeric_band(
+                lines, row, headers["headers"], label_end, note_bands)
+            if separated:
+                nums = separated
         # Some PDFs split a wrapped EPS value into one text block per column
         # (``21.09`` and ``1.42`` are separate lines at the same y).  Gather
         # those cells as one geometry band, but only when the neighbouring
@@ -988,6 +1013,11 @@ def diagnose_page_records(doc: dict[str, Any], page_records: list[dict[str, Any]
             scale, scale_flags, currency_seen = _nearest_scale(lines, row, basis_y)
             note_bands = _note_bands(lines, headers["line"], row) if headers else []
             nums = _numeric_cells(row, _label_end_x(row, line_name), note_bands)
+            if headers and len(nums) != len(headers["headers"]):
+                separated = _single_separated_numeric_band(
+                    lines, row, headers["headers"], _label_end_x(row, line_name), note_bands)
+                if separated:
+                    nums = separated
             aligned = _aligned_cells(headers["headers"], nums) if headers else None
             row_reasons = []
             if not headers:
