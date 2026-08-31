@@ -16,7 +16,7 @@ from psx_data import STATE, load_json, save_json
 
 
 OUT = STATE / "company_intel" / "intelligence_cases.json"
-CASE_PRODUCT_VERSION = "observed_intelligence_case_seed_v4"
+CASE_PRODUCT_VERSION = "observed_intelligence_case_seed_v5"
 LIFECYCLE = ["Observed", "Corroborated", "Modelled", "Validated", "Published", "Monitoring", "Closed"]
 PKT = timezone(timedelta(hours=5))
 
@@ -63,6 +63,7 @@ HEX64 = re.compile(r"^[0-9a-f]{64}$", re.I)
 
 MARI_CASE_ID = "case_mari_working_interest_observed_v1"
 MARI_EVENT_ID = "evt_eddfcc381018cb0dff43"
+MARI_CANONICAL_CONTROL_EVENT_ID = "evt_b25decfc180474cbe066"
 MARI_DOC_ID = "psx:260446"
 MARI_DOC_HASH = "c13ccb4de58ad005bca106942721490593fe219ff45906c68280ea7856192e42"
 MARI_EVIDENCE_SHA256 = "dd83c62cb781e2a57f5ae595a7184ea786a3e5890f7f7cc96cd93e23f958a177"
@@ -377,6 +378,33 @@ def _validate_mari_source(event: dict[str, Any], doc: dict[str, Any]) -> dict[st
     return _evidence_ref(event, doc)
 
 
+def _validate_mari_canonical_control_source(event: dict[str, Any]) -> None:
+    _require_equal("MARI canonical event_id", event.get("event_id"), MARI_CANONICAL_CONTROL_EVENT_ID)
+    _require_equal("MARI canonical company_id", event.get("company_id"), "MARI")
+    _require_equal("MARI canonical symbol", event.get("symbol"), "MARI")
+    _require_equal("MARI canonical event_type", event.get("event_type"), "acquisition_divestment")
+    _require_equal("MARI canonical event_subtype", event.get("event_subtype"), "acquisition")
+    _require_equal("MARI canonical intelligence_type", event.get("intelligence_type"), "reported_fact")
+    _require_iso_time("MARI canonical detected_at", event.get("detected_at"), "2025-09-30T10:46:00+05:00")
+    _require_equal("MARI canonical effective_date", event.get("effective_date"), "2025-09-30")
+    _require_equal("MARI canonical source_url", event.get("source_url"), MARI_SOURCE_URL)
+    evidence = _first_evidence(event, MARI_CANONICAL_CONTROL_EVENT_ID)
+    _require_equal("MARI canonical evidence.document_id", evidence.get("document_id"), MARI_DOC_ID)
+    _require_equal("MARI canonical evidence.source", evidence.get("source"), "PSX DPS")
+    _require_equal("MARI canonical evidence.source_url", evidence.get("source_url"), MARI_SOURCE_URL)
+    _require_equal("MARI canonical evidence.page", evidence.get("page"), 1)
+    _require_equal(
+        "MARI canonical evidence.content_sha256",
+        _require_hex64("MARI canonical evidence.content_sha256", evidence.get("content_sha256")),
+        MARI_DOC_HASH,
+    )
+    _require_equal(
+        "MARI canonical evidence.evidence_sha256",
+        _require_hex64("MARI canonical evidence.evidence_sha256", evidence.get("evidence_sha256")),
+        MARI_EVIDENCE_SHA256,
+    )
+
+
 def _mlcf_source_join(
     public_offer: dict[str, Any],
     follow_through: dict[str, Any],
@@ -498,128 +526,152 @@ def _finite_number(label: str, value: Any) -> float:
     return float(value)
 
 
-def _mlcf_history_cutoff(history: Any) -> datetime:
+def _history_cutoff(label: str, history: Any) -> datetime:
     if not isinstance(history, list) or not history:
-        _fail("MLCF market context history is missing")
+        _fail(f"{label} market context history is missing")
     dates: list[datetime] = []
     for index, row in enumerate(history):
         if not isinstance(row, dict):
-            _fail(f"MLCF market context history row is invalid: {index}")
+            _fail(f"{label} market context history row is invalid: {index}")
         date = _parse_time(row.get("date"))
         if date is None:
-            _fail(f"MLCF market context history date is invalid: {index}")
+            _fail(f"{label} market context history date is invalid: {index}")
         dates.append(date)
     return max(dates)
 
 
-def _mlcf_market_context(event_studies: dict[str, Any], history: Any) -> tuple[dict[str, Any], datetime]:
-    """Return a narrowly-scoped historical outcome for the exact observed control event.
+def _market_context(
+    event_studies: dict[str, Any],
+    history: Any,
+    *,
+    label: str,
+    symbol: str,
+    event_id: str,
+    effective_date: str,
+    baseline_date: str,
+) -> tuple[dict[str, Any], datetime]:
+    """Return a source-bound historical outcome for one exact observed event.
 
     This deliberately publishes raw-price context only. It is not an analogue
     aggregate, causal attribution, financial output, forecast, or valuation input.
     """
     studies = event_studies.get("studies") if isinstance(event_studies, dict) else None
     if not isinstance(studies, dict):
-        _fail("MLCF market context study index is missing")
-    study = studies.get(MLCF_CANONICAL_CONTROL_EVENT_ID)
+        _fail(f"{label} market context study index is missing")
+    study = studies.get(event_id)
     if not isinstance(study, dict):
-        _fail("MLCF market context study is missing")
+        _fail(f"{label} market context study is missing")
     _require_equal(
-        "MLCF market context.study_id",
+        f"{label} market context.study_id",
         study.get("study_id"),
-        f"study_{MLCF_CANONICAL_CONTROL_EVENT_ID.removeprefix('evt_')}",
+        f"study_{event_id.removeprefix('evt_')}",
     )
-    _require_equal("MLCF market context.event_id", study.get("event_id"), MLCF_CANONICAL_CONTROL_EVENT_ID)
-    _require_equal("MLCF market context.symbol", study.get("symbol"), "MLCF")
-    _require_equal("MLCF market context.event_type", study.get("event_type"), "acquisition_divestment")
-    _require_equal("MLCF market context.effective_date", study.get("effective_date"), "2025-12-18")
-    history_cutoff = _mlcf_history_cutoff(history)
+    _require_equal(f"{label} market context.event_id", study.get("event_id"), event_id)
+    _require_equal(f"{label} market context.symbol", study.get("symbol"), symbol)
+    _require_equal(f"{label} market context.event_type", study.get("event_type"), "acquisition_divestment")
+    _require_equal(f"{label} market context.effective_date", study.get("effective_date"), effective_date)
+    history_cutoff = _history_cutoff(label, history)
     data_cutoff = _parse_time(study.get("data_cutoff"))
     if data_cutoff is None or data_cutoff != history_cutoff:
-        _fail("MLCF market context cutoff does not match retained history")
+        _fail(f"{label} market context cutoff does not match retained history")
 
     baseline = study.get("baseline")
     if not isinstance(baseline, dict):
-        _fail("MLCF market context baseline is missing")
-    _require_equal("MLCF market context.baseline.status", baseline.get("status"), "available")
-    _require_equal("MLCF market context.baseline.selected_date", baseline.get("selected_date"), "2025-12-17")
+        _fail(f"{label} market context baseline is missing")
+    _require_equal(f"{label} market context.baseline.status", baseline.get("status"), "available")
+    _require_equal(f"{label} market context.baseline.selected_date", baseline.get("selected_date"), baseline_date)
     _finite_positive("baseline.selected_close", baseline.get("selected_close"))
     baseline_provenance = baseline.get("provenance")
     if not isinstance(baseline_provenance, dict):
-        _fail("MLCF market context baseline provenance is missing")
-    _require_equal("MLCF market context.baseline.history_file", baseline_provenance.get("history_file"), "state/history/MLCF.json")
-    _require_equal("MLCF market context.baseline.provenance_date", baseline_provenance.get("selected_date"), "2025-12-17")
+        _fail(f"{label} market context baseline provenance is missing")
+    history_file = f"state/history/{symbol}.json"
+    _require_equal(f"{label} market context.baseline.history_file", baseline_provenance.get("history_file"), history_file)
+    _require_equal(f"{label} market context.baseline.provenance_date", baseline_provenance.get("selected_date"), baseline_date)
 
     horizons = study.get("horizons")
     if not isinstance(horizons, dict):
-        _fail("MLCF market context horizons are missing")
+        _fail(f"{label} market context horizons are missing")
     items: list[dict[str, Any]] = []
     mature_endpoints: list[datetime] = []
     for horizon in ("1Q", "2Q", "4Q", "8Q"):
         row = horizons.get(horizon)
         if not isinstance(row, dict):
-            _fail(f"MLCF market context horizon is missing: {horizon}")
+            _fail(f"{label} market context horizon is missing: {horizon}")
         provenance = row.get("provenance")
         if not isinstance(provenance, dict):
-            _fail(f"MLCF market context horizon provenance is missing: {horizon}")
-        _require_equal(f"MLCF market context.{horizon}.history_file", provenance.get("history_file"), "state/history/MLCF.json")
-        _require_equal(f"MLCF market context.{horizon}.baseline_date", provenance.get("baseline_date"), "2025-12-17")
+            _fail(f"{label} market context horizon provenance is missing: {horizon}")
+        _require_equal(f"{label} market context.{horizon}.history_file", provenance.get("history_file"), history_file)
+        _require_equal(f"{label} market context.{horizon}.baseline_date", provenance.get("baseline_date"), baseline_date)
         status = row.get("status")
         if status == "mature":
             endpoint = row.get("selected_date")
             if not isinstance(endpoint, str) or _date(endpoint) != endpoint:
-                _fail(f"MLCF market context mature endpoint is invalid: {horizon}")
-            _require_equal(f"MLCF market context.{horizon}.endpoint_date", provenance.get("endpoint_date"), endpoint)
+                _fail(f"{label} market context mature endpoint is invalid: {horizon}")
+            _require_equal(f"{label} market context.{horizon}.endpoint_date", provenance.get("endpoint_date"), endpoint)
             endpoint_date = _parse_time(endpoint)
             if endpoint_date is None or endpoint_date > history_cutoff:
-                _fail(f"MLCF market context mature endpoint exceeds retained history: {horizon}")
+                _fail(f"{label} market context mature endpoint exceeds retained history: {horizon}")
             _finite_positive(f"{horizon}.selected_close", row.get("selected_close"))
             result = _finite_number(f"{horizon}.return_pct", row.get("return_pct"))
             mature_endpoints.append(endpoint_date)
             items.append({
                 "id": horizon,
-                "text": f"Raw price return: {result:.2f}% (2025-12-17 to {endpoint}).",
-                "reason": "Derived from retained MLCF raw closing prices; descriptive and non-causal.",
+                "text": f"Raw price return: {result:.2f}% ({baseline_date} to {endpoint}).",
+                "reason": f"Derived from retained {symbol} raw closing prices; descriptive and non-causal.",
             })
         elif status in {"immature", "unavailable"}:
             if row.get("return_pct") is not None or row.get("selected_close") is not None or row.get("selected_date") is not None:
                 _fail(f"MLCF market context non-mature horizon emits an outcome: {horizon}")
             if not isinstance(row.get("reason"), str) or not row.get("reason"):
-                _fail(f"MLCF market context non-mature horizon reason is missing: {horizon}")
+                _fail(f"{label} market context non-mature horizon reason is missing: {horizon}")
             items.append({"id": horizon, "text": "Outcome not yet mature.", "reason": str(row["reason"])})
         else:
-            _fail(f"MLCF market context horizon status is invalid: {horizon}")
+            _fail(f"{label} market context horizon status is invalid: {horizon}")
 
     aggregate = study.get("analogue_aggregate")
     if not isinstance(aggregate, dict):
-        _fail("MLCF market context analogue aggregate is missing")
+        _fail(f"{label} market context analogue aggregate is missing")
     for horizon in ("1Q", "2Q", "4Q", "8Q"):
         row = aggregate.get(horizon)
         if not isinstance(row, dict) or row.get("status") != "suppressed" or row.get("reason") != "n_lt_3" or row.get("n") != 0:
-            _fail(f"MLCF market context analogue suppression mismatch: {horizon}")
+            _fail(f"{label} market context analogue suppression mismatch: {horizon}")
         if row.get("mean_return_pct") is not None:
-            _fail(f"MLCF market context analogue average must remain suppressed: {horizon}")
+            _fail(f"{label} market context analogue average must remain suppressed: {horizon}")
     items.append({
         "id": "analogue_sample",
         "text": "No same-company or peer analogue sample meets the minimum threshold for a reliable benchmark.",
         "reason": "All retained aggregate horizons are suppressed because n < 3.",
     })
     if not mature_endpoints:
-        _fail("MLCF market context has no mature retained outcome")
+        _fail(f"{label} market context has no mature retained outcome")
     return {
         "status": "available",
         "epistemic_type": "derived_fact",
         "text": (
-            "Cutoff-safe raw-price context for this exact MLCF control event. It is descriptive only: "
+            f"Cutoff-safe raw-price context for this exact {label} observed event. It is descriptive only: "
             "not causal, not adjusted or total return, not an analogue benchmark, and not a forecast or valuation input."
         ),
         "items": items,
         "formulas": [{
             "formula_id": "event_study.raw_price_return.v1",
             "operands": ["baseline_close", "endpoint_close"],
-            "source": "state/company_intel/event_studies.json; retained bars: state/history/MLCF.json",
+            "source": f"state/company_intel/event_studies.json; retained bars: {history_file}",
         }],
     }, max(mature_endpoints)
+
+
+def _mlcf_market_context(event_studies: dict[str, Any], history: Any) -> tuple[dict[str, Any], datetime]:
+    return _market_context(
+        event_studies, history, label="MLCF control", symbol="MLCF",
+        event_id=MLCF_CANONICAL_CONTROL_EVENT_ID, effective_date="2025-12-18", baseline_date="2025-12-17",
+    )
+
+
+def _mari_market_context(event_studies: dict[str, Any], history: Any) -> tuple[dict[str, Any], datetime]:
+    return _market_context(
+        event_studies, history, label="MARI Peshawar", symbol="MARI",
+        event_id=MARI_CANONICAL_CONTROL_EVENT_ID, effective_date="2025-09-30", baseline_date="2025-09-29",
+    )
 
 
 def _empty_company(symbol: str) -> dict[str, Any]:
@@ -748,19 +800,40 @@ def _mlcf_case(
     return case, [], refs
 
 
-def _mari_case(ledger: dict[str, Any], documents: dict[str, Any]) -> tuple[dict[str, Any] | None, list[str], list[dict[str, Any]]]:
+def _mari_case(
+    ledger: dict[str, Any],
+    documents: dict[str, Any],
+    operating_events: dict[str, Any] | None = None,
+    event_studies: dict[str, Any] | None = None,
+    history: Any = None,
+) -> tuple[dict[str, Any] | None, list[str], list[dict[str, Any]]]:
     event = _event(ledger, "MARI", MARI_EVENT_ID)
     document = _document(documents, MARI_DOC_ID)
+    if operating_events is None:
+        operating_events = load_json(STATE / "company_intel" / "operating_events.json", {"companies": {}})
+    canonical_event = _operating_event(operating_events, "MARI", MARI_CANONICAL_CONTROL_EVENT_ID)
     missing = []
     if event is None:
         missing.append("missing_mari_peshawar_working_interest_event")
     if document is None:
         missing.append("missing_mari_peshawar_working_interest_document")
+    if canonical_event is None:
+        missing.append("missing_mari_canonical_peshawar_event")
     if missing:
         return None, missing, []
-    assert event is not None and document is not None
+    assert event is not None and document is not None and canonical_event is not None
     ref = _validate_mari_source(event, document)
+    _validate_mari_canonical_control_source(canonical_event)
     cutoff = _source_cutoff([ref])
+    if event_studies is None:
+        event_studies = load_json(STATE / "company_intel" / "event_studies.json", {})
+    if history is None:
+        history = load_json(STATE / "history" / "MARI.json", [])
+    market_context, market_cutoff = _mari_market_context(event_studies, history)
+    source_cutoff = _parse_time(cutoff)
+    if source_cutoff is None:
+        _fail("MARI source cutoff is invalid")
+    cutoff = max(source_cutoff, market_cutoff).isoformat()
     case = {
         "case_id": MARI_CASE_ID,
         "symbol": "MARI",
@@ -803,7 +876,8 @@ def _mari_case(ledger: dict[str, Any], documents: dict[str, Any]) -> tuple[dict[
             "Modelled": "Blocked: no source-qualified financial model or owner-approved assumptions are attached.",
             "Published": "Blocked: no forecast, valuation, reverse-expectations output, investor conclusion or release gate is complete.",
         },
-        "policy": _policy(),
+        "sections": {"analogues": market_context},
+        "policy": _policy(deterministic_derived_context=True),
         "source_lineage": [ref],
     }
     return case, [], [ref]
@@ -816,10 +890,11 @@ def build(write: bool = True) -> dict[str, Any]:
     operating_events = load_json(STATE / "company_intel" / "operating_events.json", {"companies": {}})
     event_studies = load_json(STATE / "company_intel" / "event_studies.json", {"studies": {}})
     mlcf_history = load_json(STATE / "history" / "MLCF.json", [])
+    mari_history = load_json(STATE / "history" / "MARI.json", [])
     pilot = sorted((profiles.get("pilot") or {}).get("symbols") or [])
     companies = {symbol: _empty_company(symbol) for symbol in pilot}
     mlcf_case, mlcf_rejections, mlcf_refs = _mlcf_case(ledger, documents, operating_events, event_studies, mlcf_history)
-    mari_case, mari_rejections, mari_refs = _mari_case(ledger, documents)
+    mari_case, mari_rejections, mari_refs = _mari_case(ledger, documents, operating_events, event_studies, mari_history)
     refs = [*mlcf_refs, *mari_refs]
     as_of = _source_cutoff(refs) if refs else datetime.now(PKT).replace(microsecond=0).isoformat()
     if "MLCF" not in companies:

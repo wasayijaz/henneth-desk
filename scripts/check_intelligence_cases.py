@@ -157,6 +157,7 @@ def _builder_inputs() -> dict:
         "financial_truth": load_json(STATE / "company_intel" / "financial_truth_qualification.json", {}),
         "event_studies": load_json(STATE / "company_intel" / "event_studies.json", {"studies": {}}),
         "mlcf_history": load_json(STATE / "history" / "MLCF.json", []),
+        "mari_history": load_json(STATE / "history" / "MARI.json", []),
     }
 
 
@@ -170,6 +171,7 @@ def _build_with_inputs(inputs: dict) -> None:
         STATE / "company_intel" / "financial_truth_qualification.json": inputs["financial_truth"],
         STATE / "company_intel" / "event_studies.json": inputs["event_studies"],
         STATE / "history" / "MLCF.json": inputs["mlcf_history"],
+        STATE / "history" / "MARI.json": inputs["mari_history"],
     }
 
     def fake_load_json(path: Path, default: object = None) -> object:
@@ -199,8 +201,8 @@ def _document(inputs: dict, doc_id: str) -> dict:
     return doc
 
 
-def _operating_event(inputs: dict, event_id: str) -> dict:
-    for event in inputs["operating_events"]["companies"]["MLCF"]["events"]:
+def _operating_event(inputs: dict, event_id: str, symbol: str = "MLCF") -> dict:
+    for event in inputs["operating_events"]["companies"][symbol]["events"]:
         if event.get("event_id") == event_id:
             return event
     raise AssertionError(f"fixture missing operating event: {event_id}")
@@ -213,8 +215,8 @@ def _counter_section(inputs: dict, section: str) -> dict:
     return row
 
 
-def _market_study(inputs: dict) -> dict:
-    study = inputs["event_studies"].get("studies", {}).get(MLCF_CANONICAL_CONTROL_EVENT_ID)
+def _market_study(inputs: dict, event_id: str = MLCF_CANONICAL_CONTROL_EVENT_ID) -> dict:
+    study = inputs["event_studies"].get("studies", {}).get(event_id)
     if not isinstance(study, dict):
         raise AssertionError("fixture missing MLCF canonical event study")
     return study
@@ -252,6 +254,39 @@ def _assert_mlcf_market_context(case: dict) -> None:
         "source": "state/company_intel/event_studies.json; retained bars: state/history/MLCF.json",
     }]:
         raise AssertionError("MLCF market-context formula lineage mismatch")
+
+
+def _assert_mari_market_context(case: dict) -> None:
+    context = (case.get("sections") or {}).get("analogues") or {}
+    if context.get("status") != "available" or context.get("epistemic_type") != "derived_fact":
+        raise AssertionError("MARI market context must be an available derived fact")
+    text = context.get("text") or ""
+    for required in ("descriptive only", "not causal", "not adjusted or total return", "not an analogue benchmark", "not a forecast or valuation input"):
+        if required not in text:
+            raise AssertionError(f"MARI market-context limitation missing: {required}")
+    items = {item.get("id"): item for item in context.get("items") or []}
+    for horizon, endpoint, expected_return in (
+        ("1Q", "2025-12-30", -2.708014258413405),
+        ("2Q", "2026-03-30", -16.79971808460172),
+    ):
+        item = items.get(horizon) or {}
+        if f"{expected_return:.2f}%" not in str(item.get("text")) or endpoint not in str(item.get("text")):
+            raise AssertionError(f"MARI {horizon} raw-return context mismatch")
+        if "retained MARI raw closing prices" not in str(item.get("reason")):
+            raise AssertionError(f"MARI {horizon} source note missing")
+    for horizon in ("4Q", "8Q"):
+        item = items.get(horizon) or {}
+        if item.get("text") != "Outcome not yet mature." or item.get("reason") != "target_after_last_bar":
+            raise AssertionError(f"MARI {horizon} maturity handling mismatch")
+    if (items.get("analogue_sample") or {}).get("reason") != "All retained aggregate horizons are suppressed because n < 3.":
+        raise AssertionError("MARI suppressed analogue status mismatch")
+    formulas = context.get("formulas") or []
+    if formulas != [{
+        "formula_id": "event_study.raw_price_return.v1",
+        "operands": ["baseline_close", "endpoint_close"],
+        "source": "state/company_intel/event_studies.json; retained bars: state/history/MARI.json",
+    }]:
+        raise AssertionError("MARI market-context formula lineage mismatch")
 
 
 def _expect_builder_rejects(label: str, mutate) -> None:
@@ -415,6 +450,18 @@ def _assert_builder_source_mutation_tests() -> None:
         "market giant return integer",
         lambda inputs: _market_study(inputs)["horizons"]["1Q"].__setitem__("return_pct", 10**1000),
     )
+    _expect_builder_rejects(
+        "MARI market study event binding",
+        lambda inputs: _market_study(inputs, "evt_b25decfc180474cbe066").__setitem__("event_id", "evt_bad"),
+    )
+    _expect_builder_rejects(
+        "MARI market study history cutoff",
+        lambda inputs: _market_study(inputs, "evt_b25decfc180474cbe066").__setitem__("data_cutoff", "2099-01-01"),
+    )
+    _expect_builder_rejects(
+        "MARI canonical evidence hash",
+        lambda inputs: _operating_event(inputs, "evt_b25decfc180474cbe066", "MARI")["evidence"][0].__setitem__("evidence_sha256", "0" * 64),
+    )
 
 
 def main() -> None:
@@ -490,6 +537,7 @@ def main() -> None:
     _assert_evidence(mari_ref, MARI_EVENT_ID, MARI_DOC_ID, 1)
     if mari_ref.get("content_sha256") != "c13ccb4de58ad005bca106942721490593fe219ff45906c68280ea7856192e42":
         raise AssertionError("MARI source hash mismatch")
+    _assert_mari_market_context(mari_case)
     for status in ("Corroborated", "Modelled", "Published"):
         if status not in (mari_case.get("promotion_blocks") or {}):
             raise AssertionError(f"MARI missing promotion block for {status}")

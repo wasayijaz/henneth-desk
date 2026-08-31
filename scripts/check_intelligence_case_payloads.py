@@ -141,7 +141,7 @@ def main() -> None:
         for key, _value in walk(case):
             check(str(key).lower() not in FORBIDDEN_KEYS, f"formal output key emitted: {key}")
     check(mlcf["policy"].get("reported_values_only") is False and mlcf["policy"].get("deterministic_derived_context_only") is True, "MLCF derived-market-context policy mismatch")
-    check(mari["policy"].get("reported_values_only") is True and "deterministic_derived_context_only" not in mari["policy"], "MARI observed policy mismatch")
+    check(mari["policy"].get("reported_values_only") is False and mari["policy"].get("deterministic_derived_context_only") is True, "MARI derived-market-context policy mismatch")
 
     sliced = build_slice(write=False)
     rows = {row["symbol"]: row for row in sliced["tickers"]}
