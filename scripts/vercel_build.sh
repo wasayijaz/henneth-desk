@@ -12,11 +12,4 @@ cp -r dashboard/. public/
 # app.html is a stale duplicate shell predating the sign-in gate; it is deliberately not served.
 rm -f public/app.html
 cp -r state public/state
-# CI-owner-only artifacts belong to the separate ci.henneth.app project. The root desk
-# serves ordinary /state behind account auth, but it must not ship CI private state at all.
-rm -rf public/state/company_intel \
-  public/state/company_documents.json \
-  public/state/company_briefs.json \
-  public/state/company_brief_receipts.json \
-  public/state/document_synthesis_queue.json
 printf '' > public/.nojekyll

@@ -35,9 +35,7 @@ site/.claude/
 .firecrawl/
 .proto-tmp/
 
-# Local scratch caches. Company Intelligence PDF handoff lives under .cache/company_intel/ —
-# current-run official documents are bounded and verified there for local extraction, never
-# committed. Broadened to the whole directory: nothing under .cache/ is ever shipped.
+# Local scratch caches. Nothing under .cache/ is ever shipped.
 .cache/
 
 # graft's local graph cache — regenerable, not committed (run `graft build`).

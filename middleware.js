@@ -47,18 +47,6 @@ const JWKS_URL = 'https://qteoncckohuoatbjjykb.supabase.co/auth/v1/.well-known/j
  * account. */
 const PUBLIC_FILES = new Set(['natal_ephem.bin', 'natal_ephem.json', 'public_probe.json']);
 
-// Owner-only Company Intelligence artifacts are not part of the root desk's /state surface.
-// They are removed from the root build and denied here as defense-in-depth, even for a valid
-// desk bearer. Keep this list synchronized with scripts/root_state_publication.py; preflight
-// runs scripts/check_root_state_publication.py to enforce that.
-const CI_PRIVATE_STATE_FILES = new Set([
-  'company_documents.json',
-  'company_briefs.json',
-  'company_brief_receipts.json',
-  'document_synthesis_queue.json',
-]);
-const CI_PRIVATE_STATE_PREFIXES = ['company_intel/'];
-
 /* JWKS cached per edge isolate. Supabase rotates signing keys rarely; an hour of staleness costs
  * at most one failed verification after a rotation, and the next request refetches. */
 let keyCache = null;
@@ -148,43 +136,6 @@ function deny(reason) {
   );
 }
 
-function notFound() {
-  return new Response(null, {
-    status: 404,
-    headers: { 'cache-control': 'no-store' },
-  });
-}
-
-function normalizeStatePath(file) {
-  let value = String(file || '');
-  for (let i = 0; i < 3; i++) {
-    try {
-      const decoded = decodeURIComponent(value);
-      if (decoded === value) break;
-      value = decoded;
-    } catch {
-      return null;
-    }
-  }
-  value = value.replace(/\\/g, '/').replace(/^\/+/, '');
-  while (value.startsWith('state/')) value = value.slice('state/'.length);
-
-  const parts = [];
-  for (const part of value.split('/')) {
-    if (!part || part === '.') continue;
-    if (part === '..') return null;
-    parts.push(part);
-  }
-  return parts.join('/');
-}
-
-function isCiPrivateStatePath(file) {
-  const normalized = normalizeStatePath(file);
-  if (normalized === null) return true;
-  return CI_PRIVATE_STATE_FILES.has(normalized)
-    || CI_PRIVATE_STATE_PREFIXES.some((prefix) => normalized.startsWith(prefix));
-}
-
 export const config = {
   // Only the data layer. index.html, app.js, themes.css and the brand assets stay public — the
   // app shell has to load in order to show a sign-in screen at all.
@@ -195,7 +146,6 @@ export default async function middleware(request) {
   const path = new URL(request.url).pathname;
   const file = path.replace(/^\/state\//, '');
 
-  if (isCiPrivateStatePath(file)) return notFound();
   if (PUBLIC_FILES.has(file)) return; // open funnel — see PUBLIC_FILES
 
   const header = request.headers.get('authorization') || '';

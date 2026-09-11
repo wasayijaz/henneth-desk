@@ -339,8 +339,7 @@ a batch at 3; agents writing directly cost ~10 orchestrator tokens each instead 
 
 Every push runs the same gate (`preflight.py`) before it publishes, so a broken cycle never reaches the live site. `scripts/publish.py "<msg>"` is the one push helper all loops use.
 
-**`publish.py` stages Desk state and generated public data only.** It explicitly excludes
-`state/company_intel/`. It used to `git add -A`, which staged the whole working tree —
+**`publish.py` stages Desk state and generated public data only.** It used to `git add -A`, which staged the whole working tree —
 and since the cloud cron and every interactive session share one checkout, a routine data refresh could
 sweep up another session's half-finished edits and ship them under an unrelated commit message. Shipping
 code is now a deliberate `--code` opt-in; anything left unstaged is listed, never silently included or
