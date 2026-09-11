@@ -31,6 +31,7 @@ import time
 from pathlib import Path
 
 from publish_lock import PublishLock, PublishLockBusy, git_path
+from root_state_publication import CI_PRIVATE_STATE_FILES, CI_PRIVATE_STATE_PREFIXES, is_ci_private_state_path
 
 ROOT = Path(__file__).resolve().parent.parent
 
@@ -43,13 +44,51 @@ GENERATED = [
 def _is_auto(path: str) -> bool:
     """Return true only for ordinary generated Desk state/public extracts."""
     normalized = path.replace("\\", "/")
-    return ((normalized.startswith("state/")
-             and not normalized.startswith("state/company_intel/"))
-            or any(normalized.startswith(generated) for generated in GENERATED))
+    if normalized.startswith("state/"):
+        return not is_ci_private_state_path(normalized[len("state/"):])
+    return any(normalized.startswith(generated) for generated in GENERATED)
 
 
 def _run(cmd, **kw):
     return subprocess.run(cmd, cwd=ROOT, text=True, capture_output=True, **kw)
+
+
+def _staged_ci_private_paths():
+    """Return CI-private paths currently staged in the index."""
+    result = _run(["git", "diff", "--cached", "--name-only", "-z"])
+    if result.returncode != 0:
+        print("publish: could not inspect staged paths:\n" + (result.stderr or result.stdout)[:300])
+        sys.exit(1)
+
+    private = []
+    for path in result.stdout.split("\0"):
+        if not path:
+            continue
+        normalized = path.replace("\\", "/")
+        if normalized.startswith("state/") and is_ci_private_state_path(normalized[len("state/"):]):
+            private.append(normalized)
+    return private
+
+
+def _fail_if_staged_ci_private_paths():
+    """Refuse to commit any CI-private state path already present in the index."""
+    private = _staged_ci_private_paths()
+    if not private:
+        return
+    print("publish: refusing to commit CI-private staged state path(s): "
+          + ", ".join(private[:12])
+          + (f" (+{len(private)-12} more)" if len(private) > 12 else ""))
+    print("  Unstage these paths and re-run; CI-private state belongs only to the CI surface.")
+    sys.exit(1)
+
+
+def _state_add_command():
+    private_state_excludes = [
+        f":(exclude)state/{name}" for name in CI_PRIVATE_STATE_FILES
+    ] + [
+        f":(exclude)state/{prefix}**" for prefix in CI_PRIVATE_STATE_PREFIXES
+    ]
+    return ["git", "add", "-A", "--", "state/", *private_state_excludes]
 
 
 def _git_running() -> bool:
@@ -160,8 +199,9 @@ def _publish():
     # Committing a file nobody has finished editing can publish broken code, and the message
     # gives no clue it happened.
     #
-    # So: ordinary state/ (regenerated deterministic data) stages by default. The CI-private
-    # subtree remains excluded even if a stale local routine recreates it.
+    # So: ordinary state/ (regenerated deterministic data) stages by default. Every CI-private
+    # root file and the CI-private subtree remain excluded even if a stale local routine recreates
+    # them.
     # Hand-authored files require --code — AND must already be staged by the caller (git add
     # <file> before running this). --code never calls `git add -A` itself: on 2026-07-26 it
     # still did, and a careful "stage only mine, confirm via git status --porcelain" run swept
@@ -171,9 +211,7 @@ def _publish():
     if code_mode:
         print("publish: --code — only files YOU already staged (git add <file>) ship as code. "
               "Dirty-but-unstaged hand-authored files are left alone (they may be someone else's).")
-    add_state = _run([
-        "git", "add", "-A", "--", "state/", ":(exclude)state/company_intel/**",
-    ])
+    add_state = _run(_state_add_command())
     if add_state.returncode != 0:
         print("publish: staging Desk state failed:\n" + (add_state.stderr or add_state.stdout)[:300])
         sys.exit(1)
@@ -192,6 +230,11 @@ def _publish():
     if add_gen.returncode != 0:
         print("publish: `git add -- GENERATED` failed:\n" + (add_gen.stderr or add_gen.stdout)[:300])
         sys.exit(1)
+
+    # The scoped `git add` above cannot remove a CI-private path that was already staged by a
+    # caller, and --code intentionally preserves pre-staged files. Inspect the actual index now,
+    # before any mode can reset or commit it, so no CI-private state can reach a commit.
+    _fail_if_staged_ci_private_paths()
 
     # what else is dirty? split into files the CALLER already staged themselves (index status
     # is non-blank/non-'?') vs files that are merely dirty in the working tree. Only the former

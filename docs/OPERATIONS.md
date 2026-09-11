@@ -53,9 +53,9 @@ files must be staged explicitly and then shipped with `--code`.
 The path is intentionally race-safe: local worktrees share a repository push lock, and a rejected
 push retries only after a clean rebase. Any rebase conflict— including a conflict under `state/`—
 aborts and stops for human resolution; the publisher never chooses `ours` or `theirs`. A clean
-rebase reruns Desk preflight before the retry push. The default state staging also excludes the
-CI-private `state/company_intel/**` subtree, and its exclusion must remain in place for stale
-local writers.
+rebase reruns Desk preflight before the retry push. The default state staging excludes all seven
+CI-private root files and the `state/company_intel/**` subtree, and those exclusions must remain in
+place for stale local writers.
 
 Do not run `git add -A`, hand-push state, or publish from an unreviewed worktree. Never run
 `scripts/publish.py` from a cleanup worker.
@@ -75,7 +75,8 @@ The gate checks Python/served JavaScript syntax, provenance, Rule 4, generated U
 Today UI, raw-artifact safety, core state shape, history completeness/rotation, post-close integrity,
 Desk Room shape and data-health status.
 
-Retain the root CI-private publication deny-list and its preflight check after separation.
+Retain the root CI-private publication deny-list (the seven CI-owned root files plus
+`state/company_intel/**`) and its preflight check after separation.
 Never fabricate or backfill a refresh completion timestamp to pass a gate. Only the deterministic
 producer can establish that a refresh completed; missing evidence blocks publication until a verified run.
 
