@@ -72,6 +72,10 @@ The gate checks Python/served JavaScript syntax, provenance, Rule 4, generated U
 Today UI, raw-artifact safety, core state shape, history completeness/rotation, post-close integrity,
 Desk Room shape and data-health status.
 
+Retain the root CI-private publication deny-list and its preflight check after separation.
+Never fabricate or backfill a refresh completion timestamp to pass a gate. Only the deterministic
+producer can establish that a refresh completed; missing evidence blocks publication until a verified run.
+
 The marketing site has its own build:
 
 ```text

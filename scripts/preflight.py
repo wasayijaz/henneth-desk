@@ -166,6 +166,24 @@ def check_root_ask_hardening():
             fail("root Ask hardening check failed — " + _detail(result))
     except Exception as exc:  # noqa: BLE001
         fail(f"check_root_ask_hardening.mjs did not run — {exc}")
+    ui_path = os.path.join(ROOT, "scripts", "check_root_ask_ui.mjs")
+    try:
+        result = run_node_check(ui_path)
+        if result.returncode:
+            fail("root Ask UI check failed — " + _detail(result))
+    except Exception as exc:
+        fail(f"check_root_ask_ui.mjs did not run — {exc}")
+
+
+def check_root_state_publication():
+    """Keep CI-private data off the Desk even if a stale writer recreates it."""
+    path = os.path.join(ROOT, "scripts", "check_root_state_publication.py")
+    try:
+        result = subprocess.run([sys.executable, path], capture_output=True, text=True, timeout=15)
+        if result.returncode:
+            fail("root state publication check failed — " + _detail(result))
+    except Exception as exc:
+        fail(f"check_root_state_publication.py did not run — {exc}")
 
 
 def check_today_ui():
@@ -241,6 +259,7 @@ def main():
     check_rule4()
     check_generated_url_safety()
     check_root_ask_hardening()
+    check_root_state_publication()
     check_today_ui()
     check_company_profiles()
     check_no_raw_artifacts()

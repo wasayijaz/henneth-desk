@@ -82,6 +82,10 @@ The root middleware matches `/state/:path*`. `natal_ephem.bin`, `natal_ephem.jso
 The shell remains public so a signed-out visitor can see the sign-in UI. The UI gate and data gate are
 independent.
 
+The CI-private state deny-list remains in the Desk middleware and build, with its
+own preflight check. This is a Desk security boundary even after the repository split:
+an old checkout or accidental file recreation must never expose CI research to Desk accounts.
+
 `publish.py` runs `preflight.py --desk`, stages `state/` and the generated marketing extract, and
 ships hand-authored code only when the caller pre-staged it with `--code`. It never uses a blanket
 stage for code. The push/rebase lock is shared across local worktrees.
