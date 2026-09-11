@@ -186,6 +186,19 @@ def check_root_state_publication():
         fail(f"check_root_state_publication.py did not run — {exc}")
 
 
+def check_publish_safety():
+    path = os.path.join(ROOT, "scripts", "check_publish_safety.py")
+    if not os.path.exists(path):
+        fail("check_publish_safety.py missing — publisher race boundary cannot be verified")
+        return
+    try:
+        result = subprocess.run([sys.executable, path], capture_output=True, text=True, timeout=15)
+        if result.returncode:
+            fail("publisher safety check failed — " + _detail(result))
+    except Exception as exc:
+        fail(f"check_publish_safety.py did not run — {exc}")
+
+
 def check_today_ui():
     for name in ("check_today_article.mjs", "check_today_chart_data.mjs", "check_today_info.mjs"):
         path = os.path.join(ROOT, "scripts", name)
@@ -260,6 +273,7 @@ def main():
     check_generated_url_safety()
     check_root_ask_hardening()
     check_root_state_publication()
+    check_publish_safety()
     check_today_ui()
     check_company_profiles()
     check_no_raw_artifacts()

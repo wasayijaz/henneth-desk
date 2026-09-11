@@ -51,8 +51,11 @@ The normal path stages only regenerated `state/` and the generated marketing ext
 files must be staged explicitly and then shipped with `--code`.
 
 The path is intentionally race-safe: local worktrees share a repository push lock, and a rejected
-push retries after rebasing. Regenerated state/public extracts may be auto-resolved; a conflict in
-hand-authored code or documentation must stop for human resolution.
+push retries only after a clean rebase. Any rebase conflict— including a conflict under `state/`—
+aborts and stops for human resolution; the publisher never chooses `ours` or `theirs`. A clean
+rebase reruns Desk preflight before the retry push. The default state staging also excludes the
+CI-private `state/company_intel/**` subtree, and its exclusion must remain in place for stale
+local writers.
 
 Do not run `git add -A`, hand-push state, or publish from an unreviewed worktree. Never run
 `scripts/publish.py` from a cleanup worker.

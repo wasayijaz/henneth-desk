@@ -33,6 +33,17 @@ def _parse_stamp(value: str | None) -> datetime | None:
         return None
 
 
+def _check_stamp(problems: list[str], value: str | None, label: str, close: datetime, now: datetime) -> None:
+    stamp = _parse_stamp(value)
+    if stamp is None:
+        problems.append(f"{label} has no timezone-aware timestamp")
+        return
+    if stamp > now:
+        problems.append(f"{label} is in the future")
+    if stamp < close:
+        problems.append(f"{label} was recorded before the official session close")
+
+
 def _positive_volume(row: object) -> bool:
     try:
         return float((row or {}).get("volume") or 0) > 0
@@ -64,18 +75,14 @@ def evaluate(root: Path = STATE, now: datetime | None = None) -> dict:
     today_index = (indices.get("history") or {}).get(today) or {}
     if today_index.get("KSE100") is None:
         result["problems"].append("indices.json has no KSE100 close for this session")
+    close = session_close(now)
+    _check_stamp(result["problems"], indices.get("live_at"), "indices.json capture", close, now)
     index_capture = _parse_stamp(indices.get("live_at"))
-    if index_capture is None or index_capture.astimezone(PKT) < session_close(now):
-        result["problems"].append("indices.json was not captured after the official session close")
-    elif (indices.get("live") or {}).get("KSE100") != today_index.get("KSE100"):
+    if index_capture is not None and index_capture <= now and index_capture.astimezone(PKT) >= close and (indices.get("live") or {}).get("KSE100") != today_index.get("KSE100"):
         result["problems"].append("indices.json session value does not match its post-close live capture")
 
     meta = load_json(root / "history_meta.json", {})
-    completed = _parse_stamp(meta.get("completed_at"))
-    if completed is None:
-        result["problems"].append("history_meta.json has no timezone-aware completed_at stamp")
-    elif completed.astimezone(PKT) < session_close(now):
-        result["problems"].append("history refresh completed before the official session close")
+    _check_stamp(result["problems"], meta.get("completed_at"), "history refresh completion", close, now)
     if meta.get("skipped_deadline"):
         result["problems"].append("history refresh did not complete the full sweep")
 
@@ -146,6 +153,28 @@ def _self_test() -> None:
         for symbol in symbols:
             write(root / "history" / f"{symbol}.json", [{"date": "2026-09-11"}])
         assert evaluate(root, friday_late)["status"] == "ok"
+        write(root / "indices.json", {
+            "live_at": "2026-09-11T11:32:00Z",
+            "live": {"KSE100": 1.0},
+            "history": {"2026-09-11": {"KSE100": 1.0}},
+        })
+        future_index = evaluate(root, friday_late)
+        assert future_index["status"] == "fail"
+        assert any("indices.json capture is in the future" in problem for problem in future_index["problems"])
+        write(root / "indices.json", {
+            "live_at": "2026-09-11T16:31:00+05:00",
+            "live": {"KSE100": 1.0},
+            "history": {"2026-09-11": {"KSE100": 1.0}},
+        })
+        write(root / "history_meta.json", {
+            "completed_at": "2026-09-11T11:32:00Z", "skipped_deadline": 0,
+        })
+        future_history = evaluate(root, friday_late)
+        assert future_history["status"] == "fail"
+        assert any("history refresh completion is in the future" in problem for problem in future_history["problems"])
+        write(root / "history_meta.json", {
+            "completed_at": "2026-09-11T11:31:00Z", "skipped_deadline": 0,
+        })
         for symbol in list(symbols)[:2]:
             write(root / "history" / f"{symbol}.json", [{"date": "2026-09-10"}])
         assert evaluate(root, friday_late)["status"] == "fail"

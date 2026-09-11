@@ -38,8 +38,10 @@ Do not demand a new commit solely to prove a legitimate no-op.
 
 On synchronization, preserve append-only news, claims and run history from preceding runs.
 Regenerate derived files on the synchronized baseline and repeat preflight. Use the repository
-publication lock and `scripts/publish.py`; never push a stale whole-state copy or bypass a
-conflict in hand-authored research. Content tasks stage only their own pages and required links.
+publication lock and `scripts/publish.py`; any rebase conflict aborts with no automatic side
+selection, and a clean rebase is preflighted again before push. Content tasks stage only their own
+pages and required links. The default state staging continues to exclude `state/company_intel/**`
+as defense against stale CI writers.
 
 The private-state build/middleware deny-list stays in Desk as defense against stale writers.
 The root Ask UI and response checks remain mandatory.
