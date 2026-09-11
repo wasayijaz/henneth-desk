@@ -6,8 +6,7 @@ OS-level advisory lock in that directory serializes the short preflight/commit/p
 transaction without preventing routines from preparing research in parallel.  The
 operating system releases the lock automatically if a publisher exits or crashes.
 
-This serializes Git mutation, not product refresh lifecycles. It does not deploy
-Henneth CI, whose production path is protected preview/verify/promote.
+This serializes Git mutation, not product refresh lifecycles.
 """
 
 from __future__ import annotations

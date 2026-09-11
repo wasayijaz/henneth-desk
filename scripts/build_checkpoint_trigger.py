@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Decide whether the local AI checkpoint has anything material to do.
 
-The deterministic cloud pipeline already refreshes prices, filings, CI state and
-health every 30 minutes for free. The token-spending local checkpoint should
+The deterministic cloud pipeline already refreshes prices and health every 30
+minutes for free. The token-spending local checkpoint should
 therefore only wake up when something MATERIAL happened since it last ran.
 
 This module owns that decision. It writes `state/checkpoint_trigger.json`:
@@ -54,7 +54,6 @@ ACK = STATE / "checkpoint_ack.json"
 SCHEMA_VERSION = 1
 NEWS_IMPACT_MIN = 4        # CLAUDE.md Rule 10 - the full pipeline re-triggers at >= 4
 NEWS_LOOKBACK_DAYS = 10
-CI_ALERT_TYPES = {"retained_change", "source_page_changed"}
 MAX_PENDING = 40
 
 
@@ -93,33 +92,6 @@ def _news_items(degraded: list[str]) -> list[dict[str, Any]]:
             "title": str(item.get("headline") or "")[:180],
             "detail": f"impact {impact} - {source}",
         })
-    return out
-
-
-def _ci_items(degraded: list[str]) -> list[dict[str, Any]]:
-    payload = load_json(STATE / "company_intel" / "monitoring.json", None)
-    if not isinstance(payload, dict):
-        degraded.append("company_intel/monitoring.json unreadable")
-        return []
-    companies = payload.get("companies")
-    if not isinstance(companies, dict):
-        degraded.append("company_intel/monitoring.json has no companies block")
-        return []
-    out = []
-    for symbol, row in sorted(companies.items()):
-        for alert in (row or {}).get("alerts") or []:
-            if not isinstance(alert, dict) or alert.get("type") not in CI_ALERT_TYPES:
-                continue
-            alert_id = alert.get("alert_id")
-            if not alert_id:
-                continue
-            out.append({
-                "id": str(alert_id),
-                "kind": alert["type"],
-                "symbol": str(symbol),
-                "title": str(alert.get("title") or "")[:180],
-                "detail": str(alert.get("reason") or "")[:180],
-            })
     return out
 
 
@@ -170,7 +142,7 @@ def _standing(degraded: list[str], acked_at: str) -> list[dict[str, Any]]:
     return out
 
 
-def build(include_ci: bool = True) -> dict[str, Any]:
+def build() -> dict[str, Any]:
     degraded: list[str] = []
 
     acked_at = ""
@@ -179,8 +151,6 @@ def build(include_ci: bool = True) -> dict[str, Any]:
         acked_at = str(ack.get("acked_at") or "")
 
     observed = _news_items(degraded) + _health_item(degraded)
-    if include_ci:
-        observed += _ci_items(degraded)
     standing = _standing(degraded, acked_at)
 
     previous = load_json(TRIGGER, None)
@@ -241,7 +211,7 @@ def build(include_ci: bool = True) -> dict[str, Any]:
 def main() -> int:
     ap = argparse.ArgumentParser(description="Checkpoint trigger gate")
     ap.add_argument("--ack", metavar="LABEL", help="record that a checkpoint just ran")
-    ap.add_argument("--desk", action="store_true", help="exclude the separate CI product")
+    ap.add_argument("--desk", action="store_true", help="accepted for desk pipeline compatibility")
     args = ap.parse_args()
 
     if args.ack:
@@ -249,7 +219,7 @@ def main() -> int:
         print(f"checkpoint gate: acked by {args.ack}")
         return 0
 
-    payload = build(include_ci=not args.desk)
+    payload = build()
     save_json(TRIGGER, payload)
     print(
         f"checkpoint gate: required={payload['checkpoint_required']} "

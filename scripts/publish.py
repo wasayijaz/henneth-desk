@@ -8,9 +8,6 @@ Every loop/task calls this instead of re-implementing git. It:
   4. commits + pushes ONLY if something actually changed,
   5. a push to `main` triggers eligible Git-linked Desk/marketing deploys.
 
-Henneth CI production is separate: this push can trigger its contract check, but
-only the protected CI release workflow can deploy and promote ci.henneth.app.
-
 Deterministic, zero tokens. Safe to call every run: a no-op when nothing changed.
 
 Staging is scoped on purpose — the cloud cron and any number of interactive sessions
@@ -34,10 +31,64 @@ import time
 from pathlib import Path
 
 from publish_lock import PublishLock, PublishLockBusy, git_path
+from root_state_publication import CI_PRIVATE_STATE_FILES, CI_PRIVATE_STATE_PREFIXES, is_ci_private_state_path
 
 ROOT = Path(__file__).resolve().parent.parent
+
+GENERATED = [
+    "site/src/data/public/",
+    "site/public/moon_ephem.bin",
+]
+
+
+def _is_auto(path: str) -> bool:
+    """Return true only for ordinary generated Desk state/public extracts."""
+    normalized = path.replace("\\", "/")
+    if normalized.startswith("state/"):
+        return not is_ci_private_state_path(normalized[len("state/"):])
+    return any(normalized.startswith(generated) for generated in GENERATED)
+
+
 def _run(cmd, **kw):
     return subprocess.run(cmd, cwd=ROOT, text=True, capture_output=True, **kw)
+
+
+def _staged_ci_private_paths():
+    """Return CI-private paths currently staged in the index."""
+    result = _run(["git", "diff", "--cached", "--name-only", "-z"])
+    if result.returncode != 0:
+        print("publish: could not inspect staged paths:\n" + (result.stderr or result.stdout)[:300])
+        sys.exit(1)
+
+    private = []
+    for path in result.stdout.split("\0"):
+        if not path:
+            continue
+        normalized = path.replace("\\", "/")
+        if normalized.startswith("state/") and is_ci_private_state_path(normalized[len("state/"):]):
+            private.append(normalized)
+    return private
+
+
+def _fail_if_staged_ci_private_paths():
+    """Refuse to commit any CI-private state path already present in the index."""
+    private = _staged_ci_private_paths()
+    if not private:
+        return
+    print("publish: refusing to commit CI-private staged state path(s): "
+          + ", ".join(private[:12])
+          + (f" (+{len(private)-12} more)" if len(private) > 12 else ""))
+    print("  Unstage these paths and re-run; CI-private state belongs only to the CI surface.")
+    sys.exit(1)
+
+
+def _state_add_command():
+    private_state_excludes = [
+        f":(exclude)state/{name}" for name in CI_PRIVATE_STATE_FILES
+    ] + [
+        f":(exclude)state/{prefix}**" for prefix in CI_PRIVATE_STATE_PREFIXES
+    ]
+    return ["git", "add", "-A", "--", "state/", *private_state_excludes]
 
 
 def _git_running() -> bool:
@@ -82,6 +133,47 @@ def _clear_stale_lock(retries=5, delay=2):
         print("publish: cleared a stale .git/index.lock (no git process was holding it) before staging.")
 
 
+def _push_with_rebase() -> None:
+    """Push, retrying only after a clean rebase and a fresh Desk preflight."""
+    def _push():
+        result = _run(["git", "push", "origin", "main"])
+        return result.returncode == 0, (result.stderr or result.stdout or "").strip()
+
+    def _preflight_after_rebase():
+        result = _run([sys.executable, "scripts/preflight.py", "--desk"])
+        print(result.stdout.strip()[-400:])
+        if result.returncode != 0:
+            print("publish: PREFLIGHT FAILED after rebase — not pushing.")
+            raise SystemExit(1)
+
+    ok, last_err = _push()
+    if ok:
+        return
+
+    for attempt in range(3):
+        fetch = _run(["git", "fetch", "origin", "main"])
+        if fetch.returncode != 0:
+            detail = (fetch.stderr or fetch.stdout or "").strip()
+            print(f"publish: fetch failed — refusing to rebase or retry push: {detail[:400]}")
+            raise SystemExit(1)
+        rebase = _run(["git", "rebase", "origin/main"])
+        if rebase.returncode != 0:
+            conflicted = _run(["git", "diff", "--name-only", "--diff-filter=U"]).stdout.splitlines()
+            _run(["git", "rebase", "--abort"])
+            print(f"publish: rebase conflict on {conflicted or ['unknown files']} — "
+                  "refusing to choose either side. Manual merge needed: "
+                  "git pull --rebase origin main, resolve by hand, re-run.")
+            raise SystemExit(1)
+        _preflight_after_rebase()
+        ok, last_err = _push()
+        if ok:
+            return
+        time.sleep(2 + attempt)
+
+    print(f"publish: could not push after retries — last git error:\n{last_err[:400]}")
+    raise SystemExit(1)
+
+
 def _publish():
     # positional message only — otherwise `publish.py --code` would commit with the literal
     # message "--code"
@@ -90,8 +182,7 @@ def _publish():
 
     _clear_stale_lock()
 
-    # 1) Desk preflight gate. Company Intelligence is a separate product with its own
-    # contract and protected release workflow; a CI mismatch must never withhold prices.
+    # 1) Desk preflight gate.
     pf = _run([sys.executable, "scripts/preflight.py", "--desk"])
     print(pf.stdout.strip()[-400:])
     if pf.returncode != 0:
@@ -99,8 +190,7 @@ def _publish():
         sys.exit(1)
 
     # 2) stage — SCOPED. This used to be a blanket `git add -A`, which is the same mistake
-    # the rebase logic below already refuses to make (see the note at step 4: auto-resolving
-    # is safe for state/ but NOT for hand-authored files). Staging had no such care, so a
+    # the rebase logic below already refuses to make. Staging had no such care, so a
     # publish swept up whatever happened to be in the working tree.
     #
     # That is not just cosmetic. Multiple sessions and the cloud cron share this checkout.
@@ -109,7 +199,9 @@ def _publish():
     # Committing a file nobody has finished editing can publish broken code, and the message
     # gives no clue it happened.
     #
-    # So: state/ (regenerated deterministic data — always safe to publish) stages by default.
+    # So: ordinary state/ (regenerated deterministic data) stages by default. Every CI-private
+    # root file and the CI-private subtree remain excluded even if a stale local routine recreates
+    # them.
     # Hand-authored files require --code — AND must already be staged by the caller (git add
     # <file> before running this). --code never calls `git add -A` itself: on 2026-07-26 it
     # still did, and a careful "stage only mine, confirm via git status --porcelain" run swept
@@ -119,9 +211,7 @@ def _publish():
     if code_mode:
         print("publish: --code — only files YOU already staged (git add <file>) ship as code. "
               "Dirty-but-unstaged hand-authored files are left alone (they may be someone else's).")
-    add_state = _run([
-        "git", "add", "-A", "--", "state/", ":(exclude)state/company_intel/**",
-    ])
+    add_state = _run(_state_add_command())
     if add_state.returncode != 0:
         print("publish: staging Desk state failed:\n" + (add_state.stderr or add_state.stdout)[:300])
         sys.exit(1)
@@ -136,19 +226,15 @@ def _publish():
     # would keep serving whatever sky was current the day it shipped, and both files would sit
     # permanently dirty, adding noise to the "hand-authored files" warning below until someone
     # swept them into an unrelated --code release.
-    GENERATED = [
-        "site/src/data/public/",
-        "site/public/moon_ephem.bin",
-    ]
     add_gen = _run(["git", "add", "-A", "--", *GENERATED])
     if add_gen.returncode != 0:
         print("publish: `git add -- GENERATED` failed:\n" + (add_gen.stderr or add_gen.stdout)[:300])
         sys.exit(1)
 
-    def _is_auto(path: str) -> bool:
-        p = path.replace("\\", "/")
-        return ((p.startswith("state/") and not p.startswith("state/company_intel/"))
-                or any(p.startswith(g) for g in GENERATED))
+    # The scoped `git add` above cannot remove a CI-private path that was already staged by a
+    # caller, and --code intentionally preserves pre-staged files. Inspect the actual index now,
+    # before any mode can reset or commit it, so no CI-private state can reach a commit.
+    _fail_if_staged_ci_private_paths()
 
     # what else is dirty? split into files the CALLER already staged themselves (index status
     # is non-blank/non-'?') vs files that are merely dirty in the working tree. Only the former
@@ -212,52 +298,12 @@ def _publish():
     # app loops both push to main, so a push can be rejected (non-fast-forward) if the
     # other side pushed since our last pull. On rejection, rebase onto the latest origin.
     #
-    # Auto-resolving a conflict is only safe for regenerated deterministic data — files under
-    # state/ AND the GENERATED artefacts outside it (site/src/data/public/, moon_ephem.bin). For
-    # those, preferring our freshly-built version and letting the other side's copy regenerate next
-    # cycle loses nothing. It is NOT safe for hand-authored files (dashboard/*, scripts/*, docs/*,
-    # CLAUDE.md, ...) — this repo has no CI/PR review, so silently picking a side there could
-    # permanently discard someone's actual code edit with zero visibility. So: try a plain rebase;
-    # if it conflicts, auto-resolve ONLY if every conflicted file passes _is_auto() (the same
-    # deterministic-data test used to stage them above); otherwise abort and fail loudly so a human
-    # resolves it, instead of guessing.
-    def _push():
-        r = _run(["git", "push", "origin", "main"])
-        return r.returncode == 0, (r.stderr or r.stdout or "").strip()
-
-    ok, last_err = _push()
-    if not ok:
-        for attempt in range(3):
-            _run(["git", "fetch", "origin", "main"])
-            rb = _run(["git", "rebase", "origin/main"])
-            if rb.returncode != 0:
-                conflicted = _run(["git", "diff", "--name-only", "--diff-filter=U"]).stdout.splitlines()
-                hand_authored = [f for f in conflicted if not _is_auto(f)]
-                if hand_authored or not conflicted:
-                    _run(["git", "rebase", "--abort"])
-                    print(f"publish: rebase conflict on hand-authored file(s) {hand_authored or conflicted} — "
-                          f"refusing to auto-resolve (could silently discard a real code edit). "
-                          f"Manual merge needed: git pull --rebase origin main, resolve by hand, re-run.")
-                    sys.exit(1)
-                # every conflict is regeneratable deterministic data (state/ or GENERATED) — safe to keep our fresh build
-                _run(["git", "checkout", "--theirs", "--"] + conflicted)  # "theirs" in a rebase = our replayed commit
-                _run(["git", "add"] + conflicted)
-                cont = _run(["git", "rebase", "--continue"])
-                if cont.returncode != 0:
-                    _run(["git", "rebase", "--abort"])
-                    print(f"publish: rebase --continue failed after data-only auto-resolve: {(cont.stderr or cont.stdout)[:300]}")
-                    sys.exit(1)
-            ok, last_err = _push()
-            if ok:
-                break
-            time.sleep(2 + attempt)  # small backoff growth so repeated collisions don't lockstep
-        if not ok:
-            print(f"publish: could not push after retries — last git error:\n{last_err[:400]}")
-            sys.exit(1)
-    print(
-        f"publish: pushed '{msg}' -> eligible Desk/marketing Vercel projects may deploy; "
-        "Henneth CI production is unchanged."
-    )
+    # Never resolve a rebase conflict by choosing a side. State contains append-only and
+    # hand-authored research records as well as generated data, so even an apparently harmless
+    # state conflict can discard a real routine's work. A clean rebase changes the snapshot that
+    # was checked before commit, therefore preflight must run again before the retry push.
+    _push_with_rebase()
+    print(f"publish: pushed '{msg}' -> eligible Desk/marketing Vercel projects may deploy.")
 
 
 def main():

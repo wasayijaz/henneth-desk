@@ -42,6 +42,9 @@ def main():
         "company_documents.json",
         "company_briefs.json",
         "company_brief_receipts.json",
+        "company_event_ledger.json",
+        "company_financial_series.json",
+        "company_source_qa.json",
         "document_synthesis_queue.json",
         "company_intel/source_registry.json",
         "/state/company_intel/company_graph.json",
@@ -55,9 +58,6 @@ def main():
         "state/history/LUCK.json",
         "natal_ephem.json",
         "company_profiles.json",
-        "company_financial_series.json",
-        "company_source_qa.json",
-        "company_event_ledger.json",
     )
     unsafe_paths = (
         "../company_documents.json",

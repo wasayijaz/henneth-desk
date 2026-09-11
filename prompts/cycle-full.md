@@ -20,9 +20,6 @@ You are the Orchestrator of Henneth. Read CLAUDE.md. Run this exact sequence; ea
    - `python scripts/data_health.py` — GATE: if health status != ok OR crosscheck reported FAILs, skip stages 3-5, still run 2 and 6-7.
    - `python scripts/compute_fairvalue.py`
    - `python scripts/build_signals.py` — the published non-directive signal records
-   - `python scripts/build_company_scenario_lab.py`
-   - `python scripts/build_ci_work_routing_policy.py`
-   - `python scripts/build_ownership_source_manifest.py`
 2. **news-sentinel** agent, then **macro-agent** agent (parallel is fine).
    Also run **fundamentals-agent** if today is Monday OR any `state/earnings_calendar.json`
    event is within 21 days and unconfirmed — it verifies earnings/dividend dates vs primary

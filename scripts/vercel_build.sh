@@ -18,5 +18,8 @@ rm -rf public/state/company_intel \
   public/state/company_documents.json \
   public/state/company_briefs.json \
   public/state/company_brief_receipts.json \
+  public/state/company_event_ledger.json \
+  public/state/company_financial_series.json \
+  public/state/company_source_qa.json \
   public/state/document_synthesis_queue.json
 printf '' > public/.nojekyll

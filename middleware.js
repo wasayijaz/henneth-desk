@@ -55,6 +55,9 @@ const CI_PRIVATE_STATE_FILES = new Set([
   'company_documents.json',
   'company_briefs.json',
   'company_brief_receipts.json',
+  'company_event_ledger.json',
+  'company_financial_series.json',
+  'company_source_qa.json',
   'document_synthesis_queue.json',
 ]);
 const CI_PRIVATE_STATE_PREFIXES = ['company_intel/'];
