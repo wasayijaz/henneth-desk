@@ -40,6 +40,11 @@ dirty/index state and preserve append-only records. A permission error is not a 
 sync: use scoped escalation for the ordinary Git operation, without global trust changes.
 Stop on real conflicts; do not choose `ours`/`theirs` or discard another worker's edits.
 
+Fetching is not synchronization of working files. Before research, compare `git rev-parse HEAD`
+with the freshly fetched `git rev-parse origin/main`; if different, preserve the draft and
+update the working branch normally before validating current production code/data. Quote both
+full IDs as evidence. A check run on an older HEAD is not acceptance of a newer remote release.
+
 Never run blanket `git add -A`. When staging is authorized, name only authored paths and
 inspect the staged diff. If unrelated work is already staged, coordinate with its owner;
 do not reset the whole index. Do not delete branches/worktrees or rewrite history to tidy up.

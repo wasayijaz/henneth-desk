@@ -53,6 +53,10 @@ def check() -> list[str]:
     errors: list[str] = []
     shared = ROUTINES / "README.md"
     shared_text = shared.read_text(encoding="utf-8") if shared.is_file() else ""
+    for phrase in ("Synchronization proof", "`HEAD`", "`origin/main`",
+                   "fetch updates the remote reference, not the working files"):
+        if phrase not in shared_text:
+            errors.append(f"shared synchronization contract missing: {phrase}")
     for phrase in ("Cost approval", "explicit owner approval", "connector pricing",
                    "unknown pricing blocks", "additional billable usage"):
         if phrase not in shared_text:
@@ -107,7 +111,8 @@ def check() -> list[str]:
     if blog_path.is_file():
         blog = blog_path.read_text(encoding="utf-8").casefold()
         for phrase in ("standing blog-only authorization", "independent", "three", "draft: true",
-                       "google search console", "idempotency", "release hold"):
+                       "google search console", "idempotency", "release hold",
+                       "staged publication proof", "git show :site/src/content/blog/<slug>.mdx"):
             if phrase not in blog:
                 errors.append(f"blog autonomous publication contract missing: {phrase}")
         for obsolete in ("if no item qualifies, finish as `no-op`", "must explicitly approve the reviewed"):

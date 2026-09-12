@@ -180,3 +180,116 @@ deleted. Completed in-task workers were closed after their changes and evidence 
   the local .vercel mapping points to CI and was not used to deploy.
 - This section certifies local release-candidate checks only. Push, live deployment and
   remaining applicable routine publications still need their own evidence below.
+
+## Production repair verified — 2026-09-12
+
+- Gated publisher pushed `8c5a5dfc1681f5cb006c0ab93265d83ed4e52c97`; the isolated
+  checkout was clean afterwards. Its fresh preflight passed without warnings.
+- Vercel Desk deployment `dpl_JCpHKSWJ3DdpzrSpE87PRwBAh4Jf` is READY/production at that
+  exact commit, with `desk.henneth.app` in its aliases. Marketing deployment
+  `dpl_5iGRRm3ZWGMPS1HMtdaVXkHa5Gg6` is READY/production at the same commit.
+- Authenticated live Today displays 170511.85, +0.98%, +1646.81 and source
+  `2026-09-11T16:50:00+05:00`. Live Board independently displays the same official
+  KSE100 daily change. The status bar labels the exchange market snapshot, not the build time.
+- The coordinator cleared the initial shared-pipeline release hold. Normal scoped routine
+  publication remains subject to each runbook's gates and the owner's separate cost approval.
+  This is repair-deployment evidence, not a claim that all nine routine paths are accepted.
+- Obsolete Room `house_view` fields were removed by the publication-scope repair. Their
+  prior contents remain recoverable from Git history; other research records remain retained.
+
+## Post-release task coordination — 2026-09-12
+
+- Saved-prompt read-back confirmed initial release clearance on Blog, Daily, Room, Cadence,
+  Landing, PM and Harvest. Scout and Code review clearance updates timed out twice in the
+  app's automatic permission reviewer; their saved updates are not claimed complete.
+- Immediate Harvest resume also timed out twice. Its existing reviewed research is preserved;
+  no resumed run or publication is claimed. Blog was subsequently granted the sole local
+  publication slot and its dispatch succeeded in the existing canonical task.
+- Code review resumed read-only. Product scout resumed to reconcile existing proposals against
+  shipped fixes, with publication held. Cadence resumed read-only to reassess current scheduled
+  delivery, active runs, usefulness of catch-up and cost evidence; no dispatch authorized yet
+  in this coordination slot. These successful task dispatches are not completion evidence.
+- All nine canonical tasks remain in the Henneth Routines section, with display titles that
+  omit the Henneth prefix. No task, schedule, model or CI deployment was created or changed
+  during this post-release coordination.
+
+## Independent post-release code acceptance — 2026-09-12
+
+- Weekly code review completed at 18:52:29 UTC in its canonical task. The app's compact
+  task read returned no items, but the local task transcript contains actual checks and a
+  final report; this was verified directly rather than treating an empty summary as success.
+- Reviewer checked exact release HEAD, legacy acknowledgment clock-only transition, 13 mocked
+  finalizer scenarios, real Git transport, overlapping finalizers, cross-clone contention,
+  stale-clone retry, NC identity parsing, short-series/history intake, timezone cases, 21
+  market-capture cases, 491/491 current traded counters and all nine runbook contracts.
+- No remaining concrete blocker was found in those bounded repairs. No edits or pushes were
+  made by the review task. Real production PM transition/receipts and predecessor acceptance
+  remain explicitly untested; supplied deployment proof was not an independent redeployment.
+
+## Remaining routine results and approval boundary — 2026-09-12
+
+- Blog completed renewed content/source, independent review, 60-page build, preflight and
+  1280/375 visual checks. Its escalated publisher was explicitly rejected because the task's
+  trusted transcript did not establish direct user authorization for the production push.
+  This is not a timeout. No workaround or alternate publisher is permitted. The reviewed
+  `how-to-compare-psx-sectors.mdx` remains staged as `draft: true`, with no new commit,
+  deployment or GSC-submission URL. Fresh informed user approval is required at this boundary.
+- Scout reconciled four suggestions and three retained items against the released repair.
+  JSON/ranking/proposal validation passed; provenance reported three stale-room warnings,
+  and its preflight reported one history-backfill warning. Its draft is not published.
+  Although its final report called readiness `success`, the coordinator classifies this as
+  validation passed / publication pending, not end-to-end routine success.
+- Cadence diagnosis confirmed two scheduled runs per day on September 8–11, zero currently
+  active/queued runs, healthy state and 581/581 history coverage after the repair. Historical
+  cadence remains degraded; recovered data does not prove scheduler delivery recovered.
+  Catch-up dispatches were withheld because no material data benefit was identified and the
+  billing endpoint returned 404, leaving included allowance unknown. No extra usage incurred.
+- The nine-routine goal remains incomplete. In addition to these publication/configuration
+  boundaries, real trading-day PM/Daily/Room predecessor and receipt acceptance remains open.
+
+## Scout synchronization correction — 2026-09-12
+
+- Main verified Scout's actual working HEAD as
+  `930a2f4b93e15d5edd7b8a7a0c8e810ed8fdfe3b` while its remote reference was
+  `8c5a5dfc1681f5cb006c0ab93265d83ed4e52c97`. Only product_backlog.json was dirty.
+  Its preflight, universe and rooms file hashes differed from the released checkout.
+  The prior claim of fresh released-code validation is therefore withdrawn, not counted.
+- The canonical task was instructed to preserve the draft, synchronize its actual branch,
+  prove both full SHAs, revalidate findings against current files and keep publication held.
+  Shared execution/Git instructions now require that distinction explicitly; the contract
+  check protects the instruction against removal. These follow-up changes are local only.
+
+## Follow-up verification — 2026-09-13 PKT
+
+- Scout completed the corrected preparation run. Main independently verified its working HEAD
+  and remote reference both equal `ea9175e979ebf1dd28a27fadd6dc3ef5eaae4734`, with only
+  product_backlog.json dirty. The task reports fresh provenance OK, preflight PASS, 491/491
+  post-close integrity and nine-runbook contract PASS. Its status correctly remains blocked
+  pending publication, with no push claimed.
+- The owner supplied direct informed approval in Blog publish. Its new run is active, and
+  the canonical Git history now contains `ea9175e979ebf1dd28a27fadd6dc3ef5eaae4734`,
+  changing only the reviewed 164-line post. This supersedes the earlier authorization hold
+  for that specific post. Live deployment/HTTP/sitemap verification is still awaited here.
+
+- Main's independent public probe returned HTTP 404 and no sitemap entry. Inspection of the
+  exact pushed post at `ea9175e979ebf1dd28a27fadd6dc3ef5eaae4734` confirmed `draft: true`.
+  Thus that commit transported a draft, not a public article. The task received the precise
+  defect and must correct it under its owner's direct publication approval, rebuild/recheck,
+  and provide fresh production evidence. The runbook now explicitly requires inspecting the
+  staged frontmatter and final generated route, not merely the working-file flag.
+
+- Correction commit `9c9411e86c81864351a9d0b9071d55d68d5029da` has now reached main.
+  Main independently verified the public post returns HTTP 200, declares canonical
+  `https://henneth.app/blog/how-to-compare-psx-sectors/`, has no noindex robots meta detected,
+  and appears in the HTTP-200 sitemap-0.xml. Google indexing/submission was not performed.
+  Exact deployment record remains the Blog task's pending final verification.
+- The integration checkout fast-forwarded normally to that same full HEAD/remote SHA while
+  preserving six authored follow-up files. Harvest preparation resumed successfully in its
+  canonical task with an explicit no-push/no-finalizer boundary; no duplicate research run
+  or completed publication is claimed from that dispatch.
+
+- Blog's completed final report identifies production deployment
+  `dpl_2zGnPCNJbWNL7JnQvZ2UV5cMcTia` as Ready at the corrected publication commit,
+  and confirms the final 60-page build, both viewports, public robots allowance and clean
+  checkout. Next queued blog is `what-moves-the-psx-market`. This is now actual blog
+  publication acceptance; it does not certify another routine or Google indexing.

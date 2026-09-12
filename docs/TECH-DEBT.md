@@ -47,3 +47,8 @@ on 2026-09-12; implementation is underway, not yet released.
 Close this blocker only after exact-source intake, both renderers, preflight and
 live deployed daily change are independently verified. Historical index capture
 quality remains a separate documented audit, not repaired by this field addition.
+
+Release update, 2026-09-12: the bounded daily-change blocker is closed by
+`8c5a5dfc1681f5cb006c0ab93265d83ed4e52c97`. Official-source intake, 21 capture tests,
+independent review, preflight, and authenticated live Today/Board display passed. Older
+source timestamps preserve stored bytes. The separate historical index/scoring audit remains open.

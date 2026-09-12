@@ -43,6 +43,12 @@ states. Read [REPORTING.md](REPORTING.md),
    drafting. Once the hold clears, flip `draft: false` and publish only the authored content paths
    through the repository's safe publication path. Publish one post maximum. If any gate fails, leave
    the work unpublished and report the precise block.
+   **Staged publication proof:** after changing the flag, stage the post again and inspect
+   `git show :site/src/content/blog/<slug>.mdx`; the staged frontmatter must say `draft: false`.
+   A previously staged `draft: true` is not updated by editing the working file. Rebuild the
+   final publishable state and confirm `site/dist/blog/<slug>/index.html` exists before pushing.
+   After pushing, confirm the remote post also has `draft: false`; a draft-only commit is not
+   publication and must not be treated as deployment delay.
 6. Verify publication before treating a new current-run item as complete or selecting it again: confirm
    the live canonical URL, HTTP status, noindex/robots result, exact sitemap entry, and exact
    publication/deployment identifier. On retry, verify pending current-run evidence first; actual

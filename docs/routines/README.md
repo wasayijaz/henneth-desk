@@ -13,6 +13,13 @@ Every run reads, in order:
 
 ## Shared execution rules
 
+- **Initial release hold cleared (2026-09-12):** coordinator release
+  `8c5a5dfc1681f5cb006c0ab93265d83ed4e52c97` reached remote `main`; Desk and marketing
+  production deployments were READY at that commit, and authenticated Today/Board showed the
+  verified official index change and exchange timestamp. Earlier instructions to await this
+  initial clearance are superseded. This clears only that hold, not source, predecessor,
+  preflight, serialization, deployment, receipt or cost gates. See
+  [the acceptance ledger](ACCEPTANCE-2026-09-12.md#production-repair-verified--2026-09-12).
 - **Takeover release authorization (2026-09-12):** the owner explicitly approved the remaining
   repairs, code pushes and normal scoped routine publications/dispatches. Former training-only
   routines retain the coordinator's initial shared-pipeline release hold, then may execute their
@@ -27,6 +34,11 @@ Every run reads, in order:
   model call is free. Report any cost-related hold separately from a technical failure.
 - Work only in the routine's existing isolated checkout (worktree or private clone). Never use the owner's checkout.
 - Synchronize with `wasayijaz/henneth-desk` before work and again before publication.
+- **Synchronization proof:** after a fresh fetch, compare the assigned checkout's `HEAD` with
+  `origin/main` before research. A fetch updates the remote reference, not the working files.
+  If they differ, preserve the draft and synchronize the working branch through normal Git;
+  stop on conflicts. Report both full SHAs. Do not run old local checks and label them as
+  validation of the remote release. Revalidate affected findings after synchronization.
 - If a linked checkout's Git metadata is outside the sandbox, request scoped escalation for the
   normal Git operation. Do not treat a permission error as a successful synchronization, change
   global Git trust, or create a replacement task. Preserve dirty work and stop on a real conflict.
