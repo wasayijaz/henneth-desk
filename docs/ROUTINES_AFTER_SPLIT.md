@@ -3,6 +3,10 @@
 This contract overrides legacy mixed-repository instructions. Read it alongside the named
 routine runbook; retain that runbook's sourcing, research, translation and publication gates.
 
+The active runbooks are repository-owned at `docs/routines/README.md`. All scheduled results
+must follow `docs/routines/REPORTING.md`. User-profile scheduler files are historical references,
+not runtime dependencies.
+
 ## Product ownership
 
 - The nine existing Henneth Routines tasks operate on `wasayijaz/henneth-desk` only.

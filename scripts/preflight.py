@@ -199,6 +199,19 @@ def check_publish_safety():
         fail(f"check_publish_safety.py did not run — {exc}")
 
 
+def check_routine_contract():
+    path = os.path.join(ROOT, "scripts", "check_routine_contract.py")
+    if not os.path.exists(path):
+        fail("check_routine_contract.py missing — scheduled routine contracts cannot be verified")
+        return
+    try:
+        result = subprocess.run([sys.executable, path], capture_output=True, text=True, timeout=15)
+        if result.returncode:
+            fail("routine contract check failed — " + _detail(result))
+    except Exception as exc:
+        fail(f"check_routine_contract.py did not run — {exc}")
+
+
 def check_today_ui():
     for name in ("check_today_article.mjs", "check_today_chart_data.mjs", "check_today_info.mjs"):
         path = os.path.join(ROOT, "scripts", name)
@@ -274,6 +287,7 @@ def main():
     check_root_ask_hardening()
     check_root_state_publication()
     check_publish_safety()
+    check_routine_contract()
     check_today_ui()
     check_company_profiles()
     check_no_raw_artifacts()

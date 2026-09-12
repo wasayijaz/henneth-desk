@@ -148,6 +148,12 @@ fine, because a local checkout preserves the mtimes of files you didn't touch.
 clock is `state/history_meta.json` `last_attempt`. `preflight.py` WARNs when a large share
 of covered symbols has not been attempted in 3 days, which is the shape all three stale-price bugs had.
 
+The post-close gate also requires `history_meta.json` to describe a finalized refresh, not merely carry
+a recent `completed_at`: `processed` must equal `attempted`, `ok` plus the finalized `failed` list must
+account for every processed symbol, `skipped_deadline` must be zero, and `with_history` must match
+`coverage.json`. Completion and capture timestamps must include an explicit timezone offset; naive
+timestamps are invalid and are never interpreted as PKT.
+
 ## The cron is a wish, not a schedule
 
 The third and deepest stale-price bug. `desk-data.yml` **declares** ~18 runs a weekday

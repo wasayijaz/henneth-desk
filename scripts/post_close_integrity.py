@@ -28,7 +28,9 @@ def _parse_stamp(value: str | None) -> datetime | None:
         return None
     try:
         parsed = datetime.fromisoformat(value.replace("Z", "+00:00"))
-        return parsed if parsed.tzinfo else parsed.replace(tzinfo=PKT)
+        # A missing offset is ambiguous. State timestamps must identify their instant;
+        # never reinterpret a naive value as PKT at the gate.
+        return parsed if parsed.tzinfo is not None and parsed.utcoffset() is not None else None
     except (TypeError, ValueError):
         return None
 
@@ -49,6 +51,49 @@ def _positive_volume(row: object) -> bool:
         return float((row or {}).get("volume") or 0) > 0
     except (AttributeError, TypeError, ValueError):
         return False
+
+
+def _check_history_refresh(
+    problems: list[str], meta: object, covered_count: int, close: datetime, now: datetime
+) -> None:
+    if not isinstance(meta, dict):
+        problems.append("history_meta.json is missing or not an object")
+        return
+
+    _check_stamp(problems, meta.get("completed_at"), "history refresh completion", close, now)
+
+    skipped = meta.get("skipped_deadline")
+    if type(skipped) is not int or skipped != 0:
+        problems.append("history refresh did not complete the full sweep")
+
+    attempted = meta.get("attempted")
+    processed = meta.get("processed")
+    ok = meta.get("ok")
+    failed = meta.get("failed")
+    with_history = meta.get("with_history")
+    if type(attempted) is not int or type(processed) is not int or type(ok) is not int:
+        problems.append("history_meta.json lacks numeric attempted, processed, or ok counts")
+    if not isinstance(failed, list):
+        problems.append("history_meta.json lacks the finalized failed-results list")
+    if type(with_history) is not int:
+        problems.append("history_meta.json lacks the finalized with_history count")
+
+    if type(attempted) is int and type(processed) is int and processed != attempted:
+        problems.append(
+            f"history refresh finalized only {processed}/{attempted} attempted symbols"
+        )
+    if type(ok) is int and isinstance(failed, list) and type(processed) is int:
+        if ok + len(failed) != processed:
+            problems.append(
+                "history_meta.json result counts do not account for every processed symbol"
+            )
+        if ok <= 0:
+            problems.append("history refresh has no successful fetches")
+    if type(with_history) is int and with_history != covered_count:
+        problems.append(
+            f"history_meta.json with_history ({with_history}) does not match coverage.json "
+            f"({covered_count})"
+        )
 
 
 def evaluate(root: Path = STATE, now: datetime | None = None) -> dict:
@@ -81,17 +126,15 @@ def evaluate(root: Path = STATE, now: datetime | None = None) -> dict:
     if index_capture is not None and index_capture <= now and index_capture.astimezone(PKT) >= close and (indices.get("live") or {}).get("KSE100") != today_index.get("KSE100"):
         result["problems"].append("indices.json session value does not match its post-close live capture")
 
-    meta = load_json(root / "history_meta.json", {})
-    _check_stamp(result["problems"], meta.get("completed_at"), "history refresh completion", close, now)
-    if meta.get("skipped_deadline"):
-        result["problems"].append("history refresh did not complete the full sweep")
-
     universe = load_json(root / "universe.json", {"symbols": {}}).get("symbols") or {}
-    covered = set((load_json(root / "coverage.json", {}).get("bars") or {}).keys())
+    coverage = load_json(root / "coverage.json", {})
+    covered = set((coverage.get("bars") or {}).keys())
+    meta = load_json(root / "history_meta.json", {})
+    _check_history_refresh(result["problems"], meta, len(covered), close, now)
     ohlc = load_json(root / "ohlc_daily" / f"{today}.json", {})
     traded = {
         symbol for symbol, row in ohlc.items()
-        if symbol in covered
+        if symbol in universe
         and ((universe.get(symbol) or {}).get("market") or "PSX") == "PSX"
         and _positive_volume(row)
     }
@@ -129,6 +172,7 @@ def _self_test() -> None:
     assert friday_early.astimezone(PKT) < session_close(friday_early)
     assert friday_late.astimezone(PKT) >= session_close(friday_late)
     assert _parse_stamp("2026-09-11T11:31:00Z").tzinfo is not None
+    assert _parse_stamp("2026-09-11T16:31:00") is None
     with tempfile.TemporaryDirectory() as temp:
         root = Path(temp)
         (root / "history").mkdir()
@@ -146,6 +190,8 @@ def _self_test() -> None:
         })
         write(root / "history_meta.json", {
             "completed_at": "2026-09-11T11:31:00Z", "skipped_deadline": 0,
+            "ok": 100, "attempted": 100, "processed": 100,
+            "failed": [], "with_history": 100,
         })
         write(root / "ohlc_daily" / "2026-09-11.json", {
             s: {"volume": 1} for s in symbols
@@ -153,6 +199,54 @@ def _self_test() -> None:
         for symbol in symbols:
             write(root / "history" / f"{symbol}.json", [{"date": "2026-09-11"}])
         assert evaluate(root, friday_late)["status"] == "ok"
+
+        # A positive PSX trade remains in the denominator even when coverage omits it.
+        coverage = {s: 2 for s in symbols}
+        coverage.pop("T000")
+        write(root / "coverage.json", {"bars": coverage})
+        write(root / "history" / "T000.json", [])
+        write(root / "history_meta.json", {
+            "completed_at": "2026-09-11T11:31:00Z", "skipped_deadline": 0,
+            "ok": 100, "attempted": 100, "processed": 100,
+            "failed": [], "with_history": 99,
+        })
+        missing_coverage = evaluate(root, friday_late)
+        assert missing_coverage["traded_symbols"] == 100
+        assert missing_coverage["same_day_symbols"] == 99
+        assert missing_coverage["status"] == "ok"
+        write(root / "coverage.json", {"bars": {s: 2 for s in symbols}})
+        write(root / "history" / "T000.json", [{"date": "2026-09-11"}])
+
+        # Completion is a finalized result, not merely a post-close timestamp.
+        write(root / "history_meta.json", {
+            "completed_at": "2026-09-11T11:31:00Z", "skipped_deadline": 0,
+            "ok": 100, "attempted": 100, "processed": 99,
+            "failed": [], "with_history": 100,
+        })
+        partial_history = evaluate(root, friday_late)
+        assert partial_history["status"] == "fail"
+        assert any("finalized only 99/100" in problem for problem in partial_history["problems"])
+        write(root / "history_meta.json", {
+            "completed_at": "2026-09-11T11:31:00Z", "skipped_deadline": 0,
+            "ok": 100, "attempted": 100, "processed": 100,
+            "failed": [], "with_history": 100,
+        })
+
+        # Naive completion stamps fail rather than being silently treated as PKT.
+        write(root / "history_meta.json", {
+            "completed_at": "2026-09-11T16:31:00", "skipped_deadline": 0,
+            "ok": 100, "attempted": 100, "processed": 100,
+            "failed": [], "with_history": 100,
+        })
+        naive_history = evaluate(root, friday_late)
+        assert naive_history["status"] == "fail"
+        assert any("no timezone-aware timestamp" in problem for problem in naive_history["problems"])
+        write(root / "history_meta.json", {
+            "completed_at": "2026-09-11T11:31:00Z", "skipped_deadline": 0,
+            "ok": 100, "attempted": 100, "processed": 100,
+            "failed": [], "with_history": 100,
+        })
+
         write(root / "indices.json", {
             "live_at": "2026-09-11T11:32:00Z",
             "live": {"KSE100": 1.0},
@@ -168,12 +262,16 @@ def _self_test() -> None:
         })
         write(root / "history_meta.json", {
             "completed_at": "2026-09-11T11:32:00Z", "skipped_deadline": 0,
+            "ok": 100, "attempted": 100, "processed": 100,
+            "failed": [], "with_history": 100,
         })
         future_history = evaluate(root, friday_late)
         assert future_history["status"] == "fail"
         assert any("history refresh completion is in the future" in problem for problem in future_history["problems"])
         write(root / "history_meta.json", {
             "completed_at": "2026-09-11T11:31:00Z", "skipped_deadline": 0,
+            "ok": 100, "attempted": 100, "processed": 100,
+            "failed": [], "with_history": 100,
         })
         for symbol in list(symbols)[:2]:
             write(root / "history" / f"{symbol}.json", [{"date": "2026-09-10"}])
