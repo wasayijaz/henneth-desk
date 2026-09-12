@@ -1,0 +1,164 @@
+---
+title: How to compare PSX sectors
+description: A source-led method for comparing PSX sectors by business drivers, balance sheets, market structure and evidence — not stock tips.
+pubDate: 2026-09-12
+cluster: Sectors
+draft: true
+---
+
+import Snapshot from '../../components/explain/Snapshot.astro';
+import Matrix from '../../components/explain/Matrix.astro';
+import Ledger from '../../components/explain/Ledger.astro';
+
+The useful way to compare PSX sectors is not to rank them by whichever one moved most recently. Start
+with the Exchange's own sector label, then ask what each sector earns from, what can interrupt that
+engine, how the balance sheet carries the business, and which primary document can prove the answer.
+That produces a comparison of operating context. It does not produce a named-stock call or a forecast.
+
+<Snapshot
+  title="A sector comparison in four checks"
+  items={[
+    { k: 'Boundary', v: 'PSX sector label', note: 'Use the Exchange classification before grouping companies' },
+    { k: 'Driver', v: 'What earns the money?', note: 'Read filings for the revenue and cost engine' },
+    { k: 'Pressure', v: 'What can interrupt it?', note: 'Trace rates, commodities, FX, regulation or demand to a source' },
+    { k: 'Conclusion', v: 'Context, not a call', note: 'A sector read does not tell you what to buy' },
+  ]}
+/>
+
+## First decide what “sector” means
+
+The word is used loosely in market commentary, but a comparison needs a stable boundary. The [PSX
+Data Portal screener](https://dps.psx.com.pk/screener) gives each listed name a sector code and
+exposes the fields beside it: index membership, market capitalisation, price change, one-year change,
+PE, dividend yield, free float and 30-day average volume. Those fields are useful for describing a
+group, but they do not define why the businesses behave alike.
+
+Use the sector code as the starting map. Do not silently combine official categories, and do not treat
+a theme such as “exporters” as if it were an official sector. A theme may be worth studying, but it is
+a different question and needs its own inclusion rule.
+
+The distinction matters because a sector can contain companies with different customers, regulation,
+capital intensity and reporting calendars. A label makes the group reproducible; it does not finish
+the analysis.
+
+## Compare the business engine before the valuation
+
+The first question is simple: where does the sector's revenue come from, and which line in the filing
+would show that it changed? For a bank, the relevant reading may be the relationship between earning
+assets, funding and credit costs. For a manufacturer, it may be realised pricing, volume, input costs
+and capacity. For a technology company, it may be the mix of recurring and project revenue. These are
+reading prompts, not universal formulas: the company's own filing has to establish which one applies.
+
+<Matrix
+  cols={['Question', 'Primary evidence', 'What the comparison should say']}
+  rows={[
+    ['Revenue engine', 'Audited results and notes', 'What is sold, to whom, and which line proves the change?'],
+    ['Cost engine', 'Results, segment notes and company notices', 'Which input or operating constraint can compress the margin?'],
+    ['Funding load', 'Balance sheet and cash-flow statement', 'Where does capital sit, and what has to be paid before cash returns?'],
+    ['External pressure', 'Regulator, PSX notice or official macro release', 'Which outside variable is relevant, and what is the dated source?'],
+    ['Market lens', 'PSX screener and indices page', 'Which fields describe the group without pretending they explain it?'],
+  ]}
+  caption="The evidence column is deliberately primary-source first. A commentary article can suggest a question; it should not be the final authority for a sector fact."
+/>
+
+The comparison becomes more useful when the same question is asked of every group. “Which sector is
+best?” is too vague to verify. “Which sector has the clearest disclosed exposure to a change in its
+main input?” is a question that can be answered, dated and challenged.
+
+## Treat PSX indices as a map, not a verdict
+
+The [PSX indices page](https://www.psx.com.pk/psx/product-and-services/indices) describes the KSE-100
+as representing the market's sectors through a free-float market-capitalisation method. It also lists
+sectoral indices such as the Banking Sector Tradable Index and the Oil & Gas Tradable Index. That is
+useful context: the Exchange itself provides both a broad market lens and narrower sector lenses.
+
+But an index is a measurement design, not a statement that every company inside it has the same
+economics. Index membership answers “how is this index assembled?” It does not answer “what will this
+company's next result contain?”
+
+That separation prevents a common error: using index membership as a substitute for reading the
+underlying businesses. A sector comparison can use an index as a benchmark or a way to describe
+market representation, while keeping operating claims tied to company filings and official notices.
+
+## Make the external variable explicit
+
+Most sector commentary becomes vague at the point where it says a sector is “macro-sensitive.” Name
+the channel instead. Is the proposed pressure a change in financing cost, an imported input, a currency
+conversion, an administered tariff, a regulatory rule, or a demand change? Then ask whether the link is
+visible in a primary document.
+
+The [current PSX Regulations](https://www.psx.com.pk/psx/themes/psx/uploads/PSX-Regulations-February-09-2026_1.pdf)
+are the authority for market-structure rules. Company announcements in the [PSX Data Portal](https://dps.psx.com.pk/announcements/companies)
+are the place to check what a listed company actually disclosed. For economy-wide claims, use the
+responsible official release rather than a market-summary sentence that gives no date or methodology.
+
+Do not turn a disclosed exposure into a forecast. “The filing identifies imported input costs” is a
+source-led observation. “That sector will lead” is a prediction requiring a different evidence standard,
+and this article does not make one.
+
+## Keep cross-sector valuation comparisons modest
+
+Valuation fields can help describe how the market currently labels a group, but they are not directly
+comparable across businesses with different accounting models, capital structures or earnings cycles.
+The article on [how to value a PSX company](/blog/how-to-value-a-psx-company/) covers the role of PE,
+PB and dividend yield. [Why PE ratios mislead PSX cyclicals](/blog/why-pe-ratios-mislead-psx-cyclicals/)
+shows why a low trailing multiple can describe a peak in reported earnings rather than a durable
+discount.
+
+So use valuation after the operating comparison, not before it. Record the period, the definition and
+the source. If the figures do not answer the same question, say that they are not comparable instead of
+forcing them into a league table.
+
+<Ledger
+  left={{
+    kicker: 'A useful sector read',
+    title: 'Explains the operating context',
+    points: [
+      '<strong>Same boundary:</strong> every included name belongs for a stated reason.',
+      '<strong>Same questions:</strong> revenue, costs, funding and external pressure are checked across the group.',
+      '<strong>Traceable evidence:</strong> each material claim points to a filing, notice, methodology or official release.',
+      '<strong>Clear limits:</strong> unknowns stay unknown, and observations stay separate from forecasts.',
+    ],
+  }}
+  right={{
+    kicker: 'What it is not',
+    title: 'Does not manufacture a ranking',
+    points: [
+      '<strong>Not a stock tip:</strong> a sector comparison does not name a trade.',
+      '<strong>Not a blended PE verdict:</strong> different earnings engines need different interpretation.',
+      '<strong>Not a macro forecast:</strong> an exposure is not the same as a predicted outcome.',
+      '<strong>Not a replacement for filings:</strong> the sector label cannot carry the whole thesis.',
+    ],
+  }}
+  caption="The discipline is the point: a comparison is stronger when it makes fewer claims and shows exactly how each one can be checked."
+/>
+
+## A repeatable worksheet
+
+For each sector, write five short lines before looking for a conclusion:
+
+1. **Boundary:** which PSX sector code or stated inclusion rule is being used?
+2. **Engine:** what does the latest primary filing say the business sells and spends on?
+3. **Pressure:** which external variable matters, and which dated authority supports that link?
+4. **Balance sheet:** what has to be funded, collected or repaid before the operating result becomes cash?
+5. **Market lens:** which PSX screener or index fields describe the group, and what do they leave out?
+
+The result can feed Henneth's [PSX screener and strategies page](/solutions/psx-screener-and-strategies/)
+or a later company read. If a separate, fully verified setup exists, the [position-size calculator](/tools/position-size-calculator/)
+handles risk arithmetic as its own step; sector analysis should not smuggle sizing into a market
+description.
+
+The desk's [PSX companies hub](/psx/) is the right place to continue from a generic sector question to
+an individual company's dated filings. That transition is where the evidence gets more specific — and
+where a sector label should give way to what the company actually reported.
+
+## Sources and limits
+
+- [PSX Indices](https://www.psx.com.pk/psx/product-and-services/indices) — broad, Islamic and sectoral index descriptions.
+- [PSX Data Portal screener](https://dps.psx.com.pk/screener) — the live sector and market fields exposed beside listed names.
+- [PSX Regulations, 9 February 2026](https://www.psx.com.pk/psx/themes/psx/uploads/PSX-Regulations-February-09-2026_1.pdf) — current market rules; use the dated edition for structure claims.
+- [PSX company announcements](https://dps.psx.com.pk/announcements/companies) — the filing trail for company-specific claims.
+
+Research, not advice. This is a method for comparing disclosed operating context across PSX sectors;
+it is not a recommendation, a forecast of returns, or a substitute for checking current primary
+documents.
