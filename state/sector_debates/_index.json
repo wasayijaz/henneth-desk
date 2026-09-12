@@ -671,6 +671,52 @@
      }
     ]
    }
+  },
+  "Commercial Banks": {
+   "sector": "Commercial Banks",
+   "as_of": "2026-09-12",
+   "bull": {
+    "tldr": "Commercial Banks combine a 6.32 median P/E with 8 undervalued names out of 18 valued, a 9.31% median yield, and 15 payers. The case is tempered by zero of 19 members above the 50-day average and a -9.67% median 20-day return.",
+    "case": "The valuation and income evidence gives the sector a credible recovery case even after a weak month. The median P/E is 6.32 and the dossier marks 8 of 18 valued names undervalued against 4 overvalued, with a positive 11.4% median fair-value gap. Income is broad: 15 of 19 members pay and the median yield is 9.31% against a 57.25% median payout.",
+    "pillars": [
+     {"claim": "Valuation coverage leans toward recovery rather than broad overvaluation", "evidence": "median P/E 6.32; median fair-value gap 11.4%; 8 undervalued vs 4 overvalued of 18 valued names"},
+     {"claim": "Income is widespread with moderate aggregate payout", "evidence": "median yield 9.31%; median payout 57.25%; 15 payers of 19"}
+    ],
+    "weakest_pillar": "The participation pillar is fragile because it is a one-day observation against a still-broken trend."
+   },
+   "bear": {
+    "tldr": "The sector's trend damage is broad: zero of 19 members is above the 50-day average and the median 20-day return is -9.67%, with SNBL worst at -17.13%. The 9.31% median yield and 11.4% fair-value gap are counterweights, but recent impact-4 news hit banks on September 2, 7 and 10.",
+    "case": "The cleanest bearish fact is breadth failure: none of the 19 members is above its 50-day average, while the median 20-day return is -9.67%. The best 20-day return is only +0.14% and the worst is -17.13%. Recent news includes impact-4 market shocks touching multiple banks on September 2, September 7 and September 10.",
+    "pillars": [
+     {"claim": "Trend damage is sector-wide", "evidence": "zero of 19 members above the 50-day average; median 20-day return -9.67%"},
+     {"claim": "Repeated material news has been concentrated in bank names", "evidence": "impact-4 items dated 2026-09-02, 2026-09-07 and 2026-09-10"}
+    ],
+    "attacks_bull": "The bull's one-day breadth argument is not enough to establish a turn: 10 advancing names still coexist with zero above the 50-day average and a -9.67% median 20-day return.",
+    "weakest_pillar": "The repeated-news pillar is less decisive than the trend data because the dossier records market headlines and affected tickers, not a bank-specific earnings shock for every member."
+   },
+   "bull_rebuttal": "The bear is right that the tape has not repaired itself: zero of 19 names above the 50-day average is the dominant fact. The surviving bull point is narrower: valuation at 6.32 median P/E, 8 undervalued versus 4 overvalued of 18 valued, and 9.31% median yield mean the sector is not uniformly expensive.",
+   "what_would_settle_it": [
+    "A subsequent dossier showing commercial-bank breadth rising above zero while the sector's 20-day median return exceeds the KSE-100 would settle the trend question.",
+    "The scheduled 2026-10-19 through 2026-10-30 bank results for BAFL, HBL, UBL, MEBL, MCB and AKBL would test the valuation and payout case."
+   ],
+   "dossier_gaps": ["The dossier does not carry a bank-specific earnings surprise or deposit-margin breakdown."],
+   "house_view": {
+    "stance": "cautious",
+    "conviction": "low",
+    "tldr": "The desk's read on Commercial Banks is cautious, with low conviction: zero of 19 members is above the 50-day average and the median 20-day return is -9.67%. Valuation is a real counterweight at 6.32 median P/E, 8 undervalued versus 4 overvalued of 18 valued, but repeated impact-4 news and the broken trend keep the view restrained.",
+    "summary": "Commercial Banks have not repaired their trend: zero of 19 members is above the 50-day average, the median 20-day return is -9.67%, and even the best member is only +0.14% over 20 days. The constructive evidence is meaningful but incomplete, with a 6.32 median P/E, 8 undervalued versus 4 overvalued of 18 valued names, and a 9.31% median yield across 15 payers. Ten members advanced on the latest day, so the tape is not uniformly weak at the one-day horizon. However, recent impact-4 news hit multiple bank names on September 2, September 7 and September 10, while the dossier's measured global drivers explain only 0.6% of daily variance. The desk therefore keeps a cautious, low-conviction view until breadth and relative performance show a durable repair.",
+    "key_evidence": [
+     "breadth.above_sma50 = 0 of 19; returns.median_20d_pct = -9.67%; best_20d = AKBL +0.14%",
+     "valuation.median_pe = 6.32; median_fair_gap_pct = 11.4%; 8 undervalued vs 4 overvalued of 18 valued",
+     "income.median_yield_pct = 9.31%; median_payout_pct = 57.25%; n_payers = 15 of 19",
+     "recent_news contains impact 4 items dated 2026-09-02, 2026-09-07 and 2026-09-10; macro_joint_r2_pct = 0.6%"
+    ],
+    "dissent": "The strongest surviving argument against caution is that the sector is not broadly expensive and carries a substantial income profile: 8 of 18 valued names are marked undervalued, the median fair-value gap is +11.4%, and 15 of 19 members pay with a 9.31% median yield. Ten members advanced on the latest day, which leaves open the possibility that the -9.67% 20-day move is stabilizing rather than extending. The three impact-4 headlines record market shocks and affected tickers rather than a separate bank-specific fundamental impairment for every member. If breadth rises above zero and relative performance improves ahead of the scheduled October results, the valuation and income evidence could justify a neutral or constructive read. That counter-case is why conviction stays low rather than high in either direction.",
+    "what_changed": "first session",
+    "claims": [
+     {"text": "Commercial Banks underperform the KSE-100 over the 30-day window from 2026-09-12 through 2026-10-12, unless breadth repairs above zero and the sector's relative return improves.", "horizon_days": 30, "market_relative": true, "resolves_on": "2026-10-12"}
+    ]
+   }
   }
  }
 }
