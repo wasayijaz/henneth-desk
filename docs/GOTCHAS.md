@@ -167,7 +167,8 @@ the rotation was "working" — it just wasn't being run often enough to finish a
 **Rule:** never depend on how MANY times the cron fires. `fetch_history.py` now reprices the ENTIRE
 universe in a SINGLE run — concurrently, with a `ThreadPoolExecutor` (`WORKERS`), ~6 minutes for
 ~490 symbols, well inside the 25-minute job cap. One honoured tick a day keeps every price ≤1 day
-old. `DEADLINE_S` bounds the wall clock as a guard; symbols not reached before it are left unstamped
+old. `DEADLINE_S` bounds the wall clock as a guard; result intake stops with a bounded drain
+allowance for the at-most-six requests already in flight. Symbols not reached before it are left unstamped
 so they lead the next run, and `preflight.py` WARNs on any non-zero `skipped_deadline`. `last_attempt`
 survives only as the ORDERING key for that rare cut-short case — it is no longer a rotation ration.
 Do not reintroduce a per-run slice; it silently reinstates this bug the moment the cron degrades.

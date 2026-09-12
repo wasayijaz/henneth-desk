@@ -33,6 +33,7 @@ WORKERS = 6                # concurrent fetchers — a LATENCY-hiding knob only.
                            # rate is capped centrally by psx_data._throttle, so raising this hides
                            # network latency without raising the DPS request rate (no 429 storm).
 DEADLINE_S = 1200          # 20 min wall-clock guard, inside the workflow job cap
+IN_FLIGHT_DRAIN_S = 180    # bounded DPS retry/request drain after completion intake stops
 NEW_PROBE_PER_RUN = 12     # separate, round-robin budget for symbols with no history file yet
 UA = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) psx-desk/1.0"}
 
@@ -162,7 +163,10 @@ def main():
 
     # Fetch the whole run concurrently. A symbol is stamped in the attempt clock ONLY once its
     # result is in hand, so anything cut off by DEADLINE_S stays unstamped and leads the next run.
-    deadline = time.time() + DEADLINE_S
+    # Leave enough room for the at-most-WORKERS requests already in flight to finish their
+    # bounded retry loops. Without this allowance, the executor's orderly shutdown could make
+    # the advertised wall-clock guard overrun even after this loop stopped accepting results.
+    deadline = time.time() + DEADLINE_S - IN_FLIGHT_DRAIN_S
     with ThreadPoolExecutor(max_workers=WORKERS) as pool:
         fut_to_sym = {pool.submit(_fetch_one, s, universe, years, cutoff): s for s in todo}
         for fut in as_completed(fut_to_sym):
@@ -219,6 +223,7 @@ def main():
         "listed_total": n_listed,
         "workers": WORKERS,
         "deadline_s": DEADLINE_S,
+        "in_flight_drain_s": IN_FLIGHT_DRAIN_S,
         "new_probe_per_run": NEW_PROBE_PER_RUN,
         "probe_cursor": next_cursor,
         "note": ("EVERY symbol with a series is repriced EVERY run — one honoured cron tick keeps "
