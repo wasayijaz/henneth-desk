@@ -3,11 +3,7 @@
  "delta": [
   {
    "symbol": "CNERGY",
-   "why": "price moved 13.3% since last Room"
-  },
-  {
-   "symbol": "FCL",
-   "why": "price moved 12.0% since last Room"
+   "why": "price moved 9.4% since last Room"
   }
  ],
  "full": [
@@ -48,11 +44,19 @@
    "why": "material change since last Room"
   },
   {
+   "symbol": "POL",
+   "why": "material change since last Room"
+  },
+  {
    "symbol": "FFC",
    "why": "material change since last Room"
   },
   {
    "symbol": "OGDC",
+   "why": "material change since last Room"
+  },
+  {
+   "symbol": "MCB",
    "why": "material change since last Room"
   },
   {
@@ -69,10 +73,6 @@
   },
   {
    "symbol": "LUCK",
-   "why": "material change since last Room"
-  },
-  {
-   "symbol": "BOP",
    "why": "material change since last Room"
   },
   {
@@ -100,16 +100,8 @@
    "why": "never covered"
   },
   {
-   "symbol": "NCPL",
-   "why": "never covered"
-  },
-  {
    "symbol": "GCIL",
    "why": "never covered"
-  },
-  {
-   "symbol": "KEL",
-   "why": "material change since last Room"
   },
   {
    "symbol": "MTL",
@@ -192,15 +184,15 @@
    "why": "material change since last Room"
   },
   {
-   "symbol": "POL",
+   "symbol": "FCL",
+   "why": "material change since last Room"
+  },
+  {
+   "symbol": "BOP",
    "why": "material change since last Room"
   },
   {
    "symbol": "HBL",
-   "why": "material change since last Room"
-  },
-  {
-   "symbol": "MCB",
    "why": "material change since last Room"
   },
   {
@@ -224,11 +216,11 @@
    "why": "never covered"
   },
   {
-   "symbol": "KOHC",
+   "symbol": "NML",
    "why": "never covered"
   },
   {
-   "symbol": "NML",
+   "symbol": "KOHC",
    "why": "never covered"
   },
   {
@@ -272,6 +264,14 @@
    "why": "never covered"
   },
   {
+   "symbol": "NCPL",
+   "why": "never covered"
+  },
+  {
+   "symbol": "HASCOL",
+   "why": "never covered"
+  },
+  {
    "symbol": "NETSOL",
    "why": "never covered"
   },
@@ -304,10 +304,6 @@
    "why": "never covered"
   },
   {
-   "symbol": "BERG",
-   "why": "never covered"
-  },
-  {
    "symbol": "KOSM",
    "why": "never covered"
   },
@@ -321,6 +317,10 @@
   },
   {
    "symbol": "QTECH",
+   "why": "never covered"
+  },
+  {
+   "symbol": "BERG",
    "why": "never covered"
   },
   {
@@ -341,6 +341,10 @@
   },
   {
    "symbol": "PSX",
+   "why": "material change since last Room"
+  },
+  {
+   "symbol": "KEL",
    "why": "material change since last Room"
   },
   {
@@ -373,7 +377,7 @@
   }
  ],
  "_meta": {
-  "built": "2026-09-11 08:14",
+  "built": "2026-09-12 22:11",
   "full_budget": 2,
   "run_full_now": [
    "PPL",
@@ -387,22 +391,21 @@
    "NBP",
    "UBL",
    "MARI",
+   "POL",
    "FFC",
    "OGDC",
+   "MCB",
    "SSGC",
    "MLCF",
    "SAZEW",
    "LUCK",
-   "BOP",
    "JVDC",
    "NATF",
    "PIBTL",
    "NPL",
    "THCCL",
    "MUGHAL",
-   "NCPL",
    "GCIL",
-   "KEL",
    "MTL",
    "PTC",
    "GLAXO",
@@ -423,16 +426,16 @@
    "SYS",
    "HMB",
    "ENGROH",
-   "POL",
+   "FCL",
+   "BOP",
    "HBL",
-   "MCB",
    "FATIMA",
    "CHCC",
    "ILP",
    "INDU",
    "SEARL",
-   "KOHC",
    "NML",
+   "KOHC",
    "TRG",
    "AGP",
    "TPLRF1",
@@ -443,6 +446,8 @@
    "FCEPL",
    "NICL",
    "SPSL",
+   "NCPL",
+   "HASCOL",
    "NETSOL",
    "CSAP",
    "GGL",
@@ -451,16 +456,17 @@
    "TOMCL",
    "TPL",
    "WTL",
-   "BERG",
    "KOSM",
    "MACFL",
    "PACE",
    "QTECH",
+   "BERG",
    "TELE",
    "ZUMA",
    "OBOY",
    "SGPL",
    "PSX",
+   "KEL",
    "GHNI",
    "FABL",
    "PIOC",
@@ -470,12 +476,12 @@
    "UNITY"
   ],
   "counts": {
-   "full_due": 90,
+   "full_due": 92,
    "full_now": 2,
-   "delta": 2,
+   "delta": 1,
    "reaffirm": 0
   },
-  "est_tokens_today": 54000,
+  "est_tokens_today": 49000,
   "note": "Tiered plan. Only run_full_now get the 5-persona debate; delta get a cheap TA refresh; reaffirm cost nothing. Full universe stays current at a fraction of naive cost (naive = every ticker debated every run)."
  }
 }

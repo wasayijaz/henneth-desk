@@ -14,7 +14,9 @@ publish, or change repository data. Read [REPORTING.md](REPORTING.md), `AGENTS.m
 1. Synchronize the assigned worktree and query the last 80 scheduled workflow runs for
    `.github/workflows/desk-data.yml`. Use the workflow's committed cron as the authority: UTC
    weekdays at `:07` and `:37` during the configured window. Bucket scheduled events by UTC date and
-   select the last four full weekdays present.
+   select the last four full UTC calendar weekdays, including zero-run days. Paginate until the
+   entire window is covered; 80 results is an initial page, not proof of completeness. Missing
+   evidence is `unknown`; a verified day with no runs counts as zero.
 2. Record a runs/day table. Treat a day with fewer than five scheduled runs as degraded. If the most
    recent one or two full weekdays are degraded, prepare two or three manual catch-ups through the
    workflow's existing manual trigger. Dispatch them only when this automation is activated; in

@@ -5,7 +5,7 @@
 # henneth-weekly-harvest
 
 Saturday broker-call harvest plus exactly one rotating sector debate. Read [REPORTING.md](REPORTING.md),
-`AGENTS.md`, `docs/ROUTINES_AFTER_SPLIT.md`, `docs/AUTOMATION-PLAN.md`, and `prompts/sector-week.md`.
+`AGENTS.md`, `docs/ROUTINES_AFTER_SPLIT.md`, `docs/OPERATIONS.md`, and `prompts/sector-week.md`.
 Operate only in the assigned `wasayijaz/henneth-desk` routine worktree. Brokers are evidence to be
 graded, never an endorsement; all output is research, not advice.
 
@@ -36,7 +36,10 @@ graded, never an endorsement; all output is research, not advice.
 8. If preflight passes and this automation is activated, publish with
    `python scripts/publish.py "Weekly harvest <YYYY-MM-DD>: <N> broker calls; sector <Sector>"`.
    In training mode, stop with the verified state diff for approval. Capture exact SHA/URL only when
-   proven. Preserve append-only state and append the runlog entry only when the run is filed.
+   proven. After verified research publication follow [FINALIZATION.md](FINALIZATION.md) using
+   `scripts/finalize_routine.py` with `--routine harvest`, research SHA, start time, mode `harvest` and the
+   broker/sector counts. Report the separately verified receipt SHA. Training validation preserves
+   its draft artifacts without changing acknowledgement or runlog; it is not a completed publication.
 
 ## Required result fields
 

@@ -7,6 +7,24 @@ The repeatable process. Read [BLOG_PLAN.md](BLOG_PLAN.md) for *what* to write an
 a design exercise — if you find yourself writing CSS for a content page, the component is missing
 and should be added to `explain/` instead of inlined.
 
+## Standing authorization — blog only
+
+Effective **2026-09-12**, the owner authorizes this routine to plan, research, draft, independently
+fact-check, build, and render **one blog post per run** during the first execution's coordinator
+integration/release hold; only publication is blocked until the shared-pipeline repairs have shipped
+and been independently verified. Once that hold clears, it also authorizes publication and verification
+without fresh per-post approval. This does not authorize landing-page, tool, desk, GSC, unrelated
+code, or state changes. Source, quality, cannibalisation, build, render, and publication evidence
+remain hard stops.
+
+Use Luna High for the writer when callable and a separate independent fact-check pass for every
+factual claim. A draft is resumable and unpublished; a `draft: false` flag alone is not proof of
+publication. For historical inventory, remote git `draft: false` plus a live canonical URL and
+sitemap entry is sufficient; no historical Vercel/deployment SHA is required. For a new current run,
+the exact publication/deployment identifier is required. Before any retry or repeat, verify pending
+current-run evidence and the idempotency record for that slug; existing evidence means do not publish
+again.
+
 ---
 
 ## 1. Two page types, split by intent — never duplicate a topic across both
@@ -33,7 +51,12 @@ internal link equity — that is the whole of their SEO job.
 
 ## 2. Publishing a blog post
 
-1. **Pick from the cluster in progress** (BLOG_PLAN §2). Never jump clusters.
+1. **Pick the top eligible blog item** from the inventory and backlog. Resume the earliest `draft: true`
+   file before selecting another item. A missing file is eligible only after duplicate/cannibalisation
+   checks. Only when there is no resumable draft **and** no eligible missing item may the routine append
+   at most three research-required blog briefs based on actual content/query gaps, then select at most
+   one; an exhausted list is a planning trigger, not a silent no-op. Source or quality blocks stop the
+   run rather than refill it.
 2. **Verify every fact first.** Rates from PSX_COSTS_VERIFIED.md, mechanics from
    PSX_MECHANICS_VERIFIED.md. Anything else needs a primary source *in hand before drafting*.
    Rule 2 applies to published content.
@@ -75,13 +98,19 @@ import Matrix   from '../../components/explain/Matrix.astro';
    - **Names PSX companies generically** ("every listed company", "the wider board", "the desk
      covers") → link that phrase to `/psx/`, the hub.
    - One of the two is a hard minimum per post, same tier as the `/tools/` link above.
-7. `npm run build`, then **render it** — flip `draft: false` locally, serve `dist/`, and look.
-   The build passes on layouts that are visibly broken; two real defects in the first post were
-   invisible to it.
-8. Flip `draft: false`, commit, push. Vercel deploys in ~60s.
-9. **Request indexing.** Don't wait for Google to find it on its own crawl schedule. GSC → URL
-   Inspection → paste the live `/blog/<slug>/` URL → Request Indexing. Costs one minute, and is the
-   single highest-leverage step for getting a new page indexed in days instead of weeks.
+7. `npm run build`, then **render it** — temporarily flip `draft: false` only for local validation,
+   serve `dist/`, and look at 1280px and 375px. Restore `draft: true` immediately after validation,
+   including on failure. The build passes on layouts that are visibly broken; two real defects in the
+   first post were invisible to it.
+8. After all gates pass and the coordinator hold clears, the standing blog authorization permits
+   flipping `draft: false`, committing, and publishing one post. During the hold, leave the validated
+   work as a draft and report publication as blocked by the hold. For historical inventory, remote
+   git `draft: false` plus live canonical and sitemap evidence is sufficient; for this current run,
+   record the exact publication/deployment identifier. If a run is retried, verify any pending
+   current-run evidence before repeating; actual evidence means already published and must not be
+   republished.
+9. **GSC is owner-only.** Report the exact production URL and observed live evidence, but never submit
+   an indexing request automatically. The owner may use GSC URL Inspection separately.
 
 ---
 
@@ -163,7 +192,8 @@ date — that stamp is what keeps a stale build from implying a live feed.
 - [ ] **Rendered and looked at**, at 1280px and 375px
 - [ ] No horizontal overflow at 375px
 - [ ] Linked from the hub and the footer (landing pages only)
-- [ ] Requested indexing in GSC after push (blog posts and landing pages alike)
+- [ ] Blog posts: production URL and live publication evidence recorded; GSC request remains owner-only
+- [ ] Landing pages: follow the existing landing-page routine and its separately governed GSC step
 
 ---
 

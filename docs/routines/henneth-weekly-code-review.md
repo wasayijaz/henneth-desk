@@ -10,9 +10,11 @@ run the data pipeline or mutate `state/`. Read [REPORTING.md](REPORTING.md), `AG
 
 ## Run
 
-1. Synchronize the assigned worktree and record the exact `base` and `head` SHAs. Select commits
-   since eight days ago and review only `*.py`, `*.js`, `*.html`, and `*.css`, excluding `state/` and
-   `.github/`.
+1. Synchronize the assigned checkout and record exact `base` and `head` SHAs. Select commits
+   since eight days ago and review hand-authored code, templates, and build/release configuration
+   (including Python, JS/TS, Astro/MDX, HTML/CSS and `.github/`). Exclude generated `state/`,
+   generated public data and dependency lockfile contents. Never silently omit a deployed code
+   language from the review merely because it was absent from a legacy pathspec.
 2. Run one medium-scope Reviewer judgment pass using a `gpt-5.6-luna` high subagent when callable;
    otherwise perform the role inline from this card. Inspect correctness, security, auth/RLS,
    injection/XSS, unsafe process use, dead code, duplicated logic, concrete technical debt, and

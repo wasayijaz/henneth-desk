@@ -6,6 +6,7 @@ Note: DPS intraday returns the CURRENT session only, so a true multi-day 4H char
 isn't available from any free PSX feed — the desk is daily-timeframe anyway. This
 gives the 1D view. Runs in light cycles during market hours."""
 import time
+from datetime import datetime, timedelta, timezone
 
 import requests
 
@@ -48,8 +49,13 @@ def main():
         try:
             pts = fetch(sym, sess)
             if pts and len(pts) > 3:
+                captured = datetime.now(timezone.utc)
+                source_at = datetime.fromtimestamp(pts[-1]["t"], timezone(timedelta(hours=5)))
+                if source_at > captured:
+                    continue
                 save_json(STATE / "intraday" / f"{sym}.json",
-                          {"date": time.strftime("%Y-%m-%d"), "points": pts})
+                          {"date": source_at.date().isoformat(), "points": pts,
+                           "source_at": source_at.isoformat(), "captured_at": captured.isoformat()})
                 ok += 1
         except requests.RequestException:
             pass

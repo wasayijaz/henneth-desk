@@ -113,24 +113,21 @@ That is correct behaviour, not a failure.
 Preflight emits a standing benign WARN: newly-added universe tickers still backfilling history
 (103 at last count). It never gates publish.
 
-## The ~103 permanently-empty board counters
+## Compliance badges are not ticker suffixes
 
-The KSE All Share constituent list carries PSX board artifacts that are **not companies** — `…NC`
-(non-compliant), `…XD` (ex-dividend), `…XB` (ex-bonus), and rights counters. DPS returns zero bars
-for them forever. They never gain a `state/history/{SYM}.json`, so they never leave
-`fetch_history._pick()`'s never-fetched set, and they are excluded from `coverage.json` (so the
-dashboard does not surface them and `data_health.py` does not count them as missing history).
+The earlier explanation of roughly 103 permanently-empty non-company counters was wrong.
+On 2026-09-12 raw PSX HTML showed `HASCOL` in both the company link and `data-order`, with
+`NC` in a separate badge. Flattening the cell created `HASCOLNC`, for which history is empty.
+Structured identity extraction now preserves the actual ticker and stores `source_badges`
+separately. Never strip arbitrary NC or preference suffixes as a substitute for source evidence.
 
-This is inert as long as they stay off the refresh budget. It was **not** inert once: their count
-used to be subtracted from `LISTED_PER_RUN`, driving the rotation slice to `max(0, 90 - 103) = 0`.
-No listed symbol with an existing series was refreshed on any run for 47 sessions, and
-`health.json` stayed green throughout because its freshness test was a `max()` over all symbols.
-That is how a July close reached the live site in September.
+Every universe identity is attempted once per sweep, including never-fetched listings. Valid
+short histories count as price coverage, not research eligibility. Empty/malformed/partial feeds
+retain last-good history and record failure. Health uses the full PSX universe as its coverage
+denominator; it does not discard failed symbols to manufacture a healthy percentage.
 
-**Trigger to revisit:** the full-universe sweep now attempts ~every covered symbol every run, so
-`attempted` near the whole universe is normal, not a warning sign. Revisit only if wall time creeps
-toward the 25-minute Actions cap (persistent non-zero `skipped_deadline`) — raise `WORKERS` a little
-or move the never-fetched probe to a separate weekly job before widening anything else.
+**Trigger to revisit:** persistent non-zero `skipped_deadline` or source identity conflicts.
+Inspect rate limits and coverage evidence; do not remove real securities from the denominator.
 
 ## File mtimes are meaningless in the cloud
 
@@ -167,8 +164,10 @@ the rotation was "working" — it just wasn't being run often enough to finish a
 **Rule:** never depend on how MANY times the cron fires. `fetch_history.py` now reprices the ENTIRE
 universe in a SINGLE run — concurrently, with a `ThreadPoolExecutor` (`WORKERS`), ~6 minutes for
 ~490 symbols, well inside the 25-minute job cap. One honoured tick a day keeps every price ≤1 day
-old. `DEADLINE_S` bounds the wall clock as a guard; result intake stops with a bounded drain
-allowance for the at-most-six requests already in flight. Symbols not reached before it are left unstamped
+old. `DEADLINE_S` is the result-intake deadline; requests and retries receive the remaining budget.
+At the deadline, queued work is cancelled and results not collected are left unstamped.
+Already-running provider calls cannot be forcibly cancelled; non-daemon workers are joined safely,
+so the deadline is not a hard process-kill guarantee. Symbols not reached before it are left unstamped
 so they lead the next run, and `preflight.py` WARNs on any non-zero `skipped_deadline`. `last_attempt`
 survives only as the ORDERING key for that rare cut-short case — it is no longer a rotation ration.
 Do not reintroduce a per-run slice; it silently reinstates this bug the moment the cron degrades.

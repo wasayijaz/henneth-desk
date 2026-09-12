@@ -136,7 +136,10 @@ def _clear_stale_lock(retries=5, delay=2):
 def _push_with_rebase() -> None:
     """Push, retrying only after a clean rebase and a fresh Desk preflight."""
     def _push():
-        result = _run(["git", "push", "origin", "main"])
+        # Push the commit that passed this publisher's preflight. Naming the
+        # local `main` ref here could publish a stale branch from a worktree
+        # currently checked out on another branch.
+        result = _run(["git", "push", "origin", "HEAD:main"])
         return result.returncode == 0, (result.stderr or result.stdout or "").strip()
 
     def _preflight_after_rebase():
@@ -174,6 +177,26 @@ def _push_with_rebase() -> None:
     raise SystemExit(1)
 
 
+def _refresh_origin_main() -> bool:
+    """Refresh origin/main and report whether HEAD is already ahead of it."""
+    fetch = _run(["git", "fetch", "origin", "main"])
+    if fetch.returncode != 0:
+        detail = (fetch.stderr or fetch.stdout or "").strip()
+        print(f"publish: could not refresh origin/main before staging: {detail[:400]}")
+        raise SystemExit(1)
+
+    comparison = _run(["git", "rev-list", "--left-right", "--count", "origin/main...HEAD"])
+    if comparison.returncode != 0:
+        detail = (comparison.stderr or comparison.stdout or "").strip()
+        print(f"publish: could not compare HEAD with refreshed origin/main: {detail[:400]}")
+        raise SystemExit(1)
+    counts = comparison.stdout.split()
+    if len(counts) != 2 or any(not count.isdigit() for count in counts):
+        print("publish: could not parse HEAD/origin/main ancestry check — refusing to publish.")
+        raise SystemExit(1)
+    return int(counts[1]) > 0
+
+
 def _publish():
     # positional message only — otherwise `publish.py --code` would commit with the literal
     # message "--code"
@@ -188,6 +211,11 @@ def _publish():
     if pf.returncode != 0:
         print("publish: PREFLIGHT FAILED — not publishing (last-good site stays live).")
         sys.exit(1)
+
+    # Refresh the remote graph before staging. An intentionally approved code release may
+    # already be ahead, so defer the fatal decision to the no-change branch below; there, an
+    # ahead HEAD means a previous commit likely succeeded locally but never reached the remote.
+    head_ahead_of_origin = _refresh_origin_main()
 
     # 2) stage — SCOPED. This used to be a blanket `git add -A`, which is the same mistake
     # the rebase logic below already refuses to make. Staging had no such care, so a
@@ -270,7 +298,12 @@ def _publish():
         # the commit below commits the whole index, not only what this run added. Without this
         # reset the warning prints "NOT committing ..." while committing exactly those files,
         # which is the 2026-07-19 incident this whole block exists to prevent.
-        _run(["git", "reset", "--quiet", "--", *other])
+        unstaged = _run(["git", "reset", "--quiet", "--", *other])
+        if unstaged.returncode != 0:
+            detail = (unstaged.stderr or unstaged.stdout or "").strip()
+            print("publish: could not exclude hand-authored files from data-only publication; "
+                  f"refusing to commit: {detail[:300]}")
+            sys.exit(1)
         print(f"publish: NOT committing {len(other)} hand-authored file(s) — data-only publish.")
         for f in other[:12]:
             print(f"    · {f}")
@@ -280,7 +313,16 @@ def _publish():
               "re-run: python scripts/publish.py \"<msg>\" --code")
 
     # 3) commit only if there is something staged
-    if _run(["git", "diff", "--cached", "--quiet"]).returncode == 0:
+    cached_diff = _run(["git", "diff", "--cached", "--quiet"])
+    if cached_diff.returncode not in (0, 1):
+        detail = (cached_diff.stderr or cached_diff.stdout or "").strip()
+        print(f"publish: could not inspect staged diff: {detail[:300]}")
+        sys.exit(1)
+    if cached_diff.returncode == 0:
+        if head_ahead_of_origin:
+            print("publish: local HEAD is ahead of refreshed origin/main — refusing a no-change "
+                  "success. Reconcile the existing local commit before retrying.")
+            sys.exit(1)
         if other:
             # loud, not silent: code changed but this was a data-only publish, so nothing shipped
             print("publish: no state change, and code changes were left unstaged — NOTHING PUBLISHED. "
@@ -312,7 +354,7 @@ def main():
             or "manual-publish")
     try:
         with PublishLock(ROOT, timeout_s=300, task=task) as lock:
-            print(f"publish: acquired shared repository push lane in {lock.common_dir}")
+            print(f"publish: acquired shared repository push lane in {lock.lock_dir}")
             _publish()
     except PublishLockBusy as exc:
         print(f"publish: {exc}. Prepared work was left intact; retry after that publisher finishes.")

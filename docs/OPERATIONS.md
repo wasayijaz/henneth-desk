@@ -50,12 +50,19 @@ python scripts/publish.py "Desk refresh or change description"
 The normal path stages only regenerated `state/` and the generated marketing extract. Hand-authored
 files must be staged explicitly and then shipped with `--code`.
 
-The path is intentionally race-safe: local worktrees share a repository push lock, and a rejected
+The path is intentionally race-safe: local worktrees and private clones of the same origin share
+a same-user, same-host repository push lock, and a rejected
 push retries only after a clean rebase. Any rebase conflict— including a conflict under `state/`—
 aborts and stops for human resolution; the publisher never chooses `ours` or `theirs`. A clean
 rebase reruns Desk preflight before the retry push. The default state staging excludes all seven
 CI-private root files and the `state/company_intel/**` subtree, and those exclusions must remain in
-place for stale local writers.
+place for stale local writers. Cloud/other machines rely on Git fast-forward rejection and rebase
+verification; the local lock is not a distributed mutex.
+
+PM, Daily, Room and Harvest finish through `scripts/finalize_routine.py` as documented in
+`routines/FINALIZATION.md`. It verifies published research before writing a completion receipt,
+then publishes and verifies the runlog and (PM only) acknowledgement. A failed receipt remains
+incomplete; a local acknowledgement alone must not release the next routine.
 
 Do not run `git add -A`, hand-push state, or publish from an unreviewed worktree. Never run
 `scripts/publish.py` from a cleanup worker.
@@ -79,6 +86,10 @@ Retain the root CI-private publication deny-list (the seven CI-owned root files 
 `state/company_intel/**`) and its preflight check after separation.
 Never fabricate or backfill a refresh completion timestamp to pass a gate. Only the deterministic
 producer can establish that a refresh completed; missing evidence blocks publication until a verified run.
+
+Off-market publication checks the latest completed trading session, not an automatic weekend pass.
+Routine calendar skips still perform no writes. Source timestamps identify the exchange session;
+capture/build timestamps indicate processing only and must not be presented as new trading activity.
 
 The marketing site has its own build:
 
@@ -135,3 +146,23 @@ Read both producer and consumer before changing a state seam. Keep authoritative
 Add a preflight assertion when fixing a meaningful publication bug. Inspect the final diff and status
 before handing work to the owner. Never edit a live strategy in place, weaken authentication, expose
 private config, or add a compatibility layer for a removed product.
+
+## 10. Gradual automation acceptance
+
+1. Prove deterministic intake, source dates, full-sweep coverage and safe publication on actual
+   data. Failed inputs retain last-good output; never promote an offline test to a live result.
+2. Prove each routine in its existing scheduled task. Calendar/empty-queue no-ops are valid but
+   do not substitute for an applicable research-and-publication run. Keep its source evidence,
+   research SHA, completion receipt and deployed revision distinguishable.
+3. Promote a training routine to unattended publication only after owner approval of its actual
+   evidence. Preserve approved model, schedule, task identity and product boundary. No blanket
+   activation follows from repairing the data pipeline.
+4. Automate bounded recoveries at their deterministic owner, with an observable failure outcome.
+   Repeated failure escalates; it must not cause duplicate research, overlapping writers, relaxed
+   gates or an unlimited retry loop. Product scout proposes improvements and build levels, not
+   unapproved feature implementation.
+
+Deploy via the repository's gated Git publication path. A legacy local `.vercel/project.json`
+may still name CI; do not infer a Desk deployment target from it. Verify the Vercel project's
+repository and domain explicitly. Desk and marketing link to `henneth-desk`; CI releases remain
+independent and must not be triggered by this checkout.

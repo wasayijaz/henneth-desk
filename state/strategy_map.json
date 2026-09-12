@@ -1,5 +1,5 @@
 {
- "updated": "2026-09-11 18:32",
+ "updated": "2026-09-12 22:07",
  "tickers": {
   "APL": [
    {
@@ -2041,8 +2041,8 @@
     "name": "Volume leads price",
     "category": "volume",
     "net_expectancy_pct": 4.96,
-    "hit_rate": 0.954,
-    "n": 87,
+    "hit_rate": 0.953,
+    "n": 86,
     "oos_n": 17,
     "oos_hit": 0.765,
     "friction_pct": 0.6,
@@ -2180,9 +2180,9 @@
     "id": "rsi_reclaim_50",
     "name": "RSI reclaim 50",
     "category": "oscillator",
-    "net_expectancy_pct": 3.84,
-    "hit_rate": 0.93,
-    "n": 43,
+    "net_expectancy_pct": 3.83,
+    "hit_rate": 0.929,
+    "n": 42,
     "oos_n": 6,
     "oos_hit": 0.5,
     "friction_pct": 0.6,
@@ -2261,20 +2261,6 @@
     "hold": 9
    },
    {
-    "id": "vol_dryup_surge",
-    "name": "Dry-up then surge",
-    "category": "volume",
-    "net_expectancy_pct": 3.71,
-    "hit_rate": 0.812,
-    "n": 16,
-    "oos_n": 6,
-    "oos_hit": 0.5,
-    "friction_pct": 0.6,
-    "target_pct": 6,
-    "stop_pct": 3,
-    "hold": 9
-   },
-   {
     "id": "three_day_thrust",
     "name": "3-day thrust above 20MA",
     "category": "momentum",
@@ -2303,12 +2289,26 @@
     "hold": 8
    },
    {
+    "id": "vol_dryup_surge",
+    "name": "Dry-up then surge",
+    "category": "volume",
+    "net_expectancy_pct": 3.6,
+    "hit_rate": 0.8,
+    "n": 15,
+    "oos_n": 6,
+    "oos_hit": 0.5,
+    "friction_pct": 0.6,
+    "target_pct": 6,
+    "stop_pct": 3,
+    "hold": 9
+   },
+   {
     "id": "macd_hist_accel",
     "name": "MACD histogram accel",
     "category": "momentum",
-    "net_expectancy_pct": 3.56,
-    "hit_rate": 0.895,
-    "n": 57,
+    "net_expectancy_pct": 3.54,
+    "hit_rate": 0.893,
+    "n": 56,
     "oos_n": 14,
     "oos_hit": 0.571,
     "friction_pct": 0.6,
@@ -3085,6 +3085,20 @@
     "target_pct": 6.5,
     "stop_pct": 3.5,
     "hold": 12
+   },
+   {
+    "id": "rsi_strong_zone",
+    "name": "RSI strength band",
+    "category": "momentum",
+    "net_expectancy_pct": 0.76,
+    "hit_rate": 0.56,
+    "n": 50,
+    "oos_n": 13,
+    "oos_hit": 0.615,
+    "friction_pct": 0.6,
+    "target_pct": 5,
+    "stop_pct": 3,
+    "hold": 10
    }
   ],
   "IPAK": [
@@ -3967,6 +3981,20 @@
     "target_pct": 5,
     "stop_pct": 3,
     "hold": 8
+   },
+   {
+    "id": "bb_walk_upper",
+    "name": "Band walk (upper)",
+    "category": "momentum",
+    "net_expectancy_pct": 1.32,
+    "hit_rate": 0.615,
+    "n": 13,
+    "oos_n": 8,
+    "oos_hit": 0.75,
+    "friction_pct": 0.6,
+    "target_pct": 5,
+    "stop_pct": 3,
+    "hold": 7
    }
   ],
   "EFERT": [
@@ -4585,6 +4613,20 @@
     "target_pct": 5.5,
     "stop_pct": 3,
     "hold": 10
+   },
+   {
+    "id": "bbpctb_momentum",
+    "name": "%b momentum ride",
+    "category": "momentum",
+    "net_expectancy_pct": 0.93,
+    "hit_rate": 0.562,
+    "n": 16,
+    "oos_n": 10,
+    "oos_hit": 0.6,
+    "friction_pct": 0.6,
+    "target_pct": 5,
+    "stop_pct": 3,
+    "hold": 8
    }
   ],
   "UPFL": [
@@ -5287,20 +5329,6 @@
   ],
   "JSBL": [
    {
-    "id": "rsi_reclaim_50",
-    "name": "RSI reclaim 50",
-    "category": "oscillator",
-    "net_expectancy_pct": 1.24,
-    "hit_rate": 0.667,
-    "n": 24,
-    "oos_n": 9,
-    "oos_hit": 0.667,
-    "friction_pct": 0.6,
-    "target_pct": 5,
-    "stop_pct": 3,
-    "hold": 10
-   },
-   {
     "id": "bb_walk_upper",
     "name": "Band walk (upper)",
     "category": "momentum",
@@ -5313,6 +5341,20 @@
     "target_pct": 5,
     "stop_pct": 3,
     "hold": 7
+   },
+   {
+    "id": "rsi_reclaim_50",
+    "name": "RSI reclaim 50",
+    "category": "oscillator",
+    "net_expectancy_pct": 1.11,
+    "hit_rate": 0.652,
+    "n": 23,
+    "oos_n": 9,
+    "oos_hit": 0.667,
+    "friction_pct": 0.6,
+    "target_pct": 5,
+    "stop_pct": 3,
+    "hold": 10
    },
    {
     "id": "atr_expansion_up",
@@ -5332,7 +5374,7 @@
     "id": "high20_vol_break",
     "name": "20d high + volume",
     "category": "breakout",
-    "net_expectancy_pct": 0.81,
+    "net_expectancy_pct": 0.91,
     "hit_rate": 0.565,
     "n": 23,
     "oos_n": 6,
@@ -5965,6 +6007,20 @@
   ],
   "ASL": [
    {
+    "id": "macd_signal_uptrend",
+    "name": "MACD signal cross (trend)",
+    "category": "oscillator",
+    "net_expectancy_pct": 2.25,
+    "hit_rate": 0.75,
+    "n": 12,
+    "oos_n": 4,
+    "oos_hit": 0.5,
+    "friction_pct": 0.6,
+    "target_pct": 5,
+    "stop_pct": 3,
+    "hold": 10
+   },
+   {
     "id": "macd_hist_rising",
     "name": "MACD histogram turning up",
     "category": "momentum",
@@ -5993,20 +6049,6 @@
     "hold": 10
    },
    {
-    "id": "macd_signal_uptrend",
-    "name": "MACD signal cross (trend)",
-    "category": "oscillator",
-    "net_expectancy_pct": 1.59,
-    "hit_rate": 0.667,
-    "n": 12,
-    "oos_n": 4,
-    "oos_hit": 0.5,
-    "friction_pct": 0.6,
-    "target_pct": 5,
-    "stop_pct": 3,
-    "hold": 10
-   },
-   {
     "id": "stoch_reclaim_50",
     "name": "Stochastic reclaim 50",
     "category": "oscillator",
@@ -6019,6 +6061,22 @@
     "target_pct": 5,
     "stop_pct": 3,
     "hold": 9
+   }
+  ],
+  "BUXL": [
+   {
+    "id": "macd_hist_rising",
+    "name": "MACD histogram turning up",
+    "category": "momentum",
+    "net_expectancy_pct": 1.2,
+    "hit_rate": 0.6,
+    "n": 10,
+    "oos_n": 3,
+    "oos_hit": 0.667,
+    "friction_pct": 0.6,
+    "target_pct": 5,
+    "stop_pct": 3,
+    "hold": 10
    }
   ],
   "ISL": [
@@ -6935,6 +6993,36 @@
     "target_pct": 4,
     "stop_pct": 3,
     "hold": 7
+   }
+  ],
+  "HASCOL": [
+   {
+    "id": "deep_pullback_uptrend",
+    "name": "Deep pullback in uptrend",
+    "category": "mean_reversion",
+    "net_expectancy_pct": 1.79,
+    "hit_rate": 0.75,
+    "n": 12,
+    "oos_n": 7,
+    "oos_hit": 1.0,
+    "friction_pct": 0.6,
+    "target_pct": 5,
+    "stop_pct": 3,
+    "hold": 8
+   },
+   {
+    "id": "rsi2_deep_uptrend",
+    "name": "RSI(2) washout in an uptrend",
+    "category": "mean_reversion",
+    "net_expectancy_pct": 0.8,
+    "hit_rate": 0.55,
+    "n": 20,
+    "oos_n": 13,
+    "oos_hit": 0.615,
+    "friction_pct": 0.6,
+    "target_pct": 5,
+    "stop_pct": 3,
+    "hold": 8
    }
   ],
   "LCI": [
@@ -7957,6 +8045,20 @@
     "target_pct": 5,
     "stop_pct": 3,
     "hold": 8
+   },
+   {
+    "id": "bb_walk_upper",
+    "name": "Band walk (upper)",
+    "category": "momentum",
+    "net_expectancy_pct": 0.54,
+    "hit_rate": 0.556,
+    "n": 18,
+    "oos_n": 7,
+    "oos_hit": 0.571,
+    "friction_pct": 0.6,
+    "target_pct": 5,
+    "stop_pct": 3,
+    "hold": 7
    }
   ],
   "ILP": [
@@ -8337,6 +8439,20 @@
     "hold": 10
    },
    {
+    "id": "bb_walk_upper",
+    "name": "Band walk (upper)",
+    "category": "momentum",
+    "net_expectancy_pct": 0.9,
+    "hit_rate": 0.615,
+    "n": 13,
+    "oos_n": 3,
+    "oos_hit": 0.667,
+    "friction_pct": 0.6,
+    "target_pct": 5,
+    "stop_pct": 3,
+    "hold": 7
+   },
+   {
     "id": "obv_divergence_up",
     "name": "Volume leads price",
     "category": "volume",
@@ -8349,20 +8465,6 @@
     "target_pct": 6,
     "stop_pct": 3.5,
     "hold": 15
-   },
-   {
-    "id": "bb_walk_upper",
-    "name": "Band walk (upper)",
-    "category": "momentum",
-    "net_expectancy_pct": 0.67,
-    "hit_rate": 0.615,
-    "n": 13,
-    "oos_n": 3,
-    "oos_hit": 0.667,
-    "friction_pct": 0.6,
-    "target_pct": 5,
-    "stop_pct": 3,
-    "hold": 7
    }
   ],
   "PICT": [

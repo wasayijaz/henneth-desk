@@ -8,6 +8,8 @@ Endpoints (unofficial, verified live 2026-07-12):
 """
 import json
 import re
+from html import unescape
+from html.parser import HTMLParser
 import threading
 import time
 from pathlib import Path
@@ -41,14 +43,40 @@ _rate_lock = threading.Lock()
 _next_slot = [0.0]
 
 
-def _throttle() -> None:
+class DeadlineExceeded(RuntimeError):
+    """A deadline-aware provider call could not complete within its caller's budget."""
+
+
+def _remaining(deadline):
+    if deadline is None:
+        return None
+    remaining = deadline - time.monotonic()
+    if remaining <= 0:
+        raise DeadlineExceeded("provider deadline exceeded")
+    return remaining
+
+
+def _sleep_until(deadline, seconds):
+    if deadline is None:
+        time.sleep(seconds)
+        return
+    remaining = _remaining(deadline)
+    if seconds >= remaining:
+        time.sleep(remaining)
+        raise DeadlineExceeded("provider deadline reached during backoff")
+    time.sleep(seconds)
+
+
+def _throttle(deadline=None) -> None:
     with _rate_lock:
         now = time.monotonic()
         slot = max(now, _next_slot[0])
+        wait = slot - now
+        if deadline is not None and wait >= deadline - now:
+            raise DeadlineExceeded("provider deadline reached before DPS request")
         _next_slot[0] = slot + _MIN_INTERVAL
-    wait = slot - time.monotonic()
     if wait > 0:
-        time.sleep(wait)
+        _sleep_until(deadline, wait)
 
 
 def _sess() -> requests.Session:
@@ -60,12 +88,13 @@ def _sess() -> requests.Session:
     return s
 
 
-def _get(path: str, retries: int = 6, timeout: int = 20) -> requests.Response:
+def _get(path: str, retries: int = 6, timeout: int = 20, deadline=None) -> requests.Response:
     last = None
     for i in range(retries):
-        _throttle()  # global rate gate — keeps the aggregate DPS request rate under its 429 limit
+        _throttle(deadline)  # global rate gate — keeps the aggregate DPS request rate under its 429 limit
+        request_timeout = timeout if deadline is None else min(timeout, _remaining(deadline))
         try:
-            r = _sess().get(f"{BASE}{path}", timeout=timeout)
+            r = _sess().get(f"{BASE}{path}", timeout=request_timeout)
             if r.status_code == 200:
                 return r
             if r.status_code == 429:
@@ -75,18 +104,18 @@ def _get(path: str, retries: int = 6, timeout: int = 20) -> requests.Response:
                 last = RuntimeError(f"HTTP 429 on {path}")
                 ra = r.headers.get("Retry-After", "")
                 delay = float(ra) if ra.isdigit() else 2.0 * (2 ** i)
-                time.sleep(min(delay, 60.0))
+                _sleep_until(deadline, min(delay, 60.0))
                 continue
             last = RuntimeError(f"HTTP {r.status_code} on {path}")
         except requests.RequestException as e:
             last = e
-        time.sleep(1.5 * (i + 1))
+        _sleep_until(deadline, 1.5 * (i + 1))
     raise last
 
 
-def eod_history(symbol: str) -> list[dict]:
+def eod_history(symbol: str, deadline=None) -> list[dict]:
     """Daily history, oldest first: [{date, close, volume, open}]. No high/low in this feed."""
-    payload = _get(f"/timeseries/eod/{symbol}").json()
+    payload = _get(f"/timeseries/eod/{symbol}", deadline=deadline).json()
     rows = payload.get("data") or []
     out = []
     for row in reversed(rows):  # API is newest-first
@@ -124,11 +153,60 @@ def _parse_table_rows(html: str) -> list[list[str]]:
     return rows
 
 
+class _SecurityCell(HTMLParser):
+    """Read security identity from DPS attributes, never concatenated display text."""
+
+    def __init__(self):
+        super().__init__(convert_charrefs=True)
+        self.order = None
+        self.symbols = set()
+        self.badges = []
+        self._badge = False
+
+    def handle_starttag(self, tag, attrs):
+        attrs = dict(attrs)
+        if tag == "td":
+            self.order = attrs.get("data-order")
+        if tag == "a":
+            match = re.fullmatch(r"/(?:company|etf)/([A-Za-z0-9][A-Za-z0-9.-]*)/?", attrs.get("href", ""))
+            if match:
+                self.symbols.add(match[1].upper())
+        if tag == "div" and "tag" in attrs.get("class", "").split():
+            self._badge = True
+
+    def handle_endtag(self, tag):
+        if tag == "div":
+            self._badge = False
+
+    def handle_data(self, data):
+        if self._badge and data.strip():
+            self.badges.append(data.strip())
+
+
+def _security_table_rows(html: str):
+    """Yield (plain cells, declared ticker, badges); ambiguous identity fails closed."""
+    for tr in _ROW_RE.findall(html):
+        full_cells = re.findall(r"<td\b[^>]*>.*?</td>", tr, re.S | re.I)
+        if len(full_cells) < 7:
+            continue
+        first = _SecurityCell()
+        first.feed(full_cells[0])
+        if len(first.symbols) != 1:
+            raise ValueError("DPS security row lacks one unambiguous company/ETF link")
+        symbol = next(iter(first.symbols))
+        if first.order and first.order.strip().upper() != symbol:
+            raise ValueError(f"DPS security identity attributes disagree for {symbol}")
+        cells = [unescape(_TAG_RE.sub(" ", c)).strip() for c in full_cells]
+        cells[0] = symbol
+        yield cells, symbol, sorted(set(first.badges))
+
+
 def index_constituents(index: str) -> list[dict]:
     """Constituents of KSE100 / KMI30 etc: [{symbol, name, weight_pct}] sorted by weight desc."""
     html = _get(f"/indices/{index}").text
     out = []
-    for cells in _parse_table_rows(html):
+    seen = set()
+    for cells, symbol, badges in _security_table_rows(html):
         # data rows: SYMBOL, NAME, LDCP, CURRENT, CHANGE, CHANGE%, IDX WTG%, ...
         if len(cells) < 7 or cells[0] in ("SYMBOL", ""):
             continue
@@ -136,7 +214,13 @@ def index_constituents(index: str) -> list[dict]:
             weight = float(cells[6].replace(",", "").replace("%", ""))
         except ValueError:
             weight = 0.0
-        out.append({"symbol": cells[0], "name": cells[1], "weight_pct": weight})
+        if symbol in seen:
+            raise ValueError(f"duplicate DPS index identity: {symbol}")
+        seen.add(symbol)
+        record = {"symbol": symbol, "name": cells[1], "weight_pct": weight}
+        if badges:
+            record["source_badges"] = badges
+        out.append(record)
     out.sort(key=lambda x: -x["weight_pct"])
     return out
 
@@ -146,7 +230,8 @@ def index_constituents(index: str) -> list[dict]:
 # ordinary share, not a new company. DPS timeseries still answers the unsuffixed ticker
 # (verified 2026-08-17: FFC has 1238 bars, FFCXD has 0).
 #
-# Do NOT put NC (non-compliant) or PS/CPS (preference) here. Those are different listings.
+# Never strip NC text or preference/security suffixes by guess. Compliance badges are separate
+# HTML metadata, extracted by _security_table_rows; genuine source ticker suffixes remain intact.
 _BOARD_STATE_SUFFIXES = ("XD", "XB", "XR")
 
 
@@ -182,11 +267,10 @@ def market_watch() -> dict[str, dict]:
     # header names come from data-name attributes on th
     header = re.findall(r'<th[^>]*data-name="([^"]+)"', html)
     snap = {}
-    for cells in _parse_table_rows(html):
+    for cells, sym, badges in _security_table_rows(html):
         if len(cells) < len(header) or cells[0] == "SYMBOL" or not cells[0]:
             continue
         row = dict(zip(header, cells))
-        sym = row.get("symbol", cells[0]).split()[0]
 
         def num(key):
             v = row.get(key, "").replace(",", "")
@@ -195,11 +279,16 @@ def market_watch() -> dict[str, dict]:
             except ValueError:
                 return None
 
-        snap[sym] = {
+        record = {
             "ldcp": num("ldcp"), "open": num("open"), "high": num("high"),
-            "low": num("low"), "current": num("current"),
+            "low": num("low"), "current": num("close"),
             "volume": num("volume"), "sector": row.get("sector", ""),
         }
+        if badges:
+            record["source_badges"] = badges
+        if sym in snap and snap[sym] != record:
+            raise ValueError(f"conflicting DPS market-watch rows for {sym}")
+        snap[sym] = record
     return snap
 
 

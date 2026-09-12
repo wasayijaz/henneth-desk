@@ -45,6 +45,8 @@ def _intake(row: dict, indices: list[str], tier: str) -> dict:
     if state:
         rec["source_symbol"] = raw.upper()
         rec["board_state"] = state
+    if row.get("source_badges"):
+        rec["source_badges"] = list(row["source_badges"])
     return rec
 
 
@@ -53,6 +55,9 @@ def _merge_source(existing: dict, incoming: dict) -> None:
     if incoming.get("source_symbol") and not existing.get("source_symbol"):
         existing["source_symbol"] = incoming["source_symbol"]
         existing["board_state"] = incoming.get("board_state")
+    badges = set(existing.get("source_badges", [])) | set(incoming.get("source_badges", []))
+    if badges:
+        existing["source_badges"] = sorted(badges)
 
 
 def main():
@@ -89,7 +94,8 @@ def main():
         n_all = len(allshr)
         if n_all < 200:
             # a parse failure here must not silently shrink the universe
-            print(f"WARN: ALLSHR returned only {n_all} rows — keeping core tier only", file=sys.stderr)
+            print(f"FATAL: ALLSHR returned only {n_all} rows — preserving prior universe", file=sys.stderr)
+            return
         else:
             for c in allshr:
                 rec = _intake(c, ["ALLSHR"], "listed")

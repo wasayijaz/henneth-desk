@@ -3,6 +3,25 @@
 How the blog earns organic traffic. Read with [SEO_PLAN.md](SEO_PLAN.md) (strategy, GSC loop) and
 [PSX_COSTS_VERIFIED.md](PSX_COSTS_VERIFIED.md) (every rate a post is allowed to quote).
 
+## Standing authorization — blog only
+
+Effective **2026-09-12**, the owner authorizes the blog routine to plan, draft, fact-check, build,
+publish, and verify blog posts autonomously under this document and
+[CONTENT_ROUTINE.md](CONTENT_ROUTINE.md). This authorization is blog-only: landing pages, tools,
+the desk, GSC requests, and unrelated code or state remain outside its scope.
+
+The first execution remains on coordinator integration/release hold for **publication only** until
+the current shared-pipeline repairs have shipped and been independently verified. During that hold,
+the blog routine may plan, research, draft, fact-check, build, and render; it must not publish. Once
+the hold clears, it may publish and verify one post per run without fresh per-post approval.
+Source, cannibalisation, quality, build, render, or publication-evidence failures still stop the run
+and leave work unpublished. A draft is resumable work, not evidence of publication; a post is complete
+only after its actual production publication evidence is recorded and checked for idempotency.
+
+Use Luna High for the writer when callable and a separate independent fact-check pass for every
+factual claim. GSC remains owner-only: report the production URL and evidence, but never submit an
+indexing request automatically.
+
 ---
 
 ## 1. Why clusters, not a pile of posts
@@ -15,8 +34,11 @@ The mechanism is internal linking. A cluster is one **pillar** page covering a t
 settlement". Authority earned by any spoke flows to the pillar and back out to its siblings, so
 the cluster rises together instead of each post fighting alone.
 
-Practical consequence: **finish a cluster before starting the next one.** Four half-built clusters
-rank for nothing. One complete cluster ranks.
+Practical consequence for the initial build: finish a cluster before starting the next one. The
+2026-09-12 inventory has ten published blog posts and completes the existing Market structure,
+Method, and Valuation clusters. From this point, use the actual content inventory and evidence-backed
+query gaps to choose the next cluster. Cluster completion is an editorial checkpoint, not a ranking
+guarantee; the next bounded candidates are recorded in CONTENT_BACKLOG.md.
 
 The post template already supports this — `[...slug].astro` picks related posts from the same
 cluster and the TOC/breadcrumbs are automatic. The wiring exists; it needs the content.
@@ -37,8 +59,8 @@ to scale is exactly backwards for this site:
   wrong or absent, and that requires reading the actual PSX Regulations. That cannot be done 150
   times.
 
-Target: **~10 blog posts plus the tool pages by month 4.** Ten genuinely good pages out-rank two
-hundred thin ones on a domain this young, and it is not close.
+Target: **~10 blog posts plus the tool pages by month 4.** This is an editorial scope target, not a
+ranking promise. Ten is not a quality or traffic guarantee.
 
 **Where high page counts DO become legitimate — later.** A page per PSX company generated from
 `state/`, carrying real model fair value, real dividend history and real strategy signals, is
@@ -63,10 +85,10 @@ Being *right* beats being established when the established answer is provably wr
 
 | # | Page | Role | Status |
 |---|---|---|---|
-| 1 | How PSX settlement works: T+1 explained | **Pillar** | drafted, `draft: true` |
-| 2 | Book closure, ex-date and buy-by, under T+1 | Spoke | ⛔ blocked — see below |
-| 3 | Ready, spot, futures: PSX market types | Spoke | needs clause text |
-| 4 | How the KSE-100 actually works (free-float, divisor, sector rule) | Spoke | needs methodology PDF |
+| 1 | How PSX settlement works: T+1 explained | **Pillar** | published in current inventory |
+| 2 | Book closure, ex-date and buy-by, under T+1 | Spoke | published in current inventory |
+| 3 | Ready, spot, futures: PSX market types | Spoke | published in current inventory |
+| 4 | How the KSE-100 actually works (free-float, divisor, sector rule) | Spoke | published in current inventory |
 
 Sources: PSX Regulations v09-Feb-2026 Ch.10, NCCPL circular. Already verified for the pillar.
 
@@ -122,10 +144,12 @@ Highest long-term value, hardest to win cold. Needs the authority the first thre
 | 2 | Why PE ratios mislead on PSX cyclicals | Spoke |
 | 3 | Reading a Pakistani company's accounts | Spoke |
 
-### Later — `Sectors`, `Macro`, `Astro`
+### Next planning candidates — `Sectors`, `Macro`, `Astro`
 
-`Sectors` suits the Desk Room output. `Macro` and `Astro` exist in the icon map but have no
-content plan yet; leave them until a cluster above is finished.
+The existing clusters are complete in the current blog inventory. Sectors, Macro, and Astro may now
+be considered, but only through the bounded, research-required briefs in CONTENT_BACKLOG.md. A brief
+is not an article, a source claim, or a publication approval. No finance fact is carried forward from
+the cluster label: the future run must obtain and independently check the required primary sources.
 
 ---
 
@@ -146,8 +170,13 @@ Canonical values: `Market structure` · `Method` · `Valuation` · `Sectors` · 
 
 ### Per post
 
-1. **Pick from the cluster in progress.** Never jump clusters — an unfinished cluster ranks for
-   nothing.
+1. **Pick the top eligible blog item.** Resume the earliest `draft: true` file first; it is resumable
+   and unpublished. For the historical inventory, remote git `draft: false` plus a live canonical URL
+   and sitemap entry is sufficient evidence; no historical Vercel/deployment SHA is required. For a
+   new current-run publication, the exact publication/deployment identifier is required, and any
+   pending current-run evidence must be verified before retrying. After the completed initial
+   clusters, use only the bounded research-required candidates and do not infer demand or ranking
+   from page counts.
 2. **Verify every fact first.** Rates from PSX_COSTS_VERIFIED.md; anything else needs a primary
    source in hand *before* drafting. CLAUDE.md Rule 2 applies to published content.
 3. **Draft** via `psx-content-drafter` — every factual claim flagged for the checker.
@@ -155,7 +184,9 @@ Canonical values: `Market structure` · `Method` · `Valuation` · `Sectors` · 
    fails it does not ship late, it does not ship.
 5. **Voice** via `psx-voice`.
 6. **Write the file** to `site/src/content/blog/<slug>.mdx` with `draft: true`.
-7. **Human review**, then flip `draft: false` and publish.
+7. After the independent fact-check, voice, build, render, and publication-evidence gates pass, the
+   standing blog authorization permits the routine to flip `draft: false` and publish one post. No
+   fresh per-post owner approval is required after the coordinator release hold clears.
 8. **Link it**: at least one link to its pillar, one to a sibling, one to a relevant `/tools/`
    page. Internal links are most of what makes a cluster work.
 
@@ -201,6 +232,8 @@ zero. **Judge month 3 on impressions and average position, not sessions.**
 - **No unsourced number.** "Unknown" is an acceptable answer; a plausible guess is not.
 - **YMYL bar** on anything tax- or money-related: dated rates, primary-source links, visible
   last-updated. That is *why* these pages rank, not decoration.
-- **Draft by default.** Nothing reaches the live site without a human flipping the flag.
+- **Draft is the resumable intermediate state.** Nothing reaches the live site until all gates pass
+  and the active standing blog authorization permits publication; an unpublished draft never counts
+  as a completed queue item.
 - **Never publish on a schedule for its own sake.** A missed week costs nothing. A wrong published
   tax number costs the domain's credibility.

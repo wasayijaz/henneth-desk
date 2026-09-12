@@ -59,6 +59,17 @@ scripts/ --writes--> state/*.json <--writes-- local agents
 `state/` is the seam between producers and consumers. Python writes it through `psx_data.save_json`;
 the dashboard and marketing build read it. Consumers do not reach around the seam to call providers.
 
+Security identity comes from DPS company/ETF links checked against `data-order`; display badges
+are stored separately as `source_badges`. History storage accepts valid short series but research
+eligibility remains owned by its existing consumers. Every universe ticker is attempted per sweep;
+partial/invalid responses retain last-good history and produce explicit failures.
+
+Price session date and collection time are different fields. `snapshot.py` and `fetch_indices.py`
+use the exchange's timestamped KSE100 tick to identify the session; intraday files use their own
+last tick. Weekend collections do not create weekend trading bars. The UI labels prices by source
+time, not the time a report was rebuilt. Post-close integrity checks the latest completed session
+on weekends/holidays, keeping them from bypassing a failed Friday close.
+
 ## 3. Data and execution flow
 
 `run_desk_cloud.py` is the ordered Desk cloud list. `run_cloud.py` is the desk-only development entry
@@ -88,7 +99,17 @@ an old checkout or accidental file recreation must never expose CI research to D
 
 `publish.py` runs `preflight.py --desk`, stages `state/` and the generated marketing extract, and
 ships hand-authored code only when the caller pre-staged it with `--code`. It never uses a blanket
-stage for code. The push/rebase lock is shared across local worktrees.
+stage for code. The push/rebase lock is shared across same-user, same-host worktrees and independent
+clones by canonical origin identity. Other hosts retain Git fast-forward/rebase protection.
+
+`finalize_routine.py` verifies the research commit on the remote before writing a routine receipt,
+then publishes and verifies the runlog/PM acknowledgement through the normal publisher.
+It holds the shared per-origin `finalization` lane from baseline reads through remote receipt
+verification. Its publisher independently takes the `publish` lane; waiting clones fail closed
+on a stale baseline. Both lanes reuse `PublishLock`, with no publication-lock bypass.
+`check_research_publication.py` is the hard preflight boundary for prohibited signal execution
+fields and named-ticker Room chair fields. This enforces the existing internal publication policy;
+it does not claim to classify every possible prose recommendation.
 
 ## 5. Integrations and storage
 
@@ -113,3 +134,17 @@ allow-listed output under `site/src/data/public/`.
 4. All published prices, dates and dividends come from `state/`.
 5. Strategy files that have produced a published backtest are immutable.
 6. Desk data remains account-gated except for the three explicit public files.
+
+## 7. Official index daily-change seam
+
+`fetch_indices.py` owns `indices.json.daily_change`: each index records the board's current
+level, point change, percent change, derived previous close, exchange source timestamp and
+session date. The numeric `live` map remains available to existing level consumers. Historical
+captures are not silently rewritten to manufacture official daily returns.
+
+Named board headers, finite values, arithmetic and source/session coherence are checked at
+intake. An older session or older same-session source clock preserves every stored byte.
+Preflight imports the producer's validator; missing metadata permits an explicit unavailable
+daily move, but malformed metadata blocks publication. Today and both Board rendering paths
+use the official metadata, never a historical-snapshot subtraction as a daily-change fallback.
+Historical capture/scoring quality remains a separate audit in TECH-DEBT.md.

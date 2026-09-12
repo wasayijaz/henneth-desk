@@ -1,21 +1,26 @@
 # Content backlog — the publishing queue
 
 The scheduled routines read this file to decide what to write next. **Order matters**: always take
-the topmost item whose file does not yet exist.
+the topmost eligible blog item whose file is not published. Resume the earliest `draft: true` file
+first; it is resumable work, not a published item. For the historical inventory, remote git
+`draft: false` plus a live canonical URL and sitemap entry is sufficient; no historical Vercel or
+deployment SHA is required. A new current-run publication must record its exact publication/deployment
+identifier, and pending current-run evidence must be verified before any retry.
 
-Nothing is marked "done" by hand — **existence of the file is the source of truth**, because a
-status column drifts the moment one run fails halfway. Check
-`site/src/content/blog/<slug>.mdx` and `site/src/pages/solutions/<slug>.astro`.
+Do not trust a handwritten status column. For blogs, inspect the actual file, draft flag and
+publication evidence described above. Landing-page selection retains its existing file-existence
+rule at `site/src/pages/solutions/<slug>.astro`; blog authorization does not activate that routine.
 
 Process: [CONTENT_ROUTINE.md](CONTENT_ROUTINE.md) · Strategy: [BLOG_PLAN.md](BLOG_PLAN.md)
 · Comparison pages: [COMPARISON_PAGES_PLAN.md](COMPARISON_PAGES_PLAN.md)
 
 ---
 
-## Blog queue — finish Cluster 1 before starting Cluster 2
+## Blog queue — historical completed clusters
 
-Facts for all three are already verified in [PSX_MECHANICS_VERIFIED.md](PSX_MECHANICS_VERIFIED.md).
-**No new research is required for these** — the sourcing is done, they need writing.
+Historical sourcing for the first three is recorded in
+[PSX_MECHANICS_VERIFIED.md](PSX_MECHANICS_VERIFIED.md). They already exist; this is not an open
+writing queue. Re-verify facts before any future substantive update.
 
 | # | Slug | Working title | Cluster | Sources |
 |---|---|---|---|---|
@@ -30,6 +35,31 @@ verify before drafting:
 |---|---|---|---|
 | 4 | `how-to-start-investing-psx` | How to start investing in the PSX | Method |
 | 5 | `cdc-sub-account-vs-investor-account` | CDC sub-account vs investor account | Method |
+
+The 2026-09-12 content inventory shows these five queue items plus the other five existing blog
+posts are already published. Preserve this historical queue and its sourcing notes as the record of
+what was completed; do not delete or reorder it to manufacture a fresh queue.
+
+## Blog queue — bounded next planning briefs
+
+The initial Market structure, Method, and Valuation clusters are complete in the current inventory.
+An exhausted eligible list is therefore a **planning trigger**, not a no-op: only when there is no
+resumable draft **and** no eligible missing post may the next blog run append at most three candidate
+briefs. These are planning records only. Every item below is `requires-research`, has not
+been drafted or published, and must pass the source, cannibalisation, quality, build, render, and
+publication-evidence gates. No search-volume or traffic number is asserted.
+
+| Order | Slug | Audience / query | Differentiation | Required primary sources | Internal links | Status |
+|---|---|---|---|---|---|---|
+| 1 | `how-to-compare-psx-sectors` | Individual investor; “how to compare PSX sectors” | A source-led way to compare sector structure and operating context without turning a sector view into a named-stock call. | PSX sector classification and index methodology; current PSX notices or rulebook passages used for any market-structure claim; desk sector output only where its date and provenance are available. | `/psx/`; `/solutions/psx-screener-and-strategies/`; `/blog/how-to-value-a-psx-company/` | `requires-research`, not drafted, not published |
+| 2 | `what-moves-the-psx-market` | Individual investor; “what moves the PSX market” | Explain the mechanism between macro releases and market context, with dated source evidence and no forecast or investment instruction. | SBP monetary-policy material; PBS releases for any inflation claim; PSX/NCCPL market or settlement material for any market-mechanics claim; source dates recorded in the run. | `/psx/`; `/blog/how-to-value-a-psx-company/`; `/solutions/psx-market-today/` | `requires-research`, not drafted, not published |
+| 3 | `psx-astro-market-lens-methodology` | Pro reader; “PSX astrology market analysis” | Describe the desk’s tested, scored, falsifiable lens and its limits, not astrology as prediction; must be distinct from the existing astro landing page. | The desk’s dated scored results and methodology in the data layer; primary astronomical/ephemeris inputs used by that methodology; no unsupported finance or performance claim. | `/solutions/psx-astrology-market-lens/`; `/psx/`; `/blog/how-to-value-a-psx-company/` | `requires-research`, cannibalisation review required, not drafted, not published |
+
+The routine must resume the earliest draft before selecting a missing item. It may refill this
+section by appending no more than three new briefs only when there is no resumable draft **and** no
+eligible missing item. A source or quality block is not a planning trigger: stop and report the block.
+The routine must not create landing pages, alter the landing queue, or treat these briefs as approval
+to write unsupported facts.
 
 ### Angles that are already sourced and must not be lost
 
@@ -96,5 +126,10 @@ competitor is better; a comparison that wins on every row is read as marketing a
    passes on layouts that are visibly broken — this has already happened twice.
 4. **Scope `git add` to the files you touched.** Multiple sessions share this checkout and a
    blanket add has twice swept in someone else's in-flight work.
-5. If a gate fails, **stop and report — do not publish**. A missed week costs nothing; a wrong
-   published number costs the domain's credibility.
+5. If a source, cannibalisation, quality, build, render, or publication-evidence gate fails, **stop
+   and report — do not publish**. A missed week costs nothing; a wrong published number costs the
+   domain's credibility.
+6. The blog-only standing authorization dated 2026-09-12 permits planning, research, drafting,
+   fact-checking, build, and render during the coordinator integration/release hold; publication is
+   blocked until that hold clears. It then permits one autonomous blog publication per run. It does
+   not authorize landing-page changes, tools, desk output, or automatic GSC requests.

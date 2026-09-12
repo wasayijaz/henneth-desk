@@ -1,5 +1,5 @@
 {
- "updated": "2026-09-11 18:46",
+ "updated": "2026-09-12 23:24",
  "regime": "risk-off",
  "geo_risk": {
   "score": 61,
@@ -7,40 +7,76 @@
  },
  "signals": [
   {
-   "id": "20260911-PSEL-macd_bull_zero",
-   "ticker": "PSEL",
-   "strategy": "macd_bull_zero",
-   "template": "MACD cross above zero",
-   "category": "trend",
-   "sector": "Miscellaneous",
-   "hold_sessions": 15,
+   "id": "20260912-MTL-cci_trend_pullback",
+   "ticker": "MTL",
+   "strategy": "cci_trend_pullback",
+   "template": "CCI pullback in uptrend",
+   "category": "oscillator",
+   "sector": "Automobile Assembler",
+   "hold_sessions": 14,
    "backtest": {
-    "hit_rate": 0.596,
-    "net_expectancy_pct": 1.11,
-    "n": 47,
-    "oos_hit": 0.588
+    "hit_rate": 0.594,
+    "net_expectancy_pct": 1.28,
+    "n": 32,
+    "oos_hit": 0.571
    },
-   "confidence": "low",
+   "confidence": "medium",
    "basis": "backtest-proven, unaudited",
-   "thesis": "MACD cross above zero is triggering now; on PSEL's own history it won 60% over 47 trades (+1.1% net/trade), still profitable out-of-sample."
+   "thesis": "CCI pullback in uptrend is triggering now; on MTL's own history it won 59% over 32 trades (+1.3% net/trade), still profitable out-of-sample."
   },
   {
-   "id": "20260911-PTC-atr_stretch_below",
-   "ticker": "PTC",
-   "strategy": "atr_stretch_below",
-   "template": "2-ATR stretch below 20MA",
+   "id": "20260912-HINOON-oversold_bounce",
+   "ticker": "HINOON",
+   "strategy": "oversold_bounce",
+   "template": "RSI oversold bounce",
    "category": "mean_reversion",
-   "sector": "Technology & Communication",
-   "hold_sessions": 7,
+   "sector": "Pharmaceuticals",
+   "hold_sessions": 8,
    "backtest": {
-    "hit_rate": 0.682,
-    "net_expectancy_pct": 0.61,
-    "n": 22,
-    "oos_hit": 0.667
+    "hit_rate": 0.65,
+    "net_expectancy_pct": 1.08,
+    "n": 60,
+    "oos_hit": 0.565
+   },
+   "confidence": "medium",
+   "basis": "backtest-proven, unaudited",
+   "thesis": "RSI oversold bounce is triggering now; on HINOON's own history it won 65% over 60 trades (+1.1% net/trade), still profitable out-of-sample."
+  },
+  {
+   "id": "20260912-HASCOL-rsi2_deep_uptrend",
+   "ticker": "HASCOL",
+   "strategy": "rsi2_deep_uptrend",
+   "template": "RSI(2) washout in an uptrend",
+   "category": "mean_reversion",
+   "sector": "Oil & Gas Marketing Companies",
+   "hold_sessions": 8,
+   "backtest": {
+    "hit_rate": 0.55,
+    "net_expectancy_pct": 0.8,
+    "n": 20,
+    "oos_hit": 0.615
    },
    "confidence": "low",
    "basis": "backtest-proven, unaudited",
-   "thesis": "2-ATR stretch below 20MA is triggering now; on PTC's own history it won 68% over 22 trades (+0.6% net/trade), still profitable out-of-sample."
+   "thesis": "RSI(2) washout in an uptrend is triggering now; on HASCOL's own history it won 55% over 20 trades (+0.8% net/trade), still profitable out-of-sample."
+  },
+  {
+   "id": "20260912-PAKT-oversold_bounce",
+   "ticker": "PAKT",
+   "strategy": "oversold_bounce",
+   "template": "RSI oversold bounce",
+   "category": "mean_reversion",
+   "sector": "Tobacco",
+   "hold_sessions": 8,
+   "backtest": {
+    "hit_rate": 0.559,
+    "net_expectancy_pct": 0.69,
+    "n": 59,
+    "oos_hit": 0.571
+   },
+   "confidence": "low",
+   "basis": "backtest-proven, unaudited",
+   "thesis": "RSI oversold bounce is triggering now; on PAKT's own history it won 56% over 59 trades (+0.7% net/trade), still profitable out-of-sample."
   }
  ],
  "positions": [],
@@ -63,7 +99,7 @@
   },
   {
    "ticker": "FFC",
-   "score": 65.9
+   "score": 65.8
   },
   {
    "ticker": "XLV",
@@ -74,16 +110,16 @@
    "score": 65.1
   },
   {
-   "ticker": "EFA",
-   "score": 64.7
-  },
-  {
    "ticker": "USDJI",
    "score": 64.7
   },
   {
    "ticker": "FHAM",
    "score": 64.5
+  },
+  {
+   "ticker": "EFA",
+   "score": 64.3
   }
  ],
  "movers_up": [
@@ -108,9 +144,9 @@
    "close": 100.3
   },
   {
-   "ticker": "FTSM",
-   "ret_1d": 9.75,
-   "close": 38.72
+   "ticker": "SLYT",
+   "ret_1d": 9.8,
+   "close": 20.17
   }
  ],
  "movers_down": [
@@ -136,8 +172,8 @@
   },
   {
    "ticker": "USVIX",
-   "ret_1d": -10.09,
-   "close": 16.04
+   "ret_1d": -11.21,
+   "close": 15.84
   }
  ],
  "news": [

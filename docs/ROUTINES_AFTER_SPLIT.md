@@ -15,7 +15,7 @@ not runtime dependencies.
 - Company Intelligence lives in `wasayijaz/henneth-ci`, with app root `ci-app/`, separate
   state, preflight and a controlled release workflow. No Desk gate may require CI rebuilds.
   Never recreate, stage or publish CI-owned files from a Desk routine.
-- Use each task's existing isolated worktree and persistent task. Do not move to the owner's
+- Use each task's existing isolated checkout (worktree or private clone) and persistent task. Do not move to the owner's
   checkout. Fetch and synchronize from the canonical remote before research and again before
   publication. An old branch must incorporate the split before it can publish.
 - Keep existing parent model settings: PM and Daily retain the owner's GPT-5.5 High setting.
@@ -38,11 +38,18 @@ check the predecessor's persistent task and final remote SHA. A predecessor is c
 its publication and required acknowledgement are on origin/main, or when its current-session
 report confirms a verified no-op with no pending publish/acknowledgement and a passing data
 gate. A genuinely failed, running or unverified predecessor cannot be treated as a no-op.
-Do not demand a new commit solely to prove a legitimate no-op.
+Do not demand a new commit solely to prove a holiday/no-write no-op. A trading-day PM skip
+that writes an acknowledgement must publish that receipt. `docs/routines/FINALIZATION.md` owns
+the research-then-receipt sequence; failed work must never be acknowledged. Daily writes a
+runlog receipt, not a checkpoint acknowledgement. Read calendar before checking predecessors
+or attempting cloud catch-up on a non-trading day.
 
 On synchronization, preserve append-only news, claims and run history from preceding runs.
 Regenerate derived files on the synchronized baseline and repeat preflight. Use the repository
-publication lock and `scripts/publish.py`; any rebase conflict aborts with no automatic side
+publication lock and `scripts/publish.py`; the same-user, same-host lock is shared by worktrees
+and independent clones with the same canonical origin. Cloud/other hosts are protected by Git
+fast-forward rejection and fresh preflight after a clean rebase, not by a distributed mutex.
+Any rebase conflict aborts with no automatic side
 selection, and a clean rebase is preflighted again before push. Content tasks stage only their own
 pages and required links. The default state staging continues to exclude `state/company_intel/**`
 as defense against stale CI writers.

@@ -9,7 +9,10 @@ scores, and monitors signals. **It never places orders.** Execution is manual by
 
 | File | What it governs |
 |---|---|
+| [`docs/ORIENTATION.md`](docs/ORIENTATION.md) | **Start here.** Current Desk/marketing versus CI ownership, cloud data and Codex routines, retired Claude schedules, approval boundaries. |
 | [`CLAUDE.md`](CLAUDE.md) | **Governance.** The hard rules — risk limits, position sizing, veto authority, data provenance. Binding on every agent and every cycle. |
+| [`docs/GIT_MODEL.md`](docs/GIT_MODEL.md) | **Read before Git operations.** Assigned isolated checkout, dirty owner work, scoped staging, and the limits of the local publication lock. |
+| [`docs/ROUTINES.md`](docs/ROUTINES.md) | **Automation map.** Nine Codex routine cards, cloud workflow, cost approval and the acceptance ledger; scheduling is not proof of successful release. |
 | [`docs/OPERATIONS.md`](docs/OPERATIONS.md) | **Operations.** The hybrid cloud/app model, the one publish path, safety gates, how to run each flow without breaking the live site. |
 | [`docs/GOTCHAS.md`](docs/GOTCHAS.md) | **Sharp edges.** Traps that already cost debugging time — the auth gate, the CSS at-rule trap, encoding, frozen breakpoints. |
 | [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) | **The system as it is today.** Modules, data flows, ownership, seams. Read this before adding anything — it exists to stop you building a second implementation of something that already exists. |
@@ -43,7 +46,7 @@ scripts/         deterministic Python — fetch, indicators, quant, predictabili
                  health, publish, preflight, Desk Room + astro + sector pipelines
 .claude/agents/  judgment agents (strategist, risk-officer, auditor, monitor, reviewer,
                  news-sentinel, macro-agent, market-analyst, room-* debate cast, sector-*)
-prompts/         orchestrator prompts run via `claude -p`
+prompts/         reference prompts; current scheduled execution follows docs/routines/
 strategies/      JSON rule templates; every setup must reference one
 state/           all desk state, JSON only — the single source of truth
 dashboard/       static visual layer; reads state/, writes nothing
@@ -115,8 +118,9 @@ these govern *how the code gets changed*.
 
 **Correctness**
 
-12. Test important behaviour through stable interfaces, not internals. This repo has no test
-    framework; today that means the linters (`preflight.py`, `provenance_lint.py`) and a real run.
+12. Test important behaviour through stable interfaces, not internals. Use the relevant
+    `scripts/check_*` regressions, self-tests, and publication gates; distinguish fixture results
+    from verified runs against actual source data and deployed output.
 13. When you fix a meaningful bug, add a check that would have caught it — a lint rule, a preflight
     assertion, a guard — not just the fix.
 14. Treat schema and migration work conservatively. Additive first. Every SQL file in `docs/` is
@@ -157,9 +161,11 @@ these govern *how the code gets changed*.
 
 ## Verification
 
-There is **no test framework** (no pytest, no Jest). High-consequence maths is checked by
-`python scripts/check_rule4.py`, which `preflight.py` runs on every publish. These are the
-real checks — run the ones your change touches.
+The repository has standalone regression scripts, Python stdlib mocks and temporary Git
+integration fixtures, including `check_publish_safety.py` and `check_routine_finalization.py`.
+High-consequence maths is checked by `python scripts/check_rule4.py`, which `preflight.py`
+runs on every publish. Run the checks your change touches; fixture success alone does not
+prove routine acceptance or a production release.
 
 ```bash
 python -m compileall -q scripts          # syntax-checks every Python file
@@ -180,8 +186,12 @@ so the last-good site stays live. `--strict` promotes WARNs to failures.
 Not side-effect-free, do not run casually: `scripts/run_desk_cloud.py` (writes Desk `state/`, needs network),
 `scripts/publish.py` (**pushes to `main` on success**).
 
-What does not exist, and should not be assumed: unit tests, integration tests, a Python linter or
-type checker, a JS/TS linter, a wired `astro check`, and any CI trigger on push or pull request.
+Workflow evidence in this checkout: `.github/workflows/desk-data.yml` runs on a weekday
+schedule and manual dispatch, using Python 3.12 and gated publication. It has no push or
+pull-request trigger; no separate Desk push/PR validation workflow is present. Do not confuse
+Company Intelligence's separate repository/workflows with this checkout's continuous integration.
+`site/package.json` builds with `astro build`; it does not wire `astro check` into that build.
+Inspect current manifests and checks before claiming additional lint/type-check coverage.
 
 ## Publishing
 

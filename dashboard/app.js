@@ -522,7 +522,7 @@ async function renderHeader() {
   } else if (gc) { setDisp(gc, "none"); }
   $("regime").title = reg === "—" ? "Macro regime — not published yet this cycle" :
     `Macro regime = the desk's risk posture (${reg}). ${reg === "risk-on" ? "Full setups allowed." : reg === "risk-off" ? "Max 2 setups, defensive only." : "Neutral — normal caution."} Click for the drivers.`;
-  setText($("updated"), "quant " + (quant?.updated || "—") + " · live " + (live?.updated || "—"));
+  setText($("updated"), "analysis built " + (quant?.updated || "—") + " · market snapshot " + (live?.source_at || "unknown"));
 }
 
 /* ---------- canvas chart ---------- */
@@ -730,26 +730,44 @@ const IDX_LABEL = {
   KMI30: ["KMI30", "Shariah, top 30"], KMIALLSHR: ["KMI All Share", "every Shariah-compliant name"],
   KSE30: ["KSE30", "free-float top 30"], BKTI: ["Banks", "sector index"], OGTI: ["Oil & Gas", "sector index"],
 };
+const INDEX_ROUNDING_TOLERANCE = 0.011;
+function readIndexDailyChange(idx, key) {
+  const entry = idx?.daily_change?.[key];
+  const finite = value => typeof value === "number" && Number.isFinite(value);
+  const source = typeof idx?.source_at === "string" && idx.source_at.trim() ? idx.source_at : "";
+  const session = typeof idx?.live_session_date === "string" && idx.live_session_date.trim() ? idx.live_session_date : "";
+  const sourceDate = /^(\d{4}-\d{2}-\d{2})/.exec(source)?.[1] || "";
+  if (!entry || typeof entry !== "object" || !source || !session || sourceDate !== session) return null;
+  if (!["current", "change", "percent", "derived_previous_close"].every(field => finite(entry[field]))) return null;
+  if (entry.current <= 0 || entry.derived_previous_close <= 0) return null;
+  if (entry.source_at !== source || entry.session_date !== session) return null;
+  const live = idx?.live?.[key];
+  if (!finite(live) || live <= 0 || Math.abs(entry.current - live) > INDEX_ROUNDING_TOLERANCE) return null;
+  if (Math.abs(entry.derived_previous_close - (entry.current - entry.change)) > INDEX_ROUNDING_TOLERANCE) return null;
+  if (Math.abs(entry.percent - (entry.change / entry.derived_previous_close * 100)) > INDEX_ROUNDING_TOLERANCE) return null;
+  return entry;
+}
+window.HennethIndexDailyChange = readIndexDailyChange;
 function indexBoard(idx) {
   const live = idx?.live || {};
   const days = Object.keys(idx?.history || {}).sort();
-  const prev = days.length > 1 ? idx.history[days[days.length - 2]] : null;
   // One compact row. The descriptive line lives in the tooltip, not in the cell — it was making
   // the board three times taller than the numbers needed, and Pixelify (a numerals face) was
   // rendering prose like "first session" with broken ligatures.
-  const cells = Object.keys(IDX_LABEL).filter(k => live[k] != null).map(k => {
+  const cells = Object.keys(IDX_LABEL).filter(k => typeof live[k] === "number" && Number.isFinite(live[k]) && live[k] > 0).map(k => {
     const [label, sub] = IDX_LABEL[k];
-    const chg = prev && prev[k] != null ? (live[k] / prev[k] - 1) * 100 : null;
+    const daily = readIndexDailyChange(idx, k);
+    const chg = daily ? daily.percent : null;
     return `<div class="idx-cell" title="${esc(label)} — ${esc(sub)}">
       <span class="idx-k">${esc(label)}</span>
       <b class="num">${fmt(live[k], 0)}</b>
       ${chg != null ? `<i class="num ${cls(chg)}">${sgn(+chg.toFixed(2))}%</i>`
-      : `<i class="idx-new" title="The desk started keeping this index today — a day-change needs two sessions on file.">new</i>`}
+      : `<i class="idx-new" title="PSX daily change is unavailable or inconsistent in this snapshot.">—</i>`}
     </div>`;
   }).join("");
   return cells ? `<div class="seg"><h2>PSX indices</h2><div class="ln"></div><span class="pill">${days.length} session${days.length === 1 ? "" : "s"} kept</span></div>
     <div class="idx-board">${cells}</div>
-    <p class="sub idx-foot">No public source keeps PSX index history — the desk records it each cycle. <b>All Share</b> is the honest benchmark for names outside the KSE100.</p>` : "";
+    <p class="sub idx-foot">Daily moves use PSX's published board change; stored history remains append-only. <b>All Share</b> is the honest benchmark for names outside the KSE100.</p>` : "";
 }
 
 async function pageBoard() {
@@ -3150,7 +3168,7 @@ async function pageTicker(sym, _retry = 0) {
   const btFull = stratRunOn(sym) ? await j("backtests.json") : null;
   const allTested = Object.entries(btFull?.templates || {}).map(([id, per]) => ({ id, ...(per[sym] || {}) })).filter(t => t.n).sort((a, b) => (b.net_expectancy_pct ?? -99) - (a.net_expectancy_pct ?? -99));
   const provenIds = new Set(proven.map(p => p.id));
-  const hasIntra = intra && intra.date === (live?.updated || "").slice(0, 10) && intra.points?.length > 3;
+  const hasIntra = intra && intra.date === live?.session_date && intra.points?.length > 3;
 
   // ---- educational / risk layer (all from the data layer; no advice language) ----
   const NUM = s => { const n = parseFloat(String(s).replace(/[^0-9.\-]/g, "")); return isNaN(n) ? null : n; };
@@ -3167,7 +3185,7 @@ async function pageTicker(sym, _retry = 0) {
   const mddIsOld = yr(b.mddTrough) && (new Date().getFullYear() - +yr(b.mddTrough)) >= 6;
   const mddContext = `${mddAbs.toFixed(0)}% (peak ${yr(b.mddPeak)}→trough ${yr(b.mddTrough)}${mddIsOld ? `, an old extreme` : ""})${mddIsOld && mddRecentAbs > 5 ? `; ${mddRecentAbs.toFixed(0)}% in the last decade` : ""}`;
   const lossmaking = epsN != null && epsN <= 0;
-  const priceSrc = lv?.current != null ? "DPS official feed · intraday (~real-time)" : "end-of-day close " + q.date;
+  const priceSrc = lv?.current != null ? "DPS snapshot as of " + esc(live?.source_at || "unknown") : "last available end-of-day close " + esc(q.date || "unknown");
 
   // "What the data flags" — factual observations, not predictions
   const pros = [], cons = [];

@@ -13,6 +13,18 @@ vm.runInNewContext(source, context);
 const charts = context.window.HennethTodayCharts;
 assert(charts, "Today chart API is exposed");
 
+const datedRows = charts.prepareWatchlistRows(["OLD", "LIVE"], {
+  quant: { tickers: { OLD: { close: 50.4, date: "2025-01-20", ret_1d: 3.79 }, LIVE: { close: 99, date: "2026-09-10", ret_1d: -1 } } },
+  live: { source_at: "2026-09-11T16:50:00+05:00", tickers: { LIVE: { current: 110, ldcp: 100 } } },
+});
+assert.equal(datedRows[0].priceAsOf, "2025-01-20");
+assert.equal(datedRows[0].returnAsOf, "2025-01-20");
+assert.equal(datedRows[1].price, 110);
+assert.ok(Math.abs(datedRows[1].dayPct - 10) < 1e-8);
+const oldPriceHtml = charts.watchlistMicroHtml([datedRows[0]], { source: "2026-09-11T16:50:00+05:00" });
+assert.match(oldPriceHtml, /Last available close.*2025-01-20/);
+assert.doesNotMatch(oldPriceHtml, /2026-09-11/);
+
 const sourceRow = { ticker: "MLCF", netExpectancyPct: 0.8, winRate: 0.6, tradeCount: 10, oos_hit: 0.8 };
 const first = charts.prepareDeskRadar([sourceRow]);
 const second = charts.prepareDeskRadar(first);

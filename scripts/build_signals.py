@@ -12,30 +12,76 @@ HONESTY: these are BACKTEST-PROVEN candidate setups, not auditor-verified signal
 The LLM auditor (local agent pipeline) can later upgrade a candidate to "audited".
 Labelled `basis: "backtest-proven, unaudited"` so the desk never overstates them."""
 import json
+import math
 import time
 
-import numpy as np
-
 from psx_data import ROOT, STATE, load_config, load_json, save_json
-from strategy_engine import compute_indicators, signals
 
-LIBRARY = {s["id"]: s for s in json.loads((ROOT / "strategies" / "library.json").read_text(encoding="utf-8"))}
+LIBRARY = None
+HEALTH_BLOCKED_NOTE = (
+    "health blocked: state/health.json status is not exactly ok; "
+    "new signals are suppressed while positions and history remain untouched."
+)
+
+
+def _load_library():
+    return {s["id"]: s for s in json.loads(
+        (ROOT / "strategies" / "library.json").read_text(encoding="utf-8")
+    )}
+
+
+def _last_date(series):
+    return series[-1].get("date") if series else None
 
 
 def latest_series(sym):
     deep = load_json(STATE / "history_deep" / f"{sym}.json", None)
     dps = load_json(STATE / "history" / f"{sym}.json", None)
-    return deep if (deep and len(deep) > len(dps or [])) else dps
+    choices = [series for series in (deep, dps) if series]
+    if not choices:
+        return None
+    # Freshness wins. Depth is only a tie-breaker for the same final date; a longer stale
+    # Yahoo series must never displace the current DPS series.
+    return max(choices, key=lambda series: (_last_date(series) or "", len(series)))
+
+
+def _write_health_blocked():
+    save_json(STATE / "signals.json", {
+        "updated": time.strftime("%Y-%m-%d %H:%M"),
+        "note": HEALTH_BLOCKED_NOTE,
+        "active": [],
+        "n_candidates": 0,
+    })
+    print("signals: blocked by data health")
+
+
+def _finite_positive(value):
+    return type(value) in (int, float) and math.isfinite(value) and value > 0
 
 
 def main():
+    health = load_json(STATE / "health.json", {})
+    if (health or {}).get("status") != "ok":
+        _write_health_blocked()
+        return
+
+    global LIBRARY
+    from strategy_engine import compute_indicators, signals
+
+    LIBRARY = _load_library()
     cfg = load_config()
     risk = cfg["risk"]
     capital = cfg["capital_pkr"]
     smap = load_json(STATE / "strategy_map.json", {"tickers": {}})["tickers"]
     quant = load_json(STATE / "quant.json", {"tickers": {}})["tickers"]
-    live = load_json(STATE / "live.json", {"tickers": {}})["tickers"]
-    universe = load_json(STATE / "universe.json", {"symbols": {}})["symbols"]
+    live_doc = load_json(STATE / "live.json", {"tickers": {}})
+    live = live_doc.get("tickers") or {}
+    session_date = live_doc.get("session_date")
+    universe = load_json(STATE / "universe.json", {"symbols": {}}).get("symbols") or {}
+    psx_symbols = {
+        sym for sym, meta in universe.items()
+        if ((meta or {}).get("market") or "PSX") == "PSX"
+    }
     # Real PSX sectors (fetch_sectors.py). CLAUDE.md Rule 4 caps the desk at one position per
     # sector — that limit was previously keyed on the COMPANY NAME, which is unique per ticker, so
     # it could never bind and four banks could pass as four different "sectors".
@@ -45,16 +91,23 @@ def main():
 
     candidates = []
     for sym, proven in smap.items():
+        if sym not in psx_symbols:
+            continue
         if sym in held:
             continue
         series = latest_series(sym)
         if not series or len(series) < 220:
             continue
+        if _last_date(series) != session_date:
+            continue
         ind = compute_indicators(series)
         q = quant.get(sym, {})
-        px = (live.get(sym) or {}).get("current") or series[-1]["close"]
-        atr = q.get("atr14_proxy")
-        adv = q.get("avg_daily_traded_value")
+        if q.get("date") != session_date:
+            continue
+        live_meta = live.get(sym) or {}
+        px = live_meta.get("current")
+        if not _finite_positive(px) or not _finite_positive(live_meta.get("volume")):
+            continue
 
         for p in proven:
             spec = LIBRARY.get(p["id"])

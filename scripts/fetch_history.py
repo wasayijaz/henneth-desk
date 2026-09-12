@@ -10,35 +10,34 @@ runs/weekday has actually fired 1-2 times/day. A rotation that needs ~4 runs to 
 simply never completes when only one run honours per day, and 263 symbols drifted weeks stale while
 health stayed green. See docs/GOTCHAS.md "The cron is a wish, not a schedule".
 
-The fix is to stop depending on run COUNT. One run now reprices the ENTIRE universe (~490 symbols)
-by fetching concurrently with a small ThreadPoolExecutor (WORKERS). At ~1.3 req/s that is ~6 min,
-well inside the job cap — so even a single honoured cron tick per day keeps every price ≤1 day old.
-DEADLINE_S bounds the wall clock as a guard: symbols not reached before the deadline are NOT stamped
-in the attempt clock, so they lead the next run (rare — the full sweep finishes long before it).
+Every run attempts the entire source universe, including symbols without a cached series,
+using a small ThreadPoolExecutor (WORKERS) and the shared provider rate gate.
+DEADLINE_S is the monotonic request/intake budget: symbols without a completed result before it are
+NOT stamped in the attempt clock, so they lead the next run (rare — the full sweep finishes long
+before it).
 
-Symbols with NO history file yet still get their own bounded round-robin probe (NEW_PROBE_PER_RUN)
-so the ~100 permanently-empty PSX board counters can never crowd the run — see the note on _pick().
+Price storage accepts a valid series of any length. Research eligibility belongs to downstream
+consumers; missing history does not establish whether an instrument exists or traded.
 """
+import math
 import sys
 import time
-from concurrent.futures import ThreadPoolExecutor, as_completed
-from datetime import datetime, timezone
+from concurrent.futures import FIRST_COMPLETED, ThreadPoolExecutor, wait
+from datetime import date, datetime, timezone
 
 import requests
 
-from psx_data import (STATE, eod_history, load_config, load_json, market_of, save_json,
-                      yahoo_symbol)
+from psx_data import (DeadlineExceeded, STATE, eod_history, load_config, load_json, market_of,
+                      save_json, yahoo_symbol)
 
 WORKERS = 6                # concurrent fetchers — a LATENCY-hiding knob only. The aggregate request
                            # rate is capped centrally by psx_data._throttle, so raising this hides
                            # network latency without raising the DPS request rate (no 429 storm).
 DEADLINE_S = 1200          # 20 min wall-clock guard, inside the workflow job cap
-IN_FLIGHT_DRAIN_S = 180    # bounded DPS retry/request drain after completion intake stops
-NEW_PROBE_PER_RUN = 12     # separate, round-robin budget for symbols with no history file yet
 UA = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) psx-desk/1.0"}
 
 
-def _yahoo_daily(symbol: str, universe: dict, years: int) -> list[dict]:
+def _yahoo_daily(symbol: str, universe: dict, years: int, deadline=None) -> list[dict]:
     """Daily EOD for a NON-PSX market, in the exact shape psx_data.eod_history returns.
 
     The shape is the whole point. `state/history/{SYM}.json` is the seam every expensive consumer
@@ -49,7 +48,10 @@ def _yahoo_daily(symbol: str, universe: dict, years: int) -> list[dict]:
     rng = f"{max(2, years + 1)}y"
     url = (f"https://query1.finance.yahoo.com/v8/finance/chart/{yahoo_symbol(symbol, universe)}"
            f"?interval=1d&range={rng}")
-    r = requests.get(url, headers=UA, timeout=20)
+    remaining = deadline - time.monotonic() if deadline is not None else None
+    if remaining is not None and remaining <= 0:
+        raise DeadlineExceeded("history refresh deadline exceeded")
+    r = requests.get(url, headers=UA, timeout=min(20, remaining) if remaining is not None else 20)
     if r.status_code != 200:
         raise RuntimeError(f"HTTP {r.status_code}")
     res = (r.json().get("chart") or {}).get("result")
@@ -73,77 +75,142 @@ def _yahoo_daily(symbol: str, universe: dict, years: int) -> list[dict]:
     return out
 
 
-def _pick(universe, cursor, attempts):
-    """core + a bounded probe of never-fetched symbols + EVERY listed symbol that has a series.
+def _attempt_order(value):
+    """Unknown/naive attempts lead; aware attempts sort by their actual UTC instant.
 
-    Every symbol with a history file is refreshed every run — the long tail is no longer rationed
-    (see the module docstring: run count is unreliable in the cloud, so we cannot rely on covering
-    the tail over several runs). The tail is still ORDERED least-recently-attempted first so that
-    if a run is cut short by DEADLINE_S, the symbols that got skipped are exactly the ones already
-    freshest, and the stalest lead the next run.
+    Legacy naive clocks are ordering hints only, never evidence of a completed refresh.
+    """
+    try:
+        parsed = datetime.fromisoformat(value.replace("Z", "+00:00"))
+        if parsed.tzinfo is None or parsed.utcoffset() is None:
+            return (0, parsed.isoformat())
+        return (1, parsed.astimezone(timezone.utc).isoformat())
+    except (AttributeError, TypeError, ValueError):
+        return (0, "")
 
-    THE PROBE BUDGET STAYS SEPARATE, AND THAT SEPARATION IS THE WHOLE POINT. The All Share
-    constituent list carries ~103 PSX board counters (…NC non-compliant, …XD ex-dividend,
-    …XB ex-bonus, rights) that are not companies and permanently return zero bars, so they never
-    gain a history file. Fetching all of them every run would waste minutes on dead counters; the
-    probe visits only NEW_PROBE_PER_RUN of them per run on a round-robin cursor, enough to onboard a
-    genuinely new listing within a few runs without ever crowding the real refresh.
 
-    THE ATTEMPT CLOCK IS PERSISTED STATE, NOT THE FILESYSTEM. It used to be the history file's
-    st_mtime, which is meaningless in the cloud: every run starts with actions/checkout, which
-    writes all files fresh in git index order — alphabetical. The attempt timestamps live in
-    state/history_meta.json, committed by the cycle, so the ordering survives checkout.
+def _pick(universe, attempts):
+    """Every source identity once, least-recently-attempted first across both tiers.
 
-    Returns (todo, n_listed, next_cursor). The cursor is persisted in history_meta.json.
+    Persisted attempt timestamps survive cloud checkout; file mtimes do not. An unstamped
+    deadline skip gets priority next run. Core tier breaks ties, never excludes listed names.
     """
     syms = universe["symbols"]
-    core, listed = [], []
-    for s, m in syms.items():
-        (core if (m or {}).get("tier", "core") == "core" else listed).append(s)
-
-    def has_file(s):
-        return (STATE / "history" / f"{s}.json").exists()
-    # Sorted, not universe-ordered, so the cursor addresses a stable list across runs.
-    never = sorted(s for s in listed if not has_file(s))
-    # Least-recently-attempted first; a symbol absent from the map has never been attempted under
-    # the current clock and goes to the front. Alphabetical only as a tiebreak. This ordering only
-    # matters if DEADLINE_S cuts a run short — otherwise the whole list is fetched anyway.
-    have = sorted((s for s in listed if has_file(s)), key=lambda s: (attempts.get(s, ""), s))
-    probe, nxt = [], 0
-    if never:
-        start = cursor % len(never)
-        n = min(NEW_PROBE_PER_RUN, len(never))
-        probe = [never[(start + i) % len(never)] for i in range(n)]
-        nxt = (start + n) % len(never)
-    return core + probe + have, len(listed), nxt
+    todo = sorted(syms, key=lambda s: (
+        _attempt_order(attempts.get(s)), (syms[s] or {}).get("tier", "core") != "core", s,
+    ))
+    n_listed = sum((m or {}).get("tier", "core") != "core" for m in syms.values())
+    return todo, n_listed
 
 
-def _fetch_one(sym, universe, years, cutoff):
+def _validate_history(rows):
+    """Validate the provider-normalized series before filtering or replacing cached prices."""
+    if not isinstance(rows, list) or not rows:
+        raise ValueError("empty or malformed history series")
+    previous = ""
+    for row in rows:
+        if not isinstance(row, dict):
+            raise ValueError("history row is not an object")
+        stamp = row.get("date")
+        if not isinstance(stamp, str) or date.fromisoformat(stamp).isoformat() != stamp:
+            raise ValueError("history date must be YYYY-MM-DD")
+        if stamp <= previous:
+            raise ValueError("history dates must be unique and oldest-first")
+        previous = stamp
+        for field in ("open", "close", "volume"):
+            value = row.get(field)
+            if type(value) not in (int, float) or not math.isfinite(value):
+                raise ValueError(f"history {field} must be a finite number")
+            if field == "volume":
+                if value < 0 or value != int(value):
+                    raise ValueError("history volume must be nonnegative whole shares")
+            elif field == "close" and value <= 0:
+                raise ValueError("history close must be positive")
+            elif field == "open" and value < 0:
+                raise ValueError("history open must be nonnegative")
+            # DPS has zero opens even on some positive-volume days. Preserve that existing
+            # source representation; do not fabricate an opening price from the close.
+
+
+def _fetch_one(sym, universe, years, cutoff, deadline=None):
     """Fetch and cache one symbol. Runs on a worker thread, so it takes only immutable args and
     touches no shared mutable state — save_json writes a per-symbol temp file then os.replace, which
-    is safe across distinct symbols. Returns ('ok', None) or ('fail', reason); never raises, so one
-    bad symbol never takes down the pool."""
+    is safe across distinct symbols. Returns ('ok', None), ('fail', reason), or ('skip', reason)
+    for deadline exhaustion; never raises, so one bad symbol never takes down the pool."""
     try:
+        if deadline is not None and time.monotonic() >= deadline:
+            raise DeadlineExceeded("history refresh deadline exceeded")
         mkt = market_of(sym, universe)
         # DPS is authoritative for PSX (CLAUDE.md: prices come from the data layer). Every other
         # market has no DPS entry, so it routes to Yahoo — same output shape.
-        src = eod_history(sym) if mkt == "PSX" else _yahoo_daily(sym, universe, years)
+        if mkt == "PSX":
+            # The provider owns DPS parsing, throttling, retries, and the optional deadline.
+            src = eod_history(sym, deadline=deadline)
+        else:
+            src = _yahoo_daily(sym, universe, years, deadline)
+        _validate_history(src)
         hist = [d for d in src if d["date"] >= cutoff]
-        # A recent listing legitimately has few bars — not a failure, and dropping it would make the
-        # company invisible again. Keep anything with a usable series; only the core tier needs the
-        # long history that signals and backtests depend on.
-        tier = ((universe["symbols"].get(sym) or {}).get("tier", "core"))
-        floor = 100 if tier == "core" else 20
-        if len(hist) < floor:
-            return ("fail", f"only {len(hist)} rows (tier {tier})")
-        save_json(STATE / "history" / f"{sym}.json", hist)
+        if not hist:
+            return ("fail", "no history inside configured window")
+        path = STATE / "history" / f"{sym}.json"
+        old = load_json(path, [])
+        if old:
+            _validate_history(old)
+            retained_dates = {d["date"] for d in old if d["date"] >= cutoff}
+            if not retained_dates.issubset({d["date"] for d in hist}):
+                return ("fail", "partial history response omits cached dates inside window")
+        # A valid one-bar series is price coverage, not permission to compute research metrics.
+        if deadline is not None and time.monotonic() >= deadline:
+            raise DeadlineExceeded("history refresh deadline exceeded")
+        save_json(path, hist)
         return ("ok", None)
+    except DeadlineExceeded as e:
+        return ("skip", str(e))
     except Exception as e:  # noqa: BLE001 — degrade, don't crash the cycle
+        if deadline is not None and time.monotonic() >= deadline:
+            return ("skip", "history refresh deadline exceeded")
         return ("fail", str(e)[:80])
     # Politeness is enforced GLOBALLY by psx_data._throttle (a shared rate gate across all
     # workers), not by a per-worker sleep here. A per-worker sleep scales politeness with 1/WORKERS
     # — the opposite of what's needed — so raising WORKERS silently raised the request rate and
     # tripped DPS 429s. The gate makes worker count purely a latency-hiding knob.
+
+
+def _collect_results(todo, worker, deadline):
+    """Collect only results received before deadline; cancel queued work and join running work.
+
+    Running requests are not force-cancelled: their provider calls receive the same deadline and
+    must return through their bounded timeout/backoff path before the non-daemon pool is joined.
+    """
+    pool = ThreadPoolExecutor(max_workers=WORKERS)
+    fut_to_sym = {pool.submit(worker, sym): sym for sym in todo}
+    pending = set(fut_to_sym)
+    results = []
+    try:
+        while pending:
+            remaining = deadline - time.monotonic()
+            if remaining <= 0:
+                break
+            done, pending = wait(pending, timeout=remaining, return_when=FIRST_COMPLETED)
+            if not done:
+                break
+            if time.monotonic() >= deadline:
+                pending.update(done)
+                break
+            for fut in done:
+                if time.monotonic() >= deadline:
+                    pending.add(fut)
+                    continue
+                sym = fut_to_sym[fut]
+                try:
+                    results.append((sym, fut.result()))
+                except Exception as e:  # noqa: BLE001 — a worker must not abort the sweep
+                    results.append((sym, ("fail", str(e)[:80])))
+    finally:
+        for fut in pending:
+            fut.cancel()
+        pool.shutdown(wait=True, cancel_futures=True)
+    return results
 
 
 def main():
@@ -157,40 +224,32 @@ def main():
     cutoff = time.strftime("%Y-%m-%d", time.gmtime(time.time() - years * 365.25 * 86400))
     prior = load_json(STATE / "history_meta.json", {}) or {}
     attempts = dict(prior.get("last_attempt") or {})
-    todo, n_listed, next_cursor = _pick(universe, int(prior.get("probe_cursor") or 0), attempts)
-    stamp = time.strftime("%Y-%m-%d %H:%M")
+    todo, n_listed = _pick(universe, attempts)
+    stamp = datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
     ok, failed, processed = 0, [], 0
 
     # Fetch the whole run concurrently. A symbol is stamped in the attempt clock ONLY once its
-    # result is in hand, so anything cut off by DEADLINE_S stays unstamped and leads the next run.
-    # Leave enough room for the at-most-WORKERS requests already in flight to finish their
-    # bounded retry loops. Without this allowance, the executor's orderly shutdown could make
-    # the advertised wall-clock guard overrun even after this loop stopped accepting results.
-    deadline = time.time() + DEADLINE_S - IN_FLIGHT_DRAIN_S
-    with ThreadPoolExecutor(max_workers=WORKERS) as pool:
-        fut_to_sym = {pool.submit(_fetch_one, s, universe, years, cutoff): s for s in todo}
-        for fut in as_completed(fut_to_sym):
-            if time.time() > deadline:
-                break
-            sym = fut_to_sym[fut]
-            status, err = fut.result()
-            attempts[sym] = stamp
-            processed += 1
-            if status == "ok":
-                ok += 1
-            else:
-                failed.append((sym, err))
-        # Anything not yet started is cancelled so the pool shuts down promptly; the ≤WORKERS still
-        # in flight finish during the `with` exit. Neither group was stamped, so both lead next run.
-        for fut in fut_to_sym:
-            fut.cancel()
+    # result is in hand before the real monotonic deadline, so anything cut off stays unstamped
+    # and leads the next run.
+    deadline = time.monotonic() + DEADLINE_S
+    results = _collect_results(
+        todo,
+        lambda sym: _fetch_one(sym, universe, years, cutoff, deadline),
+        deadline,
+    )
+    for sym, (status, err) in results:
+        if status == "skip":
+            continue
+        attempts[sym] = stamp
+        processed += 1
+        if status == "ok":
+            ok += 1
+        else:
+            failed.append((sym, err))
     skipped_deadline = len(todo) - processed
 
-    # Coverage map: which symbols actually have a usable price series. The All Share constituent
-    # list includes PSX board artifacts that are not tradeable companies — ex-dividend (…XD) and
-    # ex-bonus (…XB) counters, and non-compliant (…NC) counters — which return zero bars. Surfacing
-    # those in search would be a worse bug than the one that started this (a missing real company),
-    # so the dashboard filters search to symbols listed here. Written every run, never guessed.
+    # Coverage reports cached price availability, including short series and retained older data.
+    # It does not establish freshness, research eligibility, or why a ticker has no history.
     cov = {}
     for sym in universe["symbols"]:
         p = STATE / "history" / f"{sym}.json"
@@ -204,9 +263,9 @@ def main():
         "updated": time.strftime("%Y-%m-%d %H:%M"),
         "n_with_history": len(cov),
         "n_universe": len(universe["symbols"]),
-        "note": ("Symbols with a usable price series. Universe members absent here returned zero "
-                 "bars from DPS — almost always non-tradeable board counters (…XD ex-dividend, "
-                 "…XB ex-bonus, …NC non-compliant), not real listed companies."),
+        "note": ("Symbols with cached price history, including valid short series. Counts do not "
+                 "establish freshness or research eligibility. Missing history does not imply an "
+                 "inactive or nonexistent instrument; consult history_meta.json for fetch results."),
         "bars": cov,
     })
 
@@ -223,18 +282,16 @@ def main():
         "listed_total": n_listed,
         "workers": WORKERS,
         "deadline_s": DEADLINE_S,
-        "in_flight_drain_s": IN_FLIGHT_DRAIN_S,
-        "new_probe_per_run": NEW_PROBE_PER_RUN,
-        "probe_cursor": next_cursor,
-        "note": ("EVERY symbol with a series is repriced EVERY run — one honoured cron tick keeps "
-                 "the whole universe ≤1 day old, so cloud cron load-shedding no longer strands "
-                 "prices (see docs/GOTCHAS.md 'The cron is a wish, not a schedule'). Fetch runs "
-                 "concurrently (workers). skipped_deadline counts symbols not reached before "
-                 "deadline_s cut the run short — normally 0; a non-zero value is expected to be "
-                 "rare and preflight WARNs on it. Symbols with no series yet get a separate "
-                 "round-robin probe (new_probe_per_run, resumed from probe_cursor) so the ~100 "
-                 "permanently-empty PSX board counters never consume the refresh budget. "
-                 "last_attempt is the ordering clock and MUST be persisted state — file mtimes are "
+        "note": ("Every universe symbol is scheduled each run, including names without history. "
+                 "Valid short series are stored independently of research eligibility. Fetch runs "
+                 "concurrently (workers) with one monotonic request/intake deadline. "
+                 "skipped_deadline counts symbols without a completed result before deadline_s; "
+                 "unfinished requests are bounded by their remaining request/retry budget and are "
+                 "not stamped or counted as processed. Failed or partial responses retain cached "
+                 "prices and are reported as failures, not fresh successes. "
+                 "last_attempt records the timezone-aware UTC run start for completed results. "
+                 "Legacy naive attempts receive oldest ordering priority, never freshness proof. "
+                 "This ordering clock MUST be persisted state — file mtimes are "
                  "rewritten by actions/checkout on every cloud run. It orders the run so that if "
                  "deadline_s does cut it short, the freshest symbols are the ones skipped and the "
                  "stalest lead the next run."),

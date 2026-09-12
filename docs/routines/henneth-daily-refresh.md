@@ -4,7 +4,8 @@
 
 # henneth-daily-refresh
 
-Weekday end-of-day commentary refresh after the 15:30 PKT close. Operate in the assigned routine
+Weekday end-of-day commentary refresh after the close defined by `post_close_integrity.py`
+(including Friday). Operate in the assigned routine
 worktree for `wasayijaz/henneth-desk`; the cloud workflow owns deterministic data and its watchdog.
 Read [REPORTING.md](REPORTING.md), `AGENTS.md`, `docs/ROUTINES_AFTER_SPLIT.md`, and the current
 operations refresh guidance first.
@@ -13,12 +14,12 @@ operations refresh guidance first.
 
 1. Synchronize the assigned worktree and record the PKT start time. Do not run the full cloud data
    pipeline or a second liveness watchdog here.
-2. Require the same-session PM checkpoint's verified publication and acknowledgement, or its
+2. Read `state/calendar.json` first. A weekend or listed holiday is a deliberate `no-op`: do not
+   edit state, dispatch catch-up, run judgment roles, commit, or publish.
+3. Require the same-session PM checkpoint's verified publication and acknowledgement, or its
    verified no-op result. Run `python scripts/post_close_integrity.py`; if it fails, use the
    approved single `desk-data.yml` catch-up dispatch, wait, synchronize, and recheck. A failed
    predecessor or still-failed post-close gate blocks this routine; never publish over it.
-3. Read `state/calendar.json`. A weekend or listed holiday is a deliberate `no-op`: do not edit
-   commentary, commit, or publish.
 4. Run exactly three judgment roles, in order. For each, use a `gpt-5.6-luna` high subagent when
    callable; otherwise execute the role inline from the committed role description in this runbook.
    - News Sentinel: scan PSX announcements and Pakistani business press for the last two trading
@@ -33,9 +34,11 @@ operations refresh guidance first.
    reach the public site.
 6. Run `python scripts/publish.py "Daily desk refresh <YYYY-MM-DD>"`. A clean unchanged-state
    result is a verified no-op; otherwise capture the exact commit and deployed URL only if proven.
-7. Append the daily runlog object to `state/runlog.json`: `started`, `mode: "full"`, `ended`, and
-   one-line outcome containing regime, geo-risk, headline, and publication status. Never overwrite
-   existing run history.
+7. Follow [FINALIZATION.md](FINALIZATION.md) using `scripts/finalize_routine.py`, the verified
+   research SHA, start time, `--routine daily` and mode `full`. Include regime, geo-risk and headline in
+   its outcome. The helper appends and publishes run history, verifies the receipt on origin/main,
+   and never rewrites prior entries. Report research and receipt SHAs separately; Room must not
+   proceed while receipt publication is outstanding. Daily does not write a checkpoint ack.
 
 ## Required result fields
 

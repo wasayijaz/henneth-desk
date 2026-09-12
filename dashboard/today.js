@@ -9,6 +9,28 @@
   const pct = v => v == null || Number.isNaN(Number(v)) ? "—" : `${Number(v) > 0 ? "+" : ""}${Number(v).toFixed(2)}%`;
   const signClass = v => Number(v) > 0.05 ? "up" : Number(v) < -0.05 ? "dn" : "";
   const text = (obj, key) => typeof tp === "function" ? tp(obj, key) : (obj?.[key] ?? "");
+  const positiveNumber = value => {
+    if (typeof value !== "number" && !(typeof value === "string" && value.trim())) return null;
+    const number = Number(value);
+    return Number.isFinite(number) && number > 0 ? number : null;
+  };
+  const sourceDate = value => typeof value === "string" && value.trim() ? value.trim() : "date unknown";
+  const indexRoundingTolerance = 0.011;
+  function readIndexDailyChange(indices, key) {
+    if (typeof window.HennethIndexDailyChange === "function") return window.HennethIndexDailyChange(indices, key);
+    const entry = indices?.daily_change?.[key], finite = value => typeof value === "number" && Number.isFinite(value);
+    const source = typeof indices?.source_at === "string" && indices.source_at.trim() ? indices.source_at : "";
+    const session = typeof indices?.live_session_date === "string" && indices.live_session_date.trim() ? indices.live_session_date : "";
+    const sourceSession = /^(\d{4}-\d{2}-\d{2})/.exec(source)?.[1] || "";
+    if (!entry || typeof entry !== "object" || !source || !session || sourceSession !== session) return null;
+    if (!["current", "change", "percent", "derived_previous_close"].every(field => finite(entry[field]))) return null;
+    if (entry.current <= 0 || entry.derived_previous_close <= 0 || entry.source_at !== source || entry.session_date !== session) return null;
+    const live = indices?.live?.[key];
+    if (!finite(live) || live <= 0 || Math.abs(entry.current - live) > indexRoundingTolerance) return null;
+    if (Math.abs(entry.derived_previous_close - (entry.current - entry.change)) > indexRoundingTolerance) return null;
+    if (Math.abs(entry.percent - (entry.change / entry.derived_previous_close * 100)) > indexRoundingTolerance) return null;
+    return entry;
+  }
 
   // The external wire is the canonical article source for the desk (same data rail.js reads).
   // Keep malformed dates behind dated stories and never turn an untrusted URL into a link.
@@ -50,19 +72,15 @@
     const hist = indices?.history || {};
     const dates = Object.keys(hist).sort();
     const latestDate = dates[dates.length - 1];
-    const priorDate = dates[dates.length - 2];
-    // Prefer the live tick over today's frozen first-capture history entry — same
-    // "prefer live" pattern as tickerRows() below and indexBoard()/the paper-trading
-    // benchmark in app.js. history[today] never updates again once written, so reading
-    // it as "current" goes stale the moment the index moves after that first snapshot.
+    const daily = readIndexDailyChange(indices, "KSE100");
     const liveVal = Number(indices?.live?.KSE100);
     const haveLive = Number.isFinite(liveVal);
-    const latest = haveLive ? liveVal : Number(hist[latestDate]?.KSE100);
-    const prior = priorDate ? Number(hist[priorDate]?.KSE100) : NaN;
-    const change = Number.isFinite(latest) && Number.isFinite(prior) ? latest - prior : NaN;
-    const changePct = Number.isFinite(change) && prior ? (change / prior) * 100 : NaN;
-    const date = haveLive ? (indices?.live_at || indices?.updated || latestDate || "") : (latestDate || indices?.updated || "");
-    return { latest, prior, change, changePct, date, priorDate: priorDate || "", values: dates.slice(-30).map(d => hist[d]?.KSE100) };
+    const latest = daily ? daily.current : haveLive ? liveVal : Number(hist[latestDate]?.KSE100);
+    const date = daily ? daily.source_at : haveLive ? (indices?.source_at || "") : (latestDate || "");
+    return { latest, prior: daily ? daily.derived_previous_close : NaN,
+      change: daily ? daily.change : NaN, changePct: daily ? daily.percent : NaN, date,
+      sessionDate: daily ? daily.session_date : "", priorDate: "",
+      values: dates.slice(-30).map(d => hist[d]?.KSE100) };
   }
 
   function sectorSummary(dr) {
@@ -85,9 +103,29 @@
     (window.HennethTodayWatchlist || []).forEach(add);
     return rows.slice(0, 5).map(sym => {
       const q = quant.tickers[sym] || {}, l = live?.tickers?.[sym] || {};
-      const px = l.current ?? l.ldcp ?? q.close;
-      return { sym, name: universe?.symbols?.[sym]?.name || "", px, q };
+      const livePrice = positiveNumber(l.current);
+      const quantClose = positiveNumber(q.close);
+      const hasLivePrice = livePrice !== null;
+      const px = hasLivePrice ? livePrice : quantClose;
+      return {
+        sym,
+        name: universe?.symbols?.[sym]?.name || "",
+        px,
+        q,
+        priceAsOf: hasLivePrice ? sourceDate(live?.source_at) : quantClose !== null ? sourceDate(q.date) : "date unknown",
+        priceSource: hasLivePrice ? "DPS snapshot" : quantClose !== null ? "Last available close" : "Unknown",
+        returnAsOf: sourceDate(q.date),
+      };
     });
+  }
+
+  function fallbackPriceCell(row) {
+    const value = row.px == null ? "—" : fmt0(row.px);
+    return `<td class="num"><span>${esc0(value)}</span><small class="today-table-source">${esc0(row.priceSource)} · ${esc0(row.priceAsOf)}</small></td>`;
+  }
+
+  function fallbackReturnCell(value, row) {
+    return `<td class="num ${signClass(value)}"><span>${pct(value)}</span><small class="today-table-source">${esc0(row.returnAsOf)}</small></td>`;
   }
 
   function radarRows(dr, dash) {
@@ -167,8 +205,8 @@
     const summarySource = String(text(dr, "headline") || dr.headline || text(dr, "summary") || dr.summary || "").replace(/\s+/g, " ").trim();
     const summaryLine = summarySource.replace(/[.!?]\s*$/, "");
     const articleHtml = articleCard(news);
-    const changeStrip = Number.isFinite(ix.change) && Number.isFinite(ix.changePct) && ix.date && ix.priorDate
-      ? `<div class="today-change-strip"><b>WHAT CHANGED</b><span>KSE-100 ${pct(ix.changePct)} from ${esc0(ix.priorDate)} to ${esc0(ix.date)}</span><span class="today-chart-source">Briefing and price snapshot are separate sources.</span></div>`
+    const changeStrip = Number.isFinite(ix.change) && Number.isFinite(ix.changePct) && ix.date && ix.sessionDate
+      ? `<div class="today-change-strip"><b>WHAT CHANGED</b><span>KSE-100 ${pct(ix.changePct)} · ${ix.change > 0 ? "+" : ""}${fmt0(ix.change)} points · session ${esc0(ix.sessionDate)}</span><span class="today-chart-source">PSX board daily change · source as of ${esc0(ix.date)}. Briefing and price snapshot are separate sources.</span></div>`
       : `<div class="today-change-strip"><b>CURRENT SNAPSHOT</b><span>KSE-100 ${fmt0(ix.latest)} · ${esc0(ix.date || "date unknown")}</span><span class="today-chart-source">Briefing and price snapshot are separate sources.</span></div>`;
     root.innerHTML = `<div class="today-page">
       <div class="today-date">${esc0(dr.date || ix.date || "")} <span>· research desk</span></div>
@@ -184,14 +222,14 @@
       </section>
       <section class="today-radar" id="research-radar"><div class="today-section-head"><p class="today-kicker" data-icon="radar">RESEARCH RADAR <span>· HOVER A TICKER FOR THE DESK'S READ · NOT RECOMMENDATIONS</span></p></div><div class="today-radar-host" data-hn-desk-radar>${radarFallback(radar)}</div><div class="today-radar-cards" id="radar-evidence">${radarCards(radar)}</div></section>
       <section class="today-breadth" id="sector-breadth"><div class="today-section-head"><p class="today-kicker" data-icon="sectors">SECTOR BREADTH <span>(ADV / DEC)</span></p></div><div class="today-breadth-list" data-hn-sector-breadth><div class="today-empty">Loading breadth view…</div></div></section>
-      <section class="today-grid"><div class="today-panel"><div class="today-section-head"><p class="today-kicker" data-icon="watchlist">WATCHLIST (${rows.length})</p><a href="/watchlist">View full →</a></div><div class="today-table-wrap" data-hn-today-watch><table class="today-table"><thead><tr><th>Symbol</th><th>Name</th><th>Price</th><th>1D</th><th>5D</th><th>20D</th></tr></thead><tbody>${rows.map(r => `<tr class="clickable" onclick="navigate('/ticker/${esc0(r.sym)}')"><td><b>${esc0(r.sym)}</b></td><td>${esc0(String(r.name).slice(0, 27))}</td><td class="num">${fmt0(r.px)}</td><td class="num ${signClass(r.q.ret_1d)}">${pct(r.q.ret_1d)}</td><td class="num ${signClass(r.q.ret_5d)}">${pct(r.q.ret_5d)}</td><td class="num ${signClass(r.q.ret_20d)}">${pct(r.q.ret_20d)}</td></tr>`).join("") || `<tr><td colspan="6" class="today-empty">No watchlist names in this snapshot.</td></tr>`}</tbody></table></div></div><div class="today-panel"><div class="today-section-head"><p class="today-kicker" data-icon="calendar">CATALYST TIMELINE</p><a href="/calendar">View full →</a></div><div class="today-events" data-hn-catalysts>${renderTimeline(dr.catalysts)}</div></div></section>
+      <section class="today-grid"><div class="today-panel"><div class="today-section-head"><p class="today-kicker" data-icon="watchlist">WATCHLIST (${rows.length})</p><a href="/watchlist">View full →</a></div><div class="today-table-wrap" data-hn-today-watch><table class="today-table"><thead><tr><th>Symbol</th><th>Name</th><th>Price</th><th>1D</th><th>5D</th><th>20D</th></tr></thead><tbody>${rows.map(r => `<tr class="clickable" onclick="navigate('/ticker/${esc0(r.sym)}')"><td><b>${esc0(r.sym)}</b></td><td>${esc0(String(r.name).slice(0, 27))}</td>${fallbackPriceCell(r)}${fallbackReturnCell(r.q.ret_1d, r)}${fallbackReturnCell(r.q.ret_5d, r)}${fallbackReturnCell(r.q.ret_20d, r)}</tr>`).join("") || `<tr><td colspan="6" class="today-empty">No watchlist names in this snapshot.</td></tr>`}</tbody></table></div></div><div class="today-panel"><div class="today-section-head"><p class="today-kicker" data-icon="calendar">CATALYST TIMELINE</p><a href="/calendar">View full →</a></div><div class="today-events" data-hn-catalysts>${renderTimeline(dr.catalysts)}</div></div></section>
       ${articleHtml}
       <section class="today-disclosures">${lessonHtml}${setupHtml}</section>
       <p class="today-disclaimer">${esc0(dr.disclaimer || "Research, not advice. The desk generates signals; it does not place orders.")}</p>
     </div>`;
     try {
       if (typeof window.HennethTodayCharts?.enhance === "function") {
-        window.HennethTodayCharts.enhance(root, { index: { ...ix, history: indices?.history || {}, updated: indices?.updated }, quant, sectors, watchlist: rows, catalysts: dr.catalysts || [], dailyRead: dr, dashboard: dash, radar, deskRadar: radar }, { compact: true, radar: { compactHeader: true } });
+        window.HennethTodayCharts.enhance(root, { index: { ...ix, history: indices?.history || {}, updated: indices?.source_at }, quant, live, sectors, watchlist: rows, catalysts: dr.catalysts || [], dailyRead: dr, dashboard: dash, radar, deskRadar: radar }, { compact: true, radar: { compactHeader: true } });
       } else {
         const host = root.querySelector("[data-hn-sector-breadth]");
         if (host) host.innerHTML = `<div class="today-empty">Breadth view unavailable in this snapshot.</div>`;

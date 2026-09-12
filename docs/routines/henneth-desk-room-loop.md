@@ -13,7 +13,7 @@ assigned `wasayijaz/henneth-desk` routine worktree. Read [REPORTING.md](REPORTIN
 
 1. Synchronize the worktree and record PKT start time. Check `state/calendar.json`; a holiday or
    weekend is a `no-op` with no state or publication changes.
-2. Require the same-session Daily publication and runlog/acknowledgement or its verified no-op,
+2. Require the same-session Daily publication and remotely verified runlog receipt or its verified no-op,
    plus coherent post-close evidence from `python scripts/post_close_integrity.py`. If that gate
    fails, use the approved single cloud catch-up dispatch, wait, synchronize, and recheck; a failed
    predecessor or still-failed gate blocks Room publication.
@@ -42,7 +42,9 @@ assigned `wasayijaz/henneth-desk` routine worktree. Read [REPORTING.md](REPORTIN
 9. Run `python scripts/room_score.py`, then `python scripts/build_dashboard.py`. A preflight failure
    stops publication.
 10. Publish with `python scripts/publish.py "Desk Room loop <YYYY-MM-DD>: <full> full, <delta> delta, <reaffirm> reaffirm"`.
-   Record exact SHA/URL only when verified. Append the room runlog object with counts and publication.
+   Record exact SHA/URL only when verified. Then follow [FINALIZATION.md](FINALIZATION.md) using
+   `scripts/finalize_routine.py` with the research SHA, start time, `--routine room`, mode `room` and Room
+   counts. Report the separately verified receipt SHA. Never mark an unpublished local log as filed.
 
 ## Required result fields
 

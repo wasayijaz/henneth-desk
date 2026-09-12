@@ -67,19 +67,17 @@
   }
 
   // ---- derivations ----------------------------------------------
-  // Same rule as app.js indexBoard(): live value against the
-  // second-to-last history day, because the last one can be today.
+  // Daily move is authoritative PSX board metadata exposed by app.js. Missing or inconsistent
+  // metadata stays unknown; this renderer must not reconstruct it from append-only history.
   function indexRows(idx) {
     var live = (idx && idx.live) || {};
-    var hist = (idx && idx.history) || {};
-    var days = Object.keys(hist).sort();
-    var prev = days.length > 1 ? hist[days[days.length - 2]] : null;
-    return Object.keys(IDX_LABEL).filter(function (k) { return live[k] != null; }).map(function (k) {
-      var p = prev && prev[k] != null ? prev[k] : null;
+    return Object.keys(IDX_LABEL).filter(function (k) { return typeof live[k] === "number" && isFinite(live[k]) && live[k] > 0; }).map(function (k) {
+      var daily = typeof window.HennethIndexDailyChange === "function"
+        ? window.HennethIndexDailyChange(idx, k) : null;
       return {
         key: k, label: IDX_LABEL[k][0], sub: IDX_LABEL[k][1], value: live[k],
-        abs: p != null ? live[k] - p : null,
-        chg: p != null ? (live[k] / p - 1) * 100 : null
+        abs: daily ? daily.change : null,
+        chg: daily ? daily.percent : null
       };
     });
   }
@@ -268,7 +266,7 @@
           '<div class="market-label">' + esc(r.label) + "</div>" +
           '<div class="market-value">' + fmt(r.value, 0) + "</div>" +
           '<div class="market-change ' + k + '">' +
-          (r.chg == null ? "no prior session on file" : sgn(+r.abs.toFixed(2)) + " · " + pctText(r.chg)) +
+          (r.chg == null ? "daily change unavailable" : sgn(+r.abs.toFixed(2)) + " · " + pctText(r.chg)) +
           "</div></div>";
       }).join("") : '<div class="tile-empty">No index values on file.</div>') +
       "</section>" +

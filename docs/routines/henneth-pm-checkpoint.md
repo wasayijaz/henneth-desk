@@ -4,8 +4,7 @@
 
 # henneth-pm-checkpoint
 
-Weekday 17:00 PKT checkpoint. This is the second daily firing of the light market-event checkpoint;
-the morning checkpoint behavior is defined by the same gate and evidence contract. Work in the
+Weekday post-close checkpoint; the scheduler owns its exact firing time. Work in the
 assigned routine worktree for `wasayijaz/henneth-desk`, never in the owner's checkout.
 
 Read [the shared reporting contract](REPORTING.md), `AGENTS.md`, `docs/ROUTINES_AFTER_SPLIT.md`,
@@ -16,16 +15,17 @@ refreshes; this routine owns the checkpoint's judgment and acknowledgement.
 ## Run
 
 1. Synchronize the assigned worktree with the canonical remote. Record the starting PKT timestamp.
-2. Run `python scripts/post_close_integrity.py` against the dated snapshot before treating any
+2. Read `state/calendar.json` first. On a weekend or listed holiday, report a `no-op` with no
+   judgement work, acknowledgement, runlog change, catch-up dispatch, or publication.
+3. Run `python scripts/post_close_integrity.py` against the dated snapshot before treating any
    checkpoint as a no-op. If the gate fails, use the approved single `desk-data.yml` catch-up
    dispatch, wait for it, synchronize again, and recheck. Never run the full cloud data pipeline
    locally; if the gate remains failed, block publication and report the exact problems.
-3. Read `state/calendar.json`. On a weekend or listed holiday, record a `no-op`, with no commit,
-   publish, or judgment work.
 4. Read `state/checkpoint_trigger.json`. If it is missing or unreadable, treat the checkpoint as
-   required and record the evidence problem. If `checkpoint_required` is false, record the summary
-   and pending list, acknowledge this PM firing with `python scripts/build_checkpoint_trigger.py
-   --ack checkpoint-pm`, append the required runlog entry, and stop as a verified `no-op`.
+   required and record the evidence problem. Its embedded `acked_at` is a build-time snapshot;
+   `state/checkpoint_ack.json` is the acknowledgement authority. If `checkpoint_required` is false,
+   record the summary and pending list, skip roles/build, verify preflight and the unchanged baseline
+   on origin/main, then complete step 10. This is a research no-op with a published receipt.
 5. If required, run the News Sentinel role once. Use a `gpt-5.6-luna` high subagent when callable;
    otherwise execute the role inline from this card. It scans the PSX announcements page plus a
    small set of Pakistani business sources since the last checkpoint, deduplicates against the tail,
@@ -43,11 +43,12 @@ refreshes; this routine owns the checkpoint's judgment and acknowledgement.
 9. When the gate passes, run `python scripts/publish.py "Checkpoint PM <PKT time>"`. Treat an
    unchanged state as a verified publication no-op. Record the exact resulting SHA and live URL
    only when actually known.
-10. Always acknowledge the PM gate, even after a safe upstream error:
-   `python scripts/build_checkpoint_trigger.py --ack checkpoint-pm`.
-11. Append one object to `state/runlog.json` with `started`, `mode` (`light`, `light-escalated`, or
-    `light-skipped`), `ended`, and a one-line `outcome` covering health, news, monitor alerts,
-    escalation, open positions, and publication. Preserve prior entries.
+10. Follow [FINALIZATION.md](FINALIZATION.md): use `scripts/finalize_routine.py` with the verified
+    research SHA, start time, `--routine pm` and mode (`light`, `light-escalated`, or `light-skipped`).
+    It acknowledges only verified work, appends run history and publishes/verifies the receipt.
+    Never acknowledge a failed or incomplete checkpoint. A local-only acknowledgement is not completion.
+11. Report the research SHA and final receipt SHA separately. Daily may proceed only after the
+    receipt is remotely verified; receipt publication failure leaves this checkpoint blocked.
 
 ## Required result fields
 
@@ -60,8 +61,8 @@ refreshes; this routine owns the checkpoint's judgment and acknowledgement.
 
 - `success`: required checkpoint completed, build/preflight passed, acknowledgement and runlog were
   written, and publication was confirmed or was an honest unchanged-state no-op.
-- `no-op`: holiday/weekend or a readable false gate; record the gate and still write the PM ack and
-  runlog. No publication is expected.
+- `no-op`: holiday/weekend with no writes. A trading-day false trigger skips research but requires
+  the remotely verified acknowledgement/runlog receipt; state its publication separately.
 - `blocked`: a required external/human dependency prevents safe continuation, such as a missing
   required source or unresolved predecessor; do not claim a push. A missing trigger file is not a
   silent no-op: run the required path and report the evidence problem.

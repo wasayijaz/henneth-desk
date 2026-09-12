@@ -16,6 +16,8 @@ import subprocess
 import sys
 
 from post_close_integrity import evaluate as evaluate_post_close
+from check_research_publication import validate_publication
+from fetch_indices import validate_daily_changes
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 STATE = os.path.join(ROOT, "state")
@@ -85,6 +87,17 @@ def check(name, required=True, min_tickers=0, ticker_fields=(), top_keys=()):
 
 def run_node_check(path):
     return subprocess.run(["node", path], capture_output=True, text=True, timeout=30)
+
+
+def check_index_daily_change():
+    indices, error = load("indices.json")
+    if error:
+        fail(f"indices.json daily change: {error}")
+        return
+    for problem in validate_daily_changes(indices):
+        fail(f"indices.json daily change: {problem}")
+    if isinstance(indices, dict) and not indices.get("daily_change"):
+        warn("indices.json: official daily changes unavailable; render unknown, never history-derived daily moves")
 
 
 def check_code_syntax():
@@ -186,6 +199,23 @@ def check_root_state_publication():
         fail(f"check_root_state_publication.py did not run — {exc}")
 
 
+def check_research_publication():
+    """Reject restricted signal fields and named-ticker Room verdict fields."""
+    signals, signals_err = load("signals.json")
+    rooms, rooms_err = load("rooms.json")
+    if signals is None:
+        fail(f"signals.json: {signals_err}")
+    if rooms is None:
+        fail(f"rooms.json: {rooms_err}")
+    if signals is None or rooms is None:
+        return
+    for problem in validate_publication(signals, rooms):
+        fail(f"research publication: {problem}")
+    health, _ = load("health.json")
+    if (health or {}).get("status") != "ok" and signals.get("active"):
+        fail("research publication: active signals require health status exactly ok")
+
+
 def check_publish_safety():
     path = os.path.join(ROOT, "scripts", "check_publish_safety.py")
     if not os.path.exists(path):
@@ -210,6 +240,18 @@ def check_routine_contract():
             fail("routine contract check failed — " + _detail(result))
     except Exception as exc:
         fail(f"check_routine_contract.py did not run — {exc}")
+
+
+def check_price_intake():
+    for name in ("check_security_identity.py", "check_history_intake.py", "check_market_capture.py",
+                 "check_data_freshness.py", "check_signal_health.py", "check_index_daily_gate.py"):
+        path = os.path.join(ROOT, "scripts", name)
+        try:
+            result = subprocess.run([sys.executable, path], capture_output=True, text=True, timeout=15)
+            if result.returncode:
+                fail(f"{name} failed — " + _detail(result))
+        except Exception as exc:
+            fail(f"{name} did not run — {exc}")
 
 
 def check_today_ui():
@@ -286,9 +328,12 @@ def main():
     check_generated_url_safety()
     check_root_ask_hardening()
     check_root_state_publication()
+    check_research_publication()
     check_publish_safety()
     check_routine_contract()
+    check_price_intake()
     check_today_ui()
+    check_index_daily_change()
     check_company_profiles()
     check_no_raw_artifacts()
 

@@ -45,11 +45,18 @@ PROHIBITED_LEGACY_STRINGS = (
     "Co-Authored-By",
     "anthropic.com",
     "noreply@anthropic",
+    "AUTOMATION-PLAN.md",
 )
 
 
 def check() -> list[str]:
     errors: list[str] = []
+    shared = ROUTINES / "README.md"
+    shared_text = shared.read_text(encoding="utf-8") if shared.is_file() else ""
+    for phrase in ("Cost approval", "explicit owner approval", "connector pricing",
+                   "unknown pricing blocks", "additional billable usage"):
+        if phrase not in shared_text:
+            errors.append(f"shared cost-approval contract missing: {phrase}")
     reporting = ROUTINES / "REPORTING.md"
     if not reporting.is_file():
         errors.append("missing docs/routines/REPORTING.md")
@@ -76,6 +83,36 @@ def check() -> list[str]:
         for legacy in PROHIBITED_LEGACY_STRINGS:
             if legacy.casefold() in text.casefold():
                 errors.append(f"{routine_id}: prohibited legacy string: {legacy}")
+
+    finalizer_calls = {
+        "henneth-pm-checkpoint": ("pm", "light"),
+        "henneth-daily-refresh": ("daily", "full"),
+        "henneth-desk-room-loop": ("room", "room"),
+        "henneth-weekly-harvest": ("harvest", "harvest"),
+    }
+    for routine_id, (cli_id, mode) in finalizer_calls.items():
+        path = ROUTINES / f"{routine_id}.md"
+        if path.is_file():
+            text = path.read_text(encoding="utf-8")
+            if "scripts/finalize_routine.py" not in text or "FINALIZATION.md" not in text:
+                errors.append(f"{routine_id}: missing remote completion receipt procedure")
+            if "Always acknowledge" in text:
+                errors.append(f"{routine_id}: unconditional acknowledgement can hide failed work")
+            if f"--routine {cli_id}" not in text or f"`{mode}`" not in text:
+                errors.append(f"{routine_id}: finalizer CLI identity/mode is not explicit")
+    if not (ROUTINES / "FINALIZATION.md").is_file():
+        errors.append("missing FINALIZATION.md")
+
+    blog_path = ROUTINES / "henneth-blog-publish.md"
+    if blog_path.is_file():
+        blog = blog_path.read_text(encoding="utf-8").casefold()
+        for phrase in ("standing blog-only authorization", "independent", "three", "draft: true",
+                       "google search console", "idempotency", "release hold"):
+            if phrase not in blog:
+                errors.append(f"blog autonomous publication contract missing: {phrase}")
+        for obsolete in ("if no item qualifies, finish as `no-op`", "must explicitly approve the reviewed"):
+            if obsolete in blog:
+                errors.append("blog contract restores retired empty-queue/per-post approval stop")
 
     return errors
 

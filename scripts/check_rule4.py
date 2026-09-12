@@ -60,7 +60,8 @@ PAYOUT_CASES = [
 
 
 # Corporate-action board suffixes. Golden cases from the 2026-08-17 universe.
-# Only XD/XB/XR collapse. NC and preference listings must stay themselves.
+# Only XD/XB/XR collapse here. Compliance badges are parsed separately from HTML;
+# an arbitrary NC suffix is never sufficient evidence to rewrite a security identity.
 SYMBOL_CASES = [
     ("FFCXD", "FFC", "XD", "Fauji Fertilizer ex-dividend counter"),
     ("HBLXD", "HBL", "XD", "Habib Bank ex-dividend counter"),
@@ -72,7 +73,7 @@ SYMBOL_CASES = [
     ("FPRMXR", "FPRM", "XR", "ex-right counter"),
     ("FFC", "FFC", None, "already canonical"),
     ("ENGROH", "ENGROH", None, "Engro Holdings is its own company, not a suffix of ENGRO"),
-    ("HASCOLNC", "HASCOLNC", None, "non-compliant listing is not an XD-style board state"),
+    ("HASCOLNC", "HASCOLNC", None, "never infer identity from an unstructured NC suffix"),
     ("EPCLPS", "EPCLPS", None, "preference share is a different security"),
     ("US500", "US500", None, "non-PSX symbols are untouched"),
     ("ffcxd", "FFC", "XD", "source case does not matter"),

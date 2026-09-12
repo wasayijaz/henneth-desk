@@ -24,14 +24,24 @@ queue, with no doorway variants or topic cannibalisation. Read [REPORTING.md](RE
 3. Run `npm run build` in `site/`. Render and inspect at 1280px and 375px: confirm no horizontal
    overflow, mobile desk-panel order, and that content remains visible when animation does not run.
    Keep the work unpublished if any gate fails.
-4. Stop for explicit human approval before the one-way publication action. If this routine is marked
-   training-only, stop before any externally visible action even if a draft is approved. Without
-   approval or after a training-mode hold, report `blocked` and leave the page in its safe review state.
-5. After approval, rerun build/render checks and publish only authored page/link paths. Probe the live
+4. The owner approved normal routine publication on 2026-09-12. Retain the coordinator's initial
+   shared-pipeline release hold until that repair is shipped and verified; while held, report
+   `blocked` and leave the page unpublished. Once cleared, no repeated per-page approval is needed;
+   every sourcing, quality, build/render and cost gate still applies.
+5. After release clearance, rerun build/render checks and publish only authored page/link paths. Probe the live
    URL for HTTP 200 and sitemap inclusion when available. Record exact commit/deploy SHA and every
    URL; use `unknown` instead of guessing.
 
 ## Required result fields
+
+After verified publication, include a separate **Google Search Console** section with short bullets:
+- **URL to inspect/request indexing:** the exact clickable production canonical URL (not preview).
+- **Live checks:** HTTP status, canonical target, noindex/robots result, and exact sitemap containing it.
+- **Google indexing:** `not checked` unless actual Search Console evidence was inspected; HTTP 200
+  and sitemap inclusion do not prove indexing. Never claim an indexing request was submitted unless done.
+- **Owner action:** paste that URL into Search Console URL Inspection and request indexing if needed.
+For no-op, draft, failed or blocked publication, say **No new URL published; nothing new to submit**.
+Existing live pages may be listed separately and must not be described as published by this run.
 
 `date`; `activation_mode`; `queue_slug`; `source_file`; `target_query`; `audience`; `cannibalisation_check`;
 `features_count`; `faq_count`; `sourced_facts[]`; `hub_link`; `footer_link`; `build`;

@@ -158,8 +158,13 @@
       const q = quant[ticker] || {};
       const l = live[ticker] || {};
       const u = universe[ticker] || {};
-      const price = toNumber(raw.price ?? raw.px ?? raw.current ?? l.current ?? l.ldcp ?? q.close);
-      const dayPct = toNumber(raw.dayPct ?? raw.ret_1d ?? raw.changePct ?? q.ret_1d ?? (l.current && l.ldcp ? (l.current / l.ldcp - 1) * 100 : null));
+      const hasSnapshot = typeof l.current === "number" && Number.isFinite(l.current) && l.current > 0;
+      const hasClose = typeof q.close === "number" && Number.isFinite(q.close) && q.close > 0;
+      const price = hasSnapshot ? l.current : hasClose ? q.close : toNumber(raw.price ?? raw.px ?? raw.current);
+      const priceAsOf = hasSnapshot ? data.live?.source_at : hasClose ? q.date : raw.priceAsOf;
+      const priceSource = hasSnapshot ? "DPS snapshot" : hasClose ? "Last available close" : "Provided price";
+      const returnAsOf = hasSnapshot && l.ldcp > 0 ? data.live?.source_at : q.date;
+      const dayPct = hasSnapshot && l.ldcp > 0 ? (l.current / l.ldcp - 1) * 100 : toNumber(q.ret_1d ?? raw.dayPct ?? raw.ret_1d ?? raw.changePct);
       const spark = Array.isArray(raw.sparkline || raw.history)
         ? (raw.sparkline || raw.history).map(r => toNumber(r?.close ?? r?.value ?? r)).filter(isFiniteNumber).slice(-limit)
         : Array.isArray(data.sparkline?.[ticker])
@@ -171,6 +176,9 @@
         name: String(raw.name || u.name || ""),
         price,
         dayPct,
+        priceAsOf: priceAsOf || "unknown",
+        priceSource,
+        returnAsOf: returnAsOf || "unknown",
         sparkline: stats.points,
         sparkChangePct: stats.changePct,
         direction: dayPct == null ? stats.direction : dayPct > FLAT_BAND ? "up" : dayPct < -FLAT_BAND ? "down" : "flat",
@@ -548,7 +556,7 @@
     const limit = Math.max(1, Math.min(12, toNumber(options.limit) || list.length || 6));
     const visible = list.slice(0, limit);
     if (!visible.length) return "";
-    return `<div class="hn-today-visual hn-today-watch" aria-label="Watchlist price snapshots"><div class="hn-chart-source">${esc(sourceStamp(options.source))}</div>
+    return `<div class="hn-today-visual hn-today-watch" aria-label="Watchlist price snapshots"><div class="hn-chart-source">Prices and returns use the dates shown per name.</div>
       ${visible.map(row => {
         const name = row.name ? ` <span class="sub">${esc(row.name.slice(0, 22))}</span>` : "";
         const values = Array.isArray(row.sparkline) ? row.sparkline : [];
@@ -556,10 +564,10 @@
           ? `${row.ticker} ${pct(row.sparkChangePct)} over the provided history window`
           : `${row.ticker} has no provided history window`;
         return `<a class="hn-today-watch-row clickable" href="/ticker/${encodeURIComponent(row.ticker)}">
-          <span class="hn-today-watch-name"><b>${esc(row.ticker)}</b>${name}</span>
+          <span class="hn-today-watch-name"><b>${esc(row.ticker)}</b>${name}<span class="hn-chart-source">${esc(row.priceSource || "Price")} · ${esc(row.priceAsOf || "unknown")}</span></span>
           <span class="r num">${row.price == null ? "-" : esc(row.price.toLocaleString("en", { maximumFractionDigits: 2 }))}</span>
           <canvas class="hn-today-spark" width="106" height="30" role="img" aria-label="${escAttr(sparkLabel)}" title="${escAttr(sparkLabel)}" data-values="${escAttr(seriesCsv(values))}" data-tone="${escAttr(row.direction)}"></canvas>
-          <span class="r num ${toneClass(row.dayPct)}">${pct(row.dayPct)}</span>
+          <span class="r num ${toneClass(row.dayPct)}">${pct(row.dayPct)}<span class="hn-chart-source">1-session · ${esc(row.returnAsOf || "unknown")}</span></span>
         </a>`;
       }).join("")}
     </div>`;
@@ -920,7 +928,7 @@
     if (watchHost) {
       const watchSymbols = data.watchlistSymbols || data.watchlist || [];
       const rows = prepareWatchlistRows(watchSymbols, data, options.watchlist || {});
-      watchHost.innerHTML = watchlistMicroHtml(rows, { ...(options.watchlist || {}), source: data.quant?.updated || data.live?.updated });
+      watchHost.innerHTML = watchlistMicroHtml(rows, { ...(options.watchlist || {}), source: data.live?.source_at || "unknown" });
       mountSparklines(watchHost);
       out.watchlist = rows.length;
     }

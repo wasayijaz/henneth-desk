@@ -263,6 +263,7 @@ interface GLLayer {
   const tplPrev = new WeakMap<HTMLElement, string[]>();
 
   function apply(): void {
+    if (!root) return;
     const v = vals();
     root.querySelectorAll<HTMLElement>('[data-tpl-style]').forEach((el) => {
       const tpl = el.getAttribute('data-tpl-style') || '';
