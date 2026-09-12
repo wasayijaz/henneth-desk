@@ -1,8 +1,48 @@
 {
- "updated": "2026-09-07",
+ "updated": "2026-09-12",
  "note": "Ranked improvement backlog for the PSX Trade Desk. Written weekly by the psx-desk-product-scout task (proposes + ranks only, never builds). The owner picks items to implement. score = impact(high3/med2/low1) / effort(high3/med2/low1); higher = do sooner.",
  "categories": "accuracy | clarity | feature",
  "items": [
+  {
+   "id": "verify-price-series-high-severity-unsurfaced",
+   "category": "accuracy",
+   "title": "High-severity price-series glitches can reach ticker charts without a visible warning",
+   "why": "state/verify.json built 2026-09-12 flags LSEVL, MDTL, CLCPS and USVIX with high-severity price_series issues and says recent stats may be wrong. pageTicker fetches verify.json, but only consumes room.price_staleness, fundamentals.div_yield and claim.price; the chart and derived stats still render from history/history_deep without showing the price-series warning. This is the remaining high-severity issue type after the broader verify-json-unsurfaced-qa item was marked done.",
+   "existing_check": "Read dashboard/app.js:3014-3017 and 3051: pageTicker selects only three issue fields and then chooses history_deep/history for series; no price_series consumer exists. Confirmed all four high-severity entries and their backend-authored messages in state/verify.json.",
+   "impact": "high",
+   "effort": "low",
+   "score": 3.0,
+   "risk": "high",
+   "change": "Render the backend-authored price_series issue in the ticker QA area and associate it with the chart/stat section.",
+   "user_benefit": "Readers can tell when a chart or derived metric may be unreliable before treating it as evidence.",
+   "build_level": "small_fix",
+   "scope_dependencies": "dashboard/app.js consumer only; depends on existing state/verify.json and its current producer.",
+   "build_scope": "Dashboard ticker QA consumer; reuse existing state/verify.json price_series messages and do not change the verifier producer.",
+   "recommended_first_stage": "Wire the existing high-severity message into the ticker warning card for the four currently flagged symbols.",
+   "tradeoffs": "Adds warning friction to four ticker pages, but keeps the intervention limited to high-severity evidence risk.",
+   "acceptance_test": "Each high-severity price_series ticker shows the verify.json message before or beside chart/stat output; clean tickers are unchanged and no warning logic is re-derived in JavaScript.",
+   "status": "suggested"
+  },
+  {
+   "id": "room-qa-flagged-badge-collapsed",
+   "category": "accuracy",
+   "title": "Compact Desk Room reveal calls every flagged QA session simply 'QA checked'",
+   "why": "The compact reveal badge in pageTicker is green whenever s.qa exists, regardless of verdict. Current QA notes for FFC, MCB, HBL and HUBC are flagged and include unresolved or material caveats, but those notes appear only after opening the full transcript. A skimming reader can therefore read 'QA checked' as clean verification when the stored verdict is flagged. This is distinct from the already-resolved missing-badge and reaffirmation-freshness items.",
+   "existing_check": "Read dashboard/app.js:4043: s.qa truthiness maps directly to qabadge ok 'QA checked'; compare current state/rooms.json QA notes for FFC, MCB, HBL and HUBC, all with flagged/flags verdicts and substantive caveats.",
+   "impact": "high",
+   "effort": "low",
+   "score": 3.0,
+   "risk": "high",
+   "change": "Map QA verdicts to distinct compact badges and show a short caveat when the verdict is flagged.",
+   "user_benefit": "A quick scan communicates the difference between clean verification and verification with material caveats.",
+   "build_level": "small_fix",
+   "scope_dependencies": "dashboard/app.js and existing qabadge styles; no new data source required.",
+   "build_scope": "Dashboard Desk Room reveal header and existing qabadge styles; use room.qa.verdict and room.qa.note only.",
+   "recommended_first_stage": "Handle clean, flagged/flags and not-yet-verified in the reveal header, with the existing QA note as the caveat source.",
+   "tradeoffs": "A less reassuring badge may slow scanning, but it prevents a flagged review from reading like a clean pass.",
+   "acceptance_test": "Compact reveal distinguishes clean, flagged and not-yet-verified states and exposes a concise flagged caveat; blocked sessions remain withheld and the full transcript remains authoritative.",
+   "status": "suggested"
+  },
   {
    "id": "room-price-staleness-unsurfaced",
    "category": "accuracy",
@@ -130,6 +170,26 @@
    "resolved_note": "Fixed 2026-08-23 — dashboard/app.js now fetches state/verify.json on the ticker page (Promise.all alongside the other 24 state files) and renders its per-ticker issues: escalation pill in the header, price-staleness card, claim.price flag list, and a div_yield crossfoot flag — all rendered from backend-authored fields/messages, no logic re-derived in JS."
   },
   {
+   "id": "explainer-cross-source-freshness-mismatch",
+   "category": "accuracy",
+   "title": "Ticker 'At a glance' has no visible freshness contract across its separate state sources",
+   "why": "The 8c5a5dfc release refreshed the current state coherently: explainer built 2026-09-12 22:11, quant 22:06, and fairvalue/dashboard 23:24; GHNI's At a glance now matches the quant close Rs 1192.49, 20-day return -7.0% and fair value Rs 1064.41. The residual product gap is that pageTicker still renders explainer, quant and fairvalue from separate files without showing their as-of times, so a future partial or out-of-order refresh could silently read as one current view. This is a freshness-transparency improvement, not a re-proposal of the released data refresh.",
+   "existing_check": "Read dashboard/app.js:3007-3028: pageTicker renders explainAll[sym] tiles without its _meta.built timestamp, while later sections read quant/fairvalue separately. Confirmed the aligned GHNI values and separate timestamps in origin/main state/explainer.json, state/quant.json, state/fairvalue.json and state/dashboard.json after 8c5a5dfc.",
+   "impact": "high",
+   "effort": "med",
+   "score": 1.5,
+   "risk": "high",
+   "change": "Show the explainer build time beside At a glance and visibly label a mismatch when its timestamp diverges from the ticker snapshot.",
+   "user_benefit": "Readers get one coherent current read instead of silently comparing values from different refresh points.",
+   "build_level": "enhancement",
+   "scope_dependencies": "explainer producer metadata plus dashboard/app.js rendering; no provider change required.",
+   "build_scope": "Dashboard/app.js freshness display plus existing explainer _meta.built; only add producer changes if the current metadata cannot be trusted.",
+   "recommended_first_stage": "Surface explainer.json _meta.built beside the At a glance heading and label divergence before changing the producer.",
+   "tradeoffs": "As-of labels add visible complexity and may expose upstream staleness, but make mixed snapshots auditable.",
+   "acceptance_test": "At a glance displays its source build time; when it differs from the ticker snapshot, the page labels the divergence, and aligned snapshots remain uncluttered.",
+   "status": "suggested"
+  },
+  {
    "id": "fundamentals-basis-undisclosed",
    "category": "accuracy",
    "title": "EPS/valuation figures never disclose consolidated vs unconsolidated basis",
@@ -197,6 +257,26 @@
    "score": 1.0,
    "status": "done",
    "resolved_note": "Fixed 2026-08-23 — scripts/run_cloud.py now runs score_fundamentals.py immediately after snapshot.py (was running before live.json's cycle refresh, the root cause of the stale-PE mismatch). scripts/compute_fairvalue.py and scripts/room_dossier.py both add a _live_pe / sc.metrics.pe read that prefers today's freshly scored P/E over fundamentals.json's own scrape-time ratio, so every consumer now shares one canonical, same-cycle P/E."
+  },
+  {
+   "id": "ticker-staged-data-loading",
+   "category": "clarity",
+   "title": "Ticker page waits for 27 state/history requests before showing its first useful section",
+   "why": "pageTicker awaits quant, universe, live, valuation, fundamentals, Room, research, explainer, verification and multiple history/optional datasets in one Promise.all. The same block includes history requests with 300000- and 600000-ms deadlines and a retry loop, so a slow optional artifact can hold up the complete first render even when the core quote and desk read are available. No timing benchmark is assumed; the request fan-out and single await are directly visible in dashboard/app.js.",
+   "existing_check": "Read dashboard/app.js:2998-3012: pageTicker starts and awaits all 27 j(...) calls together, including history, history_deep and intraday; the core sections are rendered only after that await resolves.",
+   "impact": "med",
+   "effort": "med",
+   "score": 1.0,
+   "risk": "medium",
+   "change": "Split core ticker data from optional history, research and enrichment requests so the useful read renders first and optional sections hydrate afterward.",
+   "user_benefit": "Less waiting and fewer blank/error retries when one non-core dataset is slow or unavailable.",
+   "build_level": "enhancement",
+   "scope_dependencies": "dashboard/app.js loader/render lifecycle only; preserve existing state files, explicit missing-data copy and retry boundaries.",
+   "build_scope": "Dashboard/app.js loader/render lifecycle; split existing core and optional requests without new dependencies or state files.",
+   "recommended_first_stage": "Render quote, valuation, fundamentals, Room and QA from a core request group; then lazy-load deep history and optional enrichment with explicit placeholders.",
+   "tradeoffs": "Improves resilience but increases render-state complexity; constrain the first stage to a core/optional split.",
+   "acceptance_test": "With history_deep delayed or unavailable, core ticker sections render and remain accurate; the chart shows an explicit unavailable/loading state, later hydration does not duplicate sections, and existing retry/error behavior remains bounded.",
+   "status": "suggested"
   }
  ]
 }
