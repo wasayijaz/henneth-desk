@@ -74,7 +74,9 @@ def main():
     now_dt = dt.datetime.now(PKT)
     today = now_dt.date().isoformat()
     data["live"] = live
-    data["live_at"] = now_dt.strftime("%Y-%m-%d %H:%M")
+    # The post-close integrity gate compares this instant with the official close. Preserve the
+    # offset so the value is unambiguous across machines and cannot be silently reinterpreted.
+    data["live_at"] = now_dt.isoformat(timespec="minutes")
     # First capture of a date always seeds history[today], so an intraday read has something.
     # PSX closes Mon-Thu 15:30 PKT, Fri (later of the two sessions) 16:30 PKT — a run at/after
     # that time corrects the entry to the true close instead of leaving it frozen at whatever
