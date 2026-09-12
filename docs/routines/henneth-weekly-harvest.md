@@ -21,7 +21,7 @@ graded, never an endorsement; all output is research, not advice.
    named-house, ticker, claim, and source-URL records. An empty call list is valid.
 4. Write the bounded result to `state/room_tmp/broker_calls.json`, then run
    `python scripts/room_broker_apply.py`. Drop any call lacking broker, ticker, date, or URL.
-   Refresh filings with `python scripts/fetch_research.py`, then run `python scripts/room_dossier.py`
+   Force the scheduled weekly refresh with `python scripts/fetch_research.py --force`, then run `python scripts/room_dossier.py`
    and `python scripts/room_score.py`.
 5. Rebuild `state/sector_dossiers.json` with `python scripts/sector_dossier.py`. If fewer than three
    sectors are available, record a blocked Part B and do not invent a debate.
