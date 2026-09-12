@@ -61,6 +61,10 @@ def check() -> list[str]:
                    "unknown pricing blocks", "additional billable usage"):
         if phrase not in shared_text:
             errors.append(f"shared cost-approval contract missing: {phrase}")
+    for phrase in ("Standing publication approval", "must not ask for the same approval again",
+                   "New costs", "failed gate"):
+        if phrase not in shared_text:
+            errors.append(f"shared standing-publication contract missing: {phrase}")
     reporting = ROUTINES / "REPORTING.md"
     if not reporting.is_file():
         errors.append("missing docs/routines/REPORTING.md")

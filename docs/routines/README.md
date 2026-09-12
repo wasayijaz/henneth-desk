@@ -51,6 +51,11 @@ Every run reads, in order:
 - Research may overlap, but Desk publication is serialized: PM checkpoint, Daily refresh, Desk Room.
 - Normal activated routines may publish their own verified outputs without asking again. Routines
   marked training-only stop before their first externally visible action.
+- **Standing publication approval (2026-09-13):** after the owner directly approved the Blog and
+  Harvest publication/finalization boundaries, routine-scoped commits, pushes and required
+  completion receipts must not ask for the same approval again. This covers only the routine's
+  documented path after every gate passes. New costs, schedule/model changes, CI actions,
+  destructive recovery, widened scope or a failed gate still require their own handling.
 - End with the Markdown result required by `docs/routines/REPORTING.md`.
 - Published PM, Daily, Room and Harvest runs finish with the remotely verified receipt described
   in `FINALIZATION.md`. A failed publish or local-only acknowledgement is not completion.

@@ -283,6 +283,26 @@ deleted. Completed in-task workers were closed after their changes and evidence 
   `https://henneth.app/blog/how-to-compare-psx-sectors/`, has no noindex robots meta detected,
   and appears in the HTTP-200 sitemap-0.xml. Google indexing/submission was not performed.
   Exact deployment record remains the Blog task's pending final verification.
+
+## Product scout and Harvest publication acceptance — 2026-09-13 PKT
+
+- Product scout published only `state/product_backlog.json` at
+  `4c426816c5a74892b2f18d5e425b296ad0fc6f27`. Its four new proposals and three retained
+  items were revalidated on the actual synchronized checkout; preflight and 491/491 post-close
+  integrity passed. A backlog proposal is not a shipped product feature.
+- Harvest published its corrected research at
+  `db3b538c3881726d4b39bcdb62a791386c19adc0`: two dated broker calls, one Commercial Banks
+  debate reconciled to the current dossier, and the expected derived Desk files. The prior
+  conflict recovery retained the source research and did not import stale generated prices.
+- Harvest finalization is remotely present at
+  `d809401fc502b5a4588485d19195fb335bef5c2e`. The immutable receipt names routine `harvest`,
+  original start `2026-09-12T20:27:00+05:00`, mode `harvest`, and the full research SHA;
+  its matching runlog row is also on remote main. The older training row remains historical
+  and is not treated as the completion receipt.
+- Owner supplied direct approval for the routine research push and separate finalization push,
+  then instructed the coordinator not to request repeat approval for the same documented
+  routine-scoped publication path. The standing rule is recorded in the shared runbook;
+  cost, CI, destructive, scope-expansion and failed-gate boundaries remain unchanged.
 - The integration checkout fast-forwarded normally to that same full HEAD/remote SHA while
   preserving six authored follow-up files. Harvest preparation resumed successfully in its
   canonical task with an explicit no-push/no-finalizer boundary; no duplicate research run
