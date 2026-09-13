@@ -10,6 +10,7 @@ EVENT_TYPES = {
     "hiring_expansion", "capacity_plant_expansion", "exploration_well_discovery",
     "contract_tender", "management_change", "debt_refinancing", "product_launch",
     "supplier_change", "maintenance_shutdown", "regulatory_change", "acquisition_divestment",
+    "distribution_network_expansion",
 }
 INTELLIGENCE_TYPES = {"reported_fact", "derived_fact", "inference", "scenario", "forecast"}
 SOURCE_LEVELS = {1, 2, 3, 4, 5, 6}

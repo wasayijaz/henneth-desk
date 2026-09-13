@@ -1,7 +1,7 @@
 {
  "schema_version": 2,
  "registry_version": "operating_event_registry_v1",
- "as_of": "2026-08-31",
+ "as_of": "2026-09-13",
  "pilot_symbols": [
   "ATRL",
   "BOP",
@@ -2776,7 +2776,67 @@
    "events": []
   },
   "PSO": {
-   "events": []
+   "events": [
+    {
+     "event_id": "evt_efe3e2c704a0e53e7d09",
+     "company_id": "PSO",
+     "symbol": "PSO",
+     "event_type": "distribution_network_expansion",
+     "event_subtype": "fuel_retail_and_convenience_channel",
+     "intelligence_type": "reported_fact",
+     "priority_weight": 3,
+     "detected_at": "2025-10-02T08:48:00+05:00",
+     "effective_date": "2025-06-30",
+     "expected_completion": null,
+     "business_segment": "retail_fuel_and_convenience_channel",
+     "location": "Pakistan",
+     "description": "PSO reported 107 gross new FY25 outlets and a 3,649-outlet ending network; the 69 net active change is derived from 3,649 minus 3,580.",
+     "source_url": "https://dps.psx.com.pk/download/document/260771.pdf",
+     "source_quality_level": 1,
+     "confidence": 87,
+     "estimated_scale": {
+      "fy2025_gross_new_outlets_reported": 107,
+      "fy2024_ending_network_outlets_reported": 3580,
+      "fy2025_ending_network_outlets_reported": 3649,
+      "derived_net_active_change_outlets": 69,
+      "unresolved_difference_outlets": 38,
+      "formula": "3649 - 3580 = 69; 107 - 69 = 38 unresolved difference",
+      "inference_policy": "the 38-outlet difference is not asserted as closures"
+     },
+     "expected_cost": null,
+     "affected_drivers": [
+      "retail_footprint",
+      "forecourt_convenience",
+      "fuel_distribution_reach"
+     ],
+     "expected_lag": null,
+     "historical_analogues": [],
+     "peer_analogues": [],
+     "scenario_ids": [],
+     "financial_model_version": null,
+     "evidence": [
+      {
+       "document_id": "psx:260771",
+       "source": "PSX DPS",
+       "source_url": "https://dps.psx.com.pk/download/document/260771.pdf",
+       "page": 15,
+       "text": "s. In parallel, major advancements were made in logistics with the successful completion of fuel handling facilities at all 8 designated railway sites, enhancing intermodal eﬃciency and strengthening nationwide fuel distribution capabilities. Your company has expanded its retail presence, adding 107 new outlets in FY25 to reach a network of 3,649 across Pakistan. Beyond fuel, PSO is redefining the forecourt experience with over 310 convenience stores, bringing everyday essentials closer to customers and transforming stations into destinations of choice. Raising the bar in retail excellence, PSO launched VIBE, a pioneering concept store in Karachi, Lahore, and Islamabad, with plans to transform convenience stores nationwide into innovative concept outlets, setting new benchmarks and redefining the standards of convenience retailing. Building on this transformation, your company introduced the first phase of Asaan Safar, an innovative service designed to enhance the road travel experience in Pakistan. Throu",
+       "content_sha256": "c336ba824d4010dff3878779c31bbc76fd85ab6704b4ecb4837de821f9bd0a2d",
+       "evidence_sha256": "6c4021506293daf225d5ab741690383fd4f94ad0404295765187294acb3f0b37"
+      },
+      {
+       "document_id": "psx:260771",
+       "source": "PSX DPS",
+       "source_url": "https://dps.psx.com.pk/download/document/260771.pdf",
+       "page": 310,
+       "text": "incurred by the Group on underground storage tanks, dispensing units, other equipment, construction and related work. It also includes cost incurred on modernisation and development under the \"New Vision Scheme\" on approximately 2,334 (2024: 2,250) out of the total 3,649 (2024: 3,580) retail filling station of dealers and consumer sites. In view of large number of outlets and consumer sites, the Group considers it impracticable to disclose particulars of assets not in the possession of the Group as required under the Fourth Schedule to the Companies Act, 2017. Furthermore, gas cylinders amounting to Rs. 655,287 (2024: Rs. 527,314) are not in possession of the Group. 5.2 The details of operating assets disposed off during the year are as follows: 5.1.3 Included in operating assets are assets having net book value of Rs. 1,194,298 (2024: Rs. 1,252,041) in respect of Group's share in the joint operation. Certain assets relating to joint operation in New Islamabad International Airport are not in the possessi",
+       "content_sha256": "c336ba824d4010dff3878779c31bbc76fd85ab6704b4ecb4837de821f9bd0a2d",
+       "evidence_sha256": "6a39317687989baae4ac92c094bbfd1b87c450fb857b250f6f6e9fd5cf0fa17b"
+      }
+     ],
+     "quality_flags": []
+    }
+   ]
   },
   "UBL": {
    "events": [
@@ -2977,6 +3037,7 @@
   "acquisition_divestment",
   "contract_tender",
   "debt_refinancing",
+  "distribution_network_expansion",
   "management_change",
   "product_launch",
   "regulatory_change"
@@ -2987,7 +3048,8 @@
   "intelligence_type": "reported_fact",
   "source_paths": [
    "state/company_documents.json",
-   "state/company_event_ledger.json"
+   "state/company_event_ledger.json",
+   "state/company_intel/pso_sales_expansion_evidence_gap_receipt.json"
   ],
   "source_systems": {
    "psx": {
@@ -3087,15 +3149,25 @@
      3
     ],
     "strict_pattern_key": "product_launch"
+   },
+   {
+    "event_type": "distribution_network_expansion",
+    "raw_event_types": [
+     "hash_page_bound_pso_sales_expansion_receipt"
+    ],
+    "allowed_priority_weights": [
+     3
+    ],
+    "strict_pattern_key": "pso_hash_page_bound_distribution_network_expansion"
    }
   ]
  },
- "source": "state/company_documents.json + state/company_event_ledger.json",
+ "source": "state/company_documents.json + state/company_event_ledger.json + state/company_intel/pso_sales_expansion_evidence_gap_receipt.json",
  "_meta": {
   "generator_version": "ci_artifact_integrity_v1",
-  "source_commit_sha": "836c3cdf4f7f36994498ada2d957ca35b12496b4",
-  "build_cutoff_at": "2026-08-31T17:23:47Z",
-  "generated_at": "2026-08-31T17:23:47Z",
+  "source_commit_sha": "06fd0ac5fd9547d3a1bc1b1becf1081c221b7ac6",
+  "build_cutoff_at": "2026-09-13T15:42:49Z",
+  "generated_at": "2026-09-13T15:42:49Z",
   "artifact_path": "state/company_intel/operating_events.json",
   "timestamp_semantics": {
    "build_cutoff_at": "generation boundary only; not a source-effective or source-published time",

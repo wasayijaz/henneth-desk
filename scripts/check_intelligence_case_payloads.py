@@ -21,6 +21,14 @@ from build_intelligence_cases import (
     MARI_DOC_ID,
     MARI_EVENT_ID,
     MLCF_CASE_ID,
+    PSO_CANONICAL_EVENT_ID,
+    PSO_CASE_ID,
+    PSO_CONTENT_SHA256,
+    PSO_DOC_ID,
+    PSO_EFFECTIVE_DATE,
+    PSO_KERNEL_FIELDS,
+    PSO_PUBLISHED_AT,
+    PSO_SOURCE_URL,
     PUBLIC_OFFER_DOC_ID,
     PUBLIC_OFFER_EVENT_ID,
     build as build_cases,
@@ -92,8 +100,9 @@ def main() -> None:
     first = build_cases(write=False)
     second = build_cases(write=False)
     check(json.dumps(first, sort_keys=True, ensure_ascii=False, allow_nan=False) == json.dumps(second, sort_keys=True, ensure_ascii=False, allow_nan=False), "case builder is not deterministic")
-    check(first["summary"] == {"company_count": 20, "observed_case_count": 3, "published_case_count": 0}, "case summary mismatch")
+    check(first["summary"] == {"company_count": 20, "observed_case_count": 4, "published_case_count": 0}, "case summary mismatch")
     check(set(first["companies"]) == set(first["pilot_symbols"]) and len(first["pilot_symbols"]) == 20, "pilot boundary mismatch")
+    check(first["selected_symbols"] == ["MARI", "MLCF", "PSO"], "selected symbol boundary mismatch")
     check(first["status_lifecycle"] == ["Observed", "Corroborated", "Modelled", "Validated", "Published", "Monitoring", "Closed"], "lifecycle vocabulary mismatch")
 
     mlcf = first["companies"]["MLCF"]["cases"][0]
@@ -114,6 +123,51 @@ def main() -> None:
     assert_evidence(mari_fact["evidence"][0], MARI_EVENT_ID, MARI_DOC_ID, 1, MARI_DOC_HASH)
     check(MARI_DOC_ID != "psx:265594" and MARI_DOC_HASH == "c13ccb4de58ad005bca106942721490593fe219ff45906c68280ea7856192e42", "MARI strategy document substituted")
 
+    pso = first["companies"]["PSO"]["cases"][0]
+    check(first["companies"]["PSO"]["symbol"] == "PSO" and pso["case_id"] == PSO_CASE_ID, "PSO identity mismatch")
+    check(pso["status"] == "Observed" and pso["epistemic_type"] == "reported_fact", "PSO lifecycle/epistemic mismatch")
+    pso_fact = pso["observed_facts"][0]
+    check(pso_fact["fact_id"] == "pso_fy2025_reported_network_expansion", "PSO fact mismatch")
+    pso_values = {item["label"]: item["value"] for item in pso_fact.get("reported_values") or []}
+    check(
+        pso_values.get("fy2025_gross_new_outlets") == "107"
+        and pso_values.get("fy2025_ending_network_outlets") == "3,649"
+        and pso_values.get("fy2024_ending_network_outlets") == "3,580",
+        "PSO reported values mismatch",
+    )
+    pso_refs = pso_fact.get("evidence") or []
+    check({ref.get("page") for ref in pso_refs} == {15, 310}, "PSO evidence page mismatch")
+    for ref in pso_refs:
+        check(
+            ref.get("canonical_event_id") == PSO_CANONICAL_EVENT_ID
+            and ref.get("document_id") == PSO_DOC_ID
+            and ref.get("source_url") == PSO_SOURCE_URL
+            and ref.get("content_sha256") == PSO_CONTENT_SHA256
+            and ref.get("document_published_at") == PSO_PUBLISHED_AT
+            and ref.get("event_date") == PSO_EFFECTIVE_DATE
+            and ref.get("text"),
+            "PSO evidence source binding mismatch",
+        )
+    pso_derived = {item.get("fact_id"): item for item in pso.get("derived_facts") or {}}
+    pso_recon = pso_derived.get("pso_fy2025_net_active_change_reconciliation") or {}
+    pso_derived_values = {item.get("label"): item for item in pso_recon.get("derived_values") or []}
+    check(
+        pso_derived_values.get("derived_net_active_change_outlets", {}).get("value") == 69
+        and pso_derived_values.get("unresolved_difference_outlets", {}).get("value") == 38
+        and pso_derived_values.get("unresolved_difference_outlets", {}).get("status") == "unknown_not_asserted_as_closures",
+        "PSO derived reconciliation mismatch",
+    )
+    pso_readiness = pso.get("sales_input_readiness") or {}
+    pso_gate = pso_readiness.get("financial_truth_gate") or {}
+    check(
+        pso_gate.get("status") == "not_qualified"
+        and all(value == "blocked_financial_truth_not_qualified" for value in (pso_gate.get("formal_output_statuses") or {}).values()),
+        "PSO formal outputs must remain blocked",
+    )
+    pso_requirements = pso_readiness.get("event_specific_kernel_requirements") or {}
+    check(set(pso_requirements) == set(PSO_KERNEL_FIELDS) and all(row.get("value") is None for row in pso_requirements.values()), "PSO model operands must remain null")
+    check(len(pso.get("competing_hypotheses") or []) == 3 and all(row.get("distinguishing_evidence") for row in pso.get("competing_hypotheses") or []), "PSO competing hypotheses mismatch")
+
     ledger = load_json(STATE / "company_event_ledger.json", {"companies": {}})
     documents = load_json(STATE / "company_documents.json", {"documents": {}})
     operating_events = load_json(STATE / "company_intel" / "operating_events.json", {"companies": {}})
@@ -133,7 +187,7 @@ def main() -> None:
             case = hostile_case_result(symbol, case_fn, ledger, hostile_documents, operating_events)
             check(case is None, f"{symbol} malformed document ticker binding was not rejected")
 
-    for case in (mlcf, mari):
+    for case in (mlcf, mari, pso):
         check(case["promotion_blocks"].keys() >= {"Corroborated", "Modelled", "Published"}, f"promotion blocks missing for {case['case_id']}")
         check(all(case["policy"].get(key) is True for key in ("observed_only", "no_forecast", "no_valuation", "no_market_expectations", "no_recommendation")), f"policy missing for {case['case_id']}")
         cutoff = case["as_of"]
@@ -164,6 +218,7 @@ def main() -> None:
     watch_items = sections["watch_next"].get("items") or []
     check(len(watch_items) == 4 and all(item.get("reason") for item in watch_items), "MLCF projected watch items missing source requirements")
     check(rows["MARI"]["intelligence_cases"] == first["companies"]["MARI"], "MARI case row not attached exactly")
+    check(rows["PSO"]["intelligence_cases"] == first["companies"]["PSO"], "PSO case row not attached exactly")
     projected_mari_case = next(case for case in rows["MARI"]["intelligence_cases"]["cases"] if case.get("case_id") == MARI_CASE_ID)
     mari_mechanism = (projected_mari_case.get("sections") or {}).get("mechanism") or {}
     check(mari_mechanism.get("status") == "blocked" and mari_mechanism.get("reason"), "MARI mechanism was not blocked")
@@ -187,7 +242,7 @@ def main() -> None:
         payload = row.get("intelligence_cases")
         if payload:
             check(payload.get("symbol") == symbol, f"case payload crossed ticker boundary: {symbol}")
-        if symbol not in {"MLCF", "MARI"}:
+        if symbol not in {"MLCF", "MARI", "PSO"}:
             check(payload is None or (payload.get("case_count") == 0 and payload.get("cases") == []), f"unexpected case on {symbol}")
     check(_intelligence_case_row({}, "MLCF") is None, "missing case state produced a synthetic row")
     check(_intelligence_case_row({"companies": {"MLCF": {"symbol": "MARI", "case_count": 1}}}, "MLCF") is None, "mismatched case state crossed ticker boundary")

@@ -34,6 +34,14 @@ from build_intelligence_cases import (
     MLCF_FOLLOW_THROUGH_ALIAS_EVENT_ID,
     MLCF_INDEPENDENT_CANONICAL_EVENT_BINDING,
     MLCF_LEGACY_ALIAS_EVENT_BINDING,
+    PSO_CANONICAL_EVENT_ID,
+    PSO_CASE_ID,
+    PSO_CONTENT_SHA256,
+    PSO_DOC_ID,
+    PSO_EFFECTIVE_DATE,
+    PSO_KERNEL_FIELDS,
+    PSO_PUBLISHED_AT,
+    PSO_SOURCE_URL,
     OUT,
     PUBLIC_OFFER_DOC_ID,
     PUBLIC_OFFER_EVENT_ID,
@@ -235,6 +243,14 @@ def _operating_event(inputs: dict, event_id: str, symbol: str = "MLCF") -> dict:
         if event.get("event_id") == event_id:
             return event
     raise AssertionError(f"fixture missing operating event: {event_id}")
+
+
+def _case_from_result(result: dict, symbol: str, case_id: str) -> dict:
+    row = (result.get("companies") or {}).get(symbol) or {}
+    for case in row.get("cases") or []:
+        if isinstance(case, dict) and case.get("case_id") == case_id:
+            return case
+    raise AssertionError(f"{symbol} case missing from builder result: {case_id}")
 
 
 def _counter_section(inputs: dict, section: str) -> dict:
@@ -564,6 +580,22 @@ def _assert_builder_source_mutation_tests() -> None:
         "MARI canonical evidence hash",
         lambda inputs: _operating_event(inputs, "evt_b25decfc180474cbe066", "MARI")["evidence"][0].__setitem__("evidence_sha256", "0" * 64),
     )
+    _expect_builder_rejects(
+        "PSO canonical evidence hash",
+        lambda inputs: _operating_event(inputs, PSO_CANONICAL_EVENT_ID, "PSO")["evidence"][0].__setitem__("evidence_sha256", "0" * 64),
+    )
+    _expect_builder_rejects(
+        "PSO canonical source hash",
+        lambda inputs: _operating_event(inputs, PSO_CANONICAL_EVENT_ID, "PSO")["evidence"][0].__setitem__("content_sha256", "0" * 64),
+    )
+    _expect_builder_rejects(
+        "PSO canonical page",
+        lambda inputs: _operating_event(inputs, PSO_CANONICAL_EVENT_ID, "PSO")["evidence"][0].__setitem__("page", 16),
+    )
+    _expect_builder_rejects(
+        "PSO unresolved difference promoted as closure",
+        lambda inputs: _operating_event(inputs, PSO_CANONICAL_EVENT_ID, "PSO")["estimated_scale"].__setitem__("inference_policy", "38 outlets closed"),
+    )
 
 
 def main() -> None:
@@ -579,8 +611,10 @@ def main() -> None:
         raise AssertionError("intelligence case schema/version mismatch")
     if set(state.get("pilot_symbols") or []) != pilot or set(state.get("companies") or {}) != pilot:
         raise AssertionError("intelligence case state must preserve the exact pilot boundary")
-    if state.get("summary", {}).get("observed_case_count") != 3 or state.get("summary", {}).get("published_case_count") != 0:
-        raise AssertionError("expected exactly three observed cases and zero published cases")
+    if state.get("summary", {}).get("observed_case_count") != 4 or state.get("summary", {}).get("published_case_count") != 0:
+        raise AssertionError("expected exactly four observed cases and zero published cases")
+    if state.get("selected_symbols") != ["MARI", "MLCF", "PSO"]:
+        raise AssertionError("expected three distinct selected symbols: MARI, MLCF, PSO")
     row = (state.get("companies") or {}).get("MLCF") or {}
     cases = row.get("cases") or []
     if row.get("status") != "observed_seed_available" or len(cases) != 1:
@@ -708,6 +742,68 @@ def main() -> None:
         if status not in (mari_sales_case.get("promotion_blocks") or {}):
             raise AssertionError(f"MARI sales-led case missing promotion block for {status}")
     _assert_mari_mechanism_blocked(mari_sales_case, "MARI sales-led")
+
+    pso_row = (state.get("companies") or {}).get("PSO") or {}
+    pso_cases = pso_row.get("cases") or []
+    if pso_row.get("status") != "observed_seed_available" or len(pso_cases) != 1:
+        raise AssertionError("PSO observed seed missing")
+    pso_case = next((case for case in pso_cases if case.get("case_id") == PSO_CASE_ID), None)
+    if pso_case is None or pso_case.get("status") != "Observed":
+        raise AssertionError("PSO case identity/status mismatch")
+    if pso_case.get("epistemic_type") != "reported_fact" or pso_case.get("symbol") != "PSO":
+        raise AssertionError("PSO case epistemic or issuer identity mismatch")
+    _assert_no_forbidden_payload(pso_case)
+    pso_facts = {fact.get("fact_id"): fact for fact in pso_case.get("observed_facts") or []}
+    if set(pso_facts) != {"pso_fy2025_reported_network_expansion"}:
+        raise AssertionError("PSO observed facts mismatch")
+    pso_values = {row.get("label"): row.get("value") for row in pso_facts["pso_fy2025_reported_network_expansion"].get("reported_values") or []}
+    if pso_values.get("fy2025_gross_new_outlets") != "107" or pso_values.get("fy2025_ending_network_outlets") != "3,649" or pso_values.get("fy2024_ending_network_outlets") != "3,580":
+        raise AssertionError("PSO reported network values mismatch")
+    pso_refs = pso_facts["pso_fy2025_reported_network_expansion"].get("evidence") or []
+    if {ref.get("page") for ref in pso_refs} != {15, 310}:
+        raise AssertionError("PSO evidence pages mismatch")
+    for ref in pso_refs:
+        if (
+            ref.get("canonical_event_id") != PSO_CANONICAL_EVENT_ID
+            or ref.get("document_id") != PSO_DOC_ID
+            or ref.get("source_url") != PSO_SOURCE_URL
+            or ref.get("content_sha256") != PSO_CONTENT_SHA256
+            or ref.get("document_published_at") != PSO_PUBLISHED_AT
+            or ref.get("event_date") != PSO_EFFECTIVE_DATE
+            or not ref.get("text")
+        ):
+            raise AssertionError("PSO source lineage mismatch")
+    derived = {fact.get("fact_id"): fact for fact in pso_case.get("derived_facts") or []}
+    pso_recon = derived.get("pso_fy2025_net_active_change_reconciliation") or {}
+    derived_values = {row.get("label"): row for row in pso_recon.get("derived_values") or []}
+    if (
+        pso_recon.get("formula") != "fy2025_ending_network_outlets - fy2024_ending_network_outlets"
+        or derived_values.get("derived_net_active_change_outlets", {}).get("value") != 69
+        or derived_values.get("unresolved_difference_outlets", {}).get("value") != 38
+        or derived_values.get("unresolved_difference_outlets", {}).get("status") != "unknown_not_asserted_as_closures"
+    ):
+        raise AssertionError("PSO derived reconciliation mismatch")
+    readiness = pso_case.get("sales_input_readiness") or {}
+    gate = readiness.get("financial_truth_gate") or {}
+    if gate.get("status") != "not_qualified" or any(
+        value != "blocked_financial_truth_not_qualified"
+        for value in (gate.get("formal_output_statuses") or {}).values()
+    ):
+        raise AssertionError("PSO formal outputs must remain blocked by red financial truth")
+    requirements = readiness.get("event_specific_kernel_requirements") or {}
+    if set(requirements) != set(PSO_KERNEL_FIELDS) or any(row.get("value") is not None for row in requirements.values()):
+        raise AssertionError("PSO case must not invent model operands")
+    guardrails = readiness.get("guardrails") or {}
+    if guardrails.get("unresolved_38_outlet_difference_not_asserted_as_closures") is not True:
+        raise AssertionError("PSO unresolved-difference guardrail missing")
+    if len(pso_case.get("competing_hypotheses") or []) != 3 or any(
+        not row.get("distinguishing_evidence") for row in pso_case.get("competing_hypotheses") or []
+    ):
+        raise AssertionError("PSO competing hypotheses need distinguishing evidence")
+    for status in ("Corroborated", "Modelled", "Published"):
+        if status not in (pso_case.get("promotion_blocks") or {}):
+            raise AssertionError(f"PSO case missing promotion block for {status}")
+
     if _dump(without_root_meta(state)) != _dump(without_root_meta(cases_builder.build(write=False))):
         raise AssertionError("intelligence case rebuild is not deterministic")
     _assert_mlcf_counters_project_source_truth_only()
@@ -730,7 +826,7 @@ def main() -> None:
         "intelligence_cases",
         expected_slice_row,
     )
-    print("intelligence_cases: PASS (MLCF and MARI Observed seeds, 3 official citations)")
+    print("intelligence_cases: PASS (MLCF, MARI and PSO Observed seeds, PSO formal outputs blocked)")
 
 
 if __name__ == "__main__":

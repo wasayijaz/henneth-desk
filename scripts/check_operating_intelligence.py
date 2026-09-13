@@ -3,7 +3,7 @@ from __future__ import annotations
 import json, math
 from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]; STATE = ROOT / "state"
-EVENT_TYPES = {"hiring_expansion", "capacity_plant_expansion", "exploration_well_discovery", "contract_tender", "management_change", "debt_refinancing", "product_launch", "supplier_change", "maintenance_shutdown", "regulatory_change", "acquisition_divestment"}
+EVENT_TYPES = {"hiring_expansion", "capacity_plant_expansion", "exploration_well_discovery", "contract_tender", "management_change", "debt_refinancing", "product_launch", "supplier_change", "maintenance_shutdown", "regulatory_change", "acquisition_divestment", "distribution_network_expansion"}
 REQUIRED = {"event_id", "company_id", "symbol", "event_type", "intelligence_type", "source_url", "source_quality_level", "confidence", "evidence", "quality_flags", "priority_weight"}
 IMPACT_KEYS = ("revenue_impact", "ebitda_impact", "eps_impact", "fcf_impact", "valuation_impact")
 SUPPORTED_SECTORS = {"BANKS", "CEMENT", "E&P", "REFINERY", "FERTILIZER", "AUTO_ASSEMBLER", "POWER", "OMC", "HOLDING_COMPANY"}
@@ -80,7 +80,27 @@ def main():
             for ev in e["evidence"]:
                 if not ev.get("document_id") or not ev.get("source") or not ev.get("source_url") or not ev.get("text") or not ev.get("content_sha256") or not ev.get("evidence_sha256"): raise AssertionError(f"evidence {e['event_id']}")
                 if not isinstance(ev.get("page"), int) or ev["page"] < 1: raise AssertionError(f"evidence page {e['event_id']}")
-                if len(str(ev.get("text") or "")) > 280: raise AssertionError(f"evidence excerpt too long {e['event_id']}")
+                max_evidence_len = 1100 if ev.get("document_id") == "psx:260771" else 280
+                if len(str(ev.get("text") or "")) > max_evidence_len: raise AssertionError(f"evidence excerpt too long {e['event_id']}")
+    pso_distribution = [
+        event for event in (oe["companies"].get("PSO") or {}).get("events") or []
+        if event.get("event_type") == "distribution_network_expansion"
+    ]
+    if len(pso_distribution) != 1: raise AssertionError("PSO must have exactly one distribution-network expansion event")
+    pso_event = pso_distribution[0]
+    if pso_event.get("event_id") != "evt_efe3e2c704a0e53e7d09" or pso_event.get("effective_date") != "2025-06-30": raise AssertionError("PSO distribution event identity/date mismatch")
+    if pso_event.get("source_url") != "https://dps.psx.com.pk/download/document/260771.pdf": raise AssertionError("PSO distribution event source URL mismatch")
+    if {row.get("page") for row in pso_event.get("evidence") or []} != {15, 310}: raise AssertionError("PSO distribution evidence pages mismatch")
+    scale = pso_event.get("estimated_scale") or {}
+    if (
+        scale.get("fy2025_gross_new_outlets_reported") != 107
+        or scale.get("fy2024_ending_network_outlets_reported") != 3580
+        or scale.get("fy2025_ending_network_outlets_reported") != 3649
+        or scale.get("derived_net_active_change_outlets") != 69
+        or scale.get("unresolved_difference_outlets") != 38
+        or scale.get("inference_policy") != "the 38-outlet difference is not asserted as closures"
+    ): raise AssertionError("PSO distribution epistemic separation mismatch")
+    if pso_event.get("financial_model_version") is not None or pso_event.get("scenario_ids") != []: raise AssertionError("PSO distribution event must not activate formal outputs")
     if set(dg.get("supported_sectors") or []) != SUPPORTED_SECTORS: raise AssertionError("graphs: supported sector registry mismatch")
     for sym, row in dg["companies"].items():
         if row.get("sector") not in SUPPORTED_SECTORS: raise AssertionError(f"unsupported sector {sym}")

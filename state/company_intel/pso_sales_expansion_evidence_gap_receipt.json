@@ -8,13 +8,14 @@
  "case_family": "sales_led_expansion",
  "event_type": "distribution_network_expansion",
  "event_subtype": "fuel_retail_and_convenience_channel",
- "status": "evidence_gap_no_observed_seed",
- "selection_state": "selected_candidate_pending_evidence_ingestion",
- "observed_seed_permitted": false,
+ "status": "observed_seed_promoted",
+ "selection_state": "canonical_observed_layer_promoted",
+ "observed_seed_permitted": true,
  "event_period_end": "2025-06-30",
- "available_on": null,
- "source_cutoff": null,
+ "available_on": "2025-10-02",
+ "source_cutoff": "2025-10-02T08:48:00+05:00",
  "audit_authority": "docs/CASE_C_SALES_EXPANSION_CANDIDATE_AUDIT.md",
+ "intake_revision": "psx_260771_hash_page_bound_v1",
  "required_decisive_evidence": {
   "accepted_sources": [
    "retained_hash_page_bound_official_pso_fy2025_results_release",
@@ -41,11 +42,63 @@
    "download_status": "failed",
    "download_error": "ValueError:PDF exceeds 12582912 byte limit",
    "content_sha256": null,
-   "qualifies_observed_seed": false,
-   "no_go_reason": "metadata_only_or_download_failed_without_retained_hash_page_evidence"
+   "qualifies_observed_seed": true,
+   "no_go_reason": null
+  },
+  "decisive_psx_260771": {
+   "status": "hash_page_bound_observed_seed_defensible",
+   "document_id": "psx:260771",
+   "title": "Transmission of Annual Report for the year ended June 30, 2025",
+   "source": "PSX DPS",
+   "source_url": "https://dps.psx.com.pk/download/document/260771.pdf",
+   "raw_path": ".cache/company_intel/pso_sales_expansion_intake/260771.pdf",
+   "published_at": "2025-10-02T08:48:00+05:00",
+   "available_on": "2025-10-02",
+   "content_sha256": "c336ba824d4010dff3878779c31bbc76fd85ab6704b4ecb4837de821f9bd0a2d",
+   "content_length": 13034584,
+   "page_count": 420,
+   "media_type": "application/pdf",
+   "document_specific_oversized_handling": {
+    "status": "accepted_for_this_document_only",
+    "global_default_cap_preserved_bytes": 12582912,
+    "document_specific_max_bytes": 14680064,
+    "reason": "psx:260771 exceeds the default 12 MiB transport cap but remains below the exact PSO FY2025 annual-report cap"
+   },
+   "event_date": "2025-06-30",
+   "event_date_basis": "FY2025 completed retail-network/channel expansion disclosed in the annual report; not a per-outlet opening date",
+   "event_type": "distribution_network_expansion",
+   "event_subtype": "fuel_retail_and_convenience_channel",
+   "evidence": [
+    {
+     "evidence_id": "pso_fy2025_retail_network_channel_expansion",
+     "page": 15,
+     "text": "s. In parallel, major advancements were made in logistics with the successful completion of fuel handling facilities at all 8 designated railway sites, enhancing intermodal eﬃciency and strengthening nationwide fuel distribution capabilities. Your company has expanded its retail presence, adding 107 new outlets in FY25 to reach a network of 3,649 across Pakistan. Beyond fuel, PSO is redefining the forecourt experience with over 310 convenience stores, bringing everyday essentials closer to customers and transforming stations into destinations of choice. Raising the bar in retail excellence, PSO launched VIBE, a pioneering concept store in Karachi, Lahore, and Islamabad, with plans to transform convenience stores nationwide into innovative concept outlets, setting new benchmarks and redefining the standards of convenience retailing. Building on this transformation, your company introduced the first phase of Asaan Safar, an innovative service designed to enhance the road travel experience in Pakistan. Throu",
+     "source_url": "https://dps.psx.com.pk/download/document/260771.pdf",
+     "content_sha256": "c336ba824d4010dff3878779c31bbc76fd85ab6704b4ecb4837de821f9bd0a2d"
+    },
+    {
+     "evidence_id": "pso_fy2025_network_count_reconciliation",
+     "page": 310,
+     "text": "incurred by the Group on underground storage tanks, dispensing units, other equipment, construction and related work. It also includes cost incurred on modernisation and development under the \"New Vision Scheme\" on approximately 2,334 (2024: 2,250) out of the total 3,649 (2024: 3,580) retail filling station of dealers and consumer sites. In view of large number of outlets and consumer sites, the Group considers it impracticable to disclose particulars of assets not in the possession of the Group as required under the Fourth Schedule to the Companies Act, 2017. Furthermore, gas cylinders amounting to Rs. 655,287 (2024: Rs. 527,314) are not in possession of the Group. 5.2 The details of operating assets disposed off during the year are as follows: 5.1.3 Included in operating assets are assets having net book value of Rs. 1,194,298 (2024: Rs. 1,252,041) in respect of Group's share in the joint operation. Certain assets relating to joint operation in New Islamabad International Airport are not in the possessi",
+     "source_url": "https://dps.psx.com.pk/download/document/260771.pdf",
+     "content_sha256": "c336ba824d4010dff3878779c31bbc76fd85ab6704b4ecb4837de821f9bd0a2d"
+    }
+   ],
+   "network_reconciliation": {
+    "fy2024_ending_network_outlets": 3580,
+    "fy2025_gross_new_outlets": 107,
+    "fy2025_ending_network_outlets": 3649,
+    "derived_net_active_change_outlets": 69,
+    "unknown_closures_or_reclassifications_outlets": 38,
+    "inference_policy": "do_not_infer_the_38_outlet_difference"
+   },
+   "qualifies_observed_seed": true,
+   "case_seed_promoted": true,
+   "financial_facts_promoted": false
   },
   "company_documents_psx_260771_present": false,
-  "operating_events_pso_distribution_candidates": 0,
+  "operating_events_pso_distribution_candidates": 1,
+  "intelligence_cases_pso_observed_candidates": 1,
   "source_registry_pso_document_links": [
    {
     "id": "issuer:3800f6e7294336d5319e9336",
@@ -155,13 +208,13 @@
   ]
  },
  "reported_fact_candidates_unpromoted": {
-  "basis": "docs/CASE_C_SALES_EXPANSION_CANDIDATE_AUDIT.md; not promoted because decisive official FY2025 source is not retained/hash-page-bound in this checkout",
+  "basis": "docs/CASE_C_SALES_EXPANSION_CANDIDATE_AUDIT.md plus hash/page-bound psx:260771",
   "fy2024_ending_network_outlets": 3580,
   "fy2025_gross_new_outlets": 107,
   "fy2025_ending_network_outlets": 3649,
   "derived_net_active_change_outlets": 69,
   "unknown_closures_or_reclassifications_outlets": 38,
-  "promotion_status": "not_promoted_to_reported_facts"
+  "promotion_status": "promoted_to_canonical_observed_layer_reported_facts"
  },
  "epistemic_boundaries": {
   "gross_openings_are_not_net_additions": true,
@@ -171,29 +224,43 @@
   "reported_market_share_or_pat_must_not_be_backsolved_as_causal_expansion_impact": true
  },
  "downstream_status": {
-  "intelligence_case_seed": "blocked",
-  "operating_event": "blocked",
+  "intelligence_case_seed": "observed",
+  "operating_event": "observed",
+  "financial_forecast": "blocked",
   "scenario_model": "blocked",
   "valuation": "blocked",
+  "market_expectations": "blocked",
   "publication": "blocked"
  },
  "blocked_reasons": [
-  "PSO:canonical_distribution_network_expansion_event_absent",
-  "PSO:corporate_card_station_list_is_undated_current_footprint_not_expansion_event",
-  "PSO:fy2025_decisive_source_not_retained_hash_page_bound",
-  "PSO:gross_openings_vs_net_network_change_unreconciled",
-  "sales_lane:no_observed_case_seed_permitted"
+  "PSO:corroboration_not_independent_originator",
+  "PSO:financial_truth_still_not_qualified",
+  "PSO:source_bound_operating_observation_only"
  ],
  "run_receipt": {
-  "input_sha256": "40b44c7a987dea23994c667a2062960cd1fbfc11094648960a5fc1a45bb5b168",
+  "input_sha256": "4c280b8a5c98d1115a2553dd61e68fed041e7b0ebfbf1c35492d393840d2ee6d",
   "output_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
   "contract_version": "pso_sales_expansion_evidence_gap_receipt_v1"
  },
  "policy": {
   "research_only": true,
   "no_advice": true,
-  "no_fetch": true,
-  "no_promotion": true,
+  "builder_no_network": true,
+  "single_official_pdf_fetched_for_this_bounded_intake": true,
+  "canonical_observed_layer_promotion_only": true,
+  "no_promotion": false,
+  "no_financial_promotion": true,
   "fail_closed": true
+ },
+ "_meta": {
+  "generator_version": "ci_artifact_integrity_v1",
+  "source_commit_sha": "06fd0ac5fd9547d3a1bc1b1becf1081c221b7ac6",
+  "build_cutoff_at": "2026-09-13T15:42:49Z",
+  "generated_at": "2026-09-13T15:42:49Z",
+  "artifact_path": "state/company_intel/pso_sales_expansion_evidence_gap_receipt.json",
+  "timestamp_semantics": {
+   "build_cutoff_at": "generation boundary only; not a source-effective or source-published time",
+   "generated_at": "artifact generation time only; not a source-effective or source-published time"
+  }
  }
 }

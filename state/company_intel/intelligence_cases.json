@@ -26,7 +26,8 @@
  ],
  "selected_symbols": [
   "MARI",
-  "MLCF"
+  "MLCF",
+  "PSO"
  ],
  "status_lifecycle": [
   "Observed",
@@ -46,7 +47,7 @@
  },
  "summary": {
   "company_count": 20,
-  "observed_case_count": 3,
+  "observed_case_count": 4,
   "published_case_count": 0
  },
  "companies": {
@@ -83,7 +84,7 @@
    "case_count": 0,
    "cases": [],
    "rejection_reasons": [
-    "no_selected_observed_case_seed"
+    "dgkc_pp_bag_commissioning_rejected_missing_source_published_at_available_on_and_event_date"
    ]
   },
   "ENGROH": {
@@ -240,6 +241,10 @@
       "Published": "Blocked: no forecast, valuation, reverse-expectations output, investor conclusion or release gate is complete."
      },
      "sections": {
+      "mechanism": {
+       "status": "blocked",
+       "reason": "MARI mechanism remains blocked: financial truth is not_qualified (0/5 annual income triplets, 0/8 reported-quarter fact sets, 0/5 annual operating cash-flow periods; missing_official_share_count_capital_note_tie_out) and the retained Peshawar Block filings do not provide reserves, discovery, production, well-cost, development-timing, capex, operating-cost, commodity-exposure or project-economics inputs. requires five annual and eight direct reported-quarter full-statement schedules, deterministic EBITDA/FCF operand lineage, an official share-count capital-note tie-out, and no unresolved canonical conflicts."
+      },
       "analogues": {
        "status": "available",
        "epistemic_type": "derived_fact",
@@ -470,6 +475,12 @@
        "no_numeric_model_output": true
       }
      },
+     "sections": {
+      "mechanism": {
+       "status": "blocked",
+       "reason": "MARI mechanism remains blocked: financial truth is not_qualified (0/5 annual income triplets, 0/8 reported-quarter fact sets, 0/5 annual operating cash-flow periods; missing_official_share_count_capital_note_tie_out) and the retained Karakoram-01 launch filing does not provide source-qualified revenue, contracted-capacity, utilisation, pricing, capex, ramp, margin or EPS inputs. requires five annual and eight direct reported-quarter full-statement schedules, deterministic EBITDA/FCF operand lineage, an official share-count capital-note tie-out, and no unresolved canonical conflicts."
+      }
+     },
      "policy": {
       "observed_only": true,
       "no_forecast": true,
@@ -663,12 +674,8 @@
        },
        "qualified_reported_quarter_fact_sets": {
         "required": 8,
-        "present": 3,
-        "qualified_periods": [
-         "2026-03-31",
-         "2025-12-31",
-         "2025-09-30"
-        ]
+        "present": 0,
+        "qualified_periods": []
        },
        "annual_operating_cash_flow": {
         "required": 5,
@@ -748,6 +755,46 @@
       }
      },
      "sections": {
+      "mechanism": {
+       "status": "available",
+       "epistemic_type": "reported_fact",
+       "text": "Observed operating linkage only: MLCF first disclosed a public offer/control transaction for PIOC. A later MLCF filing then reported PIOC dispatches included in MLCF local-market totals after the February 2026 acquisition.",
+       "items": [
+        {
+         "id": "reported_control_to_dispatch_linkage",
+         "text": "The two retained filings establish a control-to-dispatch reporting linkage, not a quantified transaction outcome.",
+         "reason": "Does not establish standalone PIOC capacity, volume, revenue, margin, EPS, debt, cash flow, synergies, or a forecast; it does not activate a financial model.",
+         "evidence": [
+          {
+           "event_id": "evt_cb44dc32c91b0c5712a5",
+           "document_id": "psx:267429",
+           "document_title": "MLCF-Material Information to PSX",
+           "document_published_at": "2025-12-18T12:52:00+05:00",
+           "document_retrieved_at": "2026-08-18T01:54:00+05:00",
+           "content_sha256": "98cf83c9a286999c8006a7f73f490248f26694c9edbfc815b3dbd9188ee22a54",
+           "source": "PSX DPS",
+           "source_url": "https://dps.psx.com.pk/download/document/267429.pdf",
+           "page": 3,
+           "text": "8904_5, Fax: +9242.38373067 EqnaH: mjgfl@kmlg.earn PUBLIC ANNOUNCEMENT OF PUBLIC OFFER TO ACQUIRE UP TO 26,623,096 SHARES (1.E. 11.72% SHARES) AND CONTROL OF PIONEER CEMENT LIMITED (“PIOC” OR 'TARGrr COMPANY”) BY MAPLE LEAF CEMENT FACrORY…",
+           "event_date": "2025-12-18T12:52:00+05:00"
+          },
+          {
+           "event_id": "evt_25bfb52e721191c7b644",
+           "document_id": "psx:275425",
+           "document_title": "Transmission of Quarterly Financial Statements for the Period Ended 31.03.2026",
+           "document_published_at": "2026-04-28T10:25:00+05:00",
+           "document_retrieved_at": "2026-08-31T15:13:14+05:00",
+           "content_sha256": "744a0c710043d6e0a7de36bb99f21ca50f0f9346f6972b957f6733a47deae11f",
+           "source": "PSX DPS",
+           "source_url": "https://dps.psx.com.pk/download/document/275425.pdf",
+           "page": 4,
+           "text": "in local market and inclusion of Pioneer Cement Limited’s dispatches in total due to its acquisition during the month of February 2026. The export sales volume reduced from 173,489 tons to 78,135 tons, a decline of 54.96% from the previous…",
+           "event_date": "2026-04-28T10:25:00+05:00"
+          }
+         ]
+        }
+       ]
+      },
       "analogues": {
        "status": "available",
        "epistemic_type": "derived_fact",
@@ -879,12 +926,391 @@
   },
   "PSO": {
    "symbol": "PSO",
-   "status": "no_observed_case",
-   "case_count": 0,
-   "cases": [],
-   "rejection_reasons": [
-    "no_selected_observed_case_seed"
-   ]
+   "status": "observed_seed_available",
+   "case_count": 1,
+   "cases": [
+    {
+     "case_id": "case_pso_fy2025_distribution_network_expansion_observed_v1",
+     "symbol": "PSO",
+     "case_family": "distribution_network_expansion",
+     "case_type": "fuel_retail_and_convenience_channel_expansion",
+     "status": "Observed",
+     "epistemic_type": "reported_fact",
+     "as_of": "2025-10-02T08:48:00+05:00",
+     "summary": "Observed official-source seed: PSO reported adding 107 gross new outlets in FY25 and ending FY2025 with a network of 3,649 outlets across Pakistan.",
+     "observed_facts": [
+      {
+       "fact_id": "pso_fy2025_reported_network_expansion",
+       "source_event_id": "evt_efe3e2c704a0e53e7d09",
+       "document_id": "psx:260771",
+       "event_date": "2025-06-30",
+       "statement": "PSO reported FY2025 gross outlet additions and ending network counts.",
+       "reported_values": [
+        {
+         "label": "fy2025_gross_new_outlets",
+         "value": "107"
+        },
+        {
+         "label": "fy2025_ending_network_outlets",
+         "value": "3,649"
+        },
+        {
+         "label": "fy2024_ending_network_outlets",
+         "value": "3,580"
+        },
+        {
+         "label": "convenience_stores",
+         "value": "over 310"
+        },
+        {
+         "label": "vibe_concept_store_cities",
+         "value": "Karachi, Lahore, and Islamabad"
+        }
+       ],
+       "evidence": [
+        {
+         "canonical_event_id": "evt_efe3e2c704a0e53e7d09",
+         "canonical_event_id_binding": "exact_canonical_operating_event",
+         "document_id": "psx:260771",
+         "document_title": "Transmission of Annual Report for the year ended June 30, 2025",
+         "document_published_at": "2025-10-02T08:48:00+05:00",
+         "document_retrieved_at": null,
+         "content_sha256": "c336ba824d4010dff3878779c31bbc76fd85ab6704b4ecb4837de821f9bd0a2d",
+         "source": "PSX DPS",
+         "source_url": "https://dps.psx.com.pk/download/document/260771.pdf",
+         "page": 15,
+         "text": "s. In parallel, major advancements were made in logistics with the successful completion of fuel handling facilities at all 8 designated railway sites, enhancing intermodal eﬃciency and strengthening nationwide fuel distribution capabilities. Your company has expanded its retail presence, adding 107 new outlets in FY25 to reach a network of 3,649 across Pakistan. Beyond fuel, PSO is redefining the forecourt experience with over 310 convenience stores, bringing everyday essentials closer to customers and transforming stations into destinations of choice. Raising the bar in retail excellence, PSO launched VIBE, a pioneering concept store in Karachi, Lahore, and Islamabad, with plans to transform convenience stores nationwide into innovative concept outlets, setting new benchmarks and redefining the standards of convenience retailing. Building on this transformation, your company introduced the first phase of Asaan Safar, an innovative service designed to enhance the road travel experience in Pakistan. Throu",
+         "evidence_sha256": "6c4021506293daf225d5ab741690383fd4f94ad0404295765187294acb3f0b37",
+         "event_date": "2025-06-30"
+        },
+        {
+         "canonical_event_id": "evt_efe3e2c704a0e53e7d09",
+         "canonical_event_id_binding": "exact_canonical_operating_event",
+         "document_id": "psx:260771",
+         "document_title": "Transmission of Annual Report for the year ended June 30, 2025",
+         "document_published_at": "2025-10-02T08:48:00+05:00",
+         "document_retrieved_at": null,
+         "content_sha256": "c336ba824d4010dff3878779c31bbc76fd85ab6704b4ecb4837de821f9bd0a2d",
+         "source": "PSX DPS",
+         "source_url": "https://dps.psx.com.pk/download/document/260771.pdf",
+         "page": 310,
+         "text": "incurred by the Group on underground storage tanks, dispensing units, other equipment, construction and related work. It also includes cost incurred on modernisation and development under the \"New Vision Scheme\" on approximately 2,334 (2024: 2,250) out of the total 3,649 (2024: 3,580) retail filling station of dealers and consumer sites. In view of large number of outlets and consumer sites, the Group considers it impracticable to disclose particulars of assets not in the possession of the Group as required under the Fourth Schedule to the Companies Act, 2017. Furthermore, gas cylinders amounting to Rs. 655,287 (2024: Rs. 527,314) are not in possession of the Group. 5.2 The details of operating assets disposed off during the year are as follows: 5.1.3 Included in operating assets are assets having net book value of Rs. 1,194,298 (2024: Rs. 1,252,041) in respect of Group's share in the joint operation. Certain assets relating to joint operation in New Islamabad International Airport are not in the possessi",
+         "evidence_sha256": "6a39317687989baae4ac92c094bbfd1b87c450fb857b250f6f6e9fd5cf0fa17b",
+         "event_date": "2025-06-30"
+        }
+       ]
+      }
+     ],
+     "derived_facts": [
+      {
+       "fact_id": "pso_fy2025_net_active_change_reconciliation",
+       "epistemic_type": "derived_fact",
+       "formula": "fy2025_ending_network_outlets - fy2024_ending_network_outlets",
+       "operands": {
+        "fy2025_ending_network_outlets": 3649,
+        "fy2024_ending_network_outlets": 3580
+       },
+       "derived_values": [
+        {
+         "label": "derived_net_active_change_outlets",
+         "value": 69
+        },
+        {
+         "label": "unresolved_difference_outlets",
+         "value": 38,
+         "status": "unknown_not_asserted_as_closures"
+        }
+       ],
+       "boundary": "107 gross additions minus 69 net active change leaves 38 outlets unexplained by the retained source.",
+       "evidence": [
+        {
+         "canonical_event_id": "evt_efe3e2c704a0e53e7d09",
+         "canonical_event_id_binding": "exact_canonical_operating_event",
+         "document_id": "psx:260771",
+         "document_title": "Transmission of Annual Report for the year ended June 30, 2025",
+         "document_published_at": "2025-10-02T08:48:00+05:00",
+         "document_retrieved_at": null,
+         "content_sha256": "c336ba824d4010dff3878779c31bbc76fd85ab6704b4ecb4837de821f9bd0a2d",
+         "source": "PSX DPS",
+         "source_url": "https://dps.psx.com.pk/download/document/260771.pdf",
+         "page": 15,
+         "text": "s. In parallel, major advancements were made in logistics with the successful completion of fuel handling facilities at all 8 designated railway sites, enhancing intermodal eﬃciency and strengthening nationwide fuel distribution capabilities. Your company has expanded its retail presence, adding 107 new outlets in FY25 to reach a network of 3,649 across Pakistan. Beyond fuel, PSO is redefining the forecourt experience with over 310 convenience stores, bringing everyday essentials closer to customers and transforming stations into destinations of choice. Raising the bar in retail excellence, PSO launched VIBE, a pioneering concept store in Karachi, Lahore, and Islamabad, with plans to transform convenience stores nationwide into innovative concept outlets, setting new benchmarks and redefining the standards of convenience retailing. Building on this transformation, your company introduced the first phase of Asaan Safar, an innovative service designed to enhance the road travel experience in Pakistan. Throu",
+         "evidence_sha256": "6c4021506293daf225d5ab741690383fd4f94ad0404295765187294acb3f0b37",
+         "event_date": "2025-06-30"
+        },
+        {
+         "canonical_event_id": "evt_efe3e2c704a0e53e7d09",
+         "canonical_event_id_binding": "exact_canonical_operating_event",
+         "document_id": "psx:260771",
+         "document_title": "Transmission of Annual Report for the year ended June 30, 2025",
+         "document_published_at": "2025-10-02T08:48:00+05:00",
+         "document_retrieved_at": null,
+         "content_sha256": "c336ba824d4010dff3878779c31bbc76fd85ab6704b4ecb4837de821f9bd0a2d",
+         "source": "PSX DPS",
+         "source_url": "https://dps.psx.com.pk/download/document/260771.pdf",
+         "page": 310,
+         "text": "incurred by the Group on underground storage tanks, dispensing units, other equipment, construction and related work. It also includes cost incurred on modernisation and development under the \"New Vision Scheme\" on approximately 2,334 (2024: 2,250) out of the total 3,649 (2024: 3,580) retail filling station of dealers and consumer sites. In view of large number of outlets and consumer sites, the Group considers it impracticable to disclose particulars of assets not in the possession of the Group as required under the Fourth Schedule to the Companies Act, 2017. Furthermore, gas cylinders amounting to Rs. 655,287 (2024: Rs. 527,314) are not in possession of the Group. 5.2 The details of operating assets disposed off during the year are as follows: 5.1.3 Included in operating assets are assets having net book value of Rs. 1,194,298 (2024: Rs. 1,252,041) in respect of Group's share in the joint operation. Certain assets relating to joint operation in New Islamabad International Airport are not in the possessi",
+         "evidence_sha256": "6a39317687989baae4ac92c094bbfd1b87c450fb857b250f6f6e9fd5cf0fa17b",
+         "event_date": "2025-06-30"
+        }
+       ]
+      }
+     ],
+     "alternative_readings": [
+      {
+       "alternative_id": "gross_openings_not_net_footprint",
+       "reading": "The 107 figure is gross openings; only 69 net active outlets are derived from the ending network counts.",
+       "status": "retained_as_observed_only",
+       "distinguishing_evidence": "An official outlet roll-forward would separate openings, closures, relocations, reclassifications and counting-basis changes."
+      },
+      {
+       "alternative_id": "unresolved_difference_not_closures",
+       "reading": "The 38-outlet difference may reflect closures, replacements, reclassifications, timing or counting basis; the retained source does not identify it.",
+       "status": "unknown_unresolved",
+       "distinguishing_evidence": "PSO disclosure explicitly reconciling FY2025 gross openings to FY2024 and FY2025 active outlet counts."
+      },
+      {
+       "alternative_id": "channel_upgrade_not_quantified_financial_impact",
+       "reading": "Convenience stores, VIBE and Asaan Safar may change mix or customer experience, but the retained filing does not quantify revenue, margin, capex, utilisation or EPS.",
+       "status": "unknown_unresolved",
+       "distinguishing_evidence": "Source-qualified store-level sales, litres per outlet, margin, capex, working-capital and EPS bridge inputs."
+      }
+     ],
+     "competing_hypotheses": [
+      {
+       "hypothesis_id": "net_expansion_drives_incremental_throughput",
+       "claim": "The 69 derived net active outlets could increase PSO distribution reach and fuel throughput.",
+       "status": "untested",
+       "distinguishing_evidence": "Post-expansion litres, margin and market-share data by outlet cohort."
+      },
+      {
+       "hypothesis_id": "network_refresh_offsets_attrition",
+       "claim": "The gross openings could mainly refresh or replace weaker sites rather than create a proportional volume step-up.",
+       "status": "untested",
+       "distinguishing_evidence": "Outlet closures, relocations, same-site throughput and dealer-site status changes."
+      },
+      {
+       "hypothesis_id": "nonfuel_channel_mix_matters_more_than_outlet_count",
+       "claim": "Convenience/VIBE and travel-service layers could matter more economically than the outlet-count change itself.",
+       "status": "untested",
+       "distinguishing_evidence": "Convenience-store revenue, gross margin and VIBE conversion disclosures."
+      }
+     ],
+     "monitoring": [
+      "Watch for an official outlet roll-forward that explains the 38-outlet difference.",
+      "Watch for source-qualified throughput, store sales, margin, capex, working-capital or EPS bridge inputs.",
+      "Watch for PSO financial-truth qualification before any formal model, valuation, or expectations work."
+     ],
+     "promotion_blocks": {
+      "Corroborated": "Blocked: retained evidence is a single official PSO/PSX annual-report source and no independent-originator corroboration is attached.",
+      "Modelled": "Blocked: PSO financial truth is not qualified and no source-qualified outlet economics, margin, capex, working-capital or EPS operands are attached.",
+      "Published": "Blocked: no forecast, scenario, valuation, reverse-expectations output, investor conclusion or release gate is complete."
+     },
+     "sales_input_readiness": {
+      "status": "observed_only",
+      "kernel_activation": "blocked",
+      "attribution": {
+       "company": "PSO",
+       "network": "fuel retail and convenience channel",
+       "event": "FY2025 distribution network expansion"
+      },
+      "source_binding": {
+       "event_id": "evt_efe3e2c704a0e53e7d09",
+       "event_id_binding": "exact_canonical_operating_event",
+       "document_id": "psx:260771",
+       "pages": [
+        15,
+        310
+       ],
+       "content_sha256": "c336ba824d4010dff3878779c31bbc76fd85ab6704b4ecb4837de821f9bd0a2d",
+       "evidence_sha256": [
+        "6c4021506293daf225d5ab741690383fd4f94ad0404295765187294acb3f0b37",
+        "6a39317687989baae4ac92c094bbfd1b87c450fb857b250f6f6e9fd5cf0fa17b"
+       ],
+       "published_at": "2025-10-02T08:48:00+05:00",
+       "effective_date": "2025-06-30",
+       "available_on": "2025-10-02"
+      },
+      "financial_truth_gate": {
+       "status": "not_qualified",
+       "annual_income_triplets": {
+        "required": 5,
+        "present": 0,
+        "qualified_periods": []
+       },
+       "qualified_reported_quarter_fact_sets": {
+        "required": 8,
+        "present": 0,
+        "qualified_periods": []
+       },
+       "annual_operating_cash_flow": {
+        "required": 5,
+        "present": 0,
+        "qualified_periods": []
+       },
+       "share_count": {
+        "status": "missing_official_share_count_capital_note_tie_out",
+        "available_on": null,
+        "source": null
+       },
+       "formal_output_statuses": {
+        "financial_model_status": "blocked_financial_truth_not_qualified",
+        "formal_valuation_status": "blocked_financial_truth_not_qualified",
+        "reverse_expectations_status": "blocked_financial_truth_not_qualified"
+       }
+      },
+      "event_specific_kernel_requirements": {
+       "incremental_revenue_pkr": {
+        "value": null,
+        "source_label": "retained_state_only:no_source_qualified_event_input",
+        "status": "missing_source_bound_input"
+       },
+       "incremental_gross_profit_pkr": {
+        "value": null,
+        "source_label": "retained_state_only:no_source_qualified_event_input",
+        "status": "missing_source_bound_input"
+       },
+       "incremental_ebitda_pkr": {
+        "value": null,
+        "source_label": "retained_state_only:no_source_qualified_event_input",
+        "status": "missing_source_bound_input"
+       },
+       "incremental_eps_pkr": {
+        "value": null,
+        "source_label": "retained_state_only:no_source_qualified_event_input",
+        "status": "missing_source_bound_input"
+       },
+       "incremental_operating_cash_flow_pkr": {
+        "value": null,
+        "source_label": "retained_state_only:no_source_qualified_event_input",
+        "status": "missing_source_bound_input"
+       },
+       "incremental_capex_pkr": {
+        "value": null,
+        "source_label": "retained_state_only:no_source_qualified_event_input",
+        "status": "missing_source_bound_input"
+       },
+       "mature_volume_per_outlet": {
+        "value": null,
+        "source_label": "retained_state_only:no_source_qualified_event_input",
+        "status": "missing_source_bound_input"
+       },
+       "dealer_margin_per_litre": {
+        "value": null,
+        "source_label": "retained_state_only:no_source_qualified_event_input",
+        "status": "missing_source_bound_input"
+       },
+       "convenience_store_sales": {
+        "value": null,
+        "source_label": "retained_state_only:no_source_qualified_event_input",
+        "status": "missing_source_bound_input"
+       },
+       "working_capital_per_outlet": {
+        "value": null,
+        "source_label": "retained_state_only:no_source_qualified_event_input",
+        "status": "missing_source_bound_input"
+       }
+      },
+      "guardrails": {
+       "gross_openings_not_net_additions": true,
+       "unresolved_38_outlet_difference_not_asserted_as_closures": true,
+       "vibe_subset_of_convenience_stores_not_added_to_outlet_count": true,
+       "no_revenue_margin_eps_cash_flow_or_valuation_output": true
+      }
+     },
+     "sections": {
+      "mechanism": {
+       "status": "available",
+       "epistemic_type": "reported_fact",
+       "text": "Observed operating linkage only: PSO reported FY2025 retail-network growth, convenience-store footprint, VIBE concept stores and Asaan Safar service launch. The retained source does not quantify financial impact.",
+       "items": [
+        {
+         "id": "reported_distribution_network_expansion",
+         "text": "The retained filing establishes a reported distribution-network expansion and a derived net active outlet change, not a forecast or valuation input.",
+         "reason": "Does not establish revenue, margin, EPS, cash flow, capex, working-capital, market expectations, recommendation, or the cause of the 38-outlet difference.",
+         "evidence": [
+          {
+           "canonical_event_id": "evt_efe3e2c704a0e53e7d09",
+           "canonical_event_id_binding": "exact_canonical_operating_event",
+           "document_id": "psx:260771",
+           "document_title": "Transmission of Annual Report for the year ended June 30, 2025",
+           "document_published_at": "2025-10-02T08:48:00+05:00",
+           "document_retrieved_at": null,
+           "content_sha256": "c336ba824d4010dff3878779c31bbc76fd85ab6704b4ecb4837de821f9bd0a2d",
+           "source": "PSX DPS",
+           "source_url": "https://dps.psx.com.pk/download/document/260771.pdf",
+           "page": 15,
+           "text": "s. In parallel, major advancements were made in logistics with the successful completion of fuel handling facilities at all 8 designated railway sites, enhancing intermodal eﬃciency and strengthening nationwide fuel distribution capabilities. Your company has expanded its retail presence, adding 107 new outlets in FY25 to reach a network of 3,649 across Pakistan. Beyond fuel, PSO is redefining the forecourt experience with over 310 convenience stores, bringing everyday essentials closer to customers and transforming stations into destinations of choice. Raising the bar in retail excellence, PSO launched VIBE, a pioneering concept store in Karachi, Lahore, and Islamabad, with plans to transform convenience stores nationwide into innovative concept outlets, setting new benchmarks and redefining the standards of convenience retailing. Building on this transformation, your company introduced the first phase of Asaan Safar, an innovative service designed to enhance the road travel experience in Pakistan. Throu",
+           "evidence_sha256": "6c4021506293daf225d5ab741690383fd4f94ad0404295765187294acb3f0b37",
+           "event_date": "2025-06-30"
+          },
+          {
+           "canonical_event_id": "evt_efe3e2c704a0e53e7d09",
+           "canonical_event_id_binding": "exact_canonical_operating_event",
+           "document_id": "psx:260771",
+           "document_title": "Transmission of Annual Report for the year ended June 30, 2025",
+           "document_published_at": "2025-10-02T08:48:00+05:00",
+           "document_retrieved_at": null,
+           "content_sha256": "c336ba824d4010dff3878779c31bbc76fd85ab6704b4ecb4837de821f9bd0a2d",
+           "source": "PSX DPS",
+           "source_url": "https://dps.psx.com.pk/download/document/260771.pdf",
+           "page": 310,
+           "text": "incurred by the Group on underground storage tanks, dispensing units, other equipment, construction and related work. It also includes cost incurred on modernisation and development under the \"New Vision Scheme\" on approximately 2,334 (2024: 2,250) out of the total 3,649 (2024: 3,580) retail filling station of dealers and consumer sites. In view of large number of outlets and consumer sites, the Group considers it impracticable to disclose particulars of assets not in the possession of the Group as required under the Fourth Schedule to the Companies Act, 2017. Furthermore, gas cylinders amounting to Rs. 655,287 (2024: Rs. 527,314) are not in possession of the Group. 5.2 The details of operating assets disposed off during the year are as follows: 5.1.3 Included in operating assets are assets having net book value of Rs. 1,194,298 (2024: Rs. 1,252,041) in respect of Group's share in the joint operation. Certain assets relating to joint operation in New Islamabad International Airport are not in the possessi",
+           "evidence_sha256": "6a39317687989baae4ac92c094bbfd1b87c450fb857b250f6f6e9fd5cf0fa17b",
+           "event_date": "2025-06-30"
+          }
+         ]
+        }
+       ]
+      },
+      "formal_outputs": {
+       "status": "blocked",
+       "reason": "PSO financial truth remains not_qualified and event-specific economic operands are all source-labelled nulls."
+      }
+     },
+     "policy": {
+      "observed_only": true,
+      "no_forecast": true,
+      "no_valuation": true,
+      "no_market_expectations": true,
+      "no_recommendation": true,
+      "reported_values_only": true
+     },
+     "source_lineage": [
+      {
+       "canonical_event_id": "evt_efe3e2c704a0e53e7d09",
+       "canonical_event_id_binding": "exact_canonical_operating_event",
+       "document_id": "psx:260771",
+       "document_title": "Transmission of Annual Report for the year ended June 30, 2025",
+       "document_published_at": "2025-10-02T08:48:00+05:00",
+       "document_retrieved_at": null,
+       "content_sha256": "c336ba824d4010dff3878779c31bbc76fd85ab6704b4ecb4837de821f9bd0a2d",
+       "source": "PSX DPS",
+       "source_url": "https://dps.psx.com.pk/download/document/260771.pdf",
+       "page": 15,
+       "text": "s. In parallel, major advancements were made in logistics with the successful completion of fuel handling facilities at all 8 designated railway sites, enhancing intermodal eﬃciency and strengthening nationwide fuel distribution capabilities. Your company has expanded its retail presence, adding 107 new outlets in FY25 to reach a network of 3,649 across Pakistan. Beyond fuel, PSO is redefining the forecourt experience with over 310 convenience stores, bringing everyday essentials closer to customers and transforming stations into destinations of choice. Raising the bar in retail excellence, PSO launched VIBE, a pioneering concept store in Karachi, Lahore, and Islamabad, with plans to transform convenience stores nationwide into innovative concept outlets, setting new benchmarks and redefining the standards of convenience retailing. Building on this transformation, your company introduced the first phase of Asaan Safar, an innovative service designed to enhance the road travel experience in Pakistan. Throu",
+       "evidence_sha256": "6c4021506293daf225d5ab741690383fd4f94ad0404295765187294acb3f0b37",
+       "event_date": "2025-06-30"
+      },
+      {
+       "canonical_event_id": "evt_efe3e2c704a0e53e7d09",
+       "canonical_event_id_binding": "exact_canonical_operating_event",
+       "document_id": "psx:260771",
+       "document_title": "Transmission of Annual Report for the year ended June 30, 2025",
+       "document_published_at": "2025-10-02T08:48:00+05:00",
+       "document_retrieved_at": null,
+       "content_sha256": "c336ba824d4010dff3878779c31bbc76fd85ab6704b4ecb4837de821f9bd0a2d",
+       "source": "PSX DPS",
+       "source_url": "https://dps.psx.com.pk/download/document/260771.pdf",
+       "page": 310,
+       "text": "incurred by the Group on underground storage tanks, dispensing units, other equipment, construction and related work. It also includes cost incurred on modernisation and development under the \"New Vision Scheme\" on approximately 2,334 (2024: 2,250) out of the total 3,649 (2024: 3,580) retail filling station of dealers and consumer sites. In view of large number of outlets and consumer sites, the Group considers it impracticable to disclose particulars of assets not in the possession of the Group as required under the Fourth Schedule to the Companies Act, 2017. Furthermore, gas cylinders amounting to Rs. 655,287 (2024: Rs. 527,314) are not in possession of the Group. 5.2 The details of operating assets disposed off during the year are as follows: 5.1.3 Included in operating assets are assets having net book value of Rs. 1,194,298 (2024: Rs. 1,252,041) in respect of Group's share in the joint operation. Certain assets relating to joint operation in New Islamabad International Airport are not in the possessi",
+       "evidence_sha256": "6a39317687989baae4ac92c094bbfd1b87c450fb857b250f6f6e9fd5cf0fa17b",
+       "event_date": "2025-06-30"
+      }
+     ]
+    }
+   ],
+   "rejection_reasons": []
   },
   "UBL": {
    "symbol": "UBL",
@@ -898,9 +1324,9 @@
  },
  "_meta": {
   "generator_version": "ci_artifact_integrity_v1",
-  "source_commit_sha": "836c3cdf4f7f36994498ada2d957ca35b12496b4",
-  "build_cutoff_at": "2026-08-31T17:23:47Z",
-  "generated_at": "2026-08-31T17:23:47Z",
+  "source_commit_sha": "06fd0ac5fd9547d3a1bc1b1becf1081c221b7ac6",
+  "build_cutoff_at": "2026-09-13T15:42:49Z",
+  "generated_at": "2026-09-13T15:42:49Z",
   "artifact_path": "state/company_intel/intelligence_cases.json",
   "timestamp_semantics": {
    "build_cutoff_at": "generation boundary only; not a source-effective or source-published time",

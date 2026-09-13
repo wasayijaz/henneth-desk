@@ -85,6 +85,27 @@ MARI_SALES_KERNEL_FIELDS = (
     "incremental_eps_pkr",
 )
 
+PSO_CASE_ID = "case_pso_fy2025_distribution_network_expansion_observed_v1"
+PSO_CANONICAL_EVENT_ID = stable_id("PSO", "psx:260771", "distribution_network_expansion")
+PSO_DOC_ID = "psx:260771"
+PSO_SOURCE_URL = "https://dps.psx.com.pk/download/document/260771.pdf"
+PSO_TITLE = "Transmission of Annual Report for the year ended June 30, 2025"
+PSO_CONTENT_SHA256 = "c336ba824d4010dff3878779c31bbc76fd85ab6704b4ecb4837de821f9bd0a2d"
+PSO_PUBLISHED_AT = "2025-10-02T08:48:00+05:00"
+PSO_EFFECTIVE_DATE = "2025-06-30"
+PSO_KERNEL_FIELDS = (
+    "incremental_revenue_pkr",
+    "incremental_gross_profit_pkr",
+    "incremental_ebitda_pkr",
+    "incremental_eps_pkr",
+    "incremental_operating_cash_flow_pkr",
+    "incremental_capex_pkr",
+    "mature_volume_per_outlet",
+    "dealer_margin_per_litre",
+    "convenience_store_sales",
+    "working_capital_per_outlet",
+)
+
 
 def _parse_time(value: Any) -> datetime | None:
     if value in (None, ""):
@@ -1355,6 +1376,301 @@ def _mari_sales_case(
     return case, [], refs
 
 
+def _pso_distribution_candidates(operating_events: dict[str, Any]) -> list[dict[str, Any]]:
+    events = (((operating_events.get("companies") or {}).get("PSO") or {}).get("events") or [])
+    candidates = []
+    for event in events:
+        if not isinstance(event, dict):
+            continue
+        if event.get("event_id") == PSO_CANONICAL_EVENT_ID:
+            candidates.append(event)
+            continue
+        for row in event.get("evidence") or []:
+            if isinstance(row, dict) and row.get("document_id") == PSO_DOC_ID:
+                candidates.append(event)
+                break
+    return candidates
+
+
+def _validate_pso_distribution_source(event: dict[str, Any]) -> dict[str, Any]:
+    _require_equal("PSO distribution.event_id", event.get("event_id"), PSO_CANONICAL_EVENT_ID)
+    _require_equal("PSO distribution.company_id", event.get("company_id"), "PSO")
+    _require_equal("PSO distribution.symbol", event.get("symbol"), "PSO")
+    _require_equal("PSO distribution.event_type", event.get("event_type"), "distribution_network_expansion")
+    _require_equal("PSO distribution.event_subtype", event.get("event_subtype"), "fuel_retail_and_convenience_channel")
+    _require_equal("PSO distribution.intelligence_type", event.get("intelligence_type"), "reported_fact")
+    _require_equal("PSO distribution.priority_weight", event.get("priority_weight"), 3)
+    _require_iso_time("PSO distribution.detected_at", event.get("detected_at"), PSO_PUBLISHED_AT)
+    _require_equal("PSO distribution.effective_date", event.get("effective_date"), PSO_EFFECTIVE_DATE)
+    _require_equal("PSO distribution.source_url", event.get("source_url"), PSO_SOURCE_URL)
+    scale = event.get("estimated_scale")
+    if not isinstance(scale, dict):
+        _fail("PSO distribution estimated-scale block is missing")
+    expected_scale = {
+        "fy2025_gross_new_outlets_reported": 107,
+        "fy2024_ending_network_outlets_reported": 3580,
+        "fy2025_ending_network_outlets_reported": 3649,
+        "derived_net_active_change_outlets": 69,
+        "unresolved_difference_outlets": 38,
+        "formula": "3649 - 3580 = 69; 107 - 69 = 38 unresolved difference",
+        "inference_policy": "the 38-outlet difference is not asserted as closures",
+    }
+    _require_equal("PSO distribution.estimated_scale", scale, expected_scale)
+    evidence = event.get("evidence")
+    if not isinstance(evidence, list) or len(evidence) != 2:
+        _fail("PSO distribution requires exactly two evidence rows")
+    pages = {row.get("page") for row in evidence if isinstance(row, dict)}
+    _require_equal("PSO distribution.evidence.pages", pages, {15, 310})
+    for row in evidence:
+        if not isinstance(row, dict):
+            _fail("PSO distribution evidence row is invalid")
+        _require_equal("PSO distribution.evidence.document_id", row.get("document_id"), PSO_DOC_ID)
+        _require_equal("PSO distribution.evidence.source", row.get("source"), "PSX DPS")
+        _require_equal("PSO distribution.evidence.source_url", row.get("source_url"), PSO_SOURCE_URL)
+        _require_equal(
+            "PSO distribution.evidence.content_sha256",
+            _require_hex64("PSO distribution.evidence.content_sha256", row.get("content_sha256")),
+            PSO_CONTENT_SHA256,
+        )
+        text = _require_text("PSO distribution.evidence.text", row.get("text"))
+        _require_equal(
+            "PSO distribution.evidence.evidence_sha256",
+            _require_hex64("PSO distribution.evidence.evidence_sha256", row.get("evidence_sha256")),
+            evidence_hash(PSO_DOC_ID, PSO_SOURCE_URL, row.get("page"), text),
+        )
+        if row.get("page") == 15 and "107 new outlets" not in text:
+            _fail("PSO distribution page 15 evidence must report 107 new outlets")
+        if row.get("page") == 310 and ("3,649" not in text or "3,580" not in text):
+            _fail("PSO distribution page 310 evidence must report both network counts")
+    return {
+        "event_id": PSO_CANONICAL_EVENT_ID,
+        "event_id_binding": "exact_canonical_operating_event",
+        "document_id": PSO_DOC_ID,
+        "pages": [15, 310],
+        "content_sha256": PSO_CONTENT_SHA256,
+        "evidence_sha256": [row.get("evidence_sha256") for row in evidence],
+        "published_at": PSO_PUBLISHED_AT,
+        "effective_date": PSO_EFFECTIVE_DATE,
+        "available_on": "2025-10-02",
+    }
+
+
+def _pso_evidence_refs(event: dict[str, Any], binding: dict[str, Any]) -> list[dict[str, Any]]:
+    refs = []
+    for row in event.get("evidence") or []:
+        refs.append({
+            "canonical_event_id": event.get("event_id"),
+            "canonical_event_id_binding": binding["event_id_binding"],
+            "document_id": PSO_DOC_ID,
+            "document_title": PSO_TITLE,
+            "document_published_at": PSO_PUBLISHED_AT,
+            "document_retrieved_at": None,
+            "content_sha256": PSO_CONTENT_SHA256,
+            "source": "PSX DPS",
+            "source_url": row.get("source_url") or PSO_SOURCE_URL,
+            "page": row.get("page"),
+            "text": row.get("text"),
+            "evidence_sha256": row.get("evidence_sha256"),
+            "event_date": PSO_EFFECTIVE_DATE,
+        })
+    return refs
+
+
+def _pso_financial_truth_gate() -> dict[str, Any]:
+    qualification = load_json(STATE / "company_intel" / "financial_truth_qualification.json", {})
+    row = (qualification.get("companies") or {}).get("PSO") if isinstance(qualification, dict) else None
+    row = row if isinstance(row, dict) else {}
+    downstream = row.get("downstream") if isinstance(row.get("downstream"), dict) else {}
+
+    def blocked_value(key: str) -> str:
+        value = downstream.get(key)
+        return value if isinstance(value, str) and value.startswith("blocked") else "blocked_financial_truth_not_qualified"
+
+    return {
+        "status": "not_qualified",
+        "annual_income_triplets": row.get("annual_income_triplets") or {"required": 5, "present": 0, "qualified_periods": []},
+        "qualified_reported_quarter_fact_sets": row.get("qualified_reported_quarter_fact_sets") or {"required": 8, "present": 0, "qualified_periods": []},
+        "annual_operating_cash_flow": row.get("annual_operating_cash_flow") or {"required": 5, "present": 0, "qualified_periods": []},
+        "share_count": row.get("share_count") or {"status": "missing_official_share_count_capital_note_tie_out"},
+        "formal_output_statuses": {
+            "financial_model_status": blocked_value("forecast"),
+            "formal_valuation_status": blocked_value("valuation"),
+            "reverse_expectations_status": blocked_value("market_expectations"),
+        },
+    }
+
+
+def _pso_sales_input_readiness(binding: dict[str, Any], gate: dict[str, Any]) -> dict[str, Any]:
+    return {
+        "status": "observed_only",
+        "kernel_activation": "blocked",
+        "attribution": {
+            "company": "PSO",
+            "network": "fuel retail and convenience channel",
+            "event": "FY2025 distribution network expansion",
+        },
+        "source_binding": binding,
+        "financial_truth_gate": gate,
+        "event_specific_kernel_requirements": {
+            field: {
+                "value": None,
+                "source_label": "retained_state_only:no_source_qualified_event_input",
+                "status": "missing_source_bound_input",
+            }
+            for field in PSO_KERNEL_FIELDS
+        },
+        "guardrails": {
+            "gross_openings_not_net_additions": True,
+            "unresolved_38_outlet_difference_not_asserted_as_closures": True,
+            "vibe_subset_of_convenience_stores_not_added_to_outlet_count": True,
+            "no_revenue_margin_eps_cash_flow_or_valuation_output": True,
+        },
+    }
+
+
+def _pso_distribution_case(
+    operating_events: dict[str, Any],
+) -> tuple[dict[str, Any] | None, list[str], list[dict[str, Any]]]:
+    candidates = _pso_distribution_candidates(operating_events)
+    if not candidates:
+        return None, ["missing_pso_distribution_network_expansion_operating_event"], []
+    if len(candidates) > 1:
+        _fail("PSO distribution source chain ambiguous: multiple canonical events bind to psx:260771")
+    binding = _validate_pso_distribution_source(candidates[0])
+    refs = _pso_evidence_refs(candidates[0], binding)
+    cutoff = _source_cutoff(refs)
+    gate = _pso_financial_truth_gate()
+    readiness = _pso_sales_input_readiness(binding, gate)
+    case = {
+        "case_id": PSO_CASE_ID,
+        "symbol": "PSO",
+        "case_family": "distribution_network_expansion",
+        "case_type": "fuel_retail_and_convenience_channel_expansion",
+        "status": "Observed",
+        "epistemic_type": "reported_fact",
+        "as_of": cutoff,
+        "summary": (
+            "Observed official-source seed: PSO reported adding 107 gross new outlets in FY25 "
+            "and ending FY2025 with a network of 3,649 outlets across Pakistan."
+        ),
+        "observed_facts": [
+            {
+                "fact_id": "pso_fy2025_reported_network_expansion",
+                "source_event_id": binding["event_id"],
+                "document_id": PSO_DOC_ID,
+                "event_date": PSO_EFFECTIVE_DATE,
+                "statement": "PSO reported FY2025 gross outlet additions and ending network counts.",
+                "reported_values": [
+                    {"label": "fy2025_gross_new_outlets", "value": "107"},
+                    {"label": "fy2025_ending_network_outlets", "value": "3,649"},
+                    {"label": "fy2024_ending_network_outlets", "value": "3,580"},
+                    {"label": "convenience_stores", "value": "over 310"},
+                    {"label": "vibe_concept_store_cities", "value": "Karachi, Lahore, and Islamabad"},
+                ],
+                "evidence": refs,
+            },
+        ],
+        "derived_facts": [
+            {
+                "fact_id": "pso_fy2025_net_active_change_reconciliation",
+                "epistemic_type": "derived_fact",
+                "formula": "fy2025_ending_network_outlets - fy2024_ending_network_outlets",
+                "operands": {
+                    "fy2025_ending_network_outlets": 3649,
+                    "fy2024_ending_network_outlets": 3580,
+                },
+                "derived_values": [
+                    {"label": "derived_net_active_change_outlets", "value": 69},
+                    {"label": "unresolved_difference_outlets", "value": 38, "status": "unknown_not_asserted_as_closures"},
+                ],
+                "boundary": "107 gross additions minus 69 net active change leaves 38 outlets unexplained by the retained source.",
+                "evidence": refs,
+            },
+        ],
+        "alternative_readings": [
+            {
+                "alternative_id": "gross_openings_not_net_footprint",
+                "reading": "The 107 figure is gross openings; only 69 net active outlets are derived from the ending network counts.",
+                "status": "retained_as_observed_only",
+                "distinguishing_evidence": "An official outlet roll-forward would separate openings, closures, relocations, reclassifications and counting-basis changes.",
+            },
+            {
+                "alternative_id": "unresolved_difference_not_closures",
+                "reading": "The 38-outlet difference may reflect closures, replacements, reclassifications, timing or counting basis; the retained source does not identify it.",
+                "status": "unknown_unresolved",
+                "distinguishing_evidence": "PSO disclosure explicitly reconciling FY2025 gross openings to FY2024 and FY2025 active outlet counts.",
+            },
+            {
+                "alternative_id": "channel_upgrade_not_quantified_financial_impact",
+                "reading": "Convenience stores, VIBE and Asaan Safar may change mix or customer experience, but the retained filing does not quantify revenue, margin, capex, utilisation or EPS.",
+                "status": "unknown_unresolved",
+                "distinguishing_evidence": "Source-qualified store-level sales, litres per outlet, margin, capex, working-capital and EPS bridge inputs.",
+            },
+        ],
+        "competing_hypotheses": [
+            {
+                "hypothesis_id": "net_expansion_drives_incremental_throughput",
+                "claim": "The 69 derived net active outlets could increase PSO distribution reach and fuel throughput.",
+                "status": "untested",
+                "distinguishing_evidence": "Post-expansion litres, margin and market-share data by outlet cohort.",
+            },
+            {
+                "hypothesis_id": "network_refresh_offsets_attrition",
+                "claim": "The gross openings could mainly refresh or replace weaker sites rather than create a proportional volume step-up.",
+                "status": "untested",
+                "distinguishing_evidence": "Outlet closures, relocations, same-site throughput and dealer-site status changes.",
+            },
+            {
+                "hypothesis_id": "nonfuel_channel_mix_matters_more_than_outlet_count",
+                "claim": "Convenience/VIBE and travel-service layers could matter more economically than the outlet-count change itself.",
+                "status": "untested",
+                "distinguishing_evidence": "Convenience-store revenue, gross margin and VIBE conversion disclosures.",
+            },
+        ],
+        "monitoring": [
+            "Watch for an official outlet roll-forward that explains the 38-outlet difference.",
+            "Watch for source-qualified throughput, store sales, margin, capex, working-capital or EPS bridge inputs.",
+            "Watch for PSO financial-truth qualification before any formal model, valuation, or expectations work.",
+        ],
+        "promotion_blocks": {
+            "Corroborated": "Blocked: retained evidence is a single official PSO/PSX annual-report source and no independent-originator corroboration is attached.",
+            "Modelled": "Blocked: PSO financial truth is not qualified and no source-qualified outlet economics, margin, capex, working-capital or EPS operands are attached.",
+            "Published": "Blocked: no forecast, scenario, valuation, reverse-expectations output, investor conclusion or release gate is complete.",
+        },
+        "sales_input_readiness": readiness,
+        "sections": {
+            "mechanism": {
+                "status": "available",
+                "epistemic_type": "reported_fact",
+                "text": (
+                    "Observed operating linkage only: PSO reported FY2025 retail-network growth, "
+                    "convenience-store footprint, VIBE concept stores and Asaan Safar service launch. "
+                    "The retained source does not quantify financial impact."
+                ),
+                "items": [{
+                    "id": "reported_distribution_network_expansion",
+                    "text": (
+                        "The retained filing establishes a reported distribution-network expansion and a "
+                        "derived net active outlet change, not a forecast or valuation input."
+                    ),
+                    "reason": (
+                        "Does not establish revenue, margin, EPS, cash flow, capex, working-capital, "
+                        "market expectations, recommendation, or the cause of the 38-outlet difference."
+                    ),
+                    "evidence": refs,
+                }],
+            },
+            "formal_outputs": {
+                "status": "blocked",
+                "reason": "PSO financial truth remains not_qualified and event-specific economic operands are all source-labelled nulls.",
+            },
+        },
+        "policy": _policy(),
+        "source_lineage": refs,
+    }
+    return case, [], refs
+
+
 def build(write: bool = True) -> dict[str, Any]:
     profiles = load_json(STATE / "company_profiles.json", {})
     ledger = load_json(STATE / "company_event_ledger.json", {"companies": {}})
@@ -1371,7 +1687,8 @@ def build(write: bool = True) -> dict[str, Any]:
         ledger, documents, operating_events, event_studies, mari_history, reprocess_receipts,
     )
     mari_sales_case, mari_sales_rejections, mari_sales_refs = _mari_sales_case(ledger, documents, operating_events)
-    refs = [*mlcf_refs, *mari_refs, *mari_sales_refs]
+    pso_case, pso_rejections, pso_refs = _pso_distribution_case(operating_events)
+    refs = [*mlcf_refs, *mari_refs, *mari_sales_refs, *pso_refs]
     as_of = _source_cutoff(refs) if refs else datetime.now(PKT).replace(microsecond=0).isoformat()
     if "MLCF" not in companies:
         companies["MLCF"] = _empty_company("MLCF")
@@ -1399,6 +1716,18 @@ def build(write: bool = True) -> dict[str, Any]:
         }
     else:
         companies["MARI"]["rejection_reasons"] = mari_rejections_all or ["no_selected_observed_case_seed"]
+    if "PSO" not in companies:
+        companies["PSO"] = _empty_company("PSO")
+    if pso_case:
+        companies["PSO"] = {
+            "symbol": "PSO",
+            "status": "observed_seed_available",
+            "case_count": 1,
+            "cases": [pso_case],
+            "rejection_reasons": [],
+        }
+    else:
+        companies["PSO"]["rejection_reasons"] = pso_rejections
     dgkc_rejections = _dgkc_commissioning_rejections(ledger, documents)
     if dgkc_rejections:
         if "DGKC" not in companies:
@@ -1409,7 +1738,7 @@ def build(write: bool = True) -> dict[str, Any]:
         "case_product_version": CASE_PRODUCT_VERSION,
         "as_of": as_of,
         "pilot_symbols": pilot,
-        "selected_symbols": ["MARI", "MLCF"],
+        "selected_symbols": ["MARI", "MLCF", "PSO"],
         "status_lifecycle": LIFECYCLE,
         "policy": {
             "dedicated_observed_seeds_only": True,
