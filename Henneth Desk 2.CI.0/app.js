@@ -18,6 +18,36 @@ const short = (value, limit = 80) => {
   const text = String(value ?? "");
   return text.length > limit ? `${text.slice(0, limit - 1)}…` : text;
 };
+const COMPANY_LOGO_DOMAINS = Object.freeze({
+  MLCF: "kmlg.com", OGDC: "ogdcl.com", PPL: "ppl.com.pk", DGKC: "dgcement.com",
+  PSO: "psopk.com", UBL: "ubldigital.com", FFC: "ffc.com.pk", LUCK: "lucky-cement.com",
+  HUBC: "hubpower.com", PRL: "prl.com.pk", BOP: "bop.com.pk", NBP: "nbp.com.pk",
+  MEBL: "meezanbank.com", ATRL: "arl.com.pk", HBL: "hbl.com", MARI: "marienergies.com.pk",
+  ENGROH: "engro.com", GAL: "ghandharaautomobiles.com.pk", NRL: "nrlpak.com", CNERGY: "cnergyico.com",
+});
+const companyLogoUrl = symbol => {
+  const domain = COMPANY_LOGO_DOMAINS[String(symbol || "").toUpperCase()];
+  return domain ? `https://www.google.com/s2/favicons?domain_url=https%3A%2F%2F${encodeURIComponent(domain)}&sz=128` : "";
+};
+const companyBusinessSummary = value => {
+  const text = String(value || "").replace(/\s+/g, " ").trim();
+  if (!text) return "No sourced business description is retained yet.";
+  const sentences = text.match(/[^.!?]+[.!?]+|[^.!?]+$/g) || [text];
+  const useful = sentences.find(sentence => /engaged in|principal activit|operates|provides|manufactur|production and sale|business of/i.test(sentence));
+  return short((useful || sentences[0]).trim(), 240);
+};
+const humanActivityLabel = value => {
+  const label = String(value || "").trim();
+  if (!label) return "Retained company activity";
+  if (/^https?:|^\//i.test(label)) return "Issuer web page retained";
+  if (/^download pdf$/i.test(label)) return "Official PDF retained";
+  if (/\btype=/.test(label)) {
+    const type = label.match(/\btype=([^;]+)/i)?.[1]?.replaceAll("_", " ");
+    const target = label.match(/\btarget=([^;]+)/i)?.[1]?.replaceAll("_", " ");
+    return [target, type].filter(Boolean).join(" · ") || "Classified company event";
+  }
+  return label.replaceAll("_", " ");
+};
 const ciHumanStatus = value => {
   const status = String(value || "unknown");
   if (/financial_truth_not_qualified/i.test(status)) return "Waiting for complete reported financial history";
@@ -100,10 +130,10 @@ const CI_LEFT_MAX = 360;
 const CI_RIGHT_MIN = 248;
 const CI_RIGHT_MAX = 420;
 const RAIL_LINKS = [
-  { href: "https://ci.henneth.app/", label: "Company Intelligence", icon: "lucide:building-2", active: true },
-  { href: "https://desk.henneth.app/today", label: "Signals", icon: "lucide:activity" },
-  { href: "https://desk.henneth.app/watchlist", label: "Watchlist", icon: "lucide:eye" },
-  { href: "https://desk.henneth.app/research", label: "Research", icon: "lucide:library" },
+  { href: "#companyDirectory", label: "Company directory", icon: "lucide:building-2", active: true },
+  { href: "#companyIntelligenceTree", label: "Intelligence cases", icon: "lucide:layers-3" },
+  { href: "#companyDetail", label: "Scenario Lab", icon: "lucide:sliders-horizontal" },
+  { href: "#companyDetail", label: "Ask Henneth", icon: "lucide:message-circle-question" },
 ];
 
 const ASK_MAX_QUESTION_BYTES = 4096;
@@ -218,21 +248,21 @@ function safeBackgroundCssUrl(path) {
     : "";
 }
 
-function deskScheme() {
+function ciScheme() {
   try {
-    const value = localStorage.getItem("deskScheme");
+    const value = localStorage.getItem("ciScheme");
     return value === "light" || value === "dark" ? value : "system";
   } catch { return "system"; }
 }
 
-function applyDeskScheme(choice) {
+function applyCIScheme(choice) {
   document.documentElement.setAttribute("data-scheme-switching", "");
   if (choice === "light" || choice === "dark") {
     document.documentElement.setAttribute("data-scheme", choice);
-    try { localStorage.setItem("deskScheme", choice); } catch {}
+    try { localStorage.setItem("ciScheme", choice); } catch {}
   } else {
     document.documentElement.removeAttribute("data-scheme");
-    try { localStorage.removeItem("deskScheme"); } catch {}
+    try { localStorage.removeItem("ciScheme"); } catch {}
   }
   const button = $("schemeToggle");
   if (button) {
@@ -247,6 +277,28 @@ function applyDeskScheme(choice) {
 function setAccessState(label, fileLabel) {
   $("authState").textContent = label;
   if ($("fileStatus")) $("fileStatus").textContent = fileLabel;
+}
+
+// The static shell is shared with the original visual template, but the
+// Company Intelligence product must never present the Desk as its workspace.
+// Normalize the server-rendered landmarks before auth/data rendering so the
+// signed-out and signed-in surfaces use CI identity consistently.
+function normalizeCIShell() {
+  const brand = document.querySelector(".brand");
+  if (brand) {
+    brand.setAttribute("href", "/");
+    brand.setAttribute("aria-label", "Henneth Company Intelligence");
+  }
+  const tab = document.querySelector(".ci-tab");
+  if (tab) {
+    tab.setAttribute("aria-label", "Company Intelligence workspace");
+    const label = tab.querySelector("span");
+    if (label) label.textContent = "Company Intelligence";
+  }
+  const footer = document.querySelector(".statusbar");
+  if (footer) footer.setAttribute("aria-label", "Company Intelligence status");
+  const terminal = document.querySelector(".status-left > span:not(.status-dot):not(.status-muted)");
+  if (terminal) terminal.textContent = "Henneth Company Intelligence";
 }
 
 function storedSession() {
@@ -686,8 +738,8 @@ function renderDesk(searchState) {
   const activeIndex = row ? Math.max(0, (state.data?.tickers || []).findIndex(item => item.symbol === row.symbol)) : -1;
   const visual = row ? companyVisual(row, activeIndex) : null;
   $("app").innerHTML = `
-    <aside class="icon-rail" aria-label="Primary desk navigation">
-      <nav class="icon-rail-nav" aria-label="Desk sections">
+    <aside class="icon-rail" aria-label="Company Intelligence navigation">
+      <nav class="icon-rail-nav" aria-label="Company Intelligence sections">
         ${RAIL_LINKS.map(railLinkMarkup).join("")}
       </nav>
       <div class="icon-rail-spacer"></div>
@@ -869,7 +921,7 @@ function detail(r) {
       <div>
         <p class="eyebrow">${esc(r.sector || "Sector unknown")}</p>
         <h1>${esc(r.symbol)}${r.name ? `, ${esc(r.name)}` : ""}</h1>
-        <p>${esc(p.business_description || "The desk has not captured a business description for this company yet.")}</p>
+        <p>${esc(p.business_description || "Company Intelligence has not captured a business description for this company yet.")}</p>
       </div>
       <div class="stamp">
         <span class="kicker">Price</span>
@@ -1441,51 +1493,96 @@ function renderCausalFoundations(r) {
   </section>`;
 }
 
+function overviewObjectItems(r) {
+  const counts = (r.company_brain?.intelligence_objects || []).reduce((out, item) => {
+    const key = objectTypeLabel(item.type);
+    out[key] = (out[key] || 0) + 1;
+    return out;
+  }, {});
+  return Object.entries(counts).map(([label, value]) => ({ label, value, unit: "objects" })).sort((a, b) => b.value - a.value).slice(0, 6);
+}
+
+function overviewDomainItems(r) {
+  const preferred = ["segments", "products", "facilities", "capacity", "geography", "subsidiaries", "projects", "customers"];
+  return preferred.map(name => {
+    const domain = brainDomain(r.company_brain || {}, name);
+    return { label: name.replaceAll("_", " "), value: (domain.object_refs || []).length, unit: "refs", status: domain.status || "unknown" };
+  }).filter(item => item.value > 0).sort((a, b) => b.value - a.value).slice(0, 6);
+}
+
+function overviewActivityItems(r) {
+  const watch = r.explainability?.monitoring?.what_to_watch || [];
+  const operating = Array.isArray(r.operating_events) ? r.operating_events : [];
+  const source = watch.length ? watch.map(item => ({ date: item.date, label: item.title })) : operating.map(item => ({ date: item.effective_date || item.detected_at, label: item.event_subtype || item.event_type }));
+  const seen = new Set();
+  return source.filter(item => item.date && item.label).map(item => ({ ...item, label: humanActivityLabel(item.label) })).filter(item => {
+    const key = `${String(item.date).slice(0, 10)}|${item.label}`;
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  }).slice(0, 8);
+}
+
+function overviewRouteCard(route, kicker, title, copy, chart, icon) {
+  return `<article class="overview-dashboard-card"><header class="overview-card-heading"><span class="overview-card-icon" aria-hidden="true"><iconify-icon icon="${esc(icon)}"></iconify-icon></span><div><span class="kicker">${esc(kicker)}</span><h3>${esc(title)}</h3></div></header>${chart}<p>${esc(copy)}</p><button type="button" class="overview-route-button" data-research-route="${esc(route)}">Open ${esc(title)}<iconify-icon icon="lucide:arrow-right" aria-hidden="true"></iconify-icon></button></article>`;
+}
+
+function renderOverviewDashboard(r) {
+  const objects = overviewObjectItems(r);
+  const domains = overviewDomainItems(r);
+  const activity = overviewActivityItems(r);
+  const objectChart = objects.length
+    ? ciChart("assumptions", { status: "available", label: "Typed evidence in the company file", items: objects, comparable: true })
+    : ciBlockedChart("blocked_no_typed_objects", "No typed evidence objects are retained", ["Typed evidence", "Source binding"]);
+  const domainChart = domains.length
+    ? ciChart("assumptions", { status: "available", label: "Business-profile coverage by retained reference count", items: domains, comparable: true })
+    : ciBlockedChart("blocked_no_business_domain_refs", "Business-profile coverage is not retained", ["Company Brain domain", "Typed source reference"]);
+  const activityChart = activity.length
+    ? ciChart("timeline", { status: "available", label: "Latest retained company activity", items: activity })
+    : ciBlockedChart("blocked_no_dated_activity", "No dated company activity is retained", ["Dated official source", "Classified event"]);
+  return `<section class="panel span9 overview-dashboard-shell" aria-labelledby="overviewDashboardTitle">
+    <header class="overview-dashboard-header"><div><span class="kicker">Overview workspace</span><h2 id="overviewDashboardTitle">Start with the company, then follow the evidence</h2><p>Use the snapshot for the research position today. Use the profile to understand what the company actually does and which parts of the business file are still thin.</p></div><span class="overview-dashboard-symbol">${esc(r.symbol)}</span></header>
+    <div class="overview-dashboard-grid">
+      ${overviewRouteCard("snapshot", "Research position", "Investor Snapshot", "A fast, source-aware view of the company, recent change, evidence mix, and the gates still holding back formal conclusions.", objectChart, "lucide:scan-search")}
+      ${overviewRouteCard("overview", "Company understanding", "Company Profile", "The issuer’s stated business, corporate identity, operating-domain coverage, and the retained references behind that understanding.", domainChart, "lucide:building-2")}
+      <article class="overview-dashboard-card overview-dashboard-wide"><header class="overview-card-heading"><span class="overview-card-icon" aria-hidden="true"><iconify-icon icon="lucide:history"></iconify-icon></span><div><span class="kicker">Evidence pulse</span><h3>What has entered the file recently</h3></div></header>${activityChart}<div class="overview-activity-list" aria-label="Recent retained company activity">${activity.slice(0, 5).map(item => `<span><time>${esc(String(item.date).slice(0, 10))}</time><b>${esc(item.label)}</b></span>`).join("")}</div><p>Dated activity is shown as retained. A mark means a source or monitored record exists; it does not imply financial impact.</p></article>
+    </div>
+  </section>`;
+}
+
 function renderCompanyProfile(r, ctx) {
   const { f, v, p, liq, source, inc } = ctx;
-  return `
-    <div class="panel span5">
-      <span class="kicker">Company profile</span>
-      <h2>Issuer context</h2>
-      <div class="facts">
-        <div class="fact"><span class="label">Incorporation</span><span>${esc(inc)}</span></div>
-        <div class="fact"><span class="label">Source</span><span>${source}${p.fetched ? `, fetched ${esc(p.fetched)}` : ""}${p.stale ? " (stale retained row)" : ""}</span></div>
-        <div class="fact"><span class="label">Indices</span><span>${esc((r.indices || []).join(", ") || "unknown")}</span></div>
-      </div>
+  const domains = ["segments", "products", "facilities", "capacity", "geography", "subsidiaries", "projects", "customers"];
+  const coverage = overviewDomainItems(r);
+  const coverageChart = coverage.length
+    ? ciChart("assumptions", { status: "available", label: "Retained business-domain reference counts", items: coverage, comparable: true })
+    : ciBlockedChart("blocked_no_business_domain_refs", "The business profile is waiting for typed source references", ["Issuer description", "Company Brain domain", "Typed source reference"]);
+  return `<section class="panel span9 overview-detail-shell profile-detail" aria-labelledby="companyProfileTitle">
+    <header class="overview-detail-header"><div><span class="kicker">Company profile</span><h2 id="companyProfileTitle">What ${esc(r.symbol)} is and how it operates</h2><p>${esc(p.business_description || "No sourced business description is retained.")}</p></div><button type="button" class="overview-back-button" data-research-route="directory_overview">Overview workspace</button></header>
+    <div class="profile-fact-grid">
+      <article><span>Incorporated</span><b>${esc(inc)}</b><small>Reported issuer identity</small></article>
+      <article><span>Sector</span><b>${esc(r.sector || "unknown")}</b><small>Company Intelligence classification</small></article>
+      <article><span>Indices</span><b>${esc((r.indices || []).join(", ") || "unknown")}</b><small>Retained market membership</small></article>
+      <article><span>Official source</span><b>${source}</b><small>${p.fetched ? `Fetched ${esc(p.fetched)}` : "Fetch date unknown"}${p.stale ? " · retained row is stale" : ""}</small></article>
     </div>
-    <div class="panel span4">
-      <span class="kicker">Accounting snapshot</span>
-      <h2>Numbers on file</h2>
-      <div class="facts">
-        <div class="fact"><span class="label">Market cap</span><span>${esc(f.market_cap || "unknown")}</span></div>
-        <div class="fact"><span class="label">EPS</span><span>${esc(f.eps || "unknown")}</span></div>
-        <div class="fact"><span class="label">P/E</span><span>${esc(f.pe || "unknown")}</span></div>
-        <div class="fact"><span class="label">Forward P/E</span><span>${esc(f.forward_pe || "unknown")}</span></div>
-        <div class="fact"><span class="label">Fair-value model</span><span>${esc(v.verdict || "unknown")}${v.mispricing_pct == null ? "" : ` · ${esc(pct(v.mispricing_pct))} versus blended fair value`}</span></div>
-      </div>
+    <div class="overview-detail-grid">
+      <article class="overview-evidence-card"><header><span class="kicker">Business-file coverage</span><h3>Where the retained profile is deep—and where it is still thin</h3></header>${coverageChart}<p>Lengths compare counts of typed references only. They do not score business quality or investment merit.</p></article>
+      <article class="overview-plain-card"><header><span class="kicker">Market context</span><h3>Numbers already on file</h3></header><div class="profile-market-list">
+        <span>Market capitalisation <b>${esc(f.market_cap || "unknown")}</b></span>
+        <span>Reported EPS <b>${esc(f.eps || "unknown")}</b></span>
+        <span>Price / earnings <b>${esc(f.pe || "unknown")}</b></span>
+        <span>Forward P/E <b>${esc(f.forward_pe || "unknown")}</b></span>
+        <span>Existing fair-value read <b>${esc(v.verdict || "unknown")}${v.mispricing_pct == null ? "" : ` · ${esc(pct(v.mispricing_pct))}`}</b></span>
+      </div><p>These are ordinary retained values. The profile does not turn them into a forecast or recommendation.</p></article>
     </div>
-    <div class="panel span9">
-      <span class="kicker">Recent evidence</span>
-      <h2>Research notes and tape</h2>
-      ${renderDocs(r)}
-    </div>
-    <div class="panel span5">
-      <span class="kicker">Filings metadata</span>
-      <h2>Insider/substantial-holder notices</h2>
-      ${r.insider_filings?.length ? r.insider_filings.map(d => `<div class="docrow"><b>${esc(d.date || "undated")} ${esc(d.title || "Filing")}</b><span>${d.pdf_url ? `<a href="${esc(d.pdf_url)}" target="_blank" rel="noopener">PDF</a>` : "PDF unavailable"}; parsed transactions ${esc(d.parsed_transactions)}</span></div>`).join("") : `<p>No recent metadata rows in the retained file.</p>`}
-    </div>
-    <div class="panel span4">
-      <span class="kicker">Off-market</span>
-      <h2>Retained activity</h2>
-      ${r.offmarket ? `<p>Rs ${esc(fmt(r.offmarket.value_pkr, 0))} across ${esc(fmt(r.offmarket.shares, 0))} shares and ${esc(r.offmarket.days)} day${r.offmarket.days === 1 ? "" : "s"} in the retained ${esc(r.offmarket.retention_days || "unknown")}-day window.</p>` : `<p>No off-market rows in the retained window.</p>`}
-      <span class="pill ${liq.research_eligible ? "good" : ""}">research ${liq.research_eligible ? "eligible" : "not eligible"}</span>
-      <span class="pill ${liq.signal_eligible ? "good" : "bad"}">signal ${liq.signal_eligible ? "eligible" : "not eligible"}</span>
-    </div>
-    <div class="panel span9">
-      <span class="kicker">Intelligence map</span>
-      <h2>What the official file currently proves</h2>
-      ${renderGraphSummary(r)}
-    </div>`;
+    <section class="profile-domain-section"><header><span class="kicker">Operating map</span><h3>Business areas in the Company Brain</h3></header><div class="profile-domain-grid">${domains.map(name => {
+      const domain = brainDomain(r.company_brain || {}, name);
+      const count = (domain.object_refs || []).length;
+      return `<article class="profile-domain-card status-${esc(domain.status || "unknown")}"><span>${esc(name.replaceAll("_", " "))}</span><b>${esc(ciHumanStatus(domain.status))}</b><small>${esc(count)} typed reference${count === 1 ? "" : "s"}${domain.reason ? ` · ${esc(String(domain.reason).replaceAll("_", " "))}` : ""}</small></article>`;
+    }).join("")}</div></section>
+    <section class="profile-reference-section"><header><span class="kicker">Source-linked detail</span><h3>Selected operating references</h3></header>${["products", "facilities", "capacity", "geography", "subsidiaries", "projects"].map(name => `<section><h4>${esc(name.replaceAll("_", " "))}</h4>${renderDomainRefs(r, name, `No retained ${name.replaceAll("_", " ")} reference is available.`)}</section>`).join("")}</section>
+    <footer class="overview-detail-footer"><span>Research only · no execution</span><span>Missing business knowledge remains visible as unknown</span></footer>
+  </section>`;
 }
 
 function renderDocs(r) {
@@ -1624,20 +1721,6 @@ function renderGuidanceDomainView(r, domainName, title, emptyText) {
   </section>`;
 }
 
-function renderCompanyBusiness(r) {
-  const domains = ["segments", "products", "facilities", "capacity", "customers", "suppliers", "employees", "management", "geography", "subsidiaries", "competitors", "projects"];
-  const brain = r.company_brain || {};
-  return `<section class="panel span9 company-domain-shell" aria-labelledby="businessTitle">
-    <span class="kicker">Business</span><h2 id="businessTitle">Operating profile from retained sources</h2>
-    <p class="section-note">This view reuses Company Brain domain coverage and the issuer profile. It does not infer segments, products, customers, suppliers, peers, or strategy where the state says unknown.</p>
-    <div class="business-profile"><span>Issuer description</span><p>${esc(r.profile?.business_description || "Unknown — no sourced description is available.")}</p></div>
-    <div class="domain-matrix">${domains.map(name => {
-      const domain = brainDomain(brain, name);
-      return `<span class="status-${esc(domain.status || "unknown")}">${esc(name.replaceAll("_", " "))}<b>${esc(domain.status || "unknown")}</b><small>${esc((domain.object_refs || []).length)} ref${(domain.object_refs || []).length === 1 ? "" : "s"}</small></span>`;
-    }).join("")}</div>
-    <section class="domain-subsection"><h3>Business references</h3>${["customers", "management", "subsidiaries", "projects"].map(name => `<section><h4>${esc(name.replaceAll("_", " "))}</h4>${renderDomainRefs(r, name)}</section>`).join("")}</section>
-  </section>`;
-}
 
 function renderCompanyOperations(r) {
   return `<section class="company-route-stack">
@@ -2074,28 +2157,40 @@ function renderInvestorSnapshot(r) {
   const brief = r.brief?.current || {};
   const sections = brief.sections || {};
   const firstClaim = key => sections[key]?.[0]?.text || null;
-  const domainCard = (label, domain) => `<div><span>${esc(label)}</span><b>${esc(domain.status || "unknown")}</b><small>${esc((domain.object_refs || []).length)} typed reference${(domain.object_refs || []).length === 1 ? "" : "s"}</small></div>`;
-  const scenarioStatus = r.scenario_lab?.status || {};
-  const typedCounts = (brain.intelligence_objects || []).reduce((out, item) => {
-    out[item.type] = (out[item.type] || 0) + 1;
-    return out;
-  }, {});
-  return `<section class="panel span9 brain-snapshot" aria-labelledby="snapshotTitle">
-    <span class="kicker">Investor snapshot</span><h2 id="snapshotTitle">What the retained company file supports today</h2>
-    <p class="section-note">A source-reference view of the persistent Company Brain. Missing knowledge stays visible as unknown; forecasts and valuation remain blocked until their evidence gates pass.</p>
-    <div class="brain-type-strip">${Object.keys(OBJECT_TYPE_LABELS).map(type => `<span class="oi-type-${esc(type)}">${esc(objectTypeLabel(type))}<b>${esc(typedCounts[type] || 0)}</b></span>`).join("")}</div>
-    <div class="snapshot-grid">
-      <article><h3>What the business does</h3><p>${esc(r.profile?.business_description || "Unknown — no sourced description is available.")}</p></article>
-      <article><h3>Current situation</h3><p>${esc(brief.headline || "Unknown — no owner-approved brief is current.")}</p></article>
-      <article><h3>What changed</h3><p>${esc(firstClaim("what_changed") || "Unknown — no approved change claim is available.")}</p></article>
-      <article><h3>Earnings direction</h3><p>${esc(firstClaim("financial_read") || "Unknown — qualified history is not sufficient for an earnings direction.")}</p></article>
-      <article><h3>Valuation readiness</h3><p>Formal valuation: ${esc(r.formal_valuations?.status || brainDomain(brain, "valuation").status)}. Market expectations: ${esc(r.market_expectations?.status || scenarioStatus.market_expectations || "blocked")}.</p></article>
-      <article><h3>Catalysts</h3>${domainCard("Coverage", brainDomain(brain, "catalysts"))}</article>
-      <article><h3>Risks</h3>${domainCard("Coverage", brainDomain(brain, "risks"))}</article>
-      <article><h3>Hidden signals</h3><p>${esc((r.signal_clusters?.clusters || []).length)} validated signal cluster${(r.signal_clusters?.clusters || []).length === 1 ? "" : "s"}; absence is not evidence of no change.</p></article>
-      <article><h3>Henneth scenarios</h3><p>${esc(scenarioStatus.scenario_lab || "blocked")}. Assumptions remain caller-supplied in the Scenarios tab.</p></article>
+  const evidenceItems = overviewObjectItems(r);
+  const evidenceChart = evidenceItems.length
+    ? ciChart("assumptions", { status: "available", label: "Typed evidence objects by epistemic class", items: evidenceItems, comparable: true })
+    : ciBlockedChart("blocked_no_typed_objects", "No typed evidence objects are retained", ["Typed object", "Source reference"]);
+  const forecast = r.explainability?.forecast_trajectory || {};
+  const readinessChart = ciChart("blocked", ciEnvelopeBlocked(forecast, "Formal outputs remain gated", ["Qualified financial history", "Reviewed assumptions", "Deterministic forecast"]));
+  const catalystDomain = brainDomain(brain, "catalysts");
+  const riskDomain = brainDomain(brain, "risks");
+  const signalCount = (r.signal_clusters?.clusters || []).length;
+  return `<section class="panel span9 overview-detail-shell snapshot-detail" aria-labelledby="snapshotTitle">
+    <header class="overview-detail-header"><div><span class="kicker">Investor snapshot</span><h2 id="snapshotTitle">The research position today</h2><p>A concise reading of what the retained company file supports now—and what it does not yet support.</p></div><button type="button" class="overview-back-button" data-research-route="directory_overview">Overview workspace</button></header>
+    <div class="snapshot-kpis" aria-label="Retained market and accounting values">
+      <article><span>Price</span><b>Rs ${esc(fmt(r.price?.current))}</b><small>As of ${esc(r.price?.date || "unknown")}</small></article>
+      <article><span>20-session move</span><b>${esc(pct(r.price?.ret_20d))}</b><small>Daily price layer</small></article>
+      <article><span>Market capitalisation</span><b>${esc(r.fundamentals?.market_cap || "unknown")}</b><small>Retained accounting context</small></article>
+      <article><span>Reported EPS</span><b>${esc(r.fundamentals?.eps || "unknown")}</b><small>No browser-side derivation</small></article>
+      <article><span>Price / earnings</span><b>${esc(r.fundamentals?.pe || "unknown")}</b><small>Retained value</small></article>
     </div>
-    <section class="brain-coverage"><h3>Brain coverage</h3><div>${Object.entries(brain.domains || {}).map(([name, domain]) => `<span class="status-${esc(domain.status || "unknown")}">${esc(name.replaceAll("_", " "))}<b>${esc(domain.status || "unknown")}</b></span>`).join("")}</div></section>
+    <div class="snapshot-story-grid">
+      <article><span class="kicker">What the business does</span><h3>Company in one paragraph</h3><p>${esc(r.profile?.business_description || "Unknown — no sourced description is available.")}</p><button type="button" data-research-route="overview">Open company profile</button></article>
+      <article><span class="kicker">Current situation</span><h3>Latest approved framing</h3><p>${esc(brief.headline || "No owner-approved brief is current.")}</p></article>
+      <article><span class="kicker">What changed</span><h3>Evidence-backed most recent change</h3><p>${esc(firstClaim("what_changed") || "No approved change claim is available.")}</p></article>
+      <article><span class="kicker">Earnings direction</span><h3>What history can support</h3><p>${esc(firstClaim("financial_read") || "Qualified history is not sufficient for an earnings direction.")}</p></article>
+    </div>
+    <div class="overview-detail-grid">
+      <article class="overview-evidence-card"><header><span class="kicker">Evidence mix</span><h3>What kinds of intelligence are actually retained</h3></header>${evidenceChart}<p>Lengths compare counts of typed objects. They do not convert evidence volume into conviction.</p></article>
+      <article class="overview-evidence-card"><header><span class="kicker">Readiness</span><h3>Why formal conclusions may still be held back</h3></header>${readinessChart}<p>${esc(forecast.text || "Formal outputs appear only when their evidence gates pass.")}</p><button type="button" class="overview-route-button" data-research-route="intelligence">Open Event-to-Value view<iconify-icon icon="lucide:arrow-right" aria-hidden="true"></iconify-icon></button><details class="ci-raw-status"><summary>Technical status</summary><code>${esc(JSON.stringify(forecast.formal_status || { forecast: forecast.status || "unknown" }))}</code></details></article>
+    </div>
+    <div class="snapshot-signal-grid">
+      <article><span>Catalyst coverage</span><b>${esc(ciHumanStatus(catalystDomain.status))}</b><small>${esc((catalystDomain.object_refs || []).length)} typed references</small></article>
+      <article><span>Risk coverage</span><b>${esc(ciHumanStatus(riskDomain.status))}</b><small>${esc((riskDomain.object_refs || []).length)} typed references</small></article>
+      <article><span>Validated signal clusters</span><b>${esc(signalCount)}</b><small>Absence does not mean no change</small></article>
+      <article><span>Monitoring</span><b>${esc(ciHumanStatus(r.monitoring?.status))}</b><small>${esc(r.monitoring?.alert_count ?? 0)} retained alerts</small></article>
+    </div>
   </section>`;
 }
 
@@ -2452,7 +2547,7 @@ function renderThesisMonitor(r) {
   const readiness = monitor.financial_readiness || {};
   const status = monitor.status || "unknown";
   const canonicalStatuses = "Strengthening Stable Weakening Broken";
-  const thesisCards = theses.length ? theses.map(renderThesisCard).join("") : `<div class="empty thesis-empty">No active thesis is being monitored for ${esc(r.symbol)}. The desk will show a thesis here only after the backend emits one with official-source checks.</div>`;
+  const thesisCards = theses.length ? theses.map(renderThesisCard).join("") : `<div class="empty thesis-empty">No active thesis is being monitored for ${esc(r.symbol)}. Company Intelligence will show a thesis here only after the backend emits one with official-source checks.</div>`;
   return `<section class="panel span9 thesis-shell" aria-labelledby="thesisTitle">
     <span class="kicker">Thesis monitor</span><h2 id="thesisTitle">Active thesis checks</h2>
     <p class="section-note">Private user-authored theses are stored separately from Henneth's deterministic monitoring. Status is displayed exactly from each source; the browser does not infer upgrades or breaks.</p>
@@ -3965,7 +4060,7 @@ $("signOut").onclick = () => {
   renderGate("Signed out.");
 };
 
-$("schemeToggle").onclick = () => applyDeskScheme(SCHEME_CYCLE[deskScheme()]);
+$("schemeToggle").onclick = () => applyCIScheme(SCHEME_CYCLE[ciScheme()]);
 document.addEventListener("click", event => {
   if (event.target.closest?.("[data-case-close]")) {
     event.preventDefault();
@@ -3993,7 +4088,8 @@ window.addEventListener("resize", () => {
   if (!window.matchMedia(CI_MOBILE_QUERY).matches) closeMobileDrawers();
   else syncMobileControls(!!state.data);
 });
-applyDeskScheme(deskScheme());
+normalizeCIShell();
+applyCIScheme(SCHEME_CYCLE[ciScheme()]);
 
 state.session = storedSession();
 if (state.session) loadData();

@@ -241,6 +241,8 @@ same commit:
 
 ## Change log
 
+| 2026-09-13 | Separated the Henneth Company Intelligence product shell from the Henneth Desk while retaining the four-panel CI workspace. | The local CI surface now uses CI-only header, navigation, footer, theme storage and internal landmarks for the company directory, Intelligence Cases, Scenario Lab and Ask Henneth. Focused identity, JavaScript and browser checks confirm no inherited Desk URL or visible Desk label remains; this is interface clarity only and does not promote any case or activate a formal output. |
+
 | Date | Change | Evidence |
 |---|---|---|
 | 2026-08-27 | Alpha execution record created; no case selected or promoted. | This document and the retained baseline files named above. |
