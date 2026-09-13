@@ -10,7 +10,7 @@ or monitoring volume.
 
 Each completed Intelligence Case must establish a traceable path:
 
-`observed evidence -> operating event -> competing hypotheses -> drivers -> analogues -> quarterly financial impact -> scenarios -> valuation -> price-implied expectations -> investor conclusion -> monitoring`.
+`observed evidence -> operating event -> competing hypotheses -> drivers -> past context / analogues -> quarterly financial impact -> scenarios -> valuation -> price-implied expectations -> investor conclusion -> monitoring`.
 
 No case is marked product-complete until it is `Published` and has usable,
 source-qualified financial, valuation, and current-price-expectations outputs.
@@ -27,6 +27,10 @@ source-qualified financial, valuation, and current-price-expectations outputs.
   probability, and reverse-expectations calculations are deterministic.
 - Historical outcomes are labels, never inputs available before their historical
   cutoff. Small samples remain visible but do not produce misleading averages.
+- Past Context combines only cutoff-safe technical, financial/fundamental,
+  policy/regime, and operating-event state. Similarity is descriptive context,
+  stays separate from evidence trust, and cannot activate a forecast, scenario,
+  valuation, market expectation, recommendation, or lifecycle promotion.
 - Every part is committed separately only after its relevant checks are green.
   The execution log below records the investor behaviour, data coverage, and
   unresolved blocker before the next part begins.
@@ -102,6 +106,48 @@ desktop/mobile rendering. It remains subordinate to the same epistemic,
 no-lookahead, authentication, and fail-closed model gates as the three golden
 case lanes.
 
+### Past Context / Historical State Map
+
+Past Context is a first-class Alpha capability inside Part 5. It answers a
+bounded investor question: *when the observable state looked materially similar
+in the past, what happened next, how dispersed were the outcomes, and which
+differences make the comparison weaker?* It augments the existing event-study
+and conditional-benchmark authorities; it does not replace them or introduce a
+second analogue engine.
+
+For each golden Intelligence Case, the deterministic
+`HistoricalContextSet` must:
+
+1. bind the current snapshot and every historical episode to exact case,
+   source, availability, price-session, and run lineage at an explicit cutoff;
+2. preserve sector-specific state dimensions across four visible categories:
+   technical/market, financial/fundamental, policy/regime, and operating event;
+3. compare only information knowable at each historical episode's cutoff and
+   fail closed on lookahead, stale inputs, missing hashes/dates, duplicate or
+   overlapping episodes, and incompatible units or definitions;
+4. keep state similarity, event comparability, and evidence/source trust as
+   separate measures, with the contributing dimensions and important
+   differences inspectable by the investor;
+5. show subsequent 1Q, 2Q, 4Q, and 8Q outcomes, including distribution,
+   maximum adverse/favourable excursion, and time-to-resolution only when the
+   retained price history and sample geometry support them;
+6. expose thin or immature samples honestly while suppressing aggregates that
+   do not clear the existing minimum-observation and independence rules;
+7. label all results `historical_context` / `not_forecast`, never use future
+   outcomes as model inputs, and never activate formal engines or promote a
+   case lifecycle state; and
+8. provide a compact desktop/mobile UI path from current state to matched
+   episodes, forward outcome range, differences, citations, and thesis watch
+   conditions, with an accessible textual explanation whenever a chart is
+   shown.
+
+The first bounded implementation covers the selected MLCF, MARI, and PSO case
+envelopes using retained authorities only. MLCF proves the industrial state
+shape first; E&P and sales-led dimensions remain independently defined. Only
+the case/provenance/cutoff/outcome envelope may be shared across sectors. No
+proprietary third-party scoring, data, terminology, or provider dependency is
+part of the Alpha.
+
 ### Sector-model boundary
 
 The shared case envelope is deliberately narrow: identity and lifecycle,
@@ -162,7 +208,7 @@ eight reported quarters, load-bearing share-count data, and a real dated event.
 | 2 | Three real operating events | In progress | MLCF has an `Observed` Pioneer Cement control/acquisition case; MARI has separate `Observed` Peshawar E&P and Sky47/Karakoram-01 product-launch cases; PSO has an `Observed` FY2025 distribution-network expansion case. | Exactly 4 case objects are `Observed` across three tickers, but none has independent corroboration, source-qualified incremental financial impact, or complete financial truth. PSO fills the distinct sales-led lane only at the observed-evidence layer. |
 | 3 | Sector event models | In progress | Deterministic, provenance-gated cement/capacity, E&P, and sales-led kernels exist with explicit bear/base/bull contracts and fail-closed blocked envelopes. The MLCF/PIOC adapter binds the real observed case only to a no-output path until its event and financial inputs qualify. | All three engines are implemented but unproven on a real source-qualified case: no current case may emit a numerical run, valuation, or expectation result from absent inputs. |
 | 4 | Eight-quarter event-to-financial models | Not started | None | Requires complete actuals and source-labelled analyst assumptions. |
-| 5 | Historical analogues | In progress | The MLCF/PIOC and MARI/Peshawar observed-case routes show cutoff-safe same-event raw-price context: MLCF -34.54% at 1Q and -19.40% at 2Q; MARI -2.71% at 1Q and -16.80% at 2Q. | These are deterministic descriptive derived facts, not causal attribution, adjusted/total return, analogue benchmarks, forecasts, or valuation inputs. Same-company/peer aggregates remain suppressed at n < 3; 4Q and 8Q outcomes are immature. |
+| 5 | Past Context and historical analogues | In progress | The MLCF/PIOC and MARI/Peshawar observed-case routes show cutoff-safe same-event raw-price context: MLCF -34.54% at 1Q and -19.40% at 2Q; MARI -2.71% at 1Q and -16.80% at 2Q. A bounded Historical State Map is now an explicit Alpha requirement for MLCF, MARI, and PSO. | Current returns are deterministic descriptive derived facts, not causal attribution, adjusted/total return, forecasts, or valuation inputs. The state-map contract must still prove separate similarity/evidence trust, cutoff-safe multi-dimensional state, episode independence, and supported 1Q/2Q/4Q/8Q outcome distributions. Same-company/peer aggregates remain suppressed at n < 3; 4Q and 8Q outcomes are immature. |
 | 6 | Valuation and expectations | Not started | None | Requires computed model outputs and appropriate valuation schedules. |
 | 7 | Intelligence Case interface | In progress | The private route renders the `Observed` source-grounded seeds for MLCF, MARI, and PSO. The PSO route exposes reported outlet expansion, alternatives, unresolved gross-versus-net reconciliation, and watch conditions without rendering its null model-input kernel. Owner-gated Ask Henneth receives bounded observed-case evidence, alternatives and watch conditions. | This is a read-only evidence context, not a model output. Ask and the case route remain blocked from formal financial impact, scenarios, valuation, expectations, or publication until financial truth qualifies. |
 | 8 | Private thesis monitoring | Not started | None | Requires owner-session CRUD and cross-user RLS verification before writes are enabled. |
