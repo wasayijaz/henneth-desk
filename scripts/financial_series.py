@@ -34,14 +34,29 @@ _PERIOD_WORDS = (
 )
 _HEADER_SCALE_RE = re.compile(r"\(\s*(?:rupees?|rs\.?)\s+in\s+(thousand|million|billion|mn|bn)\s*\)", re.I)
 _SUFFIX_SCALE = {"thousand": 1_000, "million": 1_000_000, "mn": 1_000_000, "billion": 1_000_000_000, "bn": 1_000_000_000}
-_STRUCTURED_LINES = {
+_STRUCTURED_INCOME_STATEMENT_LINES = {
     "revenue", "gross_profit", "operating_profit", "finance_cost",
     "profit_before_tax", "tax_expense", "profit_after_tax_attributable", "basic_eps",
-    "operating_cash_flow",
 }
+_STRUCTURED_BALANCE_SHEET_LINES = {
+    "cash_and_cash_equivalents", "trade_receivables", "inventories",
+    "total_current_assets", "property_plant_equipment", "total_assets",
+    "short_term_borrowings", "long_term_borrowings", "trade_payables", "total_equity",
+}
+_STRUCTURED_CASH_FLOW_LINES = {
+    "operating_cash_flow", "capital_expenditure", "depreciation_amortization",
+    "net_cash_from_investing_activities", "net_cash_from_financing_activities",
+    "dividends_paid",
+}
+_STRUCTURED_LINES = (
+    _STRUCTURED_INCOME_STATEMENT_LINES
+    | _STRUCTURED_BALANCE_SHEET_LINES
+    | _STRUCTURED_CASH_FLOW_LINES
+)
 _STRUCTURED_STATEMENT_TYPES = {
-    **{line: "income_statement" for line in _STRUCTURED_LINES if line != "operating_cash_flow"},
-    "operating_cash_flow": "cash_flow_statement",
+    **{line: "income_statement" for line in _STRUCTURED_INCOME_STATEMENT_LINES},
+    **{line: "balance_sheet" for line in _STRUCTURED_BALANCE_SHEET_LINES},
+    **{line: "cash_flow_statement" for line in _STRUCTURED_CASH_FLOW_LINES},
 }
 _OFFICIAL_PSX_DOCUMENT_RE = re.compile(r"^https://dps\.psx\.com\.pk/download/document/\d+\.pdf$")
 _SHA256_RE = re.compile(r"^[0-9a-f]{64}$", re.I)
