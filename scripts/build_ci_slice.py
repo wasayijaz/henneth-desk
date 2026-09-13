@@ -69,6 +69,45 @@ def _slice_source_cutoff(*states):
     return max(dates) if dates else None
 
 
+def _historical_state_map_meta(state):
+    """Project the committed Historical State Map contract into CI metadata.
+
+    The state product is already the authoritative boundary for historical
+    context.  Keep this projection deliberately structural: do not calculate
+    similarity, outcome statistics, or any forward-looking fields here.
+    """
+    state = state if isinstance(state, dict) else {}
+    return {
+        "status": state.get("status") or "state_missing",
+        "schema_version": state.get("schema_version"),
+        "product_version": state.get("product_version"),
+        "kind": state.get("kind"),
+        "summary": deepcopy(state.get("summary") or {}),
+        "policy": deepcopy(state.get("policy") or {}),
+        "source_paths": deepcopy(state.get("source_paths") or {}),
+        "semantics": "historical_context/not_forecast",
+    }
+
+
+def _historical_state_contexts(state, sym):
+    """Return only retained, committed historical contexts for one symbol."""
+    state = state if isinstance(state, dict) else {}
+    contexts = state.get("contexts") or []
+    return [
+        deepcopy(context)
+        for context in contexts
+        if isinstance(context, dict)
+        and ((context.get("case") or {}).get("symbol") == sym)
+    ]
+
+
+def _historical_state_map_for_symbol(state, sym):
+    """Project the map contract with only this company's retained contexts."""
+    projected = _historical_state_map_meta(state)
+    projected["contexts"] = _historical_state_contexts(state, sym)
+    return projected
+
+
 def _finite(value):
     if isinstance(value, bool):
         return None
@@ -1418,6 +1457,7 @@ def build(write: bool = True):
     formal_valuations = load_json(STATE / "company_intel" / "formal_valuations.json", {"companies": {}})
     market_expectations = load_json(STATE / "company_intel" / "market_expectations.json", {"companies": {}})
     event_to_value_product_readiness = load_json(STATE / "company_intel" / "event_to_value_product_readiness.json", {})
+    historical_state_map = load_json(STATE / "company_intel" / "historical_state_map.json", {})
     intelligence_cases = load_json(STATE / "company_intel" / "intelligence_cases.json", {"companies": {}})
     financial_engine_assumptions = load_json(STATE / "company_intel" / "financial_engine_assumptions.json", {"records": []})
     private_thesis_receipt = load_json(STATE / "company_intel" / "private_thesis_storage_receipt.json", {})
@@ -1592,6 +1632,7 @@ def build(write: bool = True):
             watchlist_row=evidence_watchlist_row,
         )
         historical_reference_cases = _historical_reference_cases(financial_engine_assumptions, sym, source_cutoff)
+        historical_state_map_row = _historical_state_map_for_symbol(historical_state_map, sym)
         assumption_gap_review = _assumption_gap_review(financial_engine_assumptions, sym)
         explainability = _explainability_envelope(
             sym,
@@ -1692,6 +1733,7 @@ def build(write: bool = True):
             "market_expectations": market_expectation_row,
             "intelligence_cases": intelligence_case_row,
             "historical_reference_cases": historical_reference_cases,
+            "historical_state_map": historical_state_map_row,
             "financial_engine_assumption_gaps": assumption_gap_review,
             "explainability": explainability,
             "intelligence": {
@@ -1741,6 +1783,8 @@ def build(write: bool = True):
                 "formal_valuation_status": formal_valuation_row.get("status"),
                 "formal_market_expectations_status": market_expectation_row.get("status"),
                 "historical_reference_case_count": historical_reference_cases.get("case_count", 0),
+                "historical_state_context_count": len(historical_state_map_row.get("contexts") or []),
+                "historical_state_map_status": historical_state_map.get("status") or "state_missing",
                 "financial_engine_assumption_gap_status": assumption_gap_review.get("status"),
             },
             "news": _latest_news(news, sym),
@@ -1767,6 +1811,7 @@ def build(write: bool = True):
             "financial_engine_assumption_gaps": _assumption_gap_meta(financial_engine_assumptions),
             "private_thesis_storage": _private_thesis_storage_meta(private_thesis_receipt),
             "event_to_value_product_readiness": _project_event_to_value_product_readiness(event_to_value_product_readiness),
+            "historical_state_map": _historical_state_map_meta(historical_state_map),
             "note": "Private company-intelligence slice. Research, not advice. No execution or order path.",
         },
         "tickers": rows,
