@@ -61,36 +61,30 @@ EXCLUDED_EVENT_FAMILIES = (
     "regulatory_action",
 )
 
-RANKED_MISSING_RECORDS_CATALOG = [
+DISCOVERY_REQUIREMENTS_QUEUE = [
     {
+        "slot_id": "slot_cement_expansion_1",
         "priority": 1,
-        "symbol": "DGKC",
-        "company_name": "D.G. Khan Cement Company Limited",
-        "event_description": "2,500 TPD Brownfield Clinker Line & 10 MW Waste Heat Recovery Commissioning",
-        "target_family": "cement_clinker_line_commissioning",
-        "missing_attributes": ["exact_psx_announcement_date", "document_id_psx_dps", "content_sha256"],
-        "retained_proxy": "evt_c66c444c35780cf5951e (annual report narrative text without announcement timestamp)",
-        "impact_on_lane": "Unblocks primary same-sector mature brownfield expansion analogue.",
+        "requirement_type": "official_clinker_line_commissioning_notice",
+        "description": "Commercial operation commencement disclosure for new or brownfield clinker line",
+        "required_evidence_fields": ["document_id", "content_sha256", "source_url", "page", "published_at", "rated_clinker_tpd"],
+        "eligibility_impact": "Provides primary verified clinker capacity expansion observation",
     },
     {
+        "slot_id": "slot_cement_expansion_2",
         "priority": 2,
-        "symbol": "MLCF",
-        "company_name": "Maple Leaf Cement Factory Limited",
-        "event_description": "Line-4 (7,000 TPD Clinker Line) Commercial Operation Commencement",
-        "target_family": "cement_clinker_line_commissioning",
-        "missing_attributes": ["psx_material_information_document_id", "exact_commencement_date"],
-        "retained_proxy": "None in active 20-pilot event ledger",
-        "impact_on_lane": "Supplies same-company historical clinker line expansion benchmark.",
+        "requirement_type": "official_waste_heat_recovery_or_grinding_notice",
+        "description": "Commercial commissioning announcement for waste heat recovery (WHR) plant or additional cement grinding mill",
+        "required_evidence_fields": ["document_id", "content_sha256", "source_url", "page", "published_at", "megawatt_or_tpd_capacity"],
+        "eligibility_impact": "Provides second independent operational efficiency / capacity expansion observation",
     },
     {
+        "slot_id": "slot_cement_expansion_3",
         "priority": 3,
-        "symbol": "LUCK",
-        "company_name": "Lucky Cement Limited",
-        "event_description": "North Plant / Pezu Additional Clinker Line Commercial Commissioning",
-        "target_family": "cement_clinker_line_commissioning",
-        "missing_attributes": ["psx_dps_announcement_hash", "exact_commercial_operation_date"],
-        "retained_proxy": "Undated annual report references",
-        "impact_on_lane": "Completes N >= 3 domestic tier-1 cement capacity commissioning sample.",
+        "requirement_type": "peer_cement_capacity_addition_notice",
+        "description": "Historical commercial operation commencement announcement for domestic peer cement plant expansion",
+        "required_evidence_fields": ["document_id", "content_sha256", "source_url", "page", "published_at", "capacity_addition_metric"],
+        "eligibility_impact": "Completes required minimum mature sample (N >= 3) for statistical distribution publishing",
     },
 ]
 
@@ -113,17 +107,29 @@ def validate_analogue_candidate(cand: Mapping[str, Any], cutoff_date: date | Non
     elif family not in ELIGIBLE_EVENT_FAMILIES and cand.get("event_type") not in ("capacity_expansion", "product_launch"):
         violations.append(f"unsupported_event_family: {family}")
 
-    cand_date = parse_date(cand.get("information_available_at") or cand.get("effective_date"))
+    avail_date_str = cand.get("information_available_at") or (cand.get("source") or {}).get("available_on") or cand.get("effective_date")
+    cand_date = parse_date(avail_date_str)
     if not cand_date:
         violations.append("missing_valid_event_or_information_date")
     elif cutoff_date and cand_date >= cutoff_date:
         violations.append(f"lookahead_violation: candidate date {cand_date} >= cutoff {cutoff_date}")
 
     source = cand.get("source") or {}
-    if not isinstance(source, Mapping) or not source.get("id"):
+    if not isinstance(source, Mapping):
         violations.append("missing_source_binding")
-    elif not source.get("hash") or len(str(source.get("hash"))) != 64:
-        violations.append("missing_or_malformed_content_sha256")
+    else:
+        doc_id = str(source.get("id") or source.get("document_id") or "")
+        if not doc_id:
+            violations.append("missing_source_document_id")
+        sha = str(source.get("hash") or source.get("content_sha256") or "")
+        if not sha or len(sha) != 64 or not all(c in "0123456789abcdefABCDEF" for c in sha):
+            violations.append("missing_or_malformed_content_sha256")
+        url = str(source.get("url") or source.get("source_url") or "")
+        if not url or not (url.startswith("http://") or url.startswith("https://") or url.startswith("fixture://")):
+            violations.append("missing_or_invalid_source_url")
+        page = source.get("page")
+        if page is None or (isinstance(page, int) and page < 1):
+            violations.append("missing_or_invalid_source_page")
 
     return violations
 
@@ -132,8 +138,15 @@ def deduplicate_observations(candidates: Sequence[Mapping[str, Any]]) -> list[di
     deduped: dict[str, dict[str, Any]] = {}
     for cand in candidates:
         sym = str(cand.get("symbol") or "")
-        project_key = str(cand.get("project_id") or cand.get("event_id") or "")
-        episode_key = f"{sym}:{project_key}"
+        episode_id = cand.get("episode_id")
+        if episode_id:
+            episode_key = f"{sym}:{episode_id}"
+        else:
+            source = cand.get("source") or {}
+            doc_id = str(source.get("id") or source.get("document_id") or "")
+            family = str(cand.get("event_family") or cand.get("event_type") or "")
+            project_key = str(cand.get("project_id") or doc_id or cand.get("event_id") or "")
+            episode_key = f"{sym}:{family}:{project_key}"
         if episode_key not in deduped:
             deduped[episode_key] = dict(cand)
         else:
@@ -202,20 +215,33 @@ def evaluate_cement_expansion_lane(
 
     deduped_candidates = deduplicate_observations(validated_candidates)
 
-    # Horizon maturity tracking
+    # Horizon maturity tracking with target endpoint verification
     horizon_distributions = {}
     mature_counts = {}
-    for h_name in HORIZONS:
-        horizon_outcomes = [
-            ((c.get("horizons") or {}).get(h_name) or {}).get("return_pct")
-            for c in deduped_candidates
-            if ((c.get("horizons") or {}).get(h_name) or {}).get("status") == "mature"
-        ]
+    for h_name, months in (("1Q", 3), ("2Q", 6), ("4Q", 12), ("8Q", 24)):
+        horizon_outcomes = []
+        for c in deduped_candidates:
+            h_data = (c.get("horizons") or {}).get(h_name) or {}
+            if h_data.get("status") != "mature":
+                continue
+            c_date = parse_date(c.get("information_available_at") or c.get("effective_date"))
+            endpoint = parse_date(h_data.get("endpoint_date") or h_data.get("selected_date"))
+            # Validate endpoint is strictly on or after horizon target date
+            if c_date and endpoint:
+                target_endpoint = event_studies.add_months(c_date, months)
+                if endpoint < target_endpoint:
+                    continue
+            ret = h_data.get("return_pct")
+            if ret is not None and math.isfinite(float(ret)):
+                horizon_outcomes.append(float(ret))
+
         dist = compute_horizon_distribution(horizon_outcomes)
         horizon_distributions[h_name] = dist
         mature_counts[h_name] = dist["n"]
 
-    sample_ready = any(count >= MIN_SAMPLE for count in mature_counts.values())
+    all_ready = all(count >= MIN_SAMPLE for count in mature_counts.values())
+    any_ready = any(count >= MIN_SAMPLE for count in mature_counts.values())
+    overall_status = "sample_ready" if all_ready else ("partial_sample_ready" if any_ready else "insufficient_sample")
 
     return {
         "schema_version": SCHEMA_VERSION,
@@ -227,21 +253,22 @@ def evaluate_cement_expansion_lane(
             "event_family": target.get("event_family"),
             "case_type_disambiguation": {
                 "lane_identity": "organic_cement_capacity_expansion",
-                "distinction_from_mlcf_pioc": "MLCF PIOC event is corporate equity control M&A and is excluded from organic capacity expansion pooling",
+                "distinction_from_mlcf_pioc": "MLCF PIOC event is corporate equity control M&A (corporate_equity_control_acquisition) and remains blocked from organic capacity expansion pooling",
+                "mlcf_pioc_case_status": "blocked_separate_event_family",
             },
         },
-        "distribution_status": "sample_ready" if sample_ready else "insufficient_sample",
+        "distribution_status": overall_status,
         "sample_summary": {
             "raw_candidates_evaluated": len(raw_pool),
             "validated_candidates": len(validated_candidates),
             "deduplicated_episodes": len(deduped_candidates),
             "mature_counts_by_horizon": mature_counts,
-            "distribution_computed": sample_ready,
+            "distribution_computed_horizons": [h for h, cnt in mature_counts.items() if cnt >= MIN_SAMPLE],
         },
         "horizon_distributions": horizon_distributions,
         "qualified_candidate_episodes": deduped_candidates,
         "rejected_candidates": rejected_candidates,
-        "ranked_missing_records_queue": RANKED_MISSING_RECORDS_CATALOG,
+        "discovery_requirements_queue": DISCOVERY_REQUIREMENTS_QUEUE,
         "policy": {
             "fail_closed_minimum_sample_three": True,
             "strictly_pre_event_baselines": True,

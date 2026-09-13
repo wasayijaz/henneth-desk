@@ -34,8 +34,8 @@ def _fixture_candidate(i: int, sym: str = "DGKC", mature_1q: bool = True) -> dic
             "url": f"https://dps.psx.com.pk/download/document/20000{i}.pdf",
         },
         "horizons": {
-            "1Q": {"status": "mature" if mature_1q else "unavailable", "return_pct": 5.0 * i if mature_1q else None},
-            "2Q": {"status": "mature" if mature_1q else "unavailable", "return_pct": 8.0 * i if mature_1q else None},
+            "1Q": {"status": "mature" if mature_1q else "unavailable", "return_pct": 5.0 * i if mature_1q else None, "endpoint_date": f"2024-0{i+3}-15"},
+            "2Q": {"status": "mature" if mature_1q else "unavailable", "return_pct": 8.0 * i if mature_1q else None, "endpoint_date": f"2024-0{i+6}-15"},
             "4Q": {"status": "unavailable", "return_pct": None},
             "8Q": {"status": "unavailable", "return_pct": None},
         },
@@ -44,8 +44,8 @@ def _fixture_candidate(i: int, sym: str = "DGKC", mature_1q: bool = True) -> dic
 def _test_positive_distribution_n3() -> None:
     pool = [_fixture_candidate(1, "DGKC"), _fixture_candidate(2, "LUCK"), _fixture_candidate(3, "MLCF")]
     res = engine.evaluate_cement_expansion_lane(candidate_pool=pool, cutoff_date=date(2026, 1, 1))
-    if res["distribution_status"] != "sample_ready":
-        _fail("N=3 mature candidates must yield sample_ready status")
+    if res["distribution_status"] != "partial_sample_ready":
+        _fail("N=3 mature in 1Q/2Q but 0 in 4Q/8Q must yield partial_sample_ready status")
     dist_1q = res["horizon_distributions"]["1Q"]
     if dist_1q["status"] != "available" or dist_1q["n"] != 3:
         _fail(f"1Q distribution must be available with n=3: {dist_1q}")
@@ -60,6 +60,43 @@ def _test_fail_closed_thin_sample_n2() -> None:
     dist_1q = res["horizon_distributions"]["1Q"]
     if dist_1q["status"] != "suppressed" or dist_1q["mean_return_pct"] is not None:
         _fail(f"1Q stats must be suppressed when N < 3: {dist_1q}")
+
+def _test_premature_endpoint_suppression() -> None:
+    cand = _fixture_candidate(1, "DGKC")
+    # 1Q target date is 2024-04-15 (3 months after 2024-01-15). Set endpoint before target date:
+    cand["horizons"]["1Q"]["endpoint_date"] = "2024-03-01"
+    pool = [cand, _fixture_candidate(2, "LUCK"), _fixture_candidate(3, "MLCF")]
+    res = engine.evaluate_cement_expansion_lane(candidate_pool=pool, cutoff_date=date(2026, 1, 1))
+    dist_1q = res["horizon_distributions"]["1Q"]
+    if dist_1q["n"] != 2 or dist_1q["status"] != "suppressed":
+        _fail(f"Premature endpoint must be excluded from mature sample: {dist_1q}")
+
+def _test_source_qualification_violations() -> None:
+    bad_page = _fixture_candidate(1, "DGKC")
+    bad_page["source"]["page"] = 0
+    if not any("missing_or_invalid_source_page" in v for v in engine.validate_analogue_candidate(bad_page)):
+        _fail("page < 1 must be rejected")
+
+    bad_url = _fixture_candidate(1, "DGKC")
+    bad_url["source"]["url"] = "invalid_url"
+    if not any("missing_or_invalid_source_url" in v for v in engine.validate_analogue_candidate(bad_url)):
+        _fail("invalid URL must be rejected")
+
+    bad_hash = _fixture_candidate(1, "DGKC")
+    bad_hash["source"]["hash"] = "short_hash"
+    if not any("missing_or_malformed_content_sha256" in v for v in engine.validate_analogue_candidate(bad_hash)):
+        _fail("non-64 hex hash must be rejected")
+
+def _test_duplicate_source_deduplication() -> None:
+    # Simulated repeated MLCF disclosures from psx:263397
+    cand1 = _fixture_candidate(1, "MLCF")
+    cand1["source"]["id"] = "psx:263397"
+    cand2 = _fixture_candidate(1, "MLCF")
+    cand2["source"]["id"] = "psx:263397"
+    cand2["candidate_id"] = "cand_test_MLCF_duplicate_row"
+    deduped = engine.deduplicate_observations([cand1, cand2])
+    if len(deduped) != 1:
+        _fail(f"Repeated disclosures from same source/project must deduplicate to 1, got {len(deduped)}")
 
 def _test_mismatched_mna_rejection() -> None:
     mna_cand = {
@@ -92,6 +129,9 @@ def _test_no_advice_leak(data: dict) -> None:
 def main() -> None:
     _test_positive_distribution_n3()
     _test_fail_closed_thin_sample_n2()
+    _test_premature_endpoint_suppression()
+    _test_source_qualification_violations()
+    _test_duplicate_source_deduplication()
     _test_mismatched_mna_rejection()
     _test_deduplication()
 
@@ -102,9 +142,9 @@ def main() -> None:
         _fail("Schema version or product version mismatch")
     if rebuilt.get("distribution_status") != "insufficient_sample":
         _fail("Real retained state must report insufficient_sample while mature exact events < 3")
-    queue = rebuilt.get("ranked_missing_records_queue") or []
+    queue = rebuilt.get("discovery_requirements_queue") or []
     if len(queue) != 3:
-        _fail(f"Ranked missing records queue must contain exactly 3 prioritized items, got {len(queue)}")
+        _fail(f"Discovery requirements queue must contain exactly 3 prioritized slots, got {len(queue)}")
 
     path = engine.OUT
     if path.exists():

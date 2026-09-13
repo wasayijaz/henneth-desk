@@ -8,7 +8,8 @@
   "event_family": "cement_clinker_line_commissioning",
   "case_type_disambiguation": {
    "lane_identity": "organic_cement_capacity_expansion",
-   "distinction_from_mlcf_pioc": "MLCF PIOC event is corporate equity control M&A and is excluded from organic capacity expansion pooling"
+   "distinction_from_mlcf_pioc": "MLCF PIOC event is corporate equity control M&A (corporate_equity_control_acquisition) and remains blocked from organic capacity expansion pooling",
+   "mlcf_pioc_case_status": "blocked_separate_event_family"
   }
  },
  "distribution_status": "insufficient_sample",
@@ -22,7 +23,7 @@
    "4Q": 0,
    "8Q": 0
   },
-  "distribution_computed": false
+  "distribution_computed_horizons": []
  },
  "horizon_distributions": {
   "1Q": {
@@ -3509,46 +3510,51 @@
    ]
   }
  ],
- "ranked_missing_records_queue": [
+ "discovery_requirements_queue": [
   {
+   "slot_id": "slot_cement_expansion_1",
    "priority": 1,
-   "symbol": "DGKC",
-   "company_name": "D.G. Khan Cement Company Limited",
-   "event_description": "2,500 TPD Brownfield Clinker Line & 10 MW Waste Heat Recovery Commissioning",
-   "target_family": "cement_clinker_line_commissioning",
-   "missing_attributes": [
-    "exact_psx_announcement_date",
-    "document_id_psx_dps",
-    "content_sha256"
+   "requirement_type": "official_clinker_line_commissioning_notice",
+   "description": "Commercial operation commencement disclosure for new or brownfield clinker line",
+   "required_evidence_fields": [
+    "document_id",
+    "content_sha256",
+    "source_url",
+    "page",
+    "published_at",
+    "rated_clinker_tpd"
    ],
-   "retained_proxy": "evt_c66c444c35780cf5951e (annual report narrative text without announcement timestamp)",
-   "impact_on_lane": "Unblocks primary same-sector mature brownfield expansion analogue."
+   "eligibility_impact": "Provides primary verified clinker capacity expansion observation"
   },
   {
+   "slot_id": "slot_cement_expansion_2",
    "priority": 2,
-   "symbol": "MLCF",
-   "company_name": "Maple Leaf Cement Factory Limited",
-   "event_description": "Line-4 (7,000 TPD Clinker Line) Commercial Operation Commencement",
-   "target_family": "cement_clinker_line_commissioning",
-   "missing_attributes": [
-    "psx_material_information_document_id",
-    "exact_commencement_date"
+   "requirement_type": "official_waste_heat_recovery_or_grinding_notice",
+   "description": "Commercial commissioning announcement for waste heat recovery (WHR) plant or additional cement grinding mill",
+   "required_evidence_fields": [
+    "document_id",
+    "content_sha256",
+    "source_url",
+    "page",
+    "published_at",
+    "megawatt_or_tpd_capacity"
    ],
-   "retained_proxy": "None in active 20-pilot event ledger",
-   "impact_on_lane": "Supplies same-company historical clinker line expansion benchmark."
+   "eligibility_impact": "Provides second independent operational efficiency / capacity expansion observation"
   },
   {
+   "slot_id": "slot_cement_expansion_3",
    "priority": 3,
-   "symbol": "LUCK",
-   "company_name": "Lucky Cement Limited",
-   "event_description": "North Plant / Pezu Additional Clinker Line Commercial Commissioning",
-   "target_family": "cement_clinker_line_commissioning",
-   "missing_attributes": [
-    "psx_dps_announcement_hash",
-    "exact_commercial_operation_date"
+   "requirement_type": "peer_cement_capacity_addition_notice",
+   "description": "Historical commercial operation commencement announcement for domestic peer cement plant expansion",
+   "required_evidence_fields": [
+    "document_id",
+    "content_sha256",
+    "source_url",
+    "page",
+    "published_at",
+    "capacity_addition_metric"
    ],
-   "retained_proxy": "Undated annual report references",
-   "impact_on_lane": "Completes N >= 3 domestic tier-1 cement capacity commissioning sample."
+   "eligibility_impact": "Completes required minimum mature sample (N >= 3) for statistical distribution publishing"
   }
  ],
  "policy": {
@@ -3559,9 +3565,9 @@
  },
  "_meta": {
   "generator_version": "ci_artifact_integrity_v1",
-  "source_commit_sha": "fdbdb208723b74ba979a87aa3d9154c185c8cb30",
-  "build_cutoff_at": "2026-09-13T17:52:48Z",
-  "generated_at": "2026-09-13T17:52:48Z",
+  "source_commit_sha": "ee406fb68397128a2db906b5762b2b63165c5b09",
+  "build_cutoff_at": "2026-09-13T17:55:27Z",
+  "generated_at": "2026-09-13T17:55:27Z",
   "artifact_path": "state/company_intel/cement_expansion_analogue_distribution.json",
   "timestamp_semantics": {
    "build_cutoff_at": "generation boundary only; not a source-effective or source-published time",
