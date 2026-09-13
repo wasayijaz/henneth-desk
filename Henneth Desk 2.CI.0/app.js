@@ -185,7 +185,7 @@ const TREE_GROUPS = [
   { key: "overview", label: "Overview", routes: [["snapshot", "Investor Snapshot"], ["overview", "Company Profile"]] },
   { key: "intelligence", label: "Intelligence", landing_route: "directory_intelligence", routes: [["ask", "Ask Henneth"], ["graph", "Knowledge Graph"], ["operating", "Operating Intelligence"], ["intelligence", "Event-to-Value view"], ["timeline", "Typed timeline"]] },
   { key: "financials", label: "Financials", landing_route: "directory_financials", routes: [["trends", "Financial Trends"], ["baseline", "Financial Baseline"], ["forecast", "Forecast Readiness"], ["alpha_readiness", "Event-to-Value readiness"], ["financials", "Accounting Snapshot"]] },
-  { key: "events", label: "Events & Filings", routes: [["earnings", "Earnings"], ["events", "Events"], ["filings", "Filings"], ["sources", "Sources"], ["changes", "Change Digest (legacy)"], ["brief", "Brief queue (legacy)"]] },
+  { key: "events", label: "Events & Filings", landing_route: "directory_events", routes: [["earnings", "Earnings"], ["events", "Events"], ["filings", "Filings"], ["sources", "Sources"], ["changes", "Change Digest"], ["brief", "Approved brief"]] },
   { key: "strategy", label: "Strategy", routes: [["scenarios", "Scenarios"], ["valuation", "Valuation"], ["guidance", "Guidance"], ["catalysts", "Catalysts"], ["risks", "Risks"], ["quant", "Quant (legacy)"]] },
   { key: "ownership", label: "Ownership & Peers", routes: [["ownership", "Ownership"], ["peers", "Peers"], ["watchlist", "Watchlist"], ["conditional", "Conditional Benchmarks"], ["causal", "Causal Map"], ["coverage", "Coverage"], ["thesis", "Thesis Monitor"], ["monitoring", "Monitoring"], ["operations", "Operations (legacy)"]] },
 ];
@@ -966,6 +966,7 @@ function detail(r) {
       : state.view === "directory_overview" ? renderOverviewDashboard(r)
       : state.view === "directory_intelligence" ? renderIntelligenceDashboard(r)
       : state.view === "directory_financials" ? renderFinancialsDashboard(r)
+      : state.view === "directory_events" ? renderEventsDashboard(r)
       : state.view === "financials" ? renderCompanyFinancials(r)
       : state.view === "earnings" ? renderCompanyEarnings(r)
       : state.view === "operations" ? renderCompanyOperations(r)
@@ -2272,6 +2273,29 @@ function renderIntelligenceDashboard(r) {
       ${intelligenceDashboardCard("ask", "lucide:message-circle-question", "Research question", "Ask Henneth", askChart, "Question the retained company file. Factual claims appear only when the server returns validated citations.")}
     </div>
     <footer class="ci-editorial-footer"><span>Research only · no execution</span><span>Dashboard previews retained state; specialist pages hold the detail</span></footer>
+  </section>`;
+}
+
+function renderEventsDashboard(r) {
+  const events = Array.isArray(r.timeline) ? r.timeline : [];
+  const filings = Array.isArray(r.filings) ? r.filings : [];
+  const changes = Array.isArray(r.change_intelligence?.items) ? r.change_intelligence.items : [];
+  const sources = [...(r.sources?.sources || []), ...(r.sources?.documents || [])];
+  const bridges = Array.isArray(r.earnings_bridges?.bridges) ? r.earnings_bridges.bridges : [];
+  const dated = events.map(item => ({ date: item.date, label: String(item.type || "Official event").replaceAll("_", " ") })).filter(item => item.date).slice(-7);
+  const eventChart = dated.length ? ciChart("timeline", { status: "available", label: "Latest official-document events", items: dated }) : ciBlockedChart("blocked_no_events", "No official events are retained", ["Official filing", "Dated extraction"]);
+  const countChart = (label, value, unit) => ciChart("counter", { status: "available", label, value: Number(value || 0), display: String(value || 0), unit });
+  const brief = r.brief?.current;
+  return `<section class="panel span9 financials-dashboard-shell" aria-labelledby="eventsDashboardTitle">
+    <header class="intelligence-dashboard-header"><div><span class="kicker">Events & filings workspace</span><h2 id="eventsDashboardTitle">See what arrived, what changed, and what is sourced.</h2><p>Keep official filings separate from extracted events and approved interpretation, while preserving dates and evidence.</p></div><div class="intelligence-dashboard-symbol"><iconify-icon icon="lucide:files" aria-hidden="true"></iconify-icon><b>${esc(r.symbol)}</b><span>Source before synthesis</span></div></header>
+    <div class="intelligence-dashboard-grid">
+      ${intelligenceDashboardCard("events", "lucide:calendar-range", "Dated record", "Events", eventChart, "Read extracted official-document events in date order and inspect their retained evidence.")}
+      ${intelligenceDashboardCard("filings", "lucide:file-check-2", "Official documents", "Filings", countChart("Retained official filings", filings.length, "OFFICIAL FILINGS"), "Open the PSX and issuer document record with extraction status and page-level evidence.")}
+      ${intelligenceDashboardCard("earnings", "lucide:chart-no-axes-combined", "Reported results", "Earnings", countChart("Historical earnings bridges", bridges.length, "REPORTED BRIDGES"), "Inspect source-linked historical earnings changes and the gates holding back forward output.")}
+      ${intelligenceDashboardCard("sources", "lucide:link-2", "Source registry", "Sources", countChart("Monitored sources and documents", sources.length, "SOURCE RECORDS"), "Review issuer-owned pages and indexed documents without mixing them with model conclusions.")}
+      ${intelligenceDashboardCard("changes", "lucide:history", "Revision trail", "Change digest", countChart("Retained change records", changes.length, "CHANGES"), "See the latest additions and revisions to the company file, separately from financial impact.")}
+      ${intelligenceDashboardCard("brief", "lucide:badge-check", "Approved interpretation", brief ? "Approved brief" : "Brief queue", brief ? countChart("Approved current brief", 1, "OWNER-APPROVED BRIEF") : ciBlockedChart("blocked_no_approved_brief", "No owner-approved brief is current", ["Candidate synthesis", "Citation validation", "Owner approval"]), "Read only synthesis that has passed citation checks and explicit owner approval.")}
+    </div><footer class="ci-editorial-footer"><span>Research only · no execution</span><span>Documents, events, changes, and interpretation remain distinct</span></footer>
   </section>`;
 }
 
