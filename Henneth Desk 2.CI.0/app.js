@@ -173,6 +173,7 @@ const RESEARCH_TOOL_TABS = [
   ["ask", "Ask Henneth"],
   ["graph", "Knowledge graph"],
   ["operating", "Operating intelligence"],
+  ["past_context", "Past Context"],
   ["conditional", "Conditional benchmarks"],
   ["causal", "Causal map"],
   ["coverage", "Coverage"],
@@ -183,7 +184,7 @@ const RESEARCH_TOOL_TABS = [
 // appears exactly once in this tree; grouping is presentation-only.
 const TREE_GROUPS = [
   { key: "overview", label: "Overview", routes: [["snapshot", "Investor Snapshot"], ["overview", "Company Profile"]] },
-  { key: "intelligence", label: "Intelligence", landing_route: "directory_intelligence", routes: [["ask", "Ask Henneth"], ["graph", "Knowledge Graph"], ["operating", "Operating Intelligence"], ["intelligence", "Event-to-Value view"], ["timeline", "Typed timeline"]] },
+  { key: "intelligence", label: "Intelligence", landing_route: "directory_intelligence", routes: [["ask", "Ask Henneth"], ["graph", "Knowledge Graph"], ["operating", "Operating Intelligence"], ["past_context", "Past Context"], ["intelligence", "Event-to-Value view"], ["timeline", "Typed timeline"]] },
   { key: "financials", label: "Financials", landing_route: "directory_financials", routes: [["trends", "Financial Trends"], ["baseline", "Financial Baseline"], ["forecast", "Forecast Readiness"], ["alpha_readiness", "Event-to-Value readiness"], ["financials", "Accounting Snapshot"]] },
   { key: "events", label: "Events & Filings", landing_route: "directory_events", routes: [["earnings", "Earnings"], ["events", "Events"], ["filings", "Filings"], ["sources", "Sources"], ["changes", "Change Digest"], ["brief", "Approved brief"]] },
   { key: "strategy", label: "Strategy", landing_route: "directory_strategy", routes: [["scenarios", "Scenarios"], ["valuation", "Valuation"], ["guidance", "Guidance"], ["catalysts", "Catalysts"], ["risks", "Risks"], ["quant", "Quant (legacy)"]] },
@@ -199,6 +200,7 @@ let state = {
   tree: { expanded: {} },
   ask: { pending: {}, nextId: 0, bySymbol: {} },
   scenario: { bySymbol: {} },
+  pastContext: { bySymbol: {} },
   theses: { loaded: false, loading: false, saving: false, error: null, bySymbol: {}, drafts: {}, smoke: { running: false, status: "not_run", checkedAt: null, error: null, rowCount: null } },
 };
 
@@ -834,6 +836,12 @@ function renderDesk(searchState) {
       renderDesk({ focusView: state.view });
     };
   });
+  document.querySelectorAll("[data-past-context-id]").forEach(btn => {
+    btn.onclick = () => {
+      state.pastContext.bySymbol[state.selected] = btn.dataset.pastContextId;
+      renderDesk();
+    };
+  });
   document.querySelectorAll("[data-company-logo]").forEach(image => {
     image.addEventListener("error", () => {
       image.hidden = true;
@@ -969,6 +977,7 @@ function detail(r) {
       : state.view === "directory_events" ? renderEventsDashboard(r)
       : state.view === "directory_strategy" ? renderStrategyDashboard(r)
       : state.view === "directory_ownership" ? renderOwnershipDashboard(r)
+      : state.view === "past_context" ? renderPastContext(r)
       : state.view === "financials" ? renderCompanyFinancials(r)
       : state.view === "earnings" ? renderCompanyEarnings(r)
       : state.view === "operations" ? renderCompanyOperations(r)
@@ -1555,7 +1564,7 @@ function overviewActivityItems(r) {
 }
 
 function overviewRouteCard(route, kicker, title, copy, chart, icon) {
-  return `<article class="overview-dashboard-card"><header class="overview-card-heading"><span class="overview-card-icon" aria-hidden="true"><iconify-icon icon="${esc(icon)}"></iconify-icon></span><div><span class="kicker">${esc(kicker)}</span><h3>${esc(title)}</h3></div></header>${chart}<p>${esc(copy)}</p><button type="button" class="overview-route-button" data-research-route="${esc(route)}">Open ${esc(title)}<iconify-icon icon="lucide:arrow-right" aria-hidden="true"></iconify-icon></button></article>`;
+  return `<article class="overview-dashboard-card" data-card-route="${esc(route)}"><header class="overview-card-heading"><span class="overview-card-icon" aria-hidden="true"><iconify-icon icon="${esc(icon)}"></iconify-icon></span><div><span class="kicker">${esc(kicker)}</span><h3>${esc(title)}</h3></div><span class="ci-card-route-pill">${esc(route)}</span></header>${chart}<p>${esc(copy)}</p><button type="button" class="overview-route-button" data-research-route="${esc(route)}" aria-label="Open ${esc(title)} research view">Open ${esc(title)}<iconify-icon icon="lucide:arrow-right" aria-hidden="true"></iconify-icon></button></article>`;
 }
 
 function renderOverviewDashboard(r) {
@@ -2268,7 +2277,7 @@ function strategyTimelineChart(label, rows, requirements) {
 }
 
 function strategyDashboardCard(route, icon, number, kicker, title, chart, copy, meta = "") {
-  return `<article class="strategy-dashboard-card" data-flow-step="${esc(number)}"><header class="overview-card-heading"><span class="overview-card-icon" aria-hidden="true"><iconify-icon icon="${esc(icon)}"></iconify-icon></span><div><span class="kicker">${esc(kicker)}</span><h3>${esc(title)}</h3></div></header>${chart}${meta ? `<div class="intelligence-card-meta">${meta}</div>` : ""}<p>${esc(copy)}</p><button type="button" class="overview-route-button" data-research-route="${esc(route)}">Open ${esc(title)}<iconify-icon icon="lucide:arrow-right" aria-hidden="true"></iconify-icon></button></article>`;
+  return `<article class="strategy-dashboard-card" data-flow-step="${esc(number)}" data-card-route="${esc(route)}"><header class="overview-card-heading"><span class="overview-card-icon" aria-hidden="true"><iconify-icon icon="${esc(icon)}"></iconify-icon></span><div><span class="kicker">${esc(kicker)}</span><h3>${esc(title)}</h3></div><span class="ci-card-route-pill">${esc(route)}</span></header>${chart}${meta ? `<div class="intelligence-card-meta">${meta}</div>` : ""}<p>${esc(copy)}</p><button type="button" class="overview-route-button" data-research-route="${esc(route)}" aria-label="Open ${esc(title)} research view">Open ${esc(title)}<iconify-icon icon="lucide:arrow-right" aria-hidden="true"></iconify-icon></button></article>`;
 }
 
 function renderStrategyDashboard(r) {
@@ -2317,7 +2326,11 @@ function renderStrategyDashboard(r) {
   const valuationMeta = `<span><b>${esc(ciHumanStatus(forecast.status))}</b> forecast</span><span><b>${esc(ciHumanStatus(valuation.status))}</b> valuation</span><span><b>${esc(ciHumanStatus(expectations.status))}</b> expectations</span>`;
   return `<section class="panel span9 strategy-dashboard-shell" aria-labelledby="strategyDashboardTitle">
     <header class="strategy-dashboard-header"><div><span class="kicker">Strategy workspace</span><h2 id="strategyDashboardTitle">Turn retained evidence into a research decision flow.</h2><p>Use this hub to move from scenarios to valuation gates, guidance checks, catalysts, risks, and quantitative context. It is research-only; missing gates remain unknown and no action is recommended.</p></div><div class="strategy-dashboard-symbol"><iconify-icon icon="lucide:git-branch-plus" aria-hidden="true"></iconify-icon><b>${esc(r.symbol)}</b><span>Decision flow, not advice</span></div></header>
-    <div class="strategy-flow" aria-label="Strategy research decision flow">${flow.map(([number, label, status]) => `<span data-flow-status="${esc(statusBucket(status))}"><small>${esc(number)}</small><b>${esc(label)}</b><em>${esc(ciHumanStatus(status))}</em></span>`).join("")}</div>
+    <div class="strategy-flow" aria-label="Strategy research decision flow">${flow.map(([number, label, status]) => {
+    const routeMap = { "Scenario frame": "scenarios", "Valuation gate": "valuation", "Guidance check": "guidance", "Catalyst file": "catalysts", "Risk file": "risks", "Quant context": "quant" };
+    const stepRoute = routeMap[label] || "scenarios";
+    return `<button type="button" class="strategy-flow-step" data-research-route="${esc(stepRoute)}" data-flow-status="${esc(statusBucket(status))}" aria-label="Jump to ${esc(label)}"><small>${esc(number)}</small><b>${esc(label)}</b><em>${esc(ciHumanStatus(status))}</em><iconify-icon icon="lucide:arrow-up-right" aria-hidden="true"></iconify-icon></button>`;
+  }).join("")}</div>
     <div class="strategy-dashboard-grid">
       ${strategyDashboardCard("scenarios", "lucide:sliders-horizontal", "01", "Scenario frame", "Scenarios", scenarioChart, "Inspect caller-supplied sensitivity and reverse expectations only when the retained qualification gates allow it.")}
       ${strategyDashboardCard("valuation", "lucide:scale", "02", "Formal gates", "Valuation", valuationChart, "Read formal valuation and market-expectations status directly from source-gated engine rows; the browser does not fill missing operands.", valuationMeta)}
@@ -2332,7 +2345,7 @@ function renderStrategyDashboard(r) {
 }
 
 function ownershipDashboardCard(route, icon, number, kicker, title, chart, copy, meta = "") {
-  return `<article class="ownership-dashboard-card" data-ownership-step="${esc(number)}"><header class="overview-card-heading"><span class="overview-card-icon" aria-hidden="true"><iconify-icon icon="${esc(icon)}"></iconify-icon></span><div><span class="kicker">${esc(kicker)}</span><h3>${esc(title)}</h3></div></header>${chart}${meta ? `<div class="intelligence-card-meta">${meta}</div>` : ""}<p>${esc(copy)}</p><button type="button" class="overview-route-button" data-research-route="${esc(route)}">Open ${esc(title)}<iconify-icon icon="lucide:arrow-right" aria-hidden="true"></iconify-icon></button></article>`;
+  return `<article class="ownership-dashboard-card" data-ownership-step="${esc(number)}" data-card-route="${esc(route)}"><header class="overview-card-heading"><span class="overview-card-icon" aria-hidden="true"><iconify-icon icon="${esc(icon)}"></iconify-icon></span><div><span class="kicker">${esc(kicker)}</span><h3>${esc(title)}</h3></div><span class="ci-card-route-pill">${esc(route)}</span></header>${chart}${meta ? `<div class="intelligence-card-meta">${meta}</div>` : ""}<p>${esc(copy)}</p><button type="button" class="overview-route-button" data-research-route="${esc(route)}" aria-label="Open ${esc(title)} research view">Open ${esc(title)}<iconify-icon icon="lucide:arrow-right" aria-hidden="true"></iconify-icon></button></article>`;
 }
 
 function renderOwnershipDashboard(r) {
@@ -2404,7 +2417,11 @@ function renderOwnershipDashboard(r) {
   ];
   return `<section class="panel span9 ownership-dashboard-shell" aria-labelledby="ownershipDashboardTitle">
     <header class="ownership-dashboard-header"><div><span class="kicker">Ownership &amp; peers workspace</span><h2 id="ownershipDashboardTitle">Map the boundary around ${esc(r.symbol)}.</h2><p>Use this hub to separate what is authoritative from what remains unknown: ownership records, peer context, evidence watches, descriptive benchmarks, causal coverage, financial coverage, thesis checks, and dated monitoring activity. Missing inputs stay visible; no ownership percentage, free float, peer identity, trend, or readiness state is inferred.</p></div><div class="ownership-dashboard-symbol"><iconify-icon icon="lucide:network" aria-hidden="true"></iconify-icon><b>${esc(r.symbol)}</b><span>Connections before conclusions</span></div></header>
-    <div class="ownership-flow" aria-label="Ownership and peers research flow">${flow.map(([number, label, status]) => `<span data-flow-status="${esc(statusBucket(status))}"><small>${esc(number)}</small><b>${esc(label)}</b><em>${esc(ciHumanStatus(status))}</em></span>`).join("")}</div>
+    <div class="ownership-flow" aria-label="Ownership and peers research flow">${flow.map(([number, label, status]) => {
+    const routeMap = { "Ownership boundary": "ownership", "Peer context": "peers", "Evidence watch": "watchlist", "Cross-company context": "conditional", "Causal coverage": "causal", "Thesis & alerts": "thesis" };
+    const stepRoute = routeMap[label] || "ownership";
+    return `<button type="button" class="ownership-flow-step" data-research-route="${esc(stepRoute)}" data-flow-status="${esc(statusBucket(status))}" aria-label="Jump to ${esc(label)}"><small>${esc(number)}</small><b>${esc(label)}</b><em>${esc(ciHumanStatus(status))}</em><iconify-icon icon="lucide:arrow-up-right" aria-hidden="true"></iconify-icon></button>`;
+  }).join("")}</div>
     <div class="ownership-dashboard-grid">
       ${ownershipDashboardCard("ownership", "lucide:lock-keyhole", "01", "Boundary check", "Ownership", ownershipChart, "No authoritative ownership table is present in the retained row. Filing metadata is not treated as ownership percentages or free-float evidence.")}
       ${ownershipDashboardCard("peers", "lucide:users-round", "02", "Explicit registry", "Peers", peerChart, "Open only the formal peer registry emitted by the backend. Sector labels never become an inferred peer set.", registry ? `<span>Method <b>${esc(registry.method || "not emitted")}</b></span><span>Scope <b>${esc(registry.peer_set_kind || "not emitted")}</b></span>` : "")}
@@ -2421,7 +2438,7 @@ function renderOwnershipDashboard(r) {
 }
 
 function intelligenceDashboardCard(route, icon, kicker, title, chart, copy, meta = "") {
-  return `<article class="intelligence-dashboard-card"><header class="overview-card-heading"><span class="overview-card-icon" aria-hidden="true"><iconify-icon icon="${esc(icon)}"></iconify-icon></span><div><span class="kicker">${esc(kicker)}</span><h3>${esc(title)}</h3></div></header>${chart}${meta ? `<div class="intelligence-card-meta">${meta}</div>` : ""}<p>${esc(copy)}</p><button type="button" class="overview-route-button" data-research-route="${esc(route)}">Open ${esc(title)}<iconify-icon icon="lucide:arrow-right" aria-hidden="true"></iconify-icon></button></article>`;
+  return `<article class="intelligence-dashboard-card" data-card-route="${esc(route)}"><header class="overview-card-heading"><span class="overview-card-icon" aria-hidden="true"><iconify-icon icon="${esc(icon)}"></iconify-icon></span><div><span class="kicker">${esc(kicker)}</span><h3>${esc(title)}</h3></div><span class="ci-card-route-pill">${esc(route)}</span></header>${chart}${meta ? `<div class="intelligence-card-meta">${meta}</div>` : ""}<p>${esc(copy)}</p><button type="button" class="overview-route-button" data-research-route="${esc(route)}" aria-label="Open ${esc(title)} research view">Open ${esc(title)}<iconify-icon icon="lucide:arrow-right" aria-hidden="true"></iconify-icon></button></article>`;
 }
 
 function renderIntelligenceDashboard(r) {
@@ -2449,6 +2466,8 @@ function renderIntelligenceDashboard(r) {
   const typedTimeline = Array.isArray(r.company_brain?.timeline) ? r.company_brain.timeline : [];
   const chronology = typedTimeline.map(item => ({ date: item.date, label: objectTypeLabel(item.type) })).filter(item => item.date).slice(-6);
   const conclusion = envelope.conclusion || {};
+  const historicalMap = r.historical_state_map || {};
+  const historicalContexts = Array.isArray(historicalMap.contexts) ? historicalMap.contexts : [];
   const lifecycleStrip = `<div class="intelligence-lifecycle" aria-label="Event-to-Value section states">${lifecycle.map(([label, section]) => `<span><small>${esc(label)}</small><b>${esc(ciHumanStatus(section?.status))}</b></span>`).join("")}</div>`;
   const askChart = citationCount == null
     ? ciBlockedChart("blocked_no_session_answer", "No question has been answered in this session", ["Ask a company question", "Validate cited answer", "Inspect retained sources"])
@@ -2463,6 +2482,9 @@ function renderIntelligenceDashboard(r) {
   const chronologyChart = chronology.length
     ? ciChart("timeline", { status: "available", label: "Latest typed company chronology", items: chronology })
     : ciBlockedChart("blocked_no_typed_timeline", "No typed chronology is retained", ["Official filing", "Typed object", "Dated record"]);
+  const pastContextChart = historicalContexts.length
+    ? ciChart("counter", { status: "available", label: "Retained Historical State Map cases", value: historicalContexts.length, display: String(historicalContexts.length), unit: "CUTOFF-SAFE CASE CONTEXTS" })
+    : ciBlockedChart(historicalMap.status || "not_selected_for_historical_state_map", "No historical state map is retained for this company", ["Qualified observed case", "Cutoff-safe state vector", "Strict prior-event candidates"]);
   const operatingMeta = operatingEvents.length ? `<span><b>${esc(operatingEvents.length)}</b> retained event${operatingEvents.length === 1 ? "" : "s"}</span><span><b>${esc(ciHumanStatus(r.driver_graph?.status))}</b> sector model</span>` : "";
   const graphMeta = `<span><b>${esc(graphNodes.length)}</b> nodes</span><span><b>${esc(graphEdges.length)}</b> links</span>`;
   const chronologyMeta = typedTimeline.length ? `<span><b>${esc(typedTimeline.length)}</b> typed entries</span>` : "";
@@ -2475,8 +2497,156 @@ function renderIntelligenceDashboard(r) {
       ${intelligenceDashboardCard("graph", "lucide:network", "Evidence connections", "Knowledge graph", graphChart, "See how the issuer, official documents, typed facts, events, periods, and source links connect.", graphMeta)}
       ${intelligenceDashboardCard("timeline", "lucide:history", "Chronology", "Typed timeline", chronologyChart, "Read what changed in dated order, with official-event chronology kept separate from document revisions.", chronologyMeta)}
       ${intelligenceDashboardCard("ask", "lucide:message-circle-question", "Research question", "Ask Henneth", askChart, "Question the retained company file. Factual claims appear only when the server returns validated citations.")}
+      ${intelligenceDashboardCard("past_context", "lucide:scan-search", "Historical state map", "Past Context", pastContextChart, "Compare a qualified observed event with cutoff-safe historical context while keeping similarity, source trust, and forecast permissions separate.")}
     </div>
     <footer class="ci-editorial-footer"><span>Research only · no execution</span><span>Dashboard previews retained state; specialist pages hold the detail</span></footer>
+  </section>`;
+}
+
+function pastContextCard(icon, number, kicker, title, chart, copy, details = "", wide = false) {
+  return `<article class="past-context-card${wide ? " past-context-wide" : ""}" data-past-context-step="${esc(number)}">
+    <header class="overview-card-heading">
+      <span class="overview-card-icon" aria-hidden="true"><iconify-icon icon="${esc(icon)}"></iconify-icon></span>
+      <div class="overview-card-heading-text">
+        <div class="past-context-card-kicker-row">
+          <span class="kicker">${esc(kicker)}</span>
+          <span class="past-context-step-chip">STEP ${esc(number)}</span>
+        </div>
+        <h3>${esc(title)}</h3>
+      </div>
+    </header>
+    ${chart}
+    ${details}
+    <p class="past-context-copy">${esc(copy)}</p>
+  </article>`;
+}
+
+function renderPastContext(r) {
+  const product = r.historical_state_map || {};
+  const contexts = Array.isArray(product.contexts) ? product.contexts : [];
+  if (!contexts.length) {
+    return `<section class="panel span9 past-context-shell" aria-labelledby="pastContextTitle"><header class="past-context-header"><div><button type="button" class="overview-back-button" data-research-route="directory_intelligence">Intelligence workspace</button><span class="kicker">Past Context · historical state map</span><h2 id="pastContextTitle">No historical state map is retained for ${esc(r.symbol)} yet.</h2><p>This first bounded map covers selected Alpha cases only. An absent row is not evidence that the company has no analogue; it means Henneth has not qualified one in this product.</p></div><div class="past-context-seal"><iconify-icon icon="lucide:history" aria-hidden="true"></iconify-icon><b>${esc(r.symbol)}</b><span>Historical context · not forecast</span></div></header><div class="past-context-empty">${ciBlockedChart(product.status || "not_selected_for_historical_state_map", "Historical state map not available for this company", ["Qualified observed case", "Cutoff-safe state vector", "Strict prior-event candidates", "Source lineage"])}</div><footer class="ci-editorial-footer"><span>Research only · no execution</span><span>No analogue, outcome, or readiness inferred</span></footer></section>`;
+  }
+  const selectedId = state.pastContext.bySymbol[r.symbol];
+  const context = contexts.find(item => item?.map_id === selectedId) || contexts[0];
+  const caseData = context.case || {};
+  const binding = context.event_binding || {};
+  const vector = context.current_state_vector || {};
+  const market = vector.market_setup || {};
+  const operating = vector.operating_event || {};
+  const financial = vector.financial_truth || {};
+  const regime = vector.policy_regime || {};
+  const past = context.past_context || {};
+  const study = past.event_study || {};
+  const benchmark = past.strict_analogue_benchmark || {};
+  const evidence = Array.isArray(binding.source_lineage) ? binding.source_lineage : [];
+  const horizons = study.horizons || {};
+  const caseLabel = String(caseData.case_type || binding.event_subtype || "observed event").replaceAll("_", " ");
+  const analogueCandidates = [
+    ...(Array.isArray(benchmark.candidates) ? benchmark.candidates : []),
+    ...(Array.isArray(benchmark.analogues) ? benchmark.analogues : []),
+    ...(Array.isArray(benchmark.analogue_contexts) ? benchmark.analogue_contexts : []),
+  ].filter(item => item && typeof item === "object");
+  const preReturns = market.pre_event_returns || {};
+  const stateChart = ciChart("state_colonnade", {
+    status: "available",
+    label: "Four retained state categories at the case cutoff",
+    groups: [
+      { label: "Technical / market", status: market.status, items: [
+        { label: "Pre-event baseline", value: market.baseline?.close == null ? "Unknown" : `Rs ${fmt(market.baseline.close)}`, detail: market.baseline?.date },
+        ...["5d", "15d", "60d"].map(label => ({ label: `${label} pre-event return`, value: preReturns[label]?.return_pct == null ? "Unknown" : pct(Number(preReturns[label].return_pct)), detail: `${preReturns[label]?.start_date || "unknown"} to ${preReturns[label]?.end_date || "unknown"}` })),
+        { label: "5-to-60-session volume", value: market.pre_event_volume?.median_5_session_to_60_session_ratio == null ? "Unknown" : `${fmt(market.pre_event_volume.median_5_session_to_60_session_ratio, 2)}×`, detail: "Median volume ratio retained by backend" },
+      ] },
+      { label: "Operating event", status: operating.status, items: [
+        { label: "Evidence count", value: String(operating.evidence_count ?? "Unknown") },
+        { label: "Affected drivers", value: Array.isArray(operating.affected_drivers) && operating.affected_drivers.length ? operating.affected_drivers.join(", ") : "None emitted" },
+        { label: "Estimated scale", value: operating.estimated_scale == null ? "Not emitted" : String(operating.estimated_scale) },
+      ] },
+      { label: "Financial / fundamental", status: financial.status, items: [
+        { label: "Qualified annual periods", value: `${financial.annual?.present ?? "Unknown"} / ${financial.annual?.required ?? "Unknown"}` },
+        { label: "Qualified quarters", value: `${financial.reported_quarter?.present ?? "Unknown"} / ${financial.reported_quarter?.required ?? "Unknown"}` },
+        { label: "Formal outputs", value: financial.blocks_formal_outputs ? "Blocked" : "Not blocked" },
+      ] },
+      { label: "Policy / regime", status: regime.status, items: [
+        { label: "Qualified regime model", value: regime.status === "available" ? "Available" : "Unavailable", detail: String(regime.reason || "No reason emitted").replaceAll("_", " ") },
+      ] },
+    ],
+  });
+  const separationChart = ciChart("evidence_convergence", {
+    status: "available",
+    label: "Similarity context remains separate from evidence trust",
+    case_label: caseLabel,
+    trust_label: `Source quality level ${binding.source_quality_level ?? "unknown"}`,
+    context_label: `${benchmark.strict_candidate_count ?? 0} strict candidate${benchmark.strict_candidate_count === 1 ? "" : "s"}`,
+    context_detail: "No similarity score or ranked analogue identity is emitted.",
+    sources: evidence.map(item => ({ label: item.document_title || item.document_id || "Retained source", detail: `${item.source || "Official source"} · ${String(item.document_published_at || item.event_date || "date unknown").slice(0, 10)}` })),
+  });
+  const timelineItems = [
+    market.baseline?.date ? { date: market.baseline.date, label: "Pre-event baseline", kind: "event", observed: true } : null,
+    binding.effective_date ? { date: binding.effective_date, label: "Observed event", kind: "event", observed: true } : null,
+    ...evidence.flatMap(item => [
+      item.document_published_at ? { date: item.document_published_at, label: item.document_title || "Source published", kind: "source", observed: true, detail: "Published" } : null,
+      item.document_retrieved_at ? { date: item.document_retrieved_at, label: item.document_title || "Source retrieved", kind: "source", observed: true, detail: "Retrieved" } : null,
+    ]),
+    ...Object.entries(horizons).map(([label, row]) => ({ date: row?.selected_date || row?.target_date, label: `${label} ${row?.status === "mature" ? "observed" : "target"}`, kind: "outcome", observed: row?.status === "mature", detail: row?.reason || undefined })),
+  ].filter(Boolean);
+  const timelineChart = timelineItems.length
+    ? ciChart("dated_lineage", { status: "available", label: "Case, source, and outcome availability", items: timelineItems, cutoff: study.data_cutoff })
+    : ciBlockedChart("blocked_no_dated_context", "No dated context is retained", ["Pre-event baseline", "Effective date", "Observed endpoint"]);
+  const horizonOutcomes = ["1Q", "2Q", "4Q", "8Q"].map(label => {
+    const row = horizons[label] || {};
+    const hasOutcome = row.status === "mature" && row.return_pct != null && Number.isFinite(Number(row.return_pct));
+    return { label, value: hasOutcome ? Number(row.return_pct) : null, unit: "%", status: row.status || "unavailable", date: hasOutcome ? row.selected_date : row.target_date, detail: row.reason || undefined };
+  });
+  const outcomesChart = horizonOutcomes.length
+    ? ciChart("horizon_outcomes", { status: "available", label: "Observed raw-price returns after this event", items: horizonOutcomes, visible_summary: true })
+    : ciBlockedChart(study.status || "blocked_no_mature_outcomes", "No mature outcome window is retained", ["Cutoff-safe event study", "Mature endpoint", "Raw-price return"]);
+  const sourceDetails = evidence.length ? `<div class="past-context-sources" aria-label="Source lineage">${evidence.slice(0, 3).map(item => {
+    const href = safeHref(item.source_url);
+    const label = `${item.source || "Official source"} · ${String(item.document_published_at || item.event_date || "date unknown").slice(0, 10)}`;
+    return `<span><b>${esc(label)}</b><small>${esc(item.document_title || item.document_id || "Retained document")}</small>${href ? `<a href="${href}" target="_blank" rel="noopener">Open source <iconify-icon icon="lucide:external-link" aria-hidden="true"></iconify-icon></a>` : ""}</span>`;
+  }).join("")}</div>` : `<div class="past-context-gap"><span><b>Source lineage</b><small>No source reference emitted</small></span></div>`;
+  const stateDetails = `<div class="past-context-state-grid"><span data-state="${esc(statusBucket(market.status))}"><small>Market setup</small><b>${esc(ciHumanStatus(market.status))}</b><em>${market.policy?.strictly_pre_event ? "Strictly pre-event" : "Cutoff policy unknown"}</em></span><span data-state="${esc(statusBucket(operating.status))}"><small>Operating event</small><b>${esc(ciHumanStatus(operating.status))}</b><em>${esc(operating.evidence_count ?? "unknown")} retained evidence item${operating.evidence_count === 1 ? "" : "s"}</em></span><span data-state="${esc(statusBucket(financial.status))}"><small>Financial truth</small><b>${esc(ciHumanStatus(financial.status))}</b><em>${esc(financial.annual?.present ?? "unknown")}/${esc(financial.annual?.required ?? "unknown")} annual · ${esc(financial.reported_quarter?.present ?? "unknown")}/${esc(financial.reported_quarter?.required ?? "unknown")} quarters</em></span><span data-state="${esc(statusBucket(regime.status))}"><small>Policy / regime</small><b>${esc(ciHumanStatus(regime.status))}</b><em>${esc(String(regime.reason || "No qualified regime model").replaceAll("_", " "))}</em></span></div><div class="past-context-gap"><span><b>Case state, not live state</b><small>Current technical state is not emitted; this chart shows the strictly pre-event setup retained for the case.</small></span></div>`;
+  const bindingId = binding.matched_operating_event_id || binding.matched_canonical_event_id || binding.matched_event_id || "not emitted";
+  const sourceId = binding.matched_source_document_id || evidence[0]?.document_id || "not emitted";
+  const sourcePage = binding.matched_page ?? evidence[0]?.page ?? "not emitted";
+  const sourceHash = binding.matched_content_sha256 || evidence[0]?.content_sha256 || "not emitted";
+  const publishedAt = evidence[0]?.document_published_at || "not emitted";
+  const bindingDetails = `<div class="past-context-binding" aria-label="Exact event binding"><span><small>Bound event</small><b>${esc(bindingId)}</b></span><span><small>Source document</small><b>${esc(sourceId)} · p.${esc(sourcePage)}</b></span><span><small>Content hash</small><b>${esc(sourceHash)}</b></span><span><small>Published</small><b>${esc(String(publishedAt).slice(0, 10))}</b></span></div>`;
+  const analogueDetails = analogueCandidates.length
+    ? `<div class="past-context-analogues" aria-label="Individual analogue contexts">${analogueCandidates.slice(0, 8).map(item => {
+      const label = item.symbol || item.ticker || item.company || item.case_type || item.event_subtype || "Retained analogue";
+      const date = item.effective_date || item.event_date || item.date || "date unknown";
+      const classification = item.classification || item.match_type || item.analogue_type || "context";
+      return `<span><b>${esc(label)}</b><small>${esc(String(classification).replaceAll("_", " "))} · ${esc(date)}</small></span>`;
+    }).join("")}</div>`
+    : `<div class="past-context-gap"><span><b>No prior exact analogue context retained</b><small>${esc(benchmark.strict_candidate_count ?? 0)} strict candidate${benchmark.strict_candidate_count === 1 ? "" : "s"}; individual benchmark outcomes remain unavailable.</small></span></div>`;
+  const matchDetails = `<div class="past-context-separation"><span><small>Similarity context</small><b>${esc(benchmark.strict_candidate_count ?? 0)} strict candidate${benchmark.strict_candidate_count === 1 ? "" : "s"}</b><em>No similarity score or ranked analogue identity is emitted.</em></span><span><small>Evidence trust</small><b>Source quality level ${esc(binding.source_quality_level ?? "unknown")}</b><em>${esc(evidence.length)} hash-bound lineage reference${evidence.length === 1 ? "" : "s"}; trust is not similarity.</em></span></div>${analogueDetails}${bindingDetails}${sourceDetails}`;
+  const horizonDetails = `<div class="past-context-horizons">${["1Q", "2Q", "4Q", "8Q"].map(label => {
+    const row = horizons[label] || {};
+    const hasOutcome = row.status === "mature" && row.return_pct != null && Number.isFinite(Number(row.return_pct));
+    const endpoint = hasOutcome ? row.selected_date : row.target_date ? `Target ${row.target_date}; no endpoint` : "No endpoint";
+    return `<span data-horizon-status="${esc(row.status || "unavailable")}"><small>${esc(label)}</small><b>${hasOutcome ? esc(pct(Number(row.return_pct))) : esc(ciHumanStatus(row.status))}</b><em>${esc(endpoint)}</em></span>`;
+  }).join("")}</div><div class="past-context-gap past-context-gap-three"><span><b>Historical distribution</b><small>Suppressed: no horizon reaches the minimum sample of 3.</small></span><span><b>MAE / MFE</b><small>Not emitted by the backend.</small></span><span><b>Time to resolution</b><small>Not emitted by the backend.</small></span></div>`;
+  const blockers = Array.isArray(past.calibration_blockers) ? past.calibration_blockers : [];
+  const calibrationChart = ciChart("permission_tree", { status: "available", label: "Historical-context research permissions", root_label: "Historical context", items: [
+    { label: "Answer then-versus-now descriptively", allowed: context.answer_contract?.can_answer_then_vs_now ?? null, detail: context.answer_contract?.why },
+    { label: "Publish benchmark statistics", allowed: context.answer_contract?.can_publish_benchmark_stats ?? null, detail: "Thin samples remain suppressed" },
+    { label: "Feed forecast or valuation", allowed: context.answer_contract?.can_feed_forecast_or_valuation ?? null, detail: "Historical context cannot activate a formal output" },
+    { label: "Use for scenario calibration", allowed: past.usable_for_scenario_calibration ?? null, detail: blockers.map(item => String(item).replaceAll("_", " ")).join("; ") || "No blocker detail emitted" },
+  ] });
+  const calibrationDetails = `<div class="past-context-calibration"><span><small>Then vs now</small><b>${context.answer_contract?.can_answer_then_vs_now ? "Descriptive answer allowed" : "Held back"}</b></span><span><small>Benchmark statistics</small><b>${context.answer_contract?.can_publish_benchmark_stats ? "Publishable" : "Suppressed"}</b></span><span><small>Forecast / valuation feed</small><b>${context.answer_contract?.can_feed_forecast_or_valuation ? "Allowed" : "Prohibited"}</b></span></div>${blockers.length ? `<div class="past-context-blockers">${blockers.map(item => `<span>${esc(String(item).replaceAll("_", " "))}</span>`).join("")}</div>` : ""}`;
+  return `<section class="panel span9 past-context-shell" aria-labelledby="pastContextTitle">
+    <header class="past-context-header"><div><button type="button" class="overview-back-button" data-research-route="directory_intelligence">Intelligence workspace</button><span class="kicker">Past Context · historical state map</span><h2 id="pastContextTitle">What surrounded this event—and what followed.</h2><p>Compare a retained event setup with history without turning association into certainty. Similarity context, source trust, observed outcomes, and formal-output gates remain visibly separate.</p></div><div class="past-context-seal"><iconify-icon icon="lucide:history" aria-hidden="true"></iconify-icon><b>${esc(r.symbol)}</b><span>Historical context · not forecast</span></div></header>
+    <div class="past-context-casebar"><div><small>Selected observed case</small><b>${esc(caseLabel)}</b><span>${esc(binding.effective_date || "date unknown")} · ${esc(caseData.alpha_lane || "Alpha lane unknown")}</span></div>${contexts.length > 1 ? `<div class="past-context-tabs" aria-label="Historical cases">${contexts.map((item, index) => `<button type="button" class="${item.map_id === context.map_id ? "active" : ""}" data-past-context-id="${esc(item.map_id)}" aria-pressed="${item.map_id === context.map_id}"><small>${esc(String(index + 1).padStart(2, "0"))}</small>${esc(String(item.case?.case_type || "case").replaceAll("_", " "))}</button>`).join("")}</div>` : `<span class="pill">1 retained case</span>`}</div>
+    <div class="past-context-grid">
+      ${pastContextCard("lucide:scan-search", "01", "Retained state", "Four dimensions at the event cutoff", stateChart, "The state map keeps market setup, operating evidence, financial qualification, and policy regime separate. A missing dimension remains a visible gap.", stateDetails, true)}
+      ${pastContextCard("lucide:shield-check", "02", "Context ≠ trust", "How the match was made", separationChart, `The match policy is ${String(binding.match_policy || "not emitted").replaceAll("_", " ")}. Candidate count describes available context; source quality describes the evidence behind this case.`, matchDetails)}
+      ${pastContextCard("lucide:calendar-range", "03", "Cutoff-safe chronology", "When evidence became observable", timelineChart, `The event study cutoff is ${study.data_cutoff || "not emitted"}. Dates show retained observability, not a causal clock.`, `<div class="past-context-meta"><span>Baseline <b>${esc(market.baseline?.date || study.baseline?.selected_date || "unknown")}</b></span><span>Event <b>${esc(binding.effective_date || "unknown")}</b></span><span>Study cutoff <b>${esc(study.data_cutoff || "unknown")}</b></span></div>`)}
+      ${pastContextCard("lucide:chart-no-axes-combined", "04", "Observed aftermath", "Outcome windows—not a forecast", outcomesChart, "Only mature, cutoff-safe raw-price returns are drawn. They are unadjusted for dividends and are historical association, not causal attribution or a prediction.", horizonDetails, true)}
+      ${pastContextCard("lucide:lock-keyhole", "05", "Research boundary", "What history can inform today", calibrationChart, context.answer_contract?.why || "Historical context stays descriptive until its qualification gates pass.", calibrationDetails, true)}
+    </div>
+    <footer class="ci-editorial-footer"><span>${esc(past.semantics || "historical_context/not_forecast")} · research only</span><span>${esc(product.product_version || "historical state map")} · no forecast, valuation, or execution activation</span></footer>
   </section>`;
 }
 
