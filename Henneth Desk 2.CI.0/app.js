@@ -882,7 +882,7 @@ function renderDesk(searchState) {
   if (searchState?.focusThesis) {
     $("privateThesisText")?.focus({ preventScroll: true });
   }
-  enhanceMotion({ visual, animate: !searchState });
+  enhanceMotion({ visual, animate: !searchState || Boolean(searchState.focusView) });
 }
 
 function currentPilotSymbols() {
