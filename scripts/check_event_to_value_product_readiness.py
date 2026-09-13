@@ -16,6 +16,7 @@ from build_event_to_value_product_readiness import (  # noqa: E402
     REQUIRED_GOLDEN_COUNT,
     SOURCE_PATHS,
     build,
+    candidate_lane_progress,
     derive_selected_symbols,
     financial_impact_computed,
     project_readiness,
@@ -117,6 +118,27 @@ def main() -> None:
     not_three = derive_selected_symbols({"selected_symbols": ["MARI", "MLCF"], "companies": fixture_companies}, "available")
     if not str(not_three["reason"] or "").startswith("selected_symbols_not_exactly_three"):
         raise AssertionError(f"not-three selection reason drifted: {not_three}")
+
+    partial = candidate_lane_progress(
+        not_three,
+        cases={"as_of": "2026-09-01T00:00:00Z", "companies": {"MARI": {"status": "observed_seed_available", "cases": []}, "MLCF": {"status": "observed_seed_available", "cases": []}}},
+        truth={"companies": {"MARI": {}, "MLCF": {}}},
+        forecasts={"companies": {}},
+        valuations={"companies": {}},
+        expectations={"companies": {}},
+    )
+    if not isinstance(partial, dict) or partial.get("status") != "partial":
+        raise AssertionError(f"valid incomplete selection lost candidate progress: {partial}")
+    if partial.get("alpha_gate_status") != "blocked" or partial.get("does_not_change_alpha_gate") is not True:
+        raise AssertionError("candidate progress weakened the exact-three Alpha gate")
+    if partial.get("selected_symbol_count") != 2 or partial.get("missing_symbol_count") != 1:
+        raise AssertionError(f"candidate progress counts drifted: {partial}")
+    full = derive_selected_symbols({"selected_symbols": ["MARI", "MLCF", "PSO"], "companies": fixture_companies}, "available")
+    if candidate_lane_progress(full, cases={}, truth={}, forecasts={}, valuations={}, expectations={}) is not None:
+        raise AssertionError("complete trio incorrectly emitted partial candidate progress")
+    malformed_partial = derive_selected_symbols({"selected_symbols": ["MARI", "UNKNOWN"], "companies": fixture_companies}, "available")
+    if candidate_lane_progress(malformed_partial, cases={}, truth={}, forecasts={}, valuations={}, expectations={}) is not None:
+        raise AssertionError("unknown selection incorrectly emitted candidate progress")
 
     artifacts = _base_artifacts()
     cases = copy.deepcopy(artifacts["intelligence_cases"][0])

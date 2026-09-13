@@ -10,8 +10,9 @@ from datetime import datetime, timedelta, timezone
 from math import isfinite
 from typing import Any
 
-from psx_data import ROOT, STATE, load_json, save_json
 from build_ci_artifact_integrity import artifact_paths, canonical_hash, rel
+import mari_enp_thesis_monitor_adapter
+from psx_data import ROOT, STATE, load_json, save_json
 
 OUT = STATE / "company_intel" / "event_to_value_product_readiness.json"
 PRODUCT_VERSION = "event_to_value_product_readiness_v1"
@@ -470,6 +471,118 @@ def derive_selected_symbols(cases: dict[str, Any] | None, cases_status: str) -> 
     return {"status": "available", "symbols": symbols, "source_path": source_path, "reason": None}
 
 
+def _candidate_lane_row(
+    symbol: str,
+    *,
+    cases: dict[str, Any] | None,
+    truth: dict[str, Any] | None,
+    forecasts: dict[str, Any] | None,
+    valuations: dict[str, Any] | None,
+    expectations: dict[str, Any] | None,
+) -> dict[str, Any]:
+    """Return descriptive progress for one validated, not-yet-golden lane.
+
+    This is deliberately a visibility projection, not an acceptance predicate:
+    no field here can activate formal outputs or make an incomplete trio pass.
+    """
+    case_row = ((cases or {}).get("companies") or {}).get(symbol) or {}
+    case_rows = [row for row in (case_row.get("cases") or []) if isinstance(row, dict)]
+    truth_row = ((truth or {}).get("companies") or {}).get(symbol) or {}
+
+    def coverage(key: str) -> dict[str, Any]:
+        row = truth_row.get(key)
+        if not isinstance(row, dict):
+            return {"required": None, "present": None, "status": "not_reported"}
+        required = row.get("required")
+        present = row.get("present")
+        status = row.get("status")
+        if not status and isinstance(required, int) and isinstance(present, int):
+            status = "available" if present >= required else "partial" if present > 0 else "blocked"
+        return {
+            "required": required,
+            "present": present,
+            "status": status or "not_reported",
+        }
+
+    def engine_status(payload: dict[str, Any] | None) -> str:
+        row = ((payload or {}).get("companies") or {}).get(symbol)
+        return _status_text(row.get("status")) if isinstance(row, dict) else "not_reported"
+
+    return {
+        "symbol": symbol,
+        "case_status": case_row.get("status") or "no_observed_case",
+        "observed_case_count": sum(1 for row in case_rows if row.get("status") == "Observed"),
+        "financial_truth_status": truth_row.get("status") or "not_reported",
+        "financial_truth": {
+            "annual_income_triplets": coverage("annual_income_triplets"),
+            "qualified_reported_quarter_fact_sets": coverage("qualified_reported_quarter_fact_sets"),
+            "annual_operating_cash_flow": coverage("annual_operating_cash_flow"),
+            "share_count_status": ((truth_row.get("share_count") or {}).get("status") if isinstance(truth_row.get("share_count"), dict) else "not_reported"),
+        },
+        "formal_engine_status": {
+            "financial_forecasts": engine_status(forecasts),
+            "formal_valuations": engine_status(valuations),
+            "market_expectations": engine_status(expectations),
+        },
+    }
+
+
+def candidate_lane_progress(
+    selection: dict[str, Any],
+    *,
+    cases: dict[str, Any] | None,
+    truth: dict[str, Any] | None,
+    forecasts: dict[str, Any] | None,
+    valuations: dict[str, Any] | None,
+    expectations: dict[str, Any] | None,
+) -> dict[str, Any] | None:
+    """Describe validated partial lanes without weakening the exact-three gate."""
+    if not isinstance(selection, dict):
+        return None
+    symbols = selection.get("symbols")
+    reason = selection.get("reason")
+    if (
+        selection.get("status") != "blocked"
+        or not isinstance(reason, str)
+        or not reason.startswith("selected_symbols_not_exactly_three:")
+        or not isinstance(symbols, list)
+        or not symbols
+        or len(symbols) >= REQUIRED_GOLDEN_COUNT
+        or any(not isinstance(symbol, str) or not symbol.strip() for symbol in symbols)
+    ):
+        return None
+    return {
+        "status": "partial",
+        "symbols": symbols,
+        "selected_symbol_count": len(symbols),
+        "required_symbol_count": REQUIRED_GOLDEN_COUNT,
+        "missing_symbol_count": REQUIRED_GOLDEN_COUNT - len(symbols),
+        "alpha_gate_status": "blocked",
+        "alpha_gate_reason": reason,
+        "does_not_change_alpha_gate": True,
+        "source_path": SOURCE_PATHS["intelligence_cases"],
+        "source_as_of": _as_of(cases),
+        "lanes": {
+            symbol: _candidate_lane_row(
+                symbol,
+                cases=cases,
+                truth=truth,
+                forecasts=forecasts,
+                valuations=valuations,
+                expectations=expectations,
+            )
+            for symbol in symbols
+        },
+        "source_paths": {
+            "intelligence_cases": SOURCE_PATHS["intelligence_cases"],
+            "financial_truth_qualification": SOURCE_PATHS["financial_truth_qualification"],
+            "financial_forecasts": SOURCE_PATHS["financial_forecasts"],
+            "formal_valuations": SOURCE_PATHS["formal_valuations"],
+            "market_expectations": SOURCE_PATHS["market_expectations"],
+        },
+    }
+
+
 def _finite_number(value: Any) -> bool:
     if isinstance(value, bool) or value in (None, "", {}, []):
         return False
@@ -695,6 +808,74 @@ def _project_block(payload: dict[str, Any], reason: str, metrics: list[Any] | No
     }
 
 
+def _candidate_lane_progress_reason(value: Any) -> str | None:
+    """Validate the informational partial-progress envelope without gating Alpha."""
+    if value is None:
+        return None
+    if not isinstance(value, dict) or value.get("status") != "partial":
+        return "event_to_value_product_readiness_candidate_lane_progress_invalid"
+    symbols = value.get("symbols")
+    if (
+        not isinstance(symbols, list)
+        or not symbols
+        or len(symbols) >= REQUIRED_GOLDEN_COUNT
+        or any(not isinstance(symbol, str) or symbol != symbol.strip().upper() or not symbol for symbol in symbols)
+        or len(set(symbols)) != len(symbols)
+    ):
+        return "event_to_value_product_readiness_candidate_lane_symbols_invalid"
+    if value.get("selected_symbol_count") != len(symbols):
+        return "event_to_value_product_readiness_candidate_lane_count_invalid"
+    if value.get("required_symbol_count") != REQUIRED_GOLDEN_COUNT:
+        return "event_to_value_product_readiness_candidate_lane_required_count_invalid"
+    if value.get("missing_symbol_count") != REQUIRED_GOLDEN_COUNT - len(symbols):
+        return "event_to_value_product_readiness_candidate_lane_missing_count_invalid"
+    if value.get("alpha_gate_status") != "blocked" or value.get("does_not_change_alpha_gate") is not True:
+        return "event_to_value_product_readiness_candidate_lane_gate_invalid"
+    if not isinstance(value.get("alpha_gate_reason"), str) or not value.get("alpha_gate_reason"):
+        return "event_to_value_product_readiness_candidate_lane_reason_missing"
+    if value.get("source_path") != SOURCE_PATHS["intelligence_cases"]:
+        return "event_to_value_product_readiness_candidate_lane_source_invalid"
+    source_as_of_reason = _timestamp_reason("event_to_value_product_readiness_candidate_lane_source_as_of", value.get("source_as_of"), required=True)
+    if source_as_of_reason:
+        return source_as_of_reason
+    expected_paths = {
+        "intelligence_cases": SOURCE_PATHS["intelligence_cases"],
+        "financial_truth_qualification": SOURCE_PATHS["financial_truth_qualification"],
+        "financial_forecasts": SOURCE_PATHS["financial_forecasts"],
+        "formal_valuations": SOURCE_PATHS["formal_valuations"],
+        "market_expectations": SOURCE_PATHS["market_expectations"],
+    }
+    if value.get("source_paths") != expected_paths:
+        return "event_to_value_product_readiness_candidate_lane_source_paths_invalid"
+    lanes = value.get("lanes")
+    if not isinstance(lanes, dict) or set(lanes) != set(symbols):
+        return "event_to_value_product_readiness_candidate_lane_rows_invalid"
+    for symbol in symbols:
+        lane = lanes[symbol]
+        if not isinstance(lane, dict) or lane.get("symbol") != symbol:
+            return f"event_to_value_product_readiness_candidate_lane_row_invalid:{symbol}"
+        if not isinstance(lane.get("case_status"), str) or not isinstance(lane.get("financial_truth_status"), str):
+            return f"event_to_value_product_readiness_candidate_lane_status_invalid:{symbol}"
+        if not _whole_count(lane.get("observed_case_count")):
+            return f"event_to_value_product_readiness_candidate_lane_case_count_invalid:{symbol}"
+        truth = lane.get("financial_truth")
+        if not isinstance(truth, dict) or not isinstance(truth.get("share_count_status"), str):
+            return f"event_to_value_product_readiness_candidate_lane_financial_truth_invalid:{symbol}"
+        for key in ("annual_income_triplets", "qualified_reported_quarter_fact_sets", "annual_operating_cash_flow"):
+            coverage = truth.get(key)
+            if not isinstance(coverage, dict) or not isinstance(coverage.get("status"), str):
+                return f"event_to_value_product_readiness_candidate_lane_coverage_invalid:{symbol}:{key}"
+            if coverage.get("status") == "not_reported":
+                if coverage.get("required") is not None or coverage.get("present") is not None:
+                    return f"event_to_value_product_readiness_candidate_lane_coverage_invalid:{symbol}:{key}"
+            elif not all(_whole_count(coverage.get(k)) for k in ("required", "present")):
+                return f"event_to_value_product_readiness_candidate_lane_coverage_invalid:{symbol}:{key}"
+        engines = lane.get("formal_engine_status")
+        if not isinstance(engines, dict) or not all(isinstance(engines.get(k), str) for k in ("financial_forecasts", "formal_valuations", "market_expectations")):
+            return f"event_to_value_product_readiness_candidate_lane_engines_invalid:{symbol}"
+    return None
+
+
 def _valid_source_paths(value: Any) -> bool:
     return (
         isinstance(value, dict)
@@ -778,6 +959,15 @@ def project_readiness(payload: Any) -> dict[str, Any]:
     for key in ("selected_symbols", "selected_symbols_status", "selected_symbols_reason", "selected_symbols_source_path"):
         if key in summary and key in lineage and summary.get(key) != lineage.get(key):
             return _project_block(payload, f"event_to_value_product_readiness_{key}_mismatch", metrics if isinstance(metrics, list) else [], summary, lineage)
+    summary_has_candidate = "candidate_lane_progress" in summary
+    lineage_has_candidate = "candidate_lane_progress" in lineage
+    if summary_has_candidate != lineage_has_candidate:
+        return _project_block(payload, "event_to_value_product_readiness_candidate_lane_progress_missing_mirror", metrics if isinstance(metrics, list) else [], summary, lineage)
+    if summary_has_candidate and summary.get("candidate_lane_progress") != lineage.get("candidate_lane_progress"):
+        return _project_block(payload, "event_to_value_product_readiness_candidate_lane_progress_mismatch", metrics if isinstance(metrics, list) else [], summary, lineage)
+    candidate_reason = _candidate_lane_progress_reason(lineage.get("candidate_lane_progress"))
+    if candidate_reason:
+        return _project_block(payload, candidate_reason, metrics if isinstance(metrics, list) else [], summary, lineage)
     selected = lineage.get("selected_symbols")
     selected_status = lineage.get("selected_symbols_status")
     if not isinstance(metrics, list) or len(metrics) != 12:
@@ -914,6 +1104,14 @@ def build(write: bool = True, artifacts: dict[str, tuple[dict[str, Any] | None, 
     selection = derive_selected_symbols(cases, cases_status)
     selected = selection["symbols"] if selection["status"] == "available" else []
     selected_ready = selection["status"] == "available"
+    candidate_progress = candidate_lane_progress(
+        selection,
+        cases=cases,
+        truth=truth,
+        forecasts=forecasts,
+        valuations=valuations,
+        expectations=expectations,
+    )
     source_as_of, source_schema_version, source_kind, source_status, source_reasons = _source_maps_from(
         cases=cases,
         cases_status=cases_status,
@@ -1025,12 +1223,15 @@ def build(write: bool = True, artifacts: dict[str, tuple[dict[str, Any] | None, 
     if selected_ready and theses_status == "available" and theses is not None and source_reasons["thesis_monitoring"] is None:
         active_cases = 0
         thesis_notes: list[str] = []
+        mari_monitor, _mari_monitor_status = _load("state/company_intel/mari_enp_thesis_monitor.json")
         for symbol in selected:
             row = (theses.get("companies") or {}).get(symbol) or {}
-            count = row.get("active_thesis_count")
-            if isinstance(count, int):
-                active_cases += count
-            if row.get("status") == "active_monitoring":
+            count = mari_enp_thesis_monitor_adapter.selected_active_count(symbol, row, mari_monitor, truth)
+            active_cases += count
+            if symbol == "MARI":
+                projection = mari_enp_thesis_monitor_adapter.readiness_projection(mari_monitor, truth)
+                thesis_notes.append(f"MARI:{count}:{projection.get('blocked_reason') or projection.get('monitor_status')}")
+            elif row.get("status") == "active_monitoring":
                 thesis_notes.append(f"{symbol}:{count}")
         thesis_value = active_cases
         thesis_status = "available"
@@ -1115,6 +1316,7 @@ def build(write: bool = True, artifacts: dict[str, tuple[dict[str, Any] | None, 
         "selected_symbols_source_path": selection["source_path"],
         "selected_symbols_status": selection["status"],
         "selected_symbols_reason": selection["reason"],
+        "candidate_lane_progress": candidate_progress,
     }
 
     metrics = [
@@ -1171,6 +1373,7 @@ def build(write: bool = True, artifacts: dict[str, tuple[dict[str, Any] | None, 
             "selected_symbols_status": selection["status"],
             "selected_symbols_reason": selection["reason"],
             "selected_symbols_source_path": selection["source_path"],
+            "candidate_lane_progress": candidate_progress,
             "forecast_readiness_input_ready_count": ((forecast_readiness or {}).get("summary") or {}).get("ready_company_count") if forecast_ready_status == "available" else None,
             "forecast_readiness_is_not_model_ready": True,
         },
