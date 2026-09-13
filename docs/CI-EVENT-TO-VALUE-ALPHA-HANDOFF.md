@@ -20,8 +20,10 @@ production/authentication gates. No case is Published yet.
 
 - Authoritative worktree: `D:\PSX Trader X Claude\.codex-alpha-readiness-integration`
 - Branch: `codex/alpha-readiness-integration`
-- HEAD: `0280f29c` — `ci: align financial contracts with current parser and share tie-out`
-- Upstream: `origin/codex/alpha-readiness-integration` at the same pushed HEAD.
+- Last product-code HEAD before this documentation checkpoint: `0280f29c` —
+  `ci: align financial contracts with current parser and share tie-out`.
+- Upstream: use the tip of `origin/codex/alpha-readiness-integration`; the
+  documentation-only pause checkpoint follows `0280f29c` and is pushed.
 - Never push `main`, merge, publish or deploy without fresh owner authorization.
 - Part 0 live release proof remains deferred. GitHub validation/preview work is
   preserved; production remains unchanged and no Vercel work is authorized.
@@ -136,7 +138,8 @@ invented facts, release work, main push or deployment without fresh approval.
 ### CONTINUE FROM HERE
 
 Resume only in `D:\PSX Trader X Claude\.codex-alpha-readiness-integration` at
-pushed feature HEAD `0280f29c`. First inspect the uncommitted MLCF parser/audit
+the pushed tip of `origin/codex/alpha-readiness-integration` (whose last product
+code milestone is `0280f29c`). First inspect the uncommitted MLCF parser/audit
 diff and obtain or reproduce its exact fact-level result. In parallel, finish the
 owner-handoff and remaining three UI contracts. Commit and push only independently
 verified files, then rerun the aggregate gate. All three cases remain unpublished
