@@ -1,0 +1,3571 @@
+{
+ "schema_version": 1,
+ "product_version": "cement_expansion_analogue_distribution_v1",
+ "lane": "cement_capacity_expansion_commissioning",
+ "target_context": {
+  "symbol": "DGKC",
+  "lane": "cement_capacity_expansion_commissioning",
+  "event_family": "cement_clinker_line_commissioning",
+  "case_type_disambiguation": {
+   "lane_identity": "organic_cement_capacity_expansion",
+   "distinction_from_mlcf_pioc": "MLCF PIOC event is corporate equity control M&A and is excluded from organic capacity expansion pooling"
+  }
+ },
+ "distribution_status": "insufficient_sample",
+ "sample_summary": {
+  "raw_candidates_evaluated": 43,
+  "validated_candidates": 0,
+  "deduplicated_episodes": 0,
+  "mature_counts_by_horizon": {
+   "1Q": 0,
+   "2Q": 0,
+   "4Q": 0,
+   "8Q": 0
+  },
+  "distribution_computed": false
+ },
+ "horizon_distributions": {
+  "1Q": {
+   "status": "suppressed",
+   "n": 0,
+   "reason": "n_lt_3",
+   "mean_return_pct": null,
+   "median_return_pct": null,
+   "min_return_pct": null,
+   "max_return_pct": null,
+   "iqr_dispersion_pct": null
+  },
+  "2Q": {
+   "status": "suppressed",
+   "n": 0,
+   "reason": "n_lt_3",
+   "mean_return_pct": null,
+   "median_return_pct": null,
+   "min_return_pct": null,
+   "max_return_pct": null,
+   "iqr_dispersion_pct": null
+  },
+  "4Q": {
+   "status": "suppressed",
+   "n": 0,
+   "reason": "n_lt_3",
+   "mean_return_pct": null,
+   "median_return_pct": null,
+   "min_return_pct": null,
+   "max_return_pct": null,
+   "iqr_dispersion_pct": null
+  },
+  "8Q": {
+   "status": "suppressed",
+   "n": 0,
+   "reason": "n_lt_3",
+   "mean_return_pct": null,
+   "median_return_pct": null,
+   "min_return_pct": null,
+   "max_return_pct": null,
+   "iqr_dispersion_pct": null
+  }
+ },
+ "qualified_candidate_episodes": [],
+ "rejected_candidates": [
+  {
+   "candidate": {
+    "candidate_id": "cand_DGKC_evt_61703127abf553b1e913",
+    "event_id": "evt_61703127abf553b1e913",
+    "symbol": "DGKC",
+    "sector": "Cement",
+    "event_family": "acquisition",
+    "event_type": "acquisition_divestment",
+    "event_subtype": "acquisition",
+    "effective_date": "2026-04-30",
+    "information_available_at": "2026-04-30T09:53:00+05:00",
+    "source": {
+     "id": "psx:275962",
+     "hash": "3ed71d834406122feb7f1ed74a889713abceb8ad0d4336e9facf633c60d0e08b",
+     "page": 7,
+     "url": "https://dps.psx.com.pk/download/document/275962.pdf"
+    },
+    "horizons": {
+     "1Q": {
+      "target_date": "2026-07-30",
+      "selected_date": "2026-07-30",
+      "selected_close": 207.23,
+      "return_pct": 16.010748474500367,
+      "status": "mature",
+      "reason": null,
+      "provenance": {
+       "history_file": "state/history/DGKC.json",
+       "baseline_date": "2026-04-29",
+       "endpoint_date": "2026-07-30",
+       "target_date": "2026-07-30"
+      }
+     },
+     "2Q": {
+      "target_date": "2026-10-30",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/DGKC.json",
+       "baseline_date": "2026-04-29",
+       "endpoint_date": null,
+       "target_date": "2026-10-30"
+      }
+     },
+     "4Q": {
+      "target_date": "2027-04-30",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/DGKC.json",
+       "baseline_date": "2026-04-29",
+       "endpoint_date": null,
+       "target_date": "2027-04-30"
+      }
+     },
+     "8Q": {
+      "target_date": "2028-04-30",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/DGKC.json",
+       "baseline_date": "2026-04-29",
+       "endpoint_date": null,
+       "target_date": "2028-04-30"
+      }
+     }
+    }
+   },
+   "violations": [
+    "ineligible_event_family: acquisition is corporate M&A/control, not cement capacity expansion"
+   ]
+  },
+  {
+   "candidate": {
+    "candidate_id": "cand_DGKC_evt_83dd61b773cae6fbab4b",
+    "event_id": "evt_83dd61b773cae6fbab4b",
+    "symbol": "DGKC",
+    "sector": "Cement",
+    "event_family": "credit_event",
+    "event_type": "debt_refinancing",
+    "event_subtype": "credit_event",
+    "effective_date": "2025-10-03",
+    "information_available_at": "2025-10-03T11:05:00+05:00",
+    "source": {
+     "id": "psx:260947",
+     "hash": "1a10091295cf7a815f1910eb418215d501d42b52e39dcbd0b54a53fd1aceaa7d",
+     "page": 41,
+     "url": "https://dps.psx.com.pk/download/document/260947.pdf"
+    },
+    "horizons": {
+     "1Q": {
+      "target_date": "2026-01-03",
+      "selected_date": "2026-01-05",
+      "selected_close": 226.6,
+      "return_pct": -11.958971171031163,
+      "status": "mature",
+      "reason": null,
+      "provenance": {
+       "history_file": "state/history/DGKC.json",
+       "baseline_date": "2025-10-02",
+       "endpoint_date": "2026-01-05",
+       "target_date": "2026-01-03"
+      }
+     },
+     "2Q": {
+      "target_date": "2026-04-03",
+      "selected_date": "2026-04-03",
+      "selected_close": 151.47,
+      "return_pct": -41.14927344782034,
+      "status": "mature",
+      "reason": null,
+      "provenance": {
+       "history_file": "state/history/DGKC.json",
+       "baseline_date": "2025-10-02",
+       "endpoint_date": "2026-04-03",
+       "target_date": "2026-04-03"
+      }
+     },
+     "4Q": {
+      "target_date": "2026-10-03",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/DGKC.json",
+       "baseline_date": "2025-10-02",
+       "endpoint_date": null,
+       "target_date": "2026-10-03"
+      }
+     },
+     "8Q": {
+      "target_date": "2027-10-03",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/DGKC.json",
+       "baseline_date": "2025-10-02",
+       "endpoint_date": null,
+       "target_date": "2027-10-03"
+      }
+     }
+    }
+   },
+   "violations": [
+    "unsupported_event_family: credit_event"
+   ]
+  },
+  {
+   "candidate": {
+    "candidate_id": "cand_DGKC_evt_389cd7a917202a391191",
+    "event_id": "evt_389cd7a917202a391191",
+    "symbol": "DGKC",
+    "sector": "Cement",
+    "event_family": "regulatory_action",
+    "event_type": "regulatory_change",
+    "event_subtype": "regulatory_action",
+    "effective_date": "2025-10-03",
+    "information_available_at": "2025-10-03T11:05:00+05:00",
+    "source": {
+     "id": "psx:260947",
+     "hash": "1a10091295cf7a815f1910eb418215d501d42b52e39dcbd0b54a53fd1aceaa7d",
+     "page": 188,
+     "url": "https://dps.psx.com.pk/download/document/260947.pdf"
+    },
+    "horizons": {
+     "1Q": {
+      "target_date": "2026-01-03",
+      "selected_date": "2026-01-05",
+      "selected_close": 226.6,
+      "return_pct": -11.958971171031163,
+      "status": "mature",
+      "reason": null,
+      "provenance": {
+       "history_file": "state/history/DGKC.json",
+       "baseline_date": "2025-10-02",
+       "endpoint_date": "2026-01-05",
+       "target_date": "2026-01-03"
+      }
+     },
+     "2Q": {
+      "target_date": "2026-04-03",
+      "selected_date": "2026-04-03",
+      "selected_close": 151.47,
+      "return_pct": -41.14927344782034,
+      "status": "mature",
+      "reason": null,
+      "provenance": {
+       "history_file": "state/history/DGKC.json",
+       "baseline_date": "2025-10-02",
+       "endpoint_date": "2026-04-03",
+       "target_date": "2026-04-03"
+      }
+     },
+     "4Q": {
+      "target_date": "2026-10-03",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/DGKC.json",
+       "baseline_date": "2025-10-02",
+       "endpoint_date": null,
+       "target_date": "2026-10-03"
+      }
+     },
+     "8Q": {
+      "target_date": "2027-10-03",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/DGKC.json",
+       "baseline_date": "2025-10-02",
+       "endpoint_date": null,
+       "target_date": "2027-10-03"
+      }
+     }
+    }
+   },
+   "violations": [
+    "ineligible_event_family: regulatory_action is corporate M&A/control, not cement capacity expansion"
+   ]
+  },
+  {
+   "candidate": {
+    "candidate_id": "cand_DGKC_evt_fc26bea0b27bf5c40ab7",
+    "event_id": "evt_fc26bea0b27bf5c40ab7",
+    "symbol": "DGKC",
+    "sector": "Cement",
+    "event_family": "regulatory_action",
+    "event_type": "regulatory_change",
+    "event_subtype": "regulatory_action",
+    "effective_date": null,
+    "information_available_at": "2026-08-27 05:19",
+    "source": {
+     "id": "issuer:57fbec27bd4005d116acb827",
+     "hash": "a21680c7c43bd056faa63960bd21ce7e9550dfa62b058127e0ed2cb9f93bb8ce",
+     "page": 183,
+     "url": "https://www.dgcement.com/financial-reports/DGAnnual2023.pdf"
+    },
+    "horizons": {
+     "1Q": {
+      "target_date": "2026-11-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/DGKC.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2026-11-27"
+      }
+     },
+     "2Q": {
+      "target_date": "2027-02-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/DGKC.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2027-02-27"
+      }
+     },
+     "4Q": {
+      "target_date": "2027-08-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/DGKC.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2027-08-27"
+      }
+     },
+     "8Q": {
+      "target_date": "2028-08-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/DGKC.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2028-08-27"
+      }
+     }
+    }
+   },
+   "violations": [
+    "ineligible_event_family: regulatory_action is corporate M&A/control, not cement capacity expansion"
+   ]
+  },
+  {
+   "candidate": {
+    "candidate_id": "cand_DGKC_evt_f65af56a80ccd0ffae3a",
+    "event_id": "evt_f65af56a80ccd0ffae3a",
+    "symbol": "DGKC",
+    "sector": "Cement",
+    "event_family": "credit_event",
+    "event_type": "debt_refinancing",
+    "event_subtype": "credit_event",
+    "effective_date": null,
+    "information_available_at": "2026-08-27 05:19",
+    "source": {
+     "id": "issuer:91e2da11249269bcac96ae5a",
+     "hash": "0ad5d727db34da4a4edf0ce0851ee6bd23a7c2cee0e446ab2341818387c33df1",
+     "page": 40,
+     "url": "https://www.dgcement.com/financial-reports/DGAnnual2024.pdf"
+    },
+    "horizons": {
+     "1Q": {
+      "target_date": "2026-11-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/DGKC.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2026-11-27"
+      }
+     },
+     "2Q": {
+      "target_date": "2027-02-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/DGKC.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2027-02-27"
+      }
+     },
+     "4Q": {
+      "target_date": "2027-08-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/DGKC.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2027-08-27"
+      }
+     },
+     "8Q": {
+      "target_date": "2028-08-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/DGKC.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2028-08-27"
+      }
+     }
+    }
+   },
+   "violations": [
+    "unsupported_event_family: credit_event"
+   ]
+  },
+  {
+   "candidate": {
+    "candidate_id": "cand_DGKC_evt_d7637fafdf47325ef5a5",
+    "event_id": "evt_d7637fafdf47325ef5a5",
+    "symbol": "DGKC",
+    "sector": "Cement",
+    "event_family": "regulatory_action",
+    "event_type": "regulatory_change",
+    "event_subtype": "regulatory_action",
+    "effective_date": null,
+    "information_available_at": "2026-08-27 05:19",
+    "source": {
+     "id": "issuer:91e2da11249269bcac96ae5a",
+     "hash": "0ad5d727db34da4a4edf0ce0851ee6bd23a7c2cee0e446ab2341818387c33df1",
+     "page": 185,
+     "url": "https://www.dgcement.com/financial-reports/DGAnnual2024.pdf"
+    },
+    "horizons": {
+     "1Q": {
+      "target_date": "2026-11-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/DGKC.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2026-11-27"
+      }
+     },
+     "2Q": {
+      "target_date": "2027-02-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/DGKC.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2027-02-27"
+      }
+     },
+     "4Q": {
+      "target_date": "2027-08-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/DGKC.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2027-08-27"
+      }
+     },
+     "8Q": {
+      "target_date": "2028-08-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/DGKC.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2028-08-27"
+      }
+     }
+    }
+   },
+   "violations": [
+    "ineligible_event_family: regulatory_action is corporate M&A/control, not cement capacity expansion"
+   ]
+  },
+  {
+   "candidate": {
+    "candidate_id": "cand_DGKC_evt_d2bfffda617f68023cfb",
+    "event_id": "evt_d2bfffda617f68023cfb",
+    "symbol": "DGKC",
+    "sector": "Cement",
+    "event_family": "regulatory_action",
+    "event_type": "regulatory_change",
+    "event_subtype": "regulatory_action",
+    "effective_date": null,
+    "information_available_at": "2026-08-27 03:41",
+    "source": {
+     "id": "issuer:773167b57f3bc15094fdf721",
+     "hash": "624f2146a513624e46e681a8b0bdb972031d32fc660674ed19bc692c4f620ea9",
+     "page": 129,
+     "url": "https://www.dgcement.com/financial-reports/2014-15_f.pdf"
+    },
+    "horizons": {
+     "1Q": {
+      "target_date": "2026-11-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/DGKC.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2026-11-27"
+      }
+     },
+     "2Q": {
+      "target_date": "2027-02-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/DGKC.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2027-02-27"
+      }
+     },
+     "4Q": {
+      "target_date": "2027-08-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/DGKC.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2027-08-27"
+      }
+     },
+     "8Q": {
+      "target_date": "2028-08-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/DGKC.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2028-08-27"
+      }
+     }
+    }
+   },
+   "violations": [
+    "ineligible_event_family: regulatory_action is corporate M&A/control, not cement capacity expansion"
+   ]
+  },
+  {
+   "candidate": {
+    "candidate_id": "cand_DGKC_evt_c1484fb476407dcc6f60",
+    "event_id": "evt_c1484fb476407dcc6f60",
+    "symbol": "DGKC",
+    "sector": "Cement",
+    "event_family": "regulatory_action",
+    "event_type": "regulatory_change",
+    "event_subtype": "regulatory_action",
+    "effective_date": null,
+    "information_available_at": "2026-08-27 03:40",
+    "source": {
+     "id": "issuer:6644afdd89fc5384830867e7",
+     "hash": "128fcc1ccd6434bc94bfc088c210da66ffb9737cf94dce14bc7f028ab8424d30",
+     "page": 129,
+     "url": "https://www.dgcement.com/financial-reports/2016_17_f.pdf"
+    },
+    "horizons": {
+     "1Q": {
+      "target_date": "2026-11-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/DGKC.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2026-11-27"
+      }
+     },
+     "2Q": {
+      "target_date": "2027-02-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/DGKC.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2027-02-27"
+      }
+     },
+     "4Q": {
+      "target_date": "2027-08-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/DGKC.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2027-08-27"
+      }
+     },
+     "8Q": {
+      "target_date": "2028-08-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/DGKC.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2028-08-27"
+      }
+     }
+    }
+   },
+   "violations": [
+    "ineligible_event_family: regulatory_action is corporate M&A/control, not cement capacity expansion"
+   ]
+  },
+  {
+   "candidate": {
+    "candidate_id": "cand_DGKC_evt_beee516a174f0961454c",
+    "event_id": "evt_beee516a174f0961454c",
+    "symbol": "DGKC",
+    "sector": "Cement",
+    "event_family": "credit_event",
+    "event_type": "debt_refinancing",
+    "event_subtype": "credit_event",
+    "effective_date": null,
+    "information_available_at": "2026-08-27 03:40",
+    "source": {
+     "id": "issuer:c38ef8e6e11d33c8261e262d",
+     "hash": "d4504b8213049a771b8127661a6f4b80d415ffcdd4e043fab9c42196c2c7e9ba",
+     "page": 19,
+     "url": "https://www.dgcement.com/financial-reports/2015-16_f.pdf"
+    },
+    "horizons": {
+     "1Q": {
+      "target_date": "2026-11-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/DGKC.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2026-11-27"
+      }
+     },
+     "2Q": {
+      "target_date": "2027-02-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/DGKC.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2027-02-27"
+      }
+     },
+     "4Q": {
+      "target_date": "2027-08-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/DGKC.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2027-08-27"
+      }
+     },
+     "8Q": {
+      "target_date": "2028-08-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/DGKC.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2028-08-27"
+      }
+     }
+    }
+   },
+   "violations": [
+    "unsupported_event_family: credit_event"
+   ]
+  },
+  {
+   "candidate": {
+    "candidate_id": "cand_DGKC_evt_af3dfcdb781eb31c16ae",
+    "event_id": "evt_af3dfcdb781eb31c16ae",
+    "symbol": "DGKC",
+    "sector": "Cement",
+    "event_family": "credit_event",
+    "event_type": "debt_refinancing",
+    "event_subtype": "credit_event",
+    "effective_date": null,
+    "information_available_at": "2026-08-27 03:40",
+    "source": {
+     "id": "issuer:6644afdd89fc5384830867e7",
+     "hash": "128fcc1ccd6434bc94bfc088c210da66ffb9737cf94dce14bc7f028ab8424d30",
+     "page": 17,
+     "url": "https://www.dgcement.com/financial-reports/2016_17_f.pdf"
+    },
+    "horizons": {
+     "1Q": {
+      "target_date": "2026-11-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/DGKC.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2026-11-27"
+      }
+     },
+     "2Q": {
+      "target_date": "2027-02-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/DGKC.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2027-02-27"
+      }
+     },
+     "4Q": {
+      "target_date": "2027-08-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/DGKC.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2027-08-27"
+      }
+     },
+     "8Q": {
+      "target_date": "2028-08-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/DGKC.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2028-08-27"
+      }
+     }
+    }
+   },
+   "violations": [
+    "unsupported_event_family: credit_event"
+   ]
+  },
+  {
+   "candidate": {
+    "candidate_id": "cand_DGKC_evt_a8805c103db882f03c6c",
+    "event_id": "evt_a8805c103db882f03c6c",
+    "symbol": "DGKC",
+    "sector": "Cement",
+    "event_family": "credit_event",
+    "event_type": "debt_refinancing",
+    "event_subtype": "credit_event",
+    "effective_date": null,
+    "information_available_at": "2026-08-27 03:39",
+    "source": {
+     "id": "issuer:10d04acdb014faf322e23698",
+     "hash": "f922e36e51c1839aac37a75c9c65a032608a351dc569ce202a375e6ca5856901",
+     "page": 33,
+     "url": "https://www.dgcement.com/financial-reports/DG_Annual_Report_2019.pdf"
+    },
+    "horizons": {
+     "1Q": {
+      "target_date": "2026-11-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/DGKC.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2026-11-27"
+      }
+     },
+     "2Q": {
+      "target_date": "2027-02-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/DGKC.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2027-02-27"
+      }
+     },
+     "4Q": {
+      "target_date": "2027-08-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/DGKC.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2027-08-27"
+      }
+     },
+     "8Q": {
+      "target_date": "2028-08-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/DGKC.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2028-08-27"
+      }
+     }
+    }
+   },
+   "violations": [
+    "unsupported_event_family: credit_event"
+   ]
+  },
+  {
+   "candidate": {
+    "candidate_id": "cand_DGKC_evt_9c6d84b5637a96f6d041",
+    "event_id": "evt_9c6d84b5637a96f6d041",
+    "symbol": "DGKC",
+    "sector": "Cement",
+    "event_family": "contract",
+    "event_type": "contract_tender",
+    "event_subtype": "contract",
+    "effective_date": null,
+    "information_available_at": "2026-08-27 03:39",
+    "source": {
+     "id": "issuer:10d04acdb014faf322e23698",
+     "hash": "f922e36e51c1839aac37a75c9c65a032608a351dc569ce202a375e6ca5856901",
+     "page": 70,
+     "url": "https://www.dgcement.com/financial-reports/DG_Annual_Report_2019.pdf"
+    },
+    "horizons": {
+     "1Q": {
+      "target_date": "2026-11-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/DGKC.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2026-11-27"
+      }
+     },
+     "2Q": {
+      "target_date": "2027-02-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/DGKC.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2027-02-27"
+      }
+     },
+     "4Q": {
+      "target_date": "2027-08-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/DGKC.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2027-08-27"
+      }
+     },
+     "8Q": {
+      "target_date": "2028-08-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/DGKC.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2028-08-27"
+      }
+     }
+    }
+   },
+   "violations": [
+    "unsupported_event_family: contract"
+   ]
+  },
+  {
+   "candidate": {
+    "candidate_id": "cand_DGKC_evt_9a4d52424f0d0cde537e",
+    "event_id": "evt_9a4d52424f0d0cde537e",
+    "symbol": "DGKC",
+    "sector": "Cement",
+    "event_family": "management_change",
+    "event_type": "management_change",
+    "event_subtype": "management_change",
+    "effective_date": null,
+    "information_available_at": "2026-08-27 05:19",
+    "source": {
+     "id": "issuer:57fbec27bd4005d116acb827",
+     "hash": "a21680c7c43bd056faa63960bd21ce7e9550dfa62b058127e0ed2cb9f93bb8ce",
+     "page": 37,
+     "url": "https://www.dgcement.com/financial-reports/DGAnnual2023.pdf"
+    },
+    "horizons": {
+     "1Q": {
+      "target_date": "2026-11-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/DGKC.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2026-11-27"
+      }
+     },
+     "2Q": {
+      "target_date": "2027-02-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/DGKC.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2027-02-27"
+      }
+     },
+     "4Q": {
+      "target_date": "2027-08-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/DGKC.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2027-08-27"
+      }
+     },
+     "8Q": {
+      "target_date": "2028-08-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/DGKC.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2028-08-27"
+      }
+     }
+    }
+   },
+   "violations": [
+    "ineligible_event_family: management_change is corporate M&A/control, not cement capacity expansion"
+   ]
+  },
+  {
+   "candidate": {
+    "candidate_id": "cand_DGKC_evt_8c441477563b914f1e83",
+    "event_id": "evt_8c441477563b914f1e83",
+    "symbol": "DGKC",
+    "sector": "Cement",
+    "event_family": "credit_event",
+    "event_type": "debt_refinancing",
+    "event_subtype": "credit_event",
+    "effective_date": null,
+    "information_available_at": "2026-08-27 03:41",
+    "source": {
+     "id": "issuer:26f095b5a39a5c2fce8ae3f7",
+     "hash": "25460b628d9ef13045fcd41d85d0e5bd772c5d22661c8cc48e4fb4720caabc74",
+     "page": 35,
+     "url": "https://www.dgcement.com/financial-reports/2013-14_f.pdf"
+    },
+    "horizons": {
+     "1Q": {
+      "target_date": "2026-11-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/DGKC.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2026-11-27"
+      }
+     },
+     "2Q": {
+      "target_date": "2027-02-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/DGKC.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2027-02-27"
+      }
+     },
+     "4Q": {
+      "target_date": "2027-08-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/DGKC.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2027-08-27"
+      }
+     },
+     "8Q": {
+      "target_date": "2028-08-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/DGKC.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2028-08-27"
+      }
+     }
+    }
+   },
+   "violations": [
+    "unsupported_event_family: credit_event"
+   ]
+  },
+  {
+   "candidate": {
+    "candidate_id": "cand_DGKC_evt_7f4ca5a74010800d1a88",
+    "event_id": "evt_7f4ca5a74010800d1a88",
+    "symbol": "DGKC",
+    "sector": "Cement",
+    "event_family": "contract",
+    "event_type": "contract_tender",
+    "event_subtype": "contract",
+    "effective_date": null,
+    "information_available_at": "2026-08-27 03:57",
+    "source": {
+     "id": "issuer:6a06e5dc1d8b65bfa4343b9a",
+     "hash": "1b45ff4a958cf3ace639fa2c67befecb654383d2be6a1e068036cc1838b10906",
+     "page": 95,
+     "url": "https://www.dgcement.com/financial-reports/DG_Annual_Report_2021.pdf"
+    },
+    "horizons": {
+     "1Q": {
+      "target_date": "2026-11-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/DGKC.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2026-11-27"
+      }
+     },
+     "2Q": {
+      "target_date": "2027-02-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/DGKC.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2027-02-27"
+      }
+     },
+     "4Q": {
+      "target_date": "2027-08-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/DGKC.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2027-08-27"
+      }
+     },
+     "8Q": {
+      "target_date": "2028-08-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/DGKC.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2028-08-27"
+      }
+     }
+    }
+   },
+   "violations": [
+    "unsupported_event_family: contract"
+   ]
+  },
+  {
+   "candidate": {
+    "candidate_id": "cand_DGKC_evt_72f15045fff1b9affa33",
+    "event_id": "evt_72f15045fff1b9affa33",
+    "symbol": "DGKC",
+    "sector": "Cement",
+    "event_family": "regulatory_action",
+    "event_type": "regulatory_change",
+    "event_subtype": "regulatory_action",
+    "effective_date": null,
+    "information_available_at": "2026-08-27 03:39",
+    "source": {
+     "id": "issuer:10d04acdb014faf322e23698",
+     "hash": "f922e36e51c1839aac37a75c9c65a032608a351dc569ce202a375e6ca5856901",
+     "page": 114,
+     "url": "https://www.dgcement.com/financial-reports/DG_Annual_Report_2019.pdf"
+    },
+    "horizons": {
+     "1Q": {
+      "target_date": "2026-11-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/DGKC.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2026-11-27"
+      }
+     },
+     "2Q": {
+      "target_date": "2027-02-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/DGKC.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2027-02-27"
+      }
+     },
+     "4Q": {
+      "target_date": "2027-08-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/DGKC.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2027-08-27"
+      }
+     },
+     "8Q": {
+      "target_date": "2028-08-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/DGKC.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2028-08-27"
+      }
+     }
+    }
+   },
+   "violations": [
+    "ineligible_event_family: regulatory_action is corporate M&A/control, not cement capacity expansion"
+   ]
+  },
+  {
+   "candidate": {
+    "candidate_id": "cand_DGKC_evt_6e735e4f13c6c3ed988a",
+    "event_id": "evt_6e735e4f13c6c3ed988a",
+    "symbol": "DGKC",
+    "sector": "Cement",
+    "event_family": "regulatory_action",
+    "event_type": "regulatory_change",
+    "event_subtype": "regulatory_action",
+    "effective_date": null,
+    "information_available_at": "2026-08-27 03:57",
+    "source": {
+     "id": "issuer:6a06e5dc1d8b65bfa4343b9a",
+     "hash": "1b45ff4a958cf3ace639fa2c67befecb654383d2be6a1e068036cc1838b10906",
+     "page": 138,
+     "url": "https://www.dgcement.com/financial-reports/DG_Annual_Report_2021.pdf"
+    },
+    "horizons": {
+     "1Q": {
+      "target_date": "2026-11-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/DGKC.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2026-11-27"
+      }
+     },
+     "2Q": {
+      "target_date": "2027-02-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/DGKC.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2027-02-27"
+      }
+     },
+     "4Q": {
+      "target_date": "2027-08-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/DGKC.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2027-08-27"
+      }
+     },
+     "8Q": {
+      "target_date": "2028-08-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/DGKC.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2028-08-27"
+      }
+     }
+    }
+   },
+   "violations": [
+    "ineligible_event_family: regulatory_action is corporate M&A/control, not cement capacity expansion"
+   ]
+  },
+  {
+   "candidate": {
+    "candidate_id": "cand_DGKC_evt_66948bfffddbbab38e71",
+    "event_id": "evt_66948bfffddbbab38e71",
+    "symbol": "DGKC",
+    "sector": "Cement",
+    "event_family": "regulatory_action",
+    "event_type": "regulatory_change",
+    "event_subtype": "regulatory_action",
+    "effective_date": null,
+    "information_available_at": "2026-08-27 03:46",
+    "source": {
+     "id": "issuer:ca644787b36dc7ace085ff54",
+     "hash": "5bbaee24c08b67b82e4dfdf07240c732d958567576fe3db4e81f2e5646fedbb9",
+     "page": 158,
+     "url": "https://www.dgcement.com/financial-reports/DG_Annual_Report_2022.pdf"
+    },
+    "horizons": {
+     "1Q": {
+      "target_date": "2026-11-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/DGKC.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2026-11-27"
+      }
+     },
+     "2Q": {
+      "target_date": "2027-02-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/DGKC.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2027-02-27"
+      }
+     },
+     "4Q": {
+      "target_date": "2027-08-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/DGKC.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2027-08-27"
+      }
+     },
+     "8Q": {
+      "target_date": "2028-08-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/DGKC.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2028-08-27"
+      }
+     }
+    }
+   },
+   "violations": [
+    "ineligible_event_family: regulatory_action is corporate M&A/control, not cement capacity expansion"
+   ]
+  },
+  {
+   "candidate": {
+    "candidate_id": "cand_DGKC_evt_631f2274b093b9e11723",
+    "event_id": "evt_631f2274b093b9e11723",
+    "symbol": "DGKC",
+    "sector": "Cement",
+    "event_family": "contract",
+    "event_type": "contract_tender",
+    "event_subtype": "contract",
+    "effective_date": null,
+    "information_available_at": "2026-08-27 03:39",
+    "source": {
+     "id": "issuer:5943c09923394ef40e90cc78",
+     "hash": "ad6df065cc9ddc2bd5ed59a5a74e3a288b8590bf09c251eb32c0a0415a0625c5",
+     "page": 92,
+     "url": "https://www.dgcement.com/financial-reports/DGKCAnnual_Report_2020.pdf"
+    },
+    "horizons": {
+     "1Q": {
+      "target_date": "2026-11-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/DGKC.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2026-11-27"
+      }
+     },
+     "2Q": {
+      "target_date": "2027-02-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/DGKC.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2027-02-27"
+      }
+     },
+     "4Q": {
+      "target_date": "2027-08-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/DGKC.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2027-08-27"
+      }
+     },
+     "8Q": {
+      "target_date": "2028-08-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/DGKC.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2028-08-27"
+      }
+     }
+    }
+   },
+   "violations": [
+    "unsupported_event_family: contract"
+   ]
+  },
+  {
+   "candidate": {
+    "candidate_id": "cand_DGKC_evt_436ad3fdbce4c3e2bc15",
+    "event_id": "evt_436ad3fdbce4c3e2bc15",
+    "symbol": "DGKC",
+    "sector": "Cement",
+    "event_family": "regulatory_action",
+    "event_type": "regulatory_change",
+    "event_subtype": "regulatory_action",
+    "effective_date": null,
+    "information_available_at": "2026-08-27 03:40",
+    "source": {
+     "id": "issuer:c38ef8e6e11d33c8261e262d",
+     "hash": "d4504b8213049a771b8127661a6f4b80d415ffcdd4e043fab9c42196c2c7e9ba",
+     "page": 135,
+     "url": "https://www.dgcement.com/financial-reports/2015-16_f.pdf"
+    },
+    "horizons": {
+     "1Q": {
+      "target_date": "2026-11-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/DGKC.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2026-11-27"
+      }
+     },
+     "2Q": {
+      "target_date": "2027-02-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/DGKC.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2027-02-27"
+      }
+     },
+     "4Q": {
+      "target_date": "2027-08-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/DGKC.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2027-08-27"
+      }
+     },
+     "8Q": {
+      "target_date": "2028-08-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/DGKC.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2028-08-27"
+      }
+     }
+    }
+   },
+   "violations": [
+    "ineligible_event_family: regulatory_action is corporate M&A/control, not cement capacity expansion"
+   ]
+  },
+  {
+   "candidate": {
+    "candidate_id": "cand_DGKC_evt_36586d99f3ad433d4ef8",
+    "event_id": "evt_36586d99f3ad433d4ef8",
+    "symbol": "DGKC",
+    "sector": "Cement",
+    "event_family": "management_change",
+    "event_type": "management_change",
+    "event_subtype": "management_change",
+    "effective_date": null,
+    "information_available_at": "2026-08-27 03:39",
+    "source": {
+     "id": "issuer:726b073d8ee3289736664310",
+     "hash": "754beb6c8ab6fa3f243b9aa3d2ab9b646e244073414668fb5d0f72abfc862789",
+     "page": 6,
+     "url": "https://www.dgcement.com/financial-reports/BCSR Cross referred with Annual report 23.pdf"
+    },
+    "horizons": {
+     "1Q": {
+      "target_date": "2026-11-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/DGKC.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2026-11-27"
+      }
+     },
+     "2Q": {
+      "target_date": "2027-02-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/DGKC.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2027-02-27"
+      }
+     },
+     "4Q": {
+      "target_date": "2027-08-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/DGKC.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2027-08-27"
+      }
+     },
+     "8Q": {
+      "target_date": "2028-08-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/DGKC.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2028-08-27"
+      }
+     }
+    }
+   },
+   "violations": [
+    "ineligible_event_family: management_change is corporate M&A/control, not cement capacity expansion"
+   ]
+  },
+  {
+   "candidate": {
+    "candidate_id": "cand_DGKC_evt_33d98e30ce6a5ccdf730",
+    "event_id": "evt_33d98e30ce6a5ccdf730",
+    "symbol": "DGKC",
+    "sector": "Cement",
+    "event_family": "credit_event",
+    "event_type": "debt_refinancing",
+    "event_subtype": "credit_event",
+    "effective_date": null,
+    "information_available_at": "2026-08-27 05:19",
+    "source": {
+     "id": "issuer:39fe974f6ef82bbeadf83938",
+     "hash": "96ca1120b238541d4916fb1c777614ee6045f30ab130d2f18e8a1fd5c62bdf73",
+     "page": 40,
+     "url": "https://www.dgcement.com/financial-reports/DGAnnual2025.pdf"
+    },
+    "horizons": {
+     "1Q": {
+      "target_date": "2026-11-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/DGKC.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2026-11-27"
+      }
+     },
+     "2Q": {
+      "target_date": "2027-02-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/DGKC.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2027-02-27"
+      }
+     },
+     "4Q": {
+      "target_date": "2027-08-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/DGKC.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2027-08-27"
+      }
+     },
+     "8Q": {
+      "target_date": "2028-08-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/DGKC.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2028-08-27"
+      }
+     }
+    }
+   },
+   "violations": [
+    "unsupported_event_family: credit_event"
+   ]
+  },
+  {
+   "candidate": {
+    "candidate_id": "cand_DGKC_evt_26ff2e04276c9bff8719",
+    "event_id": "evt_26ff2e04276c9bff8719",
+    "symbol": "DGKC",
+    "sector": "Cement",
+    "event_family": "credit_event",
+    "event_type": "debt_refinancing",
+    "event_subtype": "credit_event",
+    "effective_date": null,
+    "information_available_at": "2026-08-27 03:41",
+    "source": {
+     "id": "issuer:773167b57f3bc15094fdf721",
+     "hash": "624f2146a513624e46e681a8b0bdb972031d32fc660674ed19bc692c4f620ea9",
+     "page": 31,
+     "url": "https://www.dgcement.com/financial-reports/2014-15_f.pdf"
+    },
+    "horizons": {
+     "1Q": {
+      "target_date": "2026-11-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/DGKC.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2026-11-27"
+      }
+     },
+     "2Q": {
+      "target_date": "2027-02-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/DGKC.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2027-02-27"
+      }
+     },
+     "4Q": {
+      "target_date": "2027-08-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/DGKC.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2027-08-27"
+      }
+     },
+     "8Q": {
+      "target_date": "2028-08-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/DGKC.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2028-08-27"
+      }
+     }
+    }
+   },
+   "violations": [
+    "unsupported_event_family: credit_event"
+   ]
+  },
+  {
+   "candidate": {
+    "candidate_id": "cand_DGKC_evt_234e738c965ddaa22fcd",
+    "event_id": "evt_234e738c965ddaa22fcd",
+    "symbol": "DGKC",
+    "sector": "Cement",
+    "event_family": "regulatory_action",
+    "event_type": "regulatory_change",
+    "event_subtype": "regulatory_action",
+    "effective_date": null,
+    "information_available_at": "2026-08-27 05:19",
+    "source": {
+     "id": "issuer:39fe974f6ef82bbeadf83938",
+     "hash": "96ca1120b238541d4916fb1c777614ee6045f30ab130d2f18e8a1fd5c62bdf73",
+     "page": 187,
+     "url": "https://www.dgcement.com/financial-reports/DGAnnual2025.pdf"
+    },
+    "horizons": {
+     "1Q": {
+      "target_date": "2026-11-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/DGKC.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2026-11-27"
+      }
+     },
+     "2Q": {
+      "target_date": "2027-02-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/DGKC.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2027-02-27"
+      }
+     },
+     "4Q": {
+      "target_date": "2027-08-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/DGKC.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2027-08-27"
+      }
+     },
+     "8Q": {
+      "target_date": "2028-08-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/DGKC.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2028-08-27"
+      }
+     }
+    }
+   },
+   "violations": [
+    "ineligible_event_family: regulatory_action is corporate M&A/control, not cement capacity expansion"
+   ]
+  },
+  {
+   "candidate": {
+    "candidate_id": "cand_DGKC_evt_1db0aaf9e64915b06b6b",
+    "event_id": "evt_1db0aaf9e64915b06b6b",
+    "symbol": "DGKC",
+    "sector": "Cement",
+    "event_family": "regulatory_action",
+    "event_type": "regulatory_change",
+    "event_subtype": "regulatory_action",
+    "effective_date": null,
+    "information_available_at": "2026-08-27 03:39",
+    "source": {
+     "id": "issuer:5943c09923394ef40e90cc78",
+     "hash": "ad6df065cc9ddc2bd5ed59a5a74e3a288b8590bf09c251eb32c0a0415a0625c5",
+     "page": 133,
+     "url": "https://www.dgcement.com/financial-reports/DGKCAnnual_Report_2020.pdf"
+    },
+    "horizons": {
+     "1Q": {
+      "target_date": "2026-11-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/DGKC.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2026-11-27"
+      }
+     },
+     "2Q": {
+      "target_date": "2027-02-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/DGKC.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2027-02-27"
+      }
+     },
+     "4Q": {
+      "target_date": "2027-08-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/DGKC.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2027-08-27"
+      }
+     },
+     "8Q": {
+      "target_date": "2028-08-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/DGKC.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2028-08-27"
+      }
+     }
+    }
+   },
+   "violations": [
+    "ineligible_event_family: regulatory_action is corporate M&A/control, not cement capacity expansion"
+   ]
+  },
+  {
+   "candidate": {
+    "candidate_id": "cand_DGKC_evt_1aa4ba83cbbbf7ed6a82",
+    "event_id": "evt_1aa4ba83cbbbf7ed6a82",
+    "symbol": "DGKC",
+    "sector": "Cement",
+    "event_family": "credit_event",
+    "event_type": "debt_refinancing",
+    "event_subtype": "credit_event",
+    "effective_date": null,
+    "information_available_at": "2026-08-27 03:39",
+    "source": {
+     "id": "issuer:5943c09923394ef40e90cc78",
+     "hash": "ad6df065cc9ddc2bd5ed59a5a74e3a288b8590bf09c251eb32c0a0415a0625c5",
+     "page": 44,
+     "url": "https://www.dgcement.com/financial-reports/DGKCAnnual_Report_2020.pdf"
+    },
+    "horizons": {
+     "1Q": {
+      "target_date": "2026-11-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/DGKC.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2026-11-27"
+      }
+     },
+     "2Q": {
+      "target_date": "2027-02-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/DGKC.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2027-02-27"
+      }
+     },
+     "4Q": {
+      "target_date": "2027-08-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/DGKC.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2027-08-27"
+      }
+     },
+     "8Q": {
+      "target_date": "2028-08-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/DGKC.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2028-08-27"
+      }
+     }
+    }
+   },
+   "violations": [
+    "unsupported_event_family: credit_event"
+   ]
+  },
+  {
+   "candidate": {
+    "candidate_id": "cand_DGKC_evt_19d7a78cfeec24e8872d",
+    "event_id": "evt_19d7a78cfeec24e8872d",
+    "symbol": "DGKC",
+    "sector": "Cement",
+    "event_family": "credit_event",
+    "event_type": "debt_refinancing",
+    "event_subtype": "credit_event",
+    "effective_date": null,
+    "information_available_at": "2026-08-27 05:19",
+    "source": {
+     "id": "issuer:57fbec27bd4005d116acb827",
+     "hash": "a21680c7c43bd056faa63960bd21ce7e9550dfa62b058127e0ed2cb9f93bb8ce",
+     "page": 40,
+     "url": "https://www.dgcement.com/financial-reports/DGAnnual2023.pdf"
+    },
+    "horizons": {
+     "1Q": {
+      "target_date": "2026-11-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/DGKC.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2026-11-27"
+      }
+     },
+     "2Q": {
+      "target_date": "2027-02-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/DGKC.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2027-02-27"
+      }
+     },
+     "4Q": {
+      "target_date": "2027-08-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/DGKC.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2027-08-27"
+      }
+     },
+     "8Q": {
+      "target_date": "2028-08-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/DGKC.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2028-08-27"
+      }
+     }
+    }
+   },
+   "violations": [
+    "unsupported_event_family: credit_event"
+   ]
+  },
+  {
+   "candidate": {
+    "candidate_id": "cand_DGKC_evt_0cb786f093ad1e648020",
+    "event_id": "evt_0cb786f093ad1e648020",
+    "symbol": "DGKC",
+    "sector": "Cement",
+    "event_family": "regulatory_action",
+    "event_type": "regulatory_change",
+    "event_subtype": "regulatory_action",
+    "effective_date": null,
+    "information_available_at": "2026-08-27 03:41",
+    "source": {
+     "id": "issuer:26f095b5a39a5c2fce8ae3f7",
+     "hash": "25460b628d9ef13045fcd41d85d0e5bd772c5d22661c8cc48e4fb4720caabc74",
+     "page": 95,
+     "url": "https://www.dgcement.com/financial-reports/2013-14_f.pdf"
+    },
+    "horizons": {
+     "1Q": {
+      "target_date": "2026-11-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/DGKC.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2026-11-27"
+      }
+     },
+     "2Q": {
+      "target_date": "2027-02-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/DGKC.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2027-02-27"
+      }
+     },
+     "4Q": {
+      "target_date": "2027-08-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/DGKC.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2027-08-27"
+      }
+     },
+     "8Q": {
+      "target_date": "2028-08-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/DGKC.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2028-08-27"
+      }
+     }
+    }
+   },
+   "violations": [
+    "ineligible_event_family: regulatory_action is corporate M&A/control, not cement capacity expansion"
+   ]
+  },
+  {
+   "candidate": {
+    "candidate_id": "cand_DGKC_evt_0be3f6574255ff242cc5",
+    "event_id": "evt_0be3f6574255ff242cc5",
+    "symbol": "DGKC",
+    "sector": "Cement",
+    "event_family": "credit_event",
+    "event_type": "debt_refinancing",
+    "event_subtype": "credit_event",
+    "effective_date": null,
+    "information_available_at": "2026-08-27 03:46",
+    "source": {
+     "id": "issuer:ca644787b36dc7ace085ff54",
+     "hash": "5bbaee24c08b67b82e4dfdf07240c732d958567576fe3db4e81f2e5646fedbb9",
+     "page": 34,
+     "url": "https://www.dgcement.com/financial-reports/DG_Annual_Report_2022.pdf"
+    },
+    "horizons": {
+     "1Q": {
+      "target_date": "2026-11-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/DGKC.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2026-11-27"
+      }
+     },
+     "2Q": {
+      "target_date": "2027-02-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/DGKC.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2027-02-27"
+      }
+     },
+     "4Q": {
+      "target_date": "2027-08-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/DGKC.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2027-08-27"
+      }
+     },
+     "8Q": {
+      "target_date": "2028-08-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/DGKC.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2028-08-27"
+      }
+     }
+    }
+   },
+   "violations": [
+    "unsupported_event_family: credit_event"
+   ]
+  },
+  {
+   "candidate": {
+    "candidate_id": "cand_LUCK_evt_ef73643bee6c917b0049",
+    "event_id": "evt_ef73643bee6c917b0049",
+    "symbol": "LUCK",
+    "sector": "Cement",
+    "event_family": "management_change",
+    "event_type": "management_change",
+    "event_subtype": "management_change",
+    "effective_date": null,
+    "information_available_at": "2026-08-27 06:15",
+    "source": {
+     "id": "issuer:814f586f0a7a9fb56900185d",
+     "hash": "86536c063b7fbcd0374a25e82dc1577e4d868591016e58439491d3b6ab880e11",
+     "page": 4,
+     "url": "https://assets.lucky-cement.com/Annual_Report_2025_7c9f8f1249.pdf"
+    },
+    "horizons": {
+     "1Q": {
+      "target_date": "2026-11-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/LUCK.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2026-11-27"
+      }
+     },
+     "2Q": {
+      "target_date": "2027-02-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/LUCK.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2027-02-27"
+      }
+     },
+     "4Q": {
+      "target_date": "2027-08-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/LUCK.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2027-08-27"
+      }
+     },
+     "8Q": {
+      "target_date": "2028-08-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/LUCK.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2028-08-27"
+      }
+     }
+    }
+   },
+   "violations": [
+    "ineligible_event_family: management_change is corporate M&A/control, not cement capacity expansion"
+   ]
+  },
+  {
+   "candidate": {
+    "candidate_id": "cand_LUCK_evt_df764fceb4e8a774d7dc",
+    "event_id": "evt_df764fceb4e8a774d7dc",
+    "symbol": "LUCK",
+    "sector": "Cement",
+    "event_family": "contract",
+    "event_type": "contract_tender",
+    "event_subtype": "contract",
+    "effective_date": null,
+    "information_available_at": "2026-08-27 06:15",
+    "source": {
+     "id": "issuer:814f586f0a7a9fb56900185d",
+     "hash": "86536c063b7fbcd0374a25e82dc1577e4d868591016e58439491d3b6ab880e11",
+     "page": 287,
+     "url": "https://assets.lucky-cement.com/Annual_Report_2025_7c9f8f1249.pdf"
+    },
+    "horizons": {
+     "1Q": {
+      "target_date": "2026-11-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/LUCK.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2026-11-27"
+      }
+     },
+     "2Q": {
+      "target_date": "2027-02-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/LUCK.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2027-02-27"
+      }
+     },
+     "4Q": {
+      "target_date": "2027-08-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/LUCK.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2027-08-27"
+      }
+     },
+     "8Q": {
+      "target_date": "2028-08-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/LUCK.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2028-08-27"
+      }
+     }
+    }
+   },
+   "violations": [
+    "unsupported_event_family: contract"
+   ]
+  },
+  {
+   "candidate": {
+    "candidate_id": "cand_LUCK_evt_d24fff16d6254922e890",
+    "event_id": "evt_d24fff16d6254922e890",
+    "symbol": "LUCK",
+    "sector": "Cement",
+    "event_family": "acquisition",
+    "event_type": "acquisition_divestment",
+    "event_subtype": "acquisition",
+    "effective_date": null,
+    "information_available_at": "2026-08-27 03:59",
+    "source": {
+     "id": "issuer:da804cd7e5c10e7c7df6689a",
+     "hash": "3b854e6b6dcc19bd9467d61255dc4ffa6176e1669d324d54e51e8227738d678f",
+     "page": 31,
+     "url": "https://assets.lucky-cement.com/Annual_Report_2022_e3b3009def.pdf"
+    },
+    "horizons": {
+     "1Q": {
+      "target_date": "2026-11-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/LUCK.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2026-11-27"
+      }
+     },
+     "2Q": {
+      "target_date": "2027-02-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/LUCK.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2027-02-27"
+      }
+     },
+     "4Q": {
+      "target_date": "2027-08-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/LUCK.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2027-08-27"
+      }
+     },
+     "8Q": {
+      "target_date": "2028-08-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/LUCK.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2028-08-27"
+      }
+     }
+    }
+   },
+   "violations": [
+    "ineligible_event_family: acquisition is corporate M&A/control, not cement capacity expansion"
+   ]
+  },
+  {
+   "candidate": {
+    "candidate_id": "cand_LUCK_evt_ca9fec87af4523a81872",
+    "event_id": "evt_ca9fec87af4523a81872",
+    "symbol": "LUCK",
+    "sector": "Cement",
+    "event_family": "contract",
+    "event_type": "contract_tender",
+    "event_subtype": "contract",
+    "effective_date": null,
+    "information_available_at": "2026-08-27 03:59",
+    "source": {
+     "id": "issuer:da804cd7e5c10e7c7df6689a",
+     "hash": "3b854e6b6dcc19bd9467d61255dc4ffa6176e1669d324d54e51e8227738d678f",
+     "page": 145,
+     "url": "https://assets.lucky-cement.com/Annual_Report_2022_e3b3009def.pdf"
+    },
+    "horizons": {
+     "1Q": {
+      "target_date": "2026-11-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/LUCK.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2026-11-27"
+      }
+     },
+     "2Q": {
+      "target_date": "2027-02-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/LUCK.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2027-02-27"
+      }
+     },
+     "4Q": {
+      "target_date": "2027-08-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/LUCK.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2027-08-27"
+      }
+     },
+     "8Q": {
+      "target_date": "2028-08-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/LUCK.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2028-08-27"
+      }
+     }
+    }
+   },
+   "violations": [
+    "unsupported_event_family: contract"
+   ]
+  },
+  {
+   "candidate": {
+    "candidate_id": "cand_LUCK_evt_79c650e476df996dd358",
+    "event_id": "evt_79c650e476df996dd358",
+    "symbol": "LUCK",
+    "sector": "Cement",
+    "event_family": "contract",
+    "event_type": "contract_tender",
+    "event_subtype": "contract",
+    "effective_date": null,
+    "information_available_at": "2026-08-27 06:15",
+    "source": {
+     "id": "issuer:a4e067f83e17c5ea85d8f654",
+     "hash": "3bd69fae7ad4cfbfb92984c8b5adde1440769e0c46ccdbf8e59ef32fd6990d2e",
+     "page": 288,
+     "url": "https://assets.lucky-cement.com/Annual_Report_2023_b9910394cf.pdf"
+    },
+    "horizons": {
+     "1Q": {
+      "target_date": "2026-11-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/LUCK.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2026-11-27"
+      }
+     },
+     "2Q": {
+      "target_date": "2027-02-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/LUCK.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2027-02-27"
+      }
+     },
+     "4Q": {
+      "target_date": "2027-08-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/LUCK.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2027-08-27"
+      }
+     },
+     "8Q": {
+      "target_date": "2028-08-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/LUCK.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2028-08-27"
+      }
+     }
+    }
+   },
+   "violations": [
+    "unsupported_event_family: contract"
+   ]
+  },
+  {
+   "candidate": {
+    "candidate_id": "cand_LUCK_evt_766905a91e63b226f8c3",
+    "event_id": "evt_766905a91e63b226f8c3",
+    "symbol": "LUCK",
+    "sector": "Cement",
+    "event_family": "management_change",
+    "event_type": "management_change",
+    "event_subtype": "management_change",
+    "effective_date": null,
+    "information_available_at": "2026-08-27 06:15",
+    "source": {
+     "id": "issuer:a4ad80e1b79ef02784142ce8",
+     "hash": "167740e80ab234b1e04e9fd425bb9e784b644a03a8133d5e769a172de36359ec",
+     "page": 4,
+     "url": "https://assets.lucky-cement.com/Annual_Report_2024_1b79aefdee.pdf"
+    },
+    "horizons": {
+     "1Q": {
+      "target_date": "2026-11-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/LUCK.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2026-11-27"
+      }
+     },
+     "2Q": {
+      "target_date": "2027-02-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/LUCK.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2027-02-27"
+      }
+     },
+     "4Q": {
+      "target_date": "2027-08-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/LUCK.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2027-08-27"
+      }
+     },
+     "8Q": {
+      "target_date": "2028-08-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/LUCK.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2028-08-27"
+      }
+     }
+    }
+   },
+   "violations": [
+    "ineligible_event_family: management_change is corporate M&A/control, not cement capacity expansion"
+   ]
+  },
+  {
+   "candidate": {
+    "candidate_id": "cand_LUCK_evt_710e6fa7969bfe5389b2",
+    "event_id": "evt_710e6fa7969bfe5389b2",
+    "symbol": "LUCK",
+    "sector": "Cement",
+    "event_family": "management_change",
+    "event_type": "management_change",
+    "event_subtype": "management_change",
+    "effective_date": null,
+    "information_available_at": "2026-08-27 03:59",
+    "source": {
+     "id": "issuer:da804cd7e5c10e7c7df6689a",
+     "hash": "3b854e6b6dcc19bd9467d61255dc4ffa6176e1669d324d54e51e8227738d678f",
+     "page": 52,
+     "url": "https://assets.lucky-cement.com/Annual_Report_2022_e3b3009def.pdf"
+    },
+    "horizons": {
+     "1Q": {
+      "target_date": "2026-11-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/LUCK.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2026-11-27"
+      }
+     },
+     "2Q": {
+      "target_date": "2027-02-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/LUCK.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2027-02-27"
+      }
+     },
+     "4Q": {
+      "target_date": "2027-08-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/LUCK.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2027-08-27"
+      }
+     },
+     "8Q": {
+      "target_date": "2028-08-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/LUCK.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2028-08-27"
+      }
+     }
+    }
+   },
+   "violations": [
+    "ineligible_event_family: management_change is corporate M&A/control, not cement capacity expansion"
+   ]
+  },
+  {
+   "candidate": {
+    "candidate_id": "cand_LUCK_evt_534ee9f7ec50f97e539d",
+    "event_id": "evt_534ee9f7ec50f97e539d",
+    "symbol": "LUCK",
+    "sector": "Cement",
+    "event_family": "management_change",
+    "event_type": "management_change",
+    "event_subtype": "management_change",
+    "effective_date": null,
+    "information_available_at": "2026-08-27 06:15",
+    "source": {
+     "id": "issuer:a4e067f83e17c5ea85d8f654",
+     "hash": "3bd69fae7ad4cfbfb92984c8b5adde1440769e0c46ccdbf8e59ef32fd6990d2e",
+     "page": 4,
+     "url": "https://assets.lucky-cement.com/Annual_Report_2023_b9910394cf.pdf"
+    },
+    "horizons": {
+     "1Q": {
+      "target_date": "2026-11-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/LUCK.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2026-11-27"
+      }
+     },
+     "2Q": {
+      "target_date": "2027-02-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/LUCK.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2027-02-27"
+      }
+     },
+     "4Q": {
+      "target_date": "2027-08-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/LUCK.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2027-08-27"
+      }
+     },
+     "8Q": {
+      "target_date": "2028-08-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/LUCK.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2028-08-27"
+      }
+     }
+    }
+   },
+   "violations": [
+    "ineligible_event_family: management_change is corporate M&A/control, not cement capacity expansion"
+   ]
+  },
+  {
+   "candidate": {
+    "candidate_id": "cand_LUCK_evt_15c2c357e369c51acac2",
+    "event_id": "evt_15c2c357e369c51acac2",
+    "symbol": "LUCK",
+    "sector": "Cement",
+    "event_family": "contract",
+    "event_type": "contract_tender",
+    "event_subtype": "contract",
+    "effective_date": null,
+    "information_available_at": "2026-08-27 06:15",
+    "source": {
+     "id": "issuer:a4ad80e1b79ef02784142ce8",
+     "hash": "167740e80ab234b1e04e9fd425bb9e784b644a03a8133d5e769a172de36359ec",
+     "page": 294,
+     "url": "https://assets.lucky-cement.com/Annual_Report_2024_1b79aefdee.pdf"
+    },
+    "horizons": {
+     "1Q": {
+      "target_date": "2026-11-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/LUCK.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2026-11-27"
+      }
+     },
+     "2Q": {
+      "target_date": "2027-02-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/LUCK.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2027-02-27"
+      }
+     },
+     "4Q": {
+      "target_date": "2027-08-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/LUCK.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2027-08-27"
+      }
+     },
+     "8Q": {
+      "target_date": "2028-08-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/LUCK.json",
+       "baseline_date": "2026-08-25",
+       "endpoint_date": null,
+       "target_date": "2028-08-27"
+      }
+     }
+    }
+   },
+   "violations": [
+    "unsupported_event_family: contract"
+   ]
+  },
+  {
+   "candidate": {
+    "candidate_id": "cand_MLCF_evt_d7c447a64349aa1b3210",
+    "event_id": "evt_d7c447a64349aa1b3210",
+    "symbol": "MLCF",
+    "sector": "Cement",
+    "event_family": "contract",
+    "event_type": "contract_tender",
+    "event_subtype": "contract",
+    "effective_date": "2026-03-02",
+    "information_available_at": "2026-03-02T08:46:00+05:00",
+    "source": {
+     "id": "psx:271712",
+     "hash": "f4f9d671658d9c402d650fd3e45bc098bd410084bba7d8fdcf7f8729cf9e5f69",
+     "page": 37,
+     "url": "https://dps.psx.com.pk/download/document/271712.pdf"
+    },
+    "horizons": {
+     "1Q": {
+      "target_date": "2026-06-02",
+      "selected_date": "2026-06-02",
+      "selected_close": 87.88,
+      "return_pct": -7.494736842105265,
+      "status": "mature",
+      "reason": null,
+      "provenance": {
+       "history_file": "state/history/MLCF.json",
+       "baseline_date": "2026-02-27",
+       "endpoint_date": "2026-06-02",
+       "target_date": "2026-06-02"
+      }
+     },
+     "2Q": {
+      "target_date": "2026-09-02",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/MLCF.json",
+       "baseline_date": "2026-02-27",
+       "endpoint_date": null,
+       "target_date": "2026-09-02"
+      }
+     },
+     "4Q": {
+      "target_date": "2027-03-02",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/MLCF.json",
+       "baseline_date": "2026-02-27",
+       "endpoint_date": null,
+       "target_date": "2027-03-02"
+      }
+     },
+     "8Q": {
+      "target_date": "2028-03-02",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/MLCF.json",
+       "baseline_date": "2026-02-27",
+       "endpoint_date": null,
+       "target_date": "2028-03-02"
+      }
+     }
+    }
+   },
+   "violations": [
+    "unsupported_event_family: contract"
+   ]
+  },
+  {
+   "candidate": {
+    "candidate_id": "cand_MLCF_evt_6e9b520a122b8f2d4a59",
+    "event_id": "evt_6e9b520a122b8f2d4a59",
+    "symbol": "MLCF",
+    "sector": "Cement",
+    "event_family": "acquisition",
+    "event_type": "acquisition_divestment",
+    "event_subtype": "acquisition",
+    "effective_date": "2025-12-18",
+    "information_available_at": "2025-12-18T12:52:00+05:00",
+    "source": {
+     "id": "psx:267429",
+     "hash": "98cf83c9a286999c8006a7f73f490248f26694c9edbfc815b3dbd9188ee22a54",
+     "page": 3,
+     "url": "https://dps.psx.com.pk/download/document/267429.pdf"
+    },
+    "horizons": {
+     "1Q": {
+      "target_date": "2026-03-18",
+      "selected_date": "2026-03-18",
+      "selected_close": 83.22,
+      "return_pct": -34.539447809329026,
+      "status": "mature",
+      "reason": null,
+      "provenance": {
+       "history_file": "state/history/MLCF.json",
+       "baseline_date": "2025-12-17",
+       "endpoint_date": "2026-03-18",
+       "target_date": "2026-03-18"
+      }
+     },
+     "2Q": {
+      "target_date": "2026-06-18",
+      "selected_date": "2026-06-18",
+      "selected_close": 102.47,
+      "return_pct": -19.397467159600414,
+      "status": "mature",
+      "reason": null,
+      "provenance": {
+       "history_file": "state/history/MLCF.json",
+       "baseline_date": "2025-12-17",
+       "endpoint_date": "2026-06-18",
+       "target_date": "2026-06-18"
+      }
+     },
+     "4Q": {
+      "target_date": "2026-12-18",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/MLCF.json",
+       "baseline_date": "2025-12-17",
+       "endpoint_date": null,
+       "target_date": "2026-12-18"
+      }
+     },
+     "8Q": {
+      "target_date": "2027-12-18",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/MLCF.json",
+       "baseline_date": "2025-12-17",
+       "endpoint_date": null,
+       "target_date": "2027-12-18"
+      }
+     }
+    }
+   },
+   "violations": [
+    "ineligible_event_family: acquisition is corporate M&A/control, not cement capacity expansion"
+   ]
+  },
+  {
+   "candidate": {
+    "candidate_id": "cand_MLCF_evt_d9a05d3b01ea6986febe",
+    "event_id": "evt_d9a05d3b01ea6986febe",
+    "symbol": "MLCF",
+    "sector": "Cement",
+    "event_family": "contract",
+    "event_type": "contract_tender",
+    "event_subtype": "contract",
+    "effective_date": "2025-10-27",
+    "information_available_at": "2025-10-27T10:09:00+05:00",
+    "source": {
+     "id": "psx:263397",
+     "hash": "a05eeee23485edd71c6c096a606a3b6fd76d6687e13bdaf032f97b59b9cdcc7e",
+     "page": 14,
+     "url": "https://dps.psx.com.pk/download/document/263397.pdf"
+    },
+    "horizons": {
+     "1Q": {
+      "target_date": "2026-01-27",
+      "selected_date": "2026-01-27",
+      "selected_close": 117.68,
+      "return_pct": 20.697435897435913,
+      "status": "mature",
+      "reason": null,
+      "provenance": {
+       "history_file": "state/history/MLCF.json",
+       "baseline_date": "2025-10-24",
+       "endpoint_date": "2026-01-27",
+       "target_date": "2026-01-27"
+      }
+     },
+     "2Q": {
+      "target_date": "2026-04-27",
+      "selected_date": "2026-04-27",
+      "selected_close": 83.87,
+      "return_pct": -13.97948717948717,
+      "status": "mature",
+      "reason": null,
+      "provenance": {
+       "history_file": "state/history/MLCF.json",
+       "baseline_date": "2025-10-24",
+       "endpoint_date": "2026-04-27",
+       "target_date": "2026-04-27"
+      }
+     },
+     "4Q": {
+      "target_date": "2026-10-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/MLCF.json",
+       "baseline_date": "2025-10-24",
+       "endpoint_date": null,
+       "target_date": "2026-10-27"
+      }
+     },
+     "8Q": {
+      "target_date": "2027-10-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/MLCF.json",
+       "baseline_date": "2025-10-24",
+       "endpoint_date": null,
+       "target_date": "2027-10-27"
+      }
+     }
+    }
+   },
+   "violations": [
+    "unsupported_event_family: contract"
+   ]
+  },
+  {
+   "candidate": {
+    "candidate_id": "cand_MLCF_evt_6cdb8c02f429bc28beaa",
+    "event_id": "evt_6cdb8c02f429bc28beaa",
+    "symbol": "MLCF",
+    "sector": "Cement",
+    "event_family": "contract",
+    "event_type": "contract_tender",
+    "event_subtype": "contract",
+    "effective_date": "2025-10-27",
+    "information_available_at": "2025-10-27T10:09:00+05:00",
+    "source": {
+     "id": "psx:263397",
+     "hash": "a05eeee23485edd71c6c096a606a3b6fd76d6687e13bdaf032f97b59b9cdcc7e",
+     "page": 14,
+     "url": "https://dps.psx.com.pk/download/document/263397.pdf"
+    },
+    "horizons": {
+     "1Q": {
+      "target_date": "2026-01-27",
+      "selected_date": "2026-01-27",
+      "selected_close": 117.68,
+      "return_pct": 20.697435897435913,
+      "status": "mature",
+      "reason": null,
+      "provenance": {
+       "history_file": "state/history/MLCF.json",
+       "baseline_date": "2025-10-24",
+       "endpoint_date": "2026-01-27",
+       "target_date": "2026-01-27"
+      }
+     },
+     "2Q": {
+      "target_date": "2026-04-27",
+      "selected_date": "2026-04-27",
+      "selected_close": 83.87,
+      "return_pct": -13.97948717948717,
+      "status": "mature",
+      "reason": null,
+      "provenance": {
+       "history_file": "state/history/MLCF.json",
+       "baseline_date": "2025-10-24",
+       "endpoint_date": "2026-04-27",
+       "target_date": "2026-04-27"
+      }
+     },
+     "4Q": {
+      "target_date": "2026-10-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/MLCF.json",
+       "baseline_date": "2025-10-24",
+       "endpoint_date": null,
+       "target_date": "2026-10-27"
+      }
+     },
+     "8Q": {
+      "target_date": "2027-10-27",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/MLCF.json",
+       "baseline_date": "2025-10-24",
+       "endpoint_date": null,
+       "target_date": "2027-10-27"
+      }
+     }
+    }
+   },
+   "violations": [
+    "unsupported_event_family: contract"
+   ]
+  },
+  {
+   "candidate": {
+    "candidate_id": "cand_MLCF_evt_a0c390f2010041e1b8f8",
+    "event_id": "evt_a0c390f2010041e1b8f8",
+    "symbol": "MLCF",
+    "sector": "Cement",
+    "event_family": "contract",
+    "event_type": "contract_tender",
+    "event_subtype": "contract",
+    "effective_date": "2025-09-25",
+    "information_available_at": "2025-09-25T12:43:00+05:00",
+    "source": {
+     "id": "psx:260032",
+     "hash": "4fdfb4cbd2eee65576cbb89b43334ce0c09a7e5ffd573d5bf93b414029eba6d1",
+     "page": 20,
+     "url": "https://dps.psx.com.pk/download/document/260032.pdf"
+    },
+    "horizons": {
+     "1Q": {
+      "target_date": "2025-12-25",
+      "selected_date": "2025-12-26",
+      "selected_close": 121.94,
+      "return_pct": 13.45366579828804,
+      "status": "mature",
+      "reason": null,
+      "provenance": {
+       "history_file": "state/history/MLCF.json",
+       "baseline_date": "2025-09-24",
+       "endpoint_date": "2025-12-26",
+       "target_date": "2025-12-25"
+      }
+     },
+     "2Q": {
+      "target_date": "2026-03-25",
+      "selected_date": "2026-03-25",
+      "selected_close": 85.85,
+      "return_pct": -20.1246743580201,
+      "status": "mature",
+      "reason": null,
+      "provenance": {
+       "history_file": "state/history/MLCF.json",
+       "baseline_date": "2025-09-24",
+       "endpoint_date": "2026-03-25",
+       "target_date": "2026-03-25"
+      }
+     },
+     "4Q": {
+      "target_date": "2026-09-25",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/MLCF.json",
+       "baseline_date": "2025-09-24",
+       "endpoint_date": null,
+       "target_date": "2026-09-25"
+      }
+     },
+     "8Q": {
+      "target_date": "2027-09-25",
+      "selected_date": null,
+      "selected_close": null,
+      "return_pct": null,
+      "status": "immature",
+      "reason": "target_after_last_bar",
+      "provenance": {
+       "history_file": "state/history/MLCF.json",
+       "baseline_date": "2025-09-24",
+       "endpoint_date": null,
+       "target_date": "2027-09-25"
+      }
+     }
+    }
+   },
+   "violations": [
+    "unsupported_event_family: contract"
+   ]
+  }
+ ],
+ "ranked_missing_records_queue": [
+  {
+   "priority": 1,
+   "symbol": "DGKC",
+   "company_name": "D.G. Khan Cement Company Limited",
+   "event_description": "2,500 TPD Brownfield Clinker Line & 10 MW Waste Heat Recovery Commissioning",
+   "target_family": "cement_clinker_line_commissioning",
+   "missing_attributes": [
+    "exact_psx_announcement_date",
+    "document_id_psx_dps",
+    "content_sha256"
+   ],
+   "retained_proxy": "evt_c66c444c35780cf5951e (annual report narrative text without announcement timestamp)",
+   "impact_on_lane": "Unblocks primary same-sector mature brownfield expansion analogue."
+  },
+  {
+   "priority": 2,
+   "symbol": "MLCF",
+   "company_name": "Maple Leaf Cement Factory Limited",
+   "event_description": "Line-4 (7,000 TPD Clinker Line) Commercial Operation Commencement",
+   "target_family": "cement_clinker_line_commissioning",
+   "missing_attributes": [
+    "psx_material_information_document_id",
+    "exact_commencement_date"
+   ],
+   "retained_proxy": "None in active 20-pilot event ledger",
+   "impact_on_lane": "Supplies same-company historical clinker line expansion benchmark."
+  },
+  {
+   "priority": 3,
+   "symbol": "LUCK",
+   "company_name": "Lucky Cement Limited",
+   "event_description": "North Plant / Pezu Additional Clinker Line Commercial Commissioning",
+   "target_family": "cement_clinker_line_commissioning",
+   "missing_attributes": [
+    "psx_dps_announcement_hash",
+    "exact_commercial_operation_date"
+   ],
+   "retained_proxy": "Undated annual report references",
+   "impact_on_lane": "Completes N >= 3 domestic tier-1 cement capacity commissioning sample."
+  }
+ ],
+ "policy": {
+  "fail_closed_minimum_sample_three": true,
+  "strictly_pre_event_baselines": true,
+  "no_mismatched_mna_coercion": true,
+  "no_forecast_activation": true
+ },
+ "_meta": {
+  "generator_version": "ci_artifact_integrity_v1",
+  "source_commit_sha": "fdbdb208723b74ba979a87aa3d9154c185c8cb30",
+  "build_cutoff_at": "2026-09-13T17:52:48Z",
+  "generated_at": "2026-09-13T17:52:48Z",
+  "artifact_path": "state/company_intel/cement_expansion_analogue_distribution.json",
+  "timestamp_semantics": {
+   "build_cutoff_at": "generation boundary only; not a source-effective or source-published time",
+   "generated_at": "artifact generation time only; not a source-effective or source-published time"
+  }
+ }
+}
