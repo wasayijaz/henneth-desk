@@ -55,8 +55,8 @@ IMPLEMENTED_LANDINGS = {
 # route while its landing page is added.
 NEXT_DIRECTORY_TARGETS = {
     "intelligence": {
-        "landing": "intelligence",
-        "routes": ("research", "ask", "graph", "operating", "intelligence", "timeline"),
+        "landing": "directory_intelligence",
+        "routes": ("ask", "graph", "operating", "intelligence", "timeline"),
     },
 }
 
@@ -160,8 +160,11 @@ def _check_directory(group: dict[str, Any], source: str, intended: set[str]) -> 
     landing = group.get("landing") or IMPLEMENTED_LANDINGS.get(key)
     if landing is None:
         errors.append("missing explicit landing route contract (add landing or landing_route)")
-    elif group.get("landing") and landing not in routes:
-        errors.append(f"landing route {landing!r} is not declared in this directory")
+    elif group.get("landing") and landing in routes:
+        errors.append(f"landing route {landing!r} must be distinct from its child routes")
+    elif group.get("landing"):
+        if f'state.view === "{landing}"' not in source:
+            errors.append(f"implemented landing {landing!r} has no renderer dispatch")
     elif key in IMPLEMENTED_LANDINGS:
         if f'key === "{key}" ? "{landing}"' not in source:
             errors.append(f"implemented landing {landing!r} is not wired from the {key} directory")
@@ -192,6 +195,15 @@ def _check_directory(group: dict[str, Any], source: str, intended: set[str]) -> 
         errors.append("blocked analytical states lack plain-language missing_gates rendering")
     if key == "intelligence" and "ciHumanStatus" not in analytical_source:
         errors.append("analytical section does not translate machine status into plain language")
+    if key == "intelligence" and group.get("landing"):
+        dashboard = _function_body(source, "renderIntelligenceDashboard")
+        if not dashboard:
+            errors.append("Intelligence landing has no distinct dashboard renderer")
+        for route in NEXT_DIRECTORY_TARGETS["intelligence"]["routes"]:
+            if f'intelligenceDashboardCard("{route}"' not in dashboard:
+                errors.append(f"Intelligence landing does not link child route {route!r}")
+        if "overall readiness" in dashboard.lower() or "readiness score" in dashboard.lower():
+            errors.append("Intelligence landing invents an overall readiness score")
     # A collapsed technical-status disclosure may retain the machine code for
     # auditability.  Only inspect ordinary visible rendering for raw codes.
     visible_case_body = _function_body(source, "renderCaseSectionBody")

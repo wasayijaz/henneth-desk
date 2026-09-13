@@ -157,7 +157,6 @@ const PRIMARY_COMPANY_TABS = [
   ["peers", "Peers"],
   ["ownership", "Ownership"],
   ["quant", "Quant"],
-  ["research", "Research"],
 ];
 const RESEARCH_TOOL_TABS = [
   ["snapshot", "Investor snapshot"],
@@ -183,7 +182,7 @@ const RESEARCH_TOOL_TABS = [
 // appears exactly once in this tree; grouping is presentation-only.
 const TREE_GROUPS = [
   { key: "overview", label: "Overview", routes: [["snapshot", "Investor Snapshot"], ["overview", "Company Profile"]] },
-  { key: "intelligence", label: "Intelligence", routes: [["research", "Research"], ["ask", "Ask Henneth"], ["graph", "Knowledge Graph"], ["operating", "Operating Intelligence"], ["intelligence", "Event-to-Value view"], ["timeline", "Typed timeline (legacy)"]] },
+  { key: "intelligence", label: "Intelligence", landing_route: "directory_intelligence", routes: [["ask", "Ask Henneth"], ["graph", "Knowledge Graph"], ["operating", "Operating Intelligence"], ["intelligence", "Event-to-Value view"], ["timeline", "Typed timeline"]] },
   { key: "financials", label: "Financials", routes: [["trends", "Financial Trends"], ["baseline", "Financial Baseline"], ["forecast", "Forecast Readiness"], ["alpha_readiness", "Event-to-Value readiness"], ["financials", "Accounting Snapshot"]] },
   { key: "events", label: "Events & Filings", routes: [["earnings", "Earnings"], ["events", "Events"], ["filings", "Filings"], ["sources", "Sources"], ["changes", "Change Digest (legacy)"], ["brief", "Brief queue (legacy)"]] },
   { key: "strategy", label: "Strategy", routes: [["scenarios", "Scenarios"], ["valuation", "Valuation"], ["guidance", "Guidance"], ["catalysts", "Catalysts"], ["risks", "Risks"], ["quant", "Quant (legacy)"]] },
@@ -964,6 +963,7 @@ function detail(r) {
     </div>
     ${state.caseRoute ? renderIntelligenceCase(r, state.caseRoute.caseId)
       : state.view === "directory_overview" ? renderOverviewDashboard(r)
+      : state.view === "directory_intelligence" ? renderIntelligenceDashboard(r)
       : state.view === "financials" ? renderCompanyFinancials(r)
       : state.view === "earnings" ? renderCompanyEarnings(r)
       : state.view === "operations" ? renderCompanyOperations(r)
@@ -975,7 +975,6 @@ function detail(r) {
       : state.view === "peers" ? renderCompanyPeers(r)
       : state.view === "ownership" ? renderCompanyOwnership(r)
       : state.view === "quant" ? renderCompanyQuant(r)
-      : state.view === "research" ? renderCompanyResearch(r)
       : state.view === "snapshot" ? renderInvestorSnapshot(r)
       : state.view === "timeline" ? renderTimeline(r)
       : state.view === "changes" ? renderChangeIntelligence(r)
@@ -1021,9 +1020,9 @@ function renderViewNav(r) {
     const active = state.view === key;
     return `<button type="button" aria-current="${active ? "page" : "false"}" aria-controls="companyDetail" class="tree-leaf ${active ? "active" : ""} depth-${depth}" data-view="${key}" data-view-group="${routeGroup(key)}"><iconify-icon class="tree-file" icon="lucide:file-text" aria-hidden="true"></iconify-icon><span>${esc(label)}</span></button>`;
   };
-  const folder = ({ key, label, routes }) => {
+  const folder = ({ key, label, landing_route: landingRoute, routes }) => {
     const expanded = state.tree.expanded[key] ?? true;
-    const dashboardRoute = key === "overview" ? "directory_overview" : null;
+    const dashboardRoute = landingRoute || (key === "overview" ? "directory_overview" : null);
     const childNodes = routes.map(([route, routeLabel]) => node(route, toolLabels.get(route) || routeLabel, 1)).join("");
     return `<section class="tree-folder ${expanded ? "is-expanded" : ""}" data-tree-folder="${key}">
       <div class="tree-folder-row ${dashboardRoute && state.view === dashboardRoute ? "active" : ""}">
@@ -1305,7 +1304,7 @@ function renderOperatingIntelligence(r) {
     return `<section class="oi-scenario-group"><header><div><span class="kicker">Operating event</span><h3>${esc(short(event?.description || eventId, 140))}</h3></div><span class="pill">${esc(event?.event_id || eventId)}</span></header><div class="oi-scenarios">${cards.map(scenario => `<article class="oi-scenario oi-${esc(String(scenario.scenario || "scenario").toLowerCase())}"><header class="oi-card-head"><div><span class="oi-type oi-type-scenario">Scenario</span><h4>${esc(scenario.scenario || "Scenario")}</h4></div><b>${probabilityValue(scenario.probability)}</b></header><div class="oi-facts"><div><span>Affected drivers</span><b>${listValue(scenario.assumptions?.affected_drivers)}</b></div><div><span>Required inputs</span><b>${listValue(scenario.assumptions?.required_inputs)}</b></div><div><span>Missing inputs</span><b>${listValue(scenario.assumptions?.missing_inputs)}</b></div><div><span>Timing</span><b>${unknownValue(scenario.timing?.effective_date, "Unknown")} · lag ${unknownValue(scenario.timing?.expected_lag, "Unknown")}</b></div><div><span>Confidence</span><b>${confidenceValue(scenario.confidence)}</b></div><div><span>Impact status</span><b>${unknownValue(scenario.impact_status, "Unknown")}</b></div><div><span>Quality flags</span><b>${listValue(scenario.quality_flags, "None")}</b></div></div><div class="oi-impact-grid">${[["Revenue", scenario.revenue_impact], ["EBITDA", scenario.ebitda_impact], ["EPS", scenario.eps_impact], ["FCF", scenario.fcf_impact], ["Valuation", scenario.valuation_impact]].map(([label, value]) => `<div><span>${label} impact</span><b>${operatingImpact(value)}</b></div>`).join("")}</div>${operatingEvidence(scenario.evidence)}</article>`).join("")}</div></section>`;
   }).join("") : `<div class="empty oi-empty">No scenarios are available. Scenario synthesis remains paused until sourced inputs are sufficient.</div>`;
 
-  return `<section class="panel span9 oi-shell"><span class="kicker">Operating intelligence</span><h2>Observation → event → driver map → scenario</h2><p class="section-note">Observation/report becomes an operating event, then a declarative driver hypothesis, then Bear/Base/Bull scenarios. Research only — not advice. Null impacts remain unknown; no values are fabricated.</p>${renderCementOperatingSeries(r)}${renderCementHistoricalReconciliation(r)}<section class="oi-section"><header class="oi-section-head"><div><span class="kicker">Operating events</span><h3>Evidence-linked observations</h3></div><span class="pill">${esc(events.length)} event${events.length === 1 ? "" : "s"}</span></header><div class="oi-events">${eventCards}</div></section><section class="oi-section"><header class="oi-section-head"><div><span class="kicker">Driver map</span><h3>Sector model and directed hypotheses</h3></div></header>${driverSection}</section><section class="oi-section"><header class="oi-section-head"><div><span class="kicker">Impact scenarios</span><h3>Bear / Base / Bull by operating event</h3></div></header>${scenarioSection}</section>${renderHistoricalBenchmarks(r, events)}</section>`;
+  return `<section class="panel span9 oi-shell"><button type="button" class="overview-back-button" data-research-route="directory_intelligence">Intelligence workspace</button><span class="kicker">Operating intelligence</span><h2>Observation → event → driver map → scenario</h2><p class="section-note">Observation/report becomes an operating event, then a declarative driver hypothesis, then Bear/Base/Bull scenarios. Research only — not advice. Null impacts remain unknown; no values are fabricated.</p>${renderCementOperatingSeries(r)}${renderCementHistoricalReconciliation(r)}<section class="oi-section"><header class="oi-section-head"><div><span class="kicker">Operating events</span><h3>Evidence-linked observations</h3></div><span class="pill">${esc(events.length)} event${events.length === 1 ? "" : "s"}</span></header><div class="oi-events">${eventCards}</div></section><section class="oi-section"><header class="oi-section-head"><div><span class="kicker">Driver map</span><h3>Sector model and directed hypotheses</h3></div></header>${driverSection}</section><section class="oi-section"><header class="oi-section-head"><div><span class="kicker">Impact scenarios</span><h3>Bear / Base / Bull by operating event</h3></div></header>${scenarioSection}</section>${renderHistoricalBenchmarks(r, events)}</section>`;
 }
 
 function conditionalText(value, label = "unknown") {
@@ -2159,23 +2158,63 @@ function renderCompanyQuant(r) {
   </section>`;
 }
 
-function renderCompanyResearch(r) {
-  const tools = [
-    ["snapshot", "Investor snapshot", "Compact Company Brain and readiness summary."],
-    ["ask", "Ask Henneth", "Grounded nine-section company Q&A."],
-    ["thesis", "Thesis monitor", "Deterministic thesis checks plus private notebook."],
-    ["watchlist", "Evidence watchlist", "Confirm/break evidence queue."],
-    ["monitoring", "CI monitoring", "Freshness, source health and emitted alerts."],
-    ["conditional", "Conditional benchmarks", "Suppressed analogue context when sample size is too small."],
-    ["causal", "Causal map", "Categorical causal-evidence map, not effect estimates."],
-    ["graph", "Knowledge graph", "Official-source relationship graph."],
-    ["sources", "Sources", "Issuer pages and document registry."],
-    ["brief", r.brief?.current ? "Approved brief" : "Brief queue", "Owner-approved synthesis state."],
+function intelligenceDashboardCard(route, icon, kicker, title, chart, copy, meta = "") {
+  return `<article class="intelligence-dashboard-card"><header class="overview-card-heading"><span class="overview-card-icon" aria-hidden="true"><iconify-icon icon="${esc(icon)}"></iconify-icon></span><div><span class="kicker">${esc(kicker)}</span><h3>${esc(title)}</h3></div></header>${chart}${meta ? `<div class="intelligence-card-meta">${meta}</div>` : ""}<p>${esc(copy)}</p><button type="button" class="overview-route-button" data-research-route="${esc(route)}">Open ${esc(title)}<iconify-icon icon="lucide:arrow-right" aria-hidden="true"></iconify-icon></button></article>`;
+}
+
+function renderIntelligenceDashboard(r) {
+  const envelope = r.explainability || {};
+  const lifecycle = [
+    ["Observation", envelope.observation],
+    ["Mechanism", envelope.transmission_mechanism],
+    ["Forecast", envelope.forecast_trajectory],
+    ["Assumptions", envelope.key_assumptions],
+    ["Expectations", envelope.expectations_gap],
+    ["Conclusion", envelope.conclusion],
+    ["Monitoring", envelope.monitoring],
   ];
-  return `<section class="panel span9 research-hub" aria-labelledby="researchTitle">
-    <span class="kicker">Research</span><h2 id="researchTitle">Specialist research tools</h2>
-    <p class="section-note">The primary Research tab is a route hub. Specialist tools remain in the secondary research-tools row and reuse existing renderers.</p>
-    <div class="research-hub-grid">${tools.map(([key, title, text]) => `<button type="button" data-research-route="${esc(key)}"><b>${esc(title)}</b><span>${esc(text)}</span></button>`).join("")}</div>
+  const askRecord = state.ask.bySymbol[r.symbol] || {};
+  const citationCount = Array.isArray(askRecord.citations) ? askRecord.citations.length : null;
+  const graphNodes = Array.isArray(r.graph?.nodes) ? r.graph.nodes : [];
+  const graphEdges = Array.isArray(r.graph?.edges) ? r.graph.edges : [];
+  const graphTypes = Object.entries(graphNodes.reduce((counts, node) => {
+    const key = objectTypeLabel(node?.type || "other");
+    counts[key] = (counts[key] || 0) + 1;
+    return counts;
+  }, {})).map(([label, value]) => ({ label, value, unit: "nodes" }));
+  const operatingEvents = Array.isArray(r.operating_events) ? r.operating_events : [];
+  const operatingTimeline = operatingEvents.map(item => ({ date: item.effective_date || item.detected_at, label: String(item.event_subtype || item.event_type || "Operating event").replaceAll("_", " ") })).filter(item => item.date).slice(-6);
+  const typedTimeline = Array.isArray(r.company_brain?.timeline) ? r.company_brain.timeline : [];
+  const chronology = typedTimeline.map(item => ({ date: item.date, label: objectTypeLabel(item.type) })).filter(item => item.date).slice(-6);
+  const conclusion = envelope.conclusion || {};
+  const lifecycleStrip = `<div class="intelligence-lifecycle" aria-label="Event-to-Value section states">${lifecycle.map(([label, section]) => `<span><small>${esc(label)}</small><b>${esc(ciHumanStatus(section?.status))}</b></span>`).join("")}</div>`;
+  const askChart = citationCount == null
+    ? ciBlockedChart("blocked_no_session_answer", "No question has been answered in this session", ["Ask a company question", "Validate cited answer", "Inspect retained sources"])
+    : ciChart("counter", { status: "available", label: "Citations in the current session answer", value: citationCount, display: String(citationCount), unit: "CITATIONS IN CURRENT ANSWER" });
+  const graphChart = graphTypes.length
+    ? ciChart("assumptions", { status: "available", label: "Retained graph nodes by type", items: graphTypes, comparable: true, visible_summary: true })
+    : ciBlockedChart("blocked_no_graph_nodes", "No evidence connections are retained", ["Official document", "Typed object", "Evidence link"]);
+  const operatingChart = operatingTimeline.length
+    ? ciChart("timeline", { status: "available", label: "Latest retained operating events", items: operatingTimeline })
+    : ciBlockedChart("blocked_no_operating_events", "No operating events are retained", ["Dated observation", "Official evidence", "Operating classification"]);
+  const eventToValueChart = ciChart("blocked", ciEnvelopeBlocked(conclusion, "Formal Event-to-Value conclusion", ["Observed event", "Transmission mechanism", "Qualified financial truth", "Reviewed assumptions"]));
+  const chronologyChart = chronology.length
+    ? ciChart("timeline", { status: "available", label: "Latest typed company chronology", items: chronology })
+    : ciBlockedChart("blocked_no_typed_timeline", "No typed chronology is retained", ["Official filing", "Typed object", "Dated record"]);
+  const operatingMeta = operatingEvents.length ? `<span><b>${esc(operatingEvents.length)}</b> retained event${operatingEvents.length === 1 ? "" : "s"}</span><span><b>${esc(ciHumanStatus(r.driver_graph?.status))}</b> sector model</span>` : "";
+  const graphMeta = `<span><b>${esc(graphNodes.length)}</b> nodes</span><span><b>${esc(graphEdges.length)}</b> links</span>`;
+  const chronologyMeta = typedTimeline.length ? `<span><b>${esc(typedTimeline.length)}</b> typed entries</span>` : "";
+  return `<section class="panel span9 intelligence-dashboard-shell" aria-labelledby="intelligenceDashboardTitle">
+    <header class="intelligence-dashboard-header"><div><span class="kicker">Intelligence workspace</span><h2 id="intelligenceDashboardTitle">Follow the event. Inspect the evidence.</h2><p>${esc(conclusion.text || "Move from retained observations to mechanisms, scenarios, questions, connections, and dated evidence without treating a missing output as a conclusion.")}</p></div><div class="intelligence-dashboard-symbol"><iconify-icon icon="lucide:network" aria-hidden="true"></iconify-icon><b>${esc(r.symbol)}</b><span>Evidence before inference</span></div></header>
+    ${lifecycleStrip}
+    <div class="intelligence-dashboard-grid">
+      ${intelligenceDashboardCard("intelligence", "lucide:route", "Event-to-Value", "The full intelligence chain", eventToValueChart, "Inspect the seven evidence-backed sections and see exactly which formal outputs remain gated.")}
+      ${intelligenceDashboardCard("operating", "lucide:factory", "Operating evidence", "Events and driver hypotheses", operatingChart, "Trace sourced operating observations into declarative sector drivers and retained scenarios—without claiming causality.", operatingMeta)}
+      ${intelligenceDashboardCard("graph", "lucide:network", "Evidence connections", "Knowledge graph", graphChart, "See how the issuer, official documents, typed facts, events, periods, and source links connect.", graphMeta)}
+      ${intelligenceDashboardCard("timeline", "lucide:history", "Chronology", "Typed timeline", chronologyChart, "Read what changed in dated order, with official-event chronology kept separate from document revisions.", chronologyMeta)}
+      ${intelligenceDashboardCard("ask", "lucide:message-circle-question", "Research question", "Ask Henneth", askChart, "Question the retained company file. Factual claims appear only when the server returns validated citations.")}
+    </div>
+    <footer class="ci-editorial-footer"><span>Research only · no execution</span><span>Dashboard previews retained state; specialist pages hold the detail</span></footer>
   </section>`;
 }
 
@@ -2226,7 +2265,7 @@ function renderTimeline(r) {
   const changes = r.changes || [];
   const brainTimeline = r.company_brain?.timeline || [];
   return `
-    <section class="panel span6"><span class="kicker">Evidence-linked chronology</span><h2>Company timeline</h2>
+    <section class="panel span6"><button type="button" class="overview-back-button" data-research-route="directory_intelligence">Intelligence workspace</button><span class="kicker">Evidence-linked chronology</span><h2>Company timeline</h2>
       <p class="section-note">Deterministically classified from official documents. Priority is an extraction-routing weight, not an investment score.</p>
       <div class="brain-timeline" aria-label="Typed Company Brain timeline">${brainTimeline.length ? brainTimeline.slice(-12).reverse().map(item => `<span><time>${esc(item.date || "undated")}</time><b>${esc(objectTypeLabel(item.type))}</b><small>${esc(String(item.source_product || "source").replaceAll("_", " "))}</small></span>`).join("") : `<p>No typed Brain chronology is available.</p>`}</div>
       <div class="timeline">${events.length ? events.map(event => `<article class="timeline-row">
@@ -2337,9 +2376,11 @@ function renderCaseSource(item) {
 }
 
 function renderCaseSectionBody(section) {
+  const rawStatus = section && section.status ? section.status : "blocked";
+  const rawReason = section && section.reason ? section.reason : rawStatus;
   const blocked = !section || String(section.status || "").startsWith("blocked") || section.status === "empty_state";
   if (blocked) {
-    return '<div class="blocked-grid"><span>Status <b>' + esc(section?.status || "blocked") + '</b></span><span>Reason <b>' + esc(section?.reason || "not_yet_modelled") + '</b></span></div>';
+    return '<div class="blocked-grid"><span>Status <b>' + esc(ciHumanStatus(rawStatus)) + '</b></span><span>Why it is held back <b>' + esc(ciHumanStatus(rawReason)) + '</b></span></div>';
   }
   if (section.key === "conclusion") {
     const validTypes = Array.isArray(window.HennethIntelligenceCaseView?.EPISTEMIC_TYPES)
@@ -2392,7 +2433,7 @@ function renderCaseSectionBody(section) {
     return '<div class="intel-list">' + section.items.map(item => '<article><b>' + esc(item.id || item.name || section.key) + '</b><span>' + esc(item.text || item.status || "emitted") + '</span><em>' + esc(item.reason || "") + '</em></article>').join("") + '</div>';
   }
   if (section.text) return '<p>' + esc(section.text) + '</p>';
-  return '<div class="blocked-grid"><span>Status <b>' + esc(section.status || "blocked") + '</b></span><span>Reason <b>' + esc(section.reason || "not_yet_modelled") + '</b></span></div>';
+  return '<div class="blocked-grid"><span>Status <b>' + esc(ciHumanStatus(rawStatus)) + '</b></span><span>Why it is held back <b>' + esc(ciHumanStatus(rawReason)) + '</b></span></div>';
 }
 
 function ciCaseSectionChart(section) {
@@ -2553,7 +2594,7 @@ function renderIntelligence(r) {
   const caseLinks = caseDiscovery?.items?.length ? `<div class="ci-case-links">${caseDiscovery.items.map(item => `<a href="${esc(item.href)}"><span>${esc(item.case_id === activeCase?.case_id ? "Active observed case" : "Separate observed case")}</span><b>${esc(item.title || item.case_id)}</b></a>`).join("")}</div>` : "";
   const tile = (number, title, status, chart, copy, wide = false) => `<article class="ci-editorial-tile${wide ? " ci-tile-wide" : ""}"><header><div><span class="ci-section-number">${number}</span><h3>${esc(title)}</h3></div><span class="pill">${esc(ciHumanStatus(status))}</span></header>${chart}<p>${esc(copy || "No explanatory text was emitted.")}</p></article>`;
   return `<section class="panel span9 intel-shell ci-editorial-shell">
-    <header class="ci-editorial-header"><div><span class="kicker">Event-to-Value intelligence</span><h2>What Henneth is saying</h2><p>${esc(eventSummary)}</p></div><div class="ci-editorial-index"><b>${esc(envelope.schema_version ? "07" : "—")}</b><span>explainability sections</span><small>${esc(studies.length)} historical reference record${studies.length === 1 ? "" : "s"}</small></div></header>
+    <header class="ci-editorial-header"><div><button type="button" class="overview-back-button" data-research-route="directory_intelligence">Intelligence workspace</button><span class="kicker">Event-to-Value intelligence</span><h2>What Henneth is saying</h2><p>${esc(eventSummary)}</p></div><div class="ci-editorial-index"><b>${esc(envelope.schema_version ? "07" : "—")}</b><span>explainability sections</span><small>${esc(studies.length)} historical reference record${studies.length === 1 ? "" : "s"}</small></div></header>
     <div class="ci-editorial-grid">
       ${tile("01", "Observation & event", observationBlocked ? "blocked_no_active_expansion_case" : observation.status, observationItems.length ? ciChart("timeline", { status: observation.status, label: "Retained dated observation", items: observationItems }) : ciChart("blocked", observationBlocked ? { status: observation.vertical_case?.status || "blocked_no_active_expansion_case", label: "No active expansion event is emitted", reason: observation.vertical_case?.text || eventSummary, requirements: ["Official filing", "Expansion or commissioning event", "Canonical case binding"], available: 0 } : ciEnvelopeBlocked(observation, "No active expansion event is emitted", ["Official filing", "Expansion or commissioning event", "Canonical case binding"])), eventSummary, true)}
       ${caseLinks ? `<div class="ci-editorial-case-row">${caseLinks}</div>` : ""}
@@ -3405,7 +3446,7 @@ function renderAskHenneth(r) {
   const busy = Boolean(state.ask.pending[r.symbol]);
   const value = record.question || "";
   return `<section class="panel span9 ask-shell" aria-labelledby="askTitle">
-    <span class="kicker">Ask Henneth</span><h2 id="askTitle">Question this company file</h2>
+    <button type="button" class="overview-back-button" data-research-route="directory_intelligence">Intelligence workspace</button><span class="kicker">Ask Henneth</span><h2 id="askTitle">Question this company file</h2>
     <p class="section-note">Answers are built from the private company-intelligence contract. The model can only add validated qualitative text; facts, readiness, sections and citations are server-owned.</p>
     <form id="askForm" class="ask-form">
       <label for="askInput">Question for ${esc(r.symbol)}</label>
@@ -3911,7 +3952,7 @@ function renderGraph(r) {
   const positions = Object.fromEntries(layout.map(item => [item.node.id, item]));
   const rows = visibleEdges.slice(0, 40);
   return `<section class="panel span9">
-    <span class="kicker">Knowledge graph</span><h2>Issuer relationships</h2>
+    <button type="button" class="overview-back-button" data-research-route="directory_intelligence">Intelligence workspace</button><span class="kicker">Knowledge graph</span><h2>Issuer relationships</h2>
     <p class="section-note">This is a deterministic relationship map over official documents, extracted events, financial facts, periods and monitored issuer sources.</p>
     ${renderGraphSummary(r)}
     ${layout.length ? `<div class="graph-canvas" role="img" aria-label="Evidence-backed company relationship graph">

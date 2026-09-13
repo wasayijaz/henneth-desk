@@ -11,9 +11,8 @@ ROOT = Path(__file__).resolve().parents[1]
 APP = ROOT / "Henneth Desk 2.CI.0" / "app.js"
 SLICE = ROOT / "Henneth Desk 2.CI.0" / "data" / "company_intelligence.json"
 DOC = ROOT / "docs" / "CI-INTELLIGENCE-DIRECTORY-DATA-CONTRACT.md"
-ROUTES = ("research", "ask", "graph", "operating", "intelligence", "timeline")
+ROUTES = ("ask", "graph", "operating", "intelligence", "timeline")
 FUNCTIONS = {
-    "research": "renderCompanyResearch",
     "ask": "renderAskHenneth",
     "graph": "renderGraph",
     "operating": "renderOperatingIntelligence",
@@ -42,10 +41,12 @@ def main() -> int:
             errors.append(f"{route}: missing from data contract")
         if not function_exists(source, FUNCTIONS[route]):
             errors.append(f"{route}: renderer {FUNCTIONS[route]} is missing")
-    if 'landing_route="intelligence"' not in doc:
-        errors.append('contract missing landing_route="intelligence"')
+    if 'landing_route="directory_intelligence"' not in doc:
+        errors.append('contract missing landing_route="directory_intelligence"')
+    if not function_exists(source, "renderIntelligenceDashboard"):
+        errors.append("Intelligence landing renderer is missing")
     if not all(f'"{route}"' in doc for route in ROUTES):
-        errors.append("contract does not enumerate all six child routes")
+        errors.append("contract does not enumerate all five child routes")
     rows = [row for row in payload.get("tickers", []) if isinstance(row, dict)]
     if not rows:
         errors.append("slice has no ticker rows")
