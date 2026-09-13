@@ -24,6 +24,7 @@ FOCUSED_CHECKS: tuple[str, ...] = (
     "check_signal_clusters.py",
     "check_event_studies.py",
     "check_conditional_benchmarks.py",
+    "check_historical_state_map.py",
     "check_causal_foundations.py",
     "check_financial_model_inputs.py",
     "check_financial_statement_v2_candidate_queue.py",

@@ -60,6 +60,7 @@ REQUIREMENT_IDS = (
     "event_study_checker",
     "conditional_benchmark_state",
     "conditional_benchmark_strict_candidates",
+    "historical_state_map_state",
     "causal_foundation_state",
     "causal_foundation_policy",
     "causal_foundation_checker",
@@ -366,6 +367,7 @@ def build(write: bool = True) -> dict[str, Any]:
     event_studies = load_json(STATE / "company_intel" / "event_studies.json", {})
     conditional_benchmarks = load_json(STATE / "company_intel" / "conditional_benchmarks.json", {})
     causal_foundations = load_json(STATE / "company_intel" / "causal_foundations.json", {})
+    historical_state_map = load_json(STATE / "company_intel" / "historical_state_map.json", {})
     financial_model_inputs = load_json(STATE / "company_intel" / "financial_model_inputs.json", {})
     financial_coverage = load_json(STATE / "company_intel" / "financial_coverage.json", {})
     financial_reconciliation = load_json(STATE / "company_intel" / "financial_evidence_reconciliation.json", {})
@@ -407,6 +409,7 @@ def build(write: bool = True) -> dict[str, Any]:
     conditional_suppressed_count = int(conditional_readiness.get("suppressed_benchmark_count") or 0)
     conditional_total_candidates = int(conditional_readiness.get("total_strict_candidate_count") or 0)
     conditional_min_missing = int(conditional_readiness.get("minimum_missing_mature_outcomes_to_publish") or 0)
+    hstate_contexts = len(historical_state_map.get("contexts") or [])
     causal_row_count = sum(len(((causal_foundations.get("companies") or {}).get(symbol) or {}).get("causal_rows") or []) for symbol in pilot)
     guidance_object_count = sum(int(((guidance.get("companies") or {}).get(symbol) or {}).get("object_count") or 0) for symbol in pilot)
     active_thesis_count = int((management_delivery.get("summary") or {}).get("active_thesis_count") or 0)
@@ -733,6 +736,17 @@ def build(write: bool = True) -> dict[str, Any]:
             ],
             ["Published aggregate statistics require mature ex-ante samples; thin samples stay suppressed."],
             ["Current benchmarks are descriptive and explicitly block causal, peer, financial, forecast and valuation states."],
+        ),
+        _row(
+            "historical_state_map_state",
+            "Historical State Map connects observed cases to pre-event market setups and event studies",
+            [
+                _state("historical state map state", "state/company_intel/historical_state_map.json", hstate_contexts > 0, f"{hstate_contexts} retained context mappings"),
+                _check("historical state map checker", "scripts/check_historical_state_map.py"),
+                _ok("historical state map builder", "scripts/build_historical_state_map.py"),
+                _contains("descriptive past context policy", "state/company_intel/historical_state_map.json", ("historical_context/not_forecast", "retained_state_only", "strict_no_lookahead")),
+            ],
+            ["Descriptive past context only; statistical benchmark publishing remains gated on sample size (N >= 3) and qualified financial truth."],
         ),
         _row(
             "causal_foundation_state",

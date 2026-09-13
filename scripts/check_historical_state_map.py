@@ -114,6 +114,21 @@ def _assert_state_categories(context: dict) -> None:
         raise AssertionError(f"{context['map_id']}: missing evidence_trust_separation disclaimer")
 
 
+def _assert_defensible_binding(context: dict) -> None:
+    binding = context.get("event_binding") or {}
+    policy = binding.get("match_policy")
+    allowed_policies = {"direct_canonical_event_id", "exact_source_document_and_hash", "exact_source_document_id"}
+    if policy not in allowed_policies:
+        raise AssertionError(f"{context['map_id']}: non-defensible binding policy '{policy}'")
+    matched_event_id = binding.get("matched_operating_event_id")
+    if not matched_event_id:
+        raise AssertionError(f"{context['map_id']}: missing matched_operating_event_id")
+    if not binding.get("effective_date"):
+        raise AssertionError(f"{context['map_id']}: missing effective_date in bound event")
+    if not binding.get("matched_source_document_id"):
+        raise AssertionError(f"{context['map_id']}: missing matched_source_document_id in bound event")
+
+
 def _fixture_regression() -> None:
     rows = [
         {"date": "2026-01-01", "close": 10.0, "volume": 100},
@@ -213,6 +228,32 @@ def _fixture_adversarial_lookahead_and_leakage() -> None:
     if "financial_truth_not_qualified" not in ctx["past_context"]["calibration_blockers"]:
         raise AssertionError("Adversarial truth gate: missing financial_truth_not_qualified blocker")
 
+    # Adversarial test 5: Unbound case must fail closed and never compute valid market setup
+    unbound_case = {
+        "case_id": "test_unbound_case",
+        "symbol": "MARI",
+        "case_family": "unsupported_family",
+        "case_type": "unsupported_type",
+        "status": "Observed",
+        "as_of": "2026-05-01",
+        "source_lineage": [{"document_id": "psx:999999", "content_sha256": "0" * 64}],
+    }
+    unbound_ctx = builder._context_for_case(
+        unbound_case,
+        operating_events={"companies": {"MARI": {"events": []}}},
+        event_study_state={"studies": {}},
+        benchmarks={"companies": {}},
+        truth={"companies": {}},
+    )
+    if unbound_ctx["event_binding"]["match_policy"] != "unbound_no_defensible_operating_event_match":
+        raise AssertionError("Adversarial unbound test: match policy was not unbound")
+    if unbound_ctx["current_state_vector"]["market_setup"]["status"] != "unavailable":
+        raise AssertionError("Adversarial unbound test: market setup was not unavailable")
+    if unbound_ctx["current_state_vector"]["operating_event"]["status"] != "blocked":
+        raise AssertionError("Adversarial unbound test: operating event was not blocked")
+    if unbound_ctx["answer_contract"]["can_answer_then_vs_now"] is True:
+        raise AssertionError("Adversarial unbound test: can_answer_then_vs_now must be False")
+
 
 def main() -> None:
     path = builder.OUT
@@ -235,17 +276,32 @@ def main() -> None:
         raise AssertionError("contexts must be a list")
     if len(contexts) != len(_load_selected_cases()):
         raise AssertionError("context count must equal selected-symbol IntelligenceCase count")
-    seen = set()
+    seen_map_ids = set()
+    seen_case_ids = set()
+    seen_symbol_event_pairs = set()
     for context in contexts:
         if not isinstance(context, dict):
             raise AssertionError("context row must be an object")
+        case = context.get("case") or {}
+        case_id = case.get("case_id")
+        symbol = case.get("symbol")
+        if not case_id or case_id in seen_case_ids:
+            raise AssertionError(f"duplicate or missing case_id: {case_id}")
+        seen_case_ids.add(case_id)
         map_id = context.get("map_id")
-        if not isinstance(map_id, str) or not map_id or map_id in seen:
+        if not isinstance(map_id, str) or not map_id or map_id in seen_map_ids:
             raise AssertionError(f"invalid or duplicate map_id: {map_id}")
-        seen.add(map_id)
+        seen_map_ids.add(map_id)
+        matched_evt = (context.get("event_binding") or {}).get("matched_operating_event_id")
+        if matched_evt:
+            pair = (symbol, matched_evt)
+            if pair in seen_symbol_event_pairs:
+                raise AssertionError(f"duplicate matched operating event for symbol {symbol}: {matched_evt}")
+            seen_symbol_event_pairs.add(pair)
         _assert_pre_event_only(context)
         _assert_benchmark_sample_gate(context)
         _assert_state_categories(context)
+        _assert_defensible_binding(context)
         if (context.get("case") or {}).get("symbol") not in builder.ALPHA_CASES:
             raise AssertionError("context escaped selected golden symbols")
     _check_no_advice_or_causality(state)

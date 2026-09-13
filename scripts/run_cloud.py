@@ -142,6 +142,7 @@ STEPS = [
     # one JSON file the static CI app consumes.
     "build_event_studies.py",
     "build_conditional_benchmarks.py",
+    "build_historical_state_map.py",
     # Causal evidence must resolve against event studies rebuilt in this same cycle.
     "build_causal_foundations.py",
     "build_company_scenario_lab.py",
@@ -191,6 +192,7 @@ STEPS = [
     "check_company_scenario_lab.py",
     "check_company_brains.py",
     "check_event_review_windows.py",
+    "check_historical_state_map.py",
     "check_ci_work_routing_policy.py",
     "check_ci_artifact_integrity.py",
     "check_financial_model_inputs.py",

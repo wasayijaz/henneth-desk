@@ -22,13 +22,13 @@
   "context_count": 4,
   "observed_context_count": 4,
   "with_pre_event_market_setup": 4,
-  "with_event_study": 3,
+  "with_event_study": 4,
   "with_publishable_benchmark_stats": 0,
   "usable_for_scenario_calibration": 0
  },
  "contexts": [
   {
-   "map_id": "hstate_c06a7097984cfe581773",
+   "map_id": "hstate_a4a8fc1a65be0fca16ab",
    "case": {
     "case_id": "case_mari_working_interest_observed_v1",
     "symbol": "MARI",
@@ -40,13 +40,15 @@
     "alpha_lane": "A_e_and_p"
    },
    "event_binding": {
-    "case_event_id": "evt_eddfcc381018cb0dff43",
-    "matched_operating_event_id": "evt_90372372ccc7d6561be7",
-    "match_policy": "nearest_event_type_text_match",
-    "effective_date": "2026-02-27",
+    "matched_operating_event_id": "evt_b25decfc180474cbe066",
+    "match_policy": "exact_source_document_and_hash",
+    "effective_date": "2025-09-30",
     "event_type": "acquisition_divestment",
     "event_subtype": "acquisition",
     "source_quality_level": 1,
+    "matched_source_document_id": "psx:260446",
+    "matched_content_sha256": "c13ccb4de58ad005bca106942721490593fe219ff45906c68280ea7856192e42",
+    "matched_page": 1,
     "source_lineage": [
      {
       "event_id": "evt_eddfcc381018cb0dff43",
@@ -79,10 +81,10 @@
    "current_state_vector": {
     "market_setup": {
      "status": "available",
-     "event_date": "2026-02-27",
+     "event_date": "2025-09-30",
      "baseline": {
-      "date": "2026-02-26",
-      "close": 612.94,
+      "date": "2025-09-29",
+      "close": 737.81,
       "provenance": {
        "history_file": "state/history/MARI.json"
       }
@@ -90,29 +92,29 @@
      "pre_event_returns": {
       "5d": {
        "status": "available",
-       "return_pct": -7.298850574712645,
-       "start_date": "2026-02-19",
-       "end_date": "2026-02-26",
+       "return_pct": 9.744161832515253,
+       "start_date": "2025-09-22",
+       "end_date": "2025-09-29",
        "reason": null
       },
       "15d": {
        "status": "available",
-       "return_pct": -13.16900410823062,
-       "start_date": "2026-02-04",
-       "end_date": "2026-02-26",
+       "return_pct": 10.820553644652042,
+       "start_date": "2025-09-08",
+       "end_date": "2025-09-29",
        "reason": null
       },
       "60d": {
        "status": "available",
-       "return_pct": -13.714173095331939,
-       "start_date": "2025-12-02",
-       "end_date": "2026-02-26",
+       "return_pct": 14.609481794457558,
+       "start_date": "2025-07-04",
+       "end_date": "2025-09-29",
        "reason": null
       }
      },
      "pre_event_volume": {
       "status": "available",
-      "median_5_session_to_60_session_ratio": 1.3031976040161004,
+      "median_5_session_to_60_session_ratio": 2.590798756037051,
       "reason": null
      },
      "policy": {
@@ -218,69 +220,69 @@
     "evidence_trust_separation": "Similarity is descriptive past context and strictly separate from evidence trust or forward valuation.",
     "event_study": {
      "status": "available",
-     "study_id": "study_90372372ccc7d6561be7",
+     "study_id": "study_b25decfc180474cbe066",
      "data_cutoff": "2026-08-28",
      "baseline": {
-      "selected_date": "2026-02-26",
-      "selected_close": 612.94,
+      "selected_date": "2025-09-29",
+      "selected_close": 737.81,
       "status": "available",
       "reason": null,
       "provenance": {
        "history_file": "state/history/MARI.json",
-       "selected_date": "2026-02-26"
+       "selected_date": "2025-09-29"
       }
      },
      "horizons": {
       "1Q": {
        "status": "mature",
-       "return_pct": 9.222762423728259,
-       "target_date": "2026-05-27",
-       "selected_date": "2026-05-29",
+       "return_pct": -2.708014258413405,
+       "target_date": "2025-12-30",
+       "selected_date": "2025-12-30",
        "reason": null,
        "provenance": {
         "history_file": "state/history/MARI.json",
-        "baseline_date": "2026-02-26",
-        "endpoint_date": "2026-05-29",
-        "target_date": "2026-05-27"
+        "baseline_date": "2025-09-29",
+        "endpoint_date": "2025-12-30",
+        "target_date": "2025-12-30"
        }
       },
       "2Q": {
        "status": "mature",
-       "return_pct": 8.379286716481204,
-       "target_date": "2026-08-27",
-       "selected_date": "2026-08-27",
+       "return_pct": -16.79971808460172,
+       "target_date": "2026-03-30",
+       "selected_date": "2026-03-30",
        "reason": null,
        "provenance": {
         "history_file": "state/history/MARI.json",
-        "baseline_date": "2026-02-26",
-        "endpoint_date": "2026-08-27",
-        "target_date": "2026-08-27"
+        "baseline_date": "2025-09-29",
+        "endpoint_date": "2026-03-30",
+        "target_date": "2026-03-30"
        }
       },
       "4Q": {
        "status": "immature",
        "return_pct": null,
-       "target_date": "2027-02-27",
+       "target_date": "2026-09-30",
        "selected_date": null,
        "reason": "target_after_last_bar",
        "provenance": {
         "history_file": "state/history/MARI.json",
-        "baseline_date": "2026-02-26",
+        "baseline_date": "2025-09-29",
         "endpoint_date": null,
-        "target_date": "2027-02-27"
+        "target_date": "2026-09-30"
        }
       },
       "8Q": {
        "status": "immature",
        "return_pct": null,
-       "target_date": "2028-02-27",
+       "target_date": "2027-09-30",
        "selected_date": null,
        "reason": "target_after_last_bar",
        "provenance": {
         "history_file": "state/history/MARI.json",
-        "baseline_date": "2026-02-26",
+        "baseline_date": "2025-09-29",
         "endpoint_date": null,
-        "target_date": "2028-02-27"
+        "target_date": "2027-09-30"
        }
       }
      },
@@ -320,19 +322,19 @@
        "indices_file": "state/indices.json",
        "selected_dates": {
         "1Q": [
-         "2026-02-26",
-         "2026-05-29"
+         "2025-09-29",
+         "2025-12-30"
         ],
         "2Q": [
-         "2026-02-26",
-         "2026-08-27"
+         "2025-09-29",
+         "2026-03-30"
         ],
         "4Q": [
-         "2026-02-26",
+         "2025-09-29",
          null
         ],
         "8Q": [
-         "2026-02-26",
+         "2025-09-29",
          null
         ]
        }
@@ -345,28 +347,28 @@
      ]
     },
     "strict_analogue_benchmark": {
-     "status": "candidate_history_present",
-     "strict_candidate_count": 2,
+     "status": "no_prior_exact_analogues",
+     "strict_candidate_count": 0,
      "aggregate_ready_horizons": [],
      "candidate_evidence_summary": {
-      "evidence_status": "thin_history_present",
+      "evidence_status": "no_prior_exact_analogues",
       "candidate_counts": {
-       "same_company_exact": 2,
+       "same_company_exact": 0,
        "same_sector_exact": 0
       },
       "mature_horizon_counts": {
-       "1Q": 2,
+       "1Q": 0,
        "2Q": 0,
        "4Q": 0,
        "8Q": 0
       },
-      "latest_prior_candidate_date": "2025-11-13",
+      "latest_prior_candidate_date": null,
       "limitation": "Descriptive prior-event evidence only; it is not causal, a forecast, valuation or advice."
      },
      "horizon_aggregates": {
       "1Q": {
        "status": "suppressed",
-       "n": 2,
+       "n": 0,
        "reason": "n_lt_3",
        "stats": {
         "mean_return_pct": null,
@@ -445,13 +447,15 @@
     "alpha_lane": "A_e_and_p"
    },
    "event_binding": {
-    "case_event_id": "evt_e9068dbe4b6b8493a0cb",
     "matched_operating_event_id": "evt_e9068dbe4b6b8493a0cb",
-    "match_policy": "direct_case_event_id",
+    "match_policy": "direct_canonical_event_id",
     "effective_date": "2026-07-24",
     "event_type": "product_launch",
     "event_subtype": "product_launch",
     "source_quality_level": 1,
+    "matched_source_document_id": "psx:280337",
+    "matched_content_sha256": "acdfaac317a7f2650a9ac11f2e98b69ebf37ce30a3134b51b61c084531286996",
+    "matched_page": 1,
     "source_lineage": [
      {
       "canonical_event_id": "evt_e9068dbe4b6b8493a0cb",
@@ -838,13 +842,15 @@
     "alpha_lane": "B_industrial_cement"
    },
    "event_binding": {
-    "case_event_id": "evt_cb44dc32c91b0c5712a5",
     "matched_operating_event_id": "evt_6e9b520a122b8f2d4a59",
-    "match_policy": "nearest_event_type_text_match",
+    "match_policy": "exact_source_document_and_hash",
     "effective_date": "2025-12-18",
     "event_type": "acquisition_divestment",
     "event_subtype": "acquisition",
     "source_quality_level": 1,
+    "matched_source_document_id": "psx:267429",
+    "matched_content_sha256": "98cf83c9a286999c8006a7f73f490248f26694c9edbfc815b3dbd9188ee22a54",
+    "matched_page": 3,
     "source_lineage": [
      {
       "event_id": "evt_cb44dc32c91b0c5712a5",
@@ -1243,13 +1249,15 @@
     "alpha_lane": "C_sales_led"
    },
    "event_binding": {
-    "case_event_id": "evt_efe3e2c704a0e53e7d09",
     "matched_operating_event_id": "evt_efe3e2c704a0e53e7d09",
-    "match_policy": "direct_case_event_id",
+    "match_policy": "direct_canonical_event_id",
     "effective_date": "2025-06-30",
     "event_type": "distribution_network_expansion",
     "event_subtype": "fuel_retail_and_convenience_channel",
     "source_quality_level": 1,
+    "matched_source_document_id": "psx:260771",
+    "matched_content_sha256": "c336ba824d4010dff3878779c31bbc76fd85ab6704b4ecb4837de821f9bd0a2d",
+    "matched_page": 15,
     "source_lineage": [
      {
       "canonical_event_id": "evt_efe3e2c704a0e53e7d09",
@@ -1436,36 +1444,206 @@
     "semantics": "historical_context/not_forecast",
     "evidence_trust_separation": "Similarity is descriptive past context and strictly separate from evidence trust or forward valuation.",
     "event_study": {
-     "status": "no_event_study",
-     "baseline": null,
-     "horizons": {},
-     "kse100_relative": null
+     "status": "available",
+     "study_id": "study_efe3e2c704a0e53e7d09",
+     "data_cutoff": "2026-08-28",
+     "baseline": {
+      "selected_date": "2025-06-27",
+      "selected_close": 379.54,
+      "status": "available",
+      "reason": null,
+      "provenance": {
+       "history_file": "state/history/PSO.json",
+       "selected_date": "2025-06-27"
+      }
+     },
+     "horizons": {
+      "1Q": {
+       "status": "mature",
+       "return_pct": 24.479633240238165,
+       "target_date": "2025-09-30",
+       "selected_date": "2025-09-30",
+       "reason": null,
+       "provenance": {
+        "history_file": "state/history/PSO.json",
+        "baseline_date": "2025-06-27",
+        "endpoint_date": "2025-09-30",
+        "target_date": "2025-09-30"
+       }
+      },
+      "2Q": {
+       "status": "mature",
+       "return_pct": 24.766822996258632,
+       "target_date": "2025-12-30",
+       "selected_date": "2025-12-30",
+       "reason": null,
+       "provenance": {
+        "history_file": "state/history/PSO.json",
+        "baseline_date": "2025-06-27",
+        "endpoint_date": "2025-12-30",
+        "target_date": "2025-12-30"
+       }
+      },
+      "4Q": {
+       "status": "mature",
+       "return_pct": -9.7987036939453,
+       "target_date": "2026-06-30",
+       "selected_date": "2026-06-30",
+       "reason": null,
+       "provenance": {
+        "history_file": "state/history/PSO.json",
+        "baseline_date": "2025-06-27",
+        "endpoint_date": "2026-06-30",
+        "target_date": "2026-06-30"
+       }
+      },
+      "8Q": {
+       "status": "immature",
+       "return_pct": null,
+       "target_date": "2027-06-30",
+       "selected_date": null,
+       "reason": "target_after_last_bar",
+       "provenance": {
+        "history_file": "state/history/PSO.json",
+        "baseline_date": "2025-06-27",
+        "endpoint_date": null,
+        "target_date": "2027-06-30"
+       }
+      }
+     },
+     "kse100_relative": {
+      "stock_return_pct": {
+       "1Q": null,
+       "2Q": null,
+       "4Q": null,
+       "8Q": null
+      },
+      "index_return_pct": {
+       "1Q": null,
+       "2Q": null,
+       "4Q": null,
+       "8Q": null
+      },
+      "relative_return_pct": {
+       "1Q": null,
+       "2Q": null,
+       "4Q": null,
+       "8Q": null
+      },
+      "returns_pct": {
+       "1Q": null,
+       "2Q": null,
+       "4Q": null,
+       "8Q": null
+      },
+      "semantics": "stock_raw_price_return_minus_KSE100_raw_price_return",
+      "reasons": {
+       "1Q": "missing_exact_index_dates",
+       "2Q": "missing_exact_index_dates",
+       "4Q": "missing_exact_index_dates",
+       "8Q": "missing_exact_index_dates"
+      },
+      "provenance": {
+       "indices_file": "state/indices.json",
+       "selected_dates": {
+        "1Q": [
+         "2025-06-27",
+         "2025-09-30"
+        ],
+        "2Q": [
+         "2025-06-27",
+         "2025-12-30"
+        ],
+        "4Q": [
+         "2025-06-27",
+         "2026-06-30"
+        ],
+        "8Q": [
+         "2025-06-27",
+         null
+        ]
+       }
+      }
+     },
+     "limitations": [
+      "raw_price_return_not_adjusted_or_total_return",
+      "historical_association_not_causal",
+      "current_sector_analogues_survivorship_bias"
+     ]
     },
     "strict_analogue_benchmark": {
-     "status": "no_benchmark_row",
+     "status": "no_prior_exact_analogues",
      "strict_candidate_count": 0,
      "aggregate_ready_horizons": [],
+     "candidate_evidence_summary": {
+      "evidence_status": "no_prior_exact_analogues",
+      "candidate_counts": {
+       "same_company_exact": 0,
+       "same_sector_exact": 0
+      },
+      "mature_horizon_counts": {
+       "1Q": 0,
+       "2Q": 0,
+       "4Q": 0,
+       "8Q": 0
+      },
+      "latest_prior_candidate_date": null,
+      "limitation": "Descriptive prior-event evidence only; it is not causal, a forecast, valuation or advice."
+     },
      "horizon_aggregates": {
       "1Q": {
        "status": "suppressed",
        "n": 0,
-       "reason": "no_benchmark_row"
+       "reason": "n_lt_3",
+       "stats": {
+        "mean_return_pct": null,
+        "median_return_pct": null,
+        "min_return_pct": null,
+        "max_return_pct": null
+       }
       },
       "2Q": {
        "status": "suppressed",
        "n": 0,
-       "reason": "no_benchmark_row"
+       "reason": "n_lt_3",
+       "stats": {
+        "mean_return_pct": null,
+        "median_return_pct": null,
+        "min_return_pct": null,
+        "max_return_pct": null
+       }
       },
       "4Q": {
        "status": "suppressed",
        "n": 0,
-       "reason": "no_benchmark_row"
+       "reason": "n_lt_3",
+       "stats": {
+        "mean_return_pct": null,
+        "median_return_pct": null,
+        "min_return_pct": null,
+        "max_return_pct": null
+       }
       },
       "8Q": {
        "status": "suppressed",
        "n": 0,
-       "reason": "no_benchmark_row"
+       "reason": "n_lt_3",
+       "stats": {
+        "mean_return_pct": null,
+        "median_return_pct": null,
+        "min_return_pct": null,
+        "max_return_pct": null
+       }
       }
+     },
+     "policy": {
+      "event_type": "exact",
+      "event_subtype": "exact",
+      "candidate_date": "strictly_before_target",
+      "same_company": "same_symbol",
+      "same_sector": "same_current_sector_other_symbol",
+      "returns": "reuse_target_event_study_analogue_outcomes",
+      "minimum_aggregate_sample": 3
      }
     },
     "usable_for_scenario_calibration": false,
@@ -1492,5 +1670,16 @@
  "inspired_by": {
   "concept": "historical setup matching",
   "implementation_boundary": "CI uses its own retained filings, price history, event studies, and financial-truth gates; no proprietary matching method is copied."
+ },
+ "_meta": {
+  "generator_version": "ci_artifact_integrity_v1",
+  "source_commit_sha": "b6046e043a63b1b9c27889a9b98d9bf6b6f44815",
+  "build_cutoff_at": "2026-09-13T16:48:49Z",
+  "generated_at": "2026-09-13T16:48:49Z",
+  "artifact_path": "state/company_intel/historical_state_map.json",
+  "timestamp_semantics": {
+   "build_cutoff_at": "generation boundary only; not a source-effective or source-published time",
+   "generated_at": "artifact generation time only; not a source-effective or source-published time"
+  }
  }
 }

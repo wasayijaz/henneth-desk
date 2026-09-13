@@ -92,47 +92,47 @@ def _operating_event_by_id(operating_events: Mapping[str, Any], symbol: str, eve
 def _best_event_match(
     *,
     case: Mapping[str, Any],
-    event_id: str | None,
     operating_events: Mapping[str, Any],
     event_study_state: Mapping[str, Any],
-) -> tuple[str | None, dict[str, Any] | None, str]:
+) -> tuple[str | None, dict[str, Any] | None, str, dict[str, Any] | None]:
     symbol = str(case.get("symbol") or "")
-    direct = _operating_event_by_id(operating_events, symbol, event_id)
-    if direct:
-        return event_id, direct, "direct_case_event_id"
-    legacy = (case.get("legacy_event_binding") or {}).get("canonical_event_id")
-    if legacy:
-        event = _operating_event_by_id(operating_events, symbol, str(legacy))
-        if event:
-            return str(legacy), event, "legacy_canonical_event_id"
-    case_date = _as_date(case.get("as_of"))
-    if case.get("source_lineage"):
-        first = next((row for row in case.get("source_lineage") or [] if isinstance(row, Mapping)), {})
-        case_date = _as_date(first.get("event_date") or first.get("document_published_at")) or case_date
-    family = str(case.get("case_family") or "")
-    type_text = str(case.get("case_type") or "")
-    candidates = []
-    for event in (((operating_events.get("companies") or {}).get(symbol) or {}).get("events") or []):
-        if not isinstance(event, dict):
+    events = ((operating_events.get("companies") or {}).get(symbol) or {}).get("events") or []
+
+    # 1. Direct canonical event ID in case lineage or observed facts
+    for row in case.get("source_lineage") or []:
+        if isinstance(row, Mapping):
+            for key in ("canonical_event_id", "event_id"):
+                cid = row.get(key)
+                if cid:
+                    ev = _operating_event_by_id(operating_events, symbol, str(cid))
+                    if ev:
+                        return str(cid), ev, "direct_canonical_event_id", dict(row)
+    for fact in case.get("observed_facts") or []:
+        if isinstance(fact, Mapping):
+            for key in ("source_event_id", "canonical_event_id", "event_id"):
+                cid = fact.get(key)
+                if cid:
+                    ev = _operating_event_by_id(operating_events, symbol, str(cid))
+                    if ev:
+                        return str(cid), ev, "direct_canonical_event_id", dict(fact)
+
+    # 2. Exact source document provenance (document_id + content_sha256)
+    for row in case.get("source_lineage") or []:
+        if not isinstance(row, Mapping):
             continue
-        study = (event_study_state.get("studies") or {}).get(event.get("event_id"))
-        if not study:
-            continue
-        event_date = _as_date(event.get("effective_date"))
-        if case_date and event_date and abs((case_date - event_date).days) > 370:
-            continue
-        text = " ".join(str(event.get(key) or "") for key in ("event_type", "event_subtype", "description")).lower()
-        score = 0
-        for token in (family, type_text):
-            for part in token.replace("_", " ").split():
-                if len(part) > 3 and part.lower() in text:
-                    score += 1
-        if score:
-            candidates.append((score, str(event.get("event_id")), event))
-    candidates.sort(key=lambda row: (-row[0], row[1]))
-    if candidates:
-        return candidates[0][1], candidates[0][2], "nearest_event_type_text_match"
-    return event_id, None, "no_operating_event_match"
+        doc_id = row.get("document_id")
+        doc_sha = row.get("content_sha256")
+        if doc_id:
+            for ev in events:
+                if not isinstance(ev, dict):
+                    continue
+                for ev_item in ev.get("evidence") or []:
+                    if isinstance(ev_item, dict) and ev_item.get("document_id") == doc_id:
+                        sha_match = bool(doc_sha and ev_item.get("content_sha256") == doc_sha)
+                        policy = "exact_source_document_and_hash" if sha_match else "exact_source_document_id"
+                        return ev.get("event_id"), ev, policy, dict(row)
+
+    return None, None, "unbound_no_defensible_operating_event_match", None
 
 
 def _pre_event_market_setup(symbol: str, effective_date: Any, rows: list[dict[str, Any]] | None = None) -> dict[str, Any]:
@@ -282,18 +282,32 @@ def _context_for_case(
     truth: Mapping[str, Any],
 ) -> dict[str, Any]:
     symbol = str(case.get("symbol") or "")
-    case_event_id = _case_event_id(case)
-    event_id, event, match_policy = _best_event_match(
+    event_id, event, match_policy, matched_lineage = _best_event_match(
         case=case,
-        event_id=case_event_id,
         operating_events=operating_events,
         event_study_state=event_study_state,
     )
-    study = (event_study_state.get("studies") or {}).get(event_id) if event_id else None
-    benchmark = _benchmark_for_event(benchmarks, symbol, event_id)
-    effective_date = (event or {}).get("effective_date") or case.get("effective_date") or case.get("as_of")
+    is_bound = bool(event and event_id and match_policy in ("direct_canonical_event_id", "exact_source_document_and_hash", "exact_source_document_id"))
+    effective_date = event.get("effective_date") if (is_bound and event) else None
+
+    study = (event_study_state.get("studies") or {}).get(event_id) if is_bound else None
+    benchmark = _benchmark_for_event(benchmarks, symbol, event_id) if is_bound else None
     analogue = _benchmark_projection(benchmark)
-    market = _pre_event_market_setup(symbol, effective_date)
+    market = _pre_event_market_setup(symbol, effective_date) if is_bound and effective_date else {
+        "status": "unavailable",
+        "event_date": None,
+        "baseline": {"date": None, "close": None, "provenance": {}},
+        "pre_event_returns": {},
+        "pre_event_volume": {
+            "status": "unavailable",
+            "median_5_session_to_60_session_ratio": None,
+            "reason": "unbound_operating_event" if not is_bound else "missing_effective_date",
+        },
+        "policy": {
+            "strictly_pre_event": True,
+            "raw_price_not_adjusted_or_total_return": True,
+        },
+    }
     financial_truth = _financial_truth_projection(truth, symbol)
     ready_horizons = analogue.get("aggregate_ready_horizons") or []
     return {
@@ -309,22 +323,24 @@ def _context_for_case(
             "alpha_lane": ALPHA_CASES.get(symbol),
         },
         "event_binding": {
-            "case_event_id": case_event_id,
-            "matched_operating_event_id": event_id,
+            "matched_operating_event_id": event_id if is_bound else None,
             "match_policy": match_policy,
             "effective_date": effective_date,
-            "event_type": (event or {}).get("event_type"),
-            "event_subtype": (event or {}).get("event_subtype"),
-            "source_quality_level": (event or {}).get("source_quality_level"),
+            "event_type": (event or {}).get("event_type") if is_bound else None,
+            "event_subtype": (event or {}).get("event_subtype") if is_bound else None,
+            "source_quality_level": (event or {}).get("source_quality_level") if is_bound else None,
+            "matched_source_document_id": (matched_lineage or {}).get("document_id") if matched_lineage else None,
+            "matched_content_sha256": (matched_lineage or {}).get("content_sha256") if matched_lineage else None,
+            "matched_page": (matched_lineage or {}).get("page") if matched_lineage else None,
             "source_lineage": case.get("source_lineage") or [],
         },
         "current_state_vector": {
             "market_setup": market,
             "operating_event": {
-                "status": "available" if event else "blocked",
-                "affected_drivers": (event or {}).get("affected_drivers") or [],
-                "estimated_scale": (event or {}).get("estimated_scale"),
-                "evidence_count": len((event or {}).get("evidence") or []),
+                "status": "available" if is_bound else "blocked",
+                "affected_drivers": (event or {}).get("affected_drivers") or [] if is_bound else [],
+                "estimated_scale": (event or {}).get("estimated_scale") if is_bound else None,
+                "evidence_count": len((event or {}).get("evidence") or []) if is_bound else 0,
             },
             "financial_truth": financial_truth,
             "policy_regime": {
@@ -338,16 +354,17 @@ def _context_for_case(
             "evidence_trust_separation": "Similarity is descriptive past context and strictly separate from evidence trust or forward valuation.",
             "event_study": _event_study_projection(study),
             "strict_analogue_benchmark": analogue,
-            "usable_for_scenario_calibration": bool(ready_horizons) and financial_truth["status"] == "qualified",
+            "usable_for_scenario_calibration": bool(ready_horizons) and financial_truth["status"] == "qualified" and is_bound,
             "calibration_blockers": [
                 reason for reason, blocked in (
+                    ("unbound_operating_event", not is_bound),
                     ("financial_truth_not_qualified", financial_truth["status"] != "qualified"),
                     ("no_minimum_strict_analogue_sample", not ready_horizons),
                 ) if blocked
             ],
         },
         "answer_contract": {
-            "can_answer_then_vs_now": bool(event and market.get("status") == "available"),
+            "can_answer_then_vs_now": bool(is_bound and event and market.get("status") == "available"),
             "can_publish_benchmark_stats": bool(ready_horizons),
             "can_feed_forecast_or_valuation": False,
             "why": "Historical state context is descriptive until financial truth, sector-model inputs, and analogue sample gates pass.",
@@ -356,6 +373,8 @@ def _context_for_case(
 
 
 def build(*, write: bool = True) -> dict[str, Any]:
+    existing = load_json(OUT, {})
+    existing_meta = existing.get("_meta") if isinstance(existing, dict) else None
     cases = load_json(STATE / "company_intel" / "intelligence_cases.json", {"companies": {}, "selected_symbols": []})
     operating_events = load_json(STATE / "company_intel" / "operating_events.json", {"companies": {}})
     studies = load_json(STATE / "company_intel" / "event_studies.json", {"studies": {}})
@@ -411,6 +430,8 @@ def build(*, write: bool = True) -> dict[str, Any]:
             "implementation_boundary": "CI uses its own retained filings, price history, event studies, and financial-truth gates; no proprietary matching method is copied.",
         },
     }
+    if isinstance(existing_meta, dict):
+        result["_meta"] = existing_meta
     if write:
         save_json(OUT, result)
         print(f"historical_state_map: {summary['context_count']} contexts, {summary['with_publishable_benchmark_stats']} publishable benchmark rows")

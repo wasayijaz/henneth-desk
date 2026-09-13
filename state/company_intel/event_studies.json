@@ -22,7 +22,7 @@
   "PSO",
   "UBL"
  ],
- "study_count": 72,
+ "study_count": 73,
  "studies": {
   "evt_b66212b80aa7a12b67b6": {
    "study_id": "study_b66212b80aa7a12b67b6",
@@ -12363,6 +12363,180 @@
     "current_sector_analogues_survivorship_bias"
    ]
   },
+  "evt_efe3e2c704a0e53e7d09": {
+   "study_id": "study_efe3e2c704a0e53e7d09",
+   "event_id": "evt_efe3e2c704a0e53e7d09",
+   "symbol": "PSO",
+   "event_type": "distribution_network_expansion",
+   "effective_date": "2025-06-30",
+   "data_cutoff": "2026-08-28",
+   "baseline": {
+    "selected_date": "2025-06-27",
+    "selected_close": 379.54,
+    "status": "available",
+    "reason": null,
+    "provenance": {
+     "history_file": "state/history/PSO.json",
+     "selected_date": "2025-06-27"
+    }
+   },
+   "horizons": {
+    "1Q": {
+     "target_date": "2025-09-30",
+     "selected_date": "2025-09-30",
+     "selected_close": 472.45,
+     "return_pct": 24.479633240238165,
+     "status": "mature",
+     "reason": null,
+     "provenance": {
+      "history_file": "state/history/PSO.json",
+      "baseline_date": "2025-06-27",
+      "endpoint_date": "2025-09-30",
+      "target_date": "2025-09-30"
+     }
+    },
+    "2Q": {
+     "target_date": "2025-12-30",
+     "selected_date": "2025-12-30",
+     "selected_close": 473.54,
+     "return_pct": 24.766822996258632,
+     "status": "mature",
+     "reason": null,
+     "provenance": {
+      "history_file": "state/history/PSO.json",
+      "baseline_date": "2025-06-27",
+      "endpoint_date": "2025-12-30",
+      "target_date": "2025-12-30"
+     }
+    },
+    "4Q": {
+     "target_date": "2026-06-30",
+     "selected_date": "2026-06-30",
+     "selected_close": 342.35,
+     "return_pct": -9.7987036939453,
+     "status": "mature",
+     "reason": null,
+     "provenance": {
+      "history_file": "state/history/PSO.json",
+      "baseline_date": "2025-06-27",
+      "endpoint_date": "2026-06-30",
+      "target_date": "2026-06-30"
+     }
+    },
+    "8Q": {
+     "target_date": "2027-06-30",
+     "selected_date": null,
+     "selected_close": null,
+     "return_pct": null,
+     "status": "immature",
+     "reason": "target_after_last_bar",
+     "provenance": {
+      "history_file": "state/history/PSO.json",
+      "baseline_date": "2025-06-27",
+      "endpoint_date": null,
+      "target_date": "2027-06-30"
+     }
+    }
+   },
+   "kse100_relative": {
+    "stock_return_pct": {
+     "1Q": null,
+     "2Q": null,
+     "4Q": null,
+     "8Q": null
+    },
+    "index_return_pct": {
+     "1Q": null,
+     "2Q": null,
+     "4Q": null,
+     "8Q": null
+    },
+    "relative_return_pct": {
+     "1Q": null,
+     "2Q": null,
+     "4Q": null,
+     "8Q": null
+    },
+    "returns_pct": {
+     "1Q": null,
+     "2Q": null,
+     "4Q": null,
+     "8Q": null
+    },
+    "semantics": "stock_raw_price_return_minus_KSE100_raw_price_return",
+    "reasons": {
+     "1Q": "missing_exact_index_dates",
+     "2Q": "missing_exact_index_dates",
+     "4Q": "missing_exact_index_dates",
+     "8Q": "missing_exact_index_dates"
+    },
+    "provenance": {
+     "indices_file": "state/indices.json",
+     "selected_dates": {
+      "1Q": [
+       "2025-06-27",
+       "2025-09-30"
+      ],
+      "2Q": [
+       "2025-06-27",
+       "2025-12-30"
+      ],
+      "4Q": [
+       "2025-06-27",
+       "2026-06-30"
+      ],
+      "8Q": [
+       "2025-06-27",
+       null
+      ]
+     }
+    }
+   },
+   "analogues": [],
+   "analogue_aggregate": {
+    "1Q": {
+     "n": 0,
+     "mean_return_pct": null,
+     "status": "suppressed",
+     "reason": "n_lt_3"
+    },
+    "2Q": {
+     "n": 0,
+     "mean_return_pct": null,
+     "status": "suppressed",
+     "reason": "n_lt_3"
+    },
+    "4Q": {
+     "n": 0,
+     "mean_return_pct": null,
+     "status": "suppressed",
+     "reason": "n_lt_3"
+    },
+    "8Q": {
+     "n": 0,
+     "mean_return_pct": null,
+     "status": "suppressed",
+     "reason": "n_lt_3"
+    }
+   },
+   "financial_outcomes": {
+    "revenue": null,
+    "margin": null,
+    "eps": null,
+    "roic": null,
+    "fcf": null,
+    "valuation": null,
+    "missing_inputs": [
+     "period_aligned_financials",
+     "event_attribution_model"
+    ]
+   },
+   "limitations": [
+    "raw_price_return_not_adjusted_or_total_return",
+    "historical_association_not_causal",
+    "current_sector_analogues_survivorship_bias"
+   ]
+  },
   "evt_2b090e38cccab8fac9da": {
    "study_id": "study_2b090e38cccab8fac9da",
    "event_id": "evt_2b090e38cccab8fac9da",
@@ -13519,9 +13693,9 @@
  "source": "state/company_intel/operating_events.json + state/history + state/indices.json",
  "_meta": {
   "generator_version": "ci_artifact_integrity_v1",
-  "source_commit_sha": "836c3cdf4f7f36994498ada2d957ca35b12496b4",
-  "build_cutoff_at": "2026-08-31T17:23:47Z",
-  "generated_at": "2026-08-31T17:23:47Z",
+  "source_commit_sha": "b6046e043a63b1b9c27889a9b98d9bf6b6f44815",
+  "build_cutoff_at": "2026-09-13T16:48:49Z",
+  "generated_at": "2026-09-13T16:48:49Z",
   "artifact_path": "state/company_intel/event_studies.json",
   "timestamp_semantics": {
    "build_cutoff_at": "generation boundary only; not a source-effective or source-published time",

@@ -1943,17 +1943,171 @@
   },
   "PSO": {
    "symbol": "PSO",
-   "status": "no_operating_events",
-   "benchmark_count": 0,
-   "benchmarks": [],
+   "status": "benchmarks_available",
+   "benchmark_count": 1,
+   "benchmarks": [
+    {
+     "benchmark_id": "conditional_15021bdfaa34db7e6c59",
+     "target_event": {
+      "event_id": "evt_efe3e2c704a0e53e7d09",
+      "study_id": "study_efe3e2c704a0e53e7d09",
+      "symbol": "PSO",
+      "event_type": "distribution_network_expansion",
+      "event_subtype": "fuel_retail_and_convenience_channel",
+      "effective_date": "2025-06-30",
+      "sector": "Oil & Gas Marketing Companies",
+      "description": "PSO reported 107 gross new FY25 outlets and a 3,649-outlet ending network; the 69 net active change is derived from 3,649 minus 3,580."
+     },
+     "context": {
+      "conditions": [
+       "event_type=distribution_network_expansion",
+       "event_subtype=fuel_retail_and_convenience_channel",
+       "sector=Oil & Gas Marketing Companies"
+      ],
+      "summary": "Exact event class and retained current-sector context."
+     },
+     "status": "no_prior_exact_analogues",
+     "matching_policy": {
+      "event_type": "exact",
+      "event_subtype": "exact",
+      "candidate_date": "strictly_before_target",
+      "same_company": "same_symbol",
+      "same_sector": "same_current_sector_other_symbol",
+      "returns": "reuse_target_event_study_analogue_outcomes",
+      "minimum_aggregate_sample": 3
+     },
+     "candidates": {
+      "same_company_exact": [],
+      "same_sector_exact": []
+     },
+     "candidate_evidence_summary": {
+      "evidence_status": "no_prior_exact_analogues",
+      "candidate_counts": {
+       "same_company_exact": 0,
+       "same_sector_exact": 0
+      },
+      "mature_horizon_counts": {
+       "1Q": 0,
+       "2Q": 0,
+       "4Q": 0,
+       "8Q": 0
+      },
+      "latest_prior_candidate_date": null,
+      "limitation": "Descriptive prior-event evidence only; it is not causal, a forecast, valuation or advice."
+     },
+     "readiness_ledger": {
+      "status": "needs_prior_exact_analogues",
+      "minimum_mature_outcome_sample": 3,
+      "strict_candidate_count": 0,
+      "mature_horizon_counts": {
+       "1Q": 0,
+       "2Q": 0,
+       "4Q": 0,
+       "8Q": 0
+      },
+      "missing_mature_outcomes_to_minimum": {
+       "1Q": 3,
+       "2Q": 3,
+       "4Q": 3,
+       "8Q": 3
+      },
+      "aggregate_ready_horizons": [],
+      "nearest_ready_horizon": "1Q",
+      "latest_prior_candidate_date": null,
+      "next_required_evidence": "3 mature strict prior exact analogue outcome(s) for one horizon before publishing aggregate statistics."
+     },
+     "horizon_aggregates": {
+      "1Q": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "stats": {
+        "mean_return_pct": null,
+        "median_return_pct": null,
+        "min_return_pct": null,
+        "max_return_pct": null
+       }
+      },
+      "2Q": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "stats": {
+        "mean_return_pct": null,
+        "median_return_pct": null,
+        "min_return_pct": null,
+        "max_return_pct": null
+       }
+      },
+      "4Q": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "stats": {
+        "mean_return_pct": null,
+        "median_return_pct": null,
+        "min_return_pct": null,
+        "max_return_pct": null
+       }
+      },
+      "8Q": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "stats": {
+        "mean_return_pct": null,
+        "median_return_pct": null,
+        "min_return_pct": null,
+        "max_return_pct": null
+       }
+      }
+     },
+     "blocked_states": {
+      "peer": {
+       "status": "blocked",
+       "reason": "no_peer_registry"
+      },
+      "international": {
+       "status": "blocked",
+       "reason": "no_international_registry"
+      },
+      "financial": {
+       "status": "blocked",
+       "reason": "no_period_aligned_financials"
+      },
+      "causal": {
+       "status": "blocked",
+       "reason": "descriptive_not_causal"
+      },
+      "forecast": {
+       "status": "blocked",
+       "reason": "not_implemented"
+      },
+      "valuation": {
+       "status": "blocked",
+       "reason": "not_implemented"
+      }
+     }
+    }
+   ],
    "readiness_summary": {
-    "dated_benchmark_count": 0,
+    "dated_benchmark_count": 1,
     "benchmarks_with_candidates": 0,
     "aggregate_ready_benchmark_count": 0,
-    "suppressed_benchmark_count": 0,
+    "suppressed_benchmark_count": 1,
     "total_strict_candidate_count": 0,
     "minimum_missing_mature_outcomes_to_publish": 3,
-    "event_class_gaps": [],
+    "event_class_gaps": [
+     {
+      "event_type": "distribution_network_expansion",
+      "event_subtype": "fuel_retail_and_convenience_channel",
+      "benchmark_count": 1,
+      "candidate_history_present_count": 0,
+      "aggregate_ready_count": 0,
+      "total_strict_candidate_count": 0,
+      "minimum_missing_mature_outcomes_to_publish": 3
+     }
+    ],
     "policy": "Metadata-only readiness; counts are recomputed from strict retained candidates and do not relax no-lookahead or minimum-sample rules."
    },
    "blocked_states": {
@@ -5784,10 +5938,10 @@
   }
  },
  "readiness_summary": {
-  "dated_benchmark_count": 25,
+  "dated_benchmark_count": 26,
   "benchmarks_with_candidates": 11,
   "aggregate_ready_benchmark_count": 2,
-  "suppressed_benchmark_count": 23,
+  "suppressed_benchmark_count": 24,
   "total_strict_candidate_count": 17,
   "minimum_missing_mature_outcomes_to_publish": 1,
   "event_class_gaps": [
@@ -5816,6 +5970,15 @@
     "candidate_history_present_count": 1,
     "aggregate_ready_count": 0,
     "total_strict_candidate_count": 1,
+    "minimum_missing_mature_outcomes_to_publish": 3
+   },
+   {
+    "event_type": "distribution_network_expansion",
+    "event_subtype": "fuel_retail_and_convenience_channel",
+    "benchmark_count": 1,
+    "candidate_history_present_count": 0,
+    "aggregate_ready_count": 0,
+    "total_strict_candidate_count": 0,
     "minimum_missing_mature_outcomes_to_publish": 3
    },
    {
@@ -5862,9 +6025,9 @@
  "as_of": "2026-08-28",
  "_meta": {
   "generator_version": "ci_artifact_integrity_v1",
-  "source_commit_sha": "836c3cdf4f7f36994498ada2d957ca35b12496b4",
-  "build_cutoff_at": "2026-08-31T17:23:47Z",
-  "generated_at": "2026-08-31T17:23:47Z",
+  "source_commit_sha": "b6046e043a63b1b9c27889a9b98d9bf6b6f44815",
+  "build_cutoff_at": "2026-09-13T16:48:49Z",
+  "generated_at": "2026-09-13T16:48:49Z",
   "artifact_path": "state/company_intel/conditional_benchmarks.json",
   "timestamp_semantics": {
    "build_cutoff_at": "generation boundary only; not a source-effective or source-published time",

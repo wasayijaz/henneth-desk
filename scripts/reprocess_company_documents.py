@@ -132,6 +132,7 @@ CANONICAL_RELATIVE_PATHS = (
     Path("company_intel") / "market_expectations.json",
     Path("company_intel") / "evidence_watchlist.json",
     Path("company_intel") / "cement_operating_series.json",
+    Path("company_intel") / "historical_state_map.json",
 )
 CI_SLICE_PATH = ROOT / "Henneth Desk 2.CI.0" / "data" / "company_intelligence.json"
 CI_ARTIFACT_INTEGRITY_EXCLUDED_STATE_NAMES = {
@@ -1040,6 +1041,7 @@ def consume_canonical(registry_path: Path, queue_path: Path, output_root: Path,
     from build_guidance_contradictions import build as build_guidance_contradictions
     from build_management_delivery import build as build_management_delivery
     from build_intelligence_cases import build as build_intelligence_cases
+    from build_historical_state_map import build as build_historical_state_map
     from build_operating_events import build as build_operating_events
     from build_event_studies import build as build_event_studies
     from build_conditional_benchmarks import build as build_conditional_benchmarks
@@ -1132,6 +1134,8 @@ def consume_canonical(registry_path: Path, queue_path: Path, output_root: Path,
             builder()
         stage = "build_intelligence_cases"
         build_intelligence_cases()
+        stage = "build_historical_state_map"
+        build_historical_state_map()
         stage = "build_financial_model_inputs"
         model_builder()
         stage = "build_financial_evidence_reconciliation"
@@ -1174,6 +1178,7 @@ def consume_canonical(registry_path: Path, queue_path: Path, output_root: Path,
             "check_company_brain_source_index.py",
             "check_ci_completion_matrix.py",
             "check_event_studies.py",
+            "check_historical_state_map.py",
             "check_operating_intelligence.py",
         ):
             stage = f"checker:{checker_name}"
@@ -1189,6 +1194,8 @@ def consume_canonical(registry_path: Path, queue_path: Path, output_root: Path,
             builder()
         stage = "rebuild_intelligence_cases"
         build_intelligence_cases()
+        stage = "rebuild_historical_state_map"
+        build_historical_state_map()
         for builder in source_ci_builders:
             stage = f"rebuild:{getattr(builder, '__module__', 'unknown')}"
             builder()

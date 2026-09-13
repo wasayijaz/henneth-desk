@@ -65,6 +65,7 @@ SELECTED_INTEL_PRODUCTS = (
     "financial_model_inputs.json",
     "forecast_readiness.json",
     "formal_valuations.json",
+    "historical_state_map.json",
     "impact_scenarios.json",
     "intelligence_confidence.json",
     "management_delivery.json",
