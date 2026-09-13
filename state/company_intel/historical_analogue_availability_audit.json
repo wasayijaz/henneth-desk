@@ -1,0 +1,348 @@
+{
+ "schema_version": 1,
+ "product_version": "historical_analogue_availability_audit_v1",
+ "kind": "historical_analogue_availability_audit",
+ "scope": "Event-to-Value Alpha Case Envelopes",
+ "summary": {
+  "audited_case_count": 4,
+  "cases_with_tier1_analogues": 0,
+  "cases_with_sufficient_sample_for_stats": 0,
+  "total_tier1_candidates_identified": 0,
+  "total_tier2_mechanism_candidates_identified": 3,
+  "suppression_policy_enforced": true
+ },
+ "cases": [
+  {
+   "case_id": "case_mari_working_interest_observed_v1",
+   "symbol": "MARI",
+   "sector": "Oil & Gas Exploration Companies",
+   "case_family": "e_and_p",
+   "case_type": "working_interest_acquisition",
+   "target_event": {
+    "event_id": "evt_b25decfc180474cbe066",
+    "event_type": "acquisition_divestment",
+    "event_subtype": "acquisition",
+    "effective_date": "2025-09-30",
+    "match_policy": "exact_source_document_and_hash"
+   },
+   "analogue_availability": {
+    "tier_1_exact_count": 0,
+    "tier_1_mature_1q_count": 0,
+    "tier_2_mechanism_count": 0,
+    "tier_3_regime_count": 2,
+    "sample_sufficient_for_stats": false,
+    "status": "zero_candidates"
+   },
+   "tier_1_candidates": [],
+   "tier_2_candidates": [],
+   "evidence_gaps": [
+    {
+     "gap_type": "thin_sample_threshold_unmet",
+     "current_tier1_count": 0,
+     "required_count": 3,
+     "deficit": 3,
+     "rule": "Statistics and scenario calibration remain suppressed below N=3 mature exact analogues"
+    },
+    {
+     "gap_type": "zero_exact_prior_analogues",
+     "detail": "No prior acquisition_divestment/acquisition events exist in Oil & Gas Exploration Companies or MARI prior to 2025-09-30"
+    }
+   ],
+   "policy": {
+    "strictly_pre_target": true,
+    "no_forecast_activation": true,
+    "no_synthetic_matching": true
+   }
+  },
+  {
+   "case_id": "case_mari_sky47_karakoram1_launch_sales_observed_v1",
+   "symbol": "MARI",
+   "sector": "Oil & Gas Exploration Companies",
+   "case_family": "ai_data_centre",
+   "case_type": "campus_launch_sales_led",
+   "target_event": {
+    "event_id": "evt_e9068dbe4b6b8493a0cb",
+    "event_type": "product_launch",
+    "event_subtype": "product_launch",
+    "effective_date": "2026-07-24",
+    "match_policy": "direct_canonical_event_id"
+   },
+   "analogue_availability": {
+    "tier_1_exact_count": 0,
+    "tier_1_mature_1q_count": 0,
+    "tier_2_mechanism_count": 0,
+    "tier_3_regime_count": 25,
+    "sample_sufficient_for_stats": false,
+    "status": "zero_candidates"
+   },
+   "tier_1_candidates": [],
+   "tier_2_candidates": [],
+   "evidence_gaps": [
+    {
+     "gap_type": "thin_sample_threshold_unmet",
+     "current_tier1_count": 0,
+     "required_count": 3,
+     "deficit": 3,
+     "rule": "Statistics and scenario calibration remain suppressed below N=3 mature exact analogues"
+    },
+    {
+     "gap_type": "zero_exact_prior_analogues",
+     "detail": "No prior product_launch/product_launch events exist in Oil & Gas Exploration Companies or MARI prior to 2026-07-24"
+    }
+   ],
+   "policy": {
+    "strictly_pre_target": true,
+    "no_forecast_activation": true,
+    "no_synthetic_matching": true
+   }
+  },
+  {
+   "case_id": "case_mlcf_pioc_control_observed_v1",
+   "symbol": "MLCF",
+   "sector": "Cement",
+   "case_family": "industrial_cement",
+   "case_type": "acquisition_control",
+   "target_event": {
+    "event_id": "evt_6e9b520a122b8f2d4a59",
+    "event_type": "acquisition_divestment",
+    "event_subtype": "acquisition",
+    "effective_date": "2025-12-18",
+    "match_policy": "exact_source_document_and_hash"
+   },
+   "analogue_availability": {
+    "tier_1_exact_count": 0,
+    "tier_1_mature_1q_count": 0,
+    "tier_2_mechanism_count": 3,
+    "tier_3_regime_count": 8,
+    "sample_sufficient_for_stats": false,
+    "status": "thin_history_present"
+   },
+   "tier_1_candidates": [],
+   "tier_2_candidates": [
+    {
+     "event_id": "evt_b66212b80aa7a12b67b6",
+     "symbol": "ATRL",
+     "sector": "Refinery",
+     "event_type": "acquisition_divestment",
+     "event_subtype": "acquisition",
+     "effective_date": "2025-10-03",
+     "source_document_id": "psx:260900",
+     "content_sha256": "e13383bba7a68c3490fc51d0b59f05aee8ac3413272b8530ea9025ae4c0035e3",
+     "page": 42,
+     "source_url": "https://dps.psx.com.pk/download/document/260900.pdf",
+     "has_event_study": true,
+     "horizons": {
+      "1Q": {
+       "status": "mature",
+       "return_pct": -1.7776075360344978,
+       "selected_date": "2026-01-05",
+       "reason": null
+      },
+      "2Q": {
+       "status": "mature",
+       "return_pct": 22.653501305186687,
+       "selected_date": "2026-04-03",
+       "reason": null
+      },
+      "4Q": {
+       "status": "immature",
+       "return_pct": null,
+       "selected_date": null,
+       "reason": "target_after_last_bar"
+      },
+      "8Q": {
+       "status": "immature",
+       "return_pct": null,
+       "selected_date": null,
+       "reason": "target_after_last_bar"
+      }
+     },
+     "scale_fields": {
+      "available": false,
+      "detail": null
+     },
+     "independence_status": "independent_issuer",
+     "tier": "tier_2_economic_mechanism_analogue",
+     "mechanism": "Cross-sector acquisition_divestment/acquisition mechanism (Refinery vs Cement)",
+     "comparability_fields": {
+      "target_sector": "Cement",
+      "candidate_sector": "Refinery",
+      "cross_sector_structural_differences": "Sector drivers and margin structures differ"
+     },
+     "scenario_calibrating": false
+    },
+    {
+     "event_id": "evt_3d1dae7553f73da60ba3",
+     "symbol": "MARI",
+     "sector": "Oil & Gas Exploration Companies",
+     "event_type": "acquisition_divestment",
+     "event_subtype": "acquisition",
+     "effective_date": "2025-11-13",
+     "source_document_id": "psx:265594",
+     "content_sha256": "cdc3f69157f5e5803238ba347ecb4e96f7297479df87d345739896913de8aae4",
+     "page": 3,
+     "source_url": "https://dps.psx.com.pk/download/document/265594.pdf",
+     "has_event_study": true,
+     "horizons": {
+      "1Q": {
+       "status": "mature",
+       "return_pct": 0.8526062455975536,
+       "selected_date": "2026-02-13",
+       "reason": null
+      },
+      "2Q": {
+       "status": "mature",
+       "return_pct": -5.029056116459274,
+       "selected_date": "2026-05-13",
+       "reason": null
+      },
+      "4Q": {
+       "status": "immature",
+       "return_pct": null,
+       "selected_date": null,
+       "reason": "target_after_last_bar"
+      },
+      "8Q": {
+       "status": "immature",
+       "return_pct": null,
+       "selected_date": null,
+       "reason": "target_after_last_bar"
+      }
+     },
+     "scale_fields": {
+      "available": false,
+      "detail": null
+     },
+     "independence_status": "independent_issuer",
+     "tier": "tier_2_economic_mechanism_analogue",
+     "mechanism": "Cross-sector acquisition_divestment/acquisition mechanism (Oil & Gas Exploration Companies vs Cement)",
+     "comparability_fields": {
+      "target_sector": "Cement",
+      "candidate_sector": "Oil & Gas Exploration Companies",
+      "cross_sector_structural_differences": "Sector drivers and margin structures differ"
+     },
+     "scenario_calibrating": false
+    },
+    {
+     "event_id": "evt_b25decfc180474cbe066",
+     "symbol": "MARI",
+     "sector": "Oil & Gas Exploration Companies",
+     "event_type": "acquisition_divestment",
+     "event_subtype": "acquisition",
+     "effective_date": "2025-09-30",
+     "source_document_id": "psx:260446",
+     "content_sha256": "c13ccb4de58ad005bca106942721490593fe219ff45906c68280ea7856192e42",
+     "page": 1,
+     "source_url": "https://dps.psx.com.pk/download/document/260446.pdf",
+     "has_event_study": true,
+     "horizons": {
+      "1Q": {
+       "status": "mature",
+       "return_pct": -2.708014258413405,
+       "selected_date": "2025-12-30",
+       "reason": null
+      },
+      "2Q": {
+       "status": "mature",
+       "return_pct": -16.79971808460172,
+       "selected_date": "2026-03-30",
+       "reason": null
+      },
+      "4Q": {
+       "status": "immature",
+       "return_pct": null,
+       "selected_date": null,
+       "reason": "target_after_last_bar"
+      },
+      "8Q": {
+       "status": "immature",
+       "return_pct": null,
+       "selected_date": null,
+       "reason": "target_after_last_bar"
+      }
+     },
+     "scale_fields": {
+      "available": false,
+      "detail": null
+     },
+     "independence_status": "independent_issuer",
+     "tier": "tier_2_economic_mechanism_analogue",
+     "mechanism": "Cross-sector acquisition_divestment/acquisition mechanism (Oil & Gas Exploration Companies vs Cement)",
+     "comparability_fields": {
+      "target_sector": "Cement",
+      "candidate_sector": "Oil & Gas Exploration Companies",
+      "cross_sector_structural_differences": "Sector drivers and margin structures differ"
+     },
+     "scenario_calibrating": false
+    }
+   ],
+   "evidence_gaps": [
+    {
+     "gap_type": "thin_sample_threshold_unmet",
+     "current_tier1_count": 0,
+     "required_count": 3,
+     "deficit": 3,
+     "rule": "Statistics and scenario calibration remain suppressed below N=3 mature exact analogues"
+    },
+    {
+     "gap_type": "zero_exact_prior_analogues",
+     "detail": "No prior acquisition_divestment/acquisition events exist in Cement or MLCF prior to 2025-12-18"
+    }
+   ],
+   "policy": {
+    "strictly_pre_target": true,
+    "no_forecast_activation": true,
+    "no_synthetic_matching": true
+   }
+  },
+  {
+   "case_id": "case_pso_fy2025_distribution_network_expansion_observed_v1",
+   "symbol": "PSO",
+   "sector": "Oil & Gas Marketing Companies",
+   "case_family": "distribution_network_expansion",
+   "case_type": "fuel_retail_and_convenience_channel_expansion",
+   "target_event": {
+    "event_id": "evt_efe3e2c704a0e53e7d09",
+    "event_type": "distribution_network_expansion",
+    "event_subtype": "fuel_retail_and_convenience_channel",
+    "effective_date": "2025-06-30",
+    "match_policy": "direct_canonical_event_id"
+   },
+   "analogue_availability": {
+    "tier_1_exact_count": 0,
+    "tier_1_mature_1q_count": 0,
+    "tier_2_mechanism_count": 0,
+    "tier_3_regime_count": 0,
+    "sample_sufficient_for_stats": false,
+    "status": "zero_candidates"
+   },
+   "tier_1_candidates": [],
+   "tier_2_candidates": [],
+   "evidence_gaps": [
+    {
+     "gap_type": "thin_sample_threshold_unmet",
+     "current_tier1_count": 0,
+     "required_count": 3,
+     "deficit": 3,
+     "rule": "Statistics and scenario calibration remain suppressed below N=3 mature exact analogues"
+    },
+    {
+     "gap_type": "zero_exact_prior_analogues",
+     "detail": "No prior distribution_network_expansion/fuel_retail_and_convenience_channel events exist in Oil & Gas Marketing Companies or PSO prior to 2025-06-30"
+    }
+   ],
+   "policy": {
+    "strictly_pre_target": true,
+    "no_forecast_activation": true,
+    "no_synthetic_matching": true
+   }
+  }
+ ],
+ "policy": {
+  "strict_no_lookahead": true,
+  "retained_state_only": true,
+  "minimum_sample_three": true,
+  "no_forecast_activation": true,
+  "descriptive_past_context_only": true
+ }
+}
