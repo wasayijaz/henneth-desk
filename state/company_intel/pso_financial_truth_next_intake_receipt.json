@@ -1,0 +1,326 @@
+{
+ "schema_version": 1,
+ "receipt_type": "pso_financial_truth_next_intake_receipt",
+ "ticker": "PSO",
+ "status": "next_intake_required_no_parser_correction",
+ "audit_date": "2026-09-13",
+ "decision": {
+  "parser_correction_eligible": false,
+  "reason": "Retained PSO facts are audit-only legacy snippets with zero eligible reconciliation facts, zero v2 candidates, incomplete canonical slots, and no PSO official share-capital tie-out.",
+  "financial_truth_state_changed": false,
+  "downstream_status": {
+   "forecast": "blocked_financial_truth_not_qualified",
+   "valuation": "blocked_financial_truth_not_qualified",
+   "market_expectations": "blocked_financial_truth_not_qualified"
+  }
+ },
+ "coverage_before": {
+  "annual_income_triplets": {
+   "required": 5,
+   "present": 0,
+   "qualified_periods": []
+  },
+  "reported_quarter_fact_sets": {
+   "required": 8,
+   "present": 0,
+   "qualified_periods": []
+  },
+  "annual_operating_cash_flow": {
+   "required": 5,
+   "present": 0,
+   "qualified_periods": []
+  },
+  "annual_full_statement_schedules": {
+   "required": 5,
+   "present": 0,
+   "qualified_periods": []
+  },
+  "reported_quarter_full_statement_schedules": {
+   "required": 8,
+   "present": 0,
+   "qualified_periods": []
+  },
+  "official_share_count_capital_note_tie_out": {
+   "required": 1,
+   "present": 0,
+   "status": "missing_official_share_count_capital_note_tie_out",
+   "source": null,
+   "available_on": null
+  }
+ },
+ "coverage_after": {
+  "annual_income_triplets": {
+   "required": 5,
+   "present": 0,
+   "qualified_periods": []
+  },
+  "reported_quarter_fact_sets": {
+   "required": 8,
+   "present": 0,
+   "qualified_periods": []
+  },
+  "annual_operating_cash_flow": {
+   "required": 5,
+   "present": 0,
+   "qualified_periods": []
+  },
+  "annual_full_statement_schedules": {
+   "required": 5,
+   "present": 0,
+   "qualified_periods": []
+  },
+  "reported_quarter_full_statement_schedules": {
+   "required": 8,
+   "present": 0,
+   "qualified_periods": []
+  },
+  "official_share_count_capital_note_tie_out": {
+   "required": 1,
+   "present": 0,
+   "status": "missing_official_share_count_capital_note_tie_out",
+   "source": null,
+   "available_on": null
+  }
+ },
+ "fact_inventory": {
+  "series_fact_count": 4,
+  "series_audit_only_fact_count": 4,
+  "reconciliation_eligible_fact_count": 0,
+  "reconciliation_audit_only_fact_count": 4,
+  "reconciliation_missing_slot_count": 9,
+  "financial_statement_v2_candidate_count": 0,
+  "share_capital": {
+   "candidate_count": 0,
+   "approved_tie_out_count": 0,
+   "candidate_fact_ids": [],
+   "approved_fact_ids": [],
+   "status": "missing_for_pso"
+  },
+  "audit_only_fact_ids_not_promoted": [
+   "fact_d824bcf960de9ed6969a",
+   "fact_6103875b418e707b85e6",
+   "fact_630d5317b2338909ce6d",
+   "fact_f73238e0162858f99693"
+  ]
+ },
+ "retained_official_candidate_documents": {
+  "primary_hash_bound_fact_qualification_wave": [
+   {
+    "document_id": "psx:257951",
+    "label": "Financial Results for the Year Ended June 30, 2025",
+    "url": "https://dps.psx.com.pk/download/document/257951.pdf",
+    "published_at": "2025-08-19T13:45:00+05:00",
+    "retrieved_at": "2026-08-24 19:17",
+    "status": "ready",
+    "content_sha256": "5a53cc65a94e4100c0de6d9dffd94a4c951fbbc6368df514be8729380b46c466",
+    "company_documents_present": true,
+    "hash_bound": true,
+    "evidence_count": 0,
+    "source_registry_or_research_index_present": true
+   },
+   {
+    "document_id": "psx:263690",
+    "label": "Financial Results for the First Quarter ended September 30, 2025",
+    "url": "https://dps.psx.com.pk/download/document/263690.pdf",
+    "published_at": "2025-10-28T12:49:00+05:00",
+    "retrieved_at": "2026-08-22 16:10",
+    "status": "ready",
+    "content_sha256": "5e9a74ec46b1af77b37fbc2cbaf51bab8ad83d62abd85723dfd8776e7e9d639a",
+    "company_documents_present": true,
+    "hash_bound": true,
+    "evidence_count": 0,
+    "source_registry_or_research_index_present": true
+   },
+   {
+    "document_id": "psx:270316",
+    "label": "Financial Results for the half year ended December 31, 2025",
+    "url": "https://dps.psx.com.pk/download/document/270316.pdf",
+    "published_at": "2026-02-17T12:27:00+05:00",
+    "retrieved_at": "2026-08-22 16:04",
+    "status": "ready",
+    "content_sha256": "91847d8f6d3fdc16c48715c7fa28ba4475073022769ffb7a2e747551f7d52c7b",
+    "company_documents_present": true,
+    "hash_bound": true,
+    "evidence_count": 4,
+    "source_registry_or_research_index_present": true
+   },
+   {
+    "document_id": "psx:275672",
+    "label": "Financial Results for the Nine Months ended March 31, 2026",
+    "url": "https://dps.psx.com.pk/download/document/275672.pdf",
+    "published_at": "2026-04-29T11:43:00+05:00",
+    "retrieved_at": "2026-08-18 03:18",
+    "status": "ready",
+    "content_sha256": "0b76aa6288358a21eb1c3c357bb41ccc0edd16f7111ecbff323f266c9f3b4ca4",
+    "company_documents_present": true,
+    "hash_bound": true,
+    "evidence_count": 3,
+    "source_registry_or_research_index_present": true
+   }
+  ],
+  "metadata_only_restage_wave": [
+   {
+    "document_id": "psx:260771",
+    "label": "Transmission of Annual Report for the year ended June 30, 2025",
+    "url": "https://dps.psx.com.pk/download/document/260771.pdf",
+    "published_at": "2025-10-02T08:48:00+05:00",
+    "retrieved_at": null,
+    "status": null,
+    "content_sha256": null,
+    "company_documents_present": false,
+    "hash_bound": false,
+    "evidence_count": 0,
+    "source_registry_or_research_index_present": true
+   },
+   {
+    "document_id": "psx:264179",
+    "label": "Transmission of Quarterly Report for the period ended September 30, 2025",
+    "url": "https://dps.psx.com.pk/download/document/264179.pdf",
+    "published_at": "2025-10-30T08:58:00+05:00",
+    "retrieved_at": null,
+    "status": null,
+    "content_sha256": null,
+    "company_documents_present": false,
+    "hash_bound": false,
+    "evidence_count": 0,
+    "source_registry_or_research_index_present": true
+   },
+   {
+    "document_id": "psx:276065",
+    "label": "Transmission of Quarterly Report for the Period ended March 31, 2026",
+    "url": "https://dps.psx.com.pk/download/document/276065.pdf",
+    "published_at": "2026-04-30T11:24:00+05:00",
+    "retrieved_at": null,
+    "status": null,
+    "content_sha256": null,
+    "company_documents_present": false,
+    "hash_bound": false,
+    "evidence_count": 0,
+    "source_registry_or_research_index_present": true
+   }
+  ],
+  "financial_coverage_indexed_document_count": 7,
+  "financial_coverage_queue_id": "finqual_274c9b935feaca283265"
+ },
+ "missing_slots": [
+  {
+   "slot": "annual_income_triplets",
+   "required": 5,
+   "present": 0,
+   "smallest_retained_candidate_ids": [
+    "psx:257951"
+   ],
+   "remaining_need": "four more annual periods need exact retained official annual result/report IDs before qualification."
+  },
+  {
+   "slot": "reported_direct_quarter_fact_sets",
+   "required": 8,
+   "present": 0,
+   "smallest_retained_candidate_ids": [
+    "psx:263690",
+    "psx:270316",
+    "psx:275672"
+   ],
+   "restage_candidates_for_statement_report_pages": [
+    "psx:264179",
+    "psx:276065"
+   ],
+   "remaining_need": "five more direct quarters need exact retained official report/result IDs before qualification."
+  },
+  {
+   "slot": "annual_operating_cash_flow",
+   "required": 5,
+   "present": 0,
+   "smallest_retained_candidate_ids": [
+    "psx:260771"
+   ],
+   "remaining_need": "all five annual OCF periods require source-bound cash-flow statement facts."
+  },
+  {
+   "slot": "full_income_balance_cash_flow_schedules",
+   "required": {
+    "annual": 5,
+    "reported_quarter": 8
+   },
+   "present": {
+    "annual": 0,
+    "reported_quarter": 0
+   },
+   "smallest_retained_candidate_ids": [
+    "psx:257951",
+    "psx:263690",
+    "psx:270316",
+    "psx:275672",
+    "psx:260771",
+    "psx:264179",
+    "psx:276065"
+   ],
+   "remaining_need": "canonical direct metrics must be extracted with statement type, period type, page, hash, and availability binding."
+  },
+  {
+   "slot": "official_share_count_capital_note_tie_out",
+   "required": 1,
+   "present": 0,
+   "smallest_retained_candidate_ids": [
+    "psx:260771"
+   ],
+   "remaining_need": "PSO has no retained approved share-capital candidate or tie-out record."
+  }
+ ],
+ "next_action": {
+  "type": "owner_approved_bounded_restage_and_fact_qualification_wave",
+  "does_not_fetch": true,
+  "does_not_promote_audit_only_facts": true,
+  "ordered_targets": [
+   {
+    "rank": 1,
+    "document_ids": [
+     "psx:257951",
+     "psx:263690",
+     "psx:270316",
+     "psx:275672"
+    ],
+    "purpose": "Attempt source-bound qualification from already retained/hash-bound official PSX result documents only where canonical direct facts are present.",
+    "promotion_condition": "Every emitted fact must include canonical metric, statement type, period type/duration, consolidation, page, source URL, content hash, published_at/available_on, and eligibility scope."
+   },
+   {
+    "rank": 2,
+    "document_ids": [
+     "psx:260771",
+     "psx:264179",
+     "psx:276065"
+    ],
+    "purpose": "Restage official annual/quarterly statement filings already known by ID before seeking full schedules, OCF, and share-capital tie-out.",
+    "promotion_condition": "No fact may be emitted until the document is retained with exact URL/hash/page/availability binding."
+   }
+  ]
+ },
+ "policy": {
+  "fail_closed": true,
+  "no_fetch": true,
+  "no_forecast": true,
+  "no_valuation": true,
+  "no_market_expectations": true,
+  "audit_only_values_not_promoted": true,
+  "research_only_no_advice_language": true,
+  "do_not_touch_sales_expansion_receipt": true
+ },
+ "_meta": {
+  "generator_version": "pso_financial_truth_next_intake_receipt_v1",
+  "inputs_sha256": {
+   "company_documents": "ddd7c22b4e2333f0e6698558f79aa978e3c9b3e84a53837e79ae0405621ead1a",
+   "company_financial_series": "dd48bc16c8c669e75567629f8577e04db6ac6d0ac88699986cd57e98fb759d5f",
+   "financial_coverage": "ba027c0d6f9f94c450bcbf50fb496f4d6b17ffb87f5a79603d6c18a90562a16d",
+   "financial_evidence_reconciliation": "fd3b9f58133db9efbcafaa532c20900bf20c9200d722fe0cbcafb8af75771038",
+   "financial_statement_v2_candidate_queue": "7e2262fbb7b48b2c5214937af70da8b813c8139428b6ef8e91ac12f81f6b8c44",
+   "financial_truth_qualification": "05e1b641b4686e49bc802bf60d103725a96457c08cd3fbdc6e7b885c2935e76d",
+   "official_share_capital_approvals": "99b276b26bcf8767ccd6b1482f97b4a4067e49e3d4b536f8f70fde6bdc4dae4a",
+   "official_share_capital_candidates": "c8258a0a152b7b79e3f586c7f4564386fe0156b70cff01c87dc2106bbd4e6d1b",
+   "research_index": "0dce78b11ac98f33fc04a48ce60c0fa35a6aeaa5f409bea1c7161231c0a5dd08"
+  },
+  "artifact_path": "state/company_intel/pso_financial_truth_next_intake_receipt.json",
+  "timestamp_semantics": {
+   "audit_date": "local audit date only; not a source-effective or source-published date"
+  }
+ }
+}
