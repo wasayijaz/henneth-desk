@@ -10,6 +10,7 @@ from pathlib import Path
 from build_financial_series import _sanitize_row, build, merge_rows
 from build_company_graph import build as build_graph
 from financial_series import normalize_fact
+from financial_statement_facts import PARSER_REVISION
 
 
 def _fixture(title: str, page: str, raw: str = "12,345") -> tuple[dict, dict, list[str]]:
@@ -17,7 +18,7 @@ def _fixture(title: str, page: str, raw: str = "12,345") -> tuple[dict, dict, li
            "source_url": "https://dps.psx.com.pk/download/document/1.pdf", "status": "ready",
            "content_sha256": "a" * 64, "period": "2025-09-30"}
     fact = {"fact_id": "fact_fixture", "fact_type": "revenue", "line": "revenue",
-            "parser_version": "financial_statement_v2", "parser_revision":"block_geometry_v5",
+            "parser_version": "financial_statement_v2", "parser_revision": PARSER_REVISION,
             "readiness": "model_loadable", "period_end": "2025-09-30", "period_type":"quarter",
             "duration_months":3, "column_role":"current_period", "consolidation": "consolidated",
             "currency": "PKR", "statement_type": "income_statement", "available_on": "2025-10-02",
@@ -188,7 +189,7 @@ def run() -> None:
     assert repaired["unit_multiplier"] == 1 and repaired["normalized_value"] == 12.5
     assert repaired["readiness"] == "audit_only"
     repaired_ocf = _sanitize_row({
-        "parser_version": "financial_statement_v2", "parser_revision": "block_geometry_v5",
+        "parser_version": "financial_statement_v2", "parser_revision": PARSER_REVISION,
         "metric": "operating_cash_flow", "line": "operating_cash_flow",
         "statement_type": "cash_flow_statement", "quality_flags": [
             "invalid_structured_statement_type", "unsupported_structured_line",

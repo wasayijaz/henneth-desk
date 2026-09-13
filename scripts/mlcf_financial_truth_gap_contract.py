@@ -137,7 +137,8 @@ _QUALIFICATION_KEYS = {
     "status",
     "symbol",
 }
-_SHARE_COUNT_KEYS = {"status", "available_on", "source"}
+_SHARE_COUNT_KEYS = {"status", "available_on", "source", "limitation"}
+_SHARE_SOURCE_KEYS = {"id", "label", "path", "url"}
 _FINANCIAL_TIE_OUT_KEYS = {"status", "reason"}
 _DOWNSTREAM_KEYS = {"forecast", "valuation", "market_expectations"}
 _QUALIFICATION_POLICY_KEYS = {"raw_financial_values", "restage", "forecasts", "valuation", "market_expectations"}
@@ -577,7 +578,8 @@ def build_case_from_retained_state(
     _closed_keys(financial_tie_out, _FINANCIAL_TIE_OUT_KEYS, "financial_truth.companies.MLCF.financial_tie_out")
     _closed_keys(downstream, _DOWNSTREAM_KEYS, "financial_truth.companies.MLCF.downstream")
     _closed_keys(qualification_policy, _QUALIFICATION_POLICY_KEYS, "financial_truth.companies.MLCF.policy")
-    _closed_keys(share_state, _SHARE_COUNT_KEYS, "financial_truth.companies.MLCF.share_count")
+    share_path = "financial_truth.companies.MLCF.share_count"
+    _closed_keys(share_state, _SHARE_COUNT_KEYS, share_path)
     full_coverage = _state_row(qualification.get("model_ready_financial_statement_coverage"), "financial_truth.companies.MLCF.model_ready_financial_statement_coverage")
     _closed_keys(full_coverage, {"annual", "reported_quarter", "limitation"}, "financial_truth.companies.MLCF.model_ready_financial_statement_coverage")
     for key, required in (("annual", TARGET_ANNUAL_PERIODS), ("reported_quarter", TARGET_REPORTED_INTERIM_PERIODS)):
@@ -594,8 +596,25 @@ def build_case_from_retained_state(
         _fail("financial_truth.companies.MLCF.policy.raw_financial_values", "raw financial output policy drifted")
     if reconciliation.get("symbol") != "MLCF" or reconciliation.get("source_conflict_count") != 0:
         _fail("reconciliation.companies.MLCF", "reconciliation conflict state drifted")
-    if share_state.get("status") != "missing_official_share_count_capital_note_tie_out" or share_state.get("available_on") is not None or share_state.get("source") is not None:
-        _fail("financial_truth.companies.MLCF.share_count", "share-count tie-out status drifted")
+    share_status = share_state.get("status")
+    if share_status == "missing_official_share_count_capital_note_tie_out":
+        if share_state.get("available_on") is not None or share_state.get("source") is not None:
+            _fail(share_path, "missing share-count status cannot carry source metadata")
+    elif share_status == "official_share_count_capital_note_tied_out":
+        _iso_date(share_state.get("available_on"), f"{share_path}.available_on")
+        source = share_state.get("source")
+        if not isinstance(source, dict):
+            _fail(f"{share_path}.source", "tied-out share count requires a source object")
+        _closed_keys(source, _SHARE_SOURCE_KEYS, f"{share_path}.source")
+        for key in ("id", "label", "url"):
+            if not isinstance(source.get(key), str) or not source[key].strip():
+                _fail(f"{share_path}.source.{key}", "must be a non-empty string")
+        if source.get("path") is not None and not isinstance(source.get("path"), str):
+            _fail(f"{share_path}.source.path", "must be a string or null")
+        if not isinstance(share_state.get("limitation"), str) or not share_state["limitation"].strip():
+            _fail(f"{share_path}.limitation", "tied-out share count requires a limitation")
+    else:
+        _fail(share_path, "share-count tie-out status drifted")
     _validate_qualification_against_reconciliation(qualification, reconciliation, company_documents_state, research_index_state)
     baseline = {
         "annual_income_triplets": copy.deepcopy(qualification.get("annual_income_triplets")),
