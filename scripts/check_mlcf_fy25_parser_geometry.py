@@ -76,6 +76,8 @@ def _words_with_competing_adjacent_band():
 def _balance_doc(name="260032"):
     doc = _doc(name)
     doc["title"] = "MLCF Annual Report 2025 Consolidated Financial Statements"
+    if name == "260032":
+        doc["content_sha256"] = "4fdfb4cbd2eee65576cbb89b43334ce0c09a7e5ffd573d5bf93b414029eba6d1"
     return doc
 
 
@@ -114,6 +116,135 @@ def _balance_facts(words, *, as_at="June 30, 2025"):
     text = f"Consolidated statement of financial position AS AT {as_at}"
     doc = _balance_doc()
     return extract_facts(doc, [text], [words], [{"page": 291, "text": text, "words": words}])
+
+
+def _continuation_page_one_words(*, heading="Financial Position", total=("118,731,599", "100,343,986")):
+    words = [
+        _w(50, 20, "Consolidated", 0, 0),
+        _w(125, 20, "Statement", 0, 0, 1),
+        _w(195, 20, "of", 0, 0, 2),
+        _w(215, 20, heading.split()[0], 0, 0, 3),
+        _w(285, 20, heading.split()[-1], 0, 0, 4),
+        _w(50, 45, "AS", 1, 0),
+        _w(70, 45, "AT", 1, 0, 1),
+        _w(95, 45, "JUNE", 1, 0, 2),
+        _w(140, 45, "30,", 1, 0, 3),
+        _w(175, 45, "2025", 1, 0, 4),
+        _w(410, 70, "2025", 2, 0),
+        _w(500, 70, "2024", 3, 0),
+        _w(340, 85, "Note", 4, 0),
+        _w(400, 85, "(Rupees", 4, 1),
+        _w(445, 85, "in", 4, 1, 1),
+        _w(462, 85, "thousand)", 4, 1, 2),
+        _w(50, 110, "EQUITY", 5, 0),
+        _w(100, 110, "AND", 5, 0, 1),
+        _w(130, 110, "LIABILITIES", 5, 0, 2),
+        _w(50, 150, "Total", 6, 0),
+        _w(82, 150, "equity", 6, 0, 1),
+        _w(410, 150, "70,959,286", 7, 0),
+        _w(500, 150, "57,643,643", 8, 0),
+        _w(50, 200, "Long", 9, 0),
+        _w(85, 200, "term", 9, 0, 1),
+        _w(120, 200, "loans", 9, 0, 2),
+        _w(155, 200, "from", 9, 0, 3),
+        _w(190, 200, "financial", 9, 0, 4),
+        _w(250, 200, "institutions", 9, 0, 5),
+        _w(410, 200, "9,781,639", 10, 0),
+        _w(500, 200, "9,785,786", 11, 0),
+        _w(50, 520, "CURRENT", 12, 0),
+        _w(115, 520, "LIABILITIES", 12, 0, 1),
+        _w(50, 560, "Trade", 13, 0),
+        _w(90, 560, "and", 13, 0, 1),
+        _w(120, 560, "other", 13, 0, 2),
+        _w(160, 560, "payables", 13, 0, 3),
+        _w(410, 560, "17,698,228", 14, 0),
+        _w(500, 560, "13,083,068", 15, 0),
+        _w(50, 600, "Short", 16, 0),
+        _w(90, 600, "term", 16, 0, 1),
+        _w(125, 600, "borrowings", 16, 0, 2),
+        _w(410, 600, "822,285", 17, 0),
+        _w(500, 600, "1,645,316", 18, 0),
+        _w(410, 660, total[0], 19, 0),
+        _w(500, 660, total[1], 20, 0),
+    ]
+    return words
+
+
+def _continuation_page_two_words(*, headers=("2025", "2024"), total=("118,731,599", "100,343,986"),
+                                 duplicate_cash=False, statement_boundary=False):
+    words = [
+        _w(410, 70, headers[0], 1, 0),
+        _w(500, 70, headers[1], 2, 0),
+        _w(340, 85, "Note", 3, 0),
+        _w(400, 85, "(Rupees", 3, 1),
+        _w(445, 85, "in", 3, 1, 1),
+        _w(462, 85, "thousand)", 3, 1, 2),
+        _w(50, 110, "ASSETS", 4, 0),
+        _w(50, 150, "NON", 5, 0),
+        _w(80, 150, "-", 5, 0, 1),
+        _w(95, 150, "CURRENT", 5, 0, 2),
+        _w(160, 150, "ASSETS", 5, 0, 3),
+        _w(50, 190, "Property,", 6, 0),
+        _w(110, 190, "plant", 6, 0, 1),
+        _w(155, 190, "and", 6, 0, 2),
+        _w(185, 190, "equipment", 6, 0, 3),
+        _w(410, 190, "72,403,474", 7, 0),
+        _w(500, 190, "72,786,438", 8, 0),
+        _w(50, 360, "CURRENT", 9, 0),
+        _w(115, 360, "ASSETS", 9, 0, 1),
+        _w(50, 400, "Stock-in-trade", 10, 0),
+        _w(410, 400, "4,278,247", 11, 0),
+        _w(500, 400, "3,176,688", 12, 0),
+        _w(50, 420, "Trade", 13, 0),
+        _w(90, 420, "debts", 13, 0, 1),
+        _w(410, 420, "4,610,182", 14, 0),
+        _w(500, 420, "4,188,745", 15, 0),
+        _w(50, 500, "Cash", 16, 0),
+        _w(90, 500, "and", 16, 0, 1),
+        _w(120, 500, "bank", 16, 0, 2),
+        _w(155, 500, "balances", 16, 0, 3),
+        _w(410, 500, "1,861,551", 17, 0),
+        _w(500, 500, "1,279,424", 18, 0),
+        _w(410, 525, "36,654,982", 19, 0),
+        _w(500, 525, "27,374,875", 20, 0),
+        _w(410, 660, total[0], 21, 0),
+        _w(500, 660, total[1], 22, 0),
+    ]
+    if duplicate_cash:
+        words.extend([
+            _w(50, 540, "Cash", 23, 0),
+            _w(90, 540, "and", 23, 0, 1),
+            _w(120, 540, "bank", 23, 0, 2),
+            _w(155, 540, "balances", 23, 0, 3),
+            _w(410, 540, "9,999", 24, 0),
+            _w(500, 540, "8,888", 25, 0),
+        ])
+    if statement_boundary:
+        words.extend([
+            _w(50, 125, "Consolidated", 26, 0),
+            _w(125, 125, "Statement", 26, 0, 1),
+            _w(195, 125, "of", 26, 0, 2),
+            _w(215, 125, "Cash", 26, 0, 3),
+            _w(250, 125, "Flows", 26, 0, 4),
+        ])
+    return words
+
+
+def _continuation_facts(*, doc=None, page_one=None, page_two=None, page_two_no=292):
+    doc = doc or _balance_doc()
+    text1 = "Consolidated statement of financial position AS AT JUNE 30, 2025"
+    text2 = "Assets continuation"
+    page_one = page_one or _continuation_page_one_words()
+    page_two = page_two or _continuation_page_two_words()
+    return extract_facts(
+        doc,
+        [text1, text2],
+        [page_one, page_two],
+        [
+            {"page": 291, "text": text1, "words": page_one},
+            {"page": page_two_no, "text": text2, "words": page_two},
+        ],
+    )
 
 
 def _words_with_distant_row(*, duplicate_year_band=False):
@@ -185,6 +316,35 @@ def main() -> int:
         ("total_assets", "123,456"), ("total_assets", "98,765"),
     }
     assert not any(f["raw_value"] in {"999,999", "888,888"} for f in ambiguous_balance)
+
+    continuation = _continuation_facts()
+    continuation_pairs = {(f["page"], f["line"], f["period_end"], f["raw_value"], f["consolidation"], f["readiness"])
+                          for f in continuation}
+    assert (292, "property_plant_equipment", "2025-06-30", "72,403,474", "consolidated", "model_loadable") in continuation_pairs
+    assert (292, "inventories", "2025-06-30", "4,278,247", "consolidated", "model_loadable") in continuation_pairs
+    assert (292, "trade_receivables", "2025-06-30", "4,610,182", "consolidated", "model_loadable") in continuation_pairs
+    assert (292, "cash_and_cash_equivalents", "2025-06-30", "1,861,551", "consolidated", "model_loadable") in continuation_pairs
+    assert (292, "total_current_assets", "2025-06-30", "36,654,982", "consolidated", "model_loadable") in continuation_pairs
+    assert (292, "total_assets", "2025-06-30", "118,731,599", "consolidated", "model_loadable") in continuation_pairs
+    assert (291, "short_term_borrowings", "2025-06-30", "822,285", "consolidated", "model_loadable") in continuation_pairs
+    assert (291, "trade_payables", "2025-06-30", "17,698,228", "consolidated", "model_loadable") in continuation_pairs
+    assert not any(f["page"] == 292 and f["line"] == "cash_and_cash_equivalents" and f["raw_value"] == "36,654,982"
+                   for f in continuation)
+
+    bad_hash = _continuation_facts(doc={**_balance_doc(), "content_sha256": "wrong"})
+    assert not any(f["page"] == 292 for f in bad_hash)
+    wrong_prior = _continuation_facts(page_one=_continuation_page_one_words(heading="Profit Loss"))
+    assert not any(f["page"] == 292 for f in wrong_prior)
+    noncontiguous = _continuation_facts(page_two_no=293)
+    assert not any(f["page"] == 293 for f in noncontiguous)
+    period_mismatch = _continuation_facts(doc={**_balance_doc(), "period_end": "2024-06-30"})
+    assert not any(f["page"] == 292 for f in period_mismatch)
+    header_mismatch = _continuation_facts(page_two=_continuation_page_two_words(headers=("2025", "2023")))
+    assert not any(f["page"] == 292 for f in header_mismatch)
+    duplicate_label = _continuation_facts(page_two=_continuation_page_two_words(duplicate_cash=True))
+    assert not any(f["page"] == 292 for f in duplicate_label)
+    boundary = _continuation_facts(page_two=_continuation_page_two_words(statement_boundary=True))
+    assert not any(f["page"] == 292 and f["statement_type"] == "balance_sheet" for f in boundary)
 
     distant = _facts(_words_with_distant_row())
     assert {(f["line"], f["raw_value"]) for f in distant} == {

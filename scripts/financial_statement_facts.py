@@ -12,6 +12,10 @@ from typing import Any
 
 PARSER_VERSION = "financial_statement_v2"
 PARSER_REVISION = "block_geometry_v6"
+MLCF_FY25_DOCUMENT_ID = "psx:260032"
+MLCF_FY25_CONTENT_SHA256 = "4fdfb4cbd2eee65576cbb89b43334ce0c09a7e5ffd573d5bf93b414029eba6d1"
+MLCF_FY25_PERIOD_END = "2025-06-30"
+MLCF_FY25_BALANCE_SHEET_PAGES = (291, 292)
 
 INCOME_STATEMENT_LINE_PATTERNS = {
     # ``sales`` by itself also occurs in ``cost of sales``.  Keep revenue
@@ -41,14 +45,14 @@ BALANCE_SHEET_LINE_PATTERNS = {
     # classification conservative and do not match an unqualified ``cash``
     # mention in a note or cash-flow statement.
     "cash_and_cash_equivalents": r"\bcash\s+and\s+(?:cash\s+equivalents|bank\s+balances)\b",
-    "trade_receivables": r"\b(?:trade|accounts?)\s+receivables?\b",
-    "inventories": r"\binventor(?:y|ies)\b",
+    "trade_receivables": r"\b(?:(?:trade|accounts?)\s+receivables?|trade\s+debts?)\b",
+    "inventories": r"\b(?:inventor(?:y|ies)|stock[-\s]?in[-\s]?trade)\b",
     "total_current_assets": r"\btotal\s+current\s+assets\b",
     "property_plant_equipment": r"\b(?:property,?\s+plant\s+(?:and|&)\s+equipment|fixed\s+assets?)\b",
     "total_assets": r"\btotal\s+assets\b",
     "short_term_borrowings": r"\bshort[-\s]?term\s+(?:borrowings|financ(?:e|ing)|loans?)\b",
-    "long_term_borrowings": r"\blong[-\s]?term\s+(?:borrowings|financ(?:e|ing)|loans?)\b",
-    "trade_payables": r"\b(?:trade|accounts?)\s+payables?\b",
+    "long_term_borrowings": r"\blong[-\s]?term\s+(?:borrowings|financ(?:e|ing)|loans?\s+from\s+financial\s+institutions)\b",
+    "trade_payables": r"\b(?:(?:trade|accounts?)\s+payables?|trade\s+and\s+other\s+payables)\b",
     "total_equity": r"\b(?:total\s+)?equity\b",
 }
 
@@ -601,6 +605,261 @@ def _nearest_headers_for_row(header_sets: list[dict[str, Any]], row: dict[str, A
     return max(prior, key=lambda h: (h["line"]["y1"], len(h.get("headers") or []))) if prior else None
 
 
+def _annual_split_year_header(lines: list[dict[str, Any]], manifest_date: date) -> dict[str, Any] | None:
+    year_items = []
+    for line in lines:
+        if float(line["y0"]) > 190:
+            continue
+        if re.search(r"\bnotes?\b", line["text"], re.I):
+            continue
+        for header in _header_tokens(line):
+            year_items.append({**header, "line": line})
+    candidates = []
+    for band in _same_visual_band(year_items, key="cy", tolerance=3):
+        headers = sorted(band, key=lambda h: h["cx"])
+        if len(headers) != 2:
+            continue
+        if [h["year"] for h in headers] != [manifest_date.year, manifest_date.year - 1]:
+            continue
+        synthetic = _synthetic_header_line(headers, [])
+        candidates.append({
+            "line": synthetic,
+            "headers": [{**header, "duration_months": 12, "group_cx": header["cx"]} for header in headers],
+            "period_year": manifest_date.year,
+            "point_in_time_continuation": True,
+        })
+    return candidates[0] if len(candidates) == 1 else None
+
+
+def _numeric_only_bands(lines: list[dict[str, Any]], headers: list[dict[str, Any]], *,
+                        min_y: float = 0, max_y: float = 900,
+                        label_end_x: float = 365) -> list[dict[str, Any]]:
+    bands: list[dict[str, Any]] = []
+    for line in lines:
+        if not (min_y <= float(line["y0"]) <= max_y):
+            continue
+        if _line_match(line):
+            continue
+        cells = _numeric_only_continuation(line, label_end_x, [])
+        if not cells:
+            continue
+        for band in bands:
+            if abs(float(band["cy"]) - float(line["cy"])) <= 3:
+                band["cells"].extend(cells)
+                band["lines"].append(line)
+                break
+        else:
+            bands.append({"cy": float(line["cy"]), "cells": list(cells), "lines": [line]})
+    out = []
+    for band in bands:
+        cells = sorted(band["cells"], key=lambda c: c["cx"])
+        if len(cells) != len(headers):
+            continue
+        if _aligned_cells(headers, cells) is None:
+            continue
+        source_lines = sorted(band["lines"], key=lambda line: (line["x0"], line["line"]))
+        out.append({**band, "cells": cells, "text": " ".join(line["text"] for line in source_lines)})
+    return sorted(out, key=lambda band: band["cy"])
+
+
+def _mlcf_fy25_balance_sheet_continuation_context(
+    doc: dict[str, Any],
+    previous_page_no: int | None,
+    previous_words: list[tuple] | None,
+    page_no: int,
+    page_words: list[tuple],
+    period: str,
+) -> dict[str, Any] | None:
+    if doc.get("doc_id") != MLCF_FY25_DOCUMENT_ID:
+        return None
+    if str(doc.get("content_sha256") or "").lower() != MLCF_FY25_CONTENT_SHA256:
+        return None
+    if str(period)[:10] != MLCF_FY25_PERIOD_END:
+        return None
+    if (previous_page_no, page_no) != MLCF_FY25_BALANCE_SHEET_PAGES:
+        return None
+    if not previous_words:
+        return None
+
+    manifest_date = date.fromisoformat(MLCF_FY25_PERIOD_END)
+    previous_lines = build_lines(previous_words)
+    lines = build_lines(page_words)
+    previous_heading = _statement_heading(previous_lines)
+    if not previous_heading or previous_heading.get("type") != "balance_sheet":
+        return None
+    if previous_heading.get("basis") != "consolidated":
+        return None
+    if _statement_heading(lines):
+        return None
+    previous_headers = _header_descriptors(
+        previous_lines, manifest_date, str(doc.get("title") or ""),
+        allow_point_in_time=True,
+    )
+    continuation_header = _annual_split_year_header(lines, manifest_date)
+    if len(previous_headers) != 1 or not continuation_header:
+        return None
+    previous_header = previous_headers[0]
+    previous_signature = [(h["year"], h["duration_months"], round(float(h["cx"]), 1))
+                          for h in previous_header.get("headers") or []]
+    continuation_signature = [(h["year"], h["duration_months"], round(float(h["cx"]), 1))
+                              for h in continuation_header.get("headers") or []]
+    if previous_signature != continuation_signature:
+        return None
+
+    previous_text = " ".join(line["text"] for line in previous_lines[:30])
+    continuation_text = " ".join(line["text"] for line in lines[:40])
+    if not re.search(r"\bequity\s+and\s+liabilities\b", previous_text, re.I):
+        return None
+    if not re.search(r"\bassets\b", continuation_text, re.I):
+        return None
+    if not re.search(r"\bcurrent\s+assets\b", continuation_text, re.I):
+        return None
+    if not detect_scale_info(continuation_text)[0]:
+        return None
+
+    labels = []
+    for line in lines:
+        matched = _line_match(line, "balance_sheet")
+        if matched:
+            labels.append(matched[0])
+    if len(labels) != len(set(labels)):
+        return None
+
+    prior_total_bands = _numeric_only_bands(
+        previous_lines, previous_header["headers"], min_y=620, max_y=710,
+    )
+    continuation_total_bands = _numeric_only_bands(
+        lines, continuation_header["headers"], min_y=620, max_y=710,
+    )
+    matching_totals = []
+    for prior_band in prior_total_bands:
+        prior_values = [cell["text"] for cell in prior_band["cells"]]
+        for continuation_band in continuation_total_bands:
+            if [cell["text"] for cell in continuation_band["cells"]] == prior_values:
+                matching_totals.append(continuation_band)
+    if len(matching_totals) != 1:
+        return None
+
+    return {
+        "heading": {
+            "type": "balance_sheet",
+            "basis": "consolidated",
+            "bbox": previous_heading.get("bbox"),
+            "continuation_from_page": previous_page_no,
+            "continuation_contract": "mlcf_fy25_balance_sheet_pages_291_292",
+        },
+        "header_sets": [continuation_header],
+        "basis": "consolidated",
+        "total_assets_band": matching_totals[0],
+    }
+
+
+def _fact_from_balance_sheet_band(
+    doc: dict[str, Any],
+    page_no: int,
+    line_name: str,
+    reported_label: str,
+    band: dict[str, Any],
+    header_set: dict[str, Any],
+    row_text: str,
+    period: str,
+    available_on: str | None,
+    basis: str,
+    scale: int,
+) -> list[dict[str, Any]]:
+    facts = []
+    aligned = _aligned_cells(header_set["headers"], band["cells"])
+    if not aligned:
+        return []
+    manifest_date = date.fromisoformat(str(period)[:10])
+    for header, num in aligned:
+        try:
+            period_end = date(header["year"], manifest_date.month, manifest_date.day).isoformat()
+        except ValueError:
+            continue
+        header_current_year = int(header_set.get("period_year") or manifest_date.year)
+        role = "current_period" if header["year"] == header_current_year else "comparative_prior_period"
+        value = num["number"] * scale
+        facts.append({
+            "fact_id": stable_id(doc.get("doc_id"), doc.get("content_sha256"), page_no, line_name, period_end, role, basis, num["text"], header["duration_months"]),
+            "parser_version": PARSER_VERSION,
+            "parser_revision": PARSER_REVISION,
+            "document_id": doc.get("doc_id"),
+            "source_url": doc.get("source_url"),
+            "content_sha256": doc.get("content_sha256"),
+            "page": page_no,
+            "evidence": [{"page": page_no, "text": row_text[:240], "source_url": doc.get("source_url")}],
+            "statement_type": "balance_sheet",
+            "statement_heading": {
+                "type": "balance_sheet",
+                "basis": basis,
+                "continuation_contract": "mlcf_fy25_balance_sheet_pages_291_292",
+            },
+            "line": line_name,
+            "fact_type": line_name,
+            "reported_label": reported_label,
+            "period_end": period_end,
+            "duration_months": header["duration_months"],
+            "period_type": "annual",
+            "column_role": role,
+            "comparative_to_period_end": period if role == "comparative_prior_period" else None,
+            "consolidation": basis,
+            "currency": "PKR",
+            "scale": scale,
+            "unit": "PKR",
+            "unit_multiplier": scale,
+            "value": value,
+            "normalized_value": value,
+            "raw_value": num["text"],
+            "quality_flags": [],
+            "readiness": "model_loadable",
+            "available_on": available_on,
+            "published_at": doc.get("published_at"),
+            "retrieved_at": doc.get("retrieved_at"),
+        })
+    return facts
+
+
+def _mlcf_fy25_balance_sheet_subtotal_facts(
+    doc: dict[str, Any],
+    page_no: int,
+    lines: list[dict[str, Any]],
+    period: str,
+    available_on: str | None,
+    context: dict[str, Any],
+) -> list[dict[str, Any]]:
+    header_set = context["header_sets"][0]
+    scale, _ = detect_scale_info(" ".join(line["text"] for line in lines[:20]))
+    if scale != 1_000:
+        return []
+    current_assets_heading = next(
+        (line for line in lines if re.fullmatch(r"\s*CURRENT\s+ASSETS\s*", line["text"], re.I)),
+        None,
+    )
+    cash_row = next(
+        (line for line in lines if _line_match(line, "balance_sheet")
+         and _line_match(line, "balance_sheet")[0] == "cash_and_cash_equivalents"),
+        None,
+    )
+    facts = []
+    if current_assets_heading and cash_row:
+        current_asset_bands = _numeric_only_bands(
+            lines, header_set["headers"], min_y=float(cash_row["y1"]), max_y=float(cash_row["y1"]) + 30,
+        )
+        if len(current_asset_bands) == 1:
+            facts.extend(_fact_from_balance_sheet_band(
+                doc, page_no, "total_current_assets", "current assets subtotal",
+                current_asset_bands[0], header_set, current_asset_bands[0]["text"],
+                period, available_on, context["basis"], scale,
+            ))
+    facts.extend(_fact_from_balance_sheet_band(
+        doc, page_no, "total_assets", "assets total",
+        context["total_assets_band"], header_set, context["total_assets_band"]["text"],
+        period, available_on, context["basis"], scale,
+    ))
+    return facts
+
+
 def _normalize_joined_financial_tokens(text: str) -> str:
     """Repair only common PDF token joins in statement descriptors.
 
@@ -636,6 +895,12 @@ def _line_match(row: dict[str, Any], statement_type: str | None = None) -> tuple
                 if re.search(r"\bgross\s+sales\b", text, re.I) or re.search(
                         r"\bless\s*:\s*sales\s+tax\b", text, re.I):
                     continue
+            if line == "property_plant_equipment" and re.search(
+                r"\b(?:surplus|revaluation|tax\s+effect|fair\s+value)\b",
+                row["text"],
+                re.I,
+            ):
+                continue
             if line == "long_term_borrowings" and re.search(r"\bcurrent\s+portion\s+of\b", row["text"], re.I):
                 continue
             return line, m
@@ -777,15 +1042,21 @@ def _single_separated_numeric_band(lines: list[dict[str, Any]], row: dict[str, A
         for band in visual_bands:
             if abs(float(band["cy"]) - float(line["cy"])) <= 3:
                 band["cells"].extend(nums)
+                band["same_baseline"] = bool(band.get("same_baseline")) or same_baseline
                 break
         else:
-            visual_bands.append({"cy": float(line["cy"]), "cells": list(nums)})
+            visual_bands.append({"cy": float(line["cy"]), "cells": list(nums), "same_baseline": same_baseline})
 
     candidates = []
+    same_baseline_candidates = []
     for band in visual_bands:
         nums = sorted(band["cells"], key=lambda c: c["cx"])
         if len(nums) == len(headers) and _aligned_cells(headers, nums) is not None:
             candidates.append(nums)
+            if band.get("same_baseline"):
+                same_baseline_candidates.append(nums)
+    if len(same_baseline_candidates) == 1:
+        return same_baseline_candidates[0]
     return candidates[0] if len(candidates) == 1 else []
 
 
@@ -906,7 +1177,8 @@ def _fallback_facts(doc: dict[str, Any], page_no: int, page_text: str, period: s
 
 
 def _structured_page_facts(doc: dict[str, Any], page_no: int, page_words: list[tuple],
-                           page_text: str, period: str, available_on: str | None) -> list[dict[str, Any]]:
+                           page_text: str, period: str, available_on: str | None,
+                           continuation_context: dict[str, Any] | None = None) -> list[dict[str, Any]]:
     lines = build_lines(page_words)
     if not lines:
         return []
@@ -914,14 +1186,14 @@ def _structured_page_facts(doc: dict[str, Any], page_no: int, page_words: list[t
     # ``Revenue``) with the same year columns.  They are page-evidenced but are
     # not primary income statements; require a local statement heading before
     # accepting any row.
-    heading = _statement_heading(lines)
+    heading = (continuation_context or {}).get("heading") or _statement_heading(lines)
     if not heading:
         return []
     try:
         manifest_date = date.fromisoformat(str(period)[:10])
     except (TypeError, ValueError):
         return []
-    header_sets = _header_descriptors(
+    header_sets = (continuation_context or {}).get("header_sets") or _header_descriptors(
         lines, manifest_date, str(doc.get("title") or ""),
         allow_point_in_time=heading.get("type") == "balance_sheet",
     )
@@ -952,6 +1224,9 @@ def _structured_page_facts(doc: dict[str, Any], page_no: int, page_words: list[t
             continue
         floor_y = max(0, headers["line"]["y0"] - 90)
         basis, basis_y = _nearest_basis(lines, row, floor_y)
+        if not basis and continuation_context:
+            basis = continuation_context.get("basis")
+            basis_y = floor_y
         scale, scale_flags, currency_seen = _nearest_scale(lines, row, basis_y)
         label_end = _label_end_x(row, line_name)
         note_bands = _note_bands(lines, headers["line"], row)
@@ -1098,6 +1373,10 @@ def _structured_page_facts(doc: dict[str, Any], page_no: int, page_words: list[t
                 "published_at": doc.get("published_at"),
                 "retrieved_at": doc.get("retrieved_at"),
             })
+    if continuation_context:
+        out.extend(_mlcf_fy25_balance_sheet_subtotal_facts(
+            doc, page_no, lines, period, available_on, continuation_context,
+        ))
     # A wrapped PDF row can be visited more than once when PyMuPDF exposes
     # duplicate visual blocks.  Keep one fact per page/line/period/column;
     # retaining duplicates would look like multiple revenue observations.
@@ -1405,11 +1684,21 @@ def extract_facts(doc: dict[str, Any], pages: list[str], words: list[list[tuple]
     page_numbers = [int((r or {}).get("page") or i + 1) for i, r in enumerate(page_records or [])] or list(range(1, len(pages) + 1))
     geometry_present = bool(words and any(words))
     out: list[dict[str, Any]] = []
+    previous_page_no: int | None = None
+    previous_page_words: list[tuple] | None = None
     for page_index, page in enumerate(pages):
         page_no = page_numbers[page_index] if page_index < len(page_numbers) else page_index + 1
         page_words = words[page_index] if words and page_index < len(words) else []
         if page_words:
-            out.extend(_structured_page_facts(doc, page_no, page_words, page, period, available_on))
+            continuation_context = _mlcf_fy25_balance_sheet_continuation_context(
+                doc, previous_page_no, previous_page_words, page_no, page_words, period,
+            )
+            out.extend(_structured_page_facts(
+                doc, page_no, page_words, page, period, available_on,
+                continuation_context=continuation_context,
+            ))
+            previous_page_no = page_no
+            previous_page_words = page_words
         elif not geometry_present:
             out.extend(_fallback_facts(doc, page_no, page, period, available_on))
     if not available_on:
