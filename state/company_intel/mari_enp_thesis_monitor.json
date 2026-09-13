@@ -1,0 +1,133 @@
+{
+ "schema_version": "mari_enp_thesis_monitor_result_v1",
+ "formula_id": "enp_exploration.thesis_monitor.v1",
+ "engine_version": "mari_enp_thesis_monitor_v1",
+ "case_id": "case_mari_working_interest_observed_v1",
+ "symbol": "MARI",
+ "case_family": "e_and_p",
+ "status": "blocked_financial_truth_not_qualified",
+ "blocked_reasons": [
+  "financial_truth_not_qualified"
+ ],
+ "thesis": {
+  "thesis_id": "thesis_mari_peshawar_working_interest_observed",
+  "assertion": "Mari Energies reported acquisition of working interest in Peshawar Block as operator.",
+  "status": "suppressed",
+  "activation": "suppressed"
+ },
+ "confirming_indicators": [
+  {
+   "indicator_id": "source:psx:260446:p1",
+   "role": "confirming",
+   "status": "observed",
+   "text": "Mari Energies reported acquisition of working interest in Peshawar Block as an operator.",
+   "available_on": "2025-09-30",
+   "source": {
+    "document_id": "psx:260446",
+    "page": 1,
+    "content_sha256": "c13ccb4de58ad005bca106942721490593fe219ff45906c68280ea7856192e42",
+    "source_url": "https://dps.psx.com.pk/download/document/260446.pdf"
+   }
+  },
+  {
+   "indicator_id": "source:psx:271327:p6",
+   "role": "confirming",
+   "status": "observed",
+   "text": "A later MARI quarterly filing reported a 65% Peshawar Block working interest together with operatorship.",
+   "available_on": "2026-02-27",
+   "source": {
+    "document_id": "psx:271327",
+    "page": 6,
+    "content_sha256": "e53fccd6eca58c685dbf9225140056303be704b1f389b876ba33d87aa4b687b3",
+    "source_url": "https://dps.psx.com.pk/download/document/271327.pdf"
+   }
+  }
+ ],
+ "disconfirming_indicators": [
+  {
+   "indicator_id": "alternative:working_interest_not_reserves",
+   "role": "disconfirming",
+   "status": "open_alternative",
+   "text": "Working-interest acquisition does not establish reserves, a commercial discovery, or future production.",
+   "available_on": "2026-08-31",
+   "source": null
+  },
+  {
+   "indicator_id": "alternative:operator_status_not_economics",
+   "role": "disconfirming",
+   "status": "open_alternative",
+   "text": "The later filing confirms a 65% working interest and operatorship, but does not establish cost, timing, resource, production or project economics.",
+   "available_on": "2026-08-31",
+   "source": null
+  }
+ ],
+ "evidence_cutoff": {
+  "as_of_date": "2026-08-31",
+  "latest_allowed_evidence_date": "2026-08-31",
+  "latest_retained_evidence_date": "2026-02-27",
+  "stale_days": 365
+ },
+ "next_monitor": {
+  "next_monitor_date": "2026-09-30",
+  "triggers": [
+   "official_well_result_disclosure",
+   "working_interest_or_operatorship_restatement",
+   "financial_truth_qualification_change",
+   "source_qualified_reserves_or_cost_filing"
+  ]
+ },
+ "stale_input_warnings": [],
+ "suppressed": {
+  "valuation": true,
+  "scenario": true,
+  "expectations": true,
+  "numeric_indicators": true
+ },
+ "source_facts": [
+  {
+   "document_id": "psx:260446",
+   "page": 1,
+   "content_sha256": "c13ccb4de58ad005bca106942721490593fe219ff45906c68280ea7856192e42",
+   "available_on": "2025-09-30"
+  },
+  {
+   "document_id": "psx:271327",
+   "page": 6,
+   "content_sha256": "e53fccd6eca58c685dbf9225140056303be704b1f389b876ba33d87aa4b687b3",
+   "available_on": "2026-02-27"
+  }
+ ],
+ "consumed_artifacts": [
+  {
+   "name": "valuation",
+   "status": "blocked_financial_truth_not_qualified",
+   "as_of": null,
+   "used_for_activation": false
+  },
+  {
+   "name": "scenario_lab",
+   "status": "blocked_financial_truth_not_qualified",
+   "as_of": null,
+   "used_for_activation": false
+  },
+  {
+   "name": "expectations",
+   "status": null,
+   "as_of": "2026-08-31",
+   "used_for_activation": false
+  }
+ ],
+ "run_receipt": {
+  "inputs_sha256": "ccbb3a05439458a09b29b654fe666e626792ed20eef505b5e33ce61c628340e4",
+  "contract_version": "mari_enp_thesis_monitor_v1"
+ },
+ "policy": {
+  "research_only": true,
+  "no_advice": true,
+  "no_fetch": true,
+  "no_invented_values": true,
+  "fail_closed_on_red_financial_truth": true,
+  "fail_closed_on_lookahead": true,
+  "fail_closed_on_stale_required_artifacts": true
+ }
+}
