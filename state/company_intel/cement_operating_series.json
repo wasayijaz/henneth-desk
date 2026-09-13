@@ -2,7 +2,7 @@
  "schema_version": 1,
  "product_version": "cement_operating_series_v1",
  "series_version": "audit_only_dgkc_seed_v1",
- "as_of": "2026-08-31",
+ "as_of": "2026-09-13",
  "pilot_symbols": [
   "MLCF",
   "DGKC",
@@ -30,6 +30,47 @@
    "observation_count": 0,
    "annual_period_count": 0,
    "metrics": {},
+   "blocked_reason": "MLCF has partial cement operating context, but no retained source currently supplies a five-year aligned annual MLCF operating series or a PIOC bridge that can feed a model without mixing acquisition effects.",
+   "qualification_requirements": [
+    {
+     "requirement": "aligned_annual_cement_operating_rows",
+     "required_periods": 5,
+     "current_periods": 0,
+     "required_metrics": [
+      "cement_sales_total",
+      "cement_sales_local",
+      "cement_sales_export",
+      "cement_production",
+      "clinker_production_or_sales"
+     ],
+     "status": "missing",
+     "evidence_needed": "official MLCF annual pages with source-bound period, unit, page-local row labels, and current/comparative column geometry"
+    },
+    {
+     "requirement": "event_specific_operating_bridge",
+     "required_periods": 2,
+     "current_periods": 0,
+     "required_metrics": [
+      "pre_pioc_mlcf_dispatches",
+      "post_pioc_combined_dispatches",
+      "pio_cement_dispatch_inclusion_basis"
+     ],
+     "status": "missing",
+     "evidence_needed": "official bridge that separates MLCF standalone dispatches from PIOC-acquired dispatches after the February 2026 acquisition"
+    }
+   ],
+   "next_evidence_actions": [
+    {
+     "action": "find_or_retain_annual_operating_table",
+     "target": "five official MLCF annual periods",
+     "acceptance": "current-year and comparative columns must bind to the correct period, unit, page, source URL, document hash, and row labels"
+    },
+    {
+     "action": "separate_pioc_acquisition_effect",
+     "target": "FY2026 bridge between MLCF standalone and PIOC-included dispatches",
+     "acceptance": "do not use the post-acquisition combined dispatch figure as an MLCF standalone annual operating-history row"
+    }
+   ],
    "retained_evidence_summary": [
     {
      "document_id": "issuer:0041077dadc52bdcd3baaa54",

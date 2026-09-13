@@ -206,6 +206,27 @@ def assert_real_state() -> None:
         assert raw_value in source["text"]
     assert state["companies"]["MLCF"]["status"] == "insufficient_aligned_annual_operating_history"
     assert state["companies"]["MLCF"]["observation_count"] == 0
+    mlcf_requirements = state["companies"]["MLCF"].get("qualification_requirements") or []
+    assert {row.get("requirement") for row in mlcf_requirements} == {
+        "aligned_annual_cement_operating_rows",
+        "event_specific_operating_bridge",
+    }
+    annual_req = next(row for row in mlcf_requirements if row["requirement"] == "aligned_annual_cement_operating_rows")
+    assert annual_req["required_periods"] == 5
+    assert annual_req["current_periods"] == 0
+    assert annual_req["status"] == "missing"
+    assert "cement_sales_total" in annual_req["required_metrics"]
+    assert "source-bound period" in annual_req["evidence_needed"]
+    bridge_req = next(row for row in mlcf_requirements if row["requirement"] == "event_specific_operating_bridge")
+    assert bridge_req["required_periods"] == 2
+    assert bridge_req["current_periods"] == 0
+    assert "PIOC-acquired dispatches" in bridge_req["evidence_needed"]
+    next_actions = state["companies"]["MLCF"].get("next_evidence_actions") or []
+    assert [row.get("action") for row in next_actions] == [
+        "find_or_retain_annual_operating_table",
+        "separate_pioc_acquisition_effect",
+    ]
+    assert "post-acquisition combined dispatch" in next_actions[1]["acceptance"]
     assert state["companies"]["LUCK"]["status"] == "missing_retained_cement_operating_history"
     assert state["companies"]["LUCK"]["observation_count"] == 0
     for row in state["companies"].values():

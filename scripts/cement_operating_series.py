@@ -258,6 +258,40 @@ def _company_row(symbol: str, observations: list[dict[str, Any]]) -> dict[str, A
             "quality_flags": ["audit_only_not_model_loadable"],
         }
     if symbol == "MLCF":
+        qualification_requirements = [
+            {
+                "requirement": "aligned_annual_cement_operating_rows",
+                "required_periods": 5,
+                "current_periods": 0,
+                "required_metrics": [
+                    "cement_sales_total",
+                    "cement_sales_local",
+                    "cement_sales_export",
+                    "cement_production",
+                    "clinker_production_or_sales",
+                ],
+                "status": "missing",
+                "evidence_needed": (
+                    "official MLCF annual pages with source-bound period, unit, "
+                    "page-local row labels, and current/comparative column geometry"
+                ),
+            },
+            {
+                "requirement": "event_specific_operating_bridge",
+                "required_periods": 2,
+                "current_periods": 0,
+                "required_metrics": [
+                    "pre_pioc_mlcf_dispatches",
+                    "post_pioc_combined_dispatches",
+                    "pio_cement_dispatch_inclusion_basis",
+                ],
+                "status": "missing",
+                "evidence_needed": (
+                    "official bridge that separates MLCF standalone dispatches "
+                    "from PIOC-acquired dispatches after the February 2026 acquisition"
+                ),
+            },
+        ]
         return {
             "symbol": symbol,
             "status": "insufficient_aligned_annual_operating_history",
@@ -265,6 +299,30 @@ def _company_row(symbol: str, observations: list[dict[str, Any]]) -> dict[str, A
             "observation_count": 0,
             "annual_period_count": 0,
             "metrics": {},
+            "blocked_reason": (
+                "MLCF has partial cement operating context, but no retained source currently "
+                "supplies a five-year aligned annual MLCF operating series or a PIOC bridge "
+                "that can feed a model without mixing acquisition effects."
+            ),
+            "qualification_requirements": qualification_requirements,
+            "next_evidence_actions": [
+                {
+                    "action": "find_or_retain_annual_operating_table",
+                    "target": "five official MLCF annual periods",
+                    "acceptance": (
+                        "current-year and comparative columns must bind to the correct period, "
+                        "unit, page, source URL, document hash, and row labels"
+                    ),
+                },
+                {
+                    "action": "separate_pioc_acquisition_effect",
+                    "target": "FY2026 bridge between MLCF standalone and PIOC-included dispatches",
+                    "acceptance": (
+                        "do not use the post-acquisition combined dispatch figure as an MLCF "
+                        "standalone annual operating-history row"
+                    ),
+                },
+            ],
             "retained_evidence_summary": [
                 {
                     "document_id": "issuer:0041077dadc52bdcd3baaa54",
@@ -349,11 +407,14 @@ def build_state(
 
 
 def build() -> dict[str, Any]:
+    existing_state = load_json(OUT, {})
     result = build_state(
         load_json(STATE / "company_documents.json", {"documents": {}}),
         load_json(STATE / "company_intel" / "source_registry.json", {"tickers": {}}),
         load_json(STATE / "company_financial_series.json", {"tickers": {}}),
     )
+    if isinstance(existing_state, dict) and isinstance(existing_state.get("_meta"), dict):
+        result["_meta"] = existing_state["_meta"]
     save_json(OUT, result)
     print(
         "cement_operating_series: "
