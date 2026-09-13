@@ -1,0 +1,1496 @@
+{
+ "schema_version": 1,
+ "product_version": "historical_state_map_v1",
+ "kind": "historical_state_map",
+ "status": "available",
+ "reason": null,
+ "source_paths": {
+  "intelligence_cases": "state/company_intel/intelligence_cases.json",
+  "operating_events": "state/company_intel/operating_events.json",
+  "event_studies": "state/company_intel/event_studies.json",
+  "conditional_benchmarks": "state/company_intel/conditional_benchmarks.json",
+  "financial_truth_qualification": "state/company_intel/financial_truth_qualification.json",
+  "history": "state/history/{symbol}.json",
+  "indices": "state/indices.json"
+ },
+ "summary": {
+  "selected_symbols": [
+   "MARI",
+   "MLCF",
+   "PSO"
+  ],
+  "context_count": 4,
+  "observed_context_count": 4,
+  "with_pre_event_market_setup": 4,
+  "with_event_study": 3,
+  "with_publishable_benchmark_stats": 0,
+  "usable_for_scenario_calibration": 0
+ },
+ "contexts": [
+  {
+   "map_id": "hstate_c06a7097984cfe581773",
+   "case": {
+    "case_id": "case_mari_working_interest_observed_v1",
+    "symbol": "MARI",
+    "case_family": "e_and_p",
+    "case_type": "working_interest_acquisition",
+    "status": "Observed",
+    "epistemic_type": "reported_fact",
+    "as_of": "2026-08-31T16:43:41+05:00",
+    "alpha_lane": "A_e_and_p"
+   },
+   "event_binding": {
+    "case_event_id": "evt_eddfcc381018cb0dff43",
+    "matched_operating_event_id": "evt_90372372ccc7d6561be7",
+    "match_policy": "nearest_event_type_text_match",
+    "effective_date": "2026-02-27",
+    "event_type": "acquisition_divestment",
+    "event_subtype": "acquisition",
+    "source_quality_level": 1,
+    "source_lineage": [
+     {
+      "event_id": "evt_eddfcc381018cb0dff43",
+      "document_id": "psx:260446",
+      "document_title": "Material Information",
+      "document_published_at": "2025-09-30T10:46:00+05:00",
+      "document_retrieved_at": "2026-08-25T17:13:00+05:00",
+      "content_sha256": "c13ccb4de58ad005bca106942721490593fe219ff45906c68280ea7856192e42",
+      "source": "PSX DPS",
+      "source_url": "https://dps.psx.com.pk/download/document/260446.pdf",
+      "page": 1,
+      "text": "and Clause 5.6.1 (a) of the PSX Regulations, we hereby convey the following information: Acquisition of Working Interest in Peshawar Block (as an Operator) from Hycarbex- American Energ~ We are pleased to inform you that Mari Energies Limi…",
+      "event_date": "2025-09-30T10:46:00+05:00"
+     },
+     {
+      "event_id": "evt_5cc9795abc3e4cfdda51",
+      "document_id": "psx:271327",
+      "document_title": "Transmission of Quarterly Financial Statements for the Period Ended 2025-12-31",
+      "document_published_at": "2026-02-27T09:03:00+05:00",
+      "document_retrieved_at": "2026-08-31T16:43:41+05:00",
+      "content_sha256": "e53fccd6eca58c685dbf9225140056303be704b1f389b876ba33d87aa4b687b3",
+      "source": "PSX DPS",
+      "source_url": "https://dps.psx.com.pk/download/document/271327.pdf",
+      "page": 6,
+      "text": "x.  The Company entered into a farm-out agreement with Hycarbex-American Energy Inc. for acquisition of 65% working interest in Peshawar Block along with operatorship. FOR THE SIX MONTHS PERIOD ENDED DECEMBER 31 , 2025 05",
+      "event_date": "2026-02-27T09:03:00+05:00"
+     }
+    ]
+   },
+   "current_state_vector": {
+    "market_setup": {
+     "status": "available",
+     "event_date": "2026-02-27",
+     "baseline": {
+      "date": "2026-02-26",
+      "close": 612.94,
+      "provenance": {
+       "history_file": "state/history/MARI.json"
+      }
+     },
+     "pre_event_returns": {
+      "5d": {
+       "status": "available",
+       "return_pct": -7.298850574712645,
+       "start_date": "2026-02-19",
+       "end_date": "2026-02-26",
+       "reason": null
+      },
+      "15d": {
+       "status": "available",
+       "return_pct": -13.16900410823062,
+       "start_date": "2026-02-04",
+       "end_date": "2026-02-26",
+       "reason": null
+      },
+      "60d": {
+       "status": "available",
+       "return_pct": -13.714173095331939,
+       "start_date": "2025-12-02",
+       "end_date": "2026-02-26",
+       "reason": null
+      }
+     },
+     "pre_event_volume": {
+      "status": "available",
+      "median_5_session_to_60_session_ratio": 1.3031976040161004,
+      "reason": null
+     },
+     "policy": {
+      "strictly_pre_event": true,
+      "raw_price_not_adjusted_or_total_return": true
+     }
+    },
+    "operating_event": {
+     "status": "available",
+     "affected_drivers": [],
+     "estimated_scale": null,
+     "evidence_count": 1
+    },
+    "financial_truth": {
+     "status": "not_qualified",
+     "blocks_formal_outputs": true,
+     "reason": null,
+     "annual": {
+      "required": 5,
+      "present": 0,
+      "qualified_periods": [],
+      "direct_flow_statement_periods": [],
+      "direct_balance_sheet_periods": [],
+      "derived_ebitda_periods": [],
+      "derived_free_cash_flow_periods": [],
+      "required_direct_metrics": [
+       "revenue",
+       "gross_profit",
+       "operating_profit",
+       "finance_cost",
+       "profit_before_tax",
+       "tax_expense",
+       "profit_after_tax_attributable",
+       "basic_eps",
+       "operating_cash_flow",
+       "capital_expenditure",
+       "net_cash_from_investing_activities",
+       "net_cash_from_financing_activities",
+       "dividends_paid",
+       "cash_and_cash_equivalents",
+       "trade_receivables",
+       "inventories",
+       "total_current_assets",
+       "property_plant_equipment",
+       "total_assets",
+       "short_term_borrowings",
+       "long_term_borrowings",
+       "trade_payables",
+       "total_equity"
+      ],
+      "derived_metric_lineage": {
+       "ebitda": "reported_ebitda OR operating_profit + depreciation_amortization",
+       "free_cash_flow": "operating_cash_flow + capital_expenditure (reported signed cash-flow value)"
+      }
+     },
+     "reported_quarter": {
+      "required": 8,
+      "present": 0,
+      "qualified_periods": [],
+      "direct_flow_statement_periods": [],
+      "direct_balance_sheet_periods": [],
+      "derived_ebitda_periods": [],
+      "derived_free_cash_flow_periods": [],
+      "required_direct_metrics": [
+       "revenue",
+       "gross_profit",
+       "operating_profit",
+       "finance_cost",
+       "profit_before_tax",
+       "tax_expense",
+       "profit_after_tax_attributable",
+       "basic_eps",
+       "operating_cash_flow",
+       "capital_expenditure",
+       "net_cash_from_investing_activities",
+       "net_cash_from_financing_activities",
+       "dividends_paid",
+       "cash_and_cash_equivalents",
+       "trade_receivables",
+       "inventories",
+       "total_current_assets",
+       "property_plant_equipment",
+       "total_assets",
+       "short_term_borrowings",
+       "long_term_borrowings",
+       "trade_payables",
+       "total_equity"
+      ],
+      "derived_metric_lineage": {
+       "ebitda": "reported_ebitda OR operating_profit + depreciation_amortization",
+       "free_cash_flow": "operating_cash_flow + capital_expenditure (reported signed cash-flow value)"
+      }
+     }
+    },
+    "policy_regime": {
+     "status": "unavailable",
+     "reason": "macro_policy_regime_model_not_qualified",
+     "load_bearing_gap": true
+    }
+   },
+   "past_context": {
+    "semantics": "historical_context/not_forecast",
+    "evidence_trust_separation": "Similarity is descriptive past context and strictly separate from evidence trust or forward valuation.",
+    "event_study": {
+     "status": "available",
+     "study_id": "study_90372372ccc7d6561be7",
+     "data_cutoff": "2026-08-28",
+     "baseline": {
+      "selected_date": "2026-02-26",
+      "selected_close": 612.94,
+      "status": "available",
+      "reason": null,
+      "provenance": {
+       "history_file": "state/history/MARI.json",
+       "selected_date": "2026-02-26"
+      }
+     },
+     "horizons": {
+      "1Q": {
+       "status": "mature",
+       "return_pct": 9.222762423728259,
+       "target_date": "2026-05-27",
+       "selected_date": "2026-05-29",
+       "reason": null,
+       "provenance": {
+        "history_file": "state/history/MARI.json",
+        "baseline_date": "2026-02-26",
+        "endpoint_date": "2026-05-29",
+        "target_date": "2026-05-27"
+       }
+      },
+      "2Q": {
+       "status": "mature",
+       "return_pct": 8.379286716481204,
+       "target_date": "2026-08-27",
+       "selected_date": "2026-08-27",
+       "reason": null,
+       "provenance": {
+        "history_file": "state/history/MARI.json",
+        "baseline_date": "2026-02-26",
+        "endpoint_date": "2026-08-27",
+        "target_date": "2026-08-27"
+       }
+      },
+      "4Q": {
+       "status": "immature",
+       "return_pct": null,
+       "target_date": "2027-02-27",
+       "selected_date": null,
+       "reason": "target_after_last_bar",
+       "provenance": {
+        "history_file": "state/history/MARI.json",
+        "baseline_date": "2026-02-26",
+        "endpoint_date": null,
+        "target_date": "2027-02-27"
+       }
+      },
+      "8Q": {
+       "status": "immature",
+       "return_pct": null,
+       "target_date": "2028-02-27",
+       "selected_date": null,
+       "reason": "target_after_last_bar",
+       "provenance": {
+        "history_file": "state/history/MARI.json",
+        "baseline_date": "2026-02-26",
+        "endpoint_date": null,
+        "target_date": "2028-02-27"
+       }
+      }
+     },
+     "kse100_relative": {
+      "stock_return_pct": {
+       "1Q": null,
+       "2Q": null,
+       "4Q": null,
+       "8Q": null
+      },
+      "index_return_pct": {
+       "1Q": null,
+       "2Q": null,
+       "4Q": null,
+       "8Q": null
+      },
+      "relative_return_pct": {
+       "1Q": null,
+       "2Q": null,
+       "4Q": null,
+       "8Q": null
+      },
+      "returns_pct": {
+       "1Q": null,
+       "2Q": null,
+       "4Q": null,
+       "8Q": null
+      },
+      "semantics": "stock_raw_price_return_minus_KSE100_raw_price_return",
+      "reasons": {
+       "1Q": "missing_exact_index_dates",
+       "2Q": "missing_exact_index_dates",
+       "4Q": "missing_exact_index_dates",
+       "8Q": "missing_exact_index_dates"
+      },
+      "provenance": {
+       "indices_file": "state/indices.json",
+       "selected_dates": {
+        "1Q": [
+         "2026-02-26",
+         "2026-05-29"
+        ],
+        "2Q": [
+         "2026-02-26",
+         "2026-08-27"
+        ],
+        "4Q": [
+         "2026-02-26",
+         null
+        ],
+        "8Q": [
+         "2026-02-26",
+         null
+        ]
+       }
+      }
+     },
+     "limitations": [
+      "raw_price_return_not_adjusted_or_total_return",
+      "historical_association_not_causal",
+      "current_sector_analogues_survivorship_bias"
+     ]
+    },
+    "strict_analogue_benchmark": {
+     "status": "candidate_history_present",
+     "strict_candidate_count": 2,
+     "aggregate_ready_horizons": [],
+     "candidate_evidence_summary": {
+      "evidence_status": "thin_history_present",
+      "candidate_counts": {
+       "same_company_exact": 2,
+       "same_sector_exact": 0
+      },
+      "mature_horizon_counts": {
+       "1Q": 2,
+       "2Q": 0,
+       "4Q": 0,
+       "8Q": 0
+      },
+      "latest_prior_candidate_date": "2025-11-13",
+      "limitation": "Descriptive prior-event evidence only; it is not causal, a forecast, valuation or advice."
+     },
+     "horizon_aggregates": {
+      "1Q": {
+       "status": "suppressed",
+       "n": 2,
+       "reason": "n_lt_3",
+       "stats": {
+        "mean_return_pct": null,
+        "median_return_pct": null,
+        "min_return_pct": null,
+        "max_return_pct": null
+       }
+      },
+      "2Q": {
+       "status": "suppressed",
+       "n": 0,
+       "reason": "n_lt_3",
+       "stats": {
+        "mean_return_pct": null,
+        "median_return_pct": null,
+        "min_return_pct": null,
+        "max_return_pct": null
+       }
+      },
+      "4Q": {
+       "status": "suppressed",
+       "n": 0,
+       "reason": "n_lt_3",
+       "stats": {
+        "mean_return_pct": null,
+        "median_return_pct": null,
+        "min_return_pct": null,
+        "max_return_pct": null
+       }
+      },
+      "8Q": {
+       "status": "suppressed",
+       "n": 0,
+       "reason": "n_lt_3",
+       "stats": {
+        "mean_return_pct": null,
+        "median_return_pct": null,
+        "min_return_pct": null,
+        "max_return_pct": null
+       }
+      }
+     },
+     "policy": {
+      "event_type": "exact",
+      "event_subtype": "exact",
+      "candidate_date": "strictly_before_target",
+      "same_company": "same_symbol",
+      "same_sector": "same_current_sector_other_symbol",
+      "returns": "reuse_target_event_study_analogue_outcomes",
+      "minimum_aggregate_sample": 3
+     }
+    },
+    "usable_for_scenario_calibration": false,
+    "calibration_blockers": [
+     "financial_truth_not_qualified",
+     "no_minimum_strict_analogue_sample"
+    ]
+   },
+   "answer_contract": {
+    "can_answer_then_vs_now": true,
+    "can_publish_benchmark_stats": false,
+    "can_feed_forecast_or_valuation": false,
+    "why": "Historical state context is descriptive until financial truth, sector-model inputs, and analogue sample gates pass."
+   }
+  },
+  {
+   "map_id": "hstate_1fe725675c1299e0f4af",
+   "case": {
+    "case_id": "case_mari_sky47_karakoram1_launch_sales_observed_v1",
+    "symbol": "MARI",
+    "case_family": "ai_data_centre",
+    "case_type": "campus_launch_sales_led",
+    "status": "Observed",
+    "epistemic_type": "reported_fact",
+    "as_of": "2026-08-31T19:11:28+05:00",
+    "alpha_lane": "A_e_and_p"
+   },
+   "event_binding": {
+    "case_event_id": "evt_e9068dbe4b6b8493a0cb",
+    "matched_operating_event_id": "evt_e9068dbe4b6b8493a0cb",
+    "match_policy": "direct_case_event_id",
+    "effective_date": "2026-07-24",
+    "event_type": "product_launch",
+    "event_subtype": "product_launch",
+    "source_quality_level": 1,
+    "source_lineage": [
+     {
+      "canonical_event_id": "evt_e9068dbe4b6b8493a0cb",
+      "canonical_event_id_binding": "exact_canonical_operating_event",
+      "document_id": "psx:280337",
+      "document_title": "Launch of Pakistan First and Largest Purpose-Built AI Ready Data Centre Campus",
+      "document_published_at": "2026-07-24T16:26:00+05:00",
+      "document_retrieved_at": "2026-08-31T19:11:28+05:00",
+      "content_sha256": "acdfaac317a7f2650a9ac11f2e98b69ebf37ce30a3134b51b61c084531286996",
+      "source": "PSX DPS",
+      "source_url": "https://dps.psx.com.pk/download/document/280337.pdf",
+      "page": 1,
+      "text": "ri Energies Limited (through its wholly owned subsidiary, Mari Technologies Limited), has officially launched Karakoram-01, Pakistan’s first and largest purpose-built, AI-ready data center campus. The Honourable Prime Minister of Pakistan…",
+      "evidence_sha256": "e6e126be616ee0fe1e656501b3a63953ba1c64b36bd93e545050b741e4db551b"
+     }
+    ]
+   },
+   "current_state_vector": {
+    "market_setup": {
+     "status": "available",
+     "event_date": "2026-07-24",
+     "baseline": {
+      "date": "2026-07-23",
+      "close": 636.99,
+      "provenance": {
+       "history_file": "state/history/MARI.json"
+      }
+     },
+     "pre_event_returns": {
+      "5d": {
+       "status": "available",
+       "return_pct": -3.7008481110254454,
+       "start_date": "2026-07-16",
+       "end_date": "2026-07-23",
+       "reason": null
+      },
+      "15d": {
+       "status": "available",
+       "return_pct": -5.962679736632315,
+       "start_date": "2026-07-02",
+       "end_date": "2026-07-23",
+       "reason": null
+      },
+      "60d": {
+       "status": "available",
+       "return_pct": -4.358727966127141,
+       "start_date": "2026-04-22",
+       "end_date": "2026-07-23",
+       "reason": null
+      }
+     },
+     "pre_event_volume": {
+      "status": "available",
+      "median_5_session_to_60_session_ratio": 0.6718093840737452,
+      "reason": null
+     },
+     "policy": {
+      "strictly_pre_event": true,
+      "raw_price_not_adjusted_or_total_return": true
+     }
+    },
+    "operating_event": {
+     "status": "available",
+     "affected_drivers": [],
+     "estimated_scale": null,
+     "evidence_count": 1
+    },
+    "financial_truth": {
+     "status": "not_qualified",
+     "blocks_formal_outputs": true,
+     "reason": null,
+     "annual": {
+      "required": 5,
+      "present": 0,
+      "qualified_periods": [],
+      "direct_flow_statement_periods": [],
+      "direct_balance_sheet_periods": [],
+      "derived_ebitda_periods": [],
+      "derived_free_cash_flow_periods": [],
+      "required_direct_metrics": [
+       "revenue",
+       "gross_profit",
+       "operating_profit",
+       "finance_cost",
+       "profit_before_tax",
+       "tax_expense",
+       "profit_after_tax_attributable",
+       "basic_eps",
+       "operating_cash_flow",
+       "capital_expenditure",
+       "net_cash_from_investing_activities",
+       "net_cash_from_financing_activities",
+       "dividends_paid",
+       "cash_and_cash_equivalents",
+       "trade_receivables",
+       "inventories",
+       "total_current_assets",
+       "property_plant_equipment",
+       "total_assets",
+       "short_term_borrowings",
+       "long_term_borrowings",
+       "trade_payables",
+       "total_equity"
+      ],
+      "derived_metric_lineage": {
+       "ebitda": "reported_ebitda OR operating_profit + depreciation_amortization",
+       "free_cash_flow": "operating_cash_flow + capital_expenditure (reported signed cash-flow value)"
+      }
+     },
+     "reported_quarter": {
+      "required": 8,
+      "present": 0,
+      "qualified_periods": [],
+      "direct_flow_statement_periods": [],
+      "direct_balance_sheet_periods": [],
+      "derived_ebitda_periods": [],
+      "derived_free_cash_flow_periods": [],
+      "required_direct_metrics": [
+       "revenue",
+       "gross_profit",
+       "operating_profit",
+       "finance_cost",
+       "profit_before_tax",
+       "tax_expense",
+       "profit_after_tax_attributable",
+       "basic_eps",
+       "operating_cash_flow",
+       "capital_expenditure",
+       "net_cash_from_investing_activities",
+       "net_cash_from_financing_activities",
+       "dividends_paid",
+       "cash_and_cash_equivalents",
+       "trade_receivables",
+       "inventories",
+       "total_current_assets",
+       "property_plant_equipment",
+       "total_assets",
+       "short_term_borrowings",
+       "long_term_borrowings",
+       "trade_payables",
+       "total_equity"
+      ],
+      "derived_metric_lineage": {
+       "ebitda": "reported_ebitda OR operating_profit + depreciation_amortization",
+       "free_cash_flow": "operating_cash_flow + capital_expenditure (reported signed cash-flow value)"
+      }
+     }
+    },
+    "policy_regime": {
+     "status": "unavailable",
+     "reason": "macro_policy_regime_model_not_qualified",
+     "load_bearing_gap": true
+    }
+   },
+   "past_context": {
+    "semantics": "historical_context/not_forecast",
+    "evidence_trust_separation": "Similarity is descriptive past context and strictly separate from evidence trust or forward valuation.",
+    "event_study": {
+     "status": "available",
+     "study_id": "study_e9068dbe4b6b8493a0cb",
+     "data_cutoff": "2026-08-28",
+     "baseline": {
+      "selected_date": "2026-07-23",
+      "selected_close": 636.99,
+      "status": "available",
+      "reason": null,
+      "provenance": {
+       "history_file": "state/history/MARI.json",
+       "selected_date": "2026-07-23"
+      }
+     },
+     "horizons": {
+      "1Q": {
+       "status": "immature",
+       "return_pct": null,
+       "target_date": "2026-10-24",
+       "selected_date": null,
+       "reason": "target_after_last_bar",
+       "provenance": {
+        "history_file": "state/history/MARI.json",
+        "baseline_date": "2026-07-23",
+        "endpoint_date": null,
+        "target_date": "2026-10-24"
+       }
+      },
+      "2Q": {
+       "status": "immature",
+       "return_pct": null,
+       "target_date": "2027-01-24",
+       "selected_date": null,
+       "reason": "target_after_last_bar",
+       "provenance": {
+        "history_file": "state/history/MARI.json",
+        "baseline_date": "2026-07-23",
+        "endpoint_date": null,
+        "target_date": "2027-01-24"
+       }
+      },
+      "4Q": {
+       "status": "immature",
+       "return_pct": null,
+       "target_date": "2027-07-24",
+       "selected_date": null,
+       "reason": "target_after_last_bar",
+       "provenance": {
+        "history_file": "state/history/MARI.json",
+        "baseline_date": "2026-07-23",
+        "endpoint_date": null,
+        "target_date": "2027-07-24"
+       }
+      },
+      "8Q": {
+       "status": "immature",
+       "return_pct": null,
+       "target_date": "2028-07-24",
+       "selected_date": null,
+       "reason": "target_after_last_bar",
+       "provenance": {
+        "history_file": "state/history/MARI.json",
+        "baseline_date": "2026-07-23",
+        "endpoint_date": null,
+        "target_date": "2028-07-24"
+       }
+      }
+     },
+     "kse100_relative": {
+      "stock_return_pct": {
+       "1Q": null,
+       "2Q": null,
+       "4Q": null,
+       "8Q": null
+      },
+      "index_return_pct": {
+       "1Q": null,
+       "2Q": null,
+       "4Q": null,
+       "8Q": null
+      },
+      "relative_return_pct": {
+       "1Q": null,
+       "2Q": null,
+       "4Q": null,
+       "8Q": null
+      },
+      "returns_pct": {
+       "1Q": null,
+       "2Q": null,
+       "4Q": null,
+       "8Q": null
+      },
+      "semantics": "stock_raw_price_return_minus_KSE100_raw_price_return",
+      "reasons": {
+       "1Q": "missing_exact_index_dates",
+       "2Q": "missing_exact_index_dates",
+       "4Q": "missing_exact_index_dates",
+       "8Q": "missing_exact_index_dates"
+      },
+      "provenance": {
+       "indices_file": "state/indices.json",
+       "selected_dates": {
+        "1Q": [
+         "2026-07-23",
+         null
+        ],
+        "2Q": [
+         "2026-07-23",
+         null
+        ],
+        "4Q": [
+         "2026-07-23",
+         null
+        ],
+        "8Q": [
+         "2026-07-23",
+         null
+        ]
+       }
+      }
+     },
+     "limitations": [
+      "raw_price_return_not_adjusted_or_total_return",
+      "historical_association_not_causal",
+      "current_sector_analogues_survivorship_bias"
+     ]
+    },
+    "strict_analogue_benchmark": {
+     "status": "no_prior_exact_analogues",
+     "strict_candidate_count": 0,
+     "aggregate_ready_horizons": [],
+     "candidate_evidence_summary": {
+      "evidence_status": "no_prior_exact_analogues",
+      "candidate_counts": {
+       "same_company_exact": 0,
+       "same_sector_exact": 0
+      },
+      "mature_horizon_counts": {
+       "1Q": 0,
+       "2Q": 0,
+       "4Q": 0,
+       "8Q": 0
+      },
+      "latest_prior_candidate_date": null,
+      "limitation": "Descriptive prior-event evidence only; it is not causal, a forecast, valuation or advice."
+     },
+     "horizon_aggregates": {
+      "1Q": {
+       "status": "suppressed",
+       "n": 0,
+       "reason": "n_lt_3",
+       "stats": {
+        "mean_return_pct": null,
+        "median_return_pct": null,
+        "min_return_pct": null,
+        "max_return_pct": null
+       }
+      },
+      "2Q": {
+       "status": "suppressed",
+       "n": 0,
+       "reason": "n_lt_3",
+       "stats": {
+        "mean_return_pct": null,
+        "median_return_pct": null,
+        "min_return_pct": null,
+        "max_return_pct": null
+       }
+      },
+      "4Q": {
+       "status": "suppressed",
+       "n": 0,
+       "reason": "n_lt_3",
+       "stats": {
+        "mean_return_pct": null,
+        "median_return_pct": null,
+        "min_return_pct": null,
+        "max_return_pct": null
+       }
+      },
+      "8Q": {
+       "status": "suppressed",
+       "n": 0,
+       "reason": "n_lt_3",
+       "stats": {
+        "mean_return_pct": null,
+        "median_return_pct": null,
+        "min_return_pct": null,
+        "max_return_pct": null
+       }
+      }
+     },
+     "policy": {
+      "event_type": "exact",
+      "event_subtype": "exact",
+      "candidate_date": "strictly_before_target",
+      "same_company": "same_symbol",
+      "same_sector": "same_current_sector_other_symbol",
+      "returns": "reuse_target_event_study_analogue_outcomes",
+      "minimum_aggregate_sample": 3
+     }
+    },
+    "usable_for_scenario_calibration": false,
+    "calibration_blockers": [
+     "financial_truth_not_qualified",
+     "no_minimum_strict_analogue_sample"
+    ]
+   },
+   "answer_contract": {
+    "can_answer_then_vs_now": true,
+    "can_publish_benchmark_stats": false,
+    "can_feed_forecast_or_valuation": false,
+    "why": "Historical state context is descriptive until financial truth, sector-model inputs, and analogue sample gates pass."
+   }
+  },
+  {
+   "map_id": "hstate_ccfa5a11589e20d1f6b3",
+   "case": {
+    "case_id": "case_mlcf_pioc_control_observed_v1",
+    "symbol": "MLCF",
+    "case_family": "industrial_cement",
+    "case_type": "acquisition_control",
+    "status": "Observed",
+    "epistemic_type": "reported_fact",
+    "as_of": "2026-08-31T15:13:14+05:00",
+    "alpha_lane": "B_industrial_cement"
+   },
+   "event_binding": {
+    "case_event_id": "evt_cb44dc32c91b0c5712a5",
+    "matched_operating_event_id": "evt_6e9b520a122b8f2d4a59",
+    "match_policy": "nearest_event_type_text_match",
+    "effective_date": "2025-12-18",
+    "event_type": "acquisition_divestment",
+    "event_subtype": "acquisition",
+    "source_quality_level": 1,
+    "source_lineage": [
+     {
+      "event_id": "evt_cb44dc32c91b0c5712a5",
+      "document_id": "psx:267429",
+      "document_title": "MLCF-Material Information to PSX",
+      "document_published_at": "2025-12-18T12:52:00+05:00",
+      "document_retrieved_at": "2026-08-18T01:54:00+05:00",
+      "content_sha256": "98cf83c9a286999c8006a7f73f490248f26694c9edbfc815b3dbd9188ee22a54",
+      "source": "PSX DPS",
+      "source_url": "https://dps.psx.com.pk/download/document/267429.pdf",
+      "page": 3,
+      "text": "8904_5, Fax: +9242.38373067 EqnaH: mjgfl@kmlg.earn PUBLIC ANNOUNCEMENT OF PUBLIC OFFER TO ACQUIRE UP TO 26,623,096 SHARES (1.E. 11.72% SHARES) AND CONTROL OF PIONEER CEMENT LIMITED (“PIOC” OR 'TARGrr COMPANY”) BY MAPLE LEAF CEMENT FACrORY…",
+      "event_date": "2025-12-18T12:52:00+05:00"
+     },
+     {
+      "event_id": "evt_25bfb52e721191c7b644",
+      "document_id": "psx:275425",
+      "document_title": "Transmission of Quarterly Financial Statements for the Period Ended 31.03.2026",
+      "document_published_at": "2026-04-28T10:25:00+05:00",
+      "document_retrieved_at": "2026-08-31T15:13:14+05:00",
+      "content_sha256": "744a0c710043d6e0a7de36bb99f21ca50f0f9346f6972b957f6733a47deae11f",
+      "source": "PSX DPS",
+      "source_url": "https://dps.psx.com.pk/download/document/275425.pdf",
+      "page": 4,
+      "text": "in local market and inclusion of Pioneer Cement Limited’s dispatches in total due to its acquisition during the month of February 2026. The export sales volume reduced from 173,489 tons to 78,135 tons, a decline of 54.96% from the previous…",
+      "event_date": "2026-04-28T10:25:00+05:00"
+     }
+    ]
+   },
+   "current_state_vector": {
+    "market_setup": {
+     "status": "available",
+     "event_date": "2025-12-18",
+     "baseline": {
+      "date": "2025-12-17",
+      "close": 127.13,
+      "provenance": {
+       "history_file": "state/history/MLCF.json"
+      }
+     },
+     "pre_event_returns": {
+      "5d": {
+       "status": "available",
+       "return_pct": 4.187838059334537,
+       "start_date": "2025-12-10",
+       "end_date": "2025-12-17",
+       "reason": null
+      },
+      "15d": {
+       "status": "available",
+       "return_pct": 24.041369889745347,
+       "start_date": "2025-11-26",
+       "end_date": "2025-12-17",
+       "reason": null
+      },
+      "60d": {
+       "status": "available",
+       "return_pct": 18.28247115742463,
+       "start_date": "2025-09-24",
+       "end_date": "2025-12-17",
+       "reason": null
+      }
+     },
+     "pre_event_volume": {
+      "status": "available",
+      "median_5_session_to_60_session_ratio": 2.358201164285687,
+      "reason": null
+     },
+     "policy": {
+      "strictly_pre_event": true,
+      "raw_price_not_adjusted_or_total_return": true
+     }
+    },
+    "operating_event": {
+     "status": "available",
+     "affected_drivers": [],
+     "estimated_scale": null,
+     "evidence_count": 1
+    },
+    "financial_truth": {
+     "status": "not_qualified",
+     "blocks_formal_outputs": true,
+     "reason": null,
+     "annual": {
+      "required": 5,
+      "present": 0,
+      "qualified_periods": [],
+      "direct_flow_statement_periods": [],
+      "direct_balance_sheet_periods": [],
+      "derived_ebitda_periods": [],
+      "derived_free_cash_flow_periods": [],
+      "required_direct_metrics": [
+       "revenue",
+       "gross_profit",
+       "operating_profit",
+       "finance_cost",
+       "profit_before_tax",
+       "tax_expense",
+       "profit_after_tax_attributable",
+       "basic_eps",
+       "operating_cash_flow",
+       "capital_expenditure",
+       "net_cash_from_investing_activities",
+       "net_cash_from_financing_activities",
+       "dividends_paid",
+       "cash_and_cash_equivalents",
+       "trade_receivables",
+       "inventories",
+       "total_current_assets",
+       "property_plant_equipment",
+       "total_assets",
+       "short_term_borrowings",
+       "long_term_borrowings",
+       "trade_payables",
+       "total_equity"
+      ],
+      "derived_metric_lineage": {
+       "ebitda": "reported_ebitda OR operating_profit + depreciation_amortization",
+       "free_cash_flow": "operating_cash_flow + capital_expenditure (reported signed cash-flow value)"
+      }
+     },
+     "reported_quarter": {
+      "required": 8,
+      "present": 0,
+      "qualified_periods": [],
+      "direct_flow_statement_periods": [],
+      "direct_balance_sheet_periods": [],
+      "derived_ebitda_periods": [],
+      "derived_free_cash_flow_periods": [],
+      "required_direct_metrics": [
+       "revenue",
+       "gross_profit",
+       "operating_profit",
+       "finance_cost",
+       "profit_before_tax",
+       "tax_expense",
+       "profit_after_tax_attributable",
+       "basic_eps",
+       "operating_cash_flow",
+       "capital_expenditure",
+       "net_cash_from_investing_activities",
+       "net_cash_from_financing_activities",
+       "dividends_paid",
+       "cash_and_cash_equivalents",
+       "trade_receivables",
+       "inventories",
+       "total_current_assets",
+       "property_plant_equipment",
+       "total_assets",
+       "short_term_borrowings",
+       "long_term_borrowings",
+       "trade_payables",
+       "total_equity"
+      ],
+      "derived_metric_lineage": {
+       "ebitda": "reported_ebitda OR operating_profit + depreciation_amortization",
+       "free_cash_flow": "operating_cash_flow + capital_expenditure (reported signed cash-flow value)"
+      }
+     }
+    },
+    "policy_regime": {
+     "status": "unavailable",
+     "reason": "macro_policy_regime_model_not_qualified",
+     "load_bearing_gap": true
+    }
+   },
+   "past_context": {
+    "semantics": "historical_context/not_forecast",
+    "evidence_trust_separation": "Similarity is descriptive past context and strictly separate from evidence trust or forward valuation.",
+    "event_study": {
+     "status": "available",
+     "study_id": "study_6e9b520a122b8f2d4a59",
+     "data_cutoff": "2026-08-28",
+     "baseline": {
+      "selected_date": "2025-12-17",
+      "selected_close": 127.13,
+      "status": "available",
+      "reason": null,
+      "provenance": {
+       "history_file": "state/history/MLCF.json",
+       "selected_date": "2025-12-17"
+      }
+     },
+     "horizons": {
+      "1Q": {
+       "status": "mature",
+       "return_pct": -34.539447809329026,
+       "target_date": "2026-03-18",
+       "selected_date": "2026-03-18",
+       "reason": null,
+       "provenance": {
+        "history_file": "state/history/MLCF.json",
+        "baseline_date": "2025-12-17",
+        "endpoint_date": "2026-03-18",
+        "target_date": "2026-03-18"
+       }
+      },
+      "2Q": {
+       "status": "mature",
+       "return_pct": -19.397467159600414,
+       "target_date": "2026-06-18",
+       "selected_date": "2026-06-18",
+       "reason": null,
+       "provenance": {
+        "history_file": "state/history/MLCF.json",
+        "baseline_date": "2025-12-17",
+        "endpoint_date": "2026-06-18",
+        "target_date": "2026-06-18"
+       }
+      },
+      "4Q": {
+       "status": "immature",
+       "return_pct": null,
+       "target_date": "2026-12-18",
+       "selected_date": null,
+       "reason": "target_after_last_bar",
+       "provenance": {
+        "history_file": "state/history/MLCF.json",
+        "baseline_date": "2025-12-17",
+        "endpoint_date": null,
+        "target_date": "2026-12-18"
+       }
+      },
+      "8Q": {
+       "status": "immature",
+       "return_pct": null,
+       "target_date": "2027-12-18",
+       "selected_date": null,
+       "reason": "target_after_last_bar",
+       "provenance": {
+        "history_file": "state/history/MLCF.json",
+        "baseline_date": "2025-12-17",
+        "endpoint_date": null,
+        "target_date": "2027-12-18"
+       }
+      }
+     },
+     "kse100_relative": {
+      "stock_return_pct": {
+       "1Q": null,
+       "2Q": null,
+       "4Q": null,
+       "8Q": null
+      },
+      "index_return_pct": {
+       "1Q": null,
+       "2Q": null,
+       "4Q": null,
+       "8Q": null
+      },
+      "relative_return_pct": {
+       "1Q": null,
+       "2Q": null,
+       "4Q": null,
+       "8Q": null
+      },
+      "returns_pct": {
+       "1Q": null,
+       "2Q": null,
+       "4Q": null,
+       "8Q": null
+      },
+      "semantics": "stock_raw_price_return_minus_KSE100_raw_price_return",
+      "reasons": {
+       "1Q": "missing_exact_index_dates",
+       "2Q": "missing_exact_index_dates",
+       "4Q": "missing_exact_index_dates",
+       "8Q": "missing_exact_index_dates"
+      },
+      "provenance": {
+       "indices_file": "state/indices.json",
+       "selected_dates": {
+        "1Q": [
+         "2025-12-17",
+         "2026-03-18"
+        ],
+        "2Q": [
+         "2025-12-17",
+         "2026-06-18"
+        ],
+        "4Q": [
+         "2025-12-17",
+         null
+        ],
+        "8Q": [
+         "2025-12-17",
+         null
+        ]
+       }
+      }
+     },
+     "limitations": [
+      "raw_price_return_not_adjusted_or_total_return",
+      "historical_association_not_causal",
+      "current_sector_analogues_survivorship_bias"
+     ]
+    },
+    "strict_analogue_benchmark": {
+     "status": "no_prior_exact_analogues",
+     "strict_candidate_count": 0,
+     "aggregate_ready_horizons": [],
+     "candidate_evidence_summary": {
+      "evidence_status": "no_prior_exact_analogues",
+      "candidate_counts": {
+       "same_company_exact": 0,
+       "same_sector_exact": 0
+      },
+      "mature_horizon_counts": {
+       "1Q": 0,
+       "2Q": 0,
+       "4Q": 0,
+       "8Q": 0
+      },
+      "latest_prior_candidate_date": null,
+      "limitation": "Descriptive prior-event evidence only; it is not causal, a forecast, valuation or advice."
+     },
+     "horizon_aggregates": {
+      "1Q": {
+       "status": "suppressed",
+       "n": 0,
+       "reason": "n_lt_3",
+       "stats": {
+        "mean_return_pct": null,
+        "median_return_pct": null,
+        "min_return_pct": null,
+        "max_return_pct": null
+       }
+      },
+      "2Q": {
+       "status": "suppressed",
+       "n": 0,
+       "reason": "n_lt_3",
+       "stats": {
+        "mean_return_pct": null,
+        "median_return_pct": null,
+        "min_return_pct": null,
+        "max_return_pct": null
+       }
+      },
+      "4Q": {
+       "status": "suppressed",
+       "n": 0,
+       "reason": "n_lt_3",
+       "stats": {
+        "mean_return_pct": null,
+        "median_return_pct": null,
+        "min_return_pct": null,
+        "max_return_pct": null
+       }
+      },
+      "8Q": {
+       "status": "suppressed",
+       "n": 0,
+       "reason": "n_lt_3",
+       "stats": {
+        "mean_return_pct": null,
+        "median_return_pct": null,
+        "min_return_pct": null,
+        "max_return_pct": null
+       }
+      }
+     },
+     "policy": {
+      "event_type": "exact",
+      "event_subtype": "exact",
+      "candidate_date": "strictly_before_target",
+      "same_company": "same_symbol",
+      "same_sector": "same_current_sector_other_symbol",
+      "returns": "reuse_target_event_study_analogue_outcomes",
+      "minimum_aggregate_sample": 3
+     }
+    },
+    "usable_for_scenario_calibration": false,
+    "calibration_blockers": [
+     "financial_truth_not_qualified",
+     "no_minimum_strict_analogue_sample"
+    ]
+   },
+   "answer_contract": {
+    "can_answer_then_vs_now": true,
+    "can_publish_benchmark_stats": false,
+    "can_feed_forecast_or_valuation": false,
+    "why": "Historical state context is descriptive until financial truth, sector-model inputs, and analogue sample gates pass."
+   }
+  },
+  {
+   "map_id": "hstate_fcc5fdaa84fb1540df7e",
+   "case": {
+    "case_id": "case_pso_fy2025_distribution_network_expansion_observed_v1",
+    "symbol": "PSO",
+    "case_family": "distribution_network_expansion",
+    "case_type": "fuel_retail_and_convenience_channel_expansion",
+    "status": "Observed",
+    "epistemic_type": "reported_fact",
+    "as_of": "2025-10-02T08:48:00+05:00",
+    "alpha_lane": "C_sales_led"
+   },
+   "event_binding": {
+    "case_event_id": "evt_efe3e2c704a0e53e7d09",
+    "matched_operating_event_id": "evt_efe3e2c704a0e53e7d09",
+    "match_policy": "direct_case_event_id",
+    "effective_date": "2025-06-30",
+    "event_type": "distribution_network_expansion",
+    "event_subtype": "fuel_retail_and_convenience_channel",
+    "source_quality_level": 1,
+    "source_lineage": [
+     {
+      "canonical_event_id": "evt_efe3e2c704a0e53e7d09",
+      "canonical_event_id_binding": "exact_canonical_operating_event",
+      "document_id": "psx:260771",
+      "document_title": "Transmission of Annual Report for the year ended June 30, 2025",
+      "document_published_at": "2025-10-02T08:48:00+05:00",
+      "document_retrieved_at": null,
+      "content_sha256": "c336ba824d4010dff3878779c31bbc76fd85ab6704b4ecb4837de821f9bd0a2d",
+      "source": "PSX DPS",
+      "source_url": "https://dps.psx.com.pk/download/document/260771.pdf",
+      "page": 15,
+      "text": "s. In parallel, major advancements were made in logistics with the successful completion of fuel handling facilities at all 8 designated railway sites, enhancing intermodal eﬃciency and strengthening nationwide fuel distribution capabilities. Your company has expanded its retail presence, adding 107 new outlets in FY25 to reach a network of 3,649 across Pakistan. Beyond fuel, PSO is redefining the forecourt experience with over 310 convenience stores, bringing everyday essentials closer to customers and transforming stations into destinations of choice. Raising the bar in retail excellence, PSO launched VIBE, a pioneering concept store in Karachi, Lahore, and Islamabad, with plans to transform convenience stores nationwide into innovative concept outlets, setting new benchmarks and redefining the standards of convenience retailing. Building on this transformation, your company introduced the first phase of Asaan Safar, an innovative service designed to enhance the road travel experience in Pakistan. Throu",
+      "evidence_sha256": "6c4021506293daf225d5ab741690383fd4f94ad0404295765187294acb3f0b37",
+      "event_date": "2025-06-30"
+     },
+     {
+      "canonical_event_id": "evt_efe3e2c704a0e53e7d09",
+      "canonical_event_id_binding": "exact_canonical_operating_event",
+      "document_id": "psx:260771",
+      "document_title": "Transmission of Annual Report for the year ended June 30, 2025",
+      "document_published_at": "2025-10-02T08:48:00+05:00",
+      "document_retrieved_at": null,
+      "content_sha256": "c336ba824d4010dff3878779c31bbc76fd85ab6704b4ecb4837de821f9bd0a2d",
+      "source": "PSX DPS",
+      "source_url": "https://dps.psx.com.pk/download/document/260771.pdf",
+      "page": 310,
+      "text": "incurred by the Group on underground storage tanks, dispensing units, other equipment, construction and related work. It also includes cost incurred on modernisation and development under the \"New Vision Scheme\" on approximately 2,334 (2024: 2,250) out of the total 3,649 (2024: 3,580) retail filling station of dealers and consumer sites. In view of large number of outlets and consumer sites, the Group considers it impracticable to disclose particulars of assets not in the possession of the Group as required under the Fourth Schedule to the Companies Act, 2017. Furthermore, gas cylinders amounting to Rs. 655,287 (2024: Rs. 527,314) are not in possession of the Group. 5.2 The details of operating assets disposed off during the year are as follows: 5.1.3 Included in operating assets are assets having net book value of Rs. 1,194,298 (2024: Rs. 1,252,041) in respect of Group's share in the joint operation. Certain assets relating to joint operation in New Islamabad International Airport are not in the possessi",
+      "evidence_sha256": "6a39317687989baae4ac92c094bbfd1b87c450fb857b250f6f6e9fd5cf0fa17b",
+      "event_date": "2025-06-30"
+     }
+    ]
+   },
+   "current_state_vector": {
+    "market_setup": {
+     "status": "available",
+     "event_date": "2025-06-30",
+     "baseline": {
+      "date": "2025-06-27",
+      "close": 379.54,
+      "provenance": {
+       "history_file": "state/history/PSO.json"
+      }
+     },
+     "pre_event_returns": {
+      "5d": {
+       "status": "available",
+       "return_pct": 1.9474065916355476,
+       "start_date": "2025-06-20",
+       "end_date": "2025-06-27",
+       "reason": null
+      },
+      "15d": {
+       "status": "available",
+       "return_pct": 2.0076867256161535,
+       "start_date": "2025-06-04",
+       "end_date": "2025-06-27",
+       "reason": null
+      },
+      "60d": {
+       "status": "available",
+       "return_pct": -9.389548069806853,
+       "start_date": "2025-03-25",
+       "end_date": "2025-06-27",
+       "reason": null
+      }
+     },
+     "pre_event_volume": {
+      "status": "available",
+      "median_5_session_to_60_session_ratio": 1.4374978604927142,
+      "reason": null
+     },
+     "policy": {
+      "strictly_pre_event": true,
+      "raw_price_not_adjusted_or_total_return": true
+     }
+    },
+    "operating_event": {
+     "status": "available",
+     "affected_drivers": [
+      "retail_footprint",
+      "forecourt_convenience",
+      "fuel_distribution_reach"
+     ],
+     "estimated_scale": {
+      "fy2025_gross_new_outlets_reported": 107,
+      "fy2024_ending_network_outlets_reported": 3580,
+      "fy2025_ending_network_outlets_reported": 3649,
+      "derived_net_active_change_outlets": 69,
+      "unresolved_difference_outlets": 38,
+      "formula": "3649 - 3580 = 69; 107 - 69 = 38 unresolved difference",
+      "inference_policy": "the 38-outlet difference is not asserted as closures"
+     },
+     "evidence_count": 2
+    },
+    "financial_truth": {
+     "status": "not_qualified",
+     "blocks_formal_outputs": true,
+     "reason": null,
+     "annual": {
+      "required": 5,
+      "present": 0,
+      "qualified_periods": [],
+      "direct_flow_statement_periods": [],
+      "direct_balance_sheet_periods": [],
+      "derived_ebitda_periods": [],
+      "derived_free_cash_flow_periods": [],
+      "required_direct_metrics": [
+       "revenue",
+       "gross_profit",
+       "operating_profit",
+       "finance_cost",
+       "profit_before_tax",
+       "tax_expense",
+       "profit_after_tax_attributable",
+       "basic_eps",
+       "operating_cash_flow",
+       "capital_expenditure",
+       "net_cash_from_investing_activities",
+       "net_cash_from_financing_activities",
+       "dividends_paid",
+       "cash_and_cash_equivalents",
+       "trade_receivables",
+       "inventories",
+       "total_current_assets",
+       "property_plant_equipment",
+       "total_assets",
+       "short_term_borrowings",
+       "long_term_borrowings",
+       "trade_payables",
+       "total_equity"
+      ],
+      "derived_metric_lineage": {
+       "ebitda": "reported_ebitda OR operating_profit + depreciation_amortization",
+       "free_cash_flow": "operating_cash_flow + capital_expenditure (reported signed cash-flow value)"
+      }
+     },
+     "reported_quarter": {
+      "required": 8,
+      "present": 0,
+      "qualified_periods": [],
+      "direct_flow_statement_periods": [],
+      "direct_balance_sheet_periods": [],
+      "derived_ebitda_periods": [],
+      "derived_free_cash_flow_periods": [],
+      "required_direct_metrics": [
+       "revenue",
+       "gross_profit",
+       "operating_profit",
+       "finance_cost",
+       "profit_before_tax",
+       "tax_expense",
+       "profit_after_tax_attributable",
+       "basic_eps",
+       "operating_cash_flow",
+       "capital_expenditure",
+       "net_cash_from_investing_activities",
+       "net_cash_from_financing_activities",
+       "dividends_paid",
+       "cash_and_cash_equivalents",
+       "trade_receivables",
+       "inventories",
+       "total_current_assets",
+       "property_plant_equipment",
+       "total_assets",
+       "short_term_borrowings",
+       "long_term_borrowings",
+       "trade_payables",
+       "total_equity"
+      ],
+      "derived_metric_lineage": {
+       "ebitda": "reported_ebitda OR operating_profit + depreciation_amortization",
+       "free_cash_flow": "operating_cash_flow + capital_expenditure (reported signed cash-flow value)"
+      }
+     }
+    },
+    "policy_regime": {
+     "status": "unavailable",
+     "reason": "macro_policy_regime_model_not_qualified",
+     "load_bearing_gap": true
+    }
+   },
+   "past_context": {
+    "semantics": "historical_context/not_forecast",
+    "evidence_trust_separation": "Similarity is descriptive past context and strictly separate from evidence trust or forward valuation.",
+    "event_study": {
+     "status": "no_event_study",
+     "baseline": null,
+     "horizons": {},
+     "kse100_relative": null
+    },
+    "strict_analogue_benchmark": {
+     "status": "no_benchmark_row",
+     "strict_candidate_count": 0,
+     "aggregate_ready_horizons": [],
+     "horizon_aggregates": {
+      "1Q": {
+       "status": "suppressed",
+       "n": 0,
+       "reason": "no_benchmark_row"
+      },
+      "2Q": {
+       "status": "suppressed",
+       "n": 0,
+       "reason": "no_benchmark_row"
+      },
+      "4Q": {
+       "status": "suppressed",
+       "n": 0,
+       "reason": "no_benchmark_row"
+      },
+      "8Q": {
+       "status": "suppressed",
+       "n": 0,
+       "reason": "no_benchmark_row"
+      }
+     }
+    },
+    "usable_for_scenario_calibration": false,
+    "calibration_blockers": [
+     "financial_truth_not_qualified",
+     "no_minimum_strict_analogue_sample"
+    ]
+   },
+   "answer_contract": {
+    "can_answer_then_vs_now": true,
+    "can_publish_benchmark_stats": false,
+    "can_feed_forecast_or_valuation": false,
+    "why": "Historical state context is descriptive until financial truth, sector-model inputs, and analogue sample gates pass."
+   }
+  }
+ ],
+ "policy": {
+  "retained_state_only": true,
+  "strict_no_lookahead": true,
+  "descriptive_not_causal": true,
+  "no_forecast_or_valuation_activation": true,
+  "minimum_sample_three_for_benchmark_stats": true
+ },
+ "inspired_by": {
+  "concept": "historical setup matching",
+  "implementation_boundary": "CI uses its own retained filings, price history, event studies, and financial-truth gates; no proprietary matching method is copied."
+ }
+}
