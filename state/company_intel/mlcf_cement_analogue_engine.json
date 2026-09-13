@@ -1,0 +1,40 @@
+{
+ "schema_version": "mlcf_cement_analogue_engine_result_v1",
+ "formula_id": "mlcf_cement_analogue_engine.historical_benchmark.v1",
+ "module_version": "mlcf_cement_analogue_engine_v1",
+ "run_receipt": {
+  "inputs_sha256": null
+ },
+ "status": "blocked_financial_truth_not_qualified",
+ "blocked_reasons": [
+  "financial_truth_status:not_qualified"
+ ],
+ "project": {
+  "symbol": "MLCF",
+  "project_name": "MLCF Cement Historical Analogue & Event Study Benchmark",
+  "event_ref": "case_mlcf_pioc_control_observed_v1",
+  "cutoff_date": "2026-08-31"
+ },
+ "target_event": null,
+ "analogue_pool": null,
+ "benchmarks": null,
+ "confidence_limitations": {
+  "research_only": true,
+  "no_advice": true,
+  "single_point_estimate": false,
+  "simplifications": [
+   "blocked before calculation; missing, invalid, or unqualified inputs"
+  ]
+ },
+ "_meta": {
+  "generator_version": "ci_artifact_integrity_v1",
+  "source_commit_sha": "cb864bffd50b3bd24c5a5c5d0ee8e211cd20f718",
+  "build_cutoff_at": "2026-09-01T00:00:00Z",
+  "generated_at": "2026-09-01T00:00:00Z",
+  "artifact_path": "state/company_intel/mlcf_cement_analogue_engine.json",
+  "timestamp_semantics": {
+   "build_cutoff_at": "generation boundary only; not a source-effective or source-published time",
+   "generated_at": "artifact generation time only; not a source-effective or source-published time"
+  }
+ }
+}

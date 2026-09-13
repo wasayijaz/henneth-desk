@@ -1,0 +1,84 @@
+{
+ "schema_version": "mari_enp_valuation_engine_result_v1",
+ "formula_id": "enp_exploration.risked_nav.v1",
+ "engine_version": "mari_enp_valuation_engine_v1",
+ "case_id": "case_mari_working_interest_observed_v1",
+ "symbol": "MARI",
+ "case_family": "e_and_p",
+ "status": "blocked_financial_truth_not_qualified",
+ "blocked_reasons": [
+  "assumptions_unapproved",
+  "financial_truth_not_qualified",
+  "financial_truth_not_qualified: requires five annual and eight direct reported-quarter full-statement schedules, deterministic EBITDA/FCF operand lineage, an official share-count capital-note tie-out, and no unresolved canonical conflicts",
+  "no_model_ready_E_and_P_operands"
+ ],
+ "missing_inputs": [
+  "working_interest",
+  "operator_status",
+  "well_cost",
+  "drilling_duration_months",
+  "geological_success_probability",
+  "commercial_success_probability",
+  "recoverable_reserves",
+  "oil_gas_mix",
+  "initial_production",
+  "decline_model",
+  "decline_rate",
+  "development_capex_schedule",
+  "operating_cost_per_boe",
+  "royalty_rate",
+  "tax_rate",
+  "oil_price_usd_bbl",
+  "gas_price_usd_mmbtu",
+  "gas_mmbtu_per_boe",
+  "fx_pkr_usd",
+  "first_production_delay_quarters",
+  "discount_rate",
+  "fully_diluted_shares"
+ ],
+ "financial_truth_status": "not_qualified",
+ "assumptions_approved": false,
+ "run_receipt": {
+  "inputs_sha256": null,
+  "contract_version": "mari_enp_valuation_engine_v1"
+ },
+ "scenario": null,
+ "inputs_used": null,
+ "quarterly_schedule": [],
+ "values": null,
+ "per_share": null,
+ "probabilities": null,
+ "confidence_limitations": {
+  "research_only": true,
+  "no_advice": true,
+  "single_point_estimate": true,
+  "simplifications": [
+   "equal 365.25/4-day quarters; production uses the start-of-quarter instantaneous rate",
+   "exponential q(t)=qi*exp(-D*t) or hyperbolic q(t)=qi/(1+b*Di*t)^(1/b); t is years from first production",
+   "recoverable mmboe is gross field; working interest scales production, opex and capex",
+   "dry-hole cost is the discounted after-tax exploration writeoff; success case treats exploration as pre-tax capex with no DD&A shield",
+   "royalty on working-interest revenue; cash tax on positive operating net only; no loss carryforward",
+   "operator_status is descriptive provenance and does not change cash flows",
+   "commodity prices, opex, royalty, tax and FX are flat over field life"
+  ]
+ },
+ "policy": {
+  "research_only": true,
+  "no_advice": true,
+  "no_order": true,
+  "fail_closed_without_qualified_financial_truth": true,
+  "fail_closed_without_approved_assumptions": true,
+  "synthetic_numbers_not_written_to_retained_state": true
+ },
+ "_meta": {
+  "generator_version": "ci_artifact_integrity_v1",
+  "source_commit_sha": "cb864bffd50b3bd24c5a5c5d0ee8e211cd20f718",
+  "build_cutoff_at": "2026-09-01T00:00:00Z",
+  "generated_at": "2026-09-01T00:00:00Z",
+  "artifact_path": "state/company_intel/mari_enp_valuation_engine.json",
+  "timestamp_semantics": {
+   "build_cutoff_at": "generation boundary only; not a source-effective or source-published time",
+   "generated_at": "artifact generation time only; not a source-effective or source-published time"
+  }
+ }
+}

@@ -4,11 +4,12 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from build_mlcf_industrial_vertical_slice import OUT, build
 from psx_data import ROOT, load_json
+from ci_checker_helpers import without_root_meta
 
 def main() -> None:
     state = load_json(OUT, {})
     rebuilt = build(write=False)
-    assert state == rebuilt, "vertical slice is not deterministic"
+    assert without_root_meta(state) == without_root_meta(rebuilt), "vertical slice is not deterministic"
     assert state.get("symbol") == "MLCF" and state.get("target_symbol") == "PIOC"
     assert state.get("status") == "blocked", "red financial truth must block real slice"
     assert state.get("policy", {}).get("acquisition_not_capacity_expansion") is True

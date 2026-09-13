@@ -1,0 +1,29 @@
+{
+ "schema_version": "pso_sales_expansion_model_result_v1",
+ "model_archetype": "omc_distribution_network_expansion_v1",
+ "formula_id": "pso_sales_expansion.operating_economics_and_valuation.v1",
+ "module_version": "pso_sales_expansion_model_v1",
+ "run_receipt": {
+  "inputs_sha256": null
+ },
+ "status": "blocked_financial_truth_not_qualified",
+ "blocked_reasons": [
+  "financial_truth_status:not_qualified"
+ ],
+ "symbol": "PSO",
+ "event_ref": "PSO_FY2025_RETAIL_NETWORK_AND_CHANNEL_EXPANSION",
+ "scenario": "base",
+ "inputs_lineage": [],
+ "quarterly_schedule": [],
+ "accounting_integrity": null,
+ "valuation": null,
+ "break_even": null,
+ "market_expectations_backsolve": null,
+ "confidence_limitations": {
+  "research_only": true,
+  "no_advice": true,
+  "simplifications": [
+   "blocked before calculation"
+  ]
+ }
+}

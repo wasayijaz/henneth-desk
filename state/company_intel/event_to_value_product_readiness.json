@@ -88,13 +88,13 @@
    "artifact_integrity": null,
    "release_integrity_receipt": "release_integrity_receipt_release_status_not_verified:not_verified"
   },
-  "source_commit_sha": "a3a8c614209b41c18ab3e948e4ad439e77d51d7e",
+  "source_commit_sha": "cb864bffd50b3bd24c5a5c5d0ee8e211cd20f718",
   "build_cutoff_at": "2026-09-01T00:00:00Z",
   "artifact_integrity_status": "available",
   "artifact_integrity_reason": null,
   "artifact_integrity": {
-   "expected_artifact_count": 53,
-   "manifest_artifact_count": 53,
+   "expected_artifact_count": 64,
+   "manifest_artifact_count": 64,
    "missing_paths": [],
    "extra_paths": [],
    "covered": true
@@ -330,7 +330,7 @@
    "id": "provenance_coverage",
    "label": "Provenance coverage",
    "status": "available",
-   "value": "53/53",
+   "value": "64/64",
    "denominator": null,
    "display": null,
    "definition": "Hashed artifact_integrity rows versus artifact_count. The generated readiness artifact itself must be covered by the sealed manifest.",
@@ -338,9 +338,9 @@
    "as_of": "2026-09-01T00:00:00Z",
    "reason": null,
    "notes": [
-    "a3a8c614209b41c18ab3e948e4ad439e77d51d7e",
-    "artifact_count=53",
-    "expected_artifact_count=53",
+    "cb864bffd50b3bd24c5a5c5d0ee8e211cd20f718",
+    "artifact_count=64",
+    "expected_artifact_count=64",
     "state/company_intel/event_to_value_product_readiness.json"
    ],
    "lineage": {

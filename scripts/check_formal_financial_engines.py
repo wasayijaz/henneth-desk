@@ -12,6 +12,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
 
 import build_formal_financial_engines as builder
+import build_ci_slice
 from formal_financial_engines import build_company_engines
 from psx_data import load_json
 
@@ -148,6 +149,22 @@ def assert_synthetic_ready() -> None:
         assert_finite(product)
 
 
+def assert_financial_truth_boundary() -> None:
+    row = build_company_engines(
+        "MLCF",
+        ready_model_row(),
+        {"status": "input_ready"},
+        red_financial_truth(),
+        ready_assumptions(),
+        "2024-03-01",
+    )
+    for product, payload in row.items():
+        if not payload["status"].startswith("blocked_financial_truth_not_qualified"):
+            fail(f"{product} did not expose financial-truth blocked status")
+        if payload["result"] is not None:
+            fail(f"{product} computed despite red financial truth")
+
+
 def assert_blocks() -> None:
     cases = {
         "missing_history": ({**ready_model_row(), "status": "partial"}, {"status": "input_ready"}, qualified_financial_truth(), ready_assumptions(), set()),
@@ -172,8 +189,13 @@ def assert_blocks() -> None:
                 fail(f"{name} {product} exposed stale financial truth status")
             if product not in computed and payload["result"] is not None:
                 fail(f"{name} blocked product carried a result")
-            if name in {"red_financial_truth", "stale_legacy_truth"} and "financial_truth_qualified" not in payload.get("missing_requirements", []):
-                fail("red or stale financial truth did not fail-close every formal engine")
+            if name in {"red_financial_truth", "stale_legacy_truth"}:
+                if "financial_truth_qualified" not in payload.get("missing_requirements", []):
+                    fail("red or stale financial truth did not fail-close every formal engine")
+                if not payload["status"].startswith("blocked_financial_truth_not_qualified"):
+                    fail("red or stale financial truth did not expose blocked financial-truth status")
+                if payload["result"] is not None:
+                    fail("red or stale financial truth produced a formal result")
 
 
 def assert_real_state() -> None:
@@ -227,10 +249,47 @@ def assert_temp_builder_ready() -> None:
             builder.OUT_FORECASTS, builder.OUT_VALUATIONS, builder.OUT_EXPECTATIONS, builder.ASSUMPTIONS, builder.FINANCIAL_TRUTH = original_outs
 
 
+def assert_ci_slice_current_truth_guard() -> None:
+    stale_computed = build_company_engines(
+        "MLCF",
+        ready_model_row(),
+        {"status": "input_ready"},
+        qualified_financial_truth(),
+        ready_assumptions(),
+        "2024-03-01",
+    )
+    engine_policy = {"research_only": True, "no_advice": True}
+    states = {
+        "financial_forecasts": {
+            "formula_id": "stale_forecast",
+            "policy": engine_policy,
+            "companies": {"MLCF": stale_computed["forecast"]},
+        },
+        "formal_valuations": {
+            "formula_id": "stale_valuation",
+            "policy": engine_policy,
+            "companies": {"MLCF": stale_computed["valuation"]},
+        },
+        "market_expectations": {
+            "formula_id": "stale_expectations",
+            "policy": engine_policy,
+            "companies": {"MLCF": stale_computed["market_expectations"]},
+        },
+    }
+    for kind, state in states.items():
+        product = build_ci_slice._formal_engine_product(state, "MLCF", kind, red_financial_truth())
+        if not product["status"].startswith("blocked_financial_truth_not_qualified"):
+            fail(f"CI slice leaked stale computed {kind} status")
+        if product["result"] is not None:
+            fail(f"CI slice leaked stale computed {kind} result")
+
+
 def main() -> None:
     assert_synthetic_ready()
+    assert_financial_truth_boundary()
     assert_blocks()
     assert_temp_builder_ready()
+    assert_ci_slice_current_truth_guard()
     assert_real_state()
     print("formal financial engines: PASS (synthetic computed, real state blocked)")
 

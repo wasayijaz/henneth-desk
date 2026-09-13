@@ -1,0 +1,48 @@
+{
+ "schema_version": "mlcf_cement_expansion_model_result_v1",
+ "formula_id": "mlcf_cement_expansion.operating_economics_and_valuation.v1",
+ "module_version": "mlcf_cement_expansion_model_v1",
+ "run_receipt": {
+  "inputs_sha256": null
+ },
+ "status": "blocked_financial_truth_not_qualified",
+ "blocked_reasons": [
+  "financial_truth_status:not_qualified"
+ ],
+ "project": {
+  "symbol": "MLCF",
+  "project_name": "MLCF-PIOC Expansion Integration",
+  "event_ref": "case_mlcf_pioc_control_observed_v1",
+  "case_label": "base",
+  "effective_date": "2026-08-31",
+  "valuation_date": "2026-08-31",
+  "commissioning_date_quarter": null,
+  "depreciation_method": null
+ },
+ "inputs_lineage": [],
+ "construction_schedule": [],
+ "operating_schedule": [],
+ "accounting_integrity": null,
+ "valuation": null,
+ "break_even_utilization": [],
+ "price_implied_expectation_backsolve": null,
+ "confidence_limitations": {
+  "research_only": true,
+  "no_advice": true,
+  "single_point_estimate": true,
+  "simplifications": [
+   "blocked before calculation; missing, invalid, or unqualified inputs"
+  ]
+ },
+ "_meta": {
+  "generator_version": "ci_artifact_integrity_v1",
+  "source_commit_sha": "cb864bffd50b3bd24c5a5c5d0ee8e211cd20f718",
+  "build_cutoff_at": "2026-09-01T00:00:00Z",
+  "generated_at": "2026-09-01T00:00:00Z",
+  "artifact_path": "state/company_intel/mlcf_cement_expansion_model.json",
+  "timestamp_semantics": {
+   "build_cutoff_at": "generation boundary only; not a source-effective or source-published time",
+   "generated_at": "artifact generation time only; not a source-effective or source-published time"
+  }
+ }
+}

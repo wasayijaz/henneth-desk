@@ -1,0 +1,243 @@
+{
+ "schema_version": 1,
+ "kind": "mari_enp_vertical_slice",
+ "as_of": "2026-08-31T16:43:41+05:00",
+ "symbol": "MARI",
+ "case_id": "case_mari_working_interest_observed_v1",
+ "case_family": "e_and_p",
+ "status": "blocked",
+ "reason": "ep_driver_inputs:blocked_missing_numeric_operands",
+ "stages": {
+  "event_evidence": {
+   "status": "available",
+   "reason": null,
+   "source": "state/company_intel/intelligence_cases.json",
+   "case_id": "case_mari_working_interest_observed_v1",
+   "case_family": "e_and_p",
+   "case_type": "working_interest_acquisition",
+   "lifecycle": "Observed",
+   "canonical": {
+    "event_id": "evt_eddfcc381018cb0dff43",
+    "document_id": "psx:260446",
+    "page": 1,
+    "content_sha256": "c13ccb4de58ad005bca106942721490593fe219ff45906c68280ea7856192e42",
+    "document_published_at": "2025-09-30T10:46:00+05:00",
+    "source_url": "https://dps.psx.com.pk/download/document/260446.pdf"
+   },
+   "corroborating": {
+    "event_id": "evt_5cc9795abc3e4cfdda51",
+    "document_id": "psx:271327",
+    "page": 6,
+    "content_sha256": "e53fccd6eca58c685dbf9225140056303be704b1f389b876ba33d87aa4b687b3",
+    "document_published_at": "2026-02-27T09:03:00+05:00",
+    "source_url": "https://dps.psx.com.pk/download/document/271327.pdf"
+   }
+  },
+  "competing_hypotheses": {
+   "status": "available",
+   "reason": null,
+   "source": "scripts/mari_enp_hypothesis_contract.py",
+   "hypothesis_ids": [
+    "blocks_not_proved_reserves",
+    "strategy_not_execution_schedule"
+   ],
+   "contract_version": "mari_enp_hypothesis_contract_v1",
+   "event_status": "observed",
+   "alternative_readings": [
+    {
+     "alternative_id": "working_interest_not_reserves",
+     "reading": "Working-interest acquisition does not establish reserves, a commercial discovery, or future production.",
+     "status": "retained_as_observed_only",
+     "rejection_condition": "Reject promotion if no official source identifies technical results, resource potential, or a development path."
+    },
+    {
+     "alternative_id": "operator_status_not_economics",
+     "reading": "The later filing confirms a 65% working interest and operatorship, but does not establish cost, timing, resource, production or project economics.",
+     "status": "retained_as_observed_only",
+     "rejection_condition": "Reject modelling if source-qualified project economics and qualified company financial inputs remain absent."
+    }
+   ]
+  },
+  "ep_driver_inputs": {
+   "status": "blocked",
+   "reason": "blocked_missing_numeric_operands",
+   "source": "state/company_intel/mari_enp_evidence_readiness.json",
+   "operand_statuses": {
+    "working_interest_pct": "unavailable",
+    "operator_status": "observed_text_only",
+    "consideration_pkr": "unavailable",
+    "block_identity": "observed_text_only",
+    "exploration_timing": "unavailable",
+    "development_timing": "unavailable",
+    "production_boe": "unavailable",
+    "reserves": "unavailable",
+    "opex_usd_boe": "unavailable",
+    "royalty_pct": "unavailable",
+    "effective_tax_pct": "unavailable",
+    "oil_price_usd_bbl": "unavailable",
+    "gas_price_usd_mmbtu": "unavailable",
+    "gas_mmbtu_per_boe": "unavailable",
+    "fx_pkr_usd": "unavailable"
+   },
+   "kernel_activated": false,
+   "share_count_status": "metadata_lead",
+   "next_evidence_status": "needs_owner_approval",
+   "next_evidence_action": "Parse PSX:265594 and PSX:260446 with page-level text and content hashes retained"
+  },
+  "analogue_cutoff": {
+   "status": "available",
+   "reason": null,
+   "source": "state/company_intel/intelligence_cases.json",
+   "epistemic_type": "derived_fact",
+   "horizon_ids": [
+    "1Q",
+    "2Q",
+    "4Q",
+    "8Q",
+    "analogue_sample"
+   ]
+  },
+  "financial_truth": {
+   "status": "blocked",
+   "reason": "financial_truth_not_qualified",
+   "source": "state/company_intel/financial_truth_qualification.json",
+   "truth_status": "not_qualified",
+   "annual_coverage": {
+    "present": 0,
+    "required": 5
+   },
+   "quarter_coverage": {
+    "present": 0,
+    "required": 8
+   },
+   "annual_ocf_coverage": {
+    "present": 0,
+    "required": 5
+   },
+   "income_triplet_coverage": {
+    "present": 0,
+    "required": 5
+   },
+   "share_count_status": "missing_official_share_count_capital_note_tie_out"
+  },
+  "scenario": {
+   "status": "blocked",
+   "reason": "financial_truth_not_qualified",
+   "source": "state/company_intel/financial_truth_qualification.json; state/company_intel/mari_enp_evidence_readiness.json"
+  },
+  "model": {
+   "status": "blocked",
+   "reason": "financial_truth_not_qualified",
+   "source": "state/company_intel/financial_forecasts.json",
+   "product_status": "blocked_financial_truth_not_qualified",
+   "product_reason": "missing_source_gated_inputs"
+  },
+  "valuation": {
+   "status": "blocked",
+   "reason": "financial_truth_not_qualified",
+   "source": "state/company_intel/formal_valuations.json",
+   "product_status": "blocked_financial_truth_not_qualified",
+   "product_reason": "missing_source_gated_inputs"
+  },
+  "market_expectations": {
+   "status": "blocked",
+   "reason": "financial_truth_not_qualified",
+   "source": "state/company_intel/market_expectations.json",
+   "product_status": "blocked_financial_truth_not_qualified",
+   "product_reason": "missing_source_gated_inputs"
+  },
+  "monitoring": {
+   "status": "blocked",
+   "reason": "no_active_thesis",
+   "source": "state/company_intel/thesis_monitoring.json; state/company_intel/evidence_watchlist.json",
+   "active_thesis_count": 0,
+   "watchlist_status": "no_active_watch",
+   "active_watch_count": 0
+  },
+  "ask": {
+   "status": "not_generated",
+   "reason": "ask_endpoint_not_generated",
+   "source": "site/api/ask.js"
+  },
+  "public_ui": {
+   "status": "not_generated",
+   "reason": "no_mari_enp_slice_surface",
+   "source": "site/src/data/public/tickers.json; Henneth Desk 2.CI.0/data/company_intelligence.json",
+   "public_tickers_has_mari": false,
+   "ci_data_has_case": true
+  }
+ },
+ "alias_rejection_ledger": [
+  {
+   "id": "evt_b25decfc180474cbe066",
+   "kind": "legacy_event_id",
+   "note": "Legacy Peshawar event id retained only as superseded evidence lineage; never the active case binding.",
+   "active_case_eligible": false
+  },
+  {
+   "id": "evt_ddf99590afb6dacddbde",
+   "kind": "legacy_event_id",
+   "note": "Superseded legacy offshore event id; not bound as the active E&P case.",
+   "active_case_eligible": false
+  },
+  {
+   "id": "evt_3d1dae7553f73da60ba3",
+   "kind": "superseded_event_id",
+   "note": "Offshore event id drives a separate evidence-readiness record; never the Peshawar working-interest case.",
+   "active_case_eligible": false
+  },
+  {
+   "id": "case_mari_offshore_exploration_blocks_observed_v1",
+   "kind": "retired_case_id",
+   "note": "Retired offshore observed-case alias; excluded from active-case eligibility.",
+   "active_case_eligible": false
+  },
+  {
+   "id": "case_mari_sky47_karakoram1_launch_sales_observed_v1",
+   "kind": "sales_led_case_id",
+   "note": "Distinct AI-data-centre sales-led lane; MARI is never counted as a sales-led case.",
+   "case_family": "ai_data_centre",
+   "active_case_eligible": false
+  }
+ ],
+ "sales_led_exclusion": {
+  "sales_led_case_id": "case_mari_sky47_karakoram1_launch_sales_observed_v1",
+  "sales_led_family": "ai_data_centre",
+  "target_case_id": "case_mari_working_interest_observed_v1",
+  "distinct_lanes": true,
+  "mari_never_counted_as_sales_led": true
+ },
+ "formal_output_policy": {
+  "rule": "Formal numeric outputs stay blocked unless financial truth is qualified AND the separate E&P evidence contracts are valid.",
+  "synthetic_fixture_outputs_never_count_as_formal": true
+ },
+ "policy": {
+  "retained_state_only": true,
+  "research_only": true,
+  "never_places_orders": true,
+  "rejects_stale_and_retired_aliases": true,
+  "formal_engines_require_financial_truth": true
+ },
+ "blockers": [
+  "ep_driver_inputs",
+  "financial_truth",
+  "scenario",
+  "model",
+  "valuation",
+  "market_expectations",
+  "monitoring",
+  "ask",
+  "public_ui"
+ ],
+ "_meta": {
+  "generator_version": "ci_artifact_integrity_v1",
+  "source_commit_sha": "cb864bffd50b3bd24c5a5c5d0ee8e211cd20f718",
+  "build_cutoff_at": "2026-09-01T00:00:00Z",
+  "generated_at": "2026-09-01T00:00:00Z",
+  "artifact_path": "state/company_intel/mari_enp_vertical_slice.json",
+  "timestamp_semantics": {
+   "build_cutoff_at": "generation boundary only; not a source-effective or source-published time",
+   "generated_at": "artifact generation time only; not a source-effective or source-published time"
+  }
+ }
+}

@@ -1,0 +1,613 @@
+{
+ "schema_version": "mari_enp_ask_engine_result_v1",
+ "formula_id": "enp_exploration.ask_henneth.v1",
+ "engine_version": "mari_enp_ask_engine_v1",
+ "valuation_engine_version": "mari_enp_valuation_engine_v1",
+ "scenario_lab_engine_version": "mari_enp_scenario_lab_v1",
+ "case_id": "case_mari_working_interest_observed_v1",
+ "symbol": "MARI",
+ "case_family": "e_and_p",
+ "status": "blocked_financial_truth_not_qualified",
+ "blocked_reasons": [
+  "assumptions_unapproved",
+  "financial_truth_not_qualified",
+  "financial_truth_not_qualified: requires five annual and eight direct reported-quarter full-statement schedules, deterministic EBITDA/FCF operand lineage, an official share-count capital-note tie-out, and no unresolved canonical conflicts",
+  "no_model_ready_E_and_P_operands"
+ ],
+ "missing_inputs": [
+  "commercial_success_probability",
+  "decline_model",
+  "decline_rate",
+  "development_capex_schedule",
+  "discount_rate",
+  "drilling_duration_months",
+  "first_production_delay_quarters",
+  "fully_diluted_shares",
+  "fx_pkr_usd",
+  "gas_mmbtu_per_boe",
+  "gas_price_usd_mmbtu",
+  "geological_success_probability",
+  "grids",
+  "initial_production",
+  "oil_gas_mix",
+  "oil_price_usd_bbl",
+  "operating_cost_per_boe",
+  "operator_status",
+  "recoverable_reserves",
+  "royalty_rate",
+  "scenarios",
+  "tax_rate",
+  "well_cost",
+  "working_interest"
+ ],
+ "financial_truth_status": "not_qualified",
+ "assumptions_approved": false,
+ "run_receipt": {
+  "inputs_sha256": null,
+  "contract_version": "mari_enp_ask_engine_v1"
+ },
+ "questions": [
+  {
+   "question_id": "why_acquire",
+   "question": "Why is MARI acquiring working interest in Peshawar Block?",
+   "sections": {
+    "conclusion": {
+     "key": "conclusion",
+     "title": "Conclusion",
+     "status": "blocked_financial_truth_not_qualified",
+     "text": "The desk does not quantify this question because financial truth is not qualified.",
+     "numbers": null
+    },
+    "observed_evidence": {
+     "key": "observed_evidence",
+     "title": "Observed evidence",
+     "status": "observed_only",
+     "text": "Mari Energies reported acquisition of working interest in Peshawar Block as an operator. A later MARI quarterly filing reported a 65% Peshawar Block working interest together with operatorship.",
+     "numbers": null
+    },
+    "business_mechanism": {
+     "key": "business_mechanism",
+     "title": "Business mechanism",
+     "status": "blocked_financial_truth_not_qualified",
+     "text": "The desk does not quantify this question because financial truth is not qualified.",
+     "numbers": null
+    },
+    "historical_benchmark": {
+     "key": "historical_benchmark",
+     "title": "Historical benchmark",
+     "status": "observed_only",
+     "text": "No qualifying same-company or peer analogue sample is retained for this case. Raw price context is descriptive only and is not a valuation input.",
+     "numbers": null
+    },
+    "financial_impact": {
+     "key": "financial_impact",
+     "title": "Financial impact",
+     "status": "blocked_financial_truth_not_qualified",
+     "text": "Unknown. Numeric financial impact is blocked because financial truth is not qualified.",
+     "numbers": null
+    },
+    "scenario_range": {
+     "key": "scenario_range",
+     "title": "Scenario range",
+     "status": "blocked_financial_truth_not_qualified",
+     "text": "Unknown. Numeric scenario range is blocked because financial truth is not qualified.",
+     "numbers": null
+    },
+    "valuation_impact": {
+     "key": "valuation_impact",
+     "title": "Valuation impact",
+     "status": "blocked_financial_truth_not_qualified",
+     "text": "Unknown. Numeric valuation impact is blocked because financial truth is not qualified.",
+     "numbers": null
+    },
+    "current_price_expectations": {
+     "key": "current_price_expectations",
+     "title": "Current-price expectations",
+     "status": "blocked_financial_truth_not_qualified",
+     "text": "Unknown. Numeric current-price expectations is blocked because financial truth is not qualified.",
+     "numbers": null
+    },
+    "confidence": {
+     "key": "confidence",
+     "title": "Confidence",
+     "status": "blocked_financial_truth_not_qualified",
+     "text": "Confidence in modelled event value is withheld because financial truth is not qualified.",
+     "numbers": null
+    },
+    "what_to_watch": {
+     "key": "what_to_watch",
+     "title": "What to watch",
+     "status": "observed_only",
+     "text": "An official Peshawar Block well result reported as dry or non-commercial. An official filing that reduces, exits, or transfers the reported working interest or operatorship. Source-qualified reserves, well cost, or timing outside the explicit bear/base/bull envelope. A qualified share-count or tax/royalty restatement that breaks the modelled operands. Financial truth remaining not qualified, which keeps every numeric Ask response blocked.",
+     "numbers": null
+    }
+   }
+  },
+  {
+   "question_id": "well_cost_next_four_quarters",
+   "question": "What could the exploration well cost during the next four quarters?",
+   "sections": {
+    "conclusion": {
+     "key": "conclusion",
+     "title": "Conclusion",
+     "status": "blocked_financial_truth_not_qualified",
+     "text": "The desk does not quantify this question because financial truth is not qualified.",
+     "numbers": null
+    },
+    "observed_evidence": {
+     "key": "observed_evidence",
+     "title": "Observed evidence",
+     "status": "observed_only",
+     "text": "Mari Energies reported acquisition of working interest in Peshawar Block as an operator. A later MARI quarterly filing reported a 65% Peshawar Block working interest together with operatorship.",
+     "numbers": null
+    },
+    "business_mechanism": {
+     "key": "business_mechanism",
+     "title": "Business mechanism",
+     "status": "blocked_financial_truth_not_qualified",
+     "text": "The desk does not quantify this question because financial truth is not qualified.",
+     "numbers": null
+    },
+    "historical_benchmark": {
+     "key": "historical_benchmark",
+     "title": "Historical benchmark",
+     "status": "observed_only",
+     "text": "No qualifying same-company or peer analogue sample is retained for this case. Raw price context is descriptive only and is not a valuation input.",
+     "numbers": null
+    },
+    "financial_impact": {
+     "key": "financial_impact",
+     "title": "Financial impact",
+     "status": "blocked_financial_truth_not_qualified",
+     "text": "Unknown. Numeric financial impact is blocked because financial truth is not qualified.",
+     "numbers": null
+    },
+    "scenario_range": {
+     "key": "scenario_range",
+     "title": "Scenario range",
+     "status": "blocked_financial_truth_not_qualified",
+     "text": "Unknown. Numeric scenario range is blocked because financial truth is not qualified.",
+     "numbers": null
+    },
+    "valuation_impact": {
+     "key": "valuation_impact",
+     "title": "Valuation impact",
+     "status": "blocked_financial_truth_not_qualified",
+     "text": "Unknown. Numeric valuation impact is blocked because financial truth is not qualified.",
+     "numbers": null
+    },
+    "current_price_expectations": {
+     "key": "current_price_expectations",
+     "title": "Current-price expectations",
+     "status": "blocked_financial_truth_not_qualified",
+     "text": "Unknown. Numeric current-price expectations is blocked because financial truth is not qualified.",
+     "numbers": null
+    },
+    "confidence": {
+     "key": "confidence",
+     "title": "Confidence",
+     "status": "blocked_financial_truth_not_qualified",
+     "text": "Confidence in modelled event value is withheld because financial truth is not qualified.",
+     "numbers": null
+    },
+    "what_to_watch": {
+     "key": "what_to_watch",
+     "title": "What to watch",
+     "status": "observed_only",
+     "text": "An official Peshawar Block well result reported as dry or non-commercial. An official filing that reduces, exits, or transfers the reported working interest or operatorship. Source-qualified reserves, well cost, or timing outside the explicit bear/base/bull envelope. A qualified share-count or tax/royalty restatement that breaks the modelled operands. Financial truth remaining not qualified, which keeps every numeric Ask response blocked.",
+     "numbers": null
+    }
+   }
+  },
+  {
+   "question_id": "first_production_timing",
+   "question": "When could commercial production begin if successful?",
+   "sections": {
+    "conclusion": {
+     "key": "conclusion",
+     "title": "Conclusion",
+     "status": "blocked_financial_truth_not_qualified",
+     "text": "The desk does not quantify this question because financial truth is not qualified.",
+     "numbers": null
+    },
+    "observed_evidence": {
+     "key": "observed_evidence",
+     "title": "Observed evidence",
+     "status": "observed_only",
+     "text": "Mari Energies reported acquisition of working interest in Peshawar Block as an operator. A later MARI quarterly filing reported a 65% Peshawar Block working interest together with operatorship.",
+     "numbers": null
+    },
+    "business_mechanism": {
+     "key": "business_mechanism",
+     "title": "Business mechanism",
+     "status": "blocked_financial_truth_not_qualified",
+     "text": "The desk does not quantify this question because financial truth is not qualified.",
+     "numbers": null
+    },
+    "historical_benchmark": {
+     "key": "historical_benchmark",
+     "title": "Historical benchmark",
+     "status": "observed_only",
+     "text": "No qualifying same-company or peer analogue sample is retained for this case. Raw price context is descriptive only and is not a valuation input.",
+     "numbers": null
+    },
+    "financial_impact": {
+     "key": "financial_impact",
+     "title": "Financial impact",
+     "status": "blocked_financial_truth_not_qualified",
+     "text": "Unknown. Numeric financial impact is blocked because financial truth is not qualified.",
+     "numbers": null
+    },
+    "scenario_range": {
+     "key": "scenario_range",
+     "title": "Scenario range",
+     "status": "blocked_financial_truth_not_qualified",
+     "text": "Unknown. Numeric scenario range is blocked because financial truth is not qualified.",
+     "numbers": null
+    },
+    "valuation_impact": {
+     "key": "valuation_impact",
+     "title": "Valuation impact",
+     "status": "blocked_financial_truth_not_qualified",
+     "text": "Unknown. Numeric valuation impact is blocked because financial truth is not qualified.",
+     "numbers": null
+    },
+    "current_price_expectations": {
+     "key": "current_price_expectations",
+     "title": "Current-price expectations",
+     "status": "blocked_financial_truth_not_qualified",
+     "text": "Unknown. Numeric current-price expectations is blocked because financial truth is not qualified.",
+     "numbers": null
+    },
+    "confidence": {
+     "key": "confidence",
+     "title": "Confidence",
+     "status": "blocked_financial_truth_not_qualified",
+     "text": "Confidence in modelled event value is withheld because financial truth is not qualified.",
+     "numbers": null
+    },
+    "what_to_watch": {
+     "key": "what_to_watch",
+     "title": "What to watch",
+     "status": "observed_only",
+     "text": "An official Peshawar Block well result reported as dry or non-commercial. An official filing that reduces, exits, or transfers the reported working interest or operatorship. Source-qualified reserves, well cost, or timing outside the explicit bear/base/bull envelope. A qualified share-count or tax/royalty restatement that breaks the modelled operands. Financial truth remaining not qualified, which keeps every numeric Ask response blocked.",
+     "numbers": null
+    }
+   }
+  },
+  {
+   "question_id": "unrisked_vs_dry_hole",
+   "question": "What is the unrisked discovery value vs dry-hole cost?",
+   "sections": {
+    "conclusion": {
+     "key": "conclusion",
+     "title": "Conclusion",
+     "status": "blocked_financial_truth_not_qualified",
+     "text": "The desk does not quantify this question because financial truth is not qualified.",
+     "numbers": null
+    },
+    "observed_evidence": {
+     "key": "observed_evidence",
+     "title": "Observed evidence",
+     "status": "observed_only",
+     "text": "Mari Energies reported acquisition of working interest in Peshawar Block as an operator. A later MARI quarterly filing reported a 65% Peshawar Block working interest together with operatorship.",
+     "numbers": null
+    },
+    "business_mechanism": {
+     "key": "business_mechanism",
+     "title": "Business mechanism",
+     "status": "blocked_financial_truth_not_qualified",
+     "text": "The desk does not quantify this question because financial truth is not qualified.",
+     "numbers": null
+    },
+    "historical_benchmark": {
+     "key": "historical_benchmark",
+     "title": "Historical benchmark",
+     "status": "observed_only",
+     "text": "No qualifying same-company or peer analogue sample is retained for this case. Raw price context is descriptive only and is not a valuation input.",
+     "numbers": null
+    },
+    "financial_impact": {
+     "key": "financial_impact",
+     "title": "Financial impact",
+     "status": "blocked_financial_truth_not_qualified",
+     "text": "Unknown. Numeric financial impact is blocked because financial truth is not qualified.",
+     "numbers": null
+    },
+    "scenario_range": {
+     "key": "scenario_range",
+     "title": "Scenario range",
+     "status": "blocked_financial_truth_not_qualified",
+     "text": "Unknown. Numeric scenario range is blocked because financial truth is not qualified.",
+     "numbers": null
+    },
+    "valuation_impact": {
+     "key": "valuation_impact",
+     "title": "Valuation impact",
+     "status": "blocked_financial_truth_not_qualified",
+     "text": "Unknown. Numeric valuation impact is blocked because financial truth is not qualified.",
+     "numbers": null
+    },
+    "current_price_expectations": {
+     "key": "current_price_expectations",
+     "title": "Current-price expectations",
+     "status": "blocked_financial_truth_not_qualified",
+     "text": "Unknown. Numeric current-price expectations is blocked because financial truth is not qualified.",
+     "numbers": null
+    },
+    "confidence": {
+     "key": "confidence",
+     "title": "Confidence",
+     "status": "blocked_financial_truth_not_qualified",
+     "text": "Confidence in modelled event value is withheld because financial truth is not qualified.",
+     "numbers": null
+    },
+    "what_to_watch": {
+     "key": "what_to_watch",
+     "title": "What to watch",
+     "status": "observed_only",
+     "text": "An official Peshawar Block well result reported as dry or non-commercial. An official filing that reduces, exits, or transfers the reported working interest or operatorship. Source-qualified reserves, well cost, or timing outside the explicit bear/base/bull envelope. A qualified share-count or tax/royalty restatement that breaks the modelled operands. Financial truth remaining not qualified, which keeps every numeric Ask response blocked.",
+     "numbers": null
+    }
+   }
+  },
+  {
+   "question_id": "per_share_scenarios",
+   "question": "What is the event worth per share across bear, base, bull?",
+   "sections": {
+    "conclusion": {
+     "key": "conclusion",
+     "title": "Conclusion",
+     "status": "blocked_financial_truth_not_qualified",
+     "text": "The desk does not quantify this question because financial truth is not qualified.",
+     "numbers": null
+    },
+    "observed_evidence": {
+     "key": "observed_evidence",
+     "title": "Observed evidence",
+     "status": "observed_only",
+     "text": "Mari Energies reported acquisition of working interest in Peshawar Block as an operator. A later MARI quarterly filing reported a 65% Peshawar Block working interest together with operatorship.",
+     "numbers": null
+    },
+    "business_mechanism": {
+     "key": "business_mechanism",
+     "title": "Business mechanism",
+     "status": "blocked_financial_truth_not_qualified",
+     "text": "The desk does not quantify this question because financial truth is not qualified.",
+     "numbers": null
+    },
+    "historical_benchmark": {
+     "key": "historical_benchmark",
+     "title": "Historical benchmark",
+     "status": "observed_only",
+     "text": "No qualifying same-company or peer analogue sample is retained for this case. Raw price context is descriptive only and is not a valuation input.",
+     "numbers": null
+    },
+    "financial_impact": {
+     "key": "financial_impact",
+     "title": "Financial impact",
+     "status": "blocked_financial_truth_not_qualified",
+     "text": "Unknown. Numeric financial impact is blocked because financial truth is not qualified.",
+     "numbers": null
+    },
+    "scenario_range": {
+     "key": "scenario_range",
+     "title": "Scenario range",
+     "status": "blocked_financial_truth_not_qualified",
+     "text": "Unknown. Numeric scenario range is blocked because financial truth is not qualified.",
+     "numbers": null
+    },
+    "valuation_impact": {
+     "key": "valuation_impact",
+     "title": "Valuation impact",
+     "status": "blocked_financial_truth_not_qualified",
+     "text": "Unknown. Numeric valuation impact is blocked because financial truth is not qualified.",
+     "numbers": null
+    },
+    "current_price_expectations": {
+     "key": "current_price_expectations",
+     "title": "Current-price expectations",
+     "status": "blocked_financial_truth_not_qualified",
+     "text": "Unknown. Numeric current-price expectations is blocked because financial truth is not qualified.",
+     "numbers": null
+    },
+    "confidence": {
+     "key": "confidence",
+     "title": "Confidence",
+     "status": "blocked_financial_truth_not_qualified",
+     "text": "Confidence in modelled event value is withheld because financial truth is not qualified.",
+     "numbers": null
+    },
+    "what_to_watch": {
+     "key": "what_to_watch",
+     "title": "What to watch",
+     "status": "observed_only",
+     "text": "An official Peshawar Block well result reported as dry or non-commercial. An official filing that reduces, exits, or transfers the reported working interest or operatorship. Source-qualified reserves, well cost, or timing outside the explicit bear/base/bull envelope. A qualified share-count or tax/royalty restatement that breaks the modelled operands. Financial truth remaining not qualified, which keeps every numeric Ask response blocked.",
+     "numbers": null
+    }
+   }
+  },
+  {
+   "question_id": "implied_discovery_probability",
+   "question": "What discovery probability does the current price imply?",
+   "sections": {
+    "conclusion": {
+     "key": "conclusion",
+     "title": "Conclusion",
+     "status": "blocked_financial_truth_not_qualified",
+     "text": "The desk does not quantify this question because financial truth is not qualified.",
+     "numbers": null
+    },
+    "observed_evidence": {
+     "key": "observed_evidence",
+     "title": "Observed evidence",
+     "status": "observed_only",
+     "text": "Mari Energies reported acquisition of working interest in Peshawar Block as an operator. A later MARI quarterly filing reported a 65% Peshawar Block working interest together with operatorship.",
+     "numbers": null
+    },
+    "business_mechanism": {
+     "key": "business_mechanism",
+     "title": "Business mechanism",
+     "status": "blocked_financial_truth_not_qualified",
+     "text": "The desk does not quantify this question because financial truth is not qualified.",
+     "numbers": null
+    },
+    "historical_benchmark": {
+     "key": "historical_benchmark",
+     "title": "Historical benchmark",
+     "status": "observed_only",
+     "text": "No qualifying same-company or peer analogue sample is retained for this case. Raw price context is descriptive only and is not a valuation input.",
+     "numbers": null
+    },
+    "financial_impact": {
+     "key": "financial_impact",
+     "title": "Financial impact",
+     "status": "blocked_financial_truth_not_qualified",
+     "text": "Unknown. Numeric financial impact is blocked because financial truth is not qualified.",
+     "numbers": null
+    },
+    "scenario_range": {
+     "key": "scenario_range",
+     "title": "Scenario range",
+     "status": "blocked_financial_truth_not_qualified",
+     "text": "Unknown. Numeric scenario range is blocked because financial truth is not qualified.",
+     "numbers": null
+    },
+    "valuation_impact": {
+     "key": "valuation_impact",
+     "title": "Valuation impact",
+     "status": "blocked_financial_truth_not_qualified",
+     "text": "Unknown. Numeric valuation impact is blocked because financial truth is not qualified.",
+     "numbers": null
+    },
+    "current_price_expectations": {
+     "key": "current_price_expectations",
+     "title": "Current-price expectations",
+     "status": "blocked_financial_truth_not_qualified",
+     "text": "Unknown. Numeric current-price expectations is blocked because financial truth is not qualified.",
+     "numbers": null
+    },
+    "confidence": {
+     "key": "confidence",
+     "title": "Confidence",
+     "status": "blocked_financial_truth_not_qualified",
+     "text": "Confidence in modelled event value is withheld because financial truth is not qualified.",
+     "numbers": null
+    },
+    "what_to_watch": {
+     "key": "what_to_watch",
+     "title": "What to watch",
+     "status": "observed_only",
+     "text": "An official Peshawar Block well result reported as dry or non-commercial. An official filing that reduces, exits, or transfers the reported working interest or operatorship. Source-qualified reserves, well cost, or timing outside the explicit bear/base/bull envelope. A qualified share-count or tax/royalty restatement that breaks the modelled operands. Financial truth remaining not qualified, which keeps every numeric Ask response blocked.",
+     "numbers": null
+    }
+   }
+  },
+  {
+   "question_id": "invalidating_evidence",
+   "question": "Which future evidence would invalidate the case?",
+   "sections": {
+    "conclusion": {
+     "key": "conclusion",
+     "title": "Conclusion",
+     "status": "blocked_financial_truth_not_qualified",
+     "text": "The desk does not quantify this question because financial truth is not qualified.",
+     "numbers": null
+    },
+    "observed_evidence": {
+     "key": "observed_evidence",
+     "title": "Observed evidence",
+     "status": "observed_only",
+     "text": "Mari Energies reported acquisition of working interest in Peshawar Block as an operator. A later MARI quarterly filing reported a 65% Peshawar Block working interest together with operatorship.",
+     "numbers": null
+    },
+    "business_mechanism": {
+     "key": "business_mechanism",
+     "title": "Business mechanism",
+     "status": "blocked_financial_truth_not_qualified",
+     "text": "The desk does not quantify this question because financial truth is not qualified.",
+     "numbers": null
+    },
+    "historical_benchmark": {
+     "key": "historical_benchmark",
+     "title": "Historical benchmark",
+     "status": "observed_only",
+     "text": "No qualifying same-company or peer analogue sample is retained for this case. Raw price context is descriptive only and is not a valuation input.",
+     "numbers": null
+    },
+    "financial_impact": {
+     "key": "financial_impact",
+     "title": "Financial impact",
+     "status": "blocked_financial_truth_not_qualified",
+     "text": "Unknown. Numeric financial impact is blocked because financial truth is not qualified.",
+     "numbers": null
+    },
+    "scenario_range": {
+     "key": "scenario_range",
+     "title": "Scenario range",
+     "status": "blocked_financial_truth_not_qualified",
+     "text": "Unknown. Numeric scenario range is blocked because financial truth is not qualified.",
+     "numbers": null
+    },
+    "valuation_impact": {
+     "key": "valuation_impact",
+     "title": "Valuation impact",
+     "status": "blocked_financial_truth_not_qualified",
+     "text": "Unknown. Numeric valuation impact is blocked because financial truth is not qualified.",
+     "numbers": null
+    },
+    "current_price_expectations": {
+     "key": "current_price_expectations",
+     "title": "Current-price expectations",
+     "status": "blocked_financial_truth_not_qualified",
+     "text": "Unknown. Numeric current-price expectations is blocked because financial truth is not qualified.",
+     "numbers": null
+    },
+    "confidence": {
+     "key": "confidence",
+     "title": "Confidence",
+     "status": "blocked_financial_truth_not_qualified",
+     "text": "Confidence in modelled event value is withheld because financial truth is not qualified.",
+     "numbers": null
+    },
+    "what_to_watch": {
+     "key": "what_to_watch",
+     "title": "What to watch",
+     "status": "observed_only",
+     "text": "An official Peshawar Block well result reported as dry or non-commercial. An official filing that reduces, exits, or transfers the reported working interest or operatorship. Source-qualified reserves, well cost, or timing outside the explicit bear/base/bull envelope. A qualified share-count or tax/royalty restatement that breaks the modelled operands. Financial truth remaining not qualified, which keeps every numeric Ask response blocked.",
+     "numbers": null
+    }
+   }
+  }
+ ],
+ "confidence_limitations": {
+  "research_only": true,
+  "no_advice": true,
+  "single_point_estimate": true,
+  "simplifications": [
+   "Ask text copies kernel outputs; it does not re-derive DCF identities",
+   "Observed evidence is retained filing language and is not a modelled motive",
+   "Historical analogue samples below the n<3 threshold are not used as NPV benchmarks",
+   "Invalidating evidence is a closed official-filing list, not a probability"
+  ]
+ },
+ "policy": {
+  "research_only": true,
+  "no_advice": true,
+  "no_order": true,
+  "fail_closed_without_qualified_financial_truth": true,
+  "fail_closed_without_approved_assumptions": true,
+  "synthetic_numbers_not_written_to_retained_state": true
+ },
+ "_meta": {
+  "generator_version": "ci_artifact_integrity_v1",
+  "source_commit_sha": "cb864bffd50b3bd24c5a5c5d0ee8e211cd20f718",
+  "build_cutoff_at": "2026-09-01T00:00:00Z",
+  "generated_at": "2026-09-01T00:00:00Z",
+  "artifact_path": "state/company_intel/mari_enp_ask_engine.json",
+  "timestamp_semantics": {
+   "build_cutoff_at": "generation boundary only; not a source-effective or source-published time",
+   "generated_at": "artifact generation time only; not a source-effective or source-published time"
+  }
+ }
+}

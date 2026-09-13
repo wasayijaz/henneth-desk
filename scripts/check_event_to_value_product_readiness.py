@@ -172,10 +172,8 @@ def main() -> None:
     if manifest_row.get("sha256") == canonical_hash(tampered):
         raise AssertionError("tampered readiness artifact unexpectedly matched manifest hash")
 
-    result = subprocess.run([sys.executable, str(ROOT / "scripts" / "build_ci_slice.py")], capture_output=True, text=True, timeout=60)
-    if result.returncode != 0:
-        raise AssertionError(result.stdout + result.stderr)
-    slice_state = load_json(ROOT / "Henneth Desk 2.CI.0" / "data" / "company_intelligence.json", {})
+    import build_ci_slice
+    slice_state = build_ci_slice.build(write=False)
     projected = (slice_state.get("meta") or {}).get("event_to_value_product_readiness")
     expected = project_readiness(state)
     if not isinstance(projected, dict):

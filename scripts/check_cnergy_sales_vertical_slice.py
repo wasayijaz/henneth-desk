@@ -4,10 +4,11 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from build_cnergy_sales_vertical_slice import OUT, build
 from psx_data import load_json
+from ci_checker_helpers import without_root_meta
 
 def main() -> None:
     state = load_json(OUT, {})
-    assert state == build(write=False), "slice is not deterministic"
+    assert without_root_meta(state) == without_root_meta(build(write=False)), "slice is not deterministic"
     assert state.get("symbol") == "CNERGY" and state.get("status") == "blocked"
     assert state["stages"]["sales_expansion_eligibility"]["status"] == "blocked"
     assert state["policy"]["no_case_seed"] is True

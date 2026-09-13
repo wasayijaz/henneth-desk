@@ -1,0 +1,3071 @@
+{
+ "schema_version": "mari_enp_analogue_engine_result_v1",
+ "engine_version": "mari_enp_analogue_engine_v1",
+ "symbol": "MARI",
+ "peer_symbols": [
+  "OGDC",
+  "PPL"
+ ],
+ "event_family": {
+  "event_types": [
+   "acquisition_divestment",
+   "discovery",
+   "exploration",
+   "working_interest"
+  ],
+  "universe": [
+   "MARI",
+   "OGDC",
+   "PPL"
+  ],
+  "rationale": "Registry family for E&P exploration/working-interest/discovery events. The retained registry carries MARI's working-interest, exploration-block and farm-out events under acquisition_divestment; discovery/exploration/working_interest types are accepted defensively if the registry ever adds them. Peer coverage is exactly OGDC and PPL.",
+  "matching_policy": {
+   "candidate_date": "strictly_before_target",
+   "price_endpoint": "first_close_on_or_after_calendar_target_and_strictly_before_target_cutoff",
+   "price_baseline": "last_close_strictly_before_candidate_event",
+   "financial_period": "nth_distinct_period_end_strictly_after_candidate_event",
+   "financial_availability": "period_end_and_available_on_strictly_before_target_cutoff",
+   "financial_baseline": "period_end_and_available_on_strictly_before_candidate_event",
+   "financial_readiness": "model_loadable_facts_only",
+   "minimum_aggregate_sample": 3,
+   "aggregate_method": "median_range_iqr_inclusive_quartiles"
+  }
+ },
+ "minimum_sample": 3,
+ "data_cutoffs": {
+  "price_history_last_date": {
+   "MARI": "2026-08-28",
+   "OGDC": "2026-08-28",
+   "PPL": "2026-08-28"
+  },
+  "financial_series_updated": "2026-09-13 17:05"
+ },
+ "policy": {
+  "descriptive_only": true,
+  "no_causal_claim": true,
+  "no_forecast_or_valuation": true,
+  "no_advice": true,
+  "raw_price_return_not_adjusted_or_total_return": true,
+  "minimum_aggregate_sample": 3,
+  "insufficient_evidence_display": "Insufficient evidence for a reliable benchmark"
+ },
+ "symbol_coverage": {
+  "MARI": {
+   "family_event_count": 3,
+   "dated_family_event_count": 3,
+   "excluded_event_count": 0,
+   "excluded_events": [],
+   "financial_series": {
+    "fact_count": 60,
+    "model_eligible_fact_count": 0,
+    "metrics_present": [
+     "change_pct",
+     "dividend",
+     "operating_cash_flow",
+     "profit",
+     "revenue"
+    ],
+    "status": "no_model_eligible_facts",
+    "reason": "all_retained_facts_audit_only"
+   }
+  },
+  "OGDC": {
+   "family_event_count": 0,
+   "dated_family_event_count": 0,
+   "excluded_event_count": 0,
+   "excluded_events": [],
+   "financial_series": {
+    "fact_count": 11,
+    "model_eligible_fact_count": 0,
+    "metrics_present": [
+     "dividend",
+     "profit"
+    ],
+    "status": "no_model_eligible_facts",
+    "reason": "all_retained_facts_audit_only"
+   }
+  },
+  "PPL": {
+   "family_event_count": 0,
+   "dated_family_event_count": 0,
+   "excluded_event_count": 0,
+   "excluded_events": [],
+   "financial_series": {
+    "fact_count": 7,
+    "model_eligible_fact_count": 0,
+    "metrics_present": [
+     "dividend"
+    ],
+    "status": "no_model_eligible_facts",
+    "reason": "all_retained_facts_audit_only"
+   }
+  }
+ },
+ "target_count": 3,
+ "targets": [
+  {
+   "target_event": {
+    "event_id": "evt_b25decfc180474cbe066",
+    "symbol": "MARI",
+    "event_type": "acquisition_divestment",
+    "event_subtype": "acquisition",
+    "effective_date": "2025-09-30",
+    "cutoff": "2025-09-30",
+    "source_document_ids": [
+     "psx:260446"
+    ]
+   },
+   "excluded_candidates": [
+    {
+     "event_id": "evt_3d1dae7553f73da60ba3",
+     "symbol": "MARI",
+     "reason": "effective_date_not_strictly_before_target"
+    },
+    {
+     "event_id": "evt_90372372ccc7d6561be7",
+     "symbol": "MARI",
+     "reason": "effective_date_not_strictly_before_target"
+    }
+   ],
+   "candidate_count": {
+    "same_company": 0,
+    "peer": 0,
+    "combined": 0
+   },
+   "candidates": [],
+   "aggregates": {
+    "1Q": {
+     "stock_return_pct": {
+      "same_company": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      },
+      "peer": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      },
+      "combined": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      }
+     },
+     "revenue_delta_pct": {
+      "same_company": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      },
+      "peer": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      },
+      "combined": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      }
+     },
+     "margin_delta_pct": {
+      "same_company": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      },
+      "peer": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      },
+      "combined": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      }
+     },
+     "eps_delta_pct": {
+      "same_company": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      },
+      "peer": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      },
+      "combined": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      }
+     }
+    },
+    "2Q": {
+     "stock_return_pct": {
+      "same_company": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      },
+      "peer": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      },
+      "combined": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      }
+     },
+     "revenue_delta_pct": {
+      "same_company": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      },
+      "peer": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      },
+      "combined": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      }
+     },
+     "margin_delta_pct": {
+      "same_company": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      },
+      "peer": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      },
+      "combined": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      }
+     },
+     "eps_delta_pct": {
+      "same_company": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      },
+      "peer": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      },
+      "combined": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      }
+     }
+    },
+    "4Q": {
+     "stock_return_pct": {
+      "same_company": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      },
+      "peer": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      },
+      "combined": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      }
+     },
+     "revenue_delta_pct": {
+      "same_company": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      },
+      "peer": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      },
+      "combined": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      }
+     },
+     "margin_delta_pct": {
+      "same_company": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      },
+      "peer": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      },
+      "combined": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      }
+     },
+     "eps_delta_pct": {
+      "same_company": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      },
+      "peer": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      },
+      "combined": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      }
+     }
+    },
+    "8Q": {
+     "stock_return_pct": {
+      "same_company": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      },
+      "peer": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      },
+      "combined": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      }
+     },
+     "revenue_delta_pct": {
+      "same_company": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      },
+      "peer": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      },
+      "combined": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      }
+     },
+     "margin_delta_pct": {
+      "same_company": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      },
+      "peer": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      },
+      "combined": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      }
+     },
+     "eps_delta_pct": {
+      "same_company": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      },
+      "peer": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      },
+      "combined": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      }
+     }
+    }
+   },
+   "insufficient_evidence": true
+  },
+  {
+   "target_event": {
+    "event_id": "evt_3d1dae7553f73da60ba3",
+    "symbol": "MARI",
+    "event_type": "acquisition_divestment",
+    "event_subtype": "acquisition",
+    "effective_date": "2025-11-13",
+    "cutoff": "2025-11-13",
+    "source_document_ids": [
+     "psx:265594"
+    ]
+   },
+   "excluded_candidates": [
+    {
+     "event_id": "evt_90372372ccc7d6561be7",
+     "symbol": "MARI",
+     "reason": "effective_date_not_strictly_before_target"
+    }
+   ],
+   "candidate_count": {
+    "same_company": 1,
+    "peer": 0,
+    "combined": 1
+   },
+   "candidates": [
+    {
+     "event_id": "evt_b25decfc180474cbe066",
+     "symbol": "MARI",
+     "classification": "same_company",
+     "event_type": "acquisition_divestment",
+     "event_subtype": "acquisition",
+     "effective_date": "2025-09-30",
+     "outcomes": {
+      "1Q": {
+       "stock_return_pct": {
+        "status": "excluded_lookahead",
+        "reason": "endpoint_not_available_strictly_before_target_cutoff",
+        "value": null,
+        "target_date": "2025-12-30",
+        "baseline_date": "2025-09-29",
+        "baseline_close": 737.81,
+        "endpoint_date": null,
+        "endpoint_close": null
+       },
+       "revenue": {
+        "status": "excluded_lookahead",
+        "reason": "revenue_available_on_not_strictly_before_target_cutoff",
+        "period_end": "2025-10-31",
+        "available_on": null,
+        "level_value": null,
+        "baseline_period_end": null,
+        "baseline_level_value": null,
+        "value": null,
+        "delta_semantics": null
+       },
+       "margin": {
+        "status": "excluded_lookahead",
+        "reason": "revenue_available_on_not_strictly_before_target_cutoff",
+        "period_end": "2025-10-31",
+        "available_on": null,
+        "level_value": null,
+        "baseline_period_end": null,
+        "baseline_level_value": null,
+        "value": null,
+        "delta_semantics": null
+       },
+       "eps": {
+        "status": "unavailable",
+        "reason": "eps_not_in_retained_financial_series",
+        "period_end": "2025-10-31",
+        "available_on": null,
+        "level_value": null,
+        "baseline_period_end": null,
+        "baseline_level_value": null,
+        "value": null,
+        "delta_semantics": null
+       }
+      },
+      "2Q": {
+       "stock_return_pct": {
+        "status": "excluded_lookahead",
+        "reason": "endpoint_not_available_strictly_before_target_cutoff",
+        "value": null,
+        "target_date": "2026-03-30",
+        "baseline_date": "2025-09-29",
+        "baseline_close": 737.81,
+        "endpoint_date": null,
+        "endpoint_close": null
+       },
+       "revenue": {
+        "status": "excluded_lookahead",
+        "reason": "period_end_not_strictly_before_target_cutoff",
+        "period_end": "2025-12-31",
+        "available_on": null,
+        "level_value": null,
+        "baseline_period_end": null,
+        "baseline_level_value": null,
+        "value": null,
+        "delta_semantics": null
+       },
+       "margin": {
+        "status": "excluded_lookahead",
+        "reason": "period_end_not_strictly_before_target_cutoff",
+        "period_end": "2025-12-31",
+        "available_on": null,
+        "level_value": null,
+        "baseline_period_end": null,
+        "baseline_level_value": null,
+        "value": null,
+        "delta_semantics": null
+       },
+       "eps": {
+        "status": "excluded_lookahead",
+        "reason": "period_end_not_strictly_before_target_cutoff",
+        "period_end": "2025-12-31",
+        "available_on": null,
+        "level_value": null,
+        "baseline_period_end": null,
+        "baseline_level_value": null,
+        "value": null,
+        "delta_semantics": null
+       }
+      },
+      "4Q": {
+       "stock_return_pct": {
+        "status": "unavailable",
+        "reason": "no_endpoint_close_on_or_after_target_date",
+        "value": null,
+        "target_date": "2026-09-30",
+        "baseline_date": "2025-09-29",
+        "baseline_close": 737.81,
+        "endpoint_date": null,
+        "endpoint_close": null
+       },
+       "revenue": {
+        "status": "unavailable",
+        "reason": "insufficient_dated_periods_after_event",
+        "period_end": null,
+        "available_on": null,
+        "level_value": null,
+        "baseline_period_end": null,
+        "baseline_level_value": null,
+        "value": null,
+        "delta_semantics": null
+       },
+       "margin": {
+        "status": "unavailable",
+        "reason": "insufficient_dated_periods_after_event",
+        "period_end": null,
+        "available_on": null,
+        "level_value": null,
+        "baseline_period_end": null,
+        "baseline_level_value": null,
+        "value": null,
+        "delta_semantics": null
+       },
+       "eps": {
+        "status": "unavailable",
+        "reason": "insufficient_dated_periods_after_event",
+        "period_end": null,
+        "available_on": null,
+        "level_value": null,
+        "baseline_period_end": null,
+        "baseline_level_value": null,
+        "value": null,
+        "delta_semantics": null
+       }
+      },
+      "8Q": {
+       "stock_return_pct": {
+        "status": "unavailable",
+        "reason": "no_endpoint_close_on_or_after_target_date",
+        "value": null,
+        "target_date": "2027-09-30",
+        "baseline_date": "2025-09-29",
+        "baseline_close": 737.81,
+        "endpoint_date": null,
+        "endpoint_close": null
+       },
+       "revenue": {
+        "status": "unavailable",
+        "reason": "insufficient_dated_periods_after_event",
+        "period_end": null,
+        "available_on": null,
+        "level_value": null,
+        "baseline_period_end": null,
+        "baseline_level_value": null,
+        "value": null,
+        "delta_semantics": null
+       },
+       "margin": {
+        "status": "unavailable",
+        "reason": "insufficient_dated_periods_after_event",
+        "period_end": null,
+        "available_on": null,
+        "level_value": null,
+        "baseline_period_end": null,
+        "baseline_level_value": null,
+        "value": null,
+        "delta_semantics": null
+       },
+       "eps": {
+        "status": "unavailable",
+        "reason": "insufficient_dated_periods_after_event",
+        "period_end": null,
+        "available_on": null,
+        "level_value": null,
+        "baseline_period_end": null,
+        "baseline_level_value": null,
+        "value": null,
+        "delta_semantics": null
+       }
+      }
+     }
+    }
+   ],
+   "aggregates": {
+    "1Q": {
+     "stock_return_pct": {
+      "same_company": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      },
+      "peer": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      },
+      "combined": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      }
+     },
+     "revenue_delta_pct": {
+      "same_company": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      },
+      "peer": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      },
+      "combined": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      }
+     },
+     "margin_delta_pct": {
+      "same_company": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      },
+      "peer": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      },
+      "combined": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      }
+     },
+     "eps_delta_pct": {
+      "same_company": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      },
+      "peer": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      },
+      "combined": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      }
+     }
+    },
+    "2Q": {
+     "stock_return_pct": {
+      "same_company": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      },
+      "peer": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      },
+      "combined": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      }
+     },
+     "revenue_delta_pct": {
+      "same_company": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      },
+      "peer": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      },
+      "combined": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      }
+     },
+     "margin_delta_pct": {
+      "same_company": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      },
+      "peer": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      },
+      "combined": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      }
+     },
+     "eps_delta_pct": {
+      "same_company": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      },
+      "peer": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      },
+      "combined": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      }
+     }
+    },
+    "4Q": {
+     "stock_return_pct": {
+      "same_company": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      },
+      "peer": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      },
+      "combined": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      }
+     },
+     "revenue_delta_pct": {
+      "same_company": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      },
+      "peer": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      },
+      "combined": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      }
+     },
+     "margin_delta_pct": {
+      "same_company": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      },
+      "peer": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      },
+      "combined": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      }
+     },
+     "eps_delta_pct": {
+      "same_company": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      },
+      "peer": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      },
+      "combined": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      }
+     }
+    },
+    "8Q": {
+     "stock_return_pct": {
+      "same_company": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      },
+      "peer": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      },
+      "combined": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      }
+     },
+     "revenue_delta_pct": {
+      "same_company": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      },
+      "peer": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      },
+      "combined": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      }
+     },
+     "margin_delta_pct": {
+      "same_company": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      },
+      "peer": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      },
+      "combined": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      }
+     },
+     "eps_delta_pct": {
+      "same_company": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      },
+      "peer": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      },
+      "combined": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      }
+     }
+    }
+   },
+   "insufficient_evidence": true
+  },
+  {
+   "target_event": {
+    "event_id": "evt_90372372ccc7d6561be7",
+    "symbol": "MARI",
+    "event_type": "acquisition_divestment",
+    "event_subtype": "acquisition",
+    "effective_date": "2026-02-27",
+    "cutoff": "2026-02-27",
+    "source_document_ids": [
+     "psx:271327"
+    ]
+   },
+   "excluded_candidates": [],
+   "candidate_count": {
+    "same_company": 2,
+    "peer": 0,
+    "combined": 2
+   },
+   "candidates": [
+    {
+     "event_id": "evt_b25decfc180474cbe066",
+     "symbol": "MARI",
+     "classification": "same_company",
+     "event_type": "acquisition_divestment",
+     "event_subtype": "acquisition",
+     "effective_date": "2025-09-30",
+     "outcomes": {
+      "1Q": {
+       "stock_return_pct": {
+        "status": "mature",
+        "reason": null,
+        "value": -2.708014258413405,
+        "target_date": "2025-12-30",
+        "baseline_date": "2025-09-29",
+        "baseline_close": 737.81,
+        "endpoint_date": "2025-12-30",
+        "endpoint_close": 717.83
+       },
+       "revenue": {
+        "status": "excluded_lookahead",
+        "reason": "revenue_available_on_not_strictly_before_target_cutoff",
+        "period_end": "2025-10-31",
+        "available_on": null,
+        "level_value": null,
+        "baseline_period_end": null,
+        "baseline_level_value": null,
+        "value": null,
+        "delta_semantics": null
+       },
+       "margin": {
+        "status": "excluded_lookahead",
+        "reason": "revenue_available_on_not_strictly_before_target_cutoff",
+        "period_end": "2025-10-31",
+        "available_on": null,
+        "level_value": null,
+        "baseline_period_end": null,
+        "baseline_level_value": null,
+        "value": null,
+        "delta_semantics": null
+       },
+       "eps": {
+        "status": "unavailable",
+        "reason": "eps_not_in_retained_financial_series",
+        "period_end": "2025-10-31",
+        "available_on": null,
+        "level_value": null,
+        "baseline_period_end": null,
+        "baseline_level_value": null,
+        "value": null,
+        "delta_semantics": null
+       }
+      },
+      "2Q": {
+       "stock_return_pct": {
+        "status": "excluded_lookahead",
+        "reason": "endpoint_not_available_strictly_before_target_cutoff",
+        "value": null,
+        "target_date": "2026-03-30",
+        "baseline_date": "2025-09-29",
+        "baseline_close": 737.81,
+        "endpoint_date": null,
+        "endpoint_close": null
+       },
+       "revenue": {
+        "status": "excluded_lookahead",
+        "reason": "revenue_available_on_not_strictly_before_target_cutoff",
+        "period_end": "2025-12-31",
+        "available_on": null,
+        "level_value": null,
+        "baseline_period_end": null,
+        "baseline_level_value": null,
+        "value": null,
+        "delta_semantics": null
+       },
+       "margin": {
+        "status": "excluded_lookahead",
+        "reason": "revenue_available_on_not_strictly_before_target_cutoff",
+        "period_end": "2025-12-31",
+        "available_on": null,
+        "level_value": null,
+        "baseline_period_end": null,
+        "baseline_level_value": null,
+        "value": null,
+        "delta_semantics": null
+       },
+       "eps": {
+        "status": "unavailable",
+        "reason": "eps_not_in_retained_financial_series",
+        "period_end": "2025-12-31",
+        "available_on": null,
+        "level_value": null,
+        "baseline_period_end": null,
+        "baseline_level_value": null,
+        "value": null,
+        "delta_semantics": null
+       }
+      },
+      "4Q": {
+       "stock_return_pct": {
+        "status": "unavailable",
+        "reason": "no_endpoint_close_on_or_after_target_date",
+        "value": null,
+        "target_date": "2026-09-30",
+        "baseline_date": "2025-09-29",
+        "baseline_close": 737.81,
+        "endpoint_date": null,
+        "endpoint_close": null
+       },
+       "revenue": {
+        "status": "unavailable",
+        "reason": "insufficient_dated_periods_after_event",
+        "period_end": null,
+        "available_on": null,
+        "level_value": null,
+        "baseline_period_end": null,
+        "baseline_level_value": null,
+        "value": null,
+        "delta_semantics": null
+       },
+       "margin": {
+        "status": "unavailable",
+        "reason": "insufficient_dated_periods_after_event",
+        "period_end": null,
+        "available_on": null,
+        "level_value": null,
+        "baseline_period_end": null,
+        "baseline_level_value": null,
+        "value": null,
+        "delta_semantics": null
+       },
+       "eps": {
+        "status": "unavailable",
+        "reason": "insufficient_dated_periods_after_event",
+        "period_end": null,
+        "available_on": null,
+        "level_value": null,
+        "baseline_period_end": null,
+        "baseline_level_value": null,
+        "value": null,
+        "delta_semantics": null
+       }
+      },
+      "8Q": {
+       "stock_return_pct": {
+        "status": "unavailable",
+        "reason": "no_endpoint_close_on_or_after_target_date",
+        "value": null,
+        "target_date": "2027-09-30",
+        "baseline_date": "2025-09-29",
+        "baseline_close": 737.81,
+        "endpoint_date": null,
+        "endpoint_close": null
+       },
+       "revenue": {
+        "status": "unavailable",
+        "reason": "insufficient_dated_periods_after_event",
+        "period_end": null,
+        "available_on": null,
+        "level_value": null,
+        "baseline_period_end": null,
+        "baseline_level_value": null,
+        "value": null,
+        "delta_semantics": null
+       },
+       "margin": {
+        "status": "unavailable",
+        "reason": "insufficient_dated_periods_after_event",
+        "period_end": null,
+        "available_on": null,
+        "level_value": null,
+        "baseline_period_end": null,
+        "baseline_level_value": null,
+        "value": null,
+        "delta_semantics": null
+       },
+       "eps": {
+        "status": "unavailable",
+        "reason": "insufficient_dated_periods_after_event",
+        "period_end": null,
+        "available_on": null,
+        "level_value": null,
+        "baseline_period_end": null,
+        "baseline_level_value": null,
+        "value": null,
+        "delta_semantics": null
+       }
+      }
+     }
+    },
+    {
+     "event_id": "evt_3d1dae7553f73da60ba3",
+     "symbol": "MARI",
+     "classification": "same_company",
+     "event_type": "acquisition_divestment",
+     "event_subtype": "acquisition",
+     "effective_date": "2025-11-13",
+     "outcomes": {
+      "1Q": {
+       "stock_return_pct": {
+        "status": "mature",
+        "reason": null,
+        "value": 0.8526062455975536,
+        "target_date": "2026-02-13",
+        "baseline_date": "2025-11-12",
+        "baseline_close": 681.44,
+        "endpoint_date": "2026-02-13",
+        "endpoint_close": 687.25
+       },
+       "revenue": {
+        "status": "excluded_lookahead",
+        "reason": "revenue_available_on_not_strictly_before_target_cutoff",
+        "period_end": "2025-12-31",
+        "available_on": null,
+        "level_value": null,
+        "baseline_period_end": null,
+        "baseline_level_value": null,
+        "value": null,
+        "delta_semantics": null
+       },
+       "margin": {
+        "status": "excluded_lookahead",
+        "reason": "revenue_available_on_not_strictly_before_target_cutoff",
+        "period_end": "2025-12-31",
+        "available_on": null,
+        "level_value": null,
+        "baseline_period_end": null,
+        "baseline_level_value": null,
+        "value": null,
+        "delta_semantics": null
+       },
+       "eps": {
+        "status": "unavailable",
+        "reason": "eps_not_in_retained_financial_series",
+        "period_end": "2025-12-31",
+        "available_on": null,
+        "level_value": null,
+        "baseline_period_end": null,
+        "baseline_level_value": null,
+        "value": null,
+        "delta_semantics": null
+       }
+      },
+      "2Q": {
+       "stock_return_pct": {
+        "status": "excluded_lookahead",
+        "reason": "endpoint_not_available_strictly_before_target_cutoff",
+        "value": null,
+        "target_date": "2026-05-13",
+        "baseline_date": "2025-11-12",
+        "baseline_close": 681.44,
+        "endpoint_date": null,
+        "endpoint_close": null
+       },
+       "revenue": {
+        "status": "excluded_lookahead",
+        "reason": "period_end_not_strictly_before_target_cutoff",
+        "period_end": "2026-03-31",
+        "available_on": null,
+        "level_value": null,
+        "baseline_period_end": null,
+        "baseline_level_value": null,
+        "value": null,
+        "delta_semantics": null
+       },
+       "margin": {
+        "status": "excluded_lookahead",
+        "reason": "period_end_not_strictly_before_target_cutoff",
+        "period_end": "2026-03-31",
+        "available_on": null,
+        "level_value": null,
+        "baseline_period_end": null,
+        "baseline_level_value": null,
+        "value": null,
+        "delta_semantics": null
+       },
+       "eps": {
+        "status": "excluded_lookahead",
+        "reason": "period_end_not_strictly_before_target_cutoff",
+        "period_end": "2026-03-31",
+        "available_on": null,
+        "level_value": null,
+        "baseline_period_end": null,
+        "baseline_level_value": null,
+        "value": null,
+        "delta_semantics": null
+       }
+      },
+      "4Q": {
+       "stock_return_pct": {
+        "status": "unavailable",
+        "reason": "no_endpoint_close_on_or_after_target_date",
+        "value": null,
+        "target_date": "2026-11-13",
+        "baseline_date": "2025-11-12",
+        "baseline_close": 681.44,
+        "endpoint_date": null,
+        "endpoint_close": null
+       },
+       "revenue": {
+        "status": "unavailable",
+        "reason": "insufficient_dated_periods_after_event",
+        "period_end": null,
+        "available_on": null,
+        "level_value": null,
+        "baseline_period_end": null,
+        "baseline_level_value": null,
+        "value": null,
+        "delta_semantics": null
+       },
+       "margin": {
+        "status": "unavailable",
+        "reason": "insufficient_dated_periods_after_event",
+        "period_end": null,
+        "available_on": null,
+        "level_value": null,
+        "baseline_period_end": null,
+        "baseline_level_value": null,
+        "value": null,
+        "delta_semantics": null
+       },
+       "eps": {
+        "status": "unavailable",
+        "reason": "insufficient_dated_periods_after_event",
+        "period_end": null,
+        "available_on": null,
+        "level_value": null,
+        "baseline_period_end": null,
+        "baseline_level_value": null,
+        "value": null,
+        "delta_semantics": null
+       }
+      },
+      "8Q": {
+       "stock_return_pct": {
+        "status": "unavailable",
+        "reason": "no_endpoint_close_on_or_after_target_date",
+        "value": null,
+        "target_date": "2027-11-13",
+        "baseline_date": "2025-11-12",
+        "baseline_close": 681.44,
+        "endpoint_date": null,
+        "endpoint_close": null
+       },
+       "revenue": {
+        "status": "unavailable",
+        "reason": "insufficient_dated_periods_after_event",
+        "period_end": null,
+        "available_on": null,
+        "level_value": null,
+        "baseline_period_end": null,
+        "baseline_level_value": null,
+        "value": null,
+        "delta_semantics": null
+       },
+       "margin": {
+        "status": "unavailable",
+        "reason": "insufficient_dated_periods_after_event",
+        "period_end": null,
+        "available_on": null,
+        "level_value": null,
+        "baseline_period_end": null,
+        "baseline_level_value": null,
+        "value": null,
+        "delta_semantics": null
+       },
+       "eps": {
+        "status": "unavailable",
+        "reason": "insufficient_dated_periods_after_event",
+        "period_end": null,
+        "available_on": null,
+        "level_value": null,
+        "baseline_period_end": null,
+        "baseline_level_value": null,
+        "value": null,
+        "delta_semantics": null
+       }
+      }
+     }
+    }
+   ],
+   "aggregates": {
+    "1Q": {
+     "stock_return_pct": {
+      "same_company": {
+       "n": 2,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      },
+      "peer": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      },
+      "combined": {
+       "n": 2,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      }
+     },
+     "revenue_delta_pct": {
+      "same_company": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      },
+      "peer": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      },
+      "combined": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      }
+     },
+     "margin_delta_pct": {
+      "same_company": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      },
+      "peer": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      },
+      "combined": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      }
+     },
+     "eps_delta_pct": {
+      "same_company": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      },
+      "peer": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      },
+      "combined": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      }
+     }
+    },
+    "2Q": {
+     "stock_return_pct": {
+      "same_company": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      },
+      "peer": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      },
+      "combined": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      }
+     },
+     "revenue_delta_pct": {
+      "same_company": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      },
+      "peer": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      },
+      "combined": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      }
+     },
+     "margin_delta_pct": {
+      "same_company": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      },
+      "peer": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      },
+      "combined": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      }
+     },
+     "eps_delta_pct": {
+      "same_company": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      },
+      "peer": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      },
+      "combined": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      }
+     }
+    },
+    "4Q": {
+     "stock_return_pct": {
+      "same_company": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      },
+      "peer": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      },
+      "combined": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      }
+     },
+     "revenue_delta_pct": {
+      "same_company": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      },
+      "peer": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      },
+      "combined": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      }
+     },
+     "margin_delta_pct": {
+      "same_company": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      },
+      "peer": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      },
+      "combined": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      }
+     },
+     "eps_delta_pct": {
+      "same_company": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      },
+      "peer": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      },
+      "combined": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      }
+     }
+    },
+    "8Q": {
+     "stock_return_pct": {
+      "same_company": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      },
+      "peer": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      },
+      "combined": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      }
+     },
+     "revenue_delta_pct": {
+      "same_company": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      },
+      "peer": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      },
+      "combined": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      }
+     },
+     "margin_delta_pct": {
+      "same_company": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      },
+      "peer": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      },
+      "combined": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      }
+     },
+     "eps_delta_pct": {
+      "same_company": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      },
+      "peer": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      },
+      "combined": {
+       "n": 0,
+       "status": "suppressed",
+       "reason": "n_lt_3",
+       "display": "Insufficient evidence for a reliable benchmark",
+       "stats": {
+        "median": null,
+        "min": null,
+        "max": null,
+        "range": null,
+        "q1": null,
+        "q3": null,
+        "iqr": null
+       }
+      }
+     }
+    }
+   },
+   "insufficient_evidence": true
+  }
+ ],
+ "limitations": [
+  "Raw close-to-close price returns; not adjusted for dividends, splits or index effects, and not total returns.",
+  "Descriptive historical association only; outcomes are labels, never causal attribution.",
+  "Aggregates are suppressed below the minimum sample and never average thin samples into a benchmark.",
+  "Financial outcomes require model-loadable facts; audit-only retained facts fail closed.",
+  "Peer coverage depends on retained registry events; OGDC and PPL currently retain no family events, so peer evidence is empty rather than assumed.",
+  "Historical selection is limited to the retained registry and price window; survivorship and coverage bias are not corrected."
+ ],
+ "source": [
+  "state/company_intel/operating_events.json",
+  "state/history/MARI.json",
+  "state/history/OGDC.json",
+  "state/history/PPL.json",
+  "state/company_financial_series.json"
+ ],
+ "_meta": {
+  "generator_version": "ci_artifact_integrity_v1",
+  "source_commit_sha": "cb864bffd50b3bd24c5a5c5d0ee8e211cd20f718",
+  "build_cutoff_at": "2026-09-01T00:00:00Z",
+  "generated_at": "2026-09-01T00:00:00Z",
+  "artifact_path": "state/company_intel/mari_enp_analogue_engine.json",
+  "timestamp_semantics": {
+   "build_cutoff_at": "generation boundary only; not a source-effective or source-published time",
+   "generated_at": "artifact generation time only; not a source-effective or source-published time"
+  }
+ }
+}

@@ -14,6 +14,7 @@ from psx_data import ROOT, STATE, load_json, save_json
 from document_events import event_is_supported
 from build_ci_completion_matrix import slice_summary as _completion_matrix_summary
 from build_event_to_value_product_readiness import project_readiness as _project_event_to_value_product_readiness
+from formal_financial_engines import financial_truth_is_qualified
 
 APP_DIR = ROOT / "Henneth Desk 2.CI.0"
 OUT = APP_DIR / "data" / "company_intelligence.json"
@@ -677,7 +678,19 @@ def _source_quality(source_qa, sym):
     }
 
 
-def _formal_engine_product(engine_state, sym, kind):
+def _formal_engine_product(engine_state, sym, kind, financial_truth_row=None):
+    if not financial_truth_is_qualified(financial_truth_row or {}):
+        return {
+            "symbol": sym,
+            "status": "blocked_financial_truth_not_qualified",
+            "truth_status": (financial_truth_row or {}).get("status") or "missing",
+            "reason": "financial_truth_not_qualified",
+            "missing_requirements": ["financial_truth_qualified"],
+            "formula_id": engine_state.get("formula_id"),
+            "result": None,
+            "provenance": [],
+            "policy": engine_state.get("policy") or {"research_only": True, "no_advice": True},
+        }
     row = (engine_state.get("companies") or {}).get(sym)
     if isinstance(row, dict):
         return dict(row)
@@ -1147,9 +1160,9 @@ def build(write: bool = True):
             "expected_reporting_window": {"status": "unknown", "reason": "event_review_windows_state_missing", "historical_dates": []},
             "review_windows": [],
         }
-        financial_forecast_row = _formal_engine_product(financial_forecasts, sym, "financial_forecasts")
-        formal_valuation_row = _formal_engine_product(formal_valuations, sym, "formal_valuations")
-        market_expectation_row = _formal_engine_product(market_expectations, sym, "market_expectations")
+        financial_forecast_row = _formal_engine_product(financial_forecasts, sym, "financial_forecasts", financial_truth_row)
+        formal_valuation_row = _formal_engine_product(formal_valuations, sym, "formal_valuations", financial_truth_row)
+        market_expectation_row = _formal_engine_product(market_expectations, sym, "market_expectations", financial_truth_row)
         intelligence_case_row = _intelligence_case_row(
             intelligence_cases,
             sym,

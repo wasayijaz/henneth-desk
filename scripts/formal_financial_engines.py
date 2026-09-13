@@ -135,12 +135,14 @@ def actuals_from_model_inputs(
 
 
 def _blocked(symbol: str, kind: str, missing: list[str], formula_id: str, truth_status: str) -> dict[str, Any]:
+    requirements = sorted(set(missing))
+    status = "blocked_financial_truth_not_qualified" if "financial_truth_qualified" in requirements else "blocked"
     return {
         "symbol": symbol,
-        "status": "blocked",
+        "status": status,
         "truth_status": truth_status,
         "reason": "missing_source_gated_inputs",
-        "missing_requirements": sorted(set(missing)),
+        "missing_requirements": requirements,
         "formula_id": formula_id,
         "result": None,
         "provenance": [],

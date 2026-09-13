@@ -120,7 +120,10 @@ def main() -> int:
         data = load_json(path, None)
         if not isinstance(data, dict):
             fail(f"{path_text}: not a JSON object")
-        assert_envelope(data, path_text, cutoff, sha)
+        # Readiness consumes this manifest; it is intentionally not stamped
+        # with the manifest envelope to avoid a self-referential loop.
+        if path_text != "state/company_intel/event_to_value_product_readiness.json":
+            assert_envelope(data, path_text, cutoff, sha)
         entry = by_path[path_text]
         if entry.get("sha256") != canonical_hash(data):
             fail(f"{path_text}: hash mismatch")

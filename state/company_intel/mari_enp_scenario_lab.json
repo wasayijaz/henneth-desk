@@ -1,0 +1,84 @@
+{
+ "schema_version": "mari_enp_scenario_lab_result_v1",
+ "formula_id": "enp_exploration.scenario_lab.v1",
+ "gap_formula_id": "enp_exploration.expectations_gap.v1",
+ "engine_version": "mari_enp_scenario_lab_v1",
+ "valuation_engine_version": "mari_enp_valuation_engine_v1",
+ "case_id": "case_mari_working_interest_observed_v1",
+ "symbol": "MARI",
+ "case_family": "e_and_p",
+ "status": "blocked_financial_truth_not_qualified",
+ "blocked_reasons": [
+  "assumptions_unapproved",
+  "financial_truth_not_qualified",
+  "financial_truth_not_qualified: requires five annual and eight direct reported-quarter full-statement schedules, deterministic EBITDA/FCF operand lineage, an official share-count capital-note tie-out, and no unresolved canonical conflicts",
+  "no_model_ready_E_and_P_operands"
+ ],
+ "missing_inputs": [
+  "commercial_success_probability",
+  "decline_model",
+  "decline_rate",
+  "development_capex_schedule",
+  "discount_rate",
+  "drilling_duration_months",
+  "first_production_delay_quarters",
+  "fully_diluted_shares",
+  "fx_pkr_usd",
+  "gas_mmbtu_per_boe",
+  "gas_price_usd_mmbtu",
+  "geological_success_probability",
+  "grids",
+  "initial_production",
+  "market",
+  "oil_gas_mix",
+  "oil_price_usd_bbl",
+  "operating_cost_per_boe",
+  "operator_status",
+  "recoverable_reserves",
+  "royalty_rate",
+  "scenarios",
+  "tax_rate",
+  "well_cost",
+  "working_interest"
+ ],
+ "financial_truth_status": "not_qualified",
+ "assumptions_approved": false,
+ "run_receipt": {
+  "inputs_sha256": null,
+  "contract_version": "mari_enp_scenario_lab_v1"
+ },
+ "scenarios": null,
+ "grids": null,
+ "expectations_gap": null,
+ "confidence_limitations": {
+  "research_only": true,
+  "no_advice": true,
+  "single_point_estimate": true,
+  "simplifications": [
+   "bear/base/bull are isolated cases; no probability weighting across the three labels",
+   "commodity-price grid scales oil and gas prices by the same explicit factor",
+   "success-probability grid applies P_disc directly as geological_success_probability with commercial_success_probability = 1",
+   "P_market is reverse-solved from the base-case unrisked NPV, dry-hole cost and an explicit per-share premium",
+   "grid and scenario outputs are summaries; full quarterly schedules remain in the valuation engine"
+  ]
+ },
+ "policy": {
+  "research_only": true,
+  "no_advice": true,
+  "no_order": true,
+  "fail_closed_without_qualified_financial_truth": true,
+  "fail_closed_without_approved_assumptions": true,
+  "synthetic_numbers_not_written_to_retained_state": true
+ },
+ "_meta": {
+  "generator_version": "ci_artifact_integrity_v1",
+  "source_commit_sha": "cb864bffd50b3bd24c5a5c5d0ee8e211cd20f718",
+  "build_cutoff_at": "2026-09-01T00:00:00Z",
+  "generated_at": "2026-09-01T00:00:00Z",
+  "artifact_path": "state/company_intel/mari_enp_scenario_lab.json",
+  "timestamp_semantics": {
+   "build_cutoff_at": "generation boundary only; not a source-effective or source-published time",
+   "generated_at": "artifact generation time only; not a source-effective or source-published time"
+  }
+ }
+}

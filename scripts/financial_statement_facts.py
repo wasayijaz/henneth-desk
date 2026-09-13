@@ -735,6 +735,17 @@ def _structured_page_facts(doc: dict[str, Any], page_no: int, page_words: list[t
         if not matched:
             continue
         line_name, label_match = matched
+        # ``Cash flows from operating activities`` is the section heading in
+        # the MLCF statement, not the load-bearing OCF total.  It has no
+        # numeric cells of its own; do not let the generic continuation logic
+        # borrow the next component row (``Cash generated from operations``)
+        # and misclassify that value as operating cash flow.  The canonical
+        # total is the later ``Net cash inflow from operating activities`` row.
+        if (
+            line_name == "operating_cash_flow"
+            and re.fullmatch(r"cash\s+flows?\s+from\s+operating\s+activities", row["text"].strip(), re.I)
+        ):
+            continue
         if line_name == "profit_after_tax_attributable" and _is_non_attributable_pat_row(lines, row):
             continue
         # Cash-flow totals can sit well below the header (after the opening
