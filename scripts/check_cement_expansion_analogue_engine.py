@@ -77,6 +77,16 @@ def _test_source_qualification_violations() -> None:
     if not any("missing_or_invalid_source_page" in v for v in engine.validate_analogue_candidate(bad_page)):
         _fail("page < 1 must be rejected")
 
+    str_page = _fixture_candidate(1, "DGKC")
+    str_page["source"]["page"] = "1"
+    if not any("missing_or_invalid_source_page" in v for v in engine.validate_analogue_candidate(str_page)):
+        _fail("string page must be rejected")
+
+    bool_page = _fixture_candidate(1, "DGKC")
+    bool_page["source"]["page"] = True
+    if not any("missing_or_invalid_source_page" in v for v in engine.validate_analogue_candidate(bool_page)):
+        _fail("boolean page must be rejected")
+
     bad_url = _fixture_candidate(1, "DGKC")
     bad_url["source"]["url"] = "invalid_url"
     if not any("missing_or_invalid_source_url" in v for v in engine.validate_analogue_candidate(bad_url)):
@@ -86,6 +96,39 @@ def _test_source_qualification_violations() -> None:
     bad_hash["source"]["hash"] = "short_hash"
     if not any("missing_or_malformed_content_sha256" in v for v in engine.validate_analogue_candidate(bad_hash)):
         _fail("non-64 hex hash must be rejected")
+
+    missing_pub = _fixture_candidate(1, "DGKC")
+    missing_pub["information_available_at"] = None
+    missing_pub["source"]["published_at"] = None
+    missing_pub["source"]["available_on"] = None
+    if not any("missing_explicit_information_available_at_timestamp" in v for v in engine.validate_analogue_candidate(missing_pub)):
+        _fail("missing explicit publication timestamp must be rejected")
+
+def _test_data_cutoff_and_baseline_lookahead() -> None:
+    # Endpoint after data cutoff
+    cand_late = _fixture_candidate(1, "DGKC")
+    cand_late["horizons"]["1Q"]["endpoint_date"] = "2026-09-15"
+    res = engine.evaluate_cement_expansion_lane(candidate_pool=[cand_late], cutoff_date=date(2026, 8, 31))
+    excl = res.get("horizon_exclusions", {}).get("1Q", [])
+    if not any("endpoint_after_cutoff" in item.get("reason", "") for item in excl):
+        _fail(f"Endpoint after data cutoff must be recorded in exclusions: {excl}")
+
+    # Baseline lookahead (baseline date equal to or after information availability)
+    cand_base = _fixture_candidate(1, "DGKC")
+    cand_base["baseline"] = {"selected_date": "2024-01-15"}
+    cand_base["information_available_at"] = "2024-01-15"
+    res_base = engine.evaluate_cement_expansion_lane(candidate_pool=[cand_base], cutoff_date=date(2026, 8, 31))
+    excl_base = res_base.get("horizon_exclusions", {}).get("1Q", [])
+    if not any("baseline_lookahead" in item.get("reason", "") for item in excl_base):
+        _fail(f"Baseline equal to info availability must be excluded for baseline lookahead: {excl_base}")
+
+def _test_target_context_not_source_bound() -> None:
+    res = engine.evaluate_cement_expansion_lane(candidate_pool=[], cutoff_date=date(2026, 8, 31))
+    tgt = res.get("target_context") or {}
+    if tgt.get("target_status") != "not_source_bound":
+        _fail(f"Default prospective target context must be marked not_source_bound: {tgt}")
+    if tgt.get("model_or_publish_eligible") is not False:
+        _fail(f"not_source_bound target must have model_or_publish_eligible=False: {tgt}")
 
 def _test_duplicate_source_deduplication() -> None:
     # Simulated repeated MLCF disclosures from psx:263397
@@ -97,6 +140,14 @@ def _test_duplicate_source_deduplication() -> None:
     deduped = engine.deduplicate_observations([cand1, cand2])
     if len(deduped) != 1:
         _fail(f"Repeated disclosures from same source/project must deduplicate to 1, got {len(deduped)}")
+
+    # Genuinely distinct projects disclosed in one period must be preserved
+    cand3 = _fixture_candidate(1, "MLCF")
+    cand3["project_id"] = "mlcf_whr_plant"
+    cand3["candidate_id"] = "cand_test_MLCF_whr"
+    distinct_pool = engine.deduplicate_observations([cand1, cand3])
+    if len(distinct_pool) != 2:
+        _fail(f"Distinct projects must not be collapsed, expected 2 got {len(distinct_pool)}")
 
 def _test_mismatched_mna_rejection() -> None:
     mna_cand = {
@@ -130,7 +181,9 @@ def main() -> None:
     _test_positive_distribution_n3()
     _test_fail_closed_thin_sample_n2()
     _test_premature_endpoint_suppression()
+    _test_data_cutoff_and_baseline_lookahead()
     _test_source_qualification_violations()
+    _test_target_context_not_source_bound()
     _test_duplicate_source_deduplication()
     _test_mismatched_mna_rejection()
     _test_deduplication()

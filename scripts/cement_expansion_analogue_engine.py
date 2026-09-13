@@ -107,11 +107,14 @@ def validate_analogue_candidate(cand: Mapping[str, Any], cutoff_date: date | Non
     elif family not in ELIGIBLE_EVENT_FAMILIES and cand.get("event_type") not in ("capacity_expansion", "product_launch"):
         violations.append(f"unsupported_event_family: {family}")
 
-    avail_date_str = cand.get("information_available_at") or (cand.get("source") or {}).get("available_on") or cand.get("effective_date")
+    # Publication / information availability timestamp must be explicit and source-bound
+    avail_date_str = cand.get("information_available_at") or (cand.get("source") or {}).get("published_at") or (cand.get("source") or {}).get("available_on")
+    if not avail_date_str:
+        violations.append("missing_explicit_information_available_at_timestamp")
     cand_date = parse_date(avail_date_str)
-    if not cand_date:
-        violations.append("missing_valid_event_or_information_date")
-    elif cutoff_date and cand_date >= cutoff_date:
+    if avail_date_str and not cand_date:
+        violations.append("malformed_information_available_at_date")
+    elif cutoff_date and cand_date and cand_date >= cutoff_date:
         violations.append(f"lookahead_violation: candidate date {cand_date} >= cutoff {cutoff_date}")
 
     source = cand.get("source") or {}
@@ -128,8 +131,8 @@ def validate_analogue_candidate(cand: Mapping[str, Any], cutoff_date: date | Non
         if not url or not (url.startswith("http://") or url.startswith("https://") or url.startswith("fixture://")):
             violations.append("missing_or_invalid_source_url")
         page = source.get("page")
-        if page is None or (isinstance(page, int) and page < 1):
-            violations.append("missing_or_invalid_source_page")
+        if page is None or isinstance(page, bool) or not isinstance(page, int) or page < 1:
+            violations.append("missing_or_invalid_source_page: page must be positive integer")
 
     return violations
 
@@ -139,19 +142,21 @@ def deduplicate_observations(candidates: Sequence[Mapping[str, Any]]) -> list[di
     for cand in candidates:
         sym = str(cand.get("symbol") or "")
         episode_id = cand.get("episode_id")
+        project_id = cand.get("project_id")
         if episode_id:
             episode_key = f"{sym}:{episode_id}"
+        elif project_id:
+            episode_key = f"{sym}:{project_id}"
         else:
-            source = cand.get("source") or {}
-            doc_id = str(source.get("id") or source.get("document_id") or "")
             family = str(cand.get("event_family") or cand.get("event_type") or "")
-            project_key = str(cand.get("project_id") or doc_id or cand.get("event_id") or "")
-            episode_key = f"{sym}:{family}:{project_key}"
+            eff_date = str(cand.get("effective_date") or "")
+            norm_title = str(cand.get("project_name") or cand.get("event_subtype") or cand.get("event_id") or "")
+            episode_key = f"{sym}:{family}:{eff_date}:{norm_title}"
         if episode_key not in deduped:
             deduped[episode_key] = dict(cand)
         else:
-            existing_date = parse_date(deduped[episode_key].get("effective_date"))
-            new_date = parse_date(cand.get("effective_date"))
+            existing_date = parse_date(deduped[episode_key].get("information_available_at") or deduped[episode_key].get("effective_date"))
+            new_date = parse_date(cand.get("information_available_at") or cand.get("effective_date"))
             if new_date and existing_date and new_date < existing_date:
                 deduped[episode_key] = dict(cand)
     return list(deduped.values())
@@ -200,7 +205,13 @@ def evaluate_cement_expansion_lane(
         "lane": "cement_capacity_expansion_commissioning",
         "event_family": "cement_clinker_line_commissioning",
         "description": "DGKC 2,500 TPD Clinker Line & WHR Plant Commissioning",
+        "target_status": "not_source_bound",
+        "model_or_publish_eligible": False,
+        "case_linkage": None,
     }
+
+    target_status = target.get("target_status") or "not_source_bound"
+    model_eligible = bool(target.get("model_or_publish_eligible", False))
 
     raw_pool = candidate_pool if candidate_pool is not None else []
     validated_candidates = []
@@ -215,29 +226,61 @@ def evaluate_cement_expansion_lane(
 
     deduped_candidates = deduplicate_observations(validated_candidates)
 
-    # Horizon maturity tracking with target endpoint verification
+    # Horizon maturity tracking with target endpoint & baseline lookahead verification
     horizon_distributions = {}
     mature_counts = {}
+    horizon_candidate_records = {}
+    horizon_exclusion_records = {}
+
     for h_name, months in (("1Q", 3), ("2Q", 6), ("4Q", 12), ("8Q", 24)):
         horizon_outcomes = []
+        eligible_for_h = []
+        excluded_for_h = []
+
         for c in deduped_candidates:
             h_data = (c.get("horizons") or {}).get(h_name) or {}
-            if h_data.get("status") != "mature":
+            cid = c.get("candidate_id") or c.get("event_id")
+            c_avail_str = c.get("information_available_at") or (c.get("source") or {}).get("published_at")
+            c_date = parse_date(c_avail_str)
+            if not c_date:
+                excluded_for_h.append({"candidate_id": cid, "reason": "missing_information_available_at"})
                 continue
-            c_date = parse_date(c.get("information_available_at") or c.get("effective_date"))
+
+            # Baseline check: baseline date must be strictly before information availability
+            base_date = parse_date((c.get("baseline") or {}).get("selected_date") or (h_data.get("provenance") or {}).get("baseline_date"))
+            if base_date and base_date >= c_date:
+                excluded_for_h.append({"candidate_id": cid, "reason": f"baseline_lookahead: baseline {base_date} >= info_avail {c_date}"})
+                continue
+
+            if h_data.get("status") != "mature":
+                excluded_for_h.append({"candidate_id": cid, "reason": h_data.get("reason") or f"horizon_{h_name}_status_{h_data.get('status')}"})
+                continue
+
             endpoint = parse_date(h_data.get("endpoint_date") or h_data.get("selected_date"))
-            # Validate endpoint is strictly on or after horizon target date
-            if c_date and endpoint:
-                target_endpoint = event_studies.add_months(c_date, months)
-                if endpoint < target_endpoint:
-                    continue
+            target_endpoint = event_studies.add_months(c_date, months)
+            if not endpoint:
+                excluded_for_h.append({"candidate_id": cid, "reason": "missing_endpoint_date"})
+                continue
+            if endpoint < target_endpoint:
+                excluded_for_h.append({"candidate_id": cid, "reason": f"premature_endpoint: endpoint {endpoint} < target {target_endpoint}"})
+                continue
+            if cutoff_date and endpoint > cutoff_date:
+                excluded_for_h.append({"candidate_id": cid, "reason": f"endpoint_after_cutoff: endpoint {endpoint} > cutoff {cutoff_date}"})
+                continue
+
             ret = h_data.get("return_pct")
-            if ret is not None and math.isfinite(float(ret)):
-                horizon_outcomes.append(float(ret))
+            if ret is None or not math.isfinite(float(ret)):
+                excluded_for_h.append({"candidate_id": cid, "reason": "missing_or_nonfinite_return_pct"})
+                continue
+
+            horizon_outcomes.append(float(ret))
+            eligible_for_h.append({"candidate_id": cid, "return_pct": float(ret), "endpoint_date": endpoint.isoformat()})
 
         dist = compute_horizon_distribution(horizon_outcomes)
         horizon_distributions[h_name] = dist
         mature_counts[h_name] = dist["n"]
+        horizon_candidate_records[h_name] = eligible_for_h
+        horizon_exclusion_records[h_name] = excluded_for_h
 
     all_ready = all(count >= MIN_SAMPLE for count in mature_counts.values())
     any_ready = any(count >= MIN_SAMPLE for count in mature_counts.values())
@@ -251,6 +294,9 @@ def evaluate_cement_expansion_lane(
             "symbol": target.get("symbol"),
             "lane": target.get("lane"),
             "event_family": target.get("event_family"),
+            "target_status": target_status,
+            "model_or_publish_eligible": model_eligible,
+            "case_linkage": target.get("case_linkage"),
             "case_type_disambiguation": {
                 "lane_identity": "organic_cement_capacity_expansion",
                 "distinction_from_mlcf_pioc": "MLCF PIOC event is corporate equity control M&A (corporate_equity_control_acquisition) and remains blocked from organic capacity expansion pooling",
@@ -266,6 +312,8 @@ def evaluate_cement_expansion_lane(
             "distribution_computed_horizons": [h for h, cnt in mature_counts.items() if cnt >= MIN_SAMPLE],
         },
         "horizon_distributions": horizon_distributions,
+        "horizon_eligible_candidates": horizon_candidate_records,
+        "horizon_exclusions": horizon_exclusion_records,
         "qualified_candidate_episodes": deduped_candidates,
         "rejected_candidates": rejected_candidates,
         "discovery_requirements_queue": DISCOVERY_REQUIREMENTS_QUEUE,
@@ -274,6 +322,7 @@ def evaluate_cement_expansion_lane(
             "strictly_pre_event_baselines": True,
             "no_mismatched_mna_coercion": True,
             "no_forecast_activation": True,
+            "target_must_be_source_bound_for_activation": True,
         },
     }
 

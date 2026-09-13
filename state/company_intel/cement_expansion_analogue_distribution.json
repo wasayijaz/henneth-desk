@@ -6,6 +6,9 @@
   "symbol": "DGKC",
   "lane": "cement_capacity_expansion_commissioning",
   "event_family": "cement_clinker_line_commissioning",
+  "target_status": "not_source_bound",
+  "model_or_publish_eligible": false,
+  "case_linkage": null,
   "case_type_disambiguation": {
    "lane_identity": "organic_cement_capacity_expansion",
    "distinction_from_mlcf_pioc": "MLCF PIOC event is corporate equity control M&A (corporate_equity_control_acquisition) and remains blocked from organic capacity expansion pooling",
@@ -66,6 +69,18 @@
    "max_return_pct": null,
    "iqr_dispersion_pct": null
   }
+ },
+ "horizon_eligible_candidates": {
+  "1Q": [],
+  "2Q": [],
+  "4Q": [],
+  "8Q": []
+ },
+ "horizon_exclusions": {
+  "1Q": [],
+  "2Q": [],
+  "4Q": [],
+  "8Q": []
  },
  "qualified_candidate_episodes": [],
  "rejected_candidates": [
@@ -3561,13 +3576,14 @@
   "fail_closed_minimum_sample_three": true,
   "strictly_pre_event_baselines": true,
   "no_mismatched_mna_coercion": true,
-  "no_forecast_activation": true
+  "no_forecast_activation": true,
+  "target_must_be_source_bound_for_activation": true
  },
  "_meta": {
   "generator_version": "ci_artifact_integrity_v1",
-  "source_commit_sha": "ee406fb68397128a2db906b5762b2b63165c5b09",
-  "build_cutoff_at": "2026-09-13T17:55:27Z",
-  "generated_at": "2026-09-13T17:55:27Z",
+  "source_commit_sha": "e37a42a8c6d0182402e94faca94c5571b7f4fe03",
+  "build_cutoff_at": "2026-09-13T18:01:09Z",
+  "generated_at": "2026-09-13T18:01:09Z",
   "artifact_path": "state/company_intel/cement_expansion_analogue_distribution.json",
   "timestamp_semantics": {
    "build_cutoff_at": "generation boundary only; not a source-effective or source-published time",
