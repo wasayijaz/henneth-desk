@@ -187,7 +187,7 @@ const TREE_GROUPS = [
   { key: "financials", label: "Financials", landing_route: "directory_financials", routes: [["trends", "Financial Trends"], ["baseline", "Financial Baseline"], ["forecast", "Forecast Readiness"], ["alpha_readiness", "Event-to-Value readiness"], ["financials", "Accounting Snapshot"]] },
   { key: "events", label: "Events & Filings", landing_route: "directory_events", routes: [["earnings", "Earnings"], ["events", "Events"], ["filings", "Filings"], ["sources", "Sources"], ["changes", "Change Digest"], ["brief", "Approved brief"]] },
   { key: "strategy", label: "Strategy", landing_route: "directory_strategy", routes: [["scenarios", "Scenarios"], ["valuation", "Valuation"], ["guidance", "Guidance"], ["catalysts", "Catalysts"], ["risks", "Risks"], ["quant", "Quant (legacy)"]] },
-  { key: "ownership", label: "Ownership & Peers", routes: [["ownership", "Ownership"], ["peers", "Peers"], ["watchlist", "Watchlist"], ["conditional", "Conditional Benchmarks"], ["causal", "Causal Map"], ["coverage", "Coverage"], ["thesis", "Thesis Monitor"], ["monitoring", "Monitoring"], ["operations", "Operations (legacy)"]] },
+  { key: "ownership", label: "Ownership & Peers", landing_route: "directory_ownership", routes: [["ownership", "Ownership"], ["peers", "Peers"], ["watchlist", "Watchlist"], ["conditional", "Conditional Benchmarks"], ["causal", "Causal Map"], ["coverage", "Coverage"], ["thesis", "Thesis Monitor"], ["monitoring", "Monitoring"], ["operations", "Operations (legacy)"]] },
 ];
 let state = {
   session: null,
@@ -968,6 +968,7 @@ function detail(r) {
       : state.view === "directory_financials" ? renderFinancialsDashboard(r)
       : state.view === "directory_events" ? renderEventsDashboard(r)
       : state.view === "directory_strategy" ? renderStrategyDashboard(r)
+      : state.view === "directory_ownership" ? renderOwnershipDashboard(r)
       : state.view === "financials" ? renderCompanyFinancials(r)
       : state.view === "earnings" ? renderCompanyEarnings(r)
       : state.view === "operations" ? renderCompanyOperations(r)
@@ -1436,7 +1437,7 @@ function renderConditionalBenchmarks(r) {
     </article>`;
   }).join("") : `<div class="empty">No conditional historical benchmark row was emitted for ${esc(r.symbol)}.</div>`;
   return `<section class="panel span9 conditional-shell" aria-labelledby="conditionalTitle">
-    <span class="kicker">Conditional historical benchmarks</span><h2 id="conditionalTitle">Matched event context, descriptive only</h2>
+    <button type="button" class="overview-back-button" data-research-route="directory_ownership">Ownership &amp; Peers workspace</button><span class="kicker">Conditional historical benchmarks</span><h2 id="conditionalTitle">Matched event context, descriptive only</h2>
     <p class="section-note">Read-only backend output from conditional_benchmarks. The browser displays exact candidate IDs, dates, classes, suppressed aggregate states and backend-supplied stats only; it does not match events, calculate benchmarks, infer causality, forecast, value the company, or provide advice.</p>
     <div class="conditional-summary">
       <div><span>Symbol</span><b>${conditionalText(conditional.symbol || r.symbol, "unknown")}</b></div>
@@ -1509,7 +1510,7 @@ function renderCausalFoundations(r) {
     </article>`;
   }).join("") : `<div class="empty">No causal foundation rows were emitted for ${esc(r.symbol)}.</div>`;
   return `<section class="panel span9 causal-shell" aria-labelledby="causalTitle">
-    <span class="kicker">Causal driver evidence map</span><h2 id="causalTitle">Driver evidence, not impact estimates</h2>
+    <button type="button" class="overview-back-button" data-research-route="directory_ownership">Ownership &amp; Peers workspace</button><span class="kicker">Causal driver evidence map</span><h2 id="causalTitle">Driver evidence, not impact estimates</h2>
     <p class="section-note">Read-only backend output from causal_foundations. The browser displays categorical evidence, exact refs and blocked downstream policy only; it does not estimate impact, forecast, value the company, or turn this into advice.</p>
     <div class="causal-summary">
       <div><span>Sector model</span><b>${esc(foundations.sector || r.sector || "unknown")}</b></div>
@@ -1754,6 +1755,7 @@ function renderGuidanceDomainView(r, domainName, title, emptyText) {
 
 function renderCompanyOperations(r) {
   return `<section class="company-route-stack">
+    <button type="button" class="overview-back-button" data-research-route="directory_ownership">Ownership &amp; Peers workspace</button>
     ${renderCompanyDomainView(r, "operating_kpis", "Operating KPIs", "Unknown — no sourced operating KPI reference is available.")}
     ${renderOperatingIntelligence(r)}
   </section>`;
@@ -2153,7 +2155,7 @@ function renderCompanyPeers(r) {
   </article>`;
   if (!registry.method || registry.registry_status === "blocked_no_formal_peer_registry") {
     return `<section class="panel span9 blocked-shell" aria-labelledby="peersTitle">
-      <span class="kicker">Peers</span><h2 id="peersTitle">No formal peer registry yet</h2>
+      <button type="button" class="overview-back-button" data-research-route="directory_ownership">Ownership &amp; Peers workspace</button><span class="kicker">Peers</span><h2 id="peersTitle">No formal peer registry yet</h2>
       <p class="section-note">Peers are unavailable because no formal peer registry exists in the authoritative CI slice. The browser does not classify companies, derive peer groups from sector labels, infer financial metrics, or create an analogue set.</p>
       <div class="blocked-grid">
         <span>Formal registry <b>blocked_no_formal_peer_registry</b></span>
@@ -2164,7 +2166,7 @@ function renderCompanyPeers(r) {
     </section>`;
   }
   return `<section class="panel span9 blocked-shell" aria-labelledby="peersTitle">
-    <span class="kicker">Peers</span><h2 id="peersTitle">Formal pilot-sector cohort</h2>
+    <button type="button" class="overview-back-button" data-research-route="directory_ownership">Ownership &amp; Peers workspace</button><span class="kicker">Peers</span><h2 id="peersTitle">Formal pilot-sector cohort</h2>
     <p class="section-note">Read-only formal peer registry. The backend groups the exact 20-company CI pilot by the retained official/exchange sector label only; this view does not estimate, forecast, sort by quality, or assign grades.</p>
     <div class="blocked-grid">
       <span>Registry method <b>${esc(registry.method || "unknown")}</b></span>
@@ -2188,7 +2190,7 @@ function renderCompanyPeers(r) {
 
 function renderCompanyOwnership(r) {
   return `<section class="panel span9 blocked-shell" aria-labelledby="ownershipTitle">
-    <span class="kicker">Ownership</span><h2 id="ownershipTitle">Ownership unknown without authoritative data</h2>
+    <button type="button" class="overview-back-button" data-research-route="directory_ownership">Ownership &amp; Peers workspace</button><span class="kicker">Ownership</span><h2 id="ownershipTitle">Ownership unknown without authoritative data</h2>
     <p class="section-note">No authoritative ownership table is present in the retained CI slice. Insider and off-market metadata are shown elsewhere as filings/activity metadata; they are not ownership percentages, beneficial-owner facts, or free-float analysis.</p>
     <div class="blocked-grid">
       <span>Ownership state <b>unknown_no_authoritative_ownership_data</b></span>
@@ -2326,6 +2328,95 @@ function renderStrategyDashboard(r) {
       <article class="strategy-dashboard-card strategy-dashboard-wide" data-flow-step="watch"><header class="overview-card-heading"><span class="overview-card-icon" aria-hidden="true"><iconify-icon icon="lucide:radar"></iconify-icon></span><div><span class="kicker">Monitoring layer</span><h3>What could move the research file next</h3></div></header>${monitoringChart}<p>Watch items and operating events are displayed as retained dated records. They are not treated as confirmations, price targets, or execution instructions.</p><button type="button" class="overview-route-button" data-research-route="monitoring">Open Monitoring<iconify-icon icon="lucide:arrow-right" aria-hidden="true"></iconify-icon></button></article>
     </div>
     <footer class="ci-editorial-footer"><span>Research only · no execution</span><span>Strategy previews retained state; child pages hold the detail</span></footer>
+  </section>`;
+}
+
+function ownershipDashboardCard(route, icon, number, kicker, title, chart, copy, meta = "") {
+  return `<article class="ownership-dashboard-card" data-ownership-step="${esc(number)}"><header class="overview-card-heading"><span class="overview-card-icon" aria-hidden="true"><iconify-icon icon="${esc(icon)}"></iconify-icon></span><div><span class="kicker">${esc(kicker)}</span><h3>${esc(title)}</h3></div></header>${chart}${meta ? `<div class="intelligence-card-meta">${meta}</div>` : ""}<p>${esc(copy)}</p><button type="button" class="overview-route-button" data-research-route="${esc(route)}">Open ${esc(title)}<iconify-icon icon="lucide:arrow-right" aria-hidden="true"></iconify-icon></button></article>`;
+}
+
+function renderOwnershipDashboard(r) {
+  const ownership = r.ownership && typeof r.ownership === "object" && !Array.isArray(r.ownership) ? r.ownership : null;
+  const registry = r.peer_registry && typeof r.peer_registry === "object" && !Array.isArray(r.peer_registry) ? r.peer_registry : null;
+  const formalPeers = Array.isArray(registry?.formal_peer_details) ? registry.formal_peer_details : [];
+  const watch = r.evidence_watchlist && typeof r.evidence_watchlist === "object" && !Array.isArray(r.evidence_watchlist) ? r.evidence_watchlist : null;
+  const watchItems = Array.isArray(watch?.items) ? watch.items : [];
+  const watchTimeline = watchItems.map(item => ({ date: item.date || item.detected_at, label: item.monitored_assertion || item.status || "Evidence watch" })).filter(item => item.date).slice(-6);
+  const conditional = r.conditional_benchmarks && typeof r.conditional_benchmarks === "object" && !Array.isArray(r.conditional_benchmarks) ? r.conditional_benchmarks : null;
+  const benchmarks = Array.isArray(conditional?.benchmarks) ? conditional.benchmarks : [];
+  const causal = r.causal_foundations && typeof r.causal_foundations === "object" && !Array.isArray(r.causal_foundations) ? r.causal_foundations : null;
+  const causalRows = Array.isArray(causal?.causal_rows) ? causal.causal_rows : [];
+  const financial = r.financial_series?.coverage || {};
+  const sourceQuality = r.source_quality || {};
+  const thesis = r.thesis_monitoring && typeof r.thesis_monitoring === "object" && !Array.isArray(r.thesis_monitoring) ? r.thesis_monitoring : null;
+  const monitoring = r.monitoring && typeof r.monitoring === "object" && !Array.isArray(r.monitoring) ? r.monitoring : null;
+  const operatingEvents = Array.isArray(r.operating_events) ? r.operating_events : [];
+  const ownershipChart = ownership
+    ? ciChart("assumptions", { status: ownership.status || "retained", label: "Authoritative ownership record state", items: [{ label: "Record state", value: ownership.status || "retained" }], visible_summary: true })
+    : ciBlockedChart("blocked_no_authoritative_ownership_data", "Ownership remains unknown", ["Authoritative ownership table", "Beneficial-owner source", "Free-float source"]);
+  const peerChart = registry && registry.registry_status !== "blocked_no_formal_peer_registry"
+    ? ciChart("counter", { status: registry.registry_status || "retained", label: "Explicit formal peer rows", value: formalPeers.length, display: String(formalPeers.length), unit: "EMITTED FORMAL PEERS" })
+    : ciBlockedChart("blocked_no_formal_peer_registry", "No authoritative peer registry is available", ["Formal peer registry", "Explicit peer identity", "Registry method"]);
+  const watchChart = watchTimeline.length
+    ? ciChart("timeline", { status: watch.status || "retained", label: "Dated evidence-watch records", items: watchTimeline })
+    : Number.isFinite(Number(watch?.active_watch_count))
+      ? ciChart("counter", { status: watch.status || "retained", label: "Active evidence-watch rows", value: Number(watch.active_watch_count), display: String(watch.active_watch_count), unit: "EMITTED WATCH ROWS" })
+      : ciBlockedChart("blocked_no_evidence_watchlist", "No evidence-watch state is retained", ["Evidence watchlist object", "Confirmation check", "Break check"]);
+  const benchmarkChart = conditional
+    ? ciChart("counter", { status: conditional.status || "retained", label: "Descriptive conditional benchmark rows", value: benchmarks.length, display: String(benchmarks.length), unit: "EMITTED BENCHMARK ROWS" })
+    : ciBlockedChart("blocked_no_conditional_benchmarks", "No conditional benchmark state is retained", ["Conditional benchmark row", "Explicit event match", "Historical sample"]);
+  const causalChart = causal
+    ? ciChart("counter", { status: "retained", label: "Causal-foundation evidence rows", value: causalRows.length, display: String(causalRows.length), unit: "CATEGORICAL EVIDENCE ROWS" })
+    : ciBlockedChart("blocked_no_causal_foundations", "No causal evidence map is retained", ["Causal foundation row", "Official event reference", "Strict study reference"]);
+  const coverageItems = [
+    ["Financial facts", financial.fact_count],
+    ["Explicit periods", financial.period_count],
+    ["Monitored pages", sourceQuality.monitored_page_count],
+    ["Official documents", sourceQuality.document_link_count],
+  ].filter(([, value]) => value != null && value !== "").map(([label, value]) => ({ label, value, unit: "retained" }));
+  const coverageChart = coverageItems.length
+    ? ciChart("assumptions", { status: "retained", label: "Retained coverage footprint", items: coverageItems, comparable: true, visible_summary: true })
+    : ciBlockedChart("blocked_no_coverage_summary", "Coverage counts are not retained", ["Financial coverage row", "Source-quality row"]);
+  const thesisChart = thesis && Number.isFinite(Number(thesis.active_thesis_count))
+    ? ciChart("counter", { status: thesis.status || "retained", label: "Active thesis-monitor rows", value: Number(thesis.active_thesis_count), display: String(thesis.active_thesis_count), unit: "EMITTED THESIS ROWS" })
+    : ciBlockedChart("blocked_no_thesis_monitoring", "No thesis-monitor state is retained", ["Thesis monitoring row", "Official-source checks", "Status field"]);
+  const monitorTimeline = monitoring ? [
+    [monitoring.latest_source_at, "Latest retained source"],
+    [monitoring.latest_change_at, "Latest retained change"],
+    [monitoring.latest_event_at, "Latest retained event"],
+  ].filter(([date]) => date).map(([date, label]) => ({ date, label })) : [];
+  const monitoringChart = monitorTimeline.length
+    ? ciChart("timeline", { status: monitoring.status || "retained", label: "Dated monitoring activity", items: monitorTimeline })
+    : Number.isFinite(Number(monitoring?.alert_count))
+      ? ciChart("counter", { status: monitoring.status || "retained", label: "Retained monitoring alerts", value: Number(monitoring.alert_count), display: String(monitoring.alert_count), unit: "EMITTED ALERT ROWS" })
+      : ciBlockedChart("blocked_no_monitoring_state", "No monitoring activity is retained", ["Monitoring object", "Dated activity", "Alert state"]);
+  const operationTimeline = operatingEvents.map(item => ({ date: item.effective_date || item.detected_at, label: humanActivityLabel(item.event_subtype || item.event_type || "Operating event") })).filter(item => item.date).slice(-6);
+  const operationsChart = operationTimeline.length
+    ? ciChart("timeline", { status: "retained", label: "Dated operating events", items: operationTimeline })
+    : ciBlockedChart("blocked_no_operating_events", "No operating events are retained", ["Dated operating event", "Operating classification", "Source evidence"]);
+  const flow = [
+    ["01", "Ownership boundary", ownership ? ownership.status || "retained" : "blocked"],
+    ["02", "Peer context", registry?.registry_status || "blocked"],
+    ["03", "Evidence watch", watch?.status || "blocked"],
+    ["04", "Cross-company context", conditional?.status || "blocked"],
+    ["05", "Causal coverage", causal ? "retained" : "blocked"],
+    ["06", "Thesis & alerts", monitoring?.status || thesis?.status || "blocked"],
+  ];
+  return `<section class="panel span9 ownership-dashboard-shell" aria-labelledby="ownershipDashboardTitle">
+    <header class="ownership-dashboard-header"><div><span class="kicker">Ownership &amp; peers workspace</span><h2 id="ownershipDashboardTitle">Map the boundary around ${esc(r.symbol)}.</h2><p>Use this hub to separate what is authoritative from what remains unknown: ownership records, peer context, evidence watches, descriptive benchmarks, causal coverage, financial coverage, thesis checks, and dated monitoring activity. Missing inputs stay visible; no ownership percentage, free float, peer identity, trend, or readiness state is inferred.</p></div><div class="ownership-dashboard-symbol"><iconify-icon icon="lucide:network" aria-hidden="true"></iconify-icon><b>${esc(r.symbol)}</b><span>Connections before conclusions</span></div></header>
+    <div class="ownership-flow" aria-label="Ownership and peers research flow">${flow.map(([number, label, status]) => `<span data-flow-status="${esc(statusBucket(status))}"><small>${esc(number)}</small><b>${esc(label)}</b><em>${esc(ciHumanStatus(status))}</em></span>`).join("")}</div>
+    <div class="ownership-dashboard-grid">
+      ${ownershipDashboardCard("ownership", "lucide:lock-keyhole", "01", "Boundary check", "Ownership", ownershipChart, "No authoritative ownership table is present in the retained row. Filing metadata is not treated as ownership percentages or free-float evidence.")}
+      ${ownershipDashboardCard("peers", "lucide:users-round", "02", "Explicit registry", "Peers", peerChart, "Open only the formal peer registry emitted by the backend. Sector labels never become an inferred peer set.", registry ? `<span>Method <b>${esc(registry.method || "not emitted")}</b></span><span>Scope <b>${esc(registry.peer_set_kind || "not emitted")}</b></span>` : "")}
+      ${ownershipDashboardCard("watchlist", "lucide:eye", "03", "Evidence watch", "Watchlist", watchChart, "Review emitted confirmation and break checks. Silence is not confirmation, and a missing watch row is not safety.")}
+      ${ownershipDashboardCard("conditional", "lucide:git-compare-arrows", "04", "Descriptive context", "Conditional Benchmarks", benchmarkChart, "Inspect exact historical context only where the backend emitted a benchmark row; these rows are not causal, predictive, or advice.")}
+      ${ownershipDashboardCard("causal", "lucide:waypoints", "05", "Evidence map", "Causal Map", causalChart, "Trace categorical driver evidence and its source references. Numeric impact remains blocked unless the authoritative row says otherwise.")}
+      ${ownershipDashboardCard("coverage", "lucide:scan-line", "06", "Source footprint", "Coverage", coverageChart, "See what financial and source-quality coverage is retained for this issuer without converting coverage into a score.")}
+      ${ownershipDashboardCard("thesis", "lucide:clipboard-check", "07", "Thesis checks", "Thesis Monitor", thesisChart, "Open emitted thesis-monitor rows and their official-source checks. The browser does not upgrade, break, or rank a thesis.")}
+      ${ownershipDashboardCard("monitoring", "lucide:radar", "08", "Dated activity", "Monitoring", monitoringChart, "Follow retained source, change, event, and alert timestamps. Activity is context, not a forecast or trading instruction.")}
+      ${ownershipDashboardCard("operations", "lucide:factory", "09", "Legacy context", "Operations (legacy)", operationsChart, "Open the legacy operating view for retained event and driver context; no new operating conclusion is created here.")}
+    </div>
+    <footer class="ci-editorial-footer"><span>Research only · no execution</span><span>Every tile maps to retained row fields or an explicit blocked state</span></footer>
   </section>`;
 }
 
@@ -2811,7 +2902,7 @@ function renderThesisMonitor(r) {
   const canonicalStatuses = "Strengthening Stable Weakening Broken";
   const thesisCards = theses.length ? theses.map(renderThesisCard).join("") : `<div class="empty thesis-empty">No active thesis is being monitored for ${esc(r.symbol)}. Company Intelligence will show a thesis here only after the backend emits one with official-source checks.</div>`;
   return `<section class="panel span9 thesis-shell" aria-labelledby="thesisTitle">
-    <span class="kicker">Thesis monitor</span><h2 id="thesisTitle">Active thesis checks</h2>
+    <button type="button" class="overview-back-button" data-research-route="directory_ownership">Ownership &amp; Peers workspace</button><span class="kicker">Thesis monitor</span><h2 id="thesisTitle">Active thesis checks</h2>
     <p class="section-note">Private user-authored theses are stored separately from Henneth's deterministic monitoring. Status is displayed exactly from each source; the browser does not infer upgrades or breaks.</p>
     ${renderPrivateTheses(r)}
     <div class="thesis-status">
@@ -3222,7 +3313,7 @@ function renderEvidenceWatchlist(r) {
     : null;
   if (!watch) {
     return `<section class="panel span9 evidence-watchlist" aria-labelledby="evidenceWatchlistTitle">
-      <span class="kicker">Evidence Watchlist</span><h2 id="evidenceWatchlistTitle">What would confirm or break this signal</h2>
+      <button type="button" class="overview-back-button" data-research-route="directory_ownership">Ownership &amp; Peers workspace</button><span class="kicker">Evidence Watchlist</span><h2 id="evidenceWatchlistTitle">What would confirm or break this signal</h2>
       <p class="section-note">Unavailable: the CI slice has not emitted row.evidence_watchlist for this company. The browser will not create checks from other state.</p>
       <div class="watchlist-empty">No evidence-watchlist object was emitted for ${esc(r.symbol)}.</div>
     </section>`;
@@ -3232,7 +3323,7 @@ function renderEvidenceWatchlist(r) {
     ? Object.entries(watch.status_counts)
     : [];
   return `<section class="panel span9 evidence-watchlist" aria-labelledby="evidenceWatchlistTitle">
-    <span class="kicker">Evidence Watchlist</span><h2 id="evidenceWatchlistTitle">What would confirm or break this signal</h2>
+    <button type="button" class="overview-back-button" data-research-route="directory_ownership">Ownership &amp; Peers workspace</button><span class="kicker">Evidence Watchlist</span><h2 id="evidenceWatchlistTitle">What would confirm or break this signal</h2>
     <p class="section-note">Read-only backend checklist. The browser displays emitted statuses, checks, links, readiness, and policy flags only.</p>
     <div class="watchlist-status">
       <div><span>Active watches</span><b>${esc(watch.active_watch_count ?? "unknown")}</b></div>
@@ -3394,7 +3485,7 @@ function renderCiMonitoring(r) {
     : null;
   if (!monitoring) {
     return `<section class="panel span9 ci-monitoring" aria-labelledby="ciMonitoringTitle">
-      <span class="kicker">CI monitoring</span><h2 id="ciMonitoringTitle">Freshness and alert state</h2>
+      <button type="button" class="overview-back-button" data-research-route="directory_ownership">Ownership &amp; Peers workspace</button><span class="kicker">CI monitoring</span><h2 id="ciMonitoringTitle">Freshness and alert state</h2>
       <p class="section-note">Unavailable: the CI slice has not emitted row.monitoring for this company. The browser will not infer freshness, source health, alert state, forecasts, valuation, or advice.</p>
       <div class="monitoring-empty">No monitoring object was emitted for ${esc(r.symbol)}.</div>
       ${renderCiEventWindows(r)}
@@ -3408,7 +3499,7 @@ function renderCiMonitoring(r) {
     : {};
   const alerts = Array.isArray(monitoring.alerts) ? monitoring.alerts : [];
   return `<section class="panel span9 ci-monitoring status-${esc(monitoring.status || "unknown")}" aria-labelledby="ciMonitoringTitle">
-    <span class="kicker">CI monitoring</span><h2 id="ciMonitoringTitle">Freshness and alert state</h2>
+    <button type="button" class="overview-back-button" data-research-route="directory_ownership">Ownership &amp; Peers workspace</button><span class="kicker">CI monitoring</span><h2 id="ciMonitoringTitle">Freshness and alert state</h2>
     <p class="section-note">Read-only backend output from row.monitoring. The browser displays emitted freshness, source health, activity counts and source-linked alerts only; it does not calculate status, reduce alerts, score companies, forecast, value the company, or turn this into advice.</p>
     <div class="monitoring-summary" aria-label="CI monitoring status">
       <div><span>Status</span><b>${esc(monitoring.status || "unknown")}</b></div>
@@ -4231,7 +4322,7 @@ function renderCoverage(r) {
   const intel = r.intelligence || {};
   const flags = quality.quality_flags || [];
   return `
-    <section class="panel span5"><span class="kicker">Evidence coverage</span><h2>What is currently usable</h2>
+    <section class="panel span5"><button type="button" class="overview-back-button" data-research-route="directory_ownership">Ownership &amp; Peers workspace</button><span class="kicker">Evidence coverage</span><h2>What is currently usable</h2>
       <div class="coverage-grid">
         ${metric("Extracted filings", intel.document_count ?? 0, `${intel.event_count ?? 0} events classified`)}
         ${metric("Financial facts", financial.fact_count ?? 0, `${financial.model_loadable_count ?? 0} model-loadable`)}

@@ -44,11 +44,11 @@ ANALYTICAL_SECTIONS = {
     "strategy": ("Transmission mechanism", "Forecast trajectory", "Expectations gap", "Conclusion"),
     "ownership": ("Monitoring",),
 }
-# Overview is the only directory whose folder itself currently owns a landing
-# dashboard.  The remaining groups must add an explicit contract as they are
-# migrated; keeping this map here makes that exception visible and testable.
+# Directory landings are explicit contracts. Keeping the route owner here makes
+# it impossible for a rich folder view to silently become a child-tab alias.
 IMPLEMENTED_LANDINGS = {
     "overview": "directory_overview",
+    "ownership": "directory_ownership",
 }
 # Sol's next migration target.  Keep this executable acceptance contract next
 # to the checker so the intended Intelligence folder cannot silently shed a
@@ -62,6 +62,10 @@ NEXT_DIRECTORY_TARGETS = {
 STRATEGY_DIRECTORY_TARGET = {
     "landing": "directory_strategy",
     "routes": ("scenarios", "valuation", "guidance", "catalysts", "risks", "quant"),
+}
+OWNERSHIP_DIRECTORY_TARGET = {
+    "landing": "directory_ownership",
+    "routes": ("ownership", "peers", "watchlist", "conditional", "causal", "coverage", "thesis", "monitoring", "operations"),
 }
 
 
@@ -238,6 +242,27 @@ def _check_directory(group: dict[str, Any], source: str, intended: set[str]) -> 
             errors.append("Strategy landing does not use existing chart helpers for truthful tile visuals")
         if status_helper.find("/blocked|missing|") > status_helper.find("/computed|qualified|"):
             errors.append("Strategy status classification must reject blocked/not-qualified states before matching positive substrings")
+    if key == "ownership" and group.get("landing"):
+        dashboard = _function_body(source, "renderOwnershipDashboard")
+        card = _function_body(source, "ownershipDashboardCard")
+        if group["landing"] != OWNERSHIP_DIRECTORY_TARGET["landing"]:
+            errors.append(f"Ownership landing must be {OWNERSHIP_DIRECTORY_TARGET['landing']!r}")
+        if routes != list(OWNERSHIP_DIRECTORY_TARGET["routes"]):
+            errors.append(f"Ownership child routes drifted: expected {list(OWNERSHIP_DIRECTORY_TARGET['routes'])}, found {routes}")
+        if not dashboard:
+            errors.append("Ownership landing has no distinct dashboard renderer")
+        for route in OWNERSHIP_DIRECTORY_TARGET["routes"]:
+            if f'ownershipDashboardCard("{route}"' not in dashboard:
+                errors.append(f"Ownership landing does not link child route {route!r}")
+        if 'data-research-route="${esc(route)}"' not in card:
+            errors.append("Ownership cards do not use the research route action contract")
+        if "ciChart(" not in dashboard or "ciBlockedChart(" not in dashboard:
+            errors.append("Ownership landing does not use existing chart helpers for truthful tile visuals")
+        for marker in ("blocked_no_authoritative_ownership_data", "blocked_no_formal_peer_registry", "no ownership percentage", "free-float"):
+            if marker.lower() not in dashboard.lower():
+                errors.append(f"Ownership epistemic boundary missing: {marker}")
+        if 'data-research-route="directory_ownership"' not in source:
+            errors.append("Ownership child detail pages do not expose a return action")
     # A collapsed technical-status disclosure may retain the machine code for
     # auditability.  Only inspect ordinary visible rendering for raw codes.
     visible_case_body = _function_body(source, "renderCaseSectionBody")
