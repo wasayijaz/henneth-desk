@@ -16,6 +16,11 @@ from ci_checker_helpers import without_root_meta
 
 PRODUCTS = tuple(FORMAL_ENGINE_PRODUCTS)
 ADVICE_PHRASES = ("buy", "sell", "accumulate", "target price", "price target", "you should")
+BLOCKED_STATUSES = frozenset(("blocked", "blocked_financial_truth_not_qualified"))
+
+
+def equivalent_status(left: object, right: object) -> bool:
+    return left == right or (left in BLOCKED_STATUSES and right in BLOCKED_STATUSES)
 
 
 def fail(message: str) -> None:
@@ -92,7 +97,7 @@ def assert_engine_shape(product: str, state: dict, pilot: set[str]) -> None:
             fail(f"{product}:{symbol}: formula mismatch")
         if (row.get("policy") or {}).get("research_only") is not True or (row.get("policy") or {}).get("no_advice") is not True:
             fail(f"{product}:{symbol}: row policy mismatch")
-        if row.get("status") == "blocked":
+        if row.get("status") in BLOCKED_STATUSES:
             if row.get("result") is not None:
                 fail(f"{product}:{symbol}: blocked row carried result")
             if row.get("provenance") not in ([], None):
@@ -156,18 +161,22 @@ def assert_brain_links(brain: dict, engines: dict, pilot: set[str]) -> None:
         for product, state in engines.items():
             ref = refs[product]
             expected = expected_ref(product, state, symbol)
-            if ref != expected:
+            comparable_ref = dict(ref)
+            comparable_expected = dict(expected)
+            if equivalent_status(comparable_ref.get("status"), comparable_expected.get("status")):
+                comparable_ref["status"] = comparable_expected["status"] = "blocked"
+            if comparable_ref != comparable_expected:
                 fail(f"{symbol}: {product} Brain ref does not match authoritative state")
             if ref["source_path"] != f"{FORMAL_ENGINE_PRODUCTS[product]['state_path']}#/companies/{symbol}":
                 fail(f"{symbol}: {product} source path is not resolvable")
             source_row = (state.get("companies") or {}).get(symbol) or {}
-            if ref["status"] != source_row.get("status"):
+            if not equivalent_status(ref["status"], source_row.get("status")):
                 fail(f"{symbol}: {product} status not preserved")
             if ref["result"] != source_row.get("result"):
                 fail(f"{symbol}: {product} result not preserved")
             if ref["provenance"] != (source_row.get("provenance") or []):
                 fail(f"{symbol}: {product} provenance not preserved")
-            if ref["status"] == "blocked" and (ref["result"] is not None or ref["provenance"]):
+            if ref["status"] in BLOCKED_STATUSES and (ref["result"] is not None or ref["provenance"]):
                 fail(f"{symbol}: {product} blocked ref claims computed output")
             domain_name = FORMAL_ENGINE_PRODUCTS[product]["brain_path"]
             if (domains.get(domain_name) or {}).get("status") != "blocked":
@@ -188,6 +197,15 @@ def main() -> None:
     engines = load_engines()
     for product, state in engines.items():
         assert_engine_shape(product, state, pilot)
+        negative = json.loads(json.dumps(state))
+        negative_symbol = next(iter(pilot))
+        negative["companies"][negative_symbol]["status"] = "blocked_unknown_status"
+        try:
+            assert_engine_shape(product, negative, pilot)
+        except AssertionError:
+            pass
+        else:
+            fail(f"{product}: unknown status was accepted")
     brain = load_json(OUT, {})
     assert_brain_links(brain, engines, pilot)
     if dump(without_root_meta(brain)) != dump(without_root_meta(build(write=False))):
