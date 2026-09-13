@@ -1,5 +1,148 @@
 # Event-to-Value Alpha — Continuation Handoff
 
+## AUTHORITATIVE PAUSE CHECKPOINT — 2026-09-13 23:15 PKT
+
+This section supersedes older checkpoints below for continuation purposes. Older
+entries are retained as history, not as current state.
+
+### Objective and definition of done
+
+Complete Event-to-Value Alpha with three source-grounded, model-ready and
+Published Intelligence Cases: one E&P, one industrial/cement expansion and one
+sales-led expansion. Each must have five qualified annual years, eight qualified
+reported quarters, statement/share tie-outs, a real dated event, competing
+hypotheses, sector-specific drivers, cutoff-safe analogues, deterministic
+eight-quarter bear/base/bull forecasts, valuation, price-implied expectations,
+Ask Henneth answers, Scenario Lab, thesis monitoring, provenance and the final
+production/authentication gates. No case is Published yet.
+
+### Git and release state
+
+- Authoritative worktree: `D:\PSX Trader X Claude\.codex-alpha-readiness-integration`
+- Branch: `codex/alpha-readiness-integration`
+- HEAD: `0280f29c` — `ci: align financial contracts with current parser and share tie-out`
+- Upstream: `origin/codex/alpha-readiness-integration` at the same pushed HEAD.
+- Never push `main`, merge, publish or deploy without fresh owner authorization.
+- Part 0 live release proof remains deferred. GitHub validation/preview work is
+  preserved; production remains unchanged and no Vercel work is authorized.
+- The dirty parent `D:\PSX Trader X Claude` must not be reset, cleaned, stashed or
+  used as the CI implementation worktree. A paused UI worker accidentally wrote
+  CI UI edits there; preserve them until they can be compared safely.
+
+### Last completed, verified and pushed milestones
+
+- `809b66ef`: cement-expansion analogue distribution engine now requires explicit
+  publication availability, exact source/hash/page/URL binding, pre-event
+  baselines, mature endpoints, data cutoffs, independent episodes and N >= 3 per
+  horizon. Current retained result is honestly 0 qualified episodes from 43 rows;
+  all distributions remain suppressed and three evidence slots are explicit.
+- `e37a42a8`: removed decorative CI and sign-in background-image requests while
+  retaining company logos and lightweight section/chart motion. CI navigation,
+  no-background and motion checks passed. The Desk is a separate product.
+- `05a2844c`: Company Brain, source index, MLCF readiness and evidence watchlist
+  rebuild deterministically and preserve integrity metadata; five focused checks
+  passed. Current authoritative MLCF counters remain 3 annual triplets, 0 direct
+  reported quarters, 2 annual OCF and 1 official share-count tie-out.
+- `0280f29c`: financial graph fixtures follow parser revision v6 and the MLCF gap
+  contract accepts the official share-count tie-out while formal outputs remain
+  blocked. Both focused checks passed.
+
+### Work in progress when paused — do not commit as-is
+
+Intentional but incomplete code in the feature worktree:
+
+- `scripts/financial_statement_facts.py`,
+  `scripts/mlcf_fy25_full_schedule_audit.py`,
+  `scripts/check_mlcf_fy25_full_schedule_audit.py`: interrupted MLCF `psx:260032`
+  parser/audit work for PBT, tax, capex and depreciation. It has not received a
+  final GLM report or clean integration review.
+- `config/owner_financial_assumption_handoff.json` and
+  `scripts/check_owner_financial_assumption_handoff.py`: interrupted fail-closed
+  handoff repair. The checker still failed before pause because DGKC is partial,
+  not input-ready.
+- `Henneth Desk 2.CI.0/app.js`, `Henneth Desk 2.CI.0/api/ask_contract.js` and
+  `scripts/check_causal_foundations_ui.mjs`: partial UI/API repair copied into the
+  correct worktree. Causal and Ask checks pass; Company Brain, financial coverage
+  and monitoring UI checks still fail.
+
+Generated/restage churn remains across `state/company_intel/*.json`,
+`state/company_financial_series.json` and
+`Henneth Desk 2.CI.0/data/company_intelligence.json`. Do not stage it broadly.
+Untracked `.cache/`, `.agents/skills/lieflat-charts/`, MARI receipt scripts/artifact
+and `_patch_mari_enp_readiness.py` also remain unreviewed. Never use `git add -A`.
+
+### Verified checks and known failures
+
+Passed during the final wave:
+
+- cement analogue engine plus historical analogue/state-map/event-study,
+  conditional benchmark, global no-lookahead and Rule 4 checks;
+- Company Brain, Brain source index, Brain formal links, MLCF/PIOC readiness and
+  evidence watchlist checks;
+- financial graph and MLCF financial-truth gap checks;
+- CI JavaScript syntax, causal-foundations UI, Ask Henneth, navigation,
+  no-background-image and premium-motion checks.
+
+Latest measured aggregate before these repairs: 56/69 checks passed. Known
+remaining failures included owner assumption handoff, Company Brain UI,
+financial-coverage UI, monitoring UI and PSO Ask leakage; the latter Ask failure
+is now fixed locally but not committed. Do not claim the aggregate is green until
+it is rerun after the incomplete lanes are reconciled.
+
+MLCF canonical restage remains unsafe now. The verified v6 parser previously
+emitted 40 loadable FY2024/FY2025 facts, but that added no qualification periods
+because PBT, tax, capex and depreciation/EBITDA lineage were missing. No v6
+canonical receipt exists. Retry only if the interrupted parser work proves a real
+fact-level delta and the ordered aggregate is green.
+
+### Source-path corrections retained
+
+- DGKC FY2025 issuer annual is already qualified; the PSX distributor copy is the
+  same report and must never be double-counted.
+- Preferred retained DGKC FY26 tranche remains issuer Q1
+  `issuer:e2aaab14b5e3e2cd59997280`, issuer Q2
+  `issuer:a1b59989dc0600cfdfe4870c`, and PSX Q3 `psx:275962`.
+- `psx:264230` and `psx:271381` remain metadata leads unless freshly fetched,
+  hash-bound and geometry-verified under owner-approved intake.
+- The cement analogue lane has no source-bound target case and no qualified
+  historical episodes yet; it must not calibrate scenarios or forecasts.
+
+### Execution order on resume
+
+1. Inspect and reconcile the interrupted MLCF parser/audit diff. Prove exact
+   page-bound PBT/tax/capex/depreciation facts or record zero delta; do not guess.
+2. Finish the fail-closed owner handoff and the three remaining CI UI contracts in
+   the feature worktree. Compare but do not alter accidental parent-main edits.
+3. Run focused checks, inspect each diff, then make and push separate narrow
+   feature-branch commits for verified milestones only.
+4. Rebuild the ordered CI state and rerun the aggregate/completion gate. Attempt
+   canonical `psx:260032` restage once only if the parser delta is real and the
+   baseline is green.
+5. Continue the vertical order: complete one cement investor slice, then implement
+   E&P and sales-led cases independently. Share only the case/evidence/provenance/
+   run/confidence/monitoring/UI envelope, never one universal sector model.
+
+### Coordination guardrails
+
+GLM task `01a053cc-1d39-7fb1-a432-78c20edef4cc`, analogue task
+`01a09b94-5828-7673-8730-fb9e6833a1ec`, UI task
+`01a04910-f949-73f3-9cbe-5a143bcc00c4`, and local agents were told to pause.
+On resume, GLM should receive most implementation work; Luna High/GPT-5.5 handle
+parallel execution and focused review. The UI task must use only
+`Henneth Desk 2.CI.0` / `ci.henneth.app`; it must not open or modify the separate
+Henneth Desk/dashboard. No provider expansion, OCR, qualification relaxation,
+invented facts, release work, main push or deployment without fresh approval.
+
+### CONTINUE FROM HERE
+
+Resume only in `D:\PSX Trader X Claude\.codex-alpha-readiness-integration` at
+pushed feature HEAD `0280f29c`. First inspect the uncommitted MLCF parser/audit
+diff and obtain or reproduce its exact fact-level result. In parallel, finish the
+owner-handoff and remaining three UI contracts. Commit and push only independently
+verified files, then rerun the aggregate gate. All three cases remain unpublished
+and all formal forecasts, valuations and market-expectations outputs remain
+fail-closed.
+
 ## Objective
 
 Deliver three source-grounded, published Intelligence Cases: one industrial/cement,
