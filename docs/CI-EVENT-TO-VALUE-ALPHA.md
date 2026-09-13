@@ -58,6 +58,50 @@ that were actually proven.
 5. Repeat the proven lane for E&P, then sales-led expansion. Extract a shared
    abstraction only after the first case demonstrates it is shared.
 
+## Parallel investor-interface workstream — complete directory pages
+
+Product-truth work and interface work proceed in parallel. The existing CI
+shell remains the visual and interaction authority: header, left icon rail,
+company directory, frosted company background, right-aligned Company
+Intelligence tree, authentication, and responsive mobile drawers are preserved.
+The interface workstream completes the central reading space behind that tree;
+it does not substitute visual polish for missing evidence or model outputs.
+
+Each of the six right-panel directories must have a purposeful researcher
+dashboard landing page, and every child route must have an individually
+designed detail page:
+
+1. **Overview:** Investor Snapshot, Company Profile, and the legacy business
+   profile destination until that obsolete path is removed deliberately.
+2. **Intelligence:** Research, Ask Henneth, Knowledge Graph, Operating
+   Intelligence, Event-to-Value view, and the legacy typed timeline.
+3. **Financials:** Financial Trends, Financial Baseline, Forecast Readiness,
+   Event-to-Value Readiness, and Accounting Snapshot.
+4. **Events & Filings:** Earnings, Events, Filings, Sources, the legacy Change
+   Digest, and the legacy Brief Queue.
+5. **Strategy:** Scenarios, Valuation, Guidance, Catalysts, Risks, and the
+   legacy Quant destination.
+6. **Ownership & Peers:** Ownership, Peers, Watchlist, Conditional Benchmarks,
+   Causal Map, Coverage, Thesis Monitor, Monitoring, and the legacy Operations
+   destination.
+
+Directory landing pages answer what is known, what changed, what is blocked,
+and where the researcher should go next. Child pages explain their own domain
+in plain investor language, sort evidence by decision relevance and recency,
+and expose source/formula/assumption lineage for load-bearing content. Lieflat
+visuals are selected by data shape and used only where they materially improve
+understanding; ordinary snapshot values remain ordinary values. Missing or
+unqualified inputs render an explanatory prerequisite path, never an invented
+zero, stale output, or implied completion. All pages must be keyboard-readable,
+screen-reader summarised, usable in both CI colour schemes, and responsive in
+the established desktop/mobile shell.
+
+This workstream is complete only when all six landing dashboards and every
+listed child route have a focused UI contract check and a browser-verified
+desktop/mobile rendering. It remains subordinate to the same epistemic,
+no-lookahead, authentication, and fail-closed model gates as the three golden
+case lanes.
+
 ### Sector-model boundary
 
 The shared case envelope is deliberately narrow: identity and lifecycle,
