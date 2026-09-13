@@ -1,0 +1,199 @@
+{
+ "schema_version": "pso_sales_expansion_evidence_gap_receipt_v1",
+ "receipt_version": "pso_sales_expansion_case_c_candidate_gap_v1",
+ "case_id": "case_pso_fy2025_distribution_network_expansion_gap_v1",
+ "event_ref": "PSO_FY2025_RETAIL_NETWORK_AND_CHANNEL_EXPANSION",
+ "ticker": "PSO",
+ "issuer": "Pakistan State Oil Company Limited",
+ "case_family": "sales_led_expansion",
+ "event_type": "distribution_network_expansion",
+ "event_subtype": "fuel_retail_and_convenience_channel",
+ "status": "evidence_gap_no_observed_seed",
+ "selection_state": "selected_candidate_pending_evidence_ingestion",
+ "observed_seed_permitted": false,
+ "event_period_end": "2025-06-30",
+ "available_on": null,
+ "source_cutoff": null,
+ "audit_authority": "docs/CASE_C_SALES_EXPANSION_CANDIDATE_AUDIT.md",
+ "required_decisive_evidence": {
+  "accepted_sources": [
+   "retained_hash_page_bound_official_pso_fy2025_results_release",
+   "retained_hash_page_bound_official_pso_fy2025_summary_or_full_annual_report",
+   "retained_hash_page_bound_psx_annual_report_filing_psx_260771"
+  ],
+  "required_fields": [
+   "document_id",
+   "source_url",
+   "content_sha256",
+   "one_based_page",
+   "bounded_text",
+   "published_at_or_conservative_available_on"
+  ]
+ },
+ "retained_authority_state": {
+  "research_index_psx_260771": {
+   "present": true,
+   "document_id": "psx:260771",
+   "title": "Transmission of Annual Report for the year ended June 30, 2025",
+   "source": "PSX DPS",
+   "url": "https://dps.psx.com.pk/download/document/260771.pdf",
+   "published_at": "2025-10-02T08:48:00+05:00",
+   "download_status": "failed",
+   "download_error": "ValueError:PDF exceeds 12582912 byte limit",
+   "content_sha256": null,
+   "qualifies_observed_seed": false,
+   "no_go_reason": "metadata_only_or_download_failed_without_retained_hash_page_evidence"
+  },
+  "company_documents_psx_260771_present": false,
+  "operating_events_pso_distribution_candidates": 0,
+  "source_registry_pso_document_links": [
+   {
+    "id": "issuer:3800f6e7294336d5319e9336",
+    "url": "https://psopk.com/source/fuelcards/corporate-cards/04.pdf",
+    "label": "Corporate Card Account Opening Form",
+    "status": "discovered",
+    "first_seen_at": "2026-08-18T01:58:09+05:00"
+   },
+   {
+    "id": "issuer:61d85f4626413576b676aed8",
+    "url": "https://psopk.com/source/fuelcards/list_of_enabled_outlets.pdf",
+    "label": "Stations Accepting Corporate Cards (PDF)",
+    "status": "discovered",
+    "first_seen_at": "2026-08-18T01:58:09+05:00"
+   },
+   {
+    "id": "issuer:bed83f3756e28ddc1a880ca9",
+    "url": "https://psopk.com/source/fuelcards/corporate-cards/01.pdf",
+    "label": "Additional Supplementary Card Form",
+    "status": "discovered",
+    "first_seen_at": "2026-08-18T01:58:09+05:00"
+   },
+   {
+    "id": "issuer:ca78a4beec7f30b38e790a5e",
+    "url": "https://psopk.com/source/fuelcards/corporate-cards/02.pdf",
+    "label": "PSO Cards SMS & Email Alerts Service",
+    "status": "discovered",
+    "first_seen_at": "2026-08-18T01:58:09+05:00"
+   },
+   {
+    "id": "issuer:cbe4419e5053660b66196642",
+    "url": "https://psopk.com/source/fuelcards/corporate-cards/03.pdf",
+    "label": "PSO Corporate Disputed Transaction Form",
+    "status": "discovered",
+    "first_seen_at": "2026-08-18T01:58:09+05:00"
+   }
+  ],
+  "same_issuer_hash_bound_nonqualifying_documents": [
+   {
+    "document_id": "issuer:61d85f4626413576b676aed8",
+    "title": "Stations Accepting Corporate Cards (PDF)",
+    "source": "Issuer website",
+    "source_url": "https://psopk.com/source/fuelcards/list_of_enabled_outlets.pdf",
+    "status": "ready",
+    "published_at": null,
+    "retrieved_at": "2026-08-18 03:22",
+    "content_sha256": "2bd076fae2202d45aac45bdd142e28f004a4254fff96cf02bac82caa0d892662",
+    "local_sha256": "2bd076fae2202d45aac45bdd142e28f004a4254fff96cf02bac82caa0d892662",
+    "evidence": [
+     {
+      "page": 4,
+      "text": "Y GROUND, LAHORE CANTT LAHORE LAHORE EMPRESS FILLING STATION OPPOSITE RAILWAY POLICE HEAD QUARTER, EMPRESS ROAD LAHORE LAHORE EXPO VIEW F/S & CNG PLOT NO.1 -1A, BLOCK R MUHAMMAD ALI JOHAR TOWN LAHORE FAISAL PETROLEUM STATION PSO STATION, P…",
+      "source_url": "https://psopk.com/source/fuelcards/list_of_enabled_outlets.pdf"
+     }
+    ],
+    "qualifies_observed_seed": false,
+    "no_go_reason": "same_issuer_corporate_card_material_not_dated_fy2025_network_expansion"
+   },
+   {
+    "document_id": "issuer:ca78a4beec7f30b38e790a5e",
+    "title": "PSO Cards SMS & Email Alerts Service",
+    "source": "Issuer website",
+    "source_url": "https://psopk.com/source/fuelcards/corporate-cards/02.pdf",
+    "status": "ready",
+    "published_at": null,
+    "retrieved_at": "2026-08-18 03:22",
+    "content_sha256": "0b66c3bbd717ed36b51c91918c5e85dbc86c26b67c438c2c1796d4f97ce18604",
+    "local_sha256": "0b66c3bbd717ed36b51c91918c5e85dbc86c26b67c438c2c1796d4f97ce18604",
+    "evidence": [
+     {
+      "page": 1,
+      "text": "SMS alerts) Telecom Operator *Push SMS Billing SMS *Email Report *Email Frequency Daily (default) Sr. No. Card No. Name on Card Email Address (for Email alerts) Mobile No. (for SMS alerts) Telecom Operator *Push SMS *Pull SMS *Email Report…",
+      "source_url": "https://psopk.com/source/fuelcards/corporate-cards/02.pdf"
+     }
+    ],
+    "qualifies_observed_seed": false,
+    "no_go_reason": "same_issuer_corporate_card_material_not_dated_fy2025_network_expansion"
+   },
+   {
+    "document_id": "issuer:bed83f3756e28ddc1a880ca9",
+    "title": "Additional Supplementary Card Form",
+    "source": "Issuer website",
+    "source_url": "https://psopk.com/source/fuelcards/corporate-cards/01.pdf",
+    "status": "ready",
+    "published_at": null,
+    "retrieved_at": "2026-08-18 03:22",
+    "content_sha256": "a7021d9d4a1bb4f98a5f83b2826447b2b90df283d088a6154cbdca4f55173098",
+    "local_sha256": "a7021d9d4a1bb4f98a5f83b2826447b2b90df283d088a6154cbdca4f55173098",
+    "evidence": [],
+    "qualifies_observed_seed": false,
+    "no_go_reason": "same_issuer_corporate_card_material_not_dated_fy2025_network_expansion"
+   },
+   {
+    "document_id": "issuer:cbe4419e5053660b66196642",
+    "title": "PSO Corporate Disputed Transaction Form",
+    "source": "Issuer website",
+    "source_url": "https://psopk.com/source/fuelcards/corporate-cards/03.pdf",
+    "status": "ready",
+    "published_at": null,
+    "retrieved_at": "2026-08-18 03:22",
+    "content_sha256": "6cd671bcd798b7251e730a7d9a43cdabb5a43fe9ba9485cf4a227da6765ec16f",
+    "local_sha256": "6cd671bcd798b7251e730a7d9a43cdabb5a43fe9ba9485cf4a227da6765ec16f",
+    "evidence": [],
+    "qualifies_observed_seed": false,
+    "no_go_reason": "same_issuer_corporate_card_material_not_dated_fy2025_network_expansion"
+   }
+  ]
+ },
+ "reported_fact_candidates_unpromoted": {
+  "basis": "docs/CASE_C_SALES_EXPANSION_CANDIDATE_AUDIT.md; not promoted because decisive official FY2025 source is not retained/hash-page-bound in this checkout",
+  "fy2024_ending_network_outlets": 3580,
+  "fy2025_gross_new_outlets": 107,
+  "fy2025_ending_network_outlets": 3649,
+  "derived_net_active_change_outlets": 69,
+  "unknown_closures_or_reclassifications_outlets": 38,
+  "promotion_status": "not_promoted_to_reported_facts"
+ },
+ "epistemic_boundaries": {
+  "gross_openings_are_not_net_additions": true,
+  "unknown_38_outlet_delta_may_be_closures_replacements_reclassifications_or_counting_basis_change": true,
+  "channel_layers_are_nested_not_additive": true,
+  "fuel_outlets_convenience_vibe_asaan_safar_and_digital_outlets_must_not_be_double_counted": true,
+  "reported_market_share_or_pat_must_not_be_backsolved_as_causal_expansion_impact": true
+ },
+ "downstream_status": {
+  "intelligence_case_seed": "blocked",
+  "operating_event": "blocked",
+  "scenario_model": "blocked",
+  "valuation": "blocked",
+  "publication": "blocked"
+ },
+ "blocked_reasons": [
+  "PSO:canonical_distribution_network_expansion_event_absent",
+  "PSO:corporate_card_station_list_is_undated_current_footprint_not_expansion_event",
+  "PSO:fy2025_decisive_source_not_retained_hash_page_bound",
+  "PSO:gross_openings_vs_net_network_change_unreconciled",
+  "sales_lane:no_observed_case_seed_permitted"
+ ],
+ "run_receipt": {
+  "input_sha256": "40b44c7a987dea23994c667a2062960cd1fbfc11094648960a5fc1a45bb5b168",
+  "output_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+  "contract_version": "pso_sales_expansion_evidence_gap_receipt_v1"
+ },
+ "policy": {
+  "research_only": true,
+  "no_advice": true,
+  "no_fetch": true,
+  "no_promotion": true,
+  "fail_closed": true
+ }
+}
