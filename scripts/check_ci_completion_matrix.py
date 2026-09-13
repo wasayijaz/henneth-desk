@@ -43,6 +43,31 @@ def _synthetic_status_rules() -> None:
     if builder.requirement_status(ok, ["qualified inputs missing"], hard_blocked=True) != "blocked":
         _fail("hard-blocked rows must stay blocked even with evidence")
 
+    # Regression: event study information availability cutoff rules
+    post_period_study = {
+        "effective_date": "2025-06-30",
+        "information_available_at": "2025-10-02",
+        "baseline": {"selected_date": "2025-10-01", "status": "available"},
+    }
+    if not builder.is_strict_event_study(post_period_study):
+        _fail("is_strict_event_study must accept baseline before information_available_at when published post-period")
+
+    future_announcement_study = {
+        "effective_date": "2026-12-31",
+        "information_available_at": "2026-01-10",
+        "baseline": {"selected_date": "2026-01-09", "status": "available"},
+    }
+    if not builder.is_strict_event_study(future_announcement_study):
+        _fail("is_strict_event_study must accept baseline before announcement date for future-effective events")
+
+    lookahead_study = {
+        "effective_date": "2025-06-30",
+        "information_available_at": "2025-10-02",
+        "baseline": {"selected_date": "2025-10-02", "status": "available"},
+    }
+    if builder.is_strict_event_study(lookahead_study):
+        _fail("is_strict_event_study must reject baseline equal to or after information_available_at")
+
 
 def _assert_shape(matrix: dict) -> None:
     if matrix.get("schema_version") != 2:

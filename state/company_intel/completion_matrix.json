@@ -29,8 +29,8 @@
   "overall_status": "blocked",
   "requirement_count": 70,
   "counts": {
-   "complete": 61,
-   "partial": 5,
+   "complete": 60,
+   "partial": 6,
    "blocked": 4,
    "not_started": 0,
    "unknown": 0
@@ -95,7 +95,6 @@
    "ownership_source_review_manifest",
    "private_access_boundary",
    "root_state_publication_boundary",
-   "ci_global_no_lookahead_gate",
    "completion_matrix_slice_summary"
   ],
   "blocked_requirement_ids": [
@@ -781,7 +780,7 @@
      "label": "strict baseline derivation",
      "path": "state/company_intel/event_studies.json",
      "ok": true,
-     "detail": "26/26 baseline-available studies have baseline.selected_date before effective_date; 73 total studies"
+     "detail": "73/73 baseline-available studies have baseline.selected_date before information availability; 73 total studies"
     },
     {
      "label": "event study checker",
@@ -792,7 +791,7 @@
    ],
    "blockers": [],
    "next_required_evidence": [
-    "Future studies must preserve baseline.selected_date strictly before effective_date."
+    "Future studies must preserve baseline.selected_date strictly before information availability cutoff."
    ]
   },
   {
@@ -1881,7 +1880,7 @@
   {
    "id": "ci_global_no_lookahead_gate",
    "title": "Global CI no-lookahead gate exists",
-   "status": "complete",
+   "status": "partial",
    "evidence": [
     {
      "label": "global CI no-lookahead checker",
@@ -1892,8 +1891,8 @@
     {
      "label": "strict baseline check",
      "path": "scripts/check_ci_global_no_lookahead.py",
-     "ok": true,
-     "detail": "all expected markers present"
+     "ok": false,
+     "detail": "missing markers: strictly before effective_date"
     }
    ],
    "blockers": [],
@@ -1933,9 +1932,9 @@
  ],
  "_meta": {
   "generator_version": "ci_artifact_integrity_v1",
-  "source_commit_sha": "b6046e043a63b1b9c27889a9b98d9bf6b6f44815",
-  "build_cutoff_at": "2026-09-13T16:48:49Z",
-  "generated_at": "2026-09-13T16:48:49Z",
+  "source_commit_sha": "0ecc1db559e8e12f9b4fa3842c98a832dcdf8633",
+  "build_cutoff_at": "2026-09-13T17:41:13Z",
+  "generated_at": "2026-09-13T17:41:13Z",
   "artifact_path": "state/company_intel/completion_matrix.json",
   "timestamp_semantics": {
    "build_cutoff_at": "generation boundary only; not a source-effective or source-published time",

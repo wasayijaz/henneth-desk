@@ -257,12 +257,13 @@ def _parse_iso_day(value: Any) -> date | None:
 
 
 def is_strict_event_study(row: dict[str, Any]) -> bool:
-    effective = _parse_iso_day(row.get("effective_date"))
+    info_avail = row.get("information_available_at") or row.get("detected_at") or row.get("published_at") or row.get("effective_date")
+    cutoff = _parse_iso_day(info_avail)
     baseline = _parse_iso_day((row.get("baseline") or {}).get("selected_date"))
     return bool(
-        effective
+        cutoff
         and baseline
-        and baseline < effective
+        and baseline < cutoff
         and (row.get("baseline") or {}).get("status") == "available"
     )
 
@@ -682,10 +683,10 @@ def build(write: bool = True) -> dict[str, Any]:
             "event_study_strict_baselines",
             "Event studies use strict no-lookahead baselines",
             [
-                _state("strict baseline derivation", "state/company_intel/event_studies.json", strict_studies == baseline_available_studies and strict_studies > 0, f"{strict_studies}/{baseline_available_studies} baseline-available studies have baseline.selected_date before effective_date; {study_total} total studies"),
+                _state("strict baseline derivation", "state/company_intel/event_studies.json", strict_studies == baseline_available_studies and strict_studies > 0, f"{strict_studies}/{baseline_available_studies} baseline-available studies have baseline.selected_date before information availability; {study_total} total studies"),
                 _check("event study checker", "scripts/check_event_studies.py"),
             ],
-            ["Future studies must preserve baseline.selected_date strictly before effective_date."],
+            ["Future studies must preserve baseline.selected_date strictly before information availability cutoff."],
         ),
         _row(
             "event_study_horizons",
