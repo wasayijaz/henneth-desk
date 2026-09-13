@@ -260,6 +260,72 @@ def _synthetic_header_line(headers: list[dict[str, Any]], durations: list[dict[s
     }
 
 
+def _point_in_time_header_descriptors(lines: list[dict[str, Any]], manifest_date: date,
+                                      title: str) -> list[dict[str, Any]]:
+    """Build a bounded annual header for balance sheets with split year labels.
+
+    Some issuer PDFs put ``AS AT ...`` on the statement heading and render the
+    current/prior years as separate geometry lines on one visual baseline.  A
+    normal duration header cannot recover that shape safely, so accept it only
+    when the page proves the exact bound date and the two expected years are a
+    single, nearby visual band.  Detached or competing date/year bands remain
+    unqualified.
+    """
+    top = lines[:16]
+    point_lines = [line for line in top if re.search(r"\b(?:as\s+at|as\s+of)\b", line["text"], re.I)]
+    if not point_lines:
+        return []
+    month_name = manifest_date.strftime("%B")
+    date_pattern = re.compile(
+        rf"\b{month_name}\s+{manifest_date.day}(?:st|nd|rd|th)?[,]?\s+{manifest_date.year}\b",
+        re.I,
+    )
+    numeric_pattern = re.compile(
+        rf"\b{manifest_date.day}[./-]{manifest_date.month}[./-]{manifest_date.year}\b"
+    )
+    dated = [line for line in point_lines if date_pattern.search(line["text"]) or numeric_pattern.search(line["text"])]
+    if len(dated) != 1:
+        return []
+    date_line = dated[0]
+    year_items = []
+    for line in lines:
+        for header in _header_tokens(line):
+            year_items.append({**header, "line": line})
+    year_bands = _same_visual_band(year_items, key="cy", tolerance=3)
+    candidates = []
+    for band in year_bands:
+        headers = sorted(band, key=lambda h: h["cx"])
+        if len(headers) != 2 or [h["year"] for h in headers] != [manifest_date.year, manifest_date.year - 1]:
+            continue
+        # The labels must belong to this statement's header, not a detached
+        # date band or a later note/table on the same page.
+        if min(float(h["y0"]) for h in headers) <= float(date_line["y1"]):
+            continue
+        if min(float(h["y0"]) for h in headers) - float(date_line["y1"]) > 90:
+            continue
+        if any(float(line["y0"]) > float(date_line["y1"])
+               and float(line["y0"]) < min(float(h["y0"]) for h in headers)
+               and (_header_tokens(line) or _duration_occurrences([line]))
+               for line in lines):
+            continue
+        durations = [{
+            "months": 12,
+            "line": date_line,
+            "x0": float(date_line["x0"]),
+            "x1": float(date_line["x1"]),
+            "cx": (float(date_line["x0"]) + float(date_line["x1"])) / 2,
+            "y0": float(date_line["y0"]),
+            "y1": float(date_line["y1"]),
+        }]
+        assigned = [{**header, "duration_months": 12, "group_cx": header["cx"]} for header in headers]
+        synthetic = _synthetic_header_line(headers, durations)
+        candidates.append({"line": synthetic, "headers": assigned,
+                           "period_year": manifest_date.year, "point_in_time": True})
+    # More than one qualifying band is ambiguous even if both carry the same
+    # years; never choose one by proximity alone.
+    return candidates if len(candidates) == 1 else []
+
+
 def _line_basis_marker(line: dict[str, Any]) -> str | None:
     text = line["text"]
     if re.search(r"\b(?:standalone|unconsolidated|separate financial)\b", text, re.I):
@@ -409,7 +475,8 @@ def _wrapped_header_descriptors(lines: list[dict[str, Any]], occurrences: list[d
     return candidates
 
 
-def _header_descriptors(lines: list[dict[str, Any]], manifest_date: date, title: str) -> list[dict[str, Any]]:
+def _header_descriptors(lines: list[dict[str, Any]], manifest_date: date, title: str,
+                        *, allow_point_in_time: bool = False) -> list[dict[str, Any]]:
     occurrences = _duration_occurrences(lines)
     candidates = []
     for line in lines:
@@ -439,14 +506,83 @@ def _header_descriptors(lines: list[dict[str, Any]], manifest_date: date, title:
         if valid:
             candidates.append({"line": line, "headers": assigned})
     candidates.extend(_wrapped_header_descriptors(lines, occurrences, manifest_date))
+    if allow_point_in_time:
+        candidates.extend(_point_in_time_header_descriptors(lines, manifest_date, title))
     deduped = []
     seen: set[tuple] = set()
     for candidate in candidates:
-        key = tuple((round(float(h["cx"]), 1), h["year"], h["duration_months"]) for h in candidate["headers"])
+        key = (round(min(float(h["y0"]) for h in candidate["headers"]), 1), tuple(
+            (round(float(h["cx"]), 1), h["year"], h["duration_months"])
+            for h in candidate["headers"]
+        ))
         if key not in seen:
             seen.add(key)
             deduped.append(candidate)
     return deduped
+
+
+def _has_competing_header_for_row(header_sets: list[dict[str, Any]], row: dict[str, Any]) -> bool:
+    """Reject duplicate prior header signatures instead of borrowing columns."""
+    prior = [h for h in header_sets if h["line"]["y1"] < row["y0"]]
+    signatures: dict[tuple, int] = {}
+    for header in prior:
+        signature = tuple((int(item.get("year")), item.get("duration_months"))
+                          for item in header.get("headers") or [])
+        signatures[signature] = signatures.get(signature, 0) + 1
+    return any(count > 1 for count in signatures.values())
+
+
+def _has_competing_statement_boundary(lines: list[dict[str, Any]], header: dict[str, Any],
+                                      row: dict[str, Any]) -> bool:
+    """Reject a later statement/scale/basis boundary before a distant row."""
+    floor = float(header["line"]["y1"])
+    ceiling = float(row["y0"])
+    for line in lines:
+        if not floor < float(line["y0"]) < ceiling:
+            continue
+        text = _normalize_joined_financial_tokens(line["text"])
+        if re.search(r"\b(?:consolidated|unconsolidated)?\s*statement\s+of\b|\bfinancial\s+position\b", text, re.I):
+            return True
+        # A new basis marker is always a statement boundary.  The table's own
+        # currency/scale line normally sits immediately below the year header;
+        # it is evidence for the chosen header, not a new boundary.  A
+        # repeated scale marker farther down is a boundary.
+        if _line_basis_marker(line):
+            return True
+        if float(line["y0"]) - floor > 70 and detect_scale_info(text)[0]:
+            return True
+    return False
+
+
+def _headers_for_row(header_sets: list[dict[str, Any]], row: dict[str, Any],
+                     lines: list[dict[str, Any]], *, max_distance: float = 120) -> dict[str, Any] | None:
+    """Use the nearest local header, or one bounded page-local extension."""
+    if not header_sets:
+        return None
+    prior = [h for h in header_sets if h["line"]["y1"] < row["y0"]]
+    if _has_competing_header_for_row(header_sets, row):
+        nearest_prior = max(prior, key=lambda h: h["line"]["y1"], default=None)
+        same_signature = [h for h in prior if tuple(
+            (int(item.get("year")), item.get("duration_months"))
+            for item in h.get("headers") or []) == tuple(
+                (int(item.get("year")), item.get("duration_months"))
+                for item in (nearest_prior or {}).get("headers") or [])]
+        if nearest_prior is None or not any(
+                _has_competing_statement_boundary(lines, earlier, nearest_prior["line"])
+                for earlier in same_signature if earlier is not nearest_prior):
+            return None
+    nearest = _nearest_headers_for_row(header_sets, row, max_distance=max_distance)
+    if nearest:
+        return nearest
+    if len(header_sets) != 1:
+        return None
+    candidate = header_sets[0]
+    distance = float(row["y0"]) - float(candidate["line"]["y1"])
+    if distance <= 0 or distance > 900:
+        return None
+    if _has_competing_statement_boundary(lines, candidate, row):
+        return None
+    return candidate
 
 
 def _nearest_headers_for_row(header_sets: list[dict[str, Any]], row: dict[str, Any],
@@ -458,6 +594,28 @@ def _nearest_headers_for_row(header_sets: list[dict[str, Any]], row: dict[str, A
     # Prefer the complete band on a tie; otherwise a 9-month row can silently
     # displace the matching 3-month columns.
     return max(prior, key=lambda h: (h["line"]["y1"], len(h.get("headers") or []))) if prior else None
+
+
+def _normalize_joined_financial_tokens(text: str) -> str:
+    """Repair only common PDF token joins in statement descriptors.
+
+    A few PSX PDFs expose adjacent words such as ``STATEMENTOF`` or
+    ``CONSOLIDATEDINTERIM`` as one geometry token.  This normalization is
+    limited to known descriptor boundaries; it never changes values, dates,
+    units, or statement rows.
+    """
+    normalized = str(text or "")
+    for left, right in (
+        ("statement", "of"),
+        ("statement", "cash"),
+        ("consolidated", "interim"),
+        ("unconsolidated", "interim"),
+        ("financial", "position"),
+        ("cash", "flows"),
+        ("company", "limited"),
+    ):
+        normalized = re.sub(rf"(?i)({left})(?={right})", r"\1 ", normalized)
+    return normalized
 
 
 def _line_match(row: dict[str, Any], statement_type: str | None = None) -> tuple[str, re.Match[str]] | None:
@@ -482,7 +640,7 @@ def _line_match(row: dict[str, Any], statement_type: str | None = None) -> tuple
 def _nearest_basis(lines: list[dict[str, Any]], row: dict[str, Any], floor_y: float) -> tuple[str | None, float]:
     prior = [l for l in lines if floor_y <= l["y1"] < row["y0"]]
     for line in reversed(prior):
-        text = line["text"]
+        text = _normalize_joined_financial_tokens(line["text"])
         if re.search(r"\b(?:standalone|unconsolidated|separate financial)\b", text, re.I):
             return "unconsolidated", line["y0"]
         if re.search(r"\bconsolidated\b", text, re.I):
@@ -495,10 +653,27 @@ def _nearest_scale(lines: list[dict[str, Any]], row: dict[str, Any], floor_y: fl
     # tightly typeset annual reports; retain the local evidence band without
     # reaching into the row below.
     prior = [l for l in lines if floor_y <= l["y0"] < row["y0"] + 3]
-    for line in reversed(prior):
-        scale, flags = detect_scale_info(line["text"])
-        if scale:
-            return scale, flags, True
+    # Some PSX PDFs expose a scale label such as ``(Rupees`` / ``in 000)`` as
+    # two adjacent geometry lines.  Join only immediately adjacent
+    # local lines; do not search the page text or cross the statement boundary.
+    for index in range(len(prior) - 1, -1, -1):
+        line = prior[index]
+        candidates = [line["text"]]
+        same_band = [item for item in prior if abs(float(item["cy"]) - float(line["cy"])) <= 3]
+        if len(same_band) > 1:
+            candidates.append(" ".join(item["text"] for item in sorted(same_band, key=lambda item: float(item["x0"]))))
+        if index + 1 < len(prior):
+            following = prior[index + 1]
+            if abs(float(following["cy"]) - float(line["cy"])) <= 3 or 0 <= float(following["y0"]) - float(line["y1"]) <= 18:
+                candidates.append(f"{line['text']} {following['text']}")
+        if index > 0:
+            preceding = prior[index - 1]
+            if abs(float(line["cy"]) - float(preceding["cy"])) <= 3 or 0 <= float(line["y0"]) - float(preceding["y1"]) <= 18:
+                candidates.append(f"{preceding['text']} {line['text']}")
+        for text in candidates:
+            scale, flags = detect_scale_info(text)
+            if scale:
+                return scale, flags, True
     return None, ["missing_table_scale"], False
 
 
@@ -574,6 +749,22 @@ def _single_separated_numeric_band(lines: list[dict[str, Any]], row: dict[str, A
         same_baseline = abs(float(line["cy"]) - float(row["cy"])) <= 3
         adjacent_baseline = 0 <= float(line["y0"]) - float(row["y1"]) <= 8
         if not (same_baseline or adjacent_baseline):
+            continue
+        # A renderer may place the next row's label and its numeric cells on
+        # the same adjacent baseline as a separated value band.  Do not treat
+        # that band as a continuation of the current row.  The current row's
+        # label is intentionally excluded; only a competing text-bearing line
+        # on the candidate baseline invalidates the adjacent-band path.  This
+        # preserves exact same-baseline label/value splits while preventing a
+        # value from ``Cost of sales`` (or another following row) from being
+        # borrowed by ``Revenue``.
+        if adjacent_baseline and any(
+            peer is not row and peer is not line
+            and abs(float(peer["cy"]) - float(line["cy"])) <= 3
+            and any(re.search(r"[A-Za-z]", str(token.get("text") or ""))
+                    for token in peer.get("tokens") or [])
+            for peer in lines
+        ):
             continue
         nums = _numeric_only_continuation(line, label_end_x, note_bands)
         if not nums or len(nums) > len(headers):
@@ -725,7 +916,10 @@ def _structured_page_facts(doc: dict[str, Any], page_no: int, page_words: list[t
         manifest_date = date.fromisoformat(str(period)[:10])
     except (TypeError, ValueError):
         return []
-    header_sets = _header_descriptors(lines, manifest_date, str(doc.get("title") or ""))
+    header_sets = _header_descriptors(
+        lines, manifest_date, str(doc.get("title") or ""),
+        allow_point_in_time=heading.get("type") == "balance_sheet",
+    )
     if not header_sets:
         return []
     out: list[dict[str, Any]] = []
@@ -748,12 +942,7 @@ def _structured_page_facts(doc: dict[str, Any], page_no: int, page_words: list[t
             continue
         if line_name == "profit_after_tax_attributable" and _is_non_attributable_pat_row(lines, row):
             continue
-        # Cash-flow totals can sit well below the header (after the opening
-        # section label and several component rows).  Permit a wider bounded
-        # search only for the canonical OCF row; other rows retain the strict
-        # proximity gate so notes/tables cannot borrow a header.
-        long_row = line_name in {"profit_after_tax_attributable", "basic_eps", "operating_cash_flow"}
-        headers = _nearest_headers_for_row(header_sets, row, max_distance=500 if long_row else 120)
+        headers = _headers_for_row(header_sets, row, lines)
         if not headers:
             continue
         floor_y = max(0, headers["line"]["y0"] - 90)
@@ -913,7 +1102,7 @@ def _statement_heading(lines: list[dict[str, Any]]) -> dict[str, Any] | None:
     # lines first, then a bounded top-of-page join so unrelated body text is
     # never used as a statement descriptor.
     for line in lines[:12]:
-        text = line["text"]
+        text = _normalize_joined_financial_tokens(line["text"])
         # A comprehensive-income statement repeats the PAT/attribution labels,
         # but is not the primary income statement used by the model.  Accept a
         # combined ``profit or loss and ... comprehensive income`` heading,
@@ -929,7 +1118,7 @@ def _statement_heading(lines: list[dict[str, Any]]) -> dict[str, Any] | None:
             return {"type": "balance_sheet", "basis": _basis_from_text(text), "bbox": _round_bbox(line)}
         if re.search(r"\bstatement\b.*\bcash\s+flows?\b|\bcash\s+flows?\b.*\bstatement\b", text, re.I):
             return {"type": "cash_flow_statement", "basis": _basis_from_text(text), "bbox": _round_bbox(line)}
-    top = " ".join(line["text"] for line in lines[:6])
+    top = _normalize_joined_financial_tokens(" ".join(line["text"] for line in lines[:6]))
     if re.search(r"\bstatement\b.*\bcomprehensive\s+income\b", top, re.I) \
             and not re.search(r"\bprofit\s+or\s+loss\b", top, re.I):
         return None
@@ -1042,7 +1231,10 @@ def diagnose_page_records(doc: dict[str, Any], page_records: list[dict[str, Any]
             manifest_date = date.fromisoformat(str(period)[:10])
         except (TypeError, ValueError):
             manifest_date = None
-        header_sets = _header_descriptors(lines, manifest_date, str(doc.get("title") or "")) if manifest_date else []
+        header_sets = _header_descriptors(
+            lines, manifest_date, str(doc.get("title") or ""),
+            allow_point_in_time=(page_diag["candidate_statement"] or {}).get("type") == "balance_sheet",
+        ) if manifest_date else []
         for header_set in header_sets[:8]:
             page_diag["year_headers"].append({
                 "y": round(float(header_set["line"]["y0"]), 1),
@@ -1069,7 +1261,7 @@ def diagnose_page_records(doc: dict[str, Any], page_records: list[dict[str, Any]
             if not matched:
                 continue
             line_name, _ = matched
-            headers = _nearest_headers_for_row(header_sets, row) if header_sets else None
+            headers = _headers_for_row(header_sets, row, lines) if header_sets else None
             floor_y = max(0, headers["line"]["y0"] - 90) if headers else 0
             basis, basis_y = _nearest_basis(lines, row, floor_y)
             scale, scale_flags, currency_seen = _nearest_scale(lines, row, basis_y)

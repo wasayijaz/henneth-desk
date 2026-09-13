@@ -231,6 +231,42 @@ def main() -> int:
     )
     assert not [f for f in remote_date if f["column_role"] == "current_period" and f["duration_months"] == 3]
 
+    # PSO-style PDF geometry can join descriptor words (``STATEMENTOF`` /
+    # ``CONSOLIDATEDINTERIM``) and expose the unit label across same-baseline
+    # geometry lines.  Normalize only those descriptor joins and recover the
+    # local scale; the consolidated basis and direct period gates remain
+    # mandatory.
+    joined_words = [
+        _w(50, 40, "CONSOLIDATEDINTERIM", 0, 0), _w(220, 40, "STATEMENTOF", 0, 0, 1),
+        _w(310, 40, "PROFIT", 0, 0, 2), _w(370, 40, "OR", 0, 0, 3), _w(400, 40, "LOSS", 0, 0, 4),
+        _w(60, 70, "Three", 1, 0), _w(100, 70, "Months", 1, 0, 1), _w(145, 70, "ended", 1, 0, 2),
+        _w(280, 100, "2025", 2, 0), _w(380, 100, "2024", 2, 1),
+        _w(180, 120, "(Rupees", 3, 0), _w(240, 120, "in", 4, 0), _w(270, 120, "�000)", 5, 0),
+        _w(50, 150, "Net", 6, 0), _w(82, 150, "sales", 6, 0, 1), _w(280, 150, "100", 7, 0), _w(380, 150, "90", 8, 0),
+        _w(50, 180, "Profit", 9, 0), _w(92, 180, "after", 9, 0, 1), _w(130, 180, "taxation", 9, 0, 2), _w(280, 180, "20", 10, 0), _w(380, 180, "18", 11, 0),
+        _w(50, 210, "Earnings", 12, 0), _w(105, 210, "per", 12, 0, 1), _w(130, 210, "share", 12, 0, 2), _w(280, 210, "2.0", 13, 0), _w(380, 210, "1.8", 14, 0),
+    ]
+    joined_doc = {
+        "doc_id": "psx:joined-fixture", "title": "PSO Quarterly Financial Statements",
+        "source_url": "https://dps.psx.com.pk/download/document/joined-fixture.pdf",
+        "content_sha256": "b" * 64, "period_end": "2025-09-30", "published_at": "2025-10-01",
+    }
+    joined_text = "Consolidated statement of profit or loss for the three months period ended September 30, 2025"
+    joined_facts = extract_facts(joined_doc, [joined_text], [joined_words], [{"page": 6, "text": joined_text, "words": joined_words}])
+    joined_current = {f["line"]: f for f in joined_facts if f["column_role"] == "current_period"}
+    assert set(joined_current) == {"revenue", "profit_after_tax_attributable", "basic_eps"}
+    assert {line: joined_current[line]["value"] for line in joined_current} == {
+        "revenue": 100_000, "profit_after_tax_attributable": 20_000, "basic_eps": 2.0,
+    }
+    assert all(f["consolidation"] == "consolidated" and f["readiness"] == "model_loadable" for f in joined_current.values())
+    assert joined_current["basic_eps"]["scale"] == 1 and all(joined_current[line]["scale"] == 1_000 for line in ("revenue", "profit_after_tax_attributable"))
+    joined_no_basis = [
+        tuple(list(w[:4]) + [w[4].replace("CONSOLIDATEDINTERIM", "STATEMENTINTERIM")] + list(w[5:]))
+        if w[4] == "CONSOLIDATEDINTERIM" else w for w in joined_words
+    ]
+    no_basis_joined = extract_facts({**joined_doc, "doc_id": "psx:joined-no-basis"}, [joined_text], [joined_no_basis], [{"page": 6, "text": joined_text, "words": joined_no_basis}])
+    assert no_basis_joined and all(f["readiness"] == "audit_only" and f["consolidation"] is None for f in no_basis_joined)
+
     # Wrong basis must not be promoted as consolidated evidence.
     bad_words = [tuple(list(w[:4]) + [w[4].replace("CONSOLIDATED", "UNCONSOLIDATED")] + list(w[5:])) if w[4] == "CONSOLIDATED" else w for w in ([
         _w(50, 40, "CONSOLIDATED", 0, 0), _w(130, 40, "Statement", 0, 0, 1), _w(220, 40, "of", 0, 0, 2), _w(250, 40, "Profit", 0, 0, 3), _w(300, 40, "or", 0, 0, 4), _w(325, 40, "Loss", 0, 0, 5)])]
