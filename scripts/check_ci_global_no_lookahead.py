@@ -85,6 +85,7 @@ IGNORED_DATE_FIELD_NAMES = {
     "expected_completion",
     "expected_lag",
     "matched_text",
+    "next_monitor_date",
     "precision",
     "required_date",
     "target_date",
@@ -334,7 +335,7 @@ def compare_against_cutoff(
 
 def check_local_ordering(artifact: str, path: str, node: dict[str, Any], stats: ScanStats) -> None:
     data_cutoff = parse_date_point(node.get("data_cutoff"))
-    for key in ("selected_date", "endpoint_date", "effective_date", "detected_at", "published_at"):
+    for key in ("selected_date", "endpoint_date", "effective_date", "detected_at", "published_at", "information_available_at"):
         point = parse_date_point(node.get(key))
         if data_cutoff is not None and point is not None:
             stats.compared += 1
@@ -349,13 +350,25 @@ def check_local_ordering(artifact: str, path: str, node: dict[str, Any], stats: 
     baseline_node = node.get("baseline")
     if isinstance(baseline_node, dict):
         baseline = parse_date_point(baseline_node.get("selected_date"))
-    if effective is not None and baseline is not None:
+    info_cutoff = (
+        parse_date_point(node.get("information_available_at"))
+        or parse_date_point(node.get("detected_at"))
+        or parse_date_point(node.get("published_at"))
+        or effective
+    )
+    if info_cutoff is not None and baseline is not None:
         stats.compared += 1
-        if not is_after(effective, baseline):
+        if not is_after(info_cutoff, baseline):
             ident = identifier_for(node)
             suffix = f" ({ident})" if ident else ""
+            cutoff_name = (
+                "information_available_at" if node.get("information_available_at")
+                else ("detected_at" if node.get("detected_at")
+                else ("published_at" if node.get("published_at")
+                else "effective_date"))
+            )
             stats.fail(
-                f"{artifact}:{path}.baseline.selected_date{suffix} has {baseline.raw}; expected strictly before effective_date {effective.raw}"
+                f"{artifact}:{path}.baseline.selected_date{suffix} has {baseline.raw}; expected strictly before {cutoff_name} {info_cutoff.raw}"
             )
 
 
@@ -426,7 +439,13 @@ def run_self_tests() -> None:
                 "detected_at": "2026-01-10T12:00:00+05:00",
                 "effective_date": "2026-01-09",
                 "baseline": {"selected_date": "2026-01-08"},
-            }
+            },
+            {
+                "event_id": "evt_published_later_pass",
+                "effective_date": "2025-06-30",
+                "information_available_at": "2025-10-02",
+                "baseline": {"selected_date": "2025-10-01"},
+            },
         ],
         "studies": {
             "evt_pass": {
@@ -440,8 +459,25 @@ def run_self_tests() -> None:
     scan_node("fixture/pass.json", passing, "", node_cutoff(passing), stats)
     if stats.failures:
         raise AssertionError(f"passing fixture failed: {stats.failures}")
-    if stats.compared < 4:
+    if stats.compared < 5:
         raise AssertionError("passing fixture did not exercise date comparisons")
+
+    # Regression test: baseline equal to or after information availability must fail
+    failing_info_baseline = {
+        "as_of": "2026-01-10",
+        "events": [
+            {
+                "event_id": "evt_info_leak",
+                "effective_date": "2025-06-30",
+                "information_available_at": "2025-10-02",
+                "baseline": {"selected_date": "2025-10-02"},
+            }
+        ],
+    }
+    stats_fail = ScanStats()
+    scan_node("fixture/fail_info.json", failing_info_baseline, "", node_cutoff(failing_info_baseline), stats_fail)
+    if not stats_fail.failures:
+        raise AssertionError("baseline equal to information availability date must fail")
 
     prospective_calendar = {
         "as_of": "2026-01-10",
