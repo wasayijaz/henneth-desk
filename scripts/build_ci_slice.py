@@ -719,6 +719,428 @@ def _formal_engine_meta(engine_state):
     }
 
 
+_FINANCIAL_GATE_LABELS = {
+    "qualified_annual_income_triplets": "aligned annual revenue, PAT and EPS periods",
+    "qualified_reported_quarter_fact_sets": "reported quarterly financial fact sets",
+    "qualified_annual_operating_cash_flow": "annual operating-cash-flow periods",
+    "qualified_annual_financial_statement_schedules": "annual full financial-statement schedules",
+    "qualified_reported_quarter_financial_statement_schedules": "quarterly full financial-statement schedules",
+    "official_share_count_capital_note_tie_out": "official share-count capital-note tie-out",
+}
+
+
+def _human_status(value):
+    text = str(value or "unknown").replace("_", " ").replace("-", " ").strip()
+    return text[:1].upper() + text[1:] if text else "Unknown"
+
+
+def _plain_financial_gates(financial_truth_row, forecast_readiness_row):
+    """Project exact financial gates as readable text, without exposing only codes."""
+    gates = []
+    for gap in financial_truth_row.get("evidence_gaps") or []:
+        if not isinstance(gap, dict):
+            continue
+        requirement = gap.get("requirement")
+        label = _FINANCIAL_GATE_LABELS.get(requirement, _human_status(requirement))
+        required = gap.get("required")
+        present = gap.get("present")
+        if required is not None and present is not None:
+            gates.append(f"{label} ({present}/{required} retained)")
+        else:
+            gates.append(label)
+    for requirement in forecast_readiness_row.get("missing_requirements") or []:
+        label = _FINANCIAL_GATE_LABELS.get(requirement, _human_status(requirement))
+        if label not in gates:
+            gates.append(label)
+    return gates
+
+
+def _source_ref(value):
+    if not isinstance(value, dict):
+        return None
+    source = value.get("source") if isinstance(value.get("source"), dict) else value
+    url = _url(source.get("source_url") or source.get("url"))
+    if not url and not source.get("document_id") and not source.get("doc_id"):
+        return None
+    return {
+        "document_id": source.get("document_id") or source.get("doc_id"),
+        "source": source.get("source") or source.get("label"),
+        "source_url": url,
+        "page": source.get("page"),
+    }
+
+
+def _case_event_bindings(intelligence_case):
+    """Return explicit event ids from the case envelope, never positional ids."""
+    if not isinstance(intelligence_case, dict):
+        return []
+    cases = intelligence_case.get("cases")
+    if not isinstance(cases, list):
+        cases = [intelligence_case] if intelligence_case.get("case_id") else []
+    bindings = []
+    for case in cases:
+        if not isinstance(case, dict) or str(case.get("status") or "").lower() in {"closed", "retired"}:
+            continue
+        ids = set()
+        statements = {}
+        stack = [case]
+        while stack:
+            value = stack.pop()
+            if isinstance(value, dict):
+                for key in ("source_event_id", "canonical_event_id", "event_id"):
+                    candidate = value.get(key)
+                    if isinstance(candidate, str) and candidate:
+                        ids.add(candidate)
+                        statement = value.get("statement")
+                        if isinstance(statement, str) and statement.strip():
+                            statements[candidate] = statement.strip()
+                stack.extend(value.values())
+            elif isinstance(value, list):
+                stack.extend(value)
+        if ids:
+            bindings.append({
+                "case_id": case.get("case_id"),
+                "case_type": case.get("case_type"),
+                "case_family": case.get("case_family"),
+                "target_symbol": case.get("target_symbol"),
+                "status": case.get("status"),
+                "as_of": case.get("as_of"),
+                "summary": case.get("summary"),
+                "event_ids": ids,
+                "statements": statements,
+            })
+    # Deterministic case precedence: explicit event coverage, lifecycle status,
+    # recency and stable case id. This intentionally does not use list order.
+    rank = {"monitoring": 6, "published": 5, "validated": 4, "modelled": 3, "corroborated": 2, "observed": 1}
+    bindings.sort(key=lambda item: (
+        -len(item["event_ids"]),
+        -rank.get(str(item.get("status") or "").lower(), 0),
+        str(item.get("as_of") or ""),
+        str(item.get("case_id") or ""),
+    ), reverse=True)
+    return bindings
+
+
+def _explainability_observation(sym, operating_events, brief, news, intelligence_case=None):
+    events = [event for event in (operating_events or []) if isinstance(event, dict)]
+    bindings = _case_event_bindings(intelligence_case)
+    event = None
+    binding = None
+    for candidate_binding in bindings:
+        matches = [
+            candidate for candidate in events
+            if candidate.get("event_id") in candidate_binding["event_ids"]
+        ]
+        if matches:
+            # Stable id ordering prevents source-array order from selecting the event.
+            event = sorted(matches, key=lambda item: str(item.get("event_id") or ""))[0]
+            binding = candidate_binding
+            break
+    if event:
+        refs = [_source_ref(ref) for ref in (event.get("evidence") or [])]
+        event_ref = _source_ref(event)
+        if event_ref:
+            refs.append(event_ref)
+        refs = [ref for index, ref in enumerate(refs) if ref and ref not in refs[:index]][:3]
+        description = (binding.get("statements") or {}).get(event.get("event_id")) or binding.get("summary")
+        description = str(description or event.get("description") or "").strip()
+        vertical_case = None
+        label = "Retained operating observation"
+        if binding.get("case_family") == "industrial_cement" and binding.get("case_type") == "acquisition_control":
+            label = "Case-bound acquisition/control observation (not capacity expansion)"
+            vertical_case = {
+                "status": "blocked_no_case_bound_expansion_event",
+                "text": "No case-bound cement capacity-expansion event is retained. The PIOC acquisition/control observation is shown separately and is not substituted for an expansion case.",
+                "reason": "The retained MLCF case explicitly marks acquisition/control as not capacity expansion.",
+            }
+        return {
+            "status": "observed",
+            "label": label,
+            "text": description or "A dated operating event is retained, but its description is unavailable.",
+            "event_type": event.get("event_type"),
+            "event_subtype": event.get("event_subtype"),
+            "event_id": event.get("event_id"),
+            "date": event.get("effective_date") or event.get("detected_at"),
+            "confidence": event.get("confidence"),
+            "case_id": binding.get("case_id") if binding else None,
+            "case_type": binding.get("case_type") if binding else None,
+            "case_family": binding.get("case_family") if binding else None,
+            "target_symbol": binding.get("target_symbol") if binding else None,
+            "binding": "exact_case_event_id",
+            "vertical_case": vertical_case,
+            "source_refs": refs,
+            "reason": "The selected event is explicitly bound to the retained IntelligenceCase.",
+        }
+    current = (brief or {}).get("current") if isinstance(brief, dict) else None
+    brief_text = next(
+        (item.get("text") for item in ((current or {}).get("sections") or {}).get("what_changed") or []
+         if isinstance(item, dict) and item.get("text")),
+        None,
+    )
+    latest = _latest_news(news or [], sym, limit=1)
+    if brief_text:
+        return {
+            "status": "observed",
+            "label": "Retained company observation",
+            "text": brief_text,
+            "date": (current or {}).get("approved_at"),
+            "binding": "approved_company_brief",
+            "source_refs": [_source_ref(ref) for item in ((current or {}).get("sections") or {}).get("what_changed") or []
+                            for ref in (item.get("evidence") or []) if _source_ref(ref)][:3],
+            "reason": "No canonical operating event is emitted; the approved company brief is the available observation.",
+        }
+    if latest:
+        return {
+            "status": "observed_market_item",
+            "label": "Latest retained market/company item",
+            "text": latest[0].get("headline") or "A retained market/company item is available.",
+            "date": latest[0].get("date"),
+            "binding": "retained_news_index",
+            "source_refs": [{"source_url": latest[0].get("url")}],
+            "reason": "No canonical operating event or approved company-brief observation is emitted.",
+        }
+    return {
+        "status": "blocked_no_observation",
+        "label": "Observation",
+        "text": "No dated operating observation is currently retained for this company.",
+        "date": None,
+        "source_refs": [],
+        "reason": "The event ledger, approved brief and retained news index contain no usable observation.",
+    }
+
+
+def _explainability_mechanism(driver_graph):
+    graph = driver_graph if isinstance(driver_graph, dict) else {}
+    drivers = [str(value) for value in (graph.get("drivers") or []) if value]
+    chain = []
+    for edge in graph.get("edges") or []:
+        if not isinstance(edge, dict) or not edge.get("from") or not edge.get("to"):
+            continue
+        chain.append({
+            "driver": edge.get("from"),
+            "target": edge.get("to"),
+            "statement_line": edge.get("statement_line"),
+            "unit": edge.get("unit"),
+            "basis": edge.get("basis") or "declarative_sector_driver_map",
+        })
+    sector = graph.get("sector") or "unknown sector"
+    if chain:
+        return {
+            "status": "available",
+            "label": "Sector transmission mechanism",
+            "sector_model": sector,
+            "drivers": drivers,
+            "chain": chain,
+            "text": f"The {sector} map links operating drivers to financial statement lines. These are sector-level declarative linkages, not a company-specific causal claim.",
+            "reason": "A retained sector driver graph is available.",
+            "quality_flags": graph.get("quality_flags") or [],
+        }
+    return {
+        "status": "blocked_no_driver_map",
+        "label": "Transmission mechanism",
+        "sector_model": sector,
+        "drivers": drivers,
+        "chain": [],
+        "text": "No retained sector driver map is available, so Henneth does not infer a transmission mechanism.",
+        "reason": "The driver graph has no usable edges.",
+        "quality_flags": graph.get("quality_flags") or ["driver_graph_missing"],
+    }
+
+
+def _explainability_assumptions(model_inputs, forecast_readiness, assumption_gap_review):
+    model = model_inputs if isinstance(model_inputs, dict) else {}
+    readiness = forecast_readiness if isinstance(forecast_readiness, dict) else {}
+    gate = readiness.get("formal_engine_gate") or {}
+    required = gate.get("required_approved_records") or {}
+    names = []
+    for product in ("forecast", "valuation", "market_expectations"):
+        for name in required.get(product) or []:
+            if name not in names:
+                names.append(name)
+    approved = model.get("approved_assumptions")
+    items = []
+    if isinstance(approved, dict):
+        for name, value in approved.items():
+            items.append({"name": name, "status": "approved", "value": value})
+    for name in names:
+        if not any(item.get("name") == name for item in items):
+            items.append({"name": name, "status": "missing", "value": None})
+    gap_status = (assumption_gap_review or {}).get("status")
+    historical_only = bool((assumption_gap_review or {}).get("historical_reference_cases"))
+    if items and any(item.get("status") == "missing" for item in items):
+        text = "Formal outputs require source-labelled, owner-approved assumptions. Missing inputs remain blank; historical reference cases do not approve assumptions."
+        status = "blocked_missing_approved_assumptions"
+    elif items:
+        text = "Approved assumptions are retained with their source labels for the formal engines."
+        status = "available"
+    else:
+        text = "No approved formal-engine assumptions are retained. Henneth does not invent them from sector economics."
+        status = "blocked_missing_approved_assumptions"
+    return {
+        "status": status,
+        "label": "Key formal-engine assumptions",
+        "items": items,
+        "text": text,
+        "missing_gates": [item["name"] for item in items if item.get("status") == "missing"],
+        "historical_reference_cases_are_not_approved": historical_only or True,
+        "assumption_gap_status": gap_status,
+        "model_status": model.get("status"),
+    }
+
+
+def _explainability_forecast(financial_truth_row, forecast_readiness_row, financial_forecast_row, formal_valuation_row, market_expectation_row):
+    truth = financial_truth_row if isinstance(financial_truth_row, dict) else {}
+    readiness = forecast_readiness_row if isinstance(forecast_readiness_row, dict) else {}
+    gates = _plain_financial_gates(truth, readiness)
+    truth_ok = financial_truth_is_qualified(truth)
+    statuses = {
+        "forecast": (financial_forecast_row or {}).get("status"),
+        "valuation": (formal_valuation_row or {}).get("status"),
+        "market_expectations": (market_expectation_row or {}).get("status"),
+    }
+    missing = list(gates)
+    if not truth_ok:
+        text = "The formal forecast trajectory is not emitted because the retained financial truth is not qualified. "
+        text += "Missing gates: " + "; ".join(gates or ["qualified financial truth"]) + "."
+    elif any(str(status or "").startswith("blocked") for status in statuses.values()):
+        text = "The formal forecast trajectory remains held back by a downstream engine gate; no bear/base/bull numbers are emitted."
+        missing = ["owner-approved, source-labelled formal-engine assumptions"]
+    else:
+        text = "A formal forecast trajectory is available from the deterministic engine."
+    return {
+        "status": "available" if truth_ok and not any(str(status or "").startswith("blocked") for status in statuses.values()) else "blocked",
+        "label": "Eight-quarter forecast trajectory",
+        "available": bool(truth_ok and not any(str(status or "").startswith("blocked") for status in statuses.values())),
+        "horizon": "eight_quarters",
+        "bear": None,
+        "base": None,
+        "bull": None,
+        "result": None,
+        "text": text,
+        "missing_gates": missing,
+        "formal_status": statuses,
+        "financial_truth_status": truth.get("status"),
+    }
+
+
+def _explainability_expectations(market_expectation_row, financial_truth_row, forecast_readiness_row):
+    truth_ok = financial_truth_is_qualified(financial_truth_row or {})
+    status = (market_expectation_row or {}).get("status") or "blocked"
+    if not truth_ok or str(status).startswith("blocked"):
+        return {
+            "status": "blocked",
+            "label": "Expectations gap",
+            "market": None,
+            "base_case": None,
+            "delta": None,
+            "result": None,
+            "text": "No price-implied expectations gap is emitted because the financial truth is not qualified; Henneth will not compare price with an unqualified base case.",
+            "missing_gates": _plain_financial_gates(financial_truth_row or {}, forecast_readiness_row or {}) or ["qualified financial truth"],
+            "formal_status": status,
+        }
+    result = (market_expectation_row or {}).get("result")
+    return {
+        "status": "available" if result is not None else "blocked",
+        "label": "Expectations gap",
+        "market": None,
+        "base_case": None,
+        "delta": None,
+        "result": result,
+        "text": "A price-implied expectations gap is available from the deterministic engine." if result is not None else "The expectations gap has no emitted result.",
+        "missing_gates": [] if result is not None else ["emitted market-expectations result"],
+        "formal_status": status,
+    }
+
+
+def _explainability_monitoring(monitoring_row, thesis_row):
+    monitoring = monitoring_row if isinstance(monitoring_row, dict) else {}
+    thesis = thesis_row if isinstance(thesis_row, dict) else {}
+    alerts = []
+    for alert in monitoring.get("alerts") or []:
+        if not isinstance(alert, dict):
+            continue
+        source = alert.get("source") or {}
+        alerts.append({
+            "date": alert.get("date"),
+            "title": alert.get("title") or alert.get("type") or "retained monitoring item",
+            "text": alert.get("reason") or "A retained source-linked monitoring item is present.",
+            "source_url": _url(source.get("source_url") or source.get("url")),
+        })
+    status = monitoring.get("status") or "unknown"
+    reason = monitoring.get("status_reason") or "Monitoring status was not emitted."
+    watch_items = alerts[:6]
+    for thesis_item in (thesis.get("theses") or [])[:3]:
+        if isinstance(thesis_item, dict):
+            watch_items.append({
+                "date": None,
+                "title": thesis_item.get("monitored_assertion") or "active thesis check",
+                "text": "The deterministic thesis monitor is checking its prove and kill conditions.",
+                "source_url": _url(((thesis_item.get("evidence") or [{}])[0] or {}).get("source_url")),
+            })
+    return {
+        "status": status,
+        "label": "Monitoring",
+        "text": f"Monitoring is {_human_status(status).lower()}: {reason}.",
+        "status_reason": reason,
+        "latest_source_at": monitoring.get("latest_source_at"),
+        "latest_change_at": monitoring.get("latest_change_at"),
+        "latest_event_at": monitoring.get("latest_event_at"),
+        "alert_count": monitoring.get("alert_count", len(alerts)),
+        "source_health": monitoring.get("source_health") or {},
+        "what_to_watch": watch_items,
+    }
+
+
+def _explainability_envelope(sym, operating_events, brief, news, driver_graph, model_inputs,
+                             financial_truth_row, forecast_readiness_row, financial_forecast_row,
+                             formal_valuation_row, market_expectation_row, assumption_gap_review,
+                             monitoring_row, thesis_row, intelligence_case=None):
+    observation = _explainability_observation(sym, operating_events, brief, news, intelligence_case)
+    mechanism = _explainability_mechanism(driver_graph)
+    forecast = _explainability_forecast(
+        financial_truth_row, forecast_readiness_row, financial_forecast_row,
+        formal_valuation_row, market_expectation_row,
+    )
+    assumptions = _explainability_assumptions(model_inputs, forecast_readiness_row, assumption_gap_review)
+    expectations = _explainability_expectations(market_expectation_row, financial_truth_row, forecast_readiness_row)
+    monitoring = _explainability_monitoring(monitoring_row, thesis_row)
+    truth_ok = financial_truth_is_qualified(financial_truth_row or {})
+    formal_blocked = not truth_ok or any(
+        str((row or {}).get("status") or "").startswith("blocked")
+        for row in (financial_forecast_row, formal_valuation_row, market_expectation_row)
+    )
+    if formal_blocked:
+        conclusion_text = (
+            "Research status: retained evidence is available for review, but formal forecast, valuation and "
+            "expectations outputs remain blocked until their stated gates are met. This is not an investment recommendation."
+        )
+    else:
+        conclusion_text = "Research status: formal outputs are available from the deterministic engines. This is not an investment recommendation."
+    return {
+        "schema_version": "ci_explainability_v1",
+        "status": "monitoring" if monitoring.get("status") in {"healthy", "degraded", "stale"} else observation.get("status"),
+        "observation": observation,
+        "transmission_mechanism": mechanism,
+        "forecast_trajectory": forecast,
+        "key_assumptions": assumptions,
+        "expectations_gap": expectations,
+        "conclusion": {
+            "status": "blocked_formal_outputs" if formal_blocked else "available",
+            "label": "Research conclusion",
+            "text": conclusion_text,
+            "financial_truth_status": (financial_truth_row or {}).get("status"),
+            "monitoring_status": monitoring.get("status"),
+        },
+        "monitoring": monitoring,
+        "policy": {
+            "research_only": True,
+            "no_advice": True,
+            "formal_outputs_fail_closed_on_unqualified_financial_truth": True,
+            "sector_driver_map_is_not_company_specific_causality": True,
+        },
+    }
+
+
 def _empty_cement_operating_series(sym, sector):
     return {
         "symbol": sym,
@@ -1171,6 +1593,23 @@ def build(write: bool = True):
         )
         historical_reference_cases = _historical_reference_cases(financial_engine_assumptions, sym, source_cutoff)
         assumption_gap_review = _assumption_gap_review(financial_engine_assumptions, sym)
+        explainability = _explainability_envelope(
+            sym,
+            op_events,
+            brief,
+            news,
+            dgraph,
+            model_inputs,
+            financial_truth_row,
+            forecast_readiness_row,
+            financial_forecast_row,
+            formal_valuation_row,
+            market_expectation_row,
+            assumption_gap_review,
+            monitoring_row,
+            thesis_row,
+            intelligence_case_row,
+        )
         rows.append({
             "symbol": sym,
             "name": (universe.get(sym) or {}).get("name") or f.get("name") or "",
@@ -1254,6 +1693,7 @@ def build(write: bool = True):
             "intelligence_cases": intelligence_case_row,
             "historical_reference_cases": historical_reference_cases,
             "financial_engine_assumption_gaps": assumption_gap_review,
+            "explainability": explainability,
             "intelligence": {
                 "document_count": len(filings),
                 "event_count": len(timeline),
