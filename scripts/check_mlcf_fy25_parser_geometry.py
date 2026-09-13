@@ -127,6 +127,30 @@ def _words_with_distant_row(*, duplicate_year_band=False):
     return words
 
 
+def _eps_words(*, duplicate_values=False):
+    words = _words()
+    # MLCF's annual EPS label wraps onto a second geometry line while the two
+    # EPS cells are emitted as numeric-only lines that overlap that qualifier
+    # band by a few points.  The parser may accept only the explicitly
+    # qualified, uniquely aligned pair.
+    words.extend([
+        _w(50, 130, "Earnings", 20, 0),
+        _w(105, 130, "per", 20, 0, 1),
+        _w(125, 130, "share", 20, 0, 2),
+        _w(50, 134, "basic", 21, 0),
+        _w(80, 134, "and", 21, 0, 1),
+        _w(100, 134, "diluted", 21, 0, 2),
+        _w(410, 135, "10.98", 22, 0),
+        _w(500, 135, "6.51", 23, 0),
+    ])
+    if duplicate_values:
+        words.extend([
+            _w(410, 138, "9.99", 24, 0),
+            _w(500, 138, "5.55", 25, 0),
+        ])
+    return words
+
+
 def main() -> int:
     positive = _facts(_words())
     assert [(f["line"], f["period_end"], f["raw_value"], f["consolidation"], f["readiness"])
@@ -171,6 +195,14 @@ def main() -> int:
     assert {(f["line"], f["raw_value"]) for f in competing} == {
         ("revenue", "123,456"), ("revenue", "98,765"),
     }
+
+    eps = _facts(_eps_words())
+    assert [(f["line"], f["raw_value"], f["unit"]) for f in eps if f["line"] == "basic_eps"] == [
+        ("basic_eps", "10.98", "PKR/share"),
+        ("basic_eps", "6.51", "PKR/share"),
+    ]
+    duplicate_eps = _facts(_eps_words(duplicate_values=True))
+    assert not any(f["line"] == "basic_eps" for f in duplicate_eps)
 
     print("MLCF FY25 parser geometry check: ok")
     return 0

@@ -35,6 +35,11 @@ INCOME_STATEMENT_LINE_PATTERNS = {
 }
 
 BALANCE_SHEET_LINE_PATTERNS = {
+    # Consolidated position statements often report this load-bearing cash
+    # operand as ``Cash and bank balances`` rather than ``Cash and cash
+    # equivalents``.  Both labels are explicit cash totals; keep the
+    # classification conservative and do not match an unqualified ``cash``
+    # mention in a note or cash-flow statement.
     "cash_and_cash_equivalents": r"\bcash\s+and\s+(?:cash\s+equivalents|bank\s+balances)\b",
     "trade_receivables": r"\b(?:trade|accounts?)\s+receivables?\b",
     "inventories": r"\binventor(?:y|ies)\b",
@@ -968,7 +973,7 @@ def _structured_page_facts(doc: dict[str, Any], page_no: int, page_words: list[t
         # text explicitly identifies the EPS units/qualifier.
         if not nums and line_name == "basic_eps":
             continuations = [l for l in lines if l is not row and
-                             -4 <= l["y0"] - row["y1"] <= 35]
+                             -6 <= l["y0"] - row["y1"] <= 35]
             # Lucky's consolidated statement puts continuing/discontinued EPS
             # on labelled rows and the full-year basic EPS on a following
             # numeric-only row.  Prefer that explicit total row; accepting the
@@ -988,15 +993,27 @@ def _structured_page_facts(doc: dict[str, Any], page_no: int, page_words: list[t
                        "y1": max(row["y1"], eps_row["y1"]),
                        "x1": max(row["x1"], eps_row["x1"])}
             elif any(re.search(r"\b(?:share|diluted|rupees?)\b", l["text"], re.I) for l in continuations):
+                # A wrapped EPS label and its value cells can be emitted as
+                # separate geometry lines.  Collect only numeric-only lines
+                # immediately following the explicit qualifier, with the
+                # existing note-band exclusion.  Do not sweep the rest of the
+                # page: footer note references are numeric too but are not EPS.
+                qualifier_lines = [l for l in continuations
+                                   if re.search(r"\b(?:share|diluted|rupees?)\b", l["text"], re.I)]
+                qualifier_y = min(float(l["y0"]) for l in qualifier_lines)
                 for continuation in continuations:
-                    eps_nums.extend(_numeric_cells(continuation, label_end, note_bands))
+                    if float(continuation["y0"]) < qualifier_y:
+                        continue
+                    if float(continuation["y0"]) - qualifier_y > 12:
+                        continue
+                    eps_nums.extend(_numeric_only_continuation(continuation, label_end, note_bands))
                 if len(eps_nums) == needed:
                     nums = sorted(eps_nums, key=lambda c: c["cx"])
         if not nums:
             continuation_row = row
             invalid_continuation = False
             continuations=[l for l in lines if l is not row and
-                           ((line_name == "basic_eps" and -4 <= l["y0"] - row["y1"] <= 35) or
+                           ((line_name == "basic_eps" and -6 <= l["y0"] - row["y1"] <= 35) or
                             (line_name != "basic_eps" and 3 < l["y0"] - row["y1"] <= 35))]
             for continuation in continuations:
                 if len(nums) == needed and _line_match(continuation):
