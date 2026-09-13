@@ -294,7 +294,7 @@ def _context_for_case(
     detected_at = (event.get("detected_at") or event.get("published_at") or (matched_lineage or {}).get("document_published_at")) if (is_bound and event) else None
     detected_day = _as_date(detected_at[:10]) if isinstance(detected_at, str) and len(detected_at) >= 10 else None
     effective_day = _as_date(effective_date) if effective_date else None
-    if detected_day and effective_day and detected_day > effective_day:
+    if detected_day:
         cutoff_date = detected_day
         info_avail = detected_at[:10] if isinstance(detected_at, str) else detected_day.isoformat()
     else:

@@ -111,6 +111,12 @@ def main():
         raise AssertionError("PSO study baseline date must be 2025-10-01 (day before publication)")
     if (pso_study.get("baseline") or {}).get("selected_close") != 470.09:
         raise AssertionError("PSO study baseline close must be 470.09 PKR on 2025-10-01")
+    # Explicit regression: future-effective announcement (published 2026-01-10, effective 2026-12-31)
+    from build_event_studies import _event_cutoff_date
+    future_announcement = {"event_id": "evt_future_test", "published_at": "2026-01-10T10:00:00+05:00", "effective_date": "2026-12-31"}
+    cutoff_dt, cutoff_str = _event_cutoff_date(future_announcement)
+    if cutoff_str != "2026-01-10" or cutoff_dt != date(2026, 1, 10):
+        raise AssertionError(f"future-effective announcement did not anchor on publication date 2026-01-10: got {cutoff_str}")
     # Re-run the authoritative builder and require byte-identical output.
     target = STATE / "company_intel" / "event_studies.json"; before = target.read_bytes(); result = subprocess.run([sys.executable, str(ROOT / "scripts" / "build_event_studies.py")], capture_output=True, text=True, timeout=30)
     if result.returncode != 0 or target.read_bytes() != before: raise AssertionError("builder is not idempotent")

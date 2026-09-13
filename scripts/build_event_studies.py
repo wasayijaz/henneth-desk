@@ -23,7 +23,7 @@ def _event_cutoff_date(event):
     detected = event.get("detected_at") or event.get("published_at") or event.get("available_date")
     detected_day = parse_date(detected[:10]) if isinstance(detected, str) and len(detected) >= 10 else None
     effective_day = parse_date(event.get("effective_date"))
-    if detected_day and effective_day and detected_day > effective_day:
+    if detected_day:
         return detected_day, detected[:10] if isinstance(detected, str) else detected_day.isoformat()
     eff_str = event.get("effective_date")
     return effective_day, eff_str
