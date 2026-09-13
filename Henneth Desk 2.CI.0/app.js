@@ -2468,7 +2468,11 @@ function renderIntelligenceDashboard(r) {
   const conclusion = envelope.conclusion || {};
   const historicalMap = r.historical_state_map || {};
   const historicalContexts = Array.isArray(historicalMap.contexts) ? historicalMap.contexts : [];
-  const lifecycleStrip = `<div class="intelligence-lifecycle" aria-label="Event-to-Value section states">${lifecycle.map(([label, section]) => `<span><small>${esc(label)}</small><b>${esc(ciHumanStatus(section?.status))}</b></span>`).join("")}</div>`;
+  const lifecycleRouteMap = { "Observation": "operating", "Mechanism": "graph", "Forecast": "past_context", "Assumptions": "intelligence", "Expectations": "intelligence", "Conclusion": "intelligence", "Monitoring": "timeline" };
+  const lifecycleStrip = `<div class="intelligence-lifecycle" aria-label="Event-to-Value section states">${lifecycle.map(([label, section]) => {
+    const route = lifecycleRouteMap[label] || "intelligence";
+    return `<button type="button" class="intelligence-lifecycle-step" data-research-route="${esc(route)}" data-flow-status="${esc(statusBucket(section?.status))}" aria-label="Jump to ${esc(label)}: ${esc(ciHumanStatus(section?.status))}"><small>${esc(label)}</small><b>${esc(ciHumanStatus(section?.status))}</b><iconify-icon icon="lucide:arrow-up-right" aria-hidden="true"></iconify-icon></button>`;
+  }).join("")}</div>`;
   const askChart = citationCount == null
     ? ciBlockedChart("blocked_no_session_answer", "No question has been answered in this session", ["Ask a company question", "Validate cited answer", "Inspect retained sources"])
     : ciChart("counter", { status: "available", label: "Citations in the current session answer", value: citationCount, display: String(citationCount), unit: "CITATIONS IN CURRENT ANSWER" });

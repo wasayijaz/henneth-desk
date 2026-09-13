@@ -56,7 +56,7 @@ IMPLEMENTED_LANDINGS = {
 NEXT_DIRECTORY_TARGETS = {
     "intelligence": {
         "landing": "directory_intelligence",
-        "routes": ("ask", "graph", "operating", "intelligence", "timeline"),
+        "routes": ("ask", "graph", "operating", "past_context", "intelligence", "timeline"),
     },
 }
 STRATEGY_DIRECTORY_TARGET = {

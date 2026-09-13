@@ -79,6 +79,13 @@ def main() -> int:
         "transition:transform var(--dur-drawer) var(--ease-drawer)" in source,
         "mobile drawers must use the drawer duration and easing",
     )
+    for mobile_rule, message in (
+        ("html{scrollbar-gutter:auto}", "mobile must not reserve desktop scrollbar gutter"),
+        (".detail>*{min-width:0;max-width:100%}", "mobile detail children must shrink to the viewport"),
+        (".detail :where(section,article,div){min-width:0}", "nested mobile grid items must release intrinsic table width"),
+        (".baseline-table,.fact-table,.oi-benchmark-table{width:100%;max-width:100%;min-width:0}", "wide data tables must scroll inside a viewport-bounded wrapper"),
+    ):
+        _check(errors, mobile_rule in source, message)
     _check(
         errors,
         "animation:ciChartDraw 600ms var(--ease-out) forwards" in source,
@@ -112,7 +119,7 @@ def main() -> int:
         for error in errors:
             print(f"  x {error}")
         return 1
-    print("CI premium motion check: OK (motion tokens, entrances, drawers, charts, press, reduced motion)")
+    print("CI premium motion check: OK (motion, mobile containment, charts, press, reduced motion)")
     return 0
 
 
