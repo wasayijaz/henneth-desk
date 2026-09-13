@@ -6,6 +6,7 @@ parse, fetch, restage, approve inputs, or compute formal outputs.
 from __future__ import annotations
 
 from datetime import datetime, timedelta, timezone
+from pathlib import Path
 from typing import Any
 
 from psx_data import STATE, load_json, save_json
@@ -41,7 +42,7 @@ def _parse_time(value: Any) -> datetime | None:
 def _source_cutoff(*values: Any) -> str:
     parsed = [_parse_time(value) for value in values]
     parsed = [value for value in parsed if value is not None]
-    return (max(parsed) if parsed else datetime.now(PKT).replace(microsecond=0)).isoformat()
+    return max(parsed).isoformat() if parsed else "unknown"
 
 
 def _case(intelligence_cases: dict[str, Any]) -> dict[str, Any] | None:
@@ -91,6 +92,14 @@ def _empty_company(symbol: str) -> dict[str, Any]:
         "manifest": None,
         "blockers": ["not_selected_for_mlcf_pioc_manifest"],
     }
+
+
+def _with_existing_root_meta(path: Path, result: dict[str, Any]) -> dict[str, Any]:
+    existing = load_json(path, {})
+    meta = existing.get("_meta") if isinstance(existing, dict) else None
+    if not isinstance(meta, dict):
+        return result
+    return {**result, "_meta": meta}
 
 
 def _missing_inputs(
@@ -295,7 +304,7 @@ def build(
         "companies": companies,
     }
     if write:
-        save_json(OUT, result)
+        save_json(OUT, _with_existing_root_meta(OUT, result))
         print(f"mlcf_pioc_readiness_manifest: {result['summary']['manifest_count']} manifest, formal outputs blocked")
     return result
 

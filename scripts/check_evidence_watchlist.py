@@ -9,7 +9,8 @@ from pathlib import Path
 from build_evidence_watchlist import OUT
 from evidence_watchlist import FORBIDDEN_TEXT, ITEM_STATUSES, build_evidence_watchlist
 from psx_data import ROOT, STATE, load_json
-from ci_checker_helpers import without_root_meta
+from ci_checker_helpers import assert_ci_slice_projection, without_root_meta
+import build_ci_slice as ci_slice_builder
 
 
 def _fail(message: str) -> None:
@@ -230,13 +231,9 @@ def main() -> None:
                 _fail((result.stdout or "") + (result.stderr or ""))
         if first.read_bytes() != second.read_bytes():
             _fail("builder output is not byte-idempotent")
-    slice_data = load_json(ROOT / "Henneth Desk 2.CI.0" / "data" / "company_intelligence.json", {"tickers": []})
-    by_symbol = {row.get("symbol"): row for row in slice_data.get("tickers") or []}
-    if set(by_symbol) != set(pilot):
-        _fail("CI slice pilot boundary mismatch")
+    slice_path = ROOT / "Henneth Desk 2.CI.0" / "data" / "company_intelligence.json"
     for symbol, state_row in real.get("companies", {}).items():
-        if (by_symbol.get(symbol) or {}).get("evidence_watchlist") != state_row:
-            _fail(f"{symbol}: CI slice evidence_watchlist mismatch")
+        assert_ci_slice_projection(ci_slice_builder, slice_path, symbol, "evidence_watchlist", state_row)
     print(f"evidence_watchlist: PASS ({len(pilot)} companies, {total} items)")
 
 

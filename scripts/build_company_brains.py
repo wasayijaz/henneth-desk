@@ -365,6 +365,14 @@ def _formal_engine_refs(symbol: str, formal_engines: dict) -> dict:
     return refs
 
 
+def _with_existing_root_meta(path: Path, result: dict) -> dict:
+    existing = load_json(path, {})
+    meta = existing.get("_meta") if isinstance(existing, dict) else None
+    if not isinstance(meta, dict):
+        return result
+    return {**result, "_meta": meta}
+
+
 def _finalize(domains: dict) -> None:
     for row in domains.values():
         row["object_refs"] = sorted(set(row["object_refs"]))
@@ -422,7 +430,7 @@ def build(write: bool = True) -> dict:
         "companies": companies,
     }
     if write:
-        save_json(OUT, result)
+        save_json(OUT, _with_existing_root_meta(OUT, result))
         total = sum(company["coverage"]["object_count"] for company in companies.values())
         print(f"company_brains: wrote {len(companies)} companies, {total} reference objects")
     return result
