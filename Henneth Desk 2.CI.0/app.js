@@ -186,7 +186,7 @@ const TREE_GROUPS = [
   { key: "intelligence", label: "Intelligence", landing_route: "directory_intelligence", routes: [["ask", "Ask Henneth"], ["graph", "Knowledge Graph"], ["operating", "Operating Intelligence"], ["intelligence", "Event-to-Value view"], ["timeline", "Typed timeline"]] },
   { key: "financials", label: "Financials", landing_route: "directory_financials", routes: [["trends", "Financial Trends"], ["baseline", "Financial Baseline"], ["forecast", "Forecast Readiness"], ["alpha_readiness", "Event-to-Value readiness"], ["financials", "Accounting Snapshot"]] },
   { key: "events", label: "Events & Filings", landing_route: "directory_events", routes: [["earnings", "Earnings"], ["events", "Events"], ["filings", "Filings"], ["sources", "Sources"], ["changes", "Change Digest"], ["brief", "Approved brief"]] },
-  { key: "strategy", label: "Strategy", routes: [["scenarios", "Scenarios"], ["valuation", "Valuation"], ["guidance", "Guidance"], ["catalysts", "Catalysts"], ["risks", "Risks"], ["quant", "Quant (legacy)"]] },
+  { key: "strategy", label: "Strategy", landing_route: "directory_strategy", routes: [["scenarios", "Scenarios"], ["valuation", "Valuation"], ["guidance", "Guidance"], ["catalysts", "Catalysts"], ["risks", "Risks"], ["quant", "Quant (legacy)"]] },
   { key: "ownership", label: "Ownership & Peers", routes: [["ownership", "Ownership"], ["peers", "Peers"], ["watchlist", "Watchlist"], ["conditional", "Conditional Benchmarks"], ["causal", "Causal Map"], ["coverage", "Coverage"], ["thesis", "Thesis Monitor"], ["monitoring", "Monitoring"], ["operations", "Operations (legacy)"]] },
 ];
 let state = {
@@ -967,6 +967,7 @@ function detail(r) {
       : state.view === "directory_intelligence" ? renderIntelligenceDashboard(r)
       : state.view === "directory_financials" ? renderFinancialsDashboard(r)
       : state.view === "directory_events" ? renderEventsDashboard(r)
+      : state.view === "directory_strategy" ? renderStrategyDashboard(r)
       : state.view === "financials" ? renderCompanyFinancials(r)
       : state.view === "earnings" ? renderCompanyEarnings(r)
       : state.view === "operations" ? renderCompanyOperations(r)
@@ -1671,7 +1672,7 @@ function renderDomainRefs(r, domainName, emptyText) {
 function renderCompanyDomainView(r, domainName, title, emptyText) {
   const domain = brainDomain(r.company_brain || {}, domainName);
   return `<section class="panel span9 company-domain-shell" aria-labelledby="domain-${esc(domainName)}">
-    <span class="kicker">Company Brain domain</span><h2 id="domain-${esc(domainName)}">${esc(title)}</h2>
+    ${domainName === "catalysts" ? `<button type="button" class="overview-back-button" data-research-route="directory_strategy">Strategy workspace</button>` : ""}<span class="kicker">Company Brain domain</span><h2 id="domain-${esc(domainName)}">${esc(title)}</h2>
     <p class="section-note">Read-only Company Brain references. The browser displays existing typed objects and evidence refs only; missing knowledge stays unknown.</p>
     <div class="domain-status">
       <span>Status <b>${esc(domain.status || "unknown")}</b></span>
@@ -1731,14 +1732,14 @@ function renderGuidanceDomainView(r, domainName, title, emptyText) {
   const state = guidanceState(r);
   if (!state) {
     return `<section class="panel span9 company-domain-shell" aria-labelledby="guidance-${esc(domainName)}">
-      <span class="kicker">Guidance & contradictions</span><h2 id="guidance-${esc(domainName)}">${esc(title)}</h2>
+      <button type="button" class="overview-back-button" data-research-route="directory_strategy">Strategy workspace</button><span class="kicker">Guidance & contradictions</span><h2 id="guidance-${esc(domainName)}">${esc(title)}</h2>
       <p class="section-note">Unavailable: the CI slice has not emitted guidance_contradictions for this company. The browser will not derive guidance, risks, contradictions, forecasts, valuation, or advice.</p>
       <div class="empty">Unavailable: not generated.</div>
     </section>`;
   }
   const objects = guidanceObjects(state, domainName);
   return `<section class="panel span9 company-domain-shell" aria-labelledby="guidance-${esc(domainName)}">
-    <span class="kicker">Guidance & contradictions</span><h2 id="guidance-${esc(domainName)}">${esc(title)}</h2>
+    <button type="button" class="overview-back-button" data-research-route="directory_strategy">Strategy workspace</button><span class="kicker">Guidance & contradictions</span><h2 id="guidance-${esc(domainName)}">${esc(title)}</h2>
     <p class="section-note">Read-only backend output from retained official evidence. Unknown stays unknown; the browser only displays emitted assertion objects and exact-key contradiction rows.</p>
     <div class="domain-status">
       <span>Status <b>${esc(state.status || "unknown")}</b></span>
@@ -2117,7 +2118,7 @@ function renderCompanyValuation(r) {
   const scenarioStatus = r.scenario_lab?.status || {};
   const legacy = r.valuation || {};
   return `<section class="panel span9 blocked-shell" aria-labelledby="valuationTitle">
-    <span class="kicker">Valuation overview</span><h2 id="valuationTitle">Formal CI valuation engine status</h2>
+    <button type="button" class="overview-back-button" data-research-route="directory_strategy">Strategy workspace</button><span class="kicker">Valuation overview</span><h2 id="valuationTitle">Formal CI valuation engine status</h2>
     <p class="section-note">Formal valuation and market expectations are displayed from the source-gated engine rows below. Scenario multiple sensitivity is separate caller-supplied algebra. Legacy fair-value screen remains a separate dashboard field.</p>
     <div class="blocked-grid">
       <span>Formal valuation <b>${esc(r.formal_valuations?.status || readiness.downstream_status?.valuation || "blocked_insufficient_qualified_history")}</b></span>
@@ -2202,7 +2203,7 @@ function renderCompanyQuant(r) {
   const studies = r.event_studies || [];
   const conditional = r.conditional_benchmarks?.benchmarks || [];
   return `<section class="panel span9 quant-shell" aria-labelledby="quantTitle">
-    <span class="kicker">Quant</span><h2 id="quantTitle">Existing quantitative state</h2>
+    <button type="button" class="overview-back-button" data-research-route="directory_strategy">Strategy workspace</button><span class="kicker">Quant</span><h2 id="quantTitle">Existing quantitative state</h2>
     <p class="section-note">This view displays retained slice fields and existing benchmark availability only. It does not compute factors, backtests, forecasts, ranks, probabilities, or advice in the browser.</p>
     <div class="blocked-grid">
       <span>Current price <b>Rs ${esc(fmt(r.price?.current))}</b></span>
@@ -2213,6 +2214,118 @@ function renderCompanyQuant(r) {
       <span>Event studies <b>${esc(studies.length)}</b></span>
       <span>Conditional benchmarks <b>${esc(conditional.length)}</b></span>
     </div>
+  </section>`;
+}
+
+function statusBucket(status) {
+  const text = String(status || "unknown").toLowerCase();
+  if (/blocked|missing|not_|unavailable|unknown|insufficient|pending|waiting/.test(text)) return "blocked";
+  if (/computed|qualified|available|ready|active|emitted|verified|passed/.test(text)) return "available";
+  return "retained";
+}
+
+function statusCountItems(rows) {
+  const counts = rows.reduce((out, status) => {
+    const key = ciHumanStatus(status);
+    out[key] = (out[key] || 0) + 1;
+    return out;
+  }, {});
+  return Object.entries(counts).map(([label, value]) => ({ label, value, unit: "states" })).slice(0, 6);
+}
+
+function strategyCounterChart(label, value, unit) {
+  const number = Number(value);
+  return Number.isFinite(number)
+    ? ciChart("counter", { status: "available", label, value: number, display: String(value), unit })
+    : ciBlockedChart("blocked_metric_not_retained", label, ["Retained field"]);
+}
+
+function strategyStatusChart(label, statuses, requirements = []) {
+  const rows = (Array.isArray(statuses) ? statuses : [statuses]).filter(value => value != null && value !== "");
+  const items = statusCountItems(rows);
+  if (!items.length) return ciBlockedChart("blocked_status_not_retained", label, requirements.length ? requirements : ["Retained status"]);
+  const hasAvailable = rows.some(status => statusBucket(status) === "available");
+  return ciChart(hasAvailable ? "assumptions" : "blocked", {
+    status: hasAvailable ? "available" : "blocked",
+    label,
+    items,
+    comparable: false,
+    visible_summary: true,
+    reason: hasAvailable ? "Retained state is available" : "Retained state is blocked or unknown",
+    requirements,
+    available: rows.filter(status => statusBucket(status) === "available").length,
+  });
+}
+
+function strategyTimelineChart(label, rows, requirements) {
+  const items = (Array.isArray(rows) ? rows : []).map(item => ({
+    date: item?.date || item?.effective_date || item?.detected_at || item?.available_on || item?.period_end,
+    label: humanActivityLabel(item?.label || item?.title || item?.event_subtype || item?.event_type || item?.type || item?.metric || item?.document_id),
+  })).filter(item => item.date && item.label).slice(-6);
+  return items.length ? ciChart("timeline", { status: "available", label, items }) : ciBlockedChart("blocked_no_dated_strategy_items", label, requirements);
+}
+
+function strategyDashboardCard(route, icon, number, kicker, title, chart, copy, meta = "") {
+  return `<article class="strategy-dashboard-card" data-flow-step="${esc(number)}"><header class="overview-card-heading"><span class="overview-card-icon" aria-hidden="true"><iconify-icon icon="${esc(icon)}"></iconify-icon></span><div><span class="kicker">${esc(kicker)}</span><h3>${esc(title)}</h3></div></header>${chart}${meta ? `<div class="intelligence-card-meta">${meta}</div>` : ""}<p>${esc(copy)}</p><button type="button" class="overview-route-button" data-research-route="${esc(route)}">Open ${esc(title)}<iconify-icon icon="lucide:arrow-right" aria-hidden="true"></iconify-icon></button></article>`;
+}
+
+function renderStrategyDashboard(r) {
+  const lab = r.scenario_lab || {};
+  const labStatuses = Object.values(lab.status || {});
+  const forecast = formalEngineProduct(r, "financial_forecasts");
+  const valuation = formalEngineProduct(r, "formal_valuations");
+  const expectations = formalEngineProduct(r, "market_expectations");
+  const guidance = guidanceState(r);
+  const guidanceObjectsCount = Array.isArray(guidance?.objects) ? guidance.objects.length : 0;
+  const catalystsDomain = brainDomain(r.company_brain || {}, "catalysts");
+  const catalystRefs = Array.isArray(catalystsDomain.object_refs) ? catalystsDomain.object_refs : [];
+  const riskObjects = guidanceObjects(guidance, "risks");
+  const studies = Array.isArray(r.event_studies) ? r.event_studies : [];
+  const conditional = Array.isArray(r.conditional_benchmarks?.benchmarks) ? r.conditional_benchmarks.benchmarks : [];
+  const quantStatuses = [
+    r.liquidity?.research_eligible ? "available_research_eligible" : "blocked_research_eligibility_not_retained",
+    studies.length ? "available_event_studies" : "blocked_no_event_studies",
+    conditional.length ? "available_conditional_benchmarks" : "blocked_no_conditional_benchmarks",
+  ];
+  const flow = [
+    ["01", "Scenario frame", labStatuses.length ? labStatuses[0] : lab.status?.scenario_lab || "blocked"],
+    ["02", "Valuation gate", valuation.status || expectations.status || "blocked"],
+    ["03", "Guidance check", guidance?.status || "unknown"],
+    ["04", "Catalyst file", catalystsDomain.status || "unknown"],
+    ["05", "Risk file", riskObjects.length ? guidance?.status || "available" : "unknown"],
+    ["06", "Quant context", quantStatuses.find(status => statusBucket(status) === "available") || quantStatuses[0]],
+  ];
+  const scenarioChart = strategyStatusChart("Scenario Lab readiness", labStatuses.length ? labStatuses : [lab.status?.scenario_lab], ["Qualified financial truth", "Scenario baseline", "Source provenance"]);
+  const valuationChart = strategyStatusChart("Formal valuation and expectations gates", [forecast.status, valuation.status, expectations.status], ["Financial forecast", "Formal valuation", "Market expectations"]);
+  const guidanceChart = guidanceObjectsCount
+    ? strategyCounterChart("Retained guidance assertion objects", guidanceObjectsCount, "GUIDANCE OBJECTS")
+    : ciBlockedChart(guidance?.status || "blocked_no_guidance_objects", "No retained guidance assertions are available", ["Guidance contradictions row", "Official assertion object"]);
+  const catalystChart = catalystRefs.length
+    ? strategyCounterChart("Company Brain catalyst references", catalystRefs.length, "CATALYST REFS")
+    : ciBlockedChart(catalystsDomain.status || "blocked_no_catalyst_refs", "No catalyst references are retained", ["Company Brain catalyst domain"]);
+  const riskChart = riskObjects.length
+    ? strategyCounterChart("Retained risk assertion objects", riskObjects.length, "RISK OBJECTS")
+    : ciBlockedChart(guidance?.status || "blocked_no_risk_objects", "No retained risk assertions are available", ["Guidance contradictions row", "Risk assertion object"]);
+  const quantChart = strategyStatusChart("Quant context availability", quantStatuses, ["Liquidity row", "Event studies", "Conditional benchmarks"]);
+  const catalystEvents = [
+    ...(Array.isArray(r.explainability?.monitoring?.what_to_watch) ? r.explainability.monitoring.what_to_watch : []),
+    ...(Array.isArray(r.operating_events) ? r.operating_events : []),
+  ];
+  const monitoringChart = strategyTimelineChart("Strategy watch items and operating events", catalystEvents, ["Dated watch item", "Operating event"]);
+  const valuationMeta = `<span><b>${esc(ciHumanStatus(forecast.status))}</b> forecast</span><span><b>${esc(ciHumanStatus(valuation.status))}</b> valuation</span><span><b>${esc(ciHumanStatus(expectations.status))}</b> expectations</span>`;
+  return `<section class="panel span9 strategy-dashboard-shell" aria-labelledby="strategyDashboardTitle">
+    <header class="strategy-dashboard-header"><div><span class="kicker">Strategy workspace</span><h2 id="strategyDashboardTitle">Turn retained evidence into a research decision flow.</h2><p>Use this hub to move from scenarios to valuation gates, guidance checks, catalysts, risks, and quantitative context. It is research-only; missing gates remain unknown and no action is recommended.</p></div><div class="strategy-dashboard-symbol"><iconify-icon icon="lucide:git-branch-plus" aria-hidden="true"></iconify-icon><b>${esc(r.symbol)}</b><span>Decision flow, not advice</span></div></header>
+    <div class="strategy-flow" aria-label="Strategy research decision flow">${flow.map(([number, label, status]) => `<span data-flow-status="${esc(statusBucket(status))}"><small>${esc(number)}</small><b>${esc(label)}</b><em>${esc(ciHumanStatus(status))}</em></span>`).join("")}</div>
+    <div class="strategy-dashboard-grid">
+      ${strategyDashboardCard("scenarios", "lucide:sliders-horizontal", "01", "Scenario frame", "Scenarios", scenarioChart, "Inspect caller-supplied sensitivity and reverse expectations only when the retained qualification gates allow it.")}
+      ${strategyDashboardCard("valuation", "lucide:scale", "02", "Formal gates", "Valuation", valuationChart, "Read formal valuation and market-expectations status directly from source-gated engine rows; the browser does not fill missing operands.", valuationMeta)}
+      ${strategyDashboardCard("guidance", "lucide:messages-square", "03", "Official assertions", "Guidance", guidanceChart, "Review retained management assertions and exact-key contradictions without turning them into a forecast.")}
+      ${strategyDashboardCard("catalysts", "lucide:sparkles", "04", "Evidence watch", "Catalysts", catalystChart, "Open catalyst references retained by the Company Brain. A reference marks evidence, not financial impact.")}
+      ${strategyDashboardCard("risks", "lucide:shield-alert", "05", "Break checks", "Risks", riskChart, "Review retained risk assertions and contradiction rows; absence of a row is shown as unknown, not safety.")}
+      ${strategyDashboardCard("quant", "lucide:activity", "06", "Market context", "Quant", quantChart, "Use retained liquidity, event-study, and benchmark availability as context only. No browser-side factor score is calculated.")}
+      <article class="strategy-dashboard-card strategy-dashboard-wide" data-flow-step="watch"><header class="overview-card-heading"><span class="overview-card-icon" aria-hidden="true"><iconify-icon icon="lucide:radar"></iconify-icon></span><div><span class="kicker">Monitoring layer</span><h3>What could move the research file next</h3></div></header>${monitoringChart}<p>Watch items and operating events are displayed as retained dated records. They are not treated as confirmations, price targets, or execution instructions.</p><button type="button" class="overview-route-button" data-research-route="monitoring">Open Monitoring<iconify-icon icon="lucide:arrow-right" aria-hidden="true"></iconify-icon></button></article>
+    </div>
+    <footer class="ci-editorial-footer"><span>Research only · no execution</span><span>Strategy previews retained state; child pages hold the detail</span></footer>
   </section>`;
 }
 
@@ -3475,7 +3588,7 @@ function renderScenarioLab(r) {
   const priceHref = safeHref(provenance.price_source_url);
   const source = (href, label) => href ? `<a href="${href}" target="_blank" rel="noopener">${esc(label)}</a>` : esc(`${label} unavailable`);
   return `<section class="panel span9 scenario-shell" aria-labelledby="scenarioTitle">
-    <span class="kicker">Scenario sensitivity</span><h2 id="scenarioTitle">Change assumptions, inspect the arithmetic</h2>
+    <button type="button" class="overview-back-button" data-research-route="directory_strategy">Strategy workspace</button><span class="kicker">Scenario sensitivity</span><h2 id="scenarioTitle">Change assumptions, inspect the arithmetic</h2>
     <p class="section-note">A transparent snapshot sensitivity and reverse solve. It is not a prediction or a house case; Henneth supplies no default assumptions.</p>
     <div class="scenario-baseline">
       ${scenarioMetric("Snapshot revenue", baseline.revenue)}

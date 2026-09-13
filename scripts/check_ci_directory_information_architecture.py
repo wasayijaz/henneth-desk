@@ -59,6 +59,10 @@ NEXT_DIRECTORY_TARGETS = {
         "routes": ("ask", "graph", "operating", "intelligence", "timeline"),
     },
 }
+STRATEGY_DIRECTORY_TARGET = {
+    "landing": "directory_strategy",
+    "routes": ("scenarios", "valuation", "guidance", "catalysts", "risks", "quant"),
+}
 
 
 def fail(message: str) -> None:
@@ -204,6 +208,36 @@ def _check_directory(group: dict[str, Any], source: str, intended: set[str]) -> 
                 errors.append(f"Intelligence landing does not link child route {route!r}")
         if "overall readiness" in dashboard.lower() or "readiness score" in dashboard.lower():
             errors.append("Intelligence landing invents an overall readiness score")
+    if key == "strategy" and group.get("landing"):
+        dashboard = _function_body(source, "renderStrategyDashboard")
+        card = _function_body(source, "strategyDashboardCard")
+        chart_helpers = "\n".join(
+            _function_body(source, name)
+            for name in ("strategyCounterChart", "strategyStatusChart", "strategyTimelineChart")
+        )
+        status_helper = _function_body(source, "statusBucket")
+        if group["landing"] != STRATEGY_DIRECTORY_TARGET["landing"]:
+            errors.append(f"Strategy landing must be {STRATEGY_DIRECTORY_TARGET['landing']!r}")
+        if routes != list(STRATEGY_DIRECTORY_TARGET["routes"]):
+            errors.append(f"Strategy child routes drifted: expected {list(STRATEGY_DIRECTORY_TARGET['routes'])}, found {routes}")
+        if not dashboard:
+            errors.append("Strategy landing has no distinct dashboard renderer")
+        for route in STRATEGY_DIRECTORY_TARGET["routes"]:
+            if f'strategyDashboardCard("{route}"' not in dashboard:
+                errors.append(f"Strategy landing does not link child route {route!r}")
+        if 'data-research-route="${esc(route)}"' not in card:
+            errors.append("Strategy cards do not use the research route action contract")
+        for marker in ("Scenario frame", "Valuation gate", "Guidance check", "Catalyst file", "Risk file", "Quant context"):
+            if marker not in dashboard:
+                errors.append(f"Strategy decision flow missing: {marker}")
+        if "overall readiness" in dashboard.lower() or "readiness score" in dashboard.lower():
+            errors.append("Strategy landing invents an overall readiness score")
+        if "Research only" not in dashboard or "not advice" not in dashboard:
+            errors.append("Strategy landing does not carry research-only/no-advice wording")
+        if "ciChart(" not in dashboard + chart_helpers or "ciBlockedChart(" not in dashboard + chart_helpers:
+            errors.append("Strategy landing does not use existing chart helpers for truthful tile visuals")
+        if status_helper.find("/blocked|missing|") > status_helper.find("/computed|qualified|"):
+            errors.append("Strategy status classification must reject blocked/not-qualified states before matching positive substrings")
     # A collapsed technical-status disclosure may retain the machine code for
     # auditability.  Only inspect ordinary visible rendering for raw codes.
     visible_case_body = _function_body(source, "renderCaseSectionBody")
@@ -288,6 +322,13 @@ def main() -> int:
         actual = [route for route, _label in intelligence["routes"]]
         if actual != list(target["routes"]):
             global_errors.append(f"Intelligence acceptance target drifted: expected {list(target['routes'])}, found {actual}")
+    strategy = next((group for group in groups if group.get("key") == "strategy"), None)
+    if strategy:
+        actual = [route for route, _label in strategy["routes"]]
+        if strategy.get("landing") != STRATEGY_DIRECTORY_TARGET["landing"]:
+            global_errors.append(f"Strategy acceptance target missing landing_route={STRATEGY_DIRECTORY_TARGET['landing']!r}")
+        if actual != list(STRATEGY_DIRECTORY_TARGET["routes"]):
+            global_errors.append(f"Strategy acceptance target drifted: expected {list(STRATEGY_DIRECTORY_TARGET['routes'])}, found {actual}")
     analytical_source = _function_body(source, "renderIntelligence") + _function_body(source, "renderIntelligenceCase")
     if "aria-label=" not in analytical_source and "aria-labelledby=" not in analytical_source:
         global_errors.append("analytical explainability sections have no accessibility label")
@@ -322,6 +363,7 @@ def main() -> int:
             print(f"    - {error}")
     target = NEXT_DIRECTORY_TARGETS["intelligence"]
     print(f"  NEXT INTELLIGENCE TARGET: landing_route=\"{target['landing']}\"; child routes={list(target['routes'])}")
+    print(f"  STRATEGY TARGET: landing_route=\"{STRATEGY_DIRECTORY_TARGET['landing']}\"; child routes={list(STRATEGY_DIRECTORY_TARGET['routes'])}")
     print(f"  SUMMARY: {len(passed_directories)}/6 directories pass; {len(global_errors)} global failures")
     return 1 if global_errors or failed_directories else 0
 
