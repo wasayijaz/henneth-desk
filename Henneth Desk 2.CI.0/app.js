@@ -51,6 +51,7 @@ const humanActivityLabel = value => {
 const ciHumanStatus = value => {
   const status = String(value || "unknown");
   if (/financial_truth_not_qualified/i.test(status)) return "Waiting for complete reported financial history";
+  if (/not_qualified/i.test(status)) return "Reported history has not passed qualification yet";
   if (/owner_approved_assumptions/i.test(status)) return "Waiting for reviewed model assumptions";
   if (/insufficient_qualified_history/i.test(status)) return "Not enough verified history to calculate this yet";
   if (/adapter_unavailable/i.test(status)) return "The sector calculation method is not connected yet";
@@ -183,7 +184,7 @@ const RESEARCH_TOOL_TABS = [
 const TREE_GROUPS = [
   { key: "overview", label: "Overview", routes: [["snapshot", "Investor Snapshot"], ["overview", "Company Profile"]] },
   { key: "intelligence", label: "Intelligence", landing_route: "directory_intelligence", routes: [["ask", "Ask Henneth"], ["graph", "Knowledge Graph"], ["operating", "Operating Intelligence"], ["intelligence", "Event-to-Value view"], ["timeline", "Typed timeline"]] },
-  { key: "financials", label: "Financials", routes: [["trends", "Financial Trends"], ["baseline", "Financial Baseline"], ["forecast", "Forecast Readiness"], ["alpha_readiness", "Event-to-Value readiness"], ["financials", "Accounting Snapshot"]] },
+  { key: "financials", label: "Financials", landing_route: "directory_financials", routes: [["trends", "Financial Trends"], ["baseline", "Financial Baseline"], ["forecast", "Forecast Readiness"], ["alpha_readiness", "Event-to-Value readiness"], ["financials", "Accounting Snapshot"]] },
   { key: "events", label: "Events & Filings", routes: [["earnings", "Earnings"], ["events", "Events"], ["filings", "Filings"], ["sources", "Sources"], ["changes", "Change Digest (legacy)"], ["brief", "Brief queue (legacy)"]] },
   { key: "strategy", label: "Strategy", routes: [["scenarios", "Scenarios"], ["valuation", "Valuation"], ["guidance", "Guidance"], ["catalysts", "Catalysts"], ["risks", "Risks"], ["quant", "Quant (legacy)"]] },
   { key: "ownership", label: "Ownership & Peers", routes: [["ownership", "Ownership"], ["peers", "Peers"], ["watchlist", "Watchlist"], ["conditional", "Conditional Benchmarks"], ["causal", "Causal Map"], ["coverage", "Coverage"], ["thesis", "Thesis Monitor"], ["monitoring", "Monitoring"], ["operations", "Operations (legacy)"]] },
@@ -964,6 +965,7 @@ function detail(r) {
     ${state.caseRoute ? renderIntelligenceCase(r, state.caseRoute.caseId)
       : state.view === "directory_overview" ? renderOverviewDashboard(r)
       : state.view === "directory_intelligence" ? renderIntelligenceDashboard(r)
+      : state.view === "directory_financials" ? renderFinancialsDashboard(r)
       : state.view === "financials" ? renderCompanyFinancials(r)
       : state.view === "earnings" ? renderCompanyEarnings(r)
       : state.view === "operations" ? renderCompanyOperations(r)
@@ -1868,8 +1870,63 @@ function renderFormalEnginePanel(r, keys, kicker, title, note, titleId) {
   </section>`;
 }
 
+function renderFinancialsDashboard(r) {
+  const series = r.financial_series || {};
+  const facts = Array.isArray(series.facts) ? series.facts : [];
+  const coverage = series.coverage || {};
+  const model = r.financial_model_inputs || {};
+  const truth = r.financial_truth_qualification || {};
+  const readiness = r.forecast_readiness || {};
+  const productAudit = state.data?.meta?.event_to_value_product_readiness || {};
+  const summary = productAudit.summary || {};
+  const factTypes = Object.entries(facts.reduce((counts, fact) => {
+    const label = String(fact.metric || "Other fact").replaceAll("_", " ");
+    counts[label] = (counts[label] || 0) + 1;
+    return counts;
+  }, {})).map(([label, value]) => ({ label, value, unit: "facts" })).sort((a, b) => b.value - a.value).slice(0, 6);
+  const truthRows = [
+    ["Annual income", truth.annual_income_triplets],
+    ["Reported quarters", truth.qualified_reported_quarter_fact_sets],
+    ["Operating cash flow", truth.annual_operating_cash_flow],
+    ["Annual statements", truth.model_ready_financial_statement_coverage?.annual],
+    ["Quarter statements", truth.model_ready_financial_statement_coverage?.reported_quarter],
+  ].map(([label, item]) => ({ label, value: Number(item?.present || 0), unit: `of ${item?.required ?? "?"}` }));
+  const factsChart = factTypes.length
+    ? ciChart("assumptions", { status: "available", label: "Retained financial facts by line", items: factTypes, comparable: true, visible_summary: true })
+    : ciBlockedChart("blocked_no_financial_facts", "No financial facts are retained", ["Official filing", "Explicit period", "Source-linked value"]);
+  const truthChart = truthRows.some(item => item.value > 0)
+    ? ciChart("assumptions", { status: "available", label: "Qualified financial-truth coverage", items: truthRows, comparable: false, visible_summary: true })
+    : ciBlockedChart(truth.status || "blocked_no_qualified_truth", "Financial truth is not yet qualified", ["Annual income history", "Reported quarters", "Cash flow", "Share count tie-out"]);
+  const forecastGate = readiness.downstream_status?.forecast || readiness.status || "blocked";
+  const forecastChart = ciChart("blocked", { status: forecastGate, label: "Forecast and valuation gate", reason: ciHumanStatus(readiness.reason || forecastGate), requirements: (readiness.missing_requirements || []).slice(0, 5), available: 0 });
+  const productChart = Number.isFinite(Number(summary.available_metric_count))
+    ? ciChart("counter", { status: "available", label: "Available Event-to-Value product checks", value: Number(summary.available_metric_count), display: String(summary.available_metric_count), unit: `AVAILABLE · ${summary.blocked_metric_count ?? "?"} BLOCKED` })
+    : ciBlockedChart("blocked_product_readiness_unavailable", "Product readiness audit is unavailable", ["Retained readiness audit"]);
+  const accountingChart = ciChart("counter", { status: "available", label: "Retained accounting fact count", value: Number(coverage.fact_count ?? facts.length), display: String(coverage.fact_count ?? facts.length), unit: `${coverage.model_loadable_count ?? 0} MODEL-LOADABLE` });
+  const stages = [
+    ["Official facts", facts.length ? "available" : "missing"],
+    ["Baseline", model.status || "unknown"],
+    ["Truth qualification", truth.status || "unknown"],
+    ["Forecast inputs", readiness.status || "unknown"],
+    ["Formal forecast", forecastGate],
+  ];
+  return `<section class="panel span9 financials-dashboard-shell" aria-labelledby="financialsDashboardTitle">
+    <header class="intelligence-dashboard-header"><div><span class="kicker">Financials workspace</span><h2 id="financialsDashboardTitle">Start with reported facts. See what the models can support.</h2><p>Move from source-linked accounting facts to comparable history, qualification, and formal-output gates. Missing periods stay visible and no browser-side forecast is invented.</p></div><div class="intelligence-dashboard-symbol"><iconify-icon icon="lucide:chart-no-axes-combined" aria-hidden="true"></iconify-icon><b>${esc(r.symbol)}</b><span>Reported before modelled</span></div></header>
+    <div class="financials-stage-strip" aria-label="Financial evidence and model stages">${stages.map(([label, status]) => `<span><small>${esc(label)}</small><b>${esc(ciHumanStatus(status))}</b></span>`).join("")}</div>
+    <div class="intelligence-dashboard-grid">
+      ${intelligenceDashboardCard("trends", "lucide:chart-spline", "Reported history", "Financial trends", factsChart, "Compare only explicitly dated, compatible facts from official filings; conflicting rows remain visible.")}
+      ${intelligenceDashboardCard("baseline", "lucide:database-zap", "Model inputs", "Financial baseline", truthChart, "Inspect which reported observations and deterministic derivations are qualified for downstream use.")}
+      ${intelligenceDashboardCard("forecast", "lucide:shield-check", "Qualification gate", "Forecast readiness", forecastChart, "See the exact missing evidence holding back formal forecasts, valuation, and market-expectations outputs.")}
+      ${intelligenceDashboardCard("alpha_readiness", "lucide:gauge", "Product gate", "Event-to-Value readiness", productChart, "Review retained product checks without confusing implemented machinery with proven live output.")}
+      ${intelligenceDashboardCard("financials", "lucide:table-properties", "Accounting file", "Accounting snapshot", accountingChart, "Open the source-gated forecast panel alongside retained facts and the reported-history baseline.")}
+    </div>
+    <footer class="ci-editorial-footer"><span>Research only · no execution</span><span>Missing periods remain unknown; no forecast is inferred</span></footer>
+  </section>`;
+}
+
 function renderCompanyFinancials(r) {
   return `<section class="company-route-stack">
+    <button type="button" class="overview-back-button" data-research-route="directory_financials">Financials workspace</button>
     ${renderFormalEnginePanel(r, ["financial_forecasts"], "Source-gated engine", "Formal financial forecast", "Displayed from the authoritative financial_forecasts row only. Computed values appear only when the engine emits them with source provenance and research-only policy.", "formalForecastTitle")}
     ${renderFinancials(r)}
     ${renderFinancialBaseline(r)}
@@ -3644,11 +3701,11 @@ function renderFinancialEngineAssumptionReview(r) {
 function renderEventToValueProductReadiness() {
   const audit = state.data?.meta?.event_to_value_product_readiness;
   if (!audit || typeof audit !== "object" || Array.isArray(audit) || !Array.isArray(audit.metrics)) {
-    return '<section class="panel span9 alpha-readiness-shell"><span class="kicker">Event-to-Value Alpha</span><h2>Product readiness not generated</h2><p class="section-note">Retained-state audit unavailable; no progress is inferred.</p></section>';
+    return '<section class="panel span9 alpha-readiness-shell"><button type="button" class="overview-back-button" data-research-route="directory_financials">Financials workspace</button><span class="kicker">Event-to-Value Alpha</span><h2>Product readiness not generated</h2><p class="section-note">Retained-state audit unavailable; no progress is inferred.</p></section>';
   }
   const summary = audit.summary || {};
   const cards = audit.metrics.map(metric => `<article class="alpha-readiness-card" data-status="${esc(metric.status || "unknown")}"><header><span class="pill">${esc(metric.status || "unknown")}</span><h3>${esc(metric.label || metric.id || "metric")}</h3></header><b>${esc(metric.display || (metric.value == null ? "unknown" : metric.value))}</b><p>${esc(metric.definition || "Retained-state metric")}</p><div class="blocked-grid"><span>Source <b>${esc(metric.source_path || "unknown")}</b></span><span>Reason <b>${esc(metric.reason || "none")}</b></span></div></article>`).join("");
-  return `<section class="panel span9 alpha-readiness-shell"><span class="kicker">Event-to-Value Alpha</span><h2>Product readiness from retained artifacts</h2><p class="section-note">Research-only gate. Implemented engines remain distinct from proven live outputs; blocked evidence is shown explicitly.</p><div class="blocked-grid"><span>Status <b>${esc(audit.status || "unknown")}</b></span><span>Available <b>${esc(summary.available_metric_count ?? "unknown")}</b></span><span>Blocked <b>${esc(summary.blocked_metric_count ?? "unknown")}</b></span><span>As of <b>${esc(audit.as_of || "unknown")}</b></span></div><div class="alpha-readiness-grid">${cards}</div></section>`;
+  return `<section class="panel span9 alpha-readiness-shell"><button type="button" class="overview-back-button" data-research-route="directory_financials">Financials workspace</button><span class="kicker">Event-to-Value Alpha</span><h2>Product readiness from retained artifacts</h2><p class="section-note">Research-only gate. Implemented engines remain distinct from proven live outputs; blocked evidence is shown explicitly.</p><div class="blocked-grid"><span>Status <b>${esc(audit.status || "unknown")}</b></span><span>Available <b>${esc(summary.available_metric_count ?? "unknown")}</b></span><span>Blocked <b>${esc(summary.blocked_metric_count ?? "unknown")}</b></span><span>As of <b>${esc(audit.as_of || "unknown")}</b></span></div><div class="alpha-readiness-grid">${cards}</div></section>`;
 }
 
 function renderForecastReadiness(r) {
@@ -3657,7 +3714,7 @@ function renderForecastReadiness(r) {
     : null;
   if (!readiness) {
     return `<section class="panel span9 forecast-readiness-shell" aria-labelledby="forecastReadinessTitle">
-      <span class="kicker">Forecast / valuation readiness</span><h2 id="forecastReadinessTitle">Backend state not generated</h2>
+      <button type="button" class="overview-back-button" data-research-route="directory_financials">Financials workspace</button><span class="kicker">Forecast / valuation readiness</span><h2 id="forecastReadinessTitle">Backend state not generated</h2>
       <p class="section-note">Read-only readiness state is expected at row.forecast_readiness. The browser does not infer qualification, calculate projections, value the company, estimate odds, emit targets, or turn this into advice.</p>
       <div class="empty">Forecast readiness is unavailable: not generated.</div>
     </section>`;
@@ -3669,7 +3726,7 @@ function renderForecastReadiness(r) {
   const policy = readiness.policy || {};
   const limitations = readiness.limitations || [];
   return `<section class="panel span9 forecast-readiness-shell" aria-labelledby="forecastReadinessTitle">
-    <span class="kicker">Forecast / valuation readiness</span><h2 id="forecastReadinessTitle">Model gate and blocked outputs</h2>
+    <button type="button" class="overview-back-button" data-research-route="directory_financials">Financials workspace</button><span class="kicker">Forecast / valuation readiness</span><h2 id="forecastReadinessTitle">Model gate and blocked outputs</h2>
     <p class="section-note">Read-only backend output from row.forecast_readiness. The browser displays exact status, version, missing requirements, official candidate refs, policy and blocked downstream states only.</p>
     <div class="forecast-readiness-summary">
       <div><span>Status</span><b>${esc(readiness.status || "unknown")}</b></div>
@@ -3871,7 +3928,7 @@ function renderFinancials(r) {
   const conflicts = series.conflicts || [];
   const trends = buildTrends(facts);
   return `<section class="panel span9">
-    <span class="kicker">Period-aware extraction</span><h2>Financial facts from official PDFs</h2>
+    <button type="button" class="overview-back-button" data-research-route="directory_financials">Financials workspace</button><span class="kicker">Period-aware extraction</span><h2>Financial facts from official PDFs</h2>
     <p class="section-note">Only labelled values with document/page evidence are shown. Unknown period, unit, basis or currency stays flagged instead of being guessed.</p>
     <div class="series-health">
       ${metric("Facts", coverage.fact_count ?? facts.length, `${coverage.source_documents ?? 0} source documents`)}
