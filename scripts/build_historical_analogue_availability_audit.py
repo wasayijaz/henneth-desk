@@ -60,7 +60,8 @@ def _audit_case(
     case_id = str(case.get("case_id") or "")
     target_event_id = binding.get("matched_operating_event_id")
     target_effective_date_str = binding.get("effective_date")
-    target_date = _parse_date(target_effective_date_str)
+    target_info_avail_str = binding.get("information_available_at") or target_effective_date_str
+    target_date = _parse_date(target_info_avail_str) or _parse_date(target_effective_date_str)
     target_type = binding.get("event_type")
     target_subtype = binding.get("event_subtype")
     target_sector = (sectors_map.get(symbol) or {}).get("sector")
@@ -78,7 +79,8 @@ def _audit_case(
                 continue
             cand_id = ev.get("event_id")
             cand_date_str = ev.get("effective_date")
-            cand_date = _parse_date(cand_date_str)
+            cand_info_str = ev.get("detected_at") or ev.get("published_at") or cand_date_str
+            cand_date = _parse_date(cand_info_str[:10] if cand_info_str else None) or _parse_date(cand_date_str)
             cand_type = ev.get("event_type")
             cand_subtype = ev.get("event_subtype")
             cand_study = (event_studies.get("studies") or {}).get(cand_id)
@@ -145,27 +147,8 @@ def _audit_case(
                     "mechanism": f"Exact {target_type}/{target_subtype} in {'same_company' if sym == symbol else 'same_sector'}",
                     "scenario_calibrating": False,  # remains false while sample N < 3
                 })
-            # Tier 2: same economic mechanism across sectors (e.g. corporate M&A / asset expansion)
-            elif cand_type == target_type and cand_subtype == target_subtype:
-                tier2_candidates.append({
-                    **cand_record,
-                    "tier": "tier_2_economic_mechanism_analogue",
-                    "mechanism": f"Cross-sector {target_type}/{target_subtype} mechanism ({co_sector} vs {target_sector})",
-                    "comparability_fields": {
-                        "target_sector": target_sector,
-                        "candidate_sector": co_sector,
-                        "cross_sector_structural_differences": "Sector drivers and margin structures differ",
-                    },
-                    "scenario_calibrating": False,
-                })
-            elif cand_type == "acquisition_divestment" and target_type == "acquisition_divestment":
-                tier2_candidates.append({
-                    **cand_record,
-                    "tier": "tier_2_economic_mechanism_analogue",
-                    "mechanism": "Inorganic corporate transaction",
-                    "comparability_fields": {"target_subtype": target_subtype, "candidate_subtype": cand_subtype},
-                    "scenario_calibrating": False,
-                })
+            # Tier 2: same economic mechanism with verified sector-specific comparability dimensions.
+            # Broad cross-sector M&A (e.g. upstream E&P working interest vs cement plant control) differs in economic drivers and is demoted to Tier 3.
             else:
                 tier3_candidates.append({
                     "event_id": cand_id,
@@ -181,16 +164,21 @@ def _audit_case(
     # Audit conclusions
     t1_count = len(tier1_candidates)
     t2_count = len(tier2_candidates)
-    t1_mature_1q = sum(1 for c in tier1_candidates if (c.get("horizons") or {}).get("1Q", {}).get("status") == "mature")
+    horizon_mature_counts = {
+        h: sum(1 for c in tier1_candidates if (c.get("horizons") or {}).get(h, {}).get("status") == "mature")
+        for h in ("1Q", "2Q", "4Q", "8Q")
+    }
+    # Sample readiness requires >= 3 mature independent exact outcomes per horizon
+    sample_ready = any(count >= 3 for count in horizon_mature_counts.values())
 
     evidence_gap = []
-    if t1_count < 3:
+    if not sample_ready:
         evidence_gap.append({
-            "gap_type": "thin_sample_threshold_unmet",
+            "gap_type": "mature_sample_threshold_unmet",
             "current_tier1_count": t1_count,
-            "required_count": 3,
-            "deficit": 3 - t1_count,
-            "rule": "Statistics and scenario calibration remain suppressed below N=3 mature exact analogues",
+            "horizon_mature_counts": horizon_mature_counts,
+            "required_mature_count": 3,
+            "rule": "Sample readiness requires >= 3 mature independent exact outcomes per horizon; raw candidate count is insufficient",
         })
     if t1_count == 0:
         evidence_gap.append({
@@ -209,15 +197,16 @@ def _audit_case(
             "event_type": target_type,
             "event_subtype": target_subtype,
             "effective_date": target_effective_date_str,
+            "information_available_at": target_info_avail_str,
             "match_policy": binding.get("match_policy"),
         },
         "analogue_availability": {
             "tier_1_exact_count": t1_count,
-            "tier_1_mature_1q_count": t1_mature_1q,
+            "horizon_mature_counts": horizon_mature_counts,
             "tier_2_mechanism_count": t2_count,
             "tier_3_regime_count": len(tier3_candidates),
-            "sample_sufficient_for_stats": t1_count >= 3,
-            "status": "sample_ready" if t1_count >= 3 else ("thin_history_present" if (t1_count + t2_count) > 0 else "zero_candidates"),
+            "sample_sufficient_for_stats": sample_ready,
+            "status": "sample_ready" if sample_ready else ("thin_history_present" if (t1_count + t2_count) > 0 else "zero_candidates"),
         },
         "tier_1_candidates": tier1_candidates,
         "tier_2_candidates": tier2_candidates,

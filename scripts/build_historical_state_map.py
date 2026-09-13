@@ -40,6 +40,8 @@ ALPHA_CASES = {
 
 
 def _as_date(value: Any) -> date | None:
+    if isinstance(value, date):
+        return value
     if isinstance(value, str) and len(value) >= 10:
         return event_studies.parse_date(value[:10])
     return None
@@ -289,11 +291,20 @@ def _context_for_case(
     )
     is_bound = bool(event and event_id and match_policy in ("direct_canonical_event_id", "exact_source_document_and_hash", "exact_source_document_id"))
     effective_date = event.get("effective_date") if (is_bound and event) else None
+    detected_at = (event.get("detected_at") or event.get("published_at") or (matched_lineage or {}).get("document_published_at")) if (is_bound and event) else None
+    detected_day = _as_date(detected_at[:10]) if isinstance(detected_at, str) and len(detected_at) >= 10 else None
+    effective_day = _as_date(effective_date) if effective_date else None
+    if detected_day and effective_day and detected_day > effective_day:
+        cutoff_date = detected_day
+        info_avail = detected_at[:10] if isinstance(detected_at, str) else detected_day.isoformat()
+    else:
+        cutoff_date = effective_day
+        info_avail = effective_date
 
     study = (event_study_state.get("studies") or {}).get(event_id) if is_bound else None
     benchmark = _benchmark_for_event(benchmarks, symbol, event_id) if is_bound else None
     analogue = _benchmark_projection(benchmark)
-    market = _pre_event_market_setup(symbol, effective_date) if is_bound and effective_date else {
+    market = _pre_event_market_setup(symbol, cutoff_date) if is_bound and cutoff_date else {
         "status": "unavailable",
         "event_date": None,
         "baseline": {"date": None, "close": None, "provenance": {}},
@@ -326,6 +337,7 @@ def _context_for_case(
             "matched_operating_event_id": event_id if is_bound else None,
             "match_policy": match_policy,
             "effective_date": effective_date,
+            "information_available_at": info_avail,
             "event_type": (event or {}).get("event_type") if is_bound else None,
             "event_subtype": (event or {}).get("event_subtype") if is_bound else None,
             "source_quality_level": (event or {}).get("source_quality_level") if is_bound else None,

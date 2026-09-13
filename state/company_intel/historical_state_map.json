@@ -43,6 +43,7 @@
     "matched_operating_event_id": "evt_b25decfc180474cbe066",
     "match_policy": "exact_source_document_and_hash",
     "effective_date": "2025-09-30",
+    "information_available_at": "2025-09-30",
     "event_type": "acquisition_divestment",
     "event_subtype": "acquisition",
     "source_quality_level": 1,
@@ -450,6 +451,7 @@
     "matched_operating_event_id": "evt_e9068dbe4b6b8493a0cb",
     "match_policy": "direct_canonical_event_id",
     "effective_date": "2026-07-24",
+    "information_available_at": "2026-07-24",
     "event_type": "product_launch",
     "event_subtype": "product_launch",
     "source_quality_level": 1,
@@ -845,6 +847,7 @@
     "matched_operating_event_id": "evt_6e9b520a122b8f2d4a59",
     "match_policy": "exact_source_document_and_hash",
     "effective_date": "2025-12-18",
+    "information_available_at": "2025-12-18",
     "event_type": "acquisition_divestment",
     "event_subtype": "acquisition",
     "source_quality_level": 1,
@@ -1252,6 +1255,7 @@
     "matched_operating_event_id": "evt_efe3e2c704a0e53e7d09",
     "match_policy": "direct_canonical_event_id",
     "effective_date": "2025-06-30",
+    "information_available_at": "2025-10-02",
     "event_type": "distribution_network_expansion",
     "event_subtype": "fuel_retail_and_convenience_channel",
     "source_quality_level": 1,
@@ -1294,10 +1298,10 @@
    "current_state_vector": {
     "market_setup": {
      "status": "available",
-     "event_date": "2025-06-30",
+     "event_date": "2025-10-02",
      "baseline": {
-      "date": "2025-06-27",
-      "close": 379.54,
+      "date": "2025-10-01",
+      "close": 470.09,
       "provenance": {
        "history_file": "state/history/PSO.json"
       }
@@ -1305,29 +1309,29 @@
      "pre_event_returns": {
       "5d": {
        "status": "available",
-       "return_pct": 1.9474065916355476,
-       "start_date": "2025-06-20",
-       "end_date": "2025-06-27",
+       "return_pct": 3.3346522465488304,
+       "start_date": "2025-09-24",
+       "end_date": "2025-10-01",
        "reason": null
       },
       "15d": {
        "status": "available",
-       "return_pct": 2.0076867256161535,
-       "start_date": "2025-06-04",
-       "end_date": "2025-06-27",
+       "return_pct": 11.472338811031268,
+       "start_date": "2025-09-10",
+       "end_date": "2025-10-01",
        "reason": null
       },
       "60d": {
        "status": "available",
-       "return_pct": -9.389548069806853,
-       "start_date": "2025-03-25",
-       "end_date": "2025-06-27",
+       "return_pct": 19.691915977084662,
+       "start_date": "2025-07-08",
+       "end_date": "2025-10-01",
        "reason": null
       }
      },
      "pre_event_volume": {
       "status": "available",
-      "median_5_session_to_60_session_ratio": 1.4374978604927142,
+      "median_5_session_to_60_session_ratio": 1.6871400128653415,
       "reason": null
      },
      "policy": {
@@ -1448,66 +1452,66 @@
      "study_id": "study_efe3e2c704a0e53e7d09",
      "data_cutoff": "2026-08-28",
      "baseline": {
-      "selected_date": "2025-06-27",
-      "selected_close": 379.54,
+      "selected_date": "2025-10-01",
+      "selected_close": 470.09,
       "status": "available",
       "reason": null,
       "provenance": {
        "history_file": "state/history/PSO.json",
-       "selected_date": "2025-06-27"
+       "selected_date": "2025-10-01"
       }
      },
      "horizons": {
       "1Q": {
        "status": "mature",
-       "return_pct": 24.479633240238165,
-       "target_date": "2025-09-30",
-       "selected_date": "2025-09-30",
+       "return_pct": 2.9356080750494673,
+       "target_date": "2026-01-02",
+       "selected_date": "2026-01-02",
        "reason": null,
        "provenance": {
         "history_file": "state/history/PSO.json",
-        "baseline_date": "2025-06-27",
-        "endpoint_date": "2025-09-30",
-        "target_date": "2025-09-30"
+        "baseline_date": "2025-10-01",
+        "endpoint_date": "2026-01-02",
+        "target_date": "2026-01-02"
        }
       },
       "2Q": {
        "status": "mature",
-       "return_pct": 24.766822996258632,
-       "target_date": "2025-12-30",
-       "selected_date": "2025-12-30",
+       "return_pct": -28.707268820864083,
+       "target_date": "2026-04-02",
+       "selected_date": "2026-04-02",
        "reason": null,
        "provenance": {
         "history_file": "state/history/PSO.json",
-        "baseline_date": "2025-06-27",
-        "endpoint_date": "2025-12-30",
-        "target_date": "2025-12-30"
+        "baseline_date": "2025-10-01",
+        "endpoint_date": "2026-04-02",
+        "target_date": "2026-04-02"
        }
       },
       "4Q": {
-       "status": "mature",
-       "return_pct": -9.7987036939453,
-       "target_date": "2026-06-30",
-       "selected_date": "2026-06-30",
-       "reason": null,
+       "status": "immature",
+       "return_pct": null,
+       "target_date": "2026-10-02",
+       "selected_date": null,
+       "reason": "target_after_last_bar",
        "provenance": {
         "history_file": "state/history/PSO.json",
-        "baseline_date": "2025-06-27",
-        "endpoint_date": "2026-06-30",
-        "target_date": "2026-06-30"
+        "baseline_date": "2025-10-01",
+        "endpoint_date": null,
+        "target_date": "2026-10-02"
        }
       },
       "8Q": {
        "status": "immature",
        "return_pct": null,
-       "target_date": "2027-06-30",
+       "target_date": "2027-10-02",
        "selected_date": null,
        "reason": "target_after_last_bar",
        "provenance": {
         "history_file": "state/history/PSO.json",
-        "baseline_date": "2025-06-27",
+        "baseline_date": "2025-10-01",
         "endpoint_date": null,
-        "target_date": "2027-06-30"
+        "target_date": "2027-10-02"
        }
       }
      },
@@ -1547,19 +1551,19 @@
        "indices_file": "state/indices.json",
        "selected_dates": {
         "1Q": [
-         "2025-06-27",
-         "2025-09-30"
+         "2025-10-01",
+         "2026-01-02"
         ],
         "2Q": [
-         "2025-06-27",
-         "2025-12-30"
+         "2025-10-01",
+         "2026-04-02"
         ],
         "4Q": [
-         "2025-06-27",
-         "2026-06-30"
+         "2025-10-01",
+         null
         ],
         "8Q": [
-         "2025-06-27",
+         "2025-10-01",
          null
         ]
        }
@@ -1673,9 +1677,9 @@
  },
  "_meta": {
   "generator_version": "ci_artifact_integrity_v1",
-  "source_commit_sha": "b6046e043a63b1b9c27889a9b98d9bf6b6f44815",
-  "build_cutoff_at": "2026-09-13T16:48:49Z",
-  "generated_at": "2026-09-13T16:48:49Z",
+  "source_commit_sha": "4da84736c1439ef23e236035f090dc149fec764c",
+  "build_cutoff_at": "2026-09-13T17:13:53Z",
+  "generated_at": "2026-09-13T17:13:53Z",
   "artifact_path": "state/company_intel/historical_state_map.json",
   "timestamp_semantics": {
    "build_cutoff_at": "generation boundary only; not a source-effective or source-published time",

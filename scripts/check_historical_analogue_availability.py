@@ -35,15 +35,16 @@ def _check_no_advice_or_forecast_leak(payload: dict) -> None:
         "caused the return",
     )
     for phrase in banned:
-        if re.search(r"" + re.escape(phrase) + r"", text):
+        if re.search(r"\b" + re.escape(phrase) + r"\b", text):
             _fail(f"disallowed advice/forecast phrase leaked: {phrase}")
 
 
 def _assert_no_lookahead(audit: dict) -> None:
     for case_audit in audit.get("cases") or []:
-        target_date = builder._parse_date(((case_audit.get("target_event") or {}).get("effective_date")))
+        target_info = (case_audit.get("target_event") or {}).get("information_available_at") or (case_audit.get("target_event") or {}).get("effective_date")
+        target_date = builder._parse_date(target_info)
         if not target_date:
-            _fail(f"{case_audit.get('case_id')}: target effective_date missing")
+            _fail(f"{case_audit.get('case_id')}: target cutoff date missing")
         for cand in (case_audit.get("tier_1_candidates") or []) + (case_audit.get("tier_2_candidates") or []):
             cand_date = builder._parse_date(cand.get("effective_date"))
             if not cand_date:
@@ -71,6 +72,28 @@ def _assert_sample_suppression_and_integrity(audit: dict) -> None:
                 _fail(f"{case_audit.get('case_id')}: candidate {cand.get('event_id')} missing source document ID")
 
 
+def _assert_pso_information_cutoff_integrity(audit: dict) -> None:
+    pso_case = next((c for c in (audit.get("cases") or []) if c.get("symbol") == "PSO"), None)
+    if not pso_case:
+        _fail("PSO case missing in audit")
+    target = pso_case.get("target_event") or {}
+    if target.get("effective_date") != "2025-06-30":
+        _fail("PSO effective_date must be 2025-06-30 (FY25 period end)")
+    if target.get("information_available_at") != "2025-10-02":
+        _fail("PSO information_available_at must be 2025-10-02 (annual report publication)")
+
+
+def _fixture_banned_phrases_regression() -> None:
+    for banned_phrase in ("price target", "you should buy", "forecasted return", "target price"):
+        caught = False
+        try:
+            _check_no_advice_or_forecast_leak({"leak": f"Here is the {banned_phrase} for this stock"})
+        except AssertionError:
+            caught = True
+        if not caught:
+            _fail(f"Banned phrase checker failed to catch: {banned_phrase}")
+
+
 def main() -> None:
     path = builder.OUT
     if not path.exists():
@@ -85,8 +108,10 @@ def main() -> None:
         _fail("kind mismatch")
 
     _check_no_advice_or_forecast_leak(state)
+    _fixture_banned_phrases_regression()
     _assert_no_lookahead(state)
     _assert_sample_suppression_and_integrity(state)
+    _assert_pso_information_cutoff_integrity(state)
 
     print(f"historical_analogue_availability: PASS ({len(state.get('cases', []))} Alpha cases audited)")
 

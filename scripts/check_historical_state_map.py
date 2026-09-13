@@ -64,7 +64,7 @@ def _check_no_advice_or_causality(payload: dict) -> None:
 
 
 def _assert_pre_event_only(context: dict) -> None:
-    event_day = builder._as_date(((context.get("event_binding") or {}).get("effective_date")))
+    event_day = builder._as_date(((context.get("event_binding") or {}).get("information_available_at") or (context.get("event_binding") or {}).get("effective_date")))
     market = ((context.get("current_state_vector") or {}).get("market_setup") or {})
     baseline = market.get("baseline") or {}
     baseline_day = builder._as_date(baseline.get("date"))

@@ -28,8 +28,9 @@ def main():
     if set(studies.get("studies") or {}) != {e.get("event_id") for e in all_events}: raise AssertionError("one study per canonical event violated")
     for eid, s in studies.get("studies", {}).items():
         day = None
-        if s.get("effective_date"):
-            try: day = date.fromisoformat(s["effective_date"])
+        info_day = s.get("information_available_at") or s.get("effective_date")
+        if info_day:
+            try: day = date.fromisoformat(info_day[:10])
             except ValueError: pass
         baseline = s.get("baseline") or {}; sym = s.get("symbol"); rows = sorted([r for r in load(STATE / "history" / f"{sym}.json") if isinstance(r, dict)], key=lambda r: r.get("date") or "")
         cutoff = parse_date(rows[-1].get("date")) if rows else None
@@ -52,7 +53,7 @@ def main():
             expected_endpoint = first_on_or_after(rows, parse_date(h.get("target_date")) if h.get("target_date") else date.max, cutoff)
             expected_horizon_prov = {"history_file": f"state/history/{sym}.json", "baseline_date": (expected or {}).get("date") if day else None, "endpoint_date": h.get("selected_date"), "target_date": h.get("target_date")}
             if h.get("provenance") != expected_horizon_prov: raise AssertionError(f"horizon provenance mismatch {eid}:{name}")
-        if day and baseline.get("selected_date") and not (baseline["selected_date"] < s["effective_date"]): raise AssertionError(f"baseline lookahead {eid}")
+        if day and baseline.get("selected_date") and not (baseline["selected_date"] < (s.get("information_available_at") or s["effective_date"])): raise AssertionError(f"baseline lookahead {eid}")
         idx = load(STATE / "indices.json").get("history") or {}
         for name, _ in HORIZONS:
             kse = s.get("kse100_relative") or {}; value = (kse.get("relative_return_pct") or {}).get(name)
@@ -98,6 +99,18 @@ def main():
     exact_idx = {"2024-01-01": {"KSE100": 100.0}, "2024-02-01": {"KSE100": 110.0}}
     if round(raw_return({"close": exact_idx["2024-01-01"]["KSE100"]}, {"close": exact_idx["2024-02-01"]["KSE100"]}), 6) != 10.0: raise AssertionError("KSE exact-date available")
     if "2024-01-15" in exact_idx: raise AssertionError("KSE missing-date fixture")
+    # Explicit regression: PSO FY25 network expansion published 2025-10-02 must use 2025-10-01 baseline
+    pso_study = (studies.get("studies") or {}).get("evt_efe3e2c704a0e53e7d09")
+    if not pso_study:
+        raise AssertionError("missing PSO network expansion study evt_efe3e2c704a0e53e7d09")
+    if pso_study.get("effective_date") != "2025-06-30":
+        raise AssertionError("PSO study effective_date must be 2025-06-30")
+    if pso_study.get("information_available_at") != "2025-10-02":
+        raise AssertionError("PSO study information_available_at must be 2025-10-02")
+    if (pso_study.get("baseline") or {}).get("selected_date") != "2025-10-01":
+        raise AssertionError("PSO study baseline date must be 2025-10-01 (day before publication)")
+    if (pso_study.get("baseline") or {}).get("selected_close") != 470.09:
+        raise AssertionError("PSO study baseline close must be 470.09 PKR on 2025-10-01")
     # Re-run the authoritative builder and require byte-identical output.
     target = STATE / "company_intel" / "event_studies.json"; before = target.read_bytes(); result = subprocess.run([sys.executable, str(ROOT / "scripts" / "build_event_studies.py")], capture_output=True, text=True, timeout=30)
     if result.returncode != 0 or target.read_bytes() != before: raise AssertionError("builder is not idempotent")

@@ -8,7 +8,7 @@
   "cases_with_tier1_analogues": 0,
   "cases_with_sufficient_sample_for_stats": 0,
   "total_tier1_candidates_identified": 0,
-  "total_tier2_mechanism_candidates_identified": 3,
+  "total_tier2_mechanism_candidates_identified": 0,
   "suppression_policy_enforced": true
  },
  "cases": [
@@ -23,13 +23,19 @@
     "event_type": "acquisition_divestment",
     "event_subtype": "acquisition",
     "effective_date": "2025-09-30",
+    "information_available_at": "2025-09-30",
     "match_policy": "exact_source_document_and_hash"
    },
    "analogue_availability": {
     "tier_1_exact_count": 0,
-    "tier_1_mature_1q_count": 0,
+    "horizon_mature_counts": {
+     "1Q": 0,
+     "2Q": 0,
+     "4Q": 0,
+     "8Q": 0
+    },
     "tier_2_mechanism_count": 0,
-    "tier_3_regime_count": 2,
+    "tier_3_regime_count": 1,
     "sample_sufficient_for_stats": false,
     "status": "zero_candidates"
    },
@@ -37,11 +43,16 @@
    "tier_2_candidates": [],
    "evidence_gaps": [
     {
-     "gap_type": "thin_sample_threshold_unmet",
+     "gap_type": "mature_sample_threshold_unmet",
      "current_tier1_count": 0,
-     "required_count": 3,
-     "deficit": 3,
-     "rule": "Statistics and scenario calibration remain suppressed below N=3 mature exact analogues"
+     "horizon_mature_counts": {
+      "1Q": 0,
+      "2Q": 0,
+      "4Q": 0,
+      "8Q": 0
+     },
+     "required_mature_count": 3,
+     "rule": "Sample readiness requires >= 3 mature independent exact outcomes per horizon; raw candidate count is insufficient"
     },
     {
      "gap_type": "zero_exact_prior_analogues",
@@ -65,11 +76,17 @@
     "event_type": "product_launch",
     "event_subtype": "product_launch",
     "effective_date": "2026-07-24",
+    "information_available_at": "2026-07-24",
     "match_policy": "direct_canonical_event_id"
    },
    "analogue_availability": {
     "tier_1_exact_count": 0,
-    "tier_1_mature_1q_count": 0,
+    "horizon_mature_counts": {
+     "1Q": 0,
+     "2Q": 0,
+     "4Q": 0,
+     "8Q": 0
+    },
     "tier_2_mechanism_count": 0,
     "tier_3_regime_count": 25,
     "sample_sufficient_for_stats": false,
@@ -79,11 +96,16 @@
    "tier_2_candidates": [],
    "evidence_gaps": [
     {
-     "gap_type": "thin_sample_threshold_unmet",
+     "gap_type": "mature_sample_threshold_unmet",
      "current_tier1_count": 0,
-     "required_count": 3,
-     "deficit": 3,
-     "rule": "Statistics and scenario calibration remain suppressed below N=3 mature exact analogues"
+     "horizon_mature_counts": {
+      "1Q": 0,
+      "2Q": 0,
+      "4Q": 0,
+      "8Q": 0
+     },
+     "required_mature_count": 3,
+     "rule": "Sample readiness requires >= 3 mature independent exact outcomes per horizon; raw candidate count is insufficient"
     },
     {
      "gap_type": "zero_exact_prior_analogues",
@@ -107,182 +129,36 @@
     "event_type": "acquisition_divestment",
     "event_subtype": "acquisition",
     "effective_date": "2025-12-18",
+    "information_available_at": "2025-12-18",
     "match_policy": "exact_source_document_and_hash"
    },
    "analogue_availability": {
     "tier_1_exact_count": 0,
-    "tier_1_mature_1q_count": 0,
-    "tier_2_mechanism_count": 3,
-    "tier_3_regime_count": 8,
+    "horizon_mature_counts": {
+     "1Q": 0,
+     "2Q": 0,
+     "4Q": 0,
+     "8Q": 0
+    },
+    "tier_2_mechanism_count": 0,
+    "tier_3_regime_count": 11,
     "sample_sufficient_for_stats": false,
-    "status": "thin_history_present"
+    "status": "zero_candidates"
    },
    "tier_1_candidates": [],
-   "tier_2_candidates": [
-    {
-     "event_id": "evt_b66212b80aa7a12b67b6",
-     "symbol": "ATRL",
-     "sector": "Refinery",
-     "event_type": "acquisition_divestment",
-     "event_subtype": "acquisition",
-     "effective_date": "2025-10-03",
-     "source_document_id": "psx:260900",
-     "content_sha256": "e13383bba7a68c3490fc51d0b59f05aee8ac3413272b8530ea9025ae4c0035e3",
-     "page": 42,
-     "source_url": "https://dps.psx.com.pk/download/document/260900.pdf",
-     "has_event_study": true,
-     "horizons": {
-      "1Q": {
-       "status": "mature",
-       "return_pct": -1.7776075360344978,
-       "selected_date": "2026-01-05",
-       "reason": null
-      },
-      "2Q": {
-       "status": "mature",
-       "return_pct": 22.653501305186687,
-       "selected_date": "2026-04-03",
-       "reason": null
-      },
-      "4Q": {
-       "status": "immature",
-       "return_pct": null,
-       "selected_date": null,
-       "reason": "target_after_last_bar"
-      },
-      "8Q": {
-       "status": "immature",
-       "return_pct": null,
-       "selected_date": null,
-       "reason": "target_after_last_bar"
-      }
-     },
-     "scale_fields": {
-      "available": false,
-      "detail": null
-     },
-     "independence_status": "independent_issuer",
-     "tier": "tier_2_economic_mechanism_analogue",
-     "mechanism": "Cross-sector acquisition_divestment/acquisition mechanism (Refinery vs Cement)",
-     "comparability_fields": {
-      "target_sector": "Cement",
-      "candidate_sector": "Refinery",
-      "cross_sector_structural_differences": "Sector drivers and margin structures differ"
-     },
-     "scenario_calibrating": false
-    },
-    {
-     "event_id": "evt_3d1dae7553f73da60ba3",
-     "symbol": "MARI",
-     "sector": "Oil & Gas Exploration Companies",
-     "event_type": "acquisition_divestment",
-     "event_subtype": "acquisition",
-     "effective_date": "2025-11-13",
-     "source_document_id": "psx:265594",
-     "content_sha256": "cdc3f69157f5e5803238ba347ecb4e96f7297479df87d345739896913de8aae4",
-     "page": 3,
-     "source_url": "https://dps.psx.com.pk/download/document/265594.pdf",
-     "has_event_study": true,
-     "horizons": {
-      "1Q": {
-       "status": "mature",
-       "return_pct": 0.8526062455975536,
-       "selected_date": "2026-02-13",
-       "reason": null
-      },
-      "2Q": {
-       "status": "mature",
-       "return_pct": -5.029056116459274,
-       "selected_date": "2026-05-13",
-       "reason": null
-      },
-      "4Q": {
-       "status": "immature",
-       "return_pct": null,
-       "selected_date": null,
-       "reason": "target_after_last_bar"
-      },
-      "8Q": {
-       "status": "immature",
-       "return_pct": null,
-       "selected_date": null,
-       "reason": "target_after_last_bar"
-      }
-     },
-     "scale_fields": {
-      "available": false,
-      "detail": null
-     },
-     "independence_status": "independent_issuer",
-     "tier": "tier_2_economic_mechanism_analogue",
-     "mechanism": "Cross-sector acquisition_divestment/acquisition mechanism (Oil & Gas Exploration Companies vs Cement)",
-     "comparability_fields": {
-      "target_sector": "Cement",
-      "candidate_sector": "Oil & Gas Exploration Companies",
-      "cross_sector_structural_differences": "Sector drivers and margin structures differ"
-     },
-     "scenario_calibrating": false
-    },
-    {
-     "event_id": "evt_b25decfc180474cbe066",
-     "symbol": "MARI",
-     "sector": "Oil & Gas Exploration Companies",
-     "event_type": "acquisition_divestment",
-     "event_subtype": "acquisition",
-     "effective_date": "2025-09-30",
-     "source_document_id": "psx:260446",
-     "content_sha256": "c13ccb4de58ad005bca106942721490593fe219ff45906c68280ea7856192e42",
-     "page": 1,
-     "source_url": "https://dps.psx.com.pk/download/document/260446.pdf",
-     "has_event_study": true,
-     "horizons": {
-      "1Q": {
-       "status": "mature",
-       "return_pct": -2.708014258413405,
-       "selected_date": "2025-12-30",
-       "reason": null
-      },
-      "2Q": {
-       "status": "mature",
-       "return_pct": -16.79971808460172,
-       "selected_date": "2026-03-30",
-       "reason": null
-      },
-      "4Q": {
-       "status": "immature",
-       "return_pct": null,
-       "selected_date": null,
-       "reason": "target_after_last_bar"
-      },
-      "8Q": {
-       "status": "immature",
-       "return_pct": null,
-       "selected_date": null,
-       "reason": "target_after_last_bar"
-      }
-     },
-     "scale_fields": {
-      "available": false,
-      "detail": null
-     },
-     "independence_status": "independent_issuer",
-     "tier": "tier_2_economic_mechanism_analogue",
-     "mechanism": "Cross-sector acquisition_divestment/acquisition mechanism (Oil & Gas Exploration Companies vs Cement)",
-     "comparability_fields": {
-      "target_sector": "Cement",
-      "candidate_sector": "Oil & Gas Exploration Companies",
-      "cross_sector_structural_differences": "Sector drivers and margin structures differ"
-     },
-     "scenario_calibrating": false
-    }
-   ],
+   "tier_2_candidates": [],
    "evidence_gaps": [
     {
-     "gap_type": "thin_sample_threshold_unmet",
+     "gap_type": "mature_sample_threshold_unmet",
      "current_tier1_count": 0,
-     "required_count": 3,
-     "deficit": 3,
-     "rule": "Statistics and scenario calibration remain suppressed below N=3 mature exact analogues"
+     "horizon_mature_counts": {
+      "1Q": 0,
+      "2Q": 0,
+      "4Q": 0,
+      "8Q": 0
+     },
+     "required_mature_count": 3,
+     "rule": "Sample readiness requires >= 3 mature independent exact outcomes per horizon; raw candidate count is insufficient"
     },
     {
      "gap_type": "zero_exact_prior_analogues",
@@ -306,13 +182,19 @@
     "event_type": "distribution_network_expansion",
     "event_subtype": "fuel_retail_and_convenience_channel",
     "effective_date": "2025-06-30",
+    "information_available_at": "2025-10-02",
     "match_policy": "direct_canonical_event_id"
    },
    "analogue_availability": {
     "tier_1_exact_count": 0,
-    "tier_1_mature_1q_count": 0,
+    "horizon_mature_counts": {
+     "1Q": 0,
+     "2Q": 0,
+     "4Q": 0,
+     "8Q": 0
+    },
     "tier_2_mechanism_count": 0,
-    "tier_3_regime_count": 0,
+    "tier_3_regime_count": 2,
     "sample_sufficient_for_stats": false,
     "status": "zero_candidates"
    },
@@ -320,11 +202,16 @@
    "tier_2_candidates": [],
    "evidence_gaps": [
     {
-     "gap_type": "thin_sample_threshold_unmet",
+     "gap_type": "mature_sample_threshold_unmet",
      "current_tier1_count": 0,
-     "required_count": 3,
-     "deficit": 3,
-     "rule": "Statistics and scenario calibration remain suppressed below N=3 mature exact analogues"
+     "horizon_mature_counts": {
+      "1Q": 0,
+      "2Q": 0,
+      "4Q": 0,
+      "8Q": 0
+     },
+     "required_mature_count": 3,
+     "rule": "Sample readiness requires >= 3 mature independent exact outcomes per horizon; raw candidate count is insufficient"
     },
     {
      "gap_type": "zero_exact_prior_analogues",
@@ -344,5 +231,16 @@
   "minimum_sample_three": true,
   "no_forecast_activation": true,
   "descriptive_past_context_only": true
+ },
+ "_meta": {
+  "generator_version": "ci_artifact_integrity_v1",
+  "source_commit_sha": "4da84736c1439ef23e236035f090dc149fec764c",
+  "build_cutoff_at": "2026-09-13T17:13:53Z",
+  "generated_at": "2026-09-13T17:13:53Z",
+  "artifact_path": "state/company_intel/historical_analogue_availability_audit.json",
+  "timestamp_semantics": {
+   "build_cutoff_at": "generation boundary only; not a source-effective or source-published time",
+   "generated_at": "artifact generation time only; not a source-effective or source-published time"
+  }
  }
 }
