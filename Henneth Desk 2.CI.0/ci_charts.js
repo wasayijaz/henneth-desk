@@ -214,7 +214,7 @@
       el(s, "text", { x: x0 - 10, y: y0 + (ri + .5) * ch + 3, "text-anchor": "end", class: "ci-svg-tiny" }, text(label).slice(0, 12));
       values[ri].forEach((raw, ci) => {
         const value = number(raw), shade = Math.round(12 + (value - min) / span * 78);
-        const cell = el(s, "rect", { x: x0 + ci * cw + 1, y: y0 + ri * ch + 1, width: cw - 2, height: ch - 2, class: "ci-svg-heat", style: `--ci-heat:${shade}%` });
+        const cell = el(s, "rect", { x: x0 + ci * cw + 1, y: y0 + ri * ch + 1, width: cw - 2, height: ch - 2, class: "ci-svg-heat", style: `--ci-strength:${shade}%` });
         title(cell, `${rows[ri]} × ${cols[ci]}: ${fmt(value, 2)} ${payload.unit || ""}`);
         if (rows.length * cols.length <= 36) el(s, "text", { x: x0 + (ci + .5) * cw, y: y0 + (ri + .5) * ch + 3, "text-anchor": "middle", class: shade > 52 ? "ci-svg-cell-light" : "ci-svg-cell-dark" }, fmt(value, 1));
       });

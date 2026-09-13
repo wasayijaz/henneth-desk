@@ -31,6 +31,18 @@ assert 'state.view === "directory_overview" ? renderOverviewDashboard(r)' in APP
 assert '["business", "Business"]' not in APP
 assert "renderCompanyBusiness" not in APP
 
+logo_map = re.search(r"const COMPANY_LOGO_DOMAINS = Object\.freeze\(\{(.*?)\}\);", APP, re.S)
+assert logo_map, "missing issuer-logo registry"
+assert len(re.findall(r"\b[A-Z]{2,7}:\s*\"[^\"]+\"", logo_map.group(1))) == 20
+for token in (
+    "companyLogoUrl(r.symbol)",
+    'class="company-logo-frame"',
+    'class="hero-summary"',
+    'class="hero-context"',
+    "companyBusinessSummary(p.business_description)",
+):
+    assert token in APP, token
+
 metric = function_body("metric")
 assert "ciChart(" not in metric, "ordinary snapshot values must not become charts"
 
@@ -50,6 +62,11 @@ for token in (
     "ciHumanStatus(catalystDomain.status)",
     "ciHumanStatus(riskDomain.status)",
     "ciHumanStatus(r.monitoring?.status)",
+    'class="snapshot-story-heading"',
+    'icon="lucide:building-2"',
+    'icon="lucide:scan-search"',
+    'icon="lucide:history"',
+    'icon="lucide:chart-no-axes-combined"',
 ):
     assert token in snapshot, token
 
@@ -64,6 +81,8 @@ for token in (
     'class="profile-domain-grid"',
     "ciHumanStatus(domain.status)",
     'ciChart("assumptions"',
+    'class="overview-fact-label"',
+    'icon="lucide:file-check-2"',
 ):
     assert token in profile, token
 
@@ -74,7 +93,18 @@ for token in (
     "@container (max-width:760px)",
     "@media (max-width:560px)",
     ".snapshot-signal-grid b,.profile-fact-grid b",
+    ".overview-detail-header h2{font-size:clamp(20px,2vw,27px)",
+    ".snapshot-story-heading{display:flex",
+    ".overview-fact-label{display:flex!important",
+    ".ci-chart-readable-summary",
+    ".overview-route-button,.overview-back-button,.snapshot-story-grid button{min-height:36px",
 ):
     assert token in CSS, token
+
+close_drawers = function_body("closeMobileDrawers")
+open_drawer = function_body("openMobileDrawer")
+assert "restoreFocus" in close_drawers and "mobileDrawerOpener" in close_drawers
+assert "mobileDrawerOpener =" in open_drawer
+assert 'event.key === "Escape") closeMobileDrawers(true)' in APP
 
 print("PASS: CI Overview directory UI contract")

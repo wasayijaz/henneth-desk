@@ -34,7 +34,7 @@ const companyBusinessSummary = value => {
   if (!text) return "No sourced business description is retained yet.";
   const sentences = text.match(/[^.!?]+[.!?]+|[^.!?]+$/g) || [text];
   const useful = sentences.find(sentence => /engaged in|principal activit|operates|provides|manufactur|production and sale|business of/i.test(sentence));
-  return short((useful || sentences[0]).trim(), 240);
+  return short((useful || sentences[0]).trim(), 170);
 };
 const humanActivityLabel = value => {
   const label = String(value || "").trim();
@@ -64,7 +64,8 @@ const ciChart = (type, payload, label = "") => {
   const itemSummary = Array.isArray(payload?.items) ? payload.items.slice(0, 8).map(item => [item?.date, item?.label, item?.value, item?.unit].filter(value => value != null && value !== "").join(" ")).filter(Boolean).join("; ") : "";
   const seriesSummary = Array.isArray(payload?.base) ? `Base series: ${payload.base.join(", ")}` : "";
   const summary = [label || payload?.label, payload?.reason, itemSummary, seriesSummary].filter(Boolean).join(". ");
-  return `<div class="ci-chart" data-ci-chart="${esc(type)}" data-ci-chart-payload="${esc(safe)}"${label ? ` aria-label="${esc(label)}"` : ""}></div>${summary ? `<span class="sr-only">${esc(summary)}</span>` : ""}`;
+  const readable = payload?.visible_summary && Array.isArray(payload?.items) ? `<div class="ci-chart-readable-summary" aria-label="Chart values">${payload.items.slice(0, 6).map(item => `<span><b>${esc(item?.label || item?.date || "Item")}</b><small>${esc([item?.value, item?.unit].filter(value => value != null && value !== "").join(" ") || item?.date || "Retained")}</small></span>`).join("")}</div>` : "";
+  return `<div class="ci-chart" data-ci-chart="${esc(type)}" data-ci-chart-payload="${esc(safe)}"${label ? ` aria-label="${esc(label)}"` : ""}></div>${readable}${summary ? `<span class="sr-only">${esc(summary)}</span>` : ""}`;
 };
 const ciBlockedChart = (status, label, requirements = [], available = 0) => ciChart("blocked", {
   status: status || "blocked", reason: ciHumanStatus(status), label, requirements, available,
@@ -698,18 +699,26 @@ function syncDrawerBackdrops() {
   });
 }
 
-function closeMobileDrawers() {
+let mobileDrawerOpener = null;
+
+function closeMobileDrawers(restoreFocus = false) {
   const app = $("app");
   app?.classList.remove("mobile-left-open", "mobile-right-open");
   document.body.classList.remove("company-drawer-open", "intelligence-drawer-open");
   syncDrawerBackdrops();
   syncMobileControls(!!state.data);
+  if (restoreFocus && mobileDrawerOpener?.isConnected) {
+    const opener = mobileDrawerOpener;
+    requestAnimationFrame(() => opener.focus({ preventScroll: true }));
+  }
+  if (restoreFocus) mobileDrawerOpener = null;
 }
 
 function openMobileDrawer(kind) {
   if (!window.matchMedia(CI_MOBILE_QUERY).matches) return;
   const app = $("app");
   if (!app) return;
+  mobileDrawerOpener = kind === "company" ? $("companyDrawerOpen") : $("intelligenceDrawerOpen");
   app.classList.toggle("mobile-left-open", kind === "company");
   app.classList.toggle("mobile-right-open", kind === "intelligence");
   document.body.classList.toggle("company-drawer-open", kind === "company");
@@ -825,8 +834,14 @@ function renderDesk(searchState) {
       renderDesk({ focusView: state.view });
     };
   });
+  document.querySelectorAll("[data-company-logo]").forEach(image => {
+    image.addEventListener("error", () => {
+      image.hidden = true;
+      image.nextElementSibling?.removeAttribute("hidden");
+    }, { once: true });
+  });
   document.querySelectorAll("[data-drawer-close]").forEach(backdrop => {
-    backdrop.onclick = closeMobileDrawers;
+    backdrop.onclick = () => closeMobileDrawers(true);
   });
   const askForm = $("askForm");
   if (askForm) {
@@ -916,17 +931,29 @@ function detail(r) {
   const source = p.source_url ? `<a href="${esc(p.source_url)}" target="_blank" rel="noopener">DPS company page</a>` : "DPS company page";
   const inc = p.incorporation?.value || p.incorporation?.matched_text || "unknown";
   const intel = r.intelligence || {};
+  const logoUrl = companyLogoUrl(r.symbol);
+  const latestChange = r.change_intelligence?.latest_change_at || "No dated change";
+  const move = Number(r.price?.ret_20d);
+  const moveClass = Number.isFinite(move) ? (move > 0 ? "is-positive" : move < 0 ? "is-negative" : "is-flat") : "is-flat";
   return `
     <div class="hero">
-      <div>
-        <p class="eyebrow">${esc(r.sector || "Sector unknown")}</p>
-        <h1>${esc(r.symbol)}${r.name ? `, ${esc(r.name)}` : ""}</h1>
-        <p>${esc(p.business_description || "Company Intelligence has not captured a business description for this company yet.")}</p>
+      <div class="hero-main">
+        <div class="hero-identity">
+          <span class="company-logo-frame">${logoUrl ? `<img data-company-logo src="${esc(logoUrl)}" alt="${esc(r.name || r.symbol)} logo" width="128" height="128" loading="eager" decoding="async">` : ""}<span class="company-logo-fallback" ${logoUrl ? "hidden" : ""}>${esc(String(r.symbol || "?").slice(0, 2))}</span></span>
+          <div><p class="eyebrow">${esc(r.sector || "Sector unknown")}</p><h1>${esc(r.symbol)}${r.name ? `<span>${esc(r.name)}</span>` : ""}</h1></div>
+        </div>
+        <p class="hero-summary"><iconify-icon icon="lucide:briefcase-business" aria-hidden="true"></iconify-icon><span>${esc(companyBusinessSummary(p.business_description))}</span></p>
+        <div class="hero-context" aria-label="Company research context">
+          <span><iconify-icon icon="lucide:landmark" aria-hidden="true"></iconify-icon><small>Market capitalisation</small><b>${esc(f.market_cap || "unknown")}</b></span>
+          <span><iconify-icon icon="lucide:calendar-clock" aria-hidden="true"></iconify-icon><small>Latest retained change</small><b>${esc(String(latestChange).slice(0, 10))}</b></span>
+          <span><iconify-icon icon="lucide:files" aria-hidden="true"></iconify-icon><small>Evidence footprint</small><b>${esc(intel.document_count ?? 0)} filings · ${esc(intel.event_count ?? 0)} events</b></span>
+        </div>
       </div>
       <div class="stamp">
-        <span class="kicker">Price</span>
+        <span class="kicker">Retained price</span>
         <b>Rs ${esc(fmt(r.price?.current))}</b>
-        <span class="muted">${esc(pct(r.price?.ret_20d))} over 20 sessions. Research, not advice.</span>
+        <strong class="hero-move ${moveClass}"><iconify-icon icon="${move > 0 ? "lucide:trending-up" : move < 0 ? "lucide:trending-down" : "lucide:minus"}" aria-hidden="true"></iconify-icon>${esc(pct(r.price?.ret_20d))}<small>20 sessions</small></strong>
+        <span class="muted">As of ${esc(r.price?.date || "unknown")} · research, not advice</span>
       </div>
     </div>
     <div class="grid4">
@@ -1532,10 +1559,10 @@ function renderOverviewDashboard(r) {
   const domains = overviewDomainItems(r);
   const activity = overviewActivityItems(r);
   const objectChart = objects.length
-    ? ciChart("assumptions", { status: "available", label: "Typed evidence in the company file", items: objects, comparable: true })
+    ? ciChart("assumptions", { status: "available", label: "Typed evidence in the company file", items: objects, comparable: true, visible_summary: true })
     : ciBlockedChart("blocked_no_typed_objects", "No typed evidence objects are retained", ["Typed evidence", "Source binding"]);
   const domainChart = domains.length
-    ? ciChart("assumptions", { status: "available", label: "Business-profile coverage by retained reference count", items: domains, comparable: true })
+    ? ciChart("assumptions", { status: "available", label: "Business-profile coverage by retained reference count", items: domains, comparable: true, visible_summary: true })
     : ciBlockedChart("blocked_no_business_domain_refs", "Business-profile coverage is not retained", ["Company Brain domain", "Typed source reference"]);
   const activityChart = activity.length
     ? ciChart("timeline", { status: "available", label: "Latest retained company activity", items: activity })
@@ -1555,15 +1582,15 @@ function renderCompanyProfile(r, ctx) {
   const domains = ["segments", "products", "facilities", "capacity", "geography", "subsidiaries", "projects", "customers"];
   const coverage = overviewDomainItems(r);
   const coverageChart = coverage.length
-    ? ciChart("assumptions", { status: "available", label: "Retained business-domain reference counts", items: coverage, comparable: true })
+    ? ciChart("assumptions", { status: "available", label: "Retained business-domain reference counts", items: coverage, comparable: true, visible_summary: true })
     : ciBlockedChart("blocked_no_business_domain_refs", "The business profile is waiting for typed source references", ["Issuer description", "Company Brain domain", "Typed source reference"]);
   return `<section class="panel span9 overview-detail-shell profile-detail" aria-labelledby="companyProfileTitle">
     <header class="overview-detail-header"><div><span class="kicker">Company profile</span><h2 id="companyProfileTitle">What ${esc(r.symbol)} is and how it operates</h2><p>${esc(p.business_description || "No sourced business description is retained.")}</p></div><button type="button" class="overview-back-button" data-research-route="directory_overview">Overview workspace</button></header>
     <div class="profile-fact-grid">
-      <article><span>Incorporated</span><b>${esc(inc)}</b><small>Reported issuer identity</small></article>
-      <article><span>Sector</span><b>${esc(r.sector || "unknown")}</b><small>Company Intelligence classification</small></article>
-      <article><span>Indices</span><b>${esc((r.indices || []).join(", ") || "unknown")}</b><small>Retained market membership</small></article>
-      <article><span>Official source</span><b>${source}</b><small>${p.fetched ? `Fetched ${esc(p.fetched)}` : "Fetch date unknown"}${p.stale ? " · retained row is stale" : ""}</small></article>
+      <article><span class="overview-fact-label"><iconify-icon icon="lucide:landmark" aria-hidden="true"></iconify-icon>Incorporated</span><b>${esc(inc)}</b><small>Reported issuer identity</small></article>
+      <article><span class="overview-fact-label"><iconify-icon icon="lucide:factory" aria-hidden="true"></iconify-icon>Sector</span><b>${esc(r.sector || "unknown")}</b><small>Company Intelligence classification</small></article>
+      <article><span class="overview-fact-label"><iconify-icon icon="lucide:bar-chart-3" aria-hidden="true"></iconify-icon>Indices</span><b>${esc((r.indices || []).join(", ") || "unknown")}</b><small>Retained market membership</small></article>
+      <article><span class="overview-fact-label"><iconify-icon icon="lucide:file-check-2" aria-hidden="true"></iconify-icon>Official source</span><b>${source}</b><small>${p.fetched ? `Fetched ${esc(p.fetched)}` : "Fetch date unknown"}${p.stale ? " · retained row is stale" : ""}</small></article>
     </div>
     <div class="overview-detail-grid">
       <article class="overview-evidence-card"><header><span class="kicker">Business-file coverage</span><h3>Where the retained profile is deep—and where it is still thin</h3></header>${coverageChart}<p>Lengths compare counts of typed references only. They do not score business quality or investment merit.</p></article>
@@ -2159,7 +2186,7 @@ function renderInvestorSnapshot(r) {
   const firstClaim = key => sections[key]?.[0]?.text || null;
   const evidenceItems = overviewObjectItems(r);
   const evidenceChart = evidenceItems.length
-    ? ciChart("assumptions", { status: "available", label: "Typed evidence objects by epistemic class", items: evidenceItems, comparable: true })
+    ? ciChart("assumptions", { status: "available", label: "Typed evidence objects by epistemic class", items: evidenceItems, comparable: true, visible_summary: true })
     : ciBlockedChart("blocked_no_typed_objects", "No typed evidence objects are retained", ["Typed object", "Source reference"]);
   const forecast = r.explainability?.forecast_trajectory || {};
   const readinessChart = ciChart("blocked", ciEnvelopeBlocked(forecast, "Formal outputs remain gated", ["Qualified financial history", "Reviewed assumptions", "Deterministic forecast"]));
@@ -2176,10 +2203,10 @@ function renderInvestorSnapshot(r) {
       <article><span>Price / earnings</span><b>${esc(r.fundamentals?.pe || "unknown")}</b><small>Retained value</small></article>
     </div>
     <div class="snapshot-story-grid">
-      <article><span class="kicker">What the business does</span><h3>Company in one paragraph</h3><p>${esc(r.profile?.business_description || "Unknown — no sourced description is available.")}</p><button type="button" data-research-route="overview">Open company profile</button></article>
-      <article><span class="kicker">Current situation</span><h3>Latest approved framing</h3><p>${esc(brief.headline || "No owner-approved brief is current.")}</p></article>
-      <article><span class="kicker">What changed</span><h3>Evidence-backed most recent change</h3><p>${esc(firstClaim("what_changed") || "No approved change claim is available.")}</p></article>
-      <article><span class="kicker">Earnings direction</span><h3>What history can support</h3><p>${esc(firstClaim("financial_read") || "Qualified history is not sufficient for an earnings direction.")}</p></article>
+      <article><header class="snapshot-story-heading"><span class="overview-card-icon" aria-hidden="true"><iconify-icon icon="lucide:building-2"></iconify-icon></span><div><span class="kicker">What the business does</span><h3>Company in one paragraph</h3></div></header><p>${esc(r.profile?.business_description || "Unknown — no sourced description is available.")}</p><button type="button" data-research-route="overview">Open company profile</button></article>
+      <article><header class="snapshot-story-heading"><span class="overview-card-icon" aria-hidden="true"><iconify-icon icon="lucide:scan-search"></iconify-icon></span><div><span class="kicker">Current situation</span><h3>Latest approved framing</h3></div></header><p>${esc(brief.headline || "No owner-approved brief is current.")}</p></article>
+      <article><header class="snapshot-story-heading"><span class="overview-card-icon" aria-hidden="true"><iconify-icon icon="lucide:history"></iconify-icon></span><div><span class="kicker">What changed</span><h3>Evidence-backed most recent change</h3></div></header><p>${esc(firstClaim("what_changed") || "No approved change claim is available.")}</p></article>
+      <article><header class="snapshot-story-heading"><span class="overview-card-icon" aria-hidden="true"><iconify-icon icon="lucide:chart-no-axes-combined"></iconify-icon></span><div><span class="kicker">Earnings direction</span><h3>What history can support</h3></div></header><p>${esc(firstClaim("financial_read") || "Qualified history is not sufficient for an earnings direction.")}</p></article>
     </div>
     <div class="overview-detail-grid">
       <article class="overview-evidence-card"><header><span class="kicker">Evidence mix</span><h3>What kinds of intelligence are actually retained</h3></header>${evidenceChart}<p>Lengths compare counts of typed objects. They do not convert evidence volume into conviction.</p></article>
@@ -4068,7 +4095,7 @@ document.addEventListener("click", event => {
     return;
   }
   if (event.target.closest?.("[data-drawer-close]")) {
-    closeMobileDrawers();
+    closeMobileDrawers(true);
     return;
   }
   const left = event.target.closest?.("#companyDrawerOpen");
@@ -4078,7 +4105,7 @@ document.addEventListener("click", event => {
   openMobileDrawer(left ? "company" : "intelligence");
 });
 document.addEventListener("keydown", event => {
-  if (event.key === "Escape") closeMobileDrawers();
+  if (event.key === "Escape") closeMobileDrawers(true);
 });
 window.addEventListener("popstate", () => {
   applyCaseRouteFromLocation({ replace: true });
