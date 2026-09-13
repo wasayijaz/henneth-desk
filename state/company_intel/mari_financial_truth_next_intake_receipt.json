@@ -1,0 +1,462 @@
+{
+ "schema_version": 1,
+ "receipt_type": "mari_financial_truth_next_intake_receipt",
+ "ticker": "MARI",
+ "status": "next_intake_required_no_parser_correction",
+ "audit_date": "2026-09-13",
+ "decision": {
+  "parser_correction_eligible": false,
+  "reason": "Retained MARI financial facts remain audit-only with zero eligible reconciliation facts, zero statement-v2 candidates, no official share-capital tie-out, and no complete annual or reported-quarter full-statement schedules.",
+  "financial_truth_state_changed": false,
+  "downstream_status": {
+   "forecast": "blocked_financial_truth_not_qualified",
+   "valuation": "blocked_financial_truth_not_qualified",
+   "market_expectations": "blocked_financial_truth_not_qualified"
+  }
+ },
+ "coverage_before": {
+  "annual_income_triplets": {
+   "required": 5,
+   "present": 0,
+   "qualified_periods": []
+  },
+  "reported_quarter_fact_sets": {
+   "required": 8,
+   "present": 0,
+   "qualified_periods": []
+  },
+  "annual_operating_cash_flow": {
+   "required": 5,
+   "present": 0,
+   "qualified_periods": []
+  },
+  "annual_full_statement_schedules": {
+   "required": 5,
+   "present": 0,
+   "qualified_periods": []
+  },
+  "reported_quarter_full_statement_schedules": {
+   "required": 8,
+   "present": 0,
+   "qualified_periods": []
+  },
+  "official_share_count_capital_note_tie_out": {
+   "required": 1,
+   "present": 0,
+   "status": "missing_official_share_count_capital_note_tie_out",
+   "source": null,
+   "available_on": null
+  }
+ },
+ "coverage_after": {
+  "annual_income_triplets": {
+   "required": 5,
+   "present": 0,
+   "qualified_periods": []
+  },
+  "reported_quarter_fact_sets": {
+   "required": 8,
+   "present": 0,
+   "qualified_periods": []
+  },
+  "annual_operating_cash_flow": {
+   "required": 5,
+   "present": 0,
+   "qualified_periods": []
+  },
+  "annual_full_statement_schedules": {
+   "required": 5,
+   "present": 0,
+   "qualified_periods": []
+  },
+  "reported_quarter_full_statement_schedules": {
+   "required": 8,
+   "present": 0,
+   "qualified_periods": []
+  },
+  "official_share_count_capital_note_tie_out": {
+   "required": 1,
+   "present": 0,
+   "status": "missing_official_share_count_capital_note_tie_out",
+   "source": null,
+   "available_on": null
+  }
+ },
+ "fact_inventory": {
+  "series_fact_count": 60,
+  "series_audit_only_fact_count": 60,
+  "series_metric_counts": {
+   "change_pct": 9,
+   "dividend": 8,
+   "operating_cash_flow": 6,
+   "profit": 16,
+   "revenue": 21
+  },
+  "reconciliation_eligible_fact_count": 0,
+  "reconciliation_audit_only_fact_count": 60,
+  "reconciliation_missing_slot_count": 9,
+  "reconciliation_source_conflict_count": 0,
+  "financial_statement_v2_candidate_count": 0,
+  "share_capital": {
+   "candidate_count": 0,
+   "approved_tie_out_count": 0,
+   "candidate_fact_ids": [],
+   "approved_fact_ids": [],
+   "status": "missing_for_mari"
+  },
+  "audit_only_fact_ids_not_promoted": [
+   "fact_f4181ed45848bcbdc453",
+   "fact_d97e4fcce6f1a7bbce6b",
+   "fact_c2dee9b17f322aebfc53",
+   "fact_7765e7cf330986351e20",
+   "fact_47de9404258b085a2f57",
+   "fact_8d235196d9707e775763",
+   "fact_3d159e036a9d688501fa",
+   "fact_41e017360263f3935c73",
+   "fact_c50f0483ee3a1089331c",
+   "fact_6a27f39f29f2219c5e49",
+   "fact_c7501b6baf803cd9e306",
+   "fact_da4775174d55ea8cb168",
+   "fact_8b505da294d93a5758f4",
+   "fact_96691bd59159246cc495",
+   "fact_ef7b668546aa98b45f33",
+   "fact_b3a704ae7f84487a280c",
+   "fact_8aa8fcbfce8c95b7d640",
+   "fact_3a6ad9c1e8f3c3819cd3",
+   "fact_c02ffd8453d13f3d99d0",
+   "fact_0328b65b7cbffe50c30b",
+   "fact_7a0e43829526fba23cc2",
+   "fact_d78c78c519cc542b4224",
+   "fact_3007a817fde85f2ac411",
+   "fact_6fba2410fabf951cfadc",
+   "fact_097c90010e2981edb68c",
+   "fact_360f2b89e00ce9b83909",
+   "fact_f83e18624748107aa72a",
+   "fact_88dd90569fc636c97616",
+   "fact_9ec767533a79b8681caf",
+   "fact_679ee91125e17ef792ed",
+   "fact_5bdb84e152341c1b10ea",
+   "fact_9a0d5a37c56aca335543",
+   "fact_20147bd2388dd73f86bc",
+   "fact_9ff87524d3f7e78a5507",
+   "fact_5bcba8116bf773bbc74d",
+   "fact_eadac4e7ca1d44c34702",
+   "fact_0d1a8db49d94e0a90143",
+   "fact_de9b1cf8a2e4bcc2c368a4d0",
+   "fact_01074e4f40ca4a740bb44182",
+   "fact_d1fbe35d1e5248a289007f22",
+   "fact_4085277bae6bc51dfe02",
+   "fact_20b0303f83dc6282b718",
+   "fact_aab125dcf3969e3fc2a3",
+   "fact_c1481350725bbb8224ff",
+   "fact_0b6514f8a4139c2ed6dd",
+   "fact_a45b30103a72a54ba312",
+   "fact_07eb1106449d98c472fd",
+   "fact_9739baf9342958410b59",
+   "fact_92a10f062bfc0013f3b9",
+   "fact_8bd665c2ef3f655d5d45",
+   "fact_b33c8e4598a43e446a96241c",
+   "fact_9fd8273532bf9e72e0eb",
+   "fact_39813d20f367e6b3a67a",
+   "fact_31e9bad9a9b5f519e8bc",
+   "fact_4c7553425bc4152e7e45e958",
+   "fact_fa566770b543dd4ae86f16de",
+   "fact_b68cca9b9d69cf3e9b1b",
+   "fact_322992e24d816218779c",
+   "fact_78edb75fbfe7fbbab5df",
+   "fact_cec488bec03600011505"
+  ]
+ },
+ "retained_official_candidate_documents": {
+  "hash_bound_statement_restage_wave": [
+   {
+    "document_id": "psx:275583",
+    "label": "Transmission of Quarterly Report for the Period Ended 2026-03-31",
+    "url": "https://dps.psx.com.pk/download/document/275583.pdf",
+    "published_at": "2026-04-28T15:21:00+05:00",
+    "retrieved_at": "2026-08-31T11:43:41Z",
+    "safe_period": {
+     "period_end": "2026-03-31",
+     "period_type": "interim",
+     "source": "title",
+     "matched_text": "Period Ended 2026-03-31"
+    },
+    "content_sha256": "b2d9a7ce564306b3fccfb301801f774c90accb69ceffa8e3c0c1c9e69137c02b",
+    "company_documents_present": true,
+    "hash_bound": true,
+    "evidence_count": 8
+   },
+   {
+    "document_id": "psx:271327",
+    "label": "Transmission of Quarterly Financial Statements for the Period Ended 2025-12-31",
+    "url": "https://dps.psx.com.pk/download/document/271327.pdf",
+    "published_at": "2026-02-27T09:03:00+05:00",
+    "retrieved_at": "2026-08-31T11:43:41Z",
+    "safe_period": {
+     "period_end": "2025-12-31",
+     "period_type": "interim",
+     "source": "title",
+     "matched_text": "Period Ended 2025-12-31"
+    },
+    "content_sha256": "e53fccd6eca58c685dbf9225140056303be704b1f389b876ba33d87aa4b687b3",
+    "company_documents_present": true,
+    "hash_bound": true,
+    "evidence_count": 8
+   },
+   {
+    "document_id": "psx:264550",
+    "label": "Transmission of Quarterly Report for the period ended September 30. 2025",
+    "url": "https://dps.psx.com.pk/download/document/264550.pdf",
+    "published_at": "2025-10-30T15:11:00+05:00",
+    "retrieved_at": "2026-08-31T11:45:27Z",
+    "safe_period": null,
+    "content_sha256": "7f4cf3461439d968407a7cb06d446dc02876f13e923893c165d36a9e0e7f88f5",
+    "company_documents_present": true,
+    "hash_bound": true,
+    "evidence_count": 8
+   }
+  ],
+  "metadata_only_financial_restage_wave": [
+   {
+    "document_id": "psx:280901",
+    "label": "Financial Results for the Year Ended 30-06-2026",
+    "url": "https://dps.psx.com.pk/download/document/280901.pdf",
+    "published_at": "2026-08-07T14:36:00+05:00",
+    "retrieved_at": null,
+    "safe_period": {
+     "period_end": "2026-06-30",
+     "period_type": "annual",
+     "source": "title",
+     "matched_text": "Year Ended 30-06-2026"
+    },
+    "content_sha256": null,
+    "company_documents_present": false,
+    "hash_bound": false,
+    "evidence_count": 0
+   },
+   {
+    "document_id": "psx:274864",
+    "label": "Financial Results for the Nine Months Ended on March 31, 2026",
+    "url": "https://dps.psx.com.pk/download/document/274864.pdf",
+    "published_at": "2026-04-22T13:49:00+05:00",
+    "retrieved_at": null,
+    "safe_period": null,
+    "content_sha256": null,
+    "company_documents_present": false,
+    "hash_bound": false,
+    "evidence_count": 0
+   },
+   {
+    "document_id": "psx:269182",
+    "label": "Financial Results for the Six Months Ended December 31, 2025",
+    "url": "https://dps.psx.com.pk/download/document/269182.pdf",
+    "published_at": "2026-01-26T13:25:00+05:00",
+    "retrieved_at": null,
+    "safe_period": {
+     "period_end": "2025-12-31",
+     "period_type": "interim",
+     "source": "title",
+     "matched_text": "Six Months Ended December 31, 2025"
+    },
+    "content_sha256": null,
+    "company_documents_present": false,
+    "hash_bound": false,
+    "evidence_count": 0
+   },
+   {
+    "document_id": "psx:bd312748aa6ef5cd050cfc1a",
+    "label": "MARI | Mari Energies Limited Financial Results for the Quarter Ended September 30, 2025",
+    "url": null,
+    "published_at": "2025-10-30T14:33:00+05:00",
+    "retrieved_at": null,
+    "safe_period": {
+     "period_end": "2025-09-30",
+     "period_type": "interim",
+     "source": "title",
+     "matched_text": "Quarter Ended September 30, 2025"
+    },
+    "content_sha256": null,
+    "company_documents_present": false,
+    "hash_bound": false,
+    "evidence_count": 0
+   },
+   {
+    "document_id": "psx:258895",
+    "label": "Transmission of Annual Financial Statements for the Year Ended June 30, 2025",
+    "url": "https://dps.psx.com.pk/download/document/258895.pdf",
+    "published_at": "2025-09-05T09:20:00+05:00",
+    "retrieved_at": null,
+    "safe_period": {
+     "period_end": "2025-06-30",
+     "period_type": "annual",
+     "source": "title",
+     "matched_text": "Year Ended June 30, 2025"
+    },
+    "content_sha256": null,
+    "company_documents_present": false,
+    "hash_bound": false,
+    "evidence_count": 0
+   },
+   {
+    "document_id": "psx:257577",
+    "label": "Financial Results for the Financial Year ended on June 30, 2025",
+    "url": "https://dps.psx.com.pk/download/document/257577.pdf",
+    "published_at": "2025-08-11T09:09:00+05:00",
+    "retrieved_at": null,
+    "safe_period": null,
+    "content_sha256": null,
+    "company_documents_present": false,
+    "hash_bound": false,
+    "evidence_count": 0
+   }
+  ],
+  "financial_coverage_indexed_document_count": 9,
+  "financial_coverage_queue_id": "finqual_26eeddb82e1a6dec5b1e"
+ },
+ "missing_slots": [
+  {
+   "slot": "annual_income_triplets",
+   "required": 5,
+   "present": 0,
+   "smallest_retained_candidate_ids": [
+    "psx:280901",
+    "psx:258895",
+    "psx:257577"
+   ],
+   "remaining_need": "five annual revenue/PAT/EPS triplets must be parsed from source-bound annual result/report filings before qualification."
+  },
+  {
+   "slot": "reported_direct_quarter_fact_sets",
+   "required": 8,
+   "present": 0,
+   "smallest_retained_candidate_ids": [
+    "psx:275583",
+    "psx:274864",
+    "psx:271327",
+    "psx:269182",
+    "psx:264550",
+    "psx:bd312748aa6ef5cd050cfc1a"
+   ],
+   "remaining_need": "eight reported-quarter revenue/PAT/EPS fact sets need exact period, duration, page, hash, and eligibility-scope binding."
+  },
+  {
+   "slot": "annual_operating_cash_flow",
+   "required": 5,
+   "present": 0,
+   "smallest_retained_candidate_ids": [
+    "psx:258895"
+   ],
+   "remaining_need": "all five annual OCF periods require source-bound cash-flow statement facts."
+  },
+  {
+   "slot": "full_income_balance_cash_flow_schedules",
+   "required": {
+    "annual": 5,
+    "reported_quarter": 8
+   },
+   "present": {
+    "annual": 0,
+    "reported_quarter": 0
+   },
+   "smallest_retained_candidate_ids": [
+    "psx:275583",
+    "psx:271327",
+    "psx:264550",
+    "psx:280901",
+    "psx:274864",
+    "psx:269182",
+    "psx:bd312748aa6ef5cd050cfc1a",
+    "psx:258895",
+    "psx:257577"
+   ],
+   "remaining_need": "canonical direct metrics plus EBITDA/FCF operand lineage must be extracted with statement type, period type, page, hash, and availability binding."
+  },
+  {
+   "slot": "official_share_count_capital_note_tie_out",
+   "required": 1,
+   "present": 0,
+   "smallest_retained_candidate_ids": [
+    "psx:258895"
+   ],
+   "remaining_need": "MARI has no retained approved share-count capital-note candidate or tie-out record."
+  },
+  {
+   "slot": "sector_kpi_schedule",
+   "required": "e_and_p_numeric_driver_schedule",
+   "present": 0,
+   "smallest_retained_candidate_ids": [
+    "psx:260446",
+    "psx:265594"
+   ],
+   "status": "observed_only",
+   "remaining_need": "Observed E&P event filings are hash/page-backed, but numeric driver operands remain unavailable and cannot activate a sector KPI schedule."
+  }
+ ],
+ "next_action": {
+  "type": "owner_approved_bounded_restage_and_fact_qualification_wave",
+  "does_not_fetch": true,
+  "does_not_promote_audit_only_facts": true,
+  "ordered_targets": [
+   {
+    "rank": 1,
+    "document_ids": [
+     "psx:275583",
+     "psx:271327",
+     "psx:264550"
+    ],
+    "purpose": "Restage already retained/hash-bound quarterly statement filings and qualify only exact canonical facts that already have page/hash/period binding.",
+    "promotion_condition": "Every fact must include canonical metric, statement type, period type/duration, consolidation, page, source URL, content hash, published_at/available_on, and financial-truth eligibility scope."
+   },
+   {
+    "rank": 2,
+    "document_ids": [
+     "psx:280901",
+     "psx:274864",
+     "psx:269182",
+     "psx:bd312748aa6ef5cd050cfc1a",
+     "psx:258895",
+     "psx:257577"
+    ],
+    "purpose": "Retain/hash annual and results metadata leads before attempting annual coverage, OCF, share-count, and reported-quarter qualification.",
+    "promotion_condition": "No fact may be emitted until the document has exact URL/hash/page/availability binding."
+   },
+   {
+    "rank": 3,
+    "document_ids": [
+     "psx:260446",
+     "psx:265594"
+    ],
+    "purpose": "Keep E&P event documents observed-only unless official numeric driver operands become source-bound.",
+    "promotion_condition": "Sector KPI schedule remains blocked without working-interest economics, production/reserve/timing operands, and qualified financial truth."
+   }
+  ]
+ },
+ "policy": {
+  "fail_closed": true,
+  "no_fetch": true,
+  "no_forecast": true,
+  "no_valuation": true,
+  "no_market_expectations": true,
+  "audit_only_values_not_promoted": true,
+  "research_only_no_advice_language": true
+ },
+ "_meta": {
+  "generator_version": "mari_financial_truth_next_intake_receipt_v1",
+  "inputs_sha256": {
+   "company_documents": "ddd7c22b4e2333f0e6698558f79aa978e3c9b3e84a53837e79ae0405621ead1a",
+   "company_financial_series": "dd48bc16c8c669e75567629f8577e04db6ac6d0ac88699986cd57e98fb759d5f",
+   "financial_coverage": "ba027c0d6f9f94c450bcbf50fb496f4d6b17ffb87f5a79603d6c18a90562a16d",
+   "financial_evidence_reconciliation": "fd3b9f58133db9efbcafaa532c20900bf20c9200d722fe0cbcafb8af75771038",
+   "financial_statement_v2_candidate_queue": "7e2262fbb7b48b2c5214937af70da8b813c8139428b6ef8e91ac12f81f6b8c44",
+   "financial_truth_qualification": "05e1b641b4686e49bc802bf60d103725a96457c08cd3fbdc6e7b885c2935e76d",
+   "mari_enp_evidence_readiness": "473bea8a1d0c79c108219b927449fb243f33275d905ec08725121ba0139ea6f8",
+   "official_share_capital_approvals": "99b276b26bcf8767ccd6b1482f97b4a4067e49e3d4b536f8f70fde6bdc4dae4a",
+   "official_share_capital_candidates": "c8258a0a152b7b79e3f586c7f4564386fe0156b70cff01c87dc2106bbd4e6d1b",
+   "research_index": "0dce78b11ac98f33fc04a48ce60c0fa35a6aeaa5f409bea1c7161231c0a5dd08"
+  },
+  "artifact_path": "state/company_intel/mari_financial_truth_next_intake_receipt.json",
+  "timestamp_semantics": {
+   "audit_date": "local audit date only; not a source-effective or source-published date"
+  }
+ }
+}
