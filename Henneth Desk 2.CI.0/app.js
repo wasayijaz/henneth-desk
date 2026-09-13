@@ -18,6 +18,79 @@ const short = (value, limit = 80) => {
   const text = String(value ?? "");
   return text.length > limit ? `${text.slice(0, limit - 1)}…` : text;
 };
+const ciHumanStatus = value => {
+  const status = String(value || "unknown");
+  if (/financial_truth_not_qualified/i.test(status)) return "Waiting for complete reported financial history";
+  if (/owner_approved_assumptions/i.test(status)) return "Waiting for reviewed model assumptions";
+  if (/insufficient_qualified_history/i.test(status)) return "Not enough verified history to calculate this yet";
+  if (/adapter_unavailable/i.test(status)) return "The sector calculation method is not connected yet";
+  if (/not_generated|not_emitted|not_activated|unavailable|unknown/i.test(status)) return "Not available from retained evidence yet";
+  if (/blocked/i.test(status)) return "Held back because a required input is missing";
+  if (/computed|qualified|available|ready/i.test(status)) return "Available from qualified retained evidence";
+  return status.replaceAll("_", " ");
+};
+const ciChart = (type, payload, label = "") => {
+  const safe = encodeURIComponent(JSON.stringify(payload || {}));
+  const itemSummary = Array.isArray(payload?.items) ? payload.items.slice(0, 8).map(item => [item?.date, item?.label, item?.value, item?.unit].filter(value => value != null && value !== "").join(" ")).filter(Boolean).join("; ") : "";
+  const seriesSummary = Array.isArray(payload?.base) ? `Base series: ${payload.base.join(", ")}` : "";
+  const summary = [label || payload?.label, payload?.reason, itemSummary, seriesSummary].filter(Boolean).join(". ");
+  return `<div class="ci-chart" data-ci-chart="${esc(type)}" data-ci-chart-payload="${esc(safe)}"${label ? ` aria-label="${esc(label)}"` : ""}></div>${summary ? `<span class="sr-only">${esc(summary)}</span>` : ""}`;
+};
+const ciBlockedChart = (status, label, requirements = [], available = 0) => ciChart("blocked", {
+  status: status || "blocked", reason: ciHumanStatus(status), label, requirements, available,
+}, label);
+
+function ciFindSeries(value, preferred = [], depth = 0) {
+  if (depth > 6 || value == null) return null;
+  if (Array.isArray(value)) {
+    if (value.length === 8 && value.every(item => Number.isFinite(Number(item)))) return value.map(Number);
+    if (value.length === 8 && value.every(item => item && typeof item === "object")) {
+      for (const field of preferred) {
+        const series = value.map(item => Number(item[field]));
+        if (series.every(Number.isFinite)) return series;
+      }
+    }
+    for (const item of value) {
+      const found = ciFindSeries(item, preferred, depth + 1);
+      if (found) return found;
+    }
+    return null;
+  }
+  if (typeof value === "object") {
+    for (const field of preferred) {
+      if (field in value) {
+        const found = ciFindSeries(value[field], preferred, depth + 1);
+        if (found) return found;
+      }
+    }
+    for (const item of Object.values(value)) {
+      const found = ciFindSeries(item, preferred, depth + 1);
+      if (found) return found;
+    }
+  }
+  return null;
+}
+
+function ciForecastChartPayload(r) {
+  const engine = r.financial_forecasts || {};
+  const result = engine.result;
+  const requirements = engine.missing_requirements || ["Qualified financial history", "Approved assumptions", "Eight-quarter output"];
+  if (!result || String(engine.status || "").startsWith("blocked")) return { status: engine.status, reason: ciHumanStatus(engine.status), label: "Eight-quarter trajectory is held back", requirements, available: 0 };
+  const scenario = name => ciFindSeries(result?.scenarios?.[name] || result?.[name], ["eps_pkr", "eps", "pat_pkr", "revenue_pkr", "revenue"]);
+  const base = scenario("base") || ciFindSeries(result, ["eps_pkr", "eps", "pat_pkr", "revenue_pkr", "revenue"]);
+  const bear = scenario("bear"), bull = scenario("bull");
+  if (!base || !bear || !bull) return { status: "blocked_scenario_series_not_emitted", reason: "Bear, base, and bull quarterly series were not emitted together", label: "Eight-quarter trajectory is held back", requirements: ["Bear series", "Base series", "Bull series"], available: [bear, base, bull].filter(Boolean).length };
+  return { status: "computed", bear, base, bull, unit: result.unit || "model output", label: "Eight-quarter forecast trajectory" };
+}
+
+function ciExpectationPayload(r) {
+  const market = Number(r.price?.current);
+  const valuation = r.formal_valuations || {};
+  const result = valuation.result || {};
+  const base = Number(result.fair_value_per_share ?? result.fair_value_pkr_per_share ?? result.equity_value_per_share);
+  if (!Number.isFinite(market) || !Number.isFinite(base) || String(valuation.status || "").startsWith("blocked")) return { status: valuation.status || "blocked_valuation_not_available", reason: ciHumanStatus(valuation.status), label: "Market expectations cannot be compared yet", requirements: ["Current retained price", "Qualified fair value", "Comparable per-share unit"], available: Number.isFinite(market) ? 1 : 0 };
+  return { status: "computed", market, base, unit: "PKR/share", label: "Current price requires more than the base case" };
+}
 const CI_REVEAL_SIDES = Object.freeze(["left", "right", "top", "bottom"]);
 const CI_BACKGROUND_ATTR_RE = /product-background-(\d{2})\.(?:png|webp)$/;
 const CI_BACKGROUND_ASSET_COUNT = 25;
@@ -42,7 +115,6 @@ const PRIMARY_COMPANY_TABS = [
   ["intelligence", "Intelligence"],
   ["financials", "Financials"],
   ["earnings", "Earnings"],
-  ["business", "Business"],
   ["operations", "Operations"],
   ["scenarios", "Scenarios"],
   ["valuation", "Valuation"],
@@ -79,8 +151,8 @@ const RESEARCH_TOOL_TABS = [
 // Six directory groups mirror the selected visual reference. Every existing route
 // appears exactly once in this tree; grouping is presentation-only.
 const TREE_GROUPS = [
-  { key: "overview", label: "Overview", routes: [["snapshot", "Investor Snapshot"], ["overview", "Company Profile"], ["business", "Business profile (legacy)"]] },
-  { key: "intelligence", label: "Intelligence", routes: [["research", "Research"], ["ask", "Ask Henneth"], ["graph", "Knowledge Graph"], ["operating", "Operating Intelligence"], ["intelligence", "Intelligence index (legacy)"], ["timeline", "Typed timeline (legacy)"]] },
+  { key: "overview", label: "Overview", routes: [["snapshot", "Investor Snapshot"], ["overview", "Company Profile"]] },
+  { key: "intelligence", label: "Intelligence", routes: [["research", "Research"], ["ask", "Ask Henneth"], ["graph", "Knowledge Graph"], ["operating", "Operating Intelligence"], ["intelligence", "Event-to-Value view"], ["timeline", "Typed timeline (legacy)"]] },
   { key: "financials", label: "Financials", routes: [["trends", "Financial Trends"], ["baseline", "Financial Baseline"], ["forecast", "Forecast Readiness"], ["alpha_readiness", "Event-to-Value readiness"], ["financials", "Accounting Snapshot"]] },
   { key: "events", label: "Events & Filings", routes: [["earnings", "Earnings"], ["events", "Events"], ["filings", "Filings"], ["sources", "Sources"], ["changes", "Change Digest (legacy)"], ["brief", "Brief queue (legacy)"]] },
   { key: "strategy", label: "Strategy", routes: [["scenarios", "Scenarios"], ["valuation", "Valuation"], ["guidance", "Guidance"], ["catalysts", "Catalysts"], ["risks", "Risks"], ["quant", "Quant (legacy)"]] },
@@ -91,7 +163,7 @@ let state = {
   data: null,
   selected: null,
   filter: "",
-  view: "overview",
+  view: "directory_overview",
   caseRoute: null,
   tree: { expanded: {} },
   ask: { pending: {}, nextId: 0, bySymbol: {} },
@@ -645,6 +717,7 @@ function renderDesk(searchState) {
       <div class="ci-resize-handle ci-resize-right" id="intelligenceResize" role="separator" aria-orientation="vertical" aria-label="Resize intelligence directory"></div>
       ${row ? renderViewNav(row) : `<div class="tree-empty">No directories available.</div>`}
     </aside>`;
+  requestAnimationFrame(() => window.HennethCICharts?.renderAll($("companyDetail")));
   if ($("companyStatus")) $("companyStatus").textContent = row ? `${row.symbol} · company intelligence` : "Company Intelligence";
   bindPanelResize();
   syncMobileControls(true);
@@ -811,9 +884,9 @@ function detail(r) {
       ${metric("Graph links", intel.graph_edge_count ?? 0, `${intel.graph_node_count ?? 0} nodes mapped`)}
     </div>
     ${state.caseRoute ? renderIntelligenceCase(r, state.caseRoute.caseId)
+      : state.view === "directory_overview" ? renderOverviewDashboard(r)
       : state.view === "financials" ? renderCompanyFinancials(r)
       : state.view === "earnings" ? renderCompanyEarnings(r)
-      : state.view === "business" ? renderCompanyBusiness(r)
       : state.view === "operations" ? renderCompanyOperations(r)
       : state.view === "valuation" ? renderCompanyValuation(r)
       : state.view === "guidance" ? renderGuidanceDomainView(r, "guidance", "Guidance", "No retained official management assertion passed the strict source shape.")
@@ -845,7 +918,7 @@ function detail(r) {
       : state.view === "filings" ? renderFilings(r)
       : state.view === "sources" ? renderSources(r)
       : state.view === "brief" ? renderBrief(r)
-      : renderOverview(r, { f, v, p, liq, source, inc })}`;
+      : renderCompanyProfile(r, { f, v, p, liq, source, inc })}`;
 }
 
 function renderViewNav(r) {
@@ -871,11 +944,12 @@ function renderViewNav(r) {
   };
   const folder = ({ key, label, routes }) => {
     const expanded = state.tree.expanded[key] ?? true;
+    const dashboardRoute = key === "overview" ? "directory_overview" : null;
     const childNodes = routes.map(([route, routeLabel]) => node(route, toolLabels.get(route) || routeLabel, 1)).join("");
     return `<section class="tree-folder ${expanded ? "is-expanded" : ""}" data-tree-folder="${key}">
-      <div class="tree-folder-row ${state.view === key ? "active" : ""}">
+      <div class="tree-folder-row ${dashboardRoute && state.view === dashboardRoute ? "active" : ""}">
         <button class="tree-expander" type="button" aria-label="${expanded ? "Collapse" : "Expand"} ${esc(label)}" aria-expanded="${expanded}" data-tree-toggle="${key}"><iconify-icon icon="${expanded ? "lucide:chevron-down" : "lucide:chevron-right"}" aria-hidden="true"></iconify-icon></button>
-        <span class="tree-folder-label"><iconify-icon class="tree-folder-icon" icon="${expanded ? "lucide:folder-open" : "lucide:folder"}" aria-hidden="true"></iconify-icon><span>${esc(label)}</span></span>
+        ${dashboardRoute ? `<button class="tree-folder-label" type="button" aria-current="${state.view === dashboardRoute ? "page" : "false"}" aria-controls="companyDetail" data-view="${dashboardRoute}" data-view-group="directory"><iconify-icon class="tree-folder-icon" icon="${expanded ? "lucide:folder-open" : "lucide:folder"}" aria-hidden="true"></iconify-icon><span>${esc(label)}</span></button>` : `<span class="tree-folder-label"><iconify-icon class="tree-folder-icon" icon="${expanded ? "lucide:folder-open" : "lucide:folder"}" aria-hidden="true"></iconify-icon><span>${esc(label)}</span></span>`}
       </div>
       <div class="tree-children" role="group" ${expanded ? "" : "hidden"}>${childNodes}</div>
     </section>`;
@@ -1367,7 +1441,7 @@ function renderCausalFoundations(r) {
   </section>`;
 }
 
-function renderOverview(r, ctx) {
+function renderCompanyProfile(r, ctx) {
   const { f, v, p, liq, source, inc } = ctx;
   return `
     <div class="panel span5">
@@ -2199,6 +2273,36 @@ function renderCaseSectionBody(section) {
   return '<div class="blocked-grid"><span>Status <b>' + esc(section.status || "blocked") + '</b></span><span>Reason <b>' + esc(section.reason || "not_yet_modelled") + '</b></span></div>';
 }
 
+function ciCaseSectionChart(section) {
+  const key = section?.key || "unknown";
+  const status = section?.status || "blocked";
+  const missing = { status, reason: ciHumanStatus(section?.reason || status), label: `${key.replaceAll("_", " ")} is held back`, requirements: ["Retained evidence", "Qualified operands", "Deterministic output"] };
+  if (key === "evidence") {
+    const items = (section.items || []).map(item => ({ date: item.event_date || item.date || item.available_on, label: item.statement || item.title || item.fact_id })).filter(item => item.date);
+    return items.length ? ciChart("timeline", { status, label: "Observed evidence in filing order", items }) : ciChart("blocked", missing);
+  }
+  if (key === "mechanism") {
+    const drivers = (section.items || []).map(item => item.id || item.text).filter(Boolean);
+    return drivers.length ? ciChart("mechanism", { status, label: "How the observed event may transmit", drivers, target: "Financial output" }) : ciChart("blocked", missing);
+  }
+  if (key === "confidence") {
+    const items = (section.dimensions || []).map(item => ({ label: item.name || item.id, value: Number(String(item.score ?? item.status ?? "").match(/[0-9.]+/)?.[0]), unit: "/100" })).filter(item => Number.isFinite(item.value));
+    return items.length ? ciChart("assumptions", { status, label: "Confidence by evidence dimension", items }) : ciChart("blocked", missing);
+  }
+  if (key === "sources") {
+    const items = (section.items || []).map(item => ({ date: item.document_published_at || item.published_at || item.date, label: item.document_title || item.title || item.document_id })).filter(item => item.date);
+    return items.length ? ciChart("timeline", { status, label: "Source publication lineage", items }) : ciChart("blocked", missing);
+  }
+  if (key === "watch_next") {
+    const drivers = (section.items || []).map(item => item.text || item.id).filter(Boolean);
+    return drivers.length ? ciChart("mechanism", { status, label: "Evidence checks that advance or break the case", drivers, target: "Case status" }) : ciChart("blocked", missing);
+  }
+  const available = !String(status).startsWith("blocked") && status !== "empty_state";
+  return available
+    ? ciChart("counter", { status, label: `${key.replaceAll("_", " ")} state`, value: 1, display: "ON FILE", unit: "RETAINED CASE SECTION" })
+    : ciChart("blocked", missing);
+}
+
 function renderIntelligenceCase(r, caseId) {
   const api = caseViewApi();
   const requestedTicker = state.caseRoute?.ticker || r?.symbol || null;
@@ -2212,7 +2316,8 @@ function renderIntelligenceCase(r, caseId) {
   const lifecycle = api.LIFECYCLE || ["Observed", "Corroborated", "Modelled", "Validated", "Published", "Monitoring", "Closed"];
   const sections = (api.SECTIONS || []).map(([key, label]) => {
     const section = api.resolveSection(caseObject, key);
-    return '<section class="intel-section" data-case-section="' + esc(key) + '"><header><h3>' + esc(label) + '</h3><span class="pill">' + esc(section.status || "blocked") + '</span></header>' + renderCaseSectionBody(section) + '</section>';
+    const number = String((api.SECTIONS || []).findIndex(item => item[0] === key) + 1).padStart(2, "0");
+    return '<section class="intel-section ci-editorial-tile" data-case-section="' + esc(key) + '"><header><div><span class="ci-section-number">' + esc(number) + '</span><h3>' + esc(label) + '</h3></div><span class="pill">' + esc(ciHumanStatus(section.status || "blocked")) + '</span></header>' + ciCaseSectionChart(section) + '<div class="ci-editorial-copy">' + renderCaseSectionBody(section) + '</div><details class="ci-raw-status"><summary>Technical status</summary><code>' + esc(section.status || "blocked") + '</code></details></section>';
   }).join("");
   const stage = lifecycle.map(name => '<span class="pill' + (name === caseObject.status ? " active" : "") + '">' + esc(name) + '</span>').join("");
   return '<section class="panel span9 intel-shell case-shell" aria-labelledby="caseTitle">'
@@ -2276,17 +2381,69 @@ function renderIntelligenceCaseIndex(r) {
   return '<section class="intel-section case-index" aria-label="Intelligence cases"><header><h3>Intelligence cases</h3><span class="pill">' + esc(discovery.items.length) + '</span></header><p class="section-note">Read-only links to projected Intelligence Cases. Status is displayed as emitted; blocked later sections are not treated as forecasts or valuations.</p><div class="intel-grid">' + cards + '</div></section>';
 }
 
+
+function ciEnvelopeBlocked(section, fallbackLabel, fallbackRequirements = []) {
+  return {
+    status: section?.status || "blocked",
+    reason: section?.text || section?.reason || ciHumanStatus(section?.status),
+    label: section?.label || fallbackLabel,
+    requirements: section?.missing_gates?.length ? section.missing_gates : fallbackRequirements,
+    available: 0,
+  };
+}
+
+function ciActiveObservedCase(r) {
+  const cases = Array.isArray(r.intelligence_cases?.cases) ? r.intelligence_cases.cases : [];
+  if (r.symbol === "MLCF") return cases.find(item => item.case_type !== "acquisition_control") || null;
+  if (r.symbol === "MARI") return cases.find(item => item.case_family === "e_and_p") || null;
+  return cases[0] || null;
+}
+
 function renderIntelligence(r) {
-  const signals = r.signal_clusters || {};
-  const clusters = signals.clusters || [];
-  const events = Array.isArray(r.operating_events) ? r.operating_events : [];
+  const envelope = r.explainability || {};
+  const observation = envelope.observation || {};
+  const mechanism = envelope.transmission_mechanism || {};
+  const forecast = envelope.forecast_trajectory || {};
+  const assumptions = envelope.key_assumptions || {};
+  const expectations = envelope.expectations_gap || {};
+  const conclusion = envelope.conclusion || {};
+  const monitoring = envelope.monitoring || {};
   const studies = Array.isArray(r.event_studies) ? r.event_studies : [];
-  const model = r.financial_model_inputs || {};
-  const sourceLink = url => { const href = safeHref(url); return href ? `<a href="${href}" target="_blank" rel="noreferrer">official source</a>` : "source unavailable"; };
-  const signalCards = clusters.length ? clusters.map(c => `<article class="intel-card"><header><span class="pill">${esc(c.assessment || "unknown")}</span><b>${esc(c.proposition?.type || "signal")}</b></header><h3>${esc(c.proposition?.target || c.proposition?.role || c.proposition?.person || c.proposition?.stage || "Evidence-backed signal")}</h3><p>${esc(c.proposition?.verb || c.proposition?.modality || "No additional assertion supplied.")}</p><div class="intel-meta"><span>${esc(c.observations?.length || 0)} observations</span><span>${esc(c.confidence?.band || "unknown confidence")}</span></div>${(c.observations || []).slice(0,3).map(o => `<div class="intel-evidence">${sourceLink(o.evidence?.source_url)} · page ${esc(o.evidence?.page || "unknown")} · ${esc(o.evidence?.text || "No evidence text")}</div>`).join("")}</article>`).join("") : `<div class="empty">No eligible evidence-backed signals are available.</div>`;
-  const driverNames = [...new Set(events.flatMap(e => Array.isArray(e.affected_drivers) ? e.affected_drivers : []))];
-  const watch = driverNames.length ? driverNames.map(d => `<span class="pill">Monitor ${esc(d)}</span>`).join("") : `<span class="muted">No affected-driver monitoring target is currently evidenced.</span>`;
-  return `<section class="panel span9 intel-shell"><span class="kicker">Flagship intelligence</span><h2>Evidence → mechanism → readiness</h2><p class="section-note">A read-only composition of validated signals, operating mechanisms, historical context, model readiness, and source-gated formal engine status. Engine results appear only when emitted by the backend.</p>${renderIntelligenceCaseIndex(r)}${renderIntelligenceConfidence(r)}<section class="intel-section"><header><h3>New evidence signals</h3><span class="pill">${esc(clusters.length)} signal${clusters.length === 1 ? "" : "s"}</span></header><div class="intel-grid">${signalCards}</div></section><section class="intel-section"><header><h3>Business mechanism and affected drivers</h3></header>${events.length ? `<div class="intel-list">${events.slice(0,8).map(e => `<article><b>${esc(e.event_type || "event")}</b><span>${esc(e.description || "Unknown event")}</span><em>${esc((e.affected_drivers || []).join(", ") || "No affected drivers")}</em></article>`).join("")}</div>` : `<div class="empty">No operating events are available.</div>`}</section><section class="intel-section"><header><h3>Historical benchmark availability</h3></header><p>${studies.length ? `${esc(studies.length)} descriptive event study record${studies.length === 1 ? "" : "s"} available.` : "No historical event studies are available for this company."}</p></section><section class="intel-section"><header><h3>Financial readiness</h3></header><div class="intel-status"><span>Model inputs <b>${esc(model.status || "unknown")}</b></span><span>Forecast engine <b>${esc(r.financial_forecasts?.status || "unknown")}</b></span><span>Valuation engine <b>${esc(r.formal_valuations?.status || "unknown")}</b></span><span>Market expectations <b>${esc(r.market_expectations?.status || "unknown")}</b></span></div></section><section class="intel-section"><header><h3>Formal engine deck</h3><span class="pill">source gated</span></header><p class="section-note">Compact status cards from the authoritative engine outputs. Results and provenance are displayed as emitted; missing inputs stay explicit.</p>${["financial_forecasts", "formal_valuations", "market_expectations"].map(key => renderFormalEngineCard(r, key)).join("")}</section><section class="intel-section"><header><h3>Contradictions and unknowns</h3></header><p>${esc((signals.rejection_reasons && Object.keys(signals.rejection_reasons).join(", ")) || "No additional contradiction or quality flag is recorded.")}</p></section><section class="intel-section"><header><h3>What to watch next</h3></header><div class="intel-watch">${watch}</div><p class="section-note">Monitoring targets are derived only from retained affected drivers and do not represent predictions.</p></section></section>`;
+  const activeCase = ciActiveObservedCase(r);
+  const caseFacts = Array.isArray(activeCase?.observed_facts) ? activeCase.observed_facts : [];
+  const observationItems = caseFacts.map(item => ({ date: item.event_date, label: item.statement || item.fact_id })).filter(item => item.date);
+  if (!observationItems.length && observation.date && !(r.symbol === "MLCF" && !activeCase)) observationItems.push({ date: observation.date, label: observation.event_subtype || observation.event_type || observation.label });
+  const observationBlocked = r.symbol === "MLCF" && !activeCase;
+  const eventSummary = activeCase?.summary || (observationBlocked
+    ? observation.vertical_case?.text || "No retained plant, capacity-expansion, or commissioning case is currently emitted for MLCF. The PIOC record remains a separate observed corporate-control case and is not presented as the cement expansion model."
+    : observation.text || "No eligible evidence-backed event has been retained for this company.");
+  const drivers = Array.isArray(mechanism.drivers) ? mechanism.drivers : [];
+  const targetsByDriver = new Map((mechanism.chain || []).map(item => [item.driver, item.statement_line || item.target]));
+  const assumptionItems = (assumptions.items || []).map(item => ({ label: item.name || item.label, value: item.value == null || item.value === "" ? null : Number(item.value), unit: item.unit })).filter(item => Number.isFinite(item.value));
+  const forecastPayload = Array.isArray(forecast.bear) && Array.isArray(forecast.base) && Array.isArray(forecast.bull)
+    ? { status: forecast.status, label: forecast.label, bear: forecast.bear, base: forecast.base, bull: forecast.bull, unit: forecast.unit || "model output" }
+    : ciEnvelopeBlocked(forecast, "Eight-quarter forecast trajectory", ["Qualified financial history", "Approved assumptions", "Eight-quarter output"]);
+  const expectationPayload = expectations.market != null && expectations.market !== "" && expectations.base_case != null && expectations.base_case !== "" && Number.isFinite(Number(expectations.market)) && Number.isFinite(Number(expectations.base_case))
+    ? { status: expectations.status, label: expectations.label, market: Number(expectations.market), base: Number(expectations.base_case), unit: expectations.unit || "PKR/share" }
+    : ciEnvelopeBlocked(expectations, "Expectations gap", ["Current retained price", "Qualified fair value", "Comparable per-share basis"]);
+  const monitorItems = (monitoring.what_to_watch || []).map(item => ({ date: item.date, label: item.title })).filter(item => item.date);
+  const caseDiscovery = caseViewApi()?.discoverableCases?.(r);
+  const caseLinks = caseDiscovery?.items?.length ? `<div class="ci-case-links">${caseDiscovery.items.map(item => `<a href="${esc(item.href)}"><span>${esc(item.case_id === activeCase?.case_id ? "Active observed case" : "Separate observed case")}</span><b>${esc(item.title || item.case_id)}</b></a>`).join("")}</div>` : "";
+  const tile = (number, title, status, chart, copy, wide = false) => `<article class="ci-editorial-tile${wide ? " ci-tile-wide" : ""}"><header><div><span class="ci-section-number">${number}</span><h3>${esc(title)}</h3></div><span class="pill">${esc(ciHumanStatus(status))}</span></header>${chart}<p>${esc(copy || "No explanatory text was emitted.")}</p></article>`;
+  return `<section class="panel span9 intel-shell ci-editorial-shell">
+    <header class="ci-editorial-header"><div><span class="kicker">Event-to-Value intelligence</span><h2>What Henneth is saying</h2><p>${esc(eventSummary)}</p></div><div class="ci-editorial-index"><b>${esc(envelope.schema_version ? "07" : "—")}</b><span>explainability sections</span><small>${esc(studies.length)} historical reference record${studies.length === 1 ? "" : "s"}</small></div></header>
+    <div class="ci-editorial-grid">
+      ${tile("01", "Observation & event", observationBlocked ? "blocked_no_active_expansion_case" : observation.status, observationItems.length ? ciChart("timeline", { status: observation.status, label: "Retained dated observation", items: observationItems }) : ciChart("blocked", observationBlocked ? { status: observation.vertical_case?.status || "blocked_no_active_expansion_case", label: "No active expansion event is emitted", reason: observation.vertical_case?.text || eventSummary, requirements: ["Official filing", "Expansion or commissioning event", "Canonical case binding"], available: 0 } : ciEnvelopeBlocked(observation, "No active expansion event is emitted", ["Official filing", "Expansion or commissioning event", "Canonical case binding"])), eventSummary, true)}
+      ${caseLinks ? `<div class="ci-editorial-case-row">${caseLinks}</div>` : ""}
+      ${tile("02", "Transmission mechanism", mechanism.status, drivers.length ? ciChart("mechanism", { status: mechanism.status, label: `${mechanism.sector_model || r.sector || "Sector"} operating-driver map`, drivers, targets: drivers.map(item => targetsByDriver.get(item) || "Financial line") }) : ciChart("blocked", ciEnvelopeBlocked(mechanism, "Sector transmission mechanism", ["Sector driver graph", "Operating driver", "Financial line"])), mechanism.text)}
+      ${tile("03", "Forecast trajectory", forecast.status, forecastPayload.base ? ciChart("fan", forecastPayload) : ciChart("blocked", forecastPayload), forecast.text, true)}
+      ${tile("04", "Key assumptions", assumptions.status, assumptionItems.length ? ciChart("assumptions", { status: assumptions.status, label: assumptions.label, items: assumptionItems }) : ciChart("blocked", { ...ciEnvelopeBlocked(assumptions, "Key formal-engine assumptions", ["Source-labelled assumption", "Owner review"]), reason: "Waiting for reviewed model assumptions" }), assumptions.text)}
+      ${tile("05", "Expectations gap", expectations.status, expectationPayload.market != null ? ciChart("expectations", expectationPayload) : ciChart("blocked", expectationPayload), expectations.text)}
+      ${tile("06", "Research conclusion", conclusion.status, ciChart("blocked", ciEnvelopeBlocked(conclusion, "Formal conclusion held back", ["Qualified forecast", "Qualified valuation", "Expectations comparison"])), conclusion.text, true)}
+      ${tile("07", "Monitoring", monitoring.status, monitorItems.length ? ciChart("timeline", { status: monitoring.status, label: "What the retained monitor is watching", items: monitorItems }) : ciChart("counter", { status: monitoring.status, label: monitoring.label || "Monitoring", value: Number(monitoring.alert_count || 0), display: String(monitoring.alert_count || 0), unit: "RETAINED ALERTS" }), monitoring.text, true)}
+    </div>
+    <footer class="ci-editorial-footer"><span>Research only · no execution</span><span>Every visual mark maps to the row-level explainability envelope</span></footer>
+  </section>`;
 }
 
 function renderThesisMonitor(r) {
