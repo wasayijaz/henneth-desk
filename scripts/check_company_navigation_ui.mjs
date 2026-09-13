@@ -28,7 +28,6 @@ const PRIMARY = [
   ["intelligence", "Intelligence"],
   ["financials", "Financials"],
   ["earnings", "Earnings"],
-  ["business", "Business"],
   ["operations", "Operations"],
   ["scenarios", "Scenarios"],
   ["valuation", "Valuation"],
@@ -40,9 +39,8 @@ const PRIMARY = [
   ["peers", "Peers"],
   ["ownership", "Ownership"],
   ["quant", "Quant"],
-  ["research", "Research"],
 ];
-const ADVANCED = ["snapshot", "timeline", "changes", "trends", "baseline", "forecast", "thesis", "watchlist", "monitoring", "ask", "graph", "operating", "conditional", "causal", "coverage", "sources", "brief"];
+const ADVANCED = ["snapshot", "timeline", "changes", "trends", "baseline", "forecast", "alpha_readiness", "thesis", "watchlist", "monitoring", "ask", "graph", "operating", "past_context", "conditional", "causal", "coverage", "sources", "brief"];
 
 function extractRegistry(name) {
   const match = app.match(new RegExp(`const ${name} = (\\[[\\s\\S]*?\\]);\\r?\\n`));
@@ -69,7 +67,7 @@ try {
   assert(!app.includes('document.querySelectorAll("[data-view]");'), "keyboard navigation is not global across both tablists");
   for (const [key] of PRIMARY) assert(app.includes(`state.view === "${key}"`) || key === "overview", `${key}: primary route dispatch`);
   for (const key of ADVANCED) assert(app.includes(`state.view === "${key}"`), `${key}: advanced route dispatch`);
-  for (const name of ["Financials", "Earnings", "Business", "Operations", "Valuation", "Events", "Peers", "Ownership", "Quant", "Research", "DomainView"]) {
+  for (const name of ["Financials", "Earnings", "Operations", "Valuation", "Events", "Peers", "Ownership", "Quant", "DomainView"]) {
     assert(app.includes(`function renderCompany${name}`), `renderCompany${name} exists`);
   }
   const peersBody = extractFunctionBody("renderCompanyPeers", "renderCompanyOwnership");
@@ -98,8 +96,8 @@ try {
   assert(css.includes("scrollbar-color:transparent transparent") && css.includes(".detail:hover") && css.includes(".tree-panel:focus-within") && css.includes(".list:focus-within"), "panel scrollbars are hidden until hover or focus");
   assert(css.includes(".workspace.mobile-left-open .rail") && css.includes(".workspace.mobile-right-open .tree-panel") && css.includes(".drawer-backdrop"), "mobile drawers are app-state controlled");
   assert(css.includes(".drawer-backdrop{display:none}") && css.includes(".drawer-backdrop[hidden]{display:none!important}"), "mobile drawer backdrops do not consume desktop workspace grid cells");
-  assert(!css.includes(".workspace[data-company-bg]>*{position:relative;z-index:1}"), "company background layering does not override every direct workspace child");
-  assert(css.includes("@media (min-width:901px){.workspace[data-company-bg]>.icon-rail") && css.includes("@media (max-width:900px){.workspace[data-company-bg]>.detail{position:relative;z-index:1}"), "company background layering preserves fixed mobile drawers");
+  assert(!css.includes("data-company-bg") && !app.includes("companyBackground"), "decorative company background machinery is absent");
+  assert(!index.includes("company_backgrounds.js") && !index.includes("login-background.webp"), "the shell does not request decorative background assets");
   assert(css.includes(".viewnav-shell") && css.includes(".research-tools") && css.includes(".company-domain-shell") && css.includes(".blocked-shell") && css.includes(".research-hub-grid"), "navigation/domain CSS");
   for (const row of slice.tickers) {
     assert(row.symbol && row.company_brain?.domains, `${row.symbol || "unknown"}: Company Brain available`);

@@ -98,7 +98,7 @@ def main() -> int:
     )
     _check(
         errors,
-        "enhanceMotion({ visual, animate: !searchState || Boolean(searchState.focusView) });" in app_source,
+        "enhanceMotion({ animate: !searchState || Boolean(searchState.focusView) });" in app_source,
         "page-route changes must animate while search and form rerenders remain still",
     )
 

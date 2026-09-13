@@ -123,9 +123,6 @@ function ciExpectationPayload(r) {
   if (!Number.isFinite(market) || !Number.isFinite(base) || String(valuation.status || "").startsWith("blocked")) return { status: valuation.status || "blocked_valuation_not_available", reason: ciHumanStatus(valuation.status), label: "Market expectations cannot be compared yet", requirements: ["Current retained price", "Qualified fair value", "Comparable per-share unit"], available: Number.isFinite(market) ? 1 : 0 };
   return { status: "computed", market, base, unit: "PKR/share", label: "Current price requires more than the base case" };
 }
-const CI_REVEAL_SIDES = Object.freeze(["left", "right", "top", "bottom"]);
-const CI_BACKGROUND_ATTR_RE = /product-background-(\d{2})\.(?:png|webp)$/;
-const CI_BACKGROUND_ASSET_COUNT = 25;
 const CI_MOBILE_QUERY = "(max-width:900px)";
 const CI_LEFT_MIN = 220;
 const CI_LEFT_MAX = 360;
@@ -205,51 +202,6 @@ let state = {
 };
 
 const SCHEME_CYCLE = { system: "light", light: "dark", dark: "system" };
-
-function ciHash(text) {
-  let hash = 2166136261;
-  for (const char of String(text || "")) {
-    hash ^= char.charCodeAt(0);
-    hash = Math.imul(hash, 16777619);
-  }
-  return hash >>> 0;
-}
-
-function companyBackgroundRegistry() {
-  const registry = window.HENNETH_COMPANY_BACKGROUNDS;
-  return registry && typeof registry.forSymbol === "function" ? registry : null;
-}
-
-function randomRevealSide(fallbackSeed) {
-  const entropy = new Uint32Array(1);
-  if (globalThis.crypto?.getRandomValues) {
-    globalThis.crypto.getRandomValues(entropy);
-    return CI_REVEAL_SIDES[entropy[0] % CI_REVEAL_SIDES.length];
-  }
-  return CI_REVEAL_SIDES[ciHash(fallbackSeed) % CI_REVEAL_SIDES.length];
-}
-
-function companyVisual(row, index) {
-  const symbol = String(row?.symbol || "").trim().toUpperCase();
-  const registry = companyBackgroundRegistry();
-  const backgroundPath = registry?.forSymbol(symbol) || "";
-  const backgroundMatch = backgroundPath.match(CI_BACKGROUND_ATTR_RE);
-  const assetCount = Number(registry?.assetCount) || CI_BACKGROUND_ASSET_COUNT;
-  const fallbackIndex = ((ciHash(`${symbol}:${index}`) + Math.max(0, index)) % assetCount) + 1;
-  const backgroundId = backgroundMatch ? backgroundMatch[1] : String(fallbackIndex).padStart(2, "0");
-  const revealSide = randomRevealSide(`${symbol}:${backgroundId}:reveal`);
-  return { backgroundId, backgroundPath, revealSide };
-}
-
-function safeBackgroundCssUrl(path) {
-  const text = String(path || "").trim();
-  return /^product backgrounds\/product-background-\d{2}\.(?:png|webp)$/i.test(text)
-    // Encode the directory space for the actual HTTP request. Keeping the
-    // registry's filesystem path readable lets the static inventory checker
-    // stat the same file while the browser receives a valid served URL.
-    ? `url("${encodeURI(text)}")`
-    : "";
-}
 
 function ciScheme() {
   try {
@@ -560,13 +512,8 @@ function renderGate(message) {
   const app = $("app");
   app.removeAttribute("aria-busy");
   app.classList.remove("is-entering");
-  delete app.dataset.companyBg;
-  delete app.dataset.revealSide;
-  delete app.dataset.companyBackgroundSrc;
-  app.style.removeProperty("--ci-company-bg");
   app.innerHTML = `
     <section class="gate" aria-labelledby="gateTitle">
-      <img class="gate-background" src="/login-background.webp" alt="" aria-hidden="true" width="1672" height="942" loading="eager" decoding="async">
       <div>
         <p class="eyebrow">Private research workspace</p>
         <h1 id="gateTitle">Company context,<br>one layer deeper.</h1>
@@ -746,8 +693,6 @@ function renderDesk(searchState) {
     : (state.selected ? list.find(r => r.symbol === state.selected) : null) || list[0] || null;
   if (routeTicker) state.selected = routeTicker;
   else if (row) state.selected = row.symbol;
-  const activeIndex = row ? Math.max(0, (state.data?.tickers || []).findIndex(item => item.symbol === row.symbol)) : -1;
-  const visual = row ? companyVisual(row, activeIndex) : null;
   $("app").innerHTML = `
     <aside class="icon-rail" aria-label="Company Intelligence navigation">
       <nav class="icon-rail-nav" aria-label="Company Intelligence sections">
@@ -890,7 +835,7 @@ function renderDesk(searchState) {
   if (searchState?.focusThesis) {
     $("privateThesisText")?.focus({ preventScroll: true });
   }
-  enhanceMotion({ visual, animate: !searchState || Boolean(searchState.focusView) });
+  enhanceMotion({ animate: !searchState || Boolean(searchState.focusView) });
 }
 
 function currentPilotSymbols() {
@@ -4638,23 +4583,10 @@ function bindLogin() {
   };
 }
 
-function enhanceMotion({ visual, animate } = {}) {
+function enhanceMotion({ animate } = {}) {
   const app = $("app");
   if (!app) return;
   app.classList.remove("is-entering");
-  if (visual?.backgroundId) {
-    app.dataset.companyBg = visual.backgroundId;
-    app.dataset.revealSide = visual.revealSide;
-    app.dataset.companyBackgroundSrc = visual.backgroundPath || "";
-    const cssUrl = safeBackgroundCssUrl(visual.backgroundPath);
-    if (cssUrl) app.style.setProperty("--ci-company-bg", cssUrl);
-    else app.style.removeProperty("--ci-company-bg");
-  } else {
-    delete app.dataset.companyBg;
-    delete app.dataset.revealSide;
-    delete app.dataset.companyBackgroundSrc;
-    app.style.removeProperty("--ci-company-bg");
-  }
   if (!animate || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
   requestAnimationFrame(() => app.classList.add("is-entering"));
 }

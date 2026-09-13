@@ -83,47 +83,13 @@ button:focus-visible,a:focus-visible,input:focus-visible{outline:2px solid var(-
 .shell{grid-template-rows:40px minmax(0,1fr) 24px}.topbar{min-height:40px;padding-inline:10px}.topbar .brand-mark{height:26px}
 @media (max-width:900px){.shell{grid-template-rows:40px minmax(calc(100dvh - 64px),auto) 24px}.topbar{min-height:40px}}
 
-/* Company intelligence motion layer. The app assigns data-company-bg="01"…"25"
-   and data-reveal-side="left|right|top|bottom" to #app (.workspace) per company.
-   The image remains a quiet, frosted reading-space texture; the reveal runs once
-   when .is-entering is toggled by the existing render lifecycle. */
-.workspace[data-company-bg]{position:relative;isolation:isolate;background:var(--paper)}
-.workspace[data-company-bg]::before{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;background-image:var(--ci-company-bg);background-position:center;background-size:cover;background-repeat:no-repeat;opacity:.46;filter:saturate(.78) contrast(.95);transform:translateZ(0);will-change:clip-path,opacity}
-.workspace[data-company-bg]::after{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;background:linear-gradient(120deg,color-mix(in srgb,var(--paper-3) 52%,transparent),color-mix(in srgb,var(--paper-2) 38%,transparent) 48%,color-mix(in srgb,var(--paper-3) 52%,transparent));opacity:.46}
-@media (min-width:901px){.workspace[data-company-bg]>.icon-rail,.workspace[data-company-bg]>.rail,.workspace[data-company-bg]>.detail,.workspace[data-company-bg]>.tree-panel{position:relative;z-index:1}}
-@media (max-width:900px){.workspace[data-company-bg]>.detail{position:relative;z-index:1}}
-.workspace[data-company-bg="01"]{--ci-company-bg:url("product%20backgrounds/product-background-01.webp")}.workspace[data-company-bg="02"]{--ci-company-bg:url("product%20backgrounds/product-background-02.webp")}.workspace[data-company-bg="03"]{--ci-company-bg:url("product%20backgrounds/product-background-03.webp")}.workspace[data-company-bg="04"]{--ci-company-bg:url("product%20backgrounds/product-background-04.webp")}.workspace[data-company-bg="05"]{--ci-company-bg:url("product%20backgrounds/product-background-05.webp")}
-.workspace[data-company-bg="06"]{--ci-company-bg:url("product%20backgrounds/product-background-06.webp")}.workspace[data-company-bg="07"]{--ci-company-bg:url("product%20backgrounds/product-background-07.webp")}.workspace[data-company-bg="08"]{--ci-company-bg:url("product%20backgrounds/product-background-08.webp")}.workspace[data-company-bg="09"]{--ci-company-bg:url("product%20backgrounds/product-background-09.webp")}.workspace[data-company-bg="10"]{--ci-company-bg:url("product%20backgrounds/product-background-10.webp")}
-.workspace[data-company-bg="11"]{--ci-company-bg:url("product%20backgrounds/product-background-11.webp")}.workspace[data-company-bg="12"]{--ci-company-bg:url("product%20backgrounds/product-background-12.webp")}.workspace[data-company-bg="13"]{--ci-company-bg:url("product%20backgrounds/product-background-13.webp")}.workspace[data-company-bg="14"]{--ci-company-bg:url("product%20backgrounds/product-background-14.webp")}.workspace[data-company-bg="15"]{--ci-company-bg:url("product%20backgrounds/product-background-15.webp")}
-.workspace[data-company-bg="16"]{--ci-company-bg:url("product%20backgrounds/product-background-16.webp")}.workspace[data-company-bg="17"]{--ci-company-bg:url("product%20backgrounds/product-background-17.webp")}.workspace[data-company-bg="18"]{--ci-company-bg:url("product%20backgrounds/product-background-18.webp")}.workspace[data-company-bg="19"]{--ci-company-bg:url("product%20backgrounds/product-background-19.webp")}.workspace[data-company-bg="20"]{--ci-company-bg:url("product%20backgrounds/product-background-20.webp")}
-.workspace[data-company-bg="21"]{--ci-company-bg:url("product%20backgrounds/product-background-21.webp")}.workspace[data-company-bg="22"]{--ci-company-bg:url("product%20backgrounds/product-background-22.webp")}.workspace[data-company-bg="23"]{--ci-company-bg:url("product%20backgrounds/product-background-23.webp")}.workspace[data-company-bg="24"]{--ci-company-bg:url("product%20backgrounds/product-background-24.webp")}.workspace[data-company-bg="25"]{--ci-company-bg:url("product%20backgrounds/product-background-25.webp")}
-.workspace.is-entering[data-company-bg]::before{animation:ciCompanyBgSettle 520ms var(--ease-out) both}
-.workspace.is-entering[data-reveal-side][data-company-bg]::before{animation-timing-function:steps(12,end)}
-.workspace.is-entering[data-reveal-side="left"][data-company-bg]::before{animation-name:ciCompanyWaveLeft}.workspace.is-entering[data-reveal-side="right"][data-company-bg]::before{animation-name:ciCompanyWaveRight}.workspace.is-entering[data-reveal-side="top"][data-company-bg]::before{animation-name:ciCompanyWaveTop}.workspace.is-entering[data-reveal-side="bottom"][data-company-bg]::before{animation-name:ciCompanyWaveBottom}
-@keyframes ciCompanyWaveLeft{0%{clip-path:inset(0 100% 0 0);opacity:0}18%{clip-path:inset(0 86% 0 0);opacity:.2}43%{clip-path:inset(0 52% 0 0);opacity:.34}68%{clip-path:inset(0 19% 0 0);opacity:.42}100%{clip-path:inset(0);opacity:.46}}
-@keyframes ciCompanyWaveRight{0%{clip-path:inset(0 0 0 100%);opacity:0}18%{clip-path:inset(0 0 0 86%);opacity:.2}43%{clip-path:inset(0 0 0 52%);opacity:.34}68%{clip-path:inset(0 0 0 19%);opacity:.42}100%{clip-path:inset(0);opacity:.46}}
-@keyframes ciCompanyWaveTop{0%{clip-path:inset(100% 0 0 0);opacity:0}18%{clip-path:inset(86% 0 0 0);opacity:.2}43%{clip-path:inset(52% 0 0 0);opacity:.34}68%{clip-path:inset(19% 0 0 0);opacity:.42}100%{clip-path:inset(0);opacity:.46}}
-@keyframes ciCompanyWaveBottom{0%{clip-path:inset(0 0 100% 0);opacity:0}18%{clip-path:inset(0 0 86% 0);opacity:.2}43%{clip-path:inset(0 0 52% 0);opacity:.34}68%{clip-path:inset(0 0 19% 0);opacity:.42}100%{clip-path:inset(0);opacity:.46}}
-@keyframes ciCompanyBgSettle{from{opacity:0;clip-path:inset(0)}to{opacity:.46;clip-path:inset(0)}}
 .workspace.is-entering .detail>.hero,.workspace.is-entering .detail>.grid4,.workspace.is-entering .detail>.panel,.workspace.is-entering .detail>.company-route-stack{animation:ciProcessingSettle var(--dur-enter) var(--ease-out) both}
 .workspace.is-entering .detail>*:nth-child(1){animation-delay:0ms}.workspace.is-entering .detail>*:nth-child(2){animation-delay:35ms}.workspace.is-entering .detail>*:nth-child(3){animation-delay:55ms}.workspace.is-entering .detail>*:nth-child(4){animation-delay:75ms}.workspace.is-entering .detail>*:nth-child(5){animation-delay:95ms}
 @keyframes ciProcessingSettle{from{opacity:0;transform:translate3d(0,7px,0)}to{opacity:1;transform:none}}
-@media (max-width:900px){.workspace[data-company-bg]::before{background-position:center top;opacity:.36}.workspace[data-company-bg]::after{background:linear-gradient(180deg,color-mix(in srgb,var(--paper-3) 66%,transparent),color-mix(in srgb,var(--paper-2) 50%,transparent))}}
-@media (prefers-reduced-motion:reduce){.workspace[data-company-bg]::before{opacity:.34;clip-path:none!important}.workspace.is-entering .detail>*{animation:none!important;filter:none!important;transform:none!important;opacity:1!important}}
+@media (prefers-reduced-motion:reduce){.workspace.is-entering .detail>*{animation:none!important;filter:none!important;transform:none!important;opacity:1!important}}
 
-/* Final live tuning: the supplied company image should read as the workspace
-   backdrop through the frosted pane, not disappear behind solid white cards. */
-.workspace[data-company-bg]::before{opacity:.7}
-.workspace[data-company-bg]::after{background:linear-gradient(120deg,color-mix(in srgb,var(--paper-3) 28%,transparent),color-mix(in srgb,var(--paper-2) 18%,transparent) 48%,color-mix(in srgb,var(--paper-3) 28%,transparent));opacity:.2}
 .detail{background:color-mix(in srgb,var(--paper-3) 42%,transparent)}
 .hero,.panel,.metric,.empty{background:color-mix(in srgb,var(--paper-2) 88%,transparent)}
-@keyframes ciCompanyWaveLeft{0%{clip-path:inset(0 100% 0 0);opacity:0}18%{clip-path:inset(0 86% 0 0);opacity:.28}43%{clip-path:inset(0 52% 0 0);opacity:.48}68%{clip-path:inset(0 19% 0 0);opacity:.62}100%{clip-path:inset(0);opacity:.7}}
-@keyframes ciCompanyWaveRight{0%{clip-path:inset(0 0 0 100%);opacity:0}18%{clip-path:inset(0 0 0 86%);opacity:.28}43%{clip-path:inset(0 0 0 52%);opacity:.48}68%{clip-path:inset(0 0 0 19%);opacity:.62}100%{clip-path:inset(0);opacity:.7}}
-@keyframes ciCompanyWaveTop{0%{clip-path:inset(100% 0 0 0);opacity:0}18%{clip-path:inset(86% 0 0 0);opacity:.28}43%{clip-path:inset(52% 0 0 0);opacity:.48}68%{clip-path:inset(19% 0 0 0);opacity:.62}100%{clip-path:inset(0);opacity:.7}}
-@keyframes ciCompanyWaveBottom{0%{clip-path:inset(0 0 100% 0);opacity:0}18%{clip-path:inset(0 0 86% 0);opacity:.28}43%{clip-path:inset(0 0 52% 0);opacity:.48}68%{clip-path:inset(0 0 19% 0);opacity:.62}100%{clip-path:inset(0);opacity:.7}}
-@keyframes ciCompanyBgSettle{from{opacity:0;clip-path:inset(0)}to{opacity:.7;clip-path:inset(0)}}
-@media (max-width:900px){.workspace[data-company-bg]::before{opacity:.58}.workspace[data-company-bg]::after{background:linear-gradient(180deg,color-mix(in srgb,var(--paper-3) 42%,transparent),color-mix(in srgb,var(--paper-2) 28%,transparent));opacity:.26}}
-@media (prefers-reduced-motion:reduce){.workspace[data-company-bg]::before{opacity:.58;clip-path:none!important}}
 .workspace .rail,.workspace .detail,.workspace .tree-panel,.workspace .list{scrollbar-color:transparent transparent}
 .workspace .rail::-webkit-scrollbar-thumb,.workspace .detail::-webkit-scrollbar-thumb,.workspace .tree-panel::-webkit-scrollbar-thumb,.workspace .list::-webkit-scrollbar-thumb{background:transparent;border-color:transparent}
 .workspace .rail:hover,.workspace .rail:focus-within,.workspace .detail:hover,.workspace .detail:focus-within,.workspace .tree-panel:hover,.workspace .tree-panel:focus-within,.workspace .list:hover,.workspace .list:focus-within{scrollbar-color:var(--rmuted) transparent}
@@ -133,11 +99,9 @@ button:focus-visible,a:focus-visible,input:focus-visible{outline:2px solid var(-
    including controls whose user-agent styles otherwise substitute a system font. */
 html,body,button,input,textarea,select{font-family:"JetBrains Mono","JBM Fallback",ui-monospace,"Cascadia Mono",Consolas,monospace}
 
-/* Owner gate: use the supplied constellation scene only while signed out. The
-   layered tint keeps the copy readable without flattening the artwork. */
-body:has(.gate){background:#172a35 url("login-background.webp") center/cover fixed no-repeat}
+/* Owner gate remains visually distinct without loading decorative artwork. */
+body:has(.gate){background:#172a35}
 body:has(.gate) .gate{position:relative;isolation:isolate;overflow:hidden}
-body:has(.gate) .gate-background{position:fixed;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2;pointer-events:none}
 body:has(.gate)::before{content:"";position:fixed;inset:0;pointer-events:none;background:linear-gradient(115deg,rgba(7,18,25,.72),rgba(10,31,40,.38) 55%,rgba(7,18,25,.66));z-index:0}
 body:has(.gate) .shell{position:relative;z-index:1;background:transparent}
 body:has(.gate) .topbar,body:has(.gate) .statusbar{background:rgba(9,22,29,.62);color:#f7f6f1;border-color:rgba(255,255,255,.25);backdrop-filter:blur(18px) saturate(130%)}
