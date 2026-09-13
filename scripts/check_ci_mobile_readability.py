@@ -41,6 +41,7 @@ def main() -> int:
         (".metric .ci-chart{min-height:70px}", "metric charts need a separate compact mobile floor"),
         (".ci-svg-source{font-size:8.5px}", "legacy chart source labels must stay readable on phones"),
         (".ci-viz-inspector,.ci-viz-record-legend{font-size:12px;line-height:1.55}", "Lieflat inspector text must stay comfortably readable on phones"),
+        (".evidence blockquote,.change-card blockquote,.oi-evidence-row blockquote{max-width:100%;overflow-wrap:anywhere;word-break:break-word}", "long retained evidence text must wrap instead of widening the mobile page"),
         ("scrollbar-color:var(--focus) transparent", "wide mobile tables must expose an internal scroll affordance"),
         ("box-shadow:inset -16px 0 0 color-mix(in srgb,var(--focus) 10%,transparent)", "wide mobile tables must show a right-edge scroll cue"),
         (".baseline-table::-webkit-scrollbar,.fact-table::-webkit-scrollbar,.oi-benchmark-table::-webkit-scrollbar{height:8px}", "wide mobile tables must keep a visible touch-scroll bar"),

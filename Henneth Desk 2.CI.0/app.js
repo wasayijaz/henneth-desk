@@ -2723,9 +2723,37 @@ function renderTimeline(r) {
   const events = r.timeline || [];
   const changes = r.changes || [];
   const brainTimeline = r.company_brain?.timeline || [];
+  const lineageItems = [
+    ...brainTimeline.map(item => item?.date ? {
+      date: item.date,
+      label: `Brain · ${objectTypeLabel(item.type)}`,
+      kind: "event",
+      observed: true,
+      detail: String(item.source_product || "retained company record").replaceAll("_", " "),
+    } : null),
+    ...events.map(event => event?.date ? {
+      date: event.date,
+      label: `Event · ${event.type || "other"}`,
+      kind: "event",
+      observed: true,
+      detail: event.doc_id || `${(event.evidence || []).length} evidence link${(event.evidence || []).length === 1 ? "" : "s"}`,
+    } : null),
+    ...changes.map(change => change?.date ? {
+      date: change.date,
+      label: `Change · ${change.title || change.type || "document revision"}`,
+      kind: "source",
+      observed: true,
+      detail: change.document_id || change.kind || "retained change",
+    } : null),
+  ].filter(Boolean).slice(-24);
+  const chronologyChart = lineageItems.length
+    ? ciChart("dated_lineage", { status: "available", label: "Retained company chronology", items: lineageItems })
+    : ciBlockedChart("blocked_no_dated_company_records", "No dated company records are retained", ["Dated company event", "Dated source change"]);
   return `
     <section class="panel span6"><button type="button" class="overview-back-button" data-research-route="directory_intelligence">Intelligence workspace</button><span class="kicker">Evidence-linked chronology</span><h2>Company timeline</h2>
       <p class="section-note">Deterministically classified from official documents. Priority is an extraction-routing weight, not an investment score.</p>
+      ${chronologyChart}
+      <p class="section-note">The visual places retained events and source changes on their actual calendar dates. It is a record of what was observed, not a forecast.</p>
       <div class="brain-timeline" aria-label="Typed Company Brain timeline">${brainTimeline.length ? brainTimeline.slice(-12).reverse().map(item => `<span><time>${esc(item.date || "undated")}</time><b>${esc(objectTypeLabel(item.type))}</b><small>${esc(String(item.source_product || "source").replaceAll("_", " "))}</small></span>`).join("") : `<p>No typed Brain chronology is available.</p>`}</div>
       <div class="timeline">${events.length ? events.map(event => `<article class="timeline-row">
         <time>${esc(String(event.date || "undated").slice(0, 10))}</time>
@@ -2742,6 +2770,16 @@ function renderChangeIntelligence(r) {
   const digest = r.change_intelligence || {};
   const items = digest.items || [];
   const counts = digest.counts || {};
+  const lineageItems = items.map(item => item?.date ? {
+    date: item.date,
+    label: item.title || item.kind || "Retained change",
+    kind: item.kind === "event" ? "event" : item.kind === "financial" ? "outcome" : "source",
+    observed: true,
+    detail: item.summary || item.document_id || "Source-backed change",
+  } : null).filter(Boolean).slice(-24);
+  const changeChart = lineageItems.length
+    ? ciChart("dated_lineage", { status: "available", label: "Retained changes by date", items: lineageItems })
+    : ciBlockedChart("blocked_no_dated_change_records", "No dated change records are retained", ["Dated official-source change", "Retained change summary"]);
   return `<section class="panel span9">
     <span class="kicker">Official-source change intelligence</span><h2>What changed in the company file</h2>
     <p class="section-note">Built deterministically from official filings, monitored issuer pages, source-linked financial facts and event classifications. This is a research queue, not advice.</p>
@@ -2751,6 +2789,8 @@ function renderChangeIntelligence(r) {
       ${metric("Events", counts.event ?? 0, `${counts.financial ?? 0} financial movements`)}
       ${metric("Source pages", counts.source ?? 0, "same-domain hash changes")}
     </div>
+    ${changeChart}
+    <p class="section-note">Each mark is a retained change record placed on its emitted date; source records and event records stay in separate lanes.</p>
     <div class="change-list">${items.length ? items.map(renderChangeItem).join("") : `<div class="empty">No source-backed change digest item is available for this company yet.</div>`}</div>
   </section>`;
 }
@@ -3073,7 +3113,29 @@ function renderThesisMonitor(r) {
   const theses = Array.isArray(monitor.theses) ? monitor.theses : [];
   const readiness = monitor.financial_readiness || {};
   const status = monitor.status || "unknown";
-  const canonicalStatuses = "Strengthening Stable Weakening Broken";
+  const linkedEventIds = new Set(theses.flatMap(thesis => Array.isArray(thesis.linked_event_ids) ? thesis.linked_event_ids : []));
+  const thesisLineageItems = [
+    ...(Array.isArray(r.timeline) ? r.timeline : []).filter(event => event?.date && linkedEventIds.has(event.event_id)).map(event => ({
+      date: event.date,
+      label: `Linked event · ${event.type || "retained event"}`,
+      kind: "event",
+      observed: true,
+      detail: event.doc_id || "Official-document event",
+    })),
+    ...theses.flatMap(thesis => (Array.isArray(thesis.evidence) ? thesis.evidence : []).map(evidence => {
+      const date = evidence.date || evidence.document_published_at || evidence.event_date || evidence.retrieved_at;
+      return date ? {
+        date,
+        label: `Thesis source · ${thesis.thesis_type || "official thesis"}`,
+        kind: "source",
+        observed: true,
+        detail: evidence.document_id || evidence.source || "Retained source",
+      } : null;
+    })),
+  ].filter(Boolean).slice(-24);
+  const thesisChart = thesisLineageItems.length
+    ? ciChart("dated_lineage", { status: "available", label: "Dated evidence behind active thesis checks", items: thesisLineageItems })
+    : ciBlockedChart("blocked_no_dated_thesis_records", "No dated thesis records are retained", ["Linked official event", "Dated thesis source"]);
   const thesisCards = theses.length ? theses.map(renderThesisCard).join("") : `<div class="empty thesis-empty">No active thesis is being monitored for ${esc(r.symbol)}. Company Intelligence will show a thesis here only after the backend emits one with official-source checks.</div>`;
   return `<section class="panel span9 thesis-shell" aria-labelledby="thesisTitle">
     <button type="button" class="overview-back-button" data-research-route="directory_ownership">Ownership &amp; Peers workspace</button><span class="kicker">Thesis monitor</span><h2 id="thesisTitle">Active thesis checks</h2>
@@ -3085,6 +3147,8 @@ function renderThesisMonitor(r) {
       <span>Source clusters <b>${esc(monitor.source_cluster_count ?? 0)}</b></span>
       <span>Financial readiness <b>${esc(readiness.status || "unknown")}</b></span>
     </div>
+    ${thesisChart}
+    <p class="section-note">This line shows only dated events or sources attached to the active thesis. An empty chart means the retained thesis has no usable date, not that the thesis is disproved.</p>
     ${renderManagementDelivery(r)}
     ${thesisCards}
   </section>`;
@@ -3672,6 +3736,21 @@ function renderCiMonitoring(r) {
     ? monitoring.activity
     : {};
   const alerts = Array.isArray(monitoring.alerts) ? monitoring.alerts : [];
+  const monitoringLineageItems = [
+    monitoring.latest_source_at ? { date: monitoring.latest_source_at, label: "Latest retained source", kind: "source", observed: true } : null,
+    monitoring.latest_change_at ? { date: monitoring.latest_change_at, label: "Latest retained change", kind: "source", observed: true } : null,
+    monitoring.latest_event_at ? { date: monitoring.latest_event_at, label: "Latest retained event", kind: "event", observed: true } : null,
+    ...alerts.map(alert => alert?.date ? {
+      date: alert.date,
+      label: alert.title || alert.type || "Monitoring alert",
+      kind: /source|page/i.test(String(alert.type || "")) ? "source" : "event",
+      observed: true,
+      detail: alert.status || alert.reason || "Retained alert",
+    } : null),
+  ].filter(Boolean).slice(-24);
+  const monitoringChart = monitoringLineageItems.length
+    ? ciChart("dated_lineage", { status: "available", label: "Retained monitoring activity by date", items: monitoringLineageItems })
+    : ciBlockedChart("blocked_no_dated_monitoring_records", "No dated monitoring records are retained", ["Latest retained source", "Latest retained change", "Latest retained event"]);
   return `<section class="panel span9 ci-monitoring status-${esc(monitoring.status || "unknown")}" aria-labelledby="ciMonitoringTitle">
     <button type="button" class="overview-back-button" data-research-route="directory_ownership">Ownership &amp; Peers workspace</button><span class="kicker">CI monitoring</span><h2 id="ciMonitoringTitle">Freshness and alert state</h2>
     <p class="section-note">Read-only backend output from row.monitoring. The browser displays emitted freshness, source health, activity counts and source-linked alerts only; it does not calculate status, reduce alerts, score companies, forecast, value the company, or turn this into advice.</p>
@@ -3694,6 +3773,8 @@ function renderCiMonitoring(r) {
       <div><span>Guidance contradictions</span><b>${esc(activity.guidance_contradiction_count ?? "unknown")}</b></div>
       <div><span>Monitored pages</span><b>${esc(sourceHealth.monitored_page_count ?? "unknown")}</b></div>
     </div>
+    ${monitoringChart}
+    <p class="section-note">The visual shows when retained monitoring activity was recorded. It does not turn a watch row into a prediction or an instruction.</p>
     ${renderCiEventWindows(r)}
     ${alerts.length ? `<div class="monitoring-alerts">${alerts.map(renderCiMonitoringAlert).join("")}</div>` : `<div class="monitoring-empty">No backend alert row is active for ${esc(r.symbol)}.</div>`}
   </section>`;
