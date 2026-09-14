@@ -1,5 +1,5 @@
 {
- "updated": "2026-09-14 09:05",
+ "updated": "2026-09-14 09:36",
  "note": "Deterministic evidence pack per PSX sector. Every figure is computed from the desk's own state files - agents debating a sector must cite THIS, never memory. macro_drivers lists only correction-survived relationships; an empty list means no global factor has a demonstrated effect on the sector, which is a finding.",
  "min_members": 3,
  "n_sectors": 32,
@@ -136,9 +136,9 @@
    },
    "valuation": {
     "median_pe": 6.98,
-    "median_fair_gap_pct": -6.15,
-    "n_undervalued": 2,
-    "n_overvalued": 2,
+    "median_fair_gap_pct": -10.95,
+    "n_undervalued": 1,
+    "n_overvalued": 3,
     "n_valued": 8
    },
    "income": {
@@ -217,7 +217,7 @@
      "pe": 16.45,
      "div_yield_pct": 9.94,
      "payout_pct": 160.94,
-     "fair_gap_pct": -58.2,
+     "fair_gap_pct": -58.9,
      "fair_verdict": "overvalued",
      "ttm_dividend_rs": 17.5
     },
@@ -281,8 +281,8 @@
      "pe": 5.81,
      "div_yield_pct": 10.22,
      "payout_pct": 60.09,
-     "fair_gap_pct": 16.1,
-     "fair_verdict": "undervalued",
+     "fair_gap_pct": 7.9,
+     "fair_verdict": "fair",
      "ttm_dividend_rs": 198.0
     },
     {
@@ -297,8 +297,8 @@
      "pe": 7.83,
      "div_yield_pct": 0.78,
      "payout_pct": 6.16,
-     "fair_gap_pct": -10.7,
-     "fair_verdict": "fair",
+     "fair_gap_pct": -37.6,
+     "fair_verdict": "overvalued",
      "ttm_dividend_rs": 10.0
     },
     {
@@ -313,7 +313,7 @@
      "pe": 6.74,
      "div_yield_pct": 3.87,
      "payout_pct": 26.28,
-     "fair_gap_pct": 1.7,
+     "fair_gap_pct": -7.0,
      "fair_verdict": "fair",
      "ttm_dividend_rs": 9.0
     },
@@ -387,7 +387,7 @@
    },
    "valuation": {
     "median_pe": 6.79,
-    "median_fair_gap_pct": 0.9,
+    "median_fair_gap_pct": -1.6,
     "n_undervalued": 1,
     "n_overvalued": 1,
     "n_valued": 3
@@ -499,7 +499,7 @@
      "pe": 4.31,
      "div_yield_pct": 1.8,
      "payout_pct": 7.75,
-     "fair_gap_pct": 49.7,
+     "fair_gap_pct": 45.9,
      "fair_verdict": "undervalued",
      "ttm_dividend_rs": 21.0
     },
@@ -515,7 +515,7 @@
      "pe": 11.03,
      "div_yield_pct": null,
      "payout_pct": null,
-     "fair_gap_pct": -39.3,
+     "fair_gap_pct": -42.2,
      "fair_verdict": "overvalued",
      "ttm_dividend_rs": null
     },
@@ -531,7 +531,7 @@
      "pe": 6.79,
      "div_yield_pct": 7.32,
      "payout_pct": 51.15,
-     "fair_gap_pct": 0.9,
+     "fair_gap_pct": -1.6,
      "fair_verdict": "fair",
      "ttm_dividend_rs": 4.0
     },
@@ -637,7 +637,7 @@
    },
    "valuation": {
     "median_pe": 8.54,
-    "median_fair_gap_pct": -8.85,
+    "median_fair_gap_pct": -11.75,
     "n_undervalued": 1,
     "n_overvalued": 2,
     "n_valued": 4
@@ -759,7 +759,7 @@
      "pe": 8.66,
      "div_yield_pct": null,
      "payout_pct": null,
-     "fair_gap_pct": 4.1,
+     "fair_gap_pct": -1.7,
      "fair_verdict": "fair",
      "ttm_dividend_rs": null
     },
@@ -937,7 +937,7 @@
      "pe": 9.36,
      "div_yield_pct": 0.22,
      "payout_pct": 2.01,
-     "fair_gap_pct": -22.5,
+     "fair_gap_pct": -23.6,
      "fair_verdict": "overvalued",
      "ttm_dividend_rs": 8.5
     },
@@ -1017,7 +1017,7 @@
      "pe": 7.05,
      "div_yield_pct": 1.15,
      "payout_pct": 8.23,
-     "fair_gap_pct": 4.6,
+     "fair_gap_pct": 3.1,
      "fair_verdict": "fair",
      "ttm_dividend_rs": 4.0
     },
@@ -1033,7 +1033,7 @@
      "pe": 8.73,
      "div_yield_pct": null,
      "payout_pct": null,
-     "fair_gap_pct": -2.4,
+     "fair_gap_pct": -4.9,
      "fair_verdict": "fair",
      "ttm_dividend_rs": null
     },
@@ -1049,7 +1049,7 @@
      "pe": 8.12,
      "div_yield_pct": 2.77,
      "payout_pct": 22.73,
-     "fair_gap_pct": 4.2,
+     "fair_gap_pct": 2.9,
      "fair_verdict": "fair",
      "ttm_dividend_rs": 1.25
     },
@@ -1065,7 +1065,7 @@
      "pe": 7.53,
      "div_yield_pct": 0.49,
      "payout_pct": 3.71,
-     "fair_gap_pct": -0.2,
+     "fair_gap_pct": -1.6,
      "fair_verdict": "fair",
      "ttm_dividend_rs": 2.0
     },
@@ -1081,7 +1081,7 @@
      "pe": 8.79,
      "div_yield_pct": 1.93,
      "payout_pct": 17.22,
-     "fair_gap_pct": -15.0,
+     "fair_gap_pct": -16.3,
      "fair_verdict": "overvalued",
      "ttm_dividend_rs": 5.0
     },
@@ -1097,7 +1097,7 @@
      "pe": 8.66,
      "div_yield_pct": null,
      "payout_pct": null,
-     "fair_gap_pct": -3.6,
+     "fair_gap_pct": -6.1,
      "fair_verdict": "fair",
      "ttm_dividend_rs": null
     },
@@ -1161,7 +1161,7 @@
      "pe": 7.89,
      "div_yield_pct": 1.84,
      "payout_pct": 14.73,
-     "fair_gap_pct": -0.7,
+     "fair_gap_pct": -5.1,
      "fair_verdict": "fair",
      "ttm_dividend_rs": 5.5
     },
@@ -1453,7 +1453,7 @@
      "pe": 10.31,
      "div_yield_pct": 4.81,
      "payout_pct": 49.74,
-     "fair_gap_pct": 41.5,
+     "fair_gap_pct": 39.9,
      "fair_verdict": "undervalued",
      "ttm_dividend_rs": 11.45
     },
@@ -1581,7 +1581,7 @@
      "pe": 8.42,
      "div_yield_pct": 18.73,
      "payout_pct": 161.29,
-     "fair_gap_pct": 1.2,
+     "fair_gap_pct": -8.8,
      "fair_verdict": "fair",
      "ttm_dividend_rs": 6.5
     },
@@ -1599,7 +1599,7 @@
      "payout_pct": null,
      "fair_gap_pct": null,
      "fair_verdict": null,
-     "ttm_dividend_rs": null
+     "ttm_dividend_rs": 10.0
     },
     {
      "sym": "LPGL",
@@ -1804,9 +1804,9 @@
    },
    "valuation": {
     "median_pe": 6.32,
-    "median_fair_gap_pct": 11.4,
+    "median_fair_gap_pct": 3.3,
     "n_undervalued": 8,
-    "n_overvalued": 4,
+    "n_overvalued": 5,
     "n_valued": 18
    },
    "income": {
@@ -1956,7 +1956,7 @@
      "pe": 6.27,
      "div_yield_pct": 4.76,
      "payout_pct": 28.41,
-     "fair_gap_pct": 43.3,
+     "fair_gap_pct": 41.7,
      "fair_verdict": "undervalued",
      "ttm_dividend_rs": 7.0
     },
@@ -1972,7 +1972,7 @@
      "pe": 5.66,
      "div_yield_pct": 9.43,
      "payout_pct": 53.39,
-     "fair_gap_pct": 9.7,
+     "fair_gap_pct": 7.7,
      "fair_verdict": "fair",
      "ttm_dividend_rs": 16.0
     },
@@ -1988,7 +1988,7 @@
      "pe": 5.24,
      "div_yield_pct": 10.64,
      "payout_pct": 55.87,
-     "fair_gap_pct": 77.8,
+     "fair_gap_pct": 34.1,
      "fair_verdict": "undervalued",
      "ttm_dividend_rs": 5.75
     },
@@ -2004,7 +2004,7 @@
      "pe": 11.1,
      "div_yield_pct": 5.67,
      "payout_pct": 62.89,
-     "fair_gap_pct": -3.7,
+     "fair_gap_pct": -11.1,
      "fair_verdict": "fair",
      "ttm_dividend_rs": 29.5
     },
@@ -2020,7 +2020,7 @@
      "pe": 8.16,
      "div_yield_pct": 9.01,
      "payout_pct": 74.64,
-     "fair_gap_pct": -36.5,
+     "fair_gap_pct": -36.8,
      "fair_verdict": "overvalued",
      "ttm_dividend_rs": 36.0
     },
@@ -2036,7 +2036,7 @@
      "pe": 6.23,
      "div_yield_pct": 9.31,
      "payout_pct": 57.25,
-     "fair_gap_pct": 133.4,
+     "fair_gap_pct": 131.7,
      "fair_verdict": "undervalued",
      "ttm_dividend_rs": 1.5
     },
@@ -2052,7 +2052,7 @@
      "pe": 6.38,
      "div_yield_pct": 6.9,
      "payout_pct": 44.04,
-     "fair_gap_pct": 11.5,
+     "fair_gap_pct": -1.1,
      "fair_verdict": "fair",
      "ttm_dividend_rs": 6.5
     },
@@ -2068,8 +2068,8 @@
      "pe": 7.84,
      "div_yield_pct": 10.54,
      "payout_pct": 84.1,
-     "fair_gap_pct": -14.9,
-     "fair_verdict": "fair",
+     "fair_gap_pct": -16.2,
+     "fair_verdict": "overvalued",
      "ttm_dividend_rs": 1.25
     },
     {
@@ -2084,9 +2084,9 @@
      "pe": 7.11,
      "div_yield_pct": 7.22,
      "payout_pct": 53.01,
-     "fair_gap_pct": 11.3,
+     "fair_gap_pct": -13.2,
      "fair_verdict": "fair",
-     "ttm_dividend_rs": 24.0
+     "ttm_dividend_rs": 32.0
     },
     {
      "sym": "SCBPL",
@@ -2100,7 +2100,7 @@
      "pe": 10.02,
      "div_yield_pct": 10.1,
      "payout_pct": 104.84,
-     "fair_gap_pct": -33.3,
+     "fair_gap_pct": -34.3,
      "fair_verdict": "overvalued",
      "ttm_dividend_rs": 6.0
     },
@@ -2116,7 +2116,7 @@
      "pe": 6.84,
      "div_yield_pct": 7.68,
      "payout_pct": 52.69,
-     "fair_gap_pct": 69.2,
+     "fair_gap_pct": 42.6,
      "fair_verdict": "undervalued",
      "ttm_dividend_rs": 23.0
     },
@@ -2132,7 +2132,7 @@
      "pe": 4.38,
      "div_yield_pct": null,
      "payout_pct": null,
-     "fair_gap_pct": 48.7,
+     "fair_gap_pct": 44.2,
      "fair_verdict": "undervalued",
      "ttm_dividend_rs": null
     },
@@ -2148,7 +2148,7 @@
      "pe": 5.23,
      "div_yield_pct": 18.78,
      "payout_pct": 99.49,
-     "fair_gap_pct": 41.3,
+     "fair_gap_pct": 19.3,
      "fair_verdict": "undervalued",
      "ttm_dividend_rs": 35.0
     },
@@ -2164,7 +2164,7 @@
      "pe": 6.25,
      "div_yield_pct": 9.38,
      "payout_pct": 59.43,
-     "fair_gap_pct": 106.2,
+     "fair_gap_pct": 75.9,
      "fair_verdict": "undervalued",
      "ttm_dividend_rs": 15.0
     },
@@ -2196,7 +2196,7 @@
      "pe": 16.94,
      "div_yield_pct": null,
      "payout_pct": null,
-     "fair_gap_pct": -60.6,
+     "fair_gap_pct": -61.8,
      "fair_verdict": "overvalued",
      "ttm_dividend_rs": null
     },
@@ -2212,7 +2212,7 @@
      "pe": 5.17,
      "div_yield_pct": 12.0,
      "payout_pct": 62.02,
-     "fair_gap_pct": -5.4,
+     "fair_gap_pct": -5.8,
      "fair_verdict": "fair",
      "ttm_dividend_rs": 12.0
     },
@@ -2228,7 +2228,7 @@
      "pe": 15.95,
      "div_yield_pct": null,
      "payout_pct": null,
-     "fair_gap_pct": -56.6,
+     "fair_gap_pct": -57.9,
      "fair_verdict": "overvalued",
      "ttm_dividend_rs": null
     },
@@ -2244,7 +2244,7 @@
      "pe": 5.15,
      "div_yield_pct": 7.31,
      "payout_pct": 37.13,
-     "fair_gap_pct": 26.6,
+     "fair_gap_pct": 24.3,
      "fair_verdict": "undervalued",
      "ttm_dividend_rs": 1.5
     }
@@ -2271,8 +2271,8 @@
    "valuation": {
     "median_pe": 11.87,
     "median_fair_gap_pct": -41.6,
-    "n_undervalued": 2,
-    "n_overvalued": 4,
+    "n_undervalued": 1,
+    "n_overvalued": 5,
     "n_valued": 7
    },
    "income": {
@@ -2441,8 +2441,8 @@
      "pe": 10.49,
      "div_yield_pct": 6.53,
      "payout_pct": 71.09,
-     "fair_gap_pct": 27.2,
-     "fair_verdict": "undervalued",
+     "fair_gap_pct": -38.7,
+     "fair_verdict": "overvalued",
      "ttm_dividend_rs": 4.5
     },
     {
@@ -2624,17 +2624,17 @@
    ]
   },
   "Fertilizer": {
-   "n_members": 5,
+   "n_members": 6,
    "breadth": {
-    "above_sma50": 0,
+    "above_sma50": 1,
     "advancing_1d": 4
    },
    "returns": {
-    "median_1d_pct": 0.62,
-    "median_20d_pct": -7.77,
+    "median_1d_pct": 0.38,
+    "median_20d_pct": -5.0,
     "best_20d": {
-     "sym": "EFERT",
-     "pct": 1.79
+     "sym": "AGLNCPS",
+     "pct": 9.85
     },
     "worst_20d": {
      "sym": "AGL",
@@ -2643,7 +2643,7 @@
    },
    "valuation": {
     "median_pe": 7.96,
-    "median_fair_gap_pct": 30.05,
+    "median_fair_gap_pct": 29.7,
     "n_undervalued": 3,
     "n_overvalued": 0,
     "n_valued": 4
@@ -2691,6 +2691,22 @@
    ],
    "members": [
     {
+     "sym": "AGLNCPS",
+     "name": "Agritech Non-Voting (Pref) Class A",
+     "close": 43.94,
+     "ret_1d": 0.0,
+     "ret_20d": 9.85,
+     "rsi14": 90.7,
+     "above_sma50": true,
+     "liquidity_rs_m": 0.0,
+     "pe": null,
+     "div_yield_pct": null,
+     "payout_pct": null,
+     "fair_gap_pct": null,
+     "fair_verdict": null,
+     "ttm_dividend_rs": null
+    },
+    {
      "sym": "EFERT",
      "name": "Engro Fertilizers Limited",
      "close": 189.19,
@@ -2702,7 +2718,7 @@
      "pe": 11.89,
      "div_yield_pct": 7.88,
      "payout_pct": 94.1,
-     "fair_gap_pct": 36.8,
+     "fair_gap_pct": 36.1,
      "fair_verdict": "undervalued",
      "ttm_dividend_rs": 12.25
     },
@@ -2718,7 +2734,7 @@
      "pe": 8.88,
      "div_yield_pct": 6.74,
      "payout_pct": 60.25,
-     "fair_gap_pct": 73.8,
+     "fair_gap_pct": 72.9,
      "fair_verdict": "undervalued",
      "ttm_dividend_rs": 41.0
     },
@@ -2750,7 +2766,7 @@
      "pe": 7.04,
      "div_yield_pct": 3.93,
      "payout_pct": 27.65,
-     "fair_gap_pct": 1.7,
+     "fair_gap_pct": -10.1,
      "fair_verdict": "fair",
      "ttm_dividend_rs": 2.5
     },
@@ -2930,7 +2946,7 @@
      "pe": 20.25,
      "div_yield_pct": 7.41,
      "payout_pct": 150.38,
-     "fair_gap_pct": -52.4,
+     "fair_gap_pct": -52.5,
      "fair_verdict": "overvalued",
      "ttm_dividend_rs": 547.0
     },
@@ -2964,7 +2980,7 @@
      "payout_pct": 146.17,
      "fair_gap_pct": -57.8,
      "fair_verdict": "overvalued",
-     "ttm_dividend_rs": 1013.0
+     "ttm_dividend_rs": 1363.0
     },
     {
      "sym": "ISIL",
@@ -3060,7 +3076,7 @@
      "payout_pct": null,
      "fair_gap_pct": null,
      "fair_verdict": null,
-     "ttm_dividend_rs": null
+     "ttm_dividend_rs": 2.5
     },
     {
      "sym": "WAHDAT",
@@ -3106,7 +3122,7 @@
      "pe": 11.69,
      "div_yield_pct": 6.77,
      "payout_pct": 22.52,
-     "fair_gap_pct": 222.9,
+     "fair_gap_pct": 41.5,
      "fair_verdict": "undervalued",
      "ttm_dividend_rs": 30.0
     },
@@ -3170,7 +3186,7 @@
      "pe": 19.81,
      "div_yield_pct": null,
      "payout_pct": null,
-     "fair_gap_pct": -34.8,
+     "fair_gap_pct": -35.4,
      "fair_verdict": "overvalued",
      "ttm_dividend_rs": null
     },
@@ -3273,14 +3289,14 @@
    ]
   },
   "Glass & Ceramics": {
-   "n_members": 7,
+   "n_members": 8,
    "breadth": {
     "above_sma50": 1,
     "advancing_1d": 4
    },
    "returns": {
-    "median_1d_pct": 0.67,
-    "median_20d_pct": -10.47,
+    "median_1d_pct": 0.34,
+    "median_20d_pct": -10.03,
     "best_20d": {
      "sym": "KCL",
      "pct": 26.19
@@ -3395,6 +3411,22 @@
      "ttm_dividend_rs": 4.0
     },
     {
+     "sym": "FRCL",
+     "name": "Frontier Ceramics Limited",
+     "close": 86.82,
+     "ret_1d": 0.0,
+     "ret_20d": -9.58,
+     "rsi14": 37.8,
+     "above_sma50": false,
+     "liquidity_rs_m": 0.2,
+     "pe": null,
+     "div_yield_pct": null,
+     "payout_pct": null,
+     "fair_gap_pct": null,
+     "fair_verdict": null,
+     "ttm_dividend_rs": null
+    },
+    {
      "sym": "TGL",
      "name": "Tariq Glass Industries Limited",
      "close": 171.13,
@@ -3480,7 +3512,7 @@
    },
    "valuation": {
     "median_pe": 5.38,
-    "median_fair_gap_pct": 9.0,
+    "median_fair_gap_pct": 7.9,
     "n_undervalued": 2,
     "n_overvalued": 1,
     "n_valued": 4
@@ -3539,7 +3571,7 @@
      "pe": 5.87,
      "div_yield_pct": 6.5,
      "payout_pct": 36.32,
-     "fair_gap_pct": -2.4,
+     "fair_gap_pct": -3.4,
      "fair_verdict": "fair",
      "ttm_dividend_rs": 2.0
     },
@@ -3715,7 +3747,7 @@
      "pe": 4.88,
      "div_yield_pct": 3.02,
      "payout_pct": 15.1,
-     "fair_gap_pct": 20.4,
+     "fair_gap_pct": 19.2,
      "fair_verdict": "undervalued",
      "ttm_dividend_rs": 5.5
     },
@@ -3779,7 +3811,7 @@
      "pe": 4.31,
      "div_yield_pct": 6.15,
      "payout_pct": 26.46,
-     "fair_gap_pct": 39.8,
+     "fair_gap_pct": 38.3,
      "fair_verdict": "undervalued",
      "ttm_dividend_rs": 1.0
     },
@@ -4149,7 +4181,7 @@
      "pe": 7.6,
      "div_yield_pct": null,
      "payout_pct": null,
-     "fair_gap_pct": 2.0,
+     "fair_gap_pct": -0.9,
      "fair_verdict": "fair",
      "ttm_dividend_rs": null
     },
@@ -4678,7 +4710,7 @@
     "median_pe": 11.51,
     "median_fair_gap_pct": -40.4,
     "n_undervalued": 0,
-    "n_overvalued": 5,
+    "n_overvalued": 3,
     "n_valued": 5
    },
    "income": {
@@ -4771,8 +4803,8 @@
      "pe": 6.5,
      "div_yield_pct": 4.09,
      "payout_pct": 26.08,
-     "fair_gap_pct": -21.7,
-     "fair_verdict": "overvalued",
+     "fair_gap_pct": -2.4,
+     "fair_verdict": "fair",
      "ttm_dividend_rs": 2.0
     },
     {
@@ -4805,7 +4837,7 @@
      "payout_pct": null,
      "fair_gap_pct": null,
      "fair_verdict": null,
-     "ttm_dividend_rs": null
+     "ttm_dividend_rs": 20.75
     },
     {
      "sym": "AKDHL",
@@ -4883,8 +4915,8 @@
      "pe": 8.35,
      "div_yield_pct": null,
      "payout_pct": null,
-     "fair_gap_pct": -24.3,
-     "fair_verdict": "overvalued",
+     "fair_gap_pct": -12.5,
+     "fair_verdict": "fair",
      "ttm_dividend_rs": null
     },
     {
@@ -4901,7 +4933,7 @@
      "payout_pct": null,
      "fair_gap_pct": null,
      "fair_verdict": null,
-     "ttm_dividend_rs": null
+     "ttm_dividend_rs": 0.5
     },
     {
      "sym": "SHFA",
@@ -5572,7 +5604,7 @@
      "pe": 9.14,
      "div_yield_pct": 5.63,
      "payout_pct": 51.69,
-     "fair_gap_pct": -33.5,
+     "fair_gap_pct": -41.7,
      "fair_verdict": "overvalued",
      "ttm_dividend_rs": 30.0
     },
@@ -5588,7 +5620,7 @@
      "pe": 7.7,
      "div_yield_pct": 3.3,
      "payout_pct": 25.87,
-     "fair_gap_pct": 8.8,
+     "fair_gap_pct": 8.0,
      "fair_verdict": "fair",
      "ttm_dividend_rs": 8.5
     }
@@ -5614,7 +5646,7 @@
    },
    "valuation": {
     "median_pe": 4.27,
-    "median_fair_gap_pct": -13.6,
+    "median_fair_gap_pct": -13.9,
     "n_undervalued": 2,
     "n_overvalued": 2,
     "n_valued": 5
@@ -5768,7 +5800,7 @@
      "pe": 4.22,
      "div_yield_pct": 10.31,
      "payout_pct": 44.02,
-     "fair_gap_pct": -13.6,
+     "fair_gap_pct": -13.9,
      "fair_verdict": "fair",
      "ttm_dividend_rs": 33.0
     },
@@ -5784,7 +5816,7 @@
      "pe": 3.83,
      "div_yield_pct": 2.78,
      "payout_pct": 10.78,
-     "fair_gap_pct": 38.6,
+     "fair_gap_pct": 38.2,
      "fair_verdict": "undervalued",
      "ttm_dividend_rs": 10.0
     },
@@ -5848,7 +5880,7 @@
      "pe": 4.27,
      "div_yield_pct": 3.01,
      "payout_pct": 13.07,
-     "fair_gap_pct": 27.9,
+     "fair_gap_pct": 27.5,
      "fair_verdict": "undervalued",
      "ttm_dividend_rs": 3.0
     },
@@ -5880,7 +5912,7 @@
      "pe": 9.34,
      "div_yield_pct": 4.75,
      "payout_pct": 45.17,
-     "fair_gap_pct": -42.6,
+     "fair_gap_pct": -42.8,
      "fair_verdict": "overvalued",
      "ttm_dividend_rs": null
     },
@@ -6135,9 +6167,9 @@
    },
    "valuation": {
     "median_pe": 12.38,
-    "median_fair_gap_pct": -44.15,
-    "n_undervalued": 1,
-    "n_overvalued": 6,
+    "median_fair_gap_pct": -47.1,
+    "n_undervalued": 0,
+    "n_overvalued": 7,
     "n_valued": 8
    },
    "income": {
@@ -6197,8 +6229,8 @@
      "pe": 10.58,
      "div_yield_pct": 4.3,
      "payout_pct": 45.73,
-     "fair_gap_pct": 24.2,
-     "fair_verdict": "undervalued",
+     "fair_gap_pct": 14.7,
+     "fair_verdict": "fair",
      "ttm_dividend_rs": 40.0
     },
     {
@@ -6245,7 +6277,7 @@
      "pe": 12.55,
      "div_yield_pct": 4.18,
      "payout_pct": 53.18,
-     "fair_gap_pct": -41.9,
+     "fair_gap_pct": -46.6,
      "fair_verdict": "overvalued",
      "ttm_dividend_rs": 20.0
     },
@@ -6261,7 +6293,7 @@
      "pe": 11.7,
      "div_yield_pct": 5.4,
      "payout_pct": 63.44,
-     "fair_gap_pct": -46.4,
+     "fair_gap_pct": -45.1,
      "fair_verdict": "overvalued",
      "ttm_dividend_rs": 50.0
     },
@@ -6325,7 +6357,7 @@
      "pe": 9.81,
      "div_yield_pct": 5.26,
      "payout_pct": 52.0,
-     "fair_gap_pct": -25.2,
+     "fair_gap_pct": -47.6,
      "fair_verdict": "overvalued",
      "ttm_dividend_rs": 12.0
     },
@@ -6405,8 +6437,8 @@
      "pe": 12.21,
      "div_yield_pct": 4.91,
      "payout_pct": 60.11,
-     "fair_gap_pct": -8.3,
-     "fair_verdict": "fair",
+     "fair_gap_pct": -41.8,
+     "fair_verdict": "overvalued",
      "ttm_dividend_rs": 6.0
     }
    ]
@@ -6431,9 +6463,9 @@
    },
    "valuation": {
     "median_pe": 12.34,
-    "median_fair_gap_pct": -13.45,
+    "median_fair_gap_pct": -17.7,
     "n_undervalued": 2,
-    "n_overvalued": 2,
+    "n_overvalued": 3,
     "n_valued": 6
    },
    "income": {
@@ -6586,8 +6618,8 @@
      "pe": 10.69,
      "div_yield_pct": 16.46,
      "payout_pct": 179.37,
-     "fair_gap_pct": -13.0,
-     "fair_verdict": "fair",
+     "fair_gap_pct": -21.5,
+     "fair_verdict": "overvalued",
      "ttm_dividend_rs": 2.75
     },
     {
@@ -6602,7 +6634,7 @@
      "pe": 13.99,
      "div_yield_pct": 5.26,
      "payout_pct": 74.26,
-     "fair_gap_pct": 33.3,
+     "fair_gap_pct": 32.3,
      "fair_verdict": "undervalued",
      "ttm_dividend_rs": 1.5
     },
@@ -6618,7 +6650,7 @@
      "pe": 7.56,
      "div_yield_pct": 4.55,
      "payout_pct": 35.09,
-     "fair_gap_pct": -34.8,
+     "fair_gap_pct": -38.0,
      "fair_verdict": "overvalued",
      "ttm_dividend_rs": 7.5
     },
@@ -6666,7 +6698,7 @@
      "pe": 14.39,
      "div_yield_pct": 25.87,
      "payout_pct": 374.33,
-     "fair_gap_pct": 32.5,
+     "fair_gap_pct": 31.4,
      "fair_verdict": "undervalued",
      "ttm_dividend_rs": 4.0
     },
@@ -6937,7 +6969,7 @@
    },
    "valuation": {
     "median_pe": 11.54,
-    "median_fair_gap_pct": -9.95,
+    "median_fair_gap_pct": -10.45,
     "n_undervalued": 1,
     "n_overvalued": 1,
     "n_valued": 2
@@ -6986,7 +7018,7 @@
      "pe": 17.61,
      "div_yield_pct": 6.51,
      "payout_pct": 114.29,
-     "fair_gap_pct": -56.8,
+     "fair_gap_pct": -57.8,
      "fair_verdict": "overvalued",
      "ttm_dividend_rs": 2.58
     },
@@ -7076,7 +7108,7 @@
    },
    "valuation": {
     "median_pe": 4.56,
-    "median_fair_gap_pct": 24.95,
+    "median_fair_gap_pct": 25.6,
     "n_undervalued": 3,
     "n_overvalued": 0,
     "n_valued": 4
@@ -7174,7 +7206,7 @@
      "pe": 3.55,
      "div_yield_pct": 1.91,
      "payout_pct": 7.98,
-     "fair_gap_pct": 56.4,
+     "fair_gap_pct": 58.2,
      "fair_verdict": "undervalued",
      "ttm_dividend_rs": null
     },
@@ -7206,7 +7238,7 @@
      "pe": 4.39,
      "div_yield_pct": 1.53,
      "payout_pct": 7.16,
-     "fair_gap_pct": 19.4,
+     "fair_gap_pct": 20.7,
      "fair_verdict": "undervalued",
      "ttm_dividend_rs": 7.5
     },
@@ -7736,7 +7768,7 @@
      "payout_pct": null,
      "fair_gap_pct": null,
      "fair_verdict": null,
-     "ttm_dividend_rs": null
+     "ttm_dividend_rs": 10.0
     }
    ]
   },
@@ -7992,7 +8024,7 @@
      "payout_pct": 7.94,
      "fair_gap_pct": -68.1,
      "fair_verdict": "overvalued",
-     "ttm_dividend_rs": null
+     "ttm_dividend_rs": 0.05
     },
     {
      "sym": "TPL",
@@ -8038,7 +8070,7 @@
      "pe": 102.43,
      "div_yield_pct": 5.0,
      "payout_pct": 500.0,
-     "fair_gap_pct": -90.6,
+     "fair_gap_pct": -90.9,
      "fair_verdict": "overvalued",
      "ttm_dividend_rs": 0.5
     },
@@ -8054,7 +8086,7 @@
      "pe": 69.29,
      "div_yield_pct": null,
      "payout_pct": null,
-     "fair_gap_pct": -81.8,
+     "fair_gap_pct": -82.8,
      "fair_verdict": "overvalued",
      "ttm_dividend_rs": null
     },
@@ -8070,7 +8102,7 @@
      "pe": 9.31,
      "div_yield_pct": 6.83,
      "payout_pct": 64.19,
-     "fair_gap_pct": 64.5,
+     "fair_gap_pct": 35.2,
      "fair_verdict": "undervalued",
      "ttm_dividend_rs": 6.5
     },
@@ -8086,7 +8118,7 @@
      "pe": 16.18,
      "div_yield_pct": 1.58,
      "payout_pct": 25.54,
-     "fair_gap_pct": -29.8,
+     "fair_gap_pct": -32.0,
      "fair_verdict": "overvalued",
      "ttm_dividend_rs": 2.0
     },
@@ -8182,7 +8214,7 @@
      "pe": 57.33,
      "div_yield_pct": 3.43,
      "payout_pct": 192.31,
-     "fair_gap_pct": -82.2,
+     "fair_gap_pct": -82.8,
      "fair_verdict": "overvalued",
      "ttm_dividend_rs": 1.0
     },
@@ -8269,14 +8301,14 @@
    ]
   },
   "Textile Composite": {
-   "n_members": 32,
+   "n_members": 33,
    "breadth": {
     "above_sma50": 6,
     "advancing_1d": 16
    },
    "returns": {
-    "median_1d_pct": 0.23,
-    "median_20d_pct": -6.46,
+    "median_1d_pct": 0.0,
+    "median_20d_pct": -6.34,
     "best_20d": {
      "sym": "ANTM",
      "pct": 49.47
@@ -8288,7 +8320,7 @@
    },
    "valuation": {
     "median_pe": 8.14,
-    "median_fair_gap_pct": -5.8,
+    "median_fair_gap_pct": -6.45,
     "n_undervalued": 3,
     "n_overvalued": 4,
     "n_valued": 8
@@ -8497,7 +8529,7 @@
      "pe": 13.24,
      "div_yield_pct": 3.76,
      "payout_pct": 49.57,
-     "fair_gap_pct": 4.3,
+     "fair_gap_pct": 3.0,
      "fair_verdict": "fair",
      "ttm_dividend_rs": 3.0
     },
@@ -8563,7 +8595,7 @@
      "payout_pct": null,
      "fair_gap_pct": null,
      "fair_verdict": null,
-     "ttm_dividend_rs": null
+     "ttm_dividend_rs": 5.0
     },
     {
      "sym": "REDCO",
@@ -8574,6 +8606,22 @@
      "rsi14": 49.6,
      "above_sma50": false,
      "liquidity_rs_m": 0.2,
+     "pe": null,
+     "div_yield_pct": null,
+     "payout_pct": null,
+     "fair_gap_pct": null,
+     "fair_verdict": null,
+     "ttm_dividend_rs": null
+    },
+    {
+     "sym": "ANLNV",
+     "name": "Azgard Nine Non-Voting Ordinary Shares",
+     "close": 7.55,
+     "ret_1d": 0.0,
+     "ret_20d": -5.39,
+     "rsi14": 41.8,
+     "above_sma50": false,
+     "liquidity_rs_m": 0.0,
      "pe": null,
      "div_yield_pct": null,
      "payout_pct": null,
@@ -8891,7 +8939,7 @@
    },
    "valuation": {
     "median_pe": 5.45,
-    "median_fair_gap_pct": 5.2,
+    "median_fair_gap_pct": 3.7,
     "n_undervalued": 3,
     "n_overvalued": 3,
     "n_valued": 6
@@ -9087,7 +9135,7 @@
      "pe": 3.48,
      "div_yield_pct": 2.27,
      "payout_pct": 7.86,
-     "fair_gap_pct": 39.2,
+     "fair_gap_pct": 37.2,
      "fair_verdict": "undervalued",
      "ttm_dividend_rs": 1.24
     },
@@ -9327,7 +9375,7 @@
      "pe": 3.34,
      "div_yield_pct": 1.58,
      "payout_pct": 5.33,
-     "fair_gap_pct": 48.6,
+     "fair_gap_pct": 46.5,
      "fair_verdict": "undervalued",
      "ttm_dividend_rs": null
     },
@@ -9471,7 +9519,7 @@
      "pe": 2.41,
      "div_yield_pct": 3.08,
      "payout_pct": 7.74,
-     "fair_gap_pct": 108.3,
+     "fair_gap_pct": 105.4,
      "fair_verdict": "undervalued",
      "ttm_dividend_rs": null
     },
@@ -9519,7 +9567,7 @@
      "pe": 7.41,
      "div_yield_pct": 1.68,
      "payout_pct": 13.47,
-     "fair_gap_pct": -28.8,
+     "fair_gap_pct": -29.8,
      "fair_verdict": "overvalued",
      "ttm_dividend_rs": 1.0
     },
