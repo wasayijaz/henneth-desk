@@ -1,68 +1,109 @@
 {
- "date": "2026-09-11",
- "headline": "PSX rebounds, but the desk keeps a defensive read while oil stays above USD 100.",
- "tone": "cautious",
- "summary": "Official PSX data confirms the KSE-100 closed September 11 at 170,511.85, up 1,646.81 pts (+0.98%) from the official September 10 close of 168,865.04. The all-stock history refresh changed the live technical screen: only PSEL and PTC remain active after recomputing quant, backtests, fair value, signals and the dashboard. The rebound matters, but it does not erase the macro setup: state/global.json still has Brent 105.66 and WTI 100.76, CPI is 11.1%, and the September 14 MPC remains a hold-or-hike event. The desk's read stays cautious: banks are the cleaner fundamental pocket, E&P has valuation support but timing risk, and live triggers are low-confidence screen names only.",
+ "date": "2026-09-14",
+ "headline": "Oil shock and renewed geopolitical stress leave PSX in defensive mode.",
+ "tone": "defensive",
+ "summary": "PSX closed 1.49% lower at 167970.65 as postponed Strait of Hormuz talks and renewed Middle East tension lifted oil, import-bill and inflation risks; Brent was 108.97 and USD/PKR rose 2.98% on the day. SBP held 11.5% while August CPI was 11.1%, so the desk remains defensive despite stronger reserves and remittances. The screen has two current dashboard setups, NICL and APL, but both need caution; OGDC, POL and HBL remain relative-value watchlist names, not active signals.",
  "sectors": [
   {
-   "name": "Banks",
+   "name": "E&P",
    "stance": "favoured",
-   "why": "UBL and MCB screen attractive in the data layer: UBL P/E 7.11 with a 7.22% covered yield, MCB P/E 8.16 with a 9.01% covered yield. The carry backdrop remains intact while SBP sits at 11.5%, but the desk still treats the group as selective quality exposure."
+   "why": "Higher oil supports E&P relative to other sectors, although the same shock is worsening Pakistan's import bill and inflation outlook."
   },
   {
-   "name": "Oil & Gas E&P",
+   "name": "Banks",
    "stance": "neutral",
-   "why": "OGDC, PPL and POL screen cheap-to-fair with strong margins, and oil above USD 100 is book-supportive. Timing remains the issue: the sector still moved with the risk-off tape during the September 10 flush."
+   "why": "The 11.5% rate hold supports earnings visibility, but risk-off selling and weak recent price action argue for selectivity."
   },
   {
    "name": "OMCs",
    "stance": "avoid",
-   "why": "Higher crude prices raise inventory, working-capital and pricing-pressure risk. The desk keeps this as an avoid pocket until margin and policy visibility improve."
+   "why": "Higher crude and a weaker rupee increase import-cost and margin-timing pressure."
   },
   {
-   "name": "Cement, autos and leveraged cyclicals",
+   "name": "Chemicals",
+   "stance": "neutral",
+   "why": "NICL has a current technical setup and acquisition interest, but its caution-rated fundamentals and thin margin limit conviction."
+  },
+  {
+   "name": "Cement and cyclicals",
    "stance": "avoid",
-   "why": "CPI at 11.1%, no clear MPC easing setup, and the oil/import-cost shock all work against a broad cyclical re-rate."
+   "why": "Fuel-cost pressure and a higher-for-longer rate backdrop remain unfavorable while market risk appetite is weak."
   }
  ],
  "watchlist": [
   {
-   "ticker": "PSEL",
-   "angle": "Proven strategy: macd_bull_zero is active now, with a 60% hit rate over 47 trades and +1.11% net expectancy. Fundamental rating: caution, driven by P/E 131.18, 1% net margin and no dividend. Catalyst: estimated results date 2026-10-02 in state/earnings_calendar.json.",
-   "risk": "Thin average traded value and expensive valuation leave little cushion if the results estimate disappoints."
+   "ticker": "NICL",
+   "angle": "The current dashboard signal is the proven roc60_leader_pullback strategy, with 64.3% historical hit rate and 83.3% out-of-sample hit rate. NICL closed 260.05 above its SMA20 of 259.15 and SMA50 of 243.49. Fundamentals are caution-rated, with a 14.24 P/E and 4.2% net margin, while Cherat Cement's dated 10 September intention to acquire at least 30% remains a conditional catalyst.",
+   "risk": "The setup breaks if the proposed acquisition stalls or price loses SMA20; the thin margin offers little cushion."
   },
   {
-   "ticker": "PTC",
-   "angle": "Proven strategy: atr_stretch_below is active now, with a 68% hit rate over 22 trades and +0.61% net expectancy. Fundamental rating: caution, with trailing P/E 69.29, forward P/E 25.06, 1.5% net margin and no dividend. Catalyst: estimated results date 2026-10-16 in state/earnings_calendar.json.",
-   "risk": "The mean-reversion trigger is fighting weak trailing fundamentals and no payout support."
+   "ticker": "APL",
+   "angle": "The current dashboard signal is the proven lowvol_pullback strategy, with 70.6% historical hit rate and 75% out-of-sample hit rate. APL closed 577.25 above SMA20 of 574.49 and SMA50 of 556.81, while fundamentals show a cheap 4.23 P/E and 10.31% covered yield. A confirmed 13 October book closure provides a dated dividend catalyst, but this remains a relative watch inside an avoided OMC sector.",
+   "risk": "A further oil or rupee shock could compress OMC margins and break the low-volatility trend before the book closure."
+  },
+  {
+   "ticker": "OGDC",
+   "angle": "OGDC has an attractive fundamental rating, including a 5.59 P/E, 54% net margin and 4.58% yield. The recent record FY26 profit and 17.00 per-share annual dividend, plus the 9 September Lundali-1 gas-production update, give the E&P case real catalysts; an estimated 8 October ex-dividend date is also on the calendar. The strategy map contains proven breakout history, but there is no current dashboard trigger and price remains below both SMA20 and SMA50.",
+   "risk": "Persistent oil-driven macro selling could overwhelm the earnings and dividend support while the stock remains below both moving averages."
+  },
+  {
+   "ticker": "POL",
+   "angle": "POL combines an attractive fundamental rating with a proven adx_pdi_expansion strategy map entry showing 66.7% historical hit rate and 58.8% out-of-sample hit rate. Price 718.94 remains above SMA50 of 702.10, though below SMA20 of 726.11. The 6.04 P/E, 13.67% yield and confirmed 13 October book closure support a defensive E&P watch, tempered by the 83.98% payout ratio.",
+   "risk": "A payout-driven earnings disappointment or renewed oil and geopolitical selling would weaken the case."
+  },
+  {
+   "ticker": "HBL",
+   "angle": "HBL has an attractive fundamental rating, a 6.56 P/E, 7.68% covered yield and 52.69% payout ratio. Its strategy map includes the proven squeeze_expansion_long setup with 60% historical and out-of-sample hit rates, and results are estimated for 21 October. The current technical picture is weak, with price 298.77 below SMA20 of 315.05 and SMA50 of 312.75, so this is a recovery radar only.",
+   "risk": "Continued rate-sensitive bank selling or a weak 21 October result could keep the stock below its moving averages."
   }
  ],
  "catalysts": [
   {
-   "date": "2026-09-14",
-   "event": "SBP MPC decision; latest survey distribution was 87.5% hold and 12.5% 50bp hike.",
-   "which_tickers": []
-  },
-  {
-   "date": "2026-10-02",
-   "event": "PSEL results estimate.",
+   "date": "2026-09-10",
+   "event": "Cherat Cement announced an intention to acquire at least 30% of NICL, subject to approvals, diligence and final agreements.",
    "which_tickers": [
-    "PSEL"
+    "NICL",
+    "CHCC"
    ]
   },
   {
-   "date": "2026-10-16",
-   "event": "PTC results estimate.",
+   "date": "2026-09-15",
+   "event": "SBP analyst briefing for the September 14 MPC and IMF fourth EFF review availability window.",
+   "which_tickers": []
+  },
+  {
+   "date": "2026-09-16",
+   "event": "Scheduled SBP release window for August 2026 balance-of-payments data.",
+   "which_tickers": []
+  },
+  {
+   "date": "2026-10-08",
+   "event": "Estimated OGDC ex-dividend date; calendar entry is unconfirmed.",
    "which_tickers": [
-    "PTC"
+    "OGDC"
+   ]
+  },
+  {
+   "date": "2026-10-13",
+   "event": "Confirmed book closures for APL, POL and HUBC.",
+   "which_tickers": [
+    "APL",
+    "POL",
+    "HUBC"
+   ]
+  },
+  {
+   "date": "2026-10-21",
+   "event": "Estimated HBL results date; calendar entry is unconfirmed.",
+   "which_tickers": [
+    "HBL"
    ]
   }
  ],
  "risks": [
-  "Oil above USD 100 is the main macro risk because it hits inflation, the rupee and the import bill at the same time.",
-  "The September 11 rebound follows an official September 10 impact-4 selloff rather than replacing it.",
-  "Both current live technical signals are low-confidence and both watchlist names carry caution-rated fundamentals.",
-  "Estimated company catalysts are unconfirmed and must not be treated as audited event dates."
+  "Further Middle East escalation could lift oil and deepen the import-bill shock.",
+  "Rupee weakness and 11.1% CPI could keep monetary conditions restrictive despite the SBP hold.",
+  "The market rebound thesis could fail after the 1.49% index decline and persistent weakness across banks and cyclicals."
  ],
  "disclaimer": "Research, not advice. The desk generates signals; it does not place orders. Losses are expected."
 }
