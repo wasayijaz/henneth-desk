@@ -107,6 +107,11 @@ then publishes and verifies the runlog/PM acknowledgement through the normal pub
 It holds the shared per-origin `finalization` lane from baseline reads through remote receipt
 verification. Its publisher independently takes the `publish` lane; waiting clones fail closed
 on a stale baseline. Both lanes reuse `PublishLock`, with no publication-lock bypass.
+`wait_for_routine_receipt.py` is the read-only dependency gate for the weekday judgment chain.
+Daily waits for a remotely verified PM receipt and Room waits for a remotely verified Daily
+receipt; each check pairs the receipt with its runlog, proves the research SHA is reachable from
+`origin/main`, and additionally verifies PM's acknowledgement proof. Missing evidence times out
+closed and never triggers an unrelated data refresh.
 `check_research_publication.py` is the hard preflight boundary for prohibited signal execution
 fields and named-ticker Room chair fields. This enforces the existing internal publication policy;
 it does not claim to classify every possible prose recommendation.

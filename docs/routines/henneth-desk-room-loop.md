@@ -13,10 +13,13 @@ assigned `wasayijaz/henneth-desk` routine worktree. Read [REPORTING.md](REPORTIN
 
 1. Synchronize the worktree and record PKT start time. Check `state/calendar.json`; a holiday or
    weekend is a `no-op` with no state or publication changes.
-2. Require the same-session Daily publication and remotely verified runlog receipt or its verified no-op,
-   plus coherent post-close evidence from `python scripts/post_close_integrity.py`. If that gate
-   fails, use the approved single cloud catch-up dispatch, wait, synchronize, and recheck; a failed
-   predecessor or still-failed gate blocks Room publication.
+2. Wait for and verify the same-session Daily receipt with
+   `python scripts/wait_for_routine_receipt.py --routine daily --date <YYYY-MM-DD> --timeout-seconds 5400`.
+   Do not dispatch data while waiting for Daily. After the receipt verifies, synchronize and run
+   `python scripts/post_close_integrity.py`. Dispatch one cloud catch-up only when this integrity
+   check itself fails; never dispatch merely because the Daily receipt is absent. Wait for that
+   exact run, synchronize, and recheck. A timed-out predecessor or still-failed integrity gate
+   blocks Room publication.
 3. Refresh the free Room layer in order: `python scripts/fetch_research.py`,
    `python scripts/room_dossier.py`, `python scripts/room_queue.py`, and
    `python scripts/room_gate.py`. Read `state/room_plan.json` and record `_meta.counts` and the

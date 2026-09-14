@@ -18,9 +18,12 @@ refreshes; this routine owns the checkpoint's judgment and acknowledgement.
 2. Read `state/calendar.json` first. On a weekend or listed holiday, report a `no-op` with no
    judgement work, acknowledgement, runlog change, catch-up dispatch, or publication.
 3. Run `python scripts/post_close_integrity.py` against the dated snapshot before treating any
-   checkpoint as a no-op. If the gate fails, use the approved single `desk-data.yml` catch-up
-   dispatch, wait for it, synchronize again, and recheck. Never run the full cloud data pipeline
-   locally; if the gate remains failed, block publication and report the exact problems.
+   checkpoint as a no-op. If the gate fails, use exactly one authenticated GitHub Actions dispatch
+   for `desk-data.yml` on `wasayijaz/henneth-desk` `main` (the installed `gh workflow run` command,
+   GitHub API, or Actions UI are all valid transports), wait for that exact run, synchronize again,
+   and recheck. This approved zero-cost recovery is part of the routine and must not be abandoned
+   merely because one transport is unavailable. Never run the full cloud data pipeline locally;
+   if the dispatched run or the recheck fails, block publication and report the exact problems.
 4. Read `state/checkpoint_trigger.json`. If it is missing or unreadable, treat the checkpoint as
    required and record the evidence problem. Its embedded `acked_at` is a build-time snapshot;
    `state/checkpoint_ack.json` is the acknowledgement authority. If `checkpoint_required` is false,

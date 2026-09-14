@@ -48,7 +48,10 @@ Every run reads, in order:
   role inline from its repository definition. Never search for another provider's CLI.
 - A required judgment role that neither ran nor was performed inline blocks that routine; it is
   not a successful training result.
-- Research may overlap, but Desk publication is serialized: PM checkpoint, Daily refresh, Desk Room.
+- The weekday judgment chain is dependency-serialized: PM checkpoint, then Daily refresh, then Desk
+  Room. Daily and Room use `scripts/wait_for_routine_receipt.py` against `origin/main`; clock time
+  alone is never predecessor evidence. They do not dispatch data while a predecessor receipt is
+  missing, and a successful catch-up resumes the current routine instead of ending it.
 - Normal activated routines may publish their own verified outputs without asking again. Routines
   marked training-only stop before their first externally visible action.
 - **Standing publication approval (2026-09-13):** after the owner directly approved the Blog and
@@ -73,7 +76,8 @@ Every run reads, in order:
 - Publication slot 1 on trading weekdays.
 - Run `scripts/post_close_integrity.py` before treating the checkpoint trigger as a no-op.
 - If deterministic data is stale, dispatch `desk-data.yml` once, wait, synchronize, and recheck.
-  Never run the full cloud data pipeline locally.
+  Use an existing authenticated GitHub Actions transport and never run the full cloud data pipeline
+  locally. Failure of one dispatch transport is not permission to abandon the approved recovery.
 - Read `state/checkpoint_trigger.json`. A false trigger is a valid no-op only after integrity passes.
 - Run news sentinel. Run monitor only with open positions. Run macro and market analyst only when
   fresh news has impact 4 or higher.
@@ -83,7 +87,8 @@ Every run reads, in order:
 ## Daily refresh
 
 - Publication slot 2 on trading weekdays.
-- Require the same-session PM publication and acknowledgement, or its verified no-op result.
+- Wait up to 60 minutes for the same-session PM receipt and verify its publication, runlog,
+  research SHA and acknowledgement from `origin/main`.
 - Run `scripts/post_close_integrity.py`; use the one-dispatch recovery path when needed.
 - Run exactly news sentinel, macro agent, and market analyst, in that order.
 - Each watchlist name needs a proven strategy, fundamental rating, and dated catalyst.
@@ -92,7 +97,8 @@ Every run reads, in order:
 ## Desk Room
 
 - Publication slot 3 on trading weekdays.
-- Require the same-session Daily publication or verified no-op and coherent post-close evidence.
+- Wait up to 90 minutes for the same-session Daily receipt and verify it from `origin/main` before
+  any Room work or data dispatch.
 - Read `docs/DESK-ROOM-PLAN.md`; debate only `room_plan._meta.run_full_now` within its budget.
 - Run independent chartist and fundamentalist roles in parallel when callable, then bull/bear debate,
   deterministic assembly, verifier QA, translation, scoring, dashboard build, and preflight.

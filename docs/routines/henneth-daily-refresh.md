@@ -16,10 +16,14 @@ operations refresh guidance first.
    pipeline or a second liveness watchdog here.
 2. Read `state/calendar.json` first. A weekend or listed holiday is a deliberate `no-op`: do not
    edit state, dispatch catch-up, run judgment roles, commit, or publish.
-3. Require the same-session PM checkpoint's verified publication and acknowledgement, or its
-   verified no-op result. Run `python scripts/post_close_integrity.py`; if it fails, use the
-   approved single `desk-data.yml` catch-up dispatch, wait, synchronize, and recheck. A failed
-   predecessor or still-failed post-close gate blocks this routine; never publish over it.
+3. Wait for and verify the same-session PM checkpoint receipt with
+   `python scripts/wait_for_routine_receipt.py --routine pm --date <YYYY-MM-DD> --timeout-seconds 3600`.
+   This command fetches `origin/main` and proves the receipt, matching runlog, research SHA, and PM
+   acknowledgement. Do not dispatch data while waiting for PM. After PM verifies, synchronize and
+   run `python scripts/post_close_integrity.py`. Only if that integrity gate fails may this routine
+   use one authenticated `desk-data.yml` catch-up dispatch, wait for that exact run, synchronize,
+   and recheck. A timed-out predecessor or still-failed post-close gate blocks this routine; never
+   publish over it.
 4. Run exactly three judgment roles, in order. For each, use a `gpt-5.6-luna` high subagent when
    callable; otherwise execute the role inline from the committed role description in this runbook.
    - News Sentinel: scan PSX announcements and Pakistani business press for the last two trading
@@ -39,6 +43,9 @@ operations refresh guidance first.
    its outcome. The helper appends and publishes run history, verifies the receipt on origin/main,
    and never rewrites prior entries. Report research and receipt SHAs separately; Room must not
    proceed while receipt publication is outstanding. Daily does not write a checkpoint ack.
+8. A successful catch-up is not completion. After every catch-up, resume at the failed gate and
+   continue through roles, build, research publication, and finalization in the same run. Do not
+   answer a data-freshness question as though it were the routine's completion report.
 
 ## Required result fields
 
