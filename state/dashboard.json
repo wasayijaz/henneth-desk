@@ -1,8 +1,8 @@
 {
- "updated": "2026-09-14 19:49",
+ "updated": "2026-09-14 16:06",
  "regime": "risk-off",
  "geo_risk": {
-  "score": 68,
+  "score": 66,
   "band": "elevated"
  },
  "signals": [
@@ -55,7 +55,7 @@
   },
   {
    "ticker": "GLD",
-   "score": 68.4
+   "score": 67.6
   },
   {
    "ticker": "XLV",
@@ -88,11 +88,6 @@
  ],
  "movers_up": [
   {
-   "ticker": "USVIX",
-   "ret_1d": 12.5,
-   "close": 17.82
-  },
-  {
    "ticker": "MDTL",
    "ret_1d": 10.4,
    "close": 7.64
@@ -111,6 +106,11 @@
    "ticker": "GEMMEL",
    "ret_1d": 10.0,
    "close": 39.28
+  },
+  {
+   "ticker": "CENI",
+   "ret_1d": 10.0,
+   "close": 62.79
   }
  ],
  "movers_down": [
@@ -335,12 +335,6 @@
  "agent_wire": [],
  "runlog_tail": [
   {
-   "started": "2026-09-11T18:39:18+05:00",
-   "mode": "codex-official-close-data-repair",
-   "ended": "2026-09-11T18:39:18+05:00",
-   "outcome": "Owner screenshot check found the underlying data layer still stale after the narrative correction. Refreshed official PSX index levels to KSE-100 170,511.85 for 2026-09-11, market-watch snapshot to 487 symbols, and full stock EOD histories (479 ok, 12 failed; 452 PSX histories at 2026-09-11, 23 global proxies still at 2026-09-10 due their later market session). Recomputed liquidity, quant, predictability, backtests, correlation, fundamentals, fair value, signals, sectors, CI-derived references, public slice and dashboard. Active signals reduced to PSEL and PTC. Final preflight OK with the standing non-gating warning for 102 newly-added universe tickers still backfilling history."
-  },
-  {
    "started": "2026-09-12T20:27:00+05:00",
    "mode": "weekly-harvest-training",
    "ended": "2026-09-12T20:45:48+05:00",
@@ -369,6 +363,14 @@
    "outcome": "risk-off daily read; geo-risk elevated 68; renewed Middle East stress and oil shock keep PSX defensive",
    "routine": "daily",
    "research_sha": "530c63c7516fffe8090a16df8bd78d2d5e5646ec"
+  },
+  {
+   "started": "2026-09-14T19:15:20+05:00",
+   "mode": "room",
+   "ended": "2026-09-14T19:52:22+05:00",
+   "outcome": "Desk Room completed: LUCK and MARI full reviews; CNERGY delta; independent QA and preflight passed",
+   "routine": "room",
+   "research_sha": "8ce20948a6e7f908659353c221296c71db9d78af"
   }
  ]
 }

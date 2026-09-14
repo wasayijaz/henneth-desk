@@ -1,54 +1,48 @@
 {
  "schema_version": 1,
- "generated": "2026-09-14T18:10:44+05:00",
+ "generated": "2026-09-14T21:06:45+05:00",
  "checkpoint_required": true,
- "summary": "4 material item(s) and 1 standing condition(s)",
- "acked_at": "2026-09-11T18:00:19+05:00",
+ "summary": "4 material item(s) since the last checkpoint",
+ "acked_at": "2026-09-14T18:44:07+05:00",
  "counts": {
   "pending": 4,
   "pending_dropped": 0,
-  "standing": 1,
-  "tracked": 6
+  "standing": 0,
+  "tracked": 10
  },
- "standing": [
-  {
-   "kind": "first_of_day",
-   "title": "no checkpoint has run yet today",
-   "detail": "the day's first checkpoint always runs - it is the desk's only news scan"
-  }
- ],
+ "standing": [],
  "pending": [
   {
-   "id": "news_1f6bcb8c5de52d3d",
+   "id": "news_32ac1e0948a1daa4",
    "kind": "news",
-   "symbol": "MACRO, OGDC, PPL, POL",
-   "title": "PSX: KSE-100 sheds over 3,000 points on Middle East conflict, oil surge",
-   "detail": "impact 4 - Business Recorder",
-   "first_seen": "2026-09-14T14:05:16+05:00"
+   "symbol": "KAPCO, ACPL",
+   "title": "Stocks stage mild recovery on value-hunting",
+   "detail": "impact 4 - Dawn",
+   "first_seen": "2026-09-14T21:06:45+05:00"
   },
   {
-   "id": "news_29e281ba47cd4423",
+   "id": "news_39c9105cc5845790",
    "kind": "news",
-   "symbol": "MACRO, PSO, PPL, OGDC",
-   "title": "Oil jumps 6pc to USD107 on supply concerns",
+   "symbol": "MACRO, HUBC, MARI, OGDC",
+   "title": "PSX: KSE-100 sheds over 2,500 points as situation remains tense in ME",
    "detail": "impact 4 - Business Recorder",
-   "first_seen": "2026-09-14T14:05:16+05:00"
+   "first_seen": "2026-09-14T21:06:45+05:00"
   },
   {
-   "id": "news_11a35f1c4d6559ef",
+   "id": "news_768e9379ff1d1295",
    "kind": "news",
-   "symbol": "MACRO",
-   "title": "Official PSX market summary confirms September 10 KSE-100 close",
-   "detail": "impact 4 - PSX",
-   "first_seen": "2026-09-14T14:05:16+05:00"
+   "symbol": "IPAK",
+   "title": "IPAK reports sevenfold surge in FY26 profit",
+   "detail": "impact 4 - Business Recorder",
+   "first_seen": "2026-09-14T21:06:45+05:00"
   },
   {
-   "id": "news_6dbb11ab0b2b4a13",
+   "id": "news_58493ffc3cf67cdf",
    "kind": "news",
-   "symbol": "MACRO, OGDC, PPL, POL",
-   "title": "Oil surges 6%; Brent and US crude both surpass $100 on more tanker attacks",
-   "detail": "impact 4 - Business Recorder",
-   "first_seen": "2026-09-14T14:05:16+05:00"
+   "symbol": "ILP",
+   "title": "Interloop reports FY26 EPS of Rs9.06, final dividend Rs2",
+   "detail": "impact 4 - Dawn",
+   "first_seen": "2026-09-14T21:06:45+05:00"
   }
  ],
  "tracked": {
@@ -57,7 +51,11 @@
   "news_1f6bcb8c5de52d3d": "2026-09-14T14:05:16+05:00",
   "news_29e281ba47cd4423": "2026-09-14T14:05:16+05:00",
   "news_11a35f1c4d6559ef": "2026-09-14T14:05:16+05:00",
-  "news_6dbb11ab0b2b4a13": "2026-09-14T14:05:16+05:00"
+  "news_6dbb11ab0b2b4a13": "2026-09-14T14:05:16+05:00",
+  "news_32ac1e0948a1daa4": "2026-09-14T21:06:45+05:00",
+  "news_39c9105cc5845790": "2026-09-14T21:06:45+05:00",
+  "news_768e9379ff1d1295": "2026-09-14T21:06:45+05:00",
+  "news_58493ffc3cf67cdf": "2026-09-14T21:06:45+05:00"
  },
  "degraded": [],
  "note": "Deterministic checkpoint gate. Research infrastructure, not advice."
