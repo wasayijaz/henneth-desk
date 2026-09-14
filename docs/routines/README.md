@@ -46,6 +46,10 @@ Every run reads, in order:
 - Use the bundled runtime paths returned by `load_workspace_dependencies`.
 - Use Luna High subagents when judgment roles are required and callable. Otherwise perform the
   role inline from its repository definition. Never search for another provider's CLI.
+- A spawned role receives an execution brief that explicitly limits its files and states that the
+  parent routine is already authorized. The role must execute that scoped research directly; a
+  redundant subagent planning checkpoint is handled by the parent and is not a new owner gate.
+  New costs, broader scope, destructive recovery, or a failed safety gate still stop normally.
 - A required judgment role that neither ran nor was performed inline blocks that routine; it is
   not a successful training result.
 - The weekday judgment chain is dependency-serialized: PM checkpoint, then Daily refresh, then Desk
@@ -100,6 +104,10 @@ Every run reads, in order:
 - Wait up to 90 minutes for the same-session Daily receipt and verify it from `origin/main` before
   any Room work or data dispatch.
 - Read `docs/DESK-ROOM-PLAN.md`; debate only `room_plan._meta.run_full_now` within its budget.
+- The freshly generated `state/room_plan.json` is authoritative for ticker scope. Scheduler or
+  coordinator ticker names are hints only and must never override the live plan. A direct owner
+  override is accepted only when it explicitly references the freshly generated plan; otherwise
+  discard unselected scratch outputs before assembly.
 - Run independent chartist and fundamentalist roles in parallel when callable, then bull/bear debate,
   deterministic assembly, verifier QA, translation, scoring, dashboard build, and preflight.
 - If required roles are unavailable, perform them inline or stop as blocked; do not seek another CLI.

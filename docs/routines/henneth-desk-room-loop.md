@@ -23,7 +23,10 @@ assigned `wasayijaz/henneth-desk` routine worktree. Read [REPORTING.md](REPORTIN
 3. Refresh the free Room layer in order: `python scripts/fetch_research.py`,
    `python scripts/room_dossier.py`, `python scripts/room_queue.py`, and
    `python scripts/room_gate.py`. Read `state/room_plan.json` and record `_meta.counts` and the
-   exact `run_full_now[]` list. Never exceed the live `state/budget.json` deep-dive cap.
+   exact `run_full_now[]` list. This freshly generated file is the ticker-scope authority; names in
+   scheduler or coordinator launch text are non-authoritative hints. Override it only when the
+   owner directly references the fresh plan and requests a change. Remove every unselected scratch
+   output before assembly. Never exceed the live `state/budget.json` deep-dive cap.
 4. If `state/research_staging/` contains text documents, run one Librarian role per document. Use
    a Luna-high subagent when callable, otherwise inline the committed role: digest the document by
    content hash, extract only sourced broker/filing claims, merge through the deterministic state
@@ -35,7 +38,9 @@ assigned `wasayijaz/henneth-desk` routine worktree. Read [REPORTING.md](REPORTIN
    and Fundamentalist roles in parallel per ticker; Stage 2 runs one Debate role per ticker after
    every Stage 1 file exists. Each role uses Luna high when callable or its committed inline card.
    Personas must read only the supplied dossier lane, use no memory numbers, and write the prescribed
-   JSON. There is no Chair stage and no per-ticker claims file.
+   JSON. Each role brief states that the approved parent routine authorizes its exact scoped output;
+   the parent handles any redundant role-level planning checkpoint without involving the owner.
+   There is no Chair stage and no per-ticker claims file.
 7. Run `python scripts/room_assemble.py`; missing debate output skips that ticker rather than
    creating a partial room. Run `python scripts/room_verify.py`, then the Verifier role for each
    assembled ticker, using Luna high when callable or the committed inline QA card. A blocked or

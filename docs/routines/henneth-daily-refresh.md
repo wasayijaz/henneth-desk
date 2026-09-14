@@ -26,6 +26,9 @@ operations refresh guidance first.
    publish over it.
 4. Run exactly three judgment roles, in order. For each, use a `gpt-5.6-luna` high subagent when
    callable; otherwise execute the role inline from the committed role description in this runbook.
+   Tell each spawned role that the parent routine is already authorized and give it an exact file
+   boundary; the role performs that scoped state update without asking the owner for another plan
+   approval. The parent may answer a redundant role checkpoint and continue.
    - News Sentinel: scan PSX announcements and Pakistani business press for the last two trading
      days, tag universe tickers, score impact 1–5, and append sourced items to `state/newslog.json`.
    - Macro Analyst: read `state/global.json` and `state/georisk.json`, web-verify domestic facts
