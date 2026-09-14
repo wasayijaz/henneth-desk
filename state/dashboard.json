@@ -1,5 +1,5 @@
 {
- "updated": "2026-09-14 18:41",
+ "updated": "2026-09-14 19:09",
  "regime": "risk-off",
  "geo_risk": {
   "score": 68,
@@ -141,51 +141,6 @@
   }
  ],
  "news": [
-  {
-   "ts": "2026-09-10",
-   "source": "Business Recorder",
-   "headline": "Thatta Cement moves towards restructuring of Pakistan Services Limited",
-   "tickers": [
-    "THCCL",
-    "PSEL"
-   ],
-   "impact": 3,
-   "summary": "Thatta Cement disclosed via PSX notice that it reached an in-principle understanding regarding the proposed restructuring of Pakistan Services Limited, subject to final definitive agreements. No transaction value, final terms or completion timetable disclosed. Logged as impact 3 (notable corporate restructuring development, still conditional).",
-   "url": "https://www.brecorder.com/news/amp/40438836"
-  },
-  {
-   "ts": "2026-09-10",
-   "source": "ProPakistani",
-   "headline": "Cherat Cement announces intention to acquire at least 30% of Nimir Industrial Chemicals",
-   "tickers": [
-    "CHCC",
-    "NICL"
-   ],
-   "impact": 3,
-   "summary": "Cherat Cement announced an intention to acquire at least 30% of Nimir Industrial Chemicals, covering at least 33.177mn NICL shares under a share purchase agreement, subject to regulatory approvals, commercial terms, due diligence and execution of required agreements. Logged as impact 3 (notable proposed acquisition; not yet definitive/closed).",
-   "url": "https://propakistani.pk/2026/09/10/cherat-cement-wants-to-buy-30-stake-in-nimir-industrial-chemicals/"
-  },
-  {
-   "ts": "2026-09-11",
-   "source": "Business Recorder",
-   "headline": "PSX: Buying returns, KSE-100 gains 1% on hopes of easing Middle East tensions",
-   "tickers": [
-    "MACRO",
-    "OGDC",
-    "PPL",
-    "PRL",
-    "NBP",
-    "MCB",
-    "MARI",
-    "MEBL",
-    "UBL",
-    "HUBC",
-    "ATRL"
-   ],
-   "impact": 3,
-   "summary": "KSE-100 recovered on Friday September 11, 2026 to close at 170,511.85, up 1,646.81 points (+0.98%), after an early low of 166,141.17 and a high of 170,764.79. Business Recorder attributed the rebound to reports of Gulf-Iran talks aimed at managing Strait of Hormuz shipping, while noting Brent touched $109.97 and the prior day had dropped 3,078.56 points. Logged as impact 3 (notable rebound below 1%, not a fresh impact-4 shock).",
-   "url": "https://www.brecorder.com/news/40439013/psx-buying-returns-kse-100-up-over-1400-points-on-hopes-of-easing-middle-east-tensions"
-  },
   {
    "ts": "2026-09-11",
    "source": "Business Recorder",
@@ -342,16 +297,43 @@
    "impact": 3,
    "summary": "The SBP Monetary Policy Committee kept the policy rate at 11.5% by a seven-of-ten majority, citing contained external-account pressures alongside increased geopolitical and commodity risks.",
    "url": "https://www.brecorder.com/news/40439161/sbp-keeps-policy-rate-unchanged-at-115"
+  },
+  {
+   "ts": "2026-09-10T21:20:00+05:00",
+   "source": "Business Recorder",
+   "headline": "HBL celebrates 50 years in Bangladesh",
+   "tickers": [
+    "HBL"
+   ],
+   "impact": 2,
+   "summary": "HBL marked 50 years of operations in Bangladesh and said its Bangladesh business now offers end-to-end RMB/CNY account intermediation for cross-border trade; no immediate earnings or transaction value was disclosed.",
+   "url": "https://www.brecorder.com/news/40438882/hbl-celebrates-50-years-in-bangladesh"
+  },
+  {
+   "ts": "2026-09-11T08:39:00+05:00",
+   "source": "Business Recorder",
+   "headline": "IPAK reports sevenfold surge in FY26 profit",
+   "tickers": [
+    "IPAK"
+   ],
+   "impact": 4,
+   "summary": "IPAK Group reported consolidated FY2026 profit after tax of Rs4.95 billion versus Rs664 million previously, EPS of Rs6.73 versus Rs1.64, sales up 23% to Rs42.17 billion, and a recommended Rs2 cash dividend.",
+   "url": "https://www.brecorder.com/news/40438990/ipak-reports-sevenfold-surge-in-fy26-profit"
+  },
+  {
+   "ts": "2026-09-11T07:01:00+05:00",
+   "source": "Dawn",
+   "headline": "Interloop reports FY26 EPS of Rs9.06, final dividend Rs2",
+   "tickers": [
+    "ILP"
+   ],
+   "impact": 4,
+   "summary": "Interloop reported FY26 EPS of Rs9.06, up 129% year-on-year from Rs3.96, and declared a final dividend of Rs2 per share, taking the FY26 payout to Rs4 per share.",
+   "url": "https://www.dawn.com/news/2028998"
   }
  ],
  "agent_wire": [],
  "runlog_tail": [
-  {
-   "started": "2026-09-11T17:55:00+05:00",
-   "mode": "codex-heartbeat-training-rebase",
-   "ended": "2026-09-11T17:57:31+05:00",
-   "outcome": "After owner approval to push, the prepared refresh was held behind PM publication slot 1, then rebased onto origin/main's latest PM data before final publication. Dashboard/preflight were rerun on that base; CI/company_intel byproducts were restored out of the Desk refresh delta."
-  },
   {
    "started": "2026-09-11T18:07:40+05:00",
    "mode": "codex-daily-refresh-qa-repair",
@@ -377,6 +359,14 @@
    "outcome": "Weekly broker harvest completed: 2 dated broker calls verified; 1 unlisted IPO lead-manager candidate excluded; Commercial Banks debate reconciled; room QA, dashboard build, Rule 4, provenance, and preflight passed; 102 universe symbols backfilling history and 4 legacy high-severity price-series flags remain.",
    "routine": "harvest",
    "research_sha": "db3b538c3881726d4b39bcdb62a791386c19adc0"
+  },
+  {
+   "started": "2026-09-14T18:26:39+05:00",
+   "mode": "light-escalated",
+   "ended": "2026-09-14T18:44:07+05:00",
+   "outcome": "checkpoint completed; 8 news items appended; 2 high-impact items; macro risk-off; no open positions",
+   "routine": "pm",
+   "research_sha": "86dd02ff130d7b72d4313f17815c085c30178003"
   }
  ]
 }
