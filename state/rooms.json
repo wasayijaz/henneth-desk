@@ -90,7 +90,7 @@
   "built": "2026-08-02 15:48",
   "sessions": 44,
   "note": "Desk Room sessions per ticker; rendered on the ticker page.",
-  "updated": "2026-09-04 18:05",
+  "updated": "2026-09-14 19:25",
   "covered": 50
  },
  "UBL": {
@@ -545,90 +545,94 @@
   }
  },
  "MARI": {
-  "built": "2026-08-26 17:49",
-  "dossier_asof": "2026-08-25",
-  "price_at_session": 668.06,
-  "material_hash": "2af526e9e090",
+  "built": "2026-09-14 19:25",
+  "dossier_asof": "2026-09-14",
+  "price_at_session": 641.4,
+  "material_hash": "2158da12c3cd",
   "ta_memo": {
-   "read": "MARI is consolidating just above a flattened SMA20/SMA50 cluster (665.06/664.72), with price at 668.06 essentially pinned to both averages. RSI14 at 51.5 is neutral, 20-day return is a modest +2.09%, and price sits only 2.02% below its 20-day high. Volatility rank (10.1) and vol_surge (0.28) are both low, pointing to a tight, low-energy range rather than a directional trend.",
-   "structure": "range",
-   "momentum": "flat",
-   "liquidity_note": "Avg daily traded value of ~Rs575.7m is solid for PSX large-caps, supporting clean entry/exit without much friction.",
-   "proven_now": [
-    "52-week high breakout",
-    "New 52-week high, low volatility",
-    "Consolidation break",
-    "Bollinger squeeze breakout"
-   ],
+   "read": "The setup is a downtrend: price 641.4 is below SMA20 662.05 and SMA50 662.65, with 1d, 5d, and 20d returns of -1.26%, -3.01%, and -5.42%. RSI14 is 36.0, indicating weak momentum without an extreme reading, and price is 5.95% below its 20-day high. Volume is at 0.75x the reference surge level and volatility rank is 7.0.",
+   "structure": "downtrend",
+   "momentum": "down",
+   "liquidity_note": "Avg daily traded value is 267.6m; the data indicates a liquid trading profile for cleaner entry and exit.",
+   "proven_now": [],
    "levels": {
-    "support": 664.72,
-    "resistance": 681.56
+    "support": null,
+    "resistance": null
    },
-   "technical_stance": "neutral",
-   "read_ur": "MARI ایک چپٹے ہوئے SMA20/SMA50 کے سموچ پر مضبوطی کر رہا ہے (665.06/664.72)، قیمت 668.06 پر بنیادی طور پر دونوں اوسطوں سے جڑی ہوئی ہے۔ RSI14 51.5 پر غیر جانبدار ہے، 20 روز کی واپسی معمولی +2.09% ہے، اور قیمت اپنی 20 روز کی بلند ترین قیمت سے صرف 2.02% نیچے ہے۔ اتار چڑھاؤ کا درجہ (10.1) اور vol_surge (0.28) دونوں کم ہیں، جو ایک تنگ، کم توانائی والی رینج کی طرف اشارہ کرتے ہیں سمتی رجحان کے بجائے۔",
-   "read_ur_hash": "f105c7a94cab",
-   "liquidity_note_ur": "روزانہ کی تجارت کی اوسط قیمت تقریباً Rs575.7m PSX کے بڑی کمپنیوں کے لیے مضبوط ہے، صاف داخلے/نکاسی کو بغیر زیادہ رگڑ کے سمجھتا ہے۔",
-   "liquidity_note_ur_hash": "8bb30ee8f03d"
+   "technical_stance": "cautious",
+   "read_ur": "یہ سیٹ اپ مندی کا رجحان ہے: قیمت 641.4، SMA20 کے 662.05 اور SMA50 کے 662.65 سے نیچے ہے، جبکہ 1d، 5d اور 20d منافع بالترتیب -1.26%، -3.01% اور -5.42% ہیں۔ RSI14 36.0 ہے، جو شدید نوعیت کی ریڈنگ کے بغیر کمزور رفتار کی نشاندہی کرتا ہے، اور قیمت اپنی 20 روزہ بلند ترین سطح سے 5.95% نیچے ہے۔ حجم حوالہ جاتی اضافے کی سطح کا 0.75x ہے اور اتار چڑھاؤ کی درجہ بندی 7.0 ہے۔",
+   "read_ur_hash": "8e55055d9317",
+   "liquidity_note_ur": "روزانہ اوسط کاروباری مالیت 267.6m ہے؛ اعداد و شمار صاف تر داخلے اور اخراج کے لیے ایک سیال تجارتی پروفائل کی نشاندہی کرتے ہیں۔",
+   "liquidity_note_ur_hash": "bd993acc993d"
   },
   "fa_memo": {
-   "read": "Mari is a highly profitable E&P business — net margin near 60% on revenue of 145.95B — with a covered, moderate dividend. On price tag, the desk's own composite fair value (432.87) sits well below the 668.06 quote, a -35.2% mispricing flagged 'overvalued'; the four valuation methods disagree sharply (relative-PE ~626 vs Graham/DDM 282-444), so the fair-value read should be treated as a range, not a point. Trailing/forward P/E of 9.23/8.98 look mid-pack for PSX and imply modest expected earnings growth. No loss or earnings-quality red flag in the feed.",
+   "read": "The data shows a strong earnings profile, with profitability marked strong and net income representing roughly 60% of revenue. The P/E is described as broadly in line with peers, but the model's composite fair-value assessment finds the security materially rich versus fair value, so peer-relative fairness does not remove the valuation concern. The forward P/E is marginally below trailing P/E, indicating an improving forward view in the supplied data. Dividend coverage looks moderate on the reported payout ratio, but the recent dividend records include distributions above 100% of earnings, making safety mixed rather than unequivocal.",
    "valuation_stance": "rich_vs_fair",
-   "earnings_quality": "Net income 86.88B on revenue 145.95B (~59.5% margin) with positive EPS 72.36 — no loss or dilution flag in the data; EPS basis unspecified.",
-   "dividend_safety": "4.49% trailing yield (Rs30.00/share paid over the last 365 days on price Rs668.06) on a 41.46% payout ratio, with consistent recent interim/final dividend history — looks sustainable at current earnings.",
+   "earnings_quality": "Strong reported profitability: net income is 86.88B on revenue of 145.95B; EPS is positive, though its basis is unknown.",
+   "dividend_safety": "Reported payout ratio is 51.69%; trailing realized dividends of Rs30.00 per share imply a 4.68% yield at the session price of Rs641.40. Recent final/interim records show payouts of 187%, 83%, and 217%; safety is mixed and requires verification.",
    "balance_sheet_flags": [
-    "Debt/leverage figures (total debt, D/E, cash) not in the feed",
-    "Balance-sheet items (assets, liabilities, book value) not in the data",
-    "Beta of 0.15 is unusually low for an E&P name; not independently verifiable from this feed"
+    "Debt, liquidity, and cash-flow coverage are not in the data",
+    "EPS basis is unknown"
    ],
    "broker_view": null,
    "fundamental_stance": "cautious",
-   "read_ur": "Mari ایک بہت منافع بخش E&P کاروبار ہے — 145.95B کی آمدنی پر خالص حاشیہ 60% کے قریب — ایک احاطہ شدہ، اعتدال پسند ڈیویڈنڈ کے ساتھ۔ قیمت کی لحاظ سے، ڈیسک کی اپنی مرکب منصفانہ قدر (432.87) 668.06 کے حوالہ سے بہت نیچے بیٹھی ہے، ایک -35.2% غلط قیمت کاری جو 'مہنگی' ہے؛ چار تجزیاتی طریقے تیزی سے اختلاف رکھتے ہیں (رشتہ دار PE ~626 بمقابلہ Graham/DDM 282-444)، اس لیے منصفانہ قدر کو ایک نقطہ کے بجائے ایک رینج کے طور پر سمجھا جانا چاہیے۔ Trailing/forward P/E 9.23/8.98 PSX کے لیے درمیانی دیکھ رہے ہیں اور معتدل متوقع کمائی کی بڑھتری کو ظاہر کرتے ہیں۔ فیڈ میں نقصان یا کمائی کے معیار میں کوئی سرخ جھنڈا نہیں۔",
-   "read_ur_hash": "72c758fcd856",
-   "earnings_quality_ur": "خالص آمدنی 86.88B 145.95B کی آمدنی پر (~59.5% حاشیہ) مثبت EPS 72.36 کے ساتھ — ڈیٹا میں کوئی نقصان یا پتلا پن جھنڈا نہیں؛ EPS کی بنیاد متعین نہیں۔",
-   "earnings_quality_ur_hash": "143a9664fd76",
-   "dividend_safety_ur": "4.49% trailing yield (Rs30.00/حصہ ماضی کے 365 دنوں میں ادا کیا گیا Rs668.06 کی قیمت پر) 41.46% ادائیگی کے تناسب پر، حالیہ عارضی/حتمی ڈیویڈنڈ کی تاریخ کے ساتھ — موجودہ کمائی پر پائیدار لگتا ہے۔",
-   "dividend_safety_ur_hash": "e521dd83bfb9"
+   "read_ur": "اعداد و شمار مضبوط آمدنی کا پروفائل دکھاتے ہیں، جس میں منافع بخشی کو مضبوط قرار دیا گیا ہے اور خالص آمدنی آمدنی کا تقریباً 60% ہے۔ P/E کو ہم پلہ کمپنیوں کے مطابق عمومی طور پر متوازن بتایا گیا ہے، لیکن ماڈل کی مجموعی منصفانہ قدر کا جائزہ سکیورٹی کو منصفانہ قدر کے مقابلے میں نمایاں طور پر مہنگا پاتا ہے، اس لیے ہم پلہ نسبت میں منصفانہ پن قدر بندی کی تشویش کو ختم نہیں کرتا۔ فارورڈ P/E گزشتہ P/E سے معمولی کم ہے، جو فراہم کردہ اعداد و شمار میں مستقبل کے بہتر ہوتے ہوئے منظرنامے کی نشاندہی کرتا ہے۔ رپورٹ شدہ ادائیگی کے تناسب پر منافع کی کوریج معتدل دکھائی دیتی ہے، لیکن حالیہ منافع کے ریکارڈز میں آمدنی کے 100% سے زیادہ ادائیگیاں شامل ہیں، جس سے تحفظ غیر متفقہ کے بجائے ملا جلا بنتا ہے۔",
+   "read_ur_hash": "0c00dadfa936",
+   "earnings_quality_ur": "رپورٹ شدہ منافع بخشی مضبوط ہے: 145.95B کی آمدنی پر خالص آمدنی 86.88B ہے؛ EPS مثبت ہے، اگرچہ اس کی بنیاد نامعلوم ہے۔",
+   "earnings_quality_ur_hash": "879291903c89",
+   "dividend_safety_ur": "رپورٹ شدہ ادائیگی کا تناسب 51.69% ہے؛ Rs641.40 کی سیشن قیمت پر فی حصص Rs30.00 کے گزشتہ حقیقی منافع سے 4.68% ییلڈ ظاہر ہوتی ہے۔ حالیہ حتمی/عبوری ریکارڈز میں 187%، 83% اور 217% کی ادائیگیاں دکھائی دیتی ہیں؛ تحفظ ملا جلا ہے اور تصدیق درکار ہے۔",
+   "dividend_safety_ur_hash": "298ca00d9411"
   },
   "bull_case": {
-   "thesis": "Mari is a highly profitable, well-covered dividend payer trading at a mid-pack multiple, holding above both its SMA20 (665.06) and SMA50 (664.72) in a tight range just 2.02% below its 20-day high. The desk's own backtests show a real historical edge on breakout setups in this name, and a freshly renewed production lease removes a near-term asset-continuity risk.",
+   "thesis": "Mari combines strong reported profitability with a large-cap, low-beta profile and a marginally improving forward earnings multiple. The supplied operating evidence includes production starting at the MARI-backed Lundali-1 well, while trailing realized dividends imply a 4.68% yield at the session price despite recent price weakness.",
    "pillars": [
-    "Net margin near 60% — net income 86.88B on revenue 145.95B — a highly profitable E&P franchise per the fa_memo scorecard.",
-    "Trailing P/E 9.23 and forward P/E 8.98 sit mid-pack for PSX, with the forward multiple below trailing implying the market expects earnings to grow.",
-    "Dividend yield 4.49% (trailing, Rs30.00/share paid over 365d) on a 41.46% payout ratio, backed by a consistent recent history (217% and 187% final payouts, 83% interim) — the fa_memo calls this 'sustainable at current earnings.'",
-    "Price (668.06) is pinned just above both SMA20/SMA50 with RSI14 neutral at 51.5, and the desk's proven-strategy backtests show '52-week high breakout' (58% hit rate, +2.87% net, n=24) and 'consolidation break' (67% hit rate, +1.24% net, n=30) are currently live setups for this structure.",
-    "Development and Production Lease renewed 2026-08-21 (filing psx:281517), removing a concrete near-term asset-continuity risk for the core E&P business."
+    "Net income of 86.88B on revenue of 145.95B, with profitability marked strong and roughly 60% of revenue retained as profit.",
+    "Forward P/E of 8.80 is below trailing P/E of 8.86, which the supplied data frames as an improving forward view.",
+    "Market capitalisation of 793.97B and beta of 0.14 indicate a large, comparatively less market-sensitive profile.",
+    "Trailing realized dividends of Rs30.00 per share imply a 4.68% yield at the session price of Rs641.40; the reported payout ratio is 51.69%.",
+    "The MARI-backed Lundali-1 well has started gas production in Sindh, providing a concrete operating development."
    ],
-   "best_evidence": "Net margin of ~60% on 145.95B revenue — a hard, sourced profitability number that anchors the dividend and the earnings base independent of any single valuation model.",
-   "what_would_break_it": "The desk's own composite fair value (432.87) sits 35.2% below the current price and three of four valuation methods (Graham 421.8, DDM 282.69, earnings-power 443.93) price the stock well under 668.06 — if the market re-rates toward that range, or if the flat/neutral technical structure (predictability_score only 47.9) fails to resolve into an actual breakout, the bull case has little else propping up the price.",
-   "thesis_ur": "Mari ایک بہت منافع بخش، اچھی طریقے سے احاطہ شدہ ڈیویڈنڈ ادائیگی کنندہ ہے جو درمیانی کثیر میں کاروبار کر رہا ہے، اپنے SMA20 (665.06) اور SMA50 (664.72) دونوں سے اوپر ہے ایک تنگ رینج میں اپنی 20 روز کی بلند ترین قیمت سے صرف 2.02% نیچے۔ ڈیسک کی اپنی backtests اس نام میں بریک آؤٹ سیٹ اپس پر حقیقی تاریخی فائدہ دکھاتے ہیں، اور ایک تازہ طریقے سے نویکرہ شدہ پروڈکشن لیز ایک قریبی ترین وقت کی وسیلہ تسلسل کے خطرے کو ہٹا دیتا ہے۔",
-   "thesis_ur_hash": "637d3111bef9",
-   "best_evidence_ur": "145.95B آمدنی پر ~60% کا خالص حاشیہ — ایک مضبوط، ذریعہ منصفانہ منافع بخش نمبر جو ڈیویڈنڈ اور کمائی کی بنیاد کو کسی بھی واحد تجزیاتی ماڈل سے آزادانہ طور پر لنگر ڈالتا ہے۔",
-   "best_evidence_ur_hash": "35076f87ba98",
-   "what_would_break_it_ur": "ڈیسک کی اپنی مرکب منصفانہ قدر (432.87) موجودہ قیمت سے 35.2% نیچے بیٹھی ہے اور تین سے چار تجزیاتی طریقے (Graham 421.8، DDM 282.69، کمائی کی طاقت 443.93) اسٹاک کو 668.06 سے بہت کم قیمت دیتے ہیں — اگر بازار اس رینج کی طرف دوبارہ درجہ بندی کرتا ہے، یا اگر فلیٹ/غیر جانبدار تکنیکی ڈھانچہ (predictability_score صرف 47.9) ایک حقیقی بریک آؤٹ میں حل نہیں کرتا ہے، تو بل کے کیس کے پاس قیمت کو سہاروا دینے والا اور کچھ بھی نہیں ہے۔",
-   "what_would_break_it_ur_hash": "328c9490f873"
+   "best_evidence": "The strongest support is the reported earnings base: 86.88B of net income against 145.95B of revenue, alongside a P/E of 8.86.",
+   "what_would_break_it": "A failure to sustain reported profitability, or evidence that the unknown EPS basis and incomplete debt, liquidity, and cash-flow data materially overstate earnings quality, would undermine the case.",
+   "thesis_ur": "Mari مضبوط رپورٹ شدہ منافع بخشی کو بڑی کیپ، کم بیٹا پروفائل اور مستقبل کی آمدنی کے معمولی طور پر بہتر ہوتے ہوئے ملٹی پل کے ساتھ یکجا کرتا ہے۔ فراہم کردہ عملیاتی شواہد میں MARI کی حمایت یافتہ Lundali-1 کنویں سے پیداوار کا آغاز شامل ہے، جبکہ گزشتہ حقیقی منافع حالیہ قیمت کی کمزوری کے باوجود سیشن قیمت پر 4.68% ییلڈ ظاہر کرتے ہیں۔",
+   "thesis_ur_hash": "0bced51b6921",
+   "best_evidence_ur": "سب سے مضبوط تائید رپورٹ شدہ آمدنی کی بنیاد ہے: 145.95B کی آمدنی کے مقابلے میں 86.88B خالص آمدنی، اور اس کے ساتھ P/E 8.86۔",
+   "best_evidence_ur_hash": "e6c61de24346",
+   "what_would_break_it_ur": "رپورٹ شدہ منافع بخشی برقرار رکھنے میں ناکامی، یا یہ شواہد کہ نامعلوم EPS کی بنیاد اور نامکمل قرض، لیکویڈیٹی اور نقد بہاؤ کا ڈیٹا آمدنی کے معیار کو نمایاں طور پر بڑھا چڑھا کر پیش کرتا ہے، اس مؤقف کو کمزور کر دے گا۔",
+   "what_would_break_it_ur_hash": "30a98c503d00"
   },
   "bear_case": {
-   "thesis": "Mari is priced well above the desk's own composite fair value, with three of four independent valuation methods well under the quote, and the recent price action is being driven less by company fundamentals than by a volatile, reversible geopolitical oil shock. Technically the stock is flat and only marginally predictable, offering no confirmed edge right now.",
+   "thesis": "The central risk is a large gap between the supplied market price and the model's composite fair-value assessment, while the technical memo shows persistent weakness without a confirmed support level. Strong historical profitability may not protect the valuation if earnings, dividends, or the macro backdrop disappoint.",
    "pillars": [
-    "Composite fair value of 432.87 vs a 668.06 quote is a -35.2% mispricing, flagged 'overvalued' by the desk's own valuation engine.",
-    "Valuation methods sharply disagree: only relative-PE (626.28) supports something near the current price, while Graham (421.8), DDM (282.69) and earnings-power (443.93) all sit 33-58% below it — the bull case leans on the one outlier method.",
-    "Technical structure is a flat range with RSI14 at 51.5, vol_surge only 0.28, and a predictability_score of just 47.9 — barely above a coin flip on the desk's own scale, per the ta_memo's 'neutral' stance.",
-    "Beta of 0.15 is flagged by the fa_memo as 'unusually low for an E&P name' and 'not independently verifiable' — alongside missing debt, leverage and balance-sheet data in the feed, a real opacity gap.",
-    "Price action in the window has been dominated by impact-4/5 geopolitical news (Brent crude spiking past $100/bbl on Iran/Strait-of-Hormuz strikes, then the KSE-100 rallying 7,200+ points on 2026-07-27 as tensions eased) — an external, reversible driver rather than company-specific strength; a 2026-07-30 board meeting was also revoked."
+    "Price of 641.4 is 45.5% above composite fair value of 349.62, whose component methods range from 216.18 to 493.13.",
+    "Price is below SMA20 of 662.05 and SMA50 of 662.65, with 1d, 5d, and 20d returns of -1.26%, -3.01%, and -5.42%.",
+    "RSI14 is 36.0 and price is 5.95% below its 20-day high, indicating weak momentum without an extreme reading; support is unspecified.",
+    "Dividend safety is mixed: recent records show payouts of 187%, 83%, and 217%, despite a reported payout ratio of 51.69%.",
+    "The data omits debt, liquidity, and cash-flow coverage, while EPS basis is unknown."
    ],
-   "attack_on_bull": "The technical/breakout pillar is the weakest: the ta_memo itself labels the current stance 'neutral' with 'flat' momentum, not a live breakout signal. The cited backtests (hit rates 56-67%, samples of only 23-30 trades) describe historical odds under this structure, not a confirmed trigger today — and a 47.9 predictability score means the desk's own model has limited confidence this pattern repeats. Leaning on 'proximity to resistance' as bullish evidence is asserting a signal the data explicitly says is not currently active.",
+   "attack_on_bull": "The bull's forward-view pillar is weakest: the P/E improvement is only 0.06 turns and rests beside an unknown EPS basis, so it does little to explain the 45.5% premium to composite fair value.",
    "broker_challenge": null,
-   "worst_case": "A reversion toward the desk's composite fair value of 432.87 implies roughly -35% from the current 668.06 quote; that risk is compounded by the DDM method (282.69, a further leg down) if the payout ratio or earnings power softens, and by the fact that recent price support has coincided with an oil-price geopolitical premium (Brent >$100/bbl) that has already once reversed sharply within the same month (the 2026-07-27 7,200-point KSE rally on de-escalation).",
-   "thesis_ur": "Mari ڈیسک کی اپنی مرکب منصفانہ قدر سے بہت اوپر قیمت ہے، تین سے چار آزاد تجزیاتی طریقے حوالہ کے نیچے ہیں، اور حالیہ قیمت کی کارروائی کمپنی کی بنیادی چیزوں سے کم حالات زدہ ہے بجائے اس کے ایک اتار چڑھاؤ والے، الٹ سکنے والے جیوپولیٹیکل تیل کے جھٹکے سے۔ تکنیکی طور پر اسٹاک فلیٹ ہے اور صرف معمولی طور پر متوقع ہے، فی الوقت کوئی تصدیق شدہ فائدہ نہیں دے رہا۔",
-   "thesis_ur_hash": "503f2f641fb2",
-   "attack_on_bull_ur": "تکنیکی/بریک آؤٹ ستون سب سے کمزور ہے: ta_memo خود موجودہ موقف کو 'غیر جانبدار' کے ساتھ 'فلیٹ' رفتار کے ساتھ لیبل کرتا ہے، ایک زندہ بریک آؤٹ سگنل نہیں۔ حوالہ شدہ backtests (ہٹ ریٹ 56-67%، صرف 23-30 تجارتوں کے نمونے) اس ڈھانچے کے تحت تاریخی مشکلات کو بیان کرتے ہیں، آج کی ایک تصدیق شدہ ٹریگر نہیں — اور 47.9 predictability score کا مطلب ہے ڈیسک کے اپنے ماڈل کا اس نمونے کے دہرائے جانے میں محدود اعتماد ہے۔ 'مزاحمت کے قریب' پر سہاروا دینا بیلش ثبوت کے طور پر ایک سگنل پر زور دے رہے ہیں جو ڈیٹا واضح طور پر کہتا ہے کہ فی الوقت فعال نہیں ہے۔",
-   "attack_on_bull_ur_hash": "641fb76d7a04"
+   "worst_case": "A valuation re-rating toward the composite fair value of 349.62 would close a quantified 45.5% gap from the supplied price of 641.4; weaker oil or geopolitical conditions could compound that pressure.",
+   "thesis_ur": "مرکزی خطرہ فراہم کردہ مارکیٹ قیمت اور ماڈل کے مجموعی منصفانہ قدر کے جائزے کے درمیان بڑا فرق ہے، جبکہ تکنیکی یادداشت تصدیق شدہ سپورٹ لیول کے بغیر مسلسل کمزوری دکھاتی ہے۔ مضبوط تاریخی منافع بخشی قدر بندی کو محفوظ نہیں رکھ سکتی اگر آمدنی، منافع یا معاشی پس منظر توقعات سے کم رہیں۔",
+   "thesis_ur_hash": "cc2904c6c7be",
+   "attack_on_bull_ur": "مثبت مؤقف کا مستقبل کے منظرنامے والا ستون سب سے کمزور ہے: P/E میں بہتری صرف 0.06 ٹرنز ہے اور نامعلوم EPS کی بنیاد کے ساتھ موجود ہے، اس لیے یہ مجموعی منصفانہ قدر پر 45.5% پریمیم کی وضاحت میں بہت کم مدد دیتی ہے۔",
+   "attack_on_bull_ur_hash": "10116b1c7d46"
   },
-  "reaffirmed": "2026-09-01 17:48",
+  "reaffirmed": false,
   "qa": {
-   "verdict": "fixed",
-   "checked": "2026-08-26",
-   "note": "room-verifier flagged blocked: div_yield 5.54%->4.49% and payout_ratio 51.69%->41.46% did not reconcile with trailing dividends (Rs30.00/share); corrected in fa_memo.dividend_safety and bull_case pillar 3. PE 9.33->9.23 also corrected (low sev). Beta 0.15 flagged as likely feed outlier, no memo change."
+   "ticker": "MARI",
+   "verdict": "clean",
+   "findings": [
+    {
+     "severity": "low",
+     "claim": "Trailing realized dividends of Rs30.00 per share imply a 4.68% yield at the session price of Rs641.40; the reported payout ratio is 51.69%.",
+     "issue": "The deterministic verifier's 5.63% discrepancy refers to the dossier's unrendered upstream vendor div_yield field, a different source basis; it is not a published Room mismatch.",
+     "evidence": "state/verify.json MARI flag; state/dossiers.json MARI fundamental.div_yield=5.63%, recent realized dividends Rs8.30+Rs21.70=Rs30.00, price Rs641.40; state/rooms.json MARI fa_memo.dividend_safety",
+     "fix": "No Room correction. Retain the explicit trailing-realized-yield wording; if the vendor yield is rendered later, label it separately by source basis."
+    }
+   ],
+   "summary": "All rendered MARI Room claims and session metadata match the dossier, with no sourcing gap or advice-language leakage. The only caveat is the unrendered vendor yield basis noted above; the published Rs30.00/4.68% realized-yield claim is correct and does not block publication.",
+   "checked": "2026-09-14 19:36"
   }
  },
  "ENGROH": {
@@ -720,87 +724,85 @@
   }
  },
  "LUCK": {
-  "built": "2026-08-11 17:50",
-  "dossier_asof": "2026-08-11",
-  "price_at_session": 445.11,
-  "material_hash": "0a6d4e5ab5b7",
+  "built": "2026-09-14 19:25",
+  "dossier_asof": "2026-09-14",
+  "price_at_session": 406.18,
+  "material_hash": "fbe8f0cb1881",
   "ta_memo": {
-   "read": "LUCK sits at 445.11, below both its SMA20 (447.28) and SMA50 (452.91), with the 1-day return at -2.04% pulling it further under those averages despite a modest +1.47% 20-day return. RSI14 at 46.8 is neutral, volume surge is subdued at 0.76x, and price is still only 3.06% off its 20-day high, pointing to a pullback within a broader range rather than a decisive trend break.",
-   "structure": "transition",
-   "momentum": "flat",
-   "liquidity_note": "avg_daily_traded_value_m of 824.5 indicates deep liquidity; clean entry/exit is feasible.",
+   "read": "At 406.18, price is in a downtrend, below both the SMA20 at 431.01 and SMA50 at 444.15. RSI14 is 31.1, while the price sits 9.95% below its 20-day high. Recent returns are negative across 1, 5, and 20 sessions, keeping the technical read cautious.",
+   "structure": "downtrend",
+   "momentum": "strong_down",
+   "liquidity_note": "Average daily traded value is 452.7m, indicating substantial liquidity for entering or exiting a position cleanly.",
    "proven_now": [],
    "levels": {
     "support": null,
-    "resistance": 447.28
+    "resistance": null
    },
    "technical_stance": "cautious",
-   "read_ur": "LUCK 445.11 پر ہے، اپنے SMA20 (447.28) اور SMA50 (452.91) دونوں سے نیچے ہے، 1 روزہ واپسی -2.04% کے ساتھ ان اوسط کے نیچے اسے مزید نیچے کھینچتا ہے حالانکہ معمولی +1.47% 20 روزہ واپسی۔ RSI14 46.8 پر غیر جانبدار ہے، حجم میں اضافہ 0.76x پر مختلف ہے، اور قیمت ابھی بھی اپنے 20 روزہ اعلیٰ سے صرف 3.06% دور ہے، وسیع رینج کے اندر ایک واپسی کی نشاندہی کرتے ہوئے بجائے ایک فیصلہ کن رجحان توڑ کے۔",
-   "read_ur_hash": "219551595522",
-   "liquidity_note_ur": "824.5 کی اوسط روزانہ تجارت شدہ قیمت گہری نقدی کی نشاندہی کرتی ہے؛ صاف ستھرا داخلہ/باہر نکلنا ممکن ہے۔",
-   "liquidity_note_ur_hash": "0af8d5501521"
+   "read_ur": "406.18 پر قیمت مندی کے رجحان میں ہے، اور SMA20 کے 431.01 اور SMA50 کے 444.15، دونوں سے نیچے ہے۔ RSI14 31.1 ہے، جبکہ قیمت اپنی 20 روزہ بلند ترین سطح سے 9.95% نیچے ہے۔ 1، 5 اور 20 سیشنز کے حالیہ منافع منفی ہیں، جس کے باعث تکنیکی جائزہ محتاط رہتا ہے۔",
+   "read_ur_hash": "6ec6151fda06",
+   "liquidity_note_ur": "روزانہ اوسط کاروباری مالیت 452.7m ہے، جو کسی پوزیشن میں صاف طور پر داخل ہونے یا اس سے نکلنے کے لیے خاطر خواہ لیکویڈیٹی کی نشاندہی کرتی ہے۔",
+   "liquidity_note_ur_hash": "2baef67a93a8"
   },
   "fa_memo": {
-   "read": "Lucky Cement is a large-cap, solidly profitable business (net margin ~17%, PE 7.35 vs forward PE 6.43 signaling expected earnings growth of 14.3%). The composite fair value (464.23) sits close to price (445.11, mispricing 4.3%), putting it near fair rather than clearly cheap. Valuation methods disagree sharply — Graham (817.63) and relative-PE (551.88) imply much higher value than earnings-power (376.58) or DDM (140.27) — so the 'fair' verdict rests on an average of widely spread inputs. The stated dividend yield (0.88%) is low and the business is not run as an income play; low beta (0.57) suggests defensive price behavior historically, though that is a technical, not fundamental, read.",
+   "read": "Lucky Cement appears fundamentally sound: it is a large-cap cement manufacturer with Rs516.36B revenue, Rs89.04B profit attributable to owners, and a reported net margin of about 17%. The P/E of 6.68 and forward P/E of 6.16 are low headline multiples, but a peer-specific comparison is not in the data. The composite fair value of Rs422.88 is a rough composite screen because the valuation methods span Rs55.92-Rs551.89; it is only 4.1% above the dossier price of Rs406.18, so the model places it near fair rather than clearly cheap. The 8.23% payout ratio and recent final dividends indicate comfortable reported coverage, although the 1.15% yield is modest.",
    "valuation_stance": "near_fair",
-   "earnings_quality": "Net margin ~17% (net income 89.04B / revenue 516.36B), profitable, no loss/negative-EPS flag; forward PE below trailing PE points to improving earnings outlook.",
-   "dividend_safety": "Payout ratio 6.58% and div_yield 0.88% are correct against LUCK's current Rs2 post-split par value (5-for-1 split, April 2025). recent_dividends now reads Rs4.00 (200% of Rs2) and Rs5.00 (250% of Rs2) per share, yielding ~0.90-1.12% at current price -- consistent with div_yield/payout_ratio.",
+   "earnings_quality": "Healthy reported profitability: Rs89.04B profit attributable to owners on Rs516.36B revenue, with an approximately 17% net margin; EPS is Rs60.78 but its basis is unknown.",
+   "dividend_safety": "Reported payout ratio is 8.23%; recent final dividends were Rs4.00 and Rs5.00 with 0.98% and 1.23% yields, indicating comfortable coverage but modest income.",
    "balance_sheet_flags": [
-    "debt/leverage not in the data",
-    "yield inconsistency between div_yield field and recent_dividends yield_pct entries",
-    "wide dispersion across valuation methods (140.27 to 817.63) not reconciled in the feed"
+    "Debt and detailed balance-sheet metrics are not in the data",
+    "EPS basis is unknown",
+    "Valuation methods diverge materially, including a very low DDM estimate"
    ],
-   "broker_view": "Topline names LUCK a FY26 top pick, but the cited target (203k by Dec 2026) is an index-level KSE-100 call, not a stock-specific valuation claim for LUCK, and no track-record annotation is attached to weight its reliability — treat as a directional lean, not evidence on the name itself.",
+   "broker_view": null,
    "fundamental_stance": "constructive",
-   "read_ur": "Lucky Cement ایک بڑی حد کی کمپنی ہے جو مضبوط منافع والی ہے (خالص مارجن ~17%، PE 7.35 بمقابلہ فارورڈ PE 6.43 آمدنی میں متوقع 14.3% اضافہ کا اشارہ دیتا ہے)۔ مجموعی منصفانہ قیمت (464.23) قیمت (445.11، غلط نقطہ نظر 4.3%) کے قریب بیٹھتی ہے، اسے منصفانہ کے بجائے صاف سستا رکھتے ہوئے۔ تقویم طریقے تیزی سے اختلاف رکھتے ہیں — Graham (817.63) اور نسبتی PE (551.88) آمدنی کی طاقت (376.58) یا DDM (140.27) سے بہت زیادہ قیمت ظاہر کرتے ہیں -- اس لیے 'منصفانہ' فیصلہ وسیع پھیلاؤ ان پٹ کی ایک اوسط پر ہے۔ بیان کی ہوئی منافع پیداوار (0.88%) کم ہے اور کاروبار آمدنی کھیل کے طور پر چلائی نہیں گئی ہے؛ کم بیٹا (0.57) تاریخی طور پر دفاعی قیمت برتاؤ کا تجویز دیتا ہے، حالانکہ یہ تکنیکی، بنیادی نہیں، سطح ہے۔",
-   "read_ur_hash": "10b121183611",
-   "earnings_quality_ur": "خالص مارجن ~17% (خالص آمدنی 89.04B / آمدنی 516.36B)، منافع بخش، کوئی نقصان/منفی EPS فلیگ نہیں؛ فارورڈ PE سرانجام PE سے نیچے بہتر ہوتی آمدنی کے نظریہ کی نشاندہی کرتا ہے۔",
-   "earnings_quality_ur_hash": "4d5cb5487989",
-   "dividend_safety_ur": "ادائیگی کا تناسب 6.58% اور div_yield 0.88% LUCK کی موجودہ روپے 2 تقسیم کے بعد پار قیمت کے خلاف صحیح ہیں (5 کے لیے 1 تقسیم، اپریل 2025)۔ حالیہ منافع فی ادائیگی پیداوار_pct داخلہ (5.62%، 4.49%) ایک معروف ڈیٹا لیئر کی خرابی ہے -- پرانی تقسیم سے پہلے روپے 10 پار پر شمار کیا جاتا ہے -- اور تقریباً 5x زیادہ بیان ہیں؛ درست روپے 2 پار پر اصل فی ادائیگی پیداوار قریب تر ~0.9-1.1% ہیں، div_yield/payout_ratio کے ساتھ مطابقت پذیر۔ بنیادیں لیئر ٹھیک کے لیے نشاندہی کی گئی؛ 5.62%/4.49% اعداد و شمار کو حوالہ نہ دیں۔",
-   "dividend_safety_ur_hash": "ead5d450ff4a",
-   "broker_view_ur": "اہم نام LUCK کو ایک FY26 ٹاپ پک، لیکن حوالہ دی ہوئی ہدف (دسمبر 2026 تک 203k) ایک انڈیکس سطح KSE-100 کال ہے، LUCK کے لیے ایک اسٹاک مخصوص تقویم دعویٰ نہیں، اور کوئی ریکارڈ تشریح الحاق نہیں ہے اس کی قابل اعتماری کو وزن میں رکھنے کے لیے -- اسے ایک سمتی لین کے طور پر سلوک کریں، نام خود پر شواہد نہیں۔",
-   "broker_view_ur_hash": "f09bbf038148"
+   "read_ur": "Lucky Cement بنیادی طور پر مضبوط دکھائی دیتا ہے: یہ ایک بڑی کیپ کی سیمنٹ ساز کمپنی ہے، جس کی آمدنی Rs516.36B، مالکان سے منسوب منافع Rs89.04B، اور رپورٹ شدہ خالص مارجن تقریباً 17% ہے۔ P/E 6.68 اور فارورڈ P/E 6.16 کم headline multiples ہیں، لیکن اعداد و شمار میں ہم پلہ کمپنیوں کے ساتھ مخصوص موازنہ موجود نہیں۔ Rs422.88 کی مجموعی منصفانہ قدر ایک تقریبی مشترکہ اسکرین ہے کیونکہ قدر بندی کے طریقے Rs55.92 سے Rs551.89 تک پھیلے ہوئے ہیں؛ یہ Rs406.18 کی ڈوزیئر قیمت سے صرف 4.1% زیادہ ہے، اس لیے ماڈل اسے واضح طور پر سستا قرار دینے کے بجائے منصفانہ قدر کے قریب رکھتا ہے۔ 8.23% ادائیگی کا تناسب اور حالیہ حتمی منافع آرام دہ رپورٹ شدہ کوریج کی نشاندہی کرتے ہیں، اگرچہ 1.15% ییلڈ معمولی ہے۔",
+   "read_ur_hash": "9e7e83775246",
+   "earnings_quality_ur": "رپورٹ شدہ منافع بخشی صحت مند ہے: Rs516.36B کی آمدنی پر مالکان سے منسوب منافع Rs89.04B، اور تقریباً 17% خالص مارجن؛ EPS Rs60.78 ہے، لیکن اس کی بنیاد نامعلوم ہے۔",
+   "earnings_quality_ur_hash": "c51cee0f93ea",
+   "dividend_safety_ur": "رپورٹ شدہ ادائیگی کا تناسب 8.23% ہے؛ حالیہ حتمی منافع Rs4.00 اور Rs5.00 تھے، جن کی ییلڈز 0.98% اور 1.23% تھیں، جو آرام دہ کوریج مگر معمولی آمدنی کی نشاندہی کرتے ہیں۔",
+   "dividend_safety_ur_hash": "919a64e8d7be"
   },
   "bull_case": {
-   "thesis": "LUCK is a large, defensively-positioned cement name trading near fair value with forward earnings visibility improving, and several of its historically proven technical setups have shown positive edge over many occurrences even though none is active right now. The combination of profitability, growth expectations, and deep liquidity supports a constructive research stance for the name.",
+   "thesis": "The strongest constructive case is a large, liquid cement franchise with substantial reported earnings and low headline multiples: Rs89.04B profit attributable to owners on Rs516.36B revenue, P/E 6.68 and forward P/E 6.16. A 0.56 beta, Rs627.71B market cap, and FY26 consolidated profit growth of 14% support a comparatively resilient fundamental profile, despite weak technical momentum.",
    "pillars": [
-    "Forward P/E of 6.43 sits below trailing P/E of 7.35, and the fa_memo reads this gap as earnings expected to grow, consistent with the dossier's growth_est_pct of 14.3%.",
-    "Net margin runs roughly 17% (net income 89.04B on revenue 516.36B), which the fa_memo calls 'healthy' profitability at large-cap scale (market cap 654.86B) with a low beta of 0.57 suggesting historically muted price swings versus the broader market.",
-    "Composite fair value of 464.23 sits close to the 445.11 price (mispricing 4.3%), and the fa_memo's valuation_stance is 'near_fair' rather than overextended.",
-    "The dossier's proven_strategies table shows several patterns with positive historical hit rates on this name, e.g. 'MACD reclaims zero' (70% hit, +2.14% net, n=33) and '50-day EMA defended' (62% hit, +1.35% net, n=66), evidence the name has repeatable technical edges even if none is triggered today.",
-    "avg_daily_traded_value_m of 824.5 gives deep liquidity, which the ta_memo notes allows clean entry/exit — a structural positive for position management."
+    "Reported profitability is substantial: Rs89.04B profit attributable to owners on Rs516.36B revenue, with an approximately 17% net margin.",
+    "Valuation screens on headline multiples: P/E 6.68 and forward P/E 6.16; a peer-specific comparison is not in the data.",
+    "Scale and liquidity are meaningful: Rs627.71B market cap and average daily traded value of Rs452.7M.",
+    "FY26 consolidated profit reportedly increased 14%, while local cement demand was reported to be holding up."
    ],
-   "best_evidence": "Forward P/E (6.43) below trailing P/E (7.35) alongside a 17% net margin and a 14.3% growth estimate together sketch a profitable, moderately-priced large-cap with an improving earnings trajectory rather than a deteriorating one.",
-   "what_would_break_it": "If price continues to fail at SMA20 (447.28) and stays under SMA50 (452.91) with momentum staying 'flat' and proven_now remaining empty (ta_memo shows zero currently-active proven setups), the technical picture offers no supporting edge, and repeated impact-5/impact-4 macro shocks (the dossier logs a 6,400-point Hormuz-driven index drop and a further ~1,100-point drop as recently as today) could keep dragging the name with the broader tape regardless of company fundamentals.",
-   "thesis_ur": "LUCK ایک بڑی، دفاعی طریقے سے منصوبہ بندی کی ہوئی سیمنٹ کا نام ہے جو منصفانہ قیمت کے قریب تجارت کر رہا ہے جس میں فارورڈ آمدنی کی نظر آفاق بہتری ہو رہی ہے، اور اس کے کچھ تاریخی طور پر ثابت شدہ تکنیکی سیٹ اپ بہت بڑے ہوتے ہوئے مثبت کنارہ ظاہر کیے ہیں اگرچہ کوئی بھی ابھی فی الوقت فعال نہیں ہے۔ منافع، اضافہ کے توقعات، اور گہری نقدی کے امتزاج نام کے لیے ایک تعمیری تحقیق کے نقطہ نظر کو معاون کرتے ہیں۔",
-   "thesis_ur_hash": "5cceaef55c2d",
-   "best_evidence_ur": "فارورڈ P/E (6.43) سرانجام P/E (7.35) سے نیچے 17% خالص مارجن اور 14.3% اضافہ کے تخمینے کے ہمراہ ایک منافع بخش، اعتدال سے قیمت کے بڑے حد کی کمپنی کا خاکہ بیان کرتے ہیں جس میں بہتری آنے والی آمدنی کا طریق ہے بجائے بگڑتی ہوئی۔",
-   "best_evidence_ur_hash": "c6bf9c59a766",
-   "what_would_break_it_ur": "اگر قیمت SMA20 (447.28) پر ناکام ہونا جاری رکھے اور SMA50 (452.91) کے نیچے رہے رفتار 'فلیٹ' رہتے ہوئے اور ثابت_اب خالی رہے (ta_memo موجودہ صفر فی الوقت فعال ثابت شدہ سیٹ اپ ظاہر کرتا ہے)، تکنیکی تصویر کوئی معاون کنارہ پیش نہیں کرتی، اور ثابت شدہ اثر 5/اثر 4 میکرو جھنجھناہٹ (ڈوسیئر ایک 6,400 نقطہ Hormuz سے چلنے والے انڈیکس ڈراپ اور آج کے جتنا ہال میں ایک مزید ~1,100 نقطہ ڈراپ لاگ کرتا ہے) کوئی اہم فرق کے بغیر نام کو مجموعی ٹیپ کے ساتھ کھینچتے رہ سکتے ہیں۔",
-   "what_would_break_it_ur_hash": "cb084fe48c3f"
+   "best_evidence": "The combination of Rs89.04B profit attributable to owners, an approximately 17% margin, and a 6.68 P/E gives the constructive case its clearest numerical foundation.",
+   "what_would_break_it": "The case would weaken materially if the downtrend persists below the SMA20 of 431.01 and SMA50 of 444.15, or if macro stress and weaker cement demand undermine the reported earnings profile.",
+   "thesis_ur": "مثبت مؤقف کی مضبوط ترین بنیاد ایک بڑی، سیال سیمنٹ فرنچائز ہے، جس کی رپورٹ شدہ آمدنی نمایاں اور سرخی میں دکھائی دینے والے ملٹی پلز کم ہیں: Rs516.36B کی آمدنی پر مالکان سے منسوب منافع Rs89.04B، P/E 6.68 اور فارورڈ P/E 6.16۔ 0.56 بیٹا، Rs627.71B مارکیٹ کیپ، اور FY26 کے مجموعی منافع میں 14% اضافہ، کمزور تکنیکی رفتار کے باوجود نسبتاً مضبوط بنیادی پروفائل کی تائید کرتے ہیں۔",
+   "thesis_ur_hash": "e954d6b36d9b",
+   "best_evidence_ur": "مالکان سے منسوب Rs89.04B منافع، تقریباً 17% مارجن، اور 6.68 P/E کا امتزاج مثبت مؤقف کو اس کی واضح ترین عددی بنیاد فراہم کرتا ہے۔",
+   "best_evidence_ur_hash": "91d124a0dc26",
+   "what_would_break_it_ur": "اگر 431.01 کے SMA20 اور 444.15 کے SMA50 سے نیچے مندی کا رجحان برقرار رہتا ہے، یا معاشی دباؤ اور سیمنٹ کی کمزور طلب رپورٹ شدہ آمدنی کے پروفائل کو نقصان پہنچاتی ہے، تو یہ مؤقف نمایاں طور پر کمزور ہو جائے گا۔",
+   "what_would_break_it_ur_hash": "916221a7d1cb"
   },
   "bear_case": {
-   "thesis": "LUCK is currently in a technical pullback — below both its SMA20 and SMA50 with flat momentum and zero active proven setups — while its 'fair value' rests on wildly dispersed valuation methods and its dividend data carries an internal inconsistency the feed cannot resolve. Layered on top is a run of high-impact macro/geopolitical news hitting the whole index, which the fundamentals do not insulate against.",
+   "thesis": "The strongest bearish case is that cheap-looking valuation has not translated into a confirmed recovery: price is below the SMA20 and SMA50, down 9.05% over 20 sessions, and RSI14 is 31.1. The modeled margin of safety is narrow because composite fair value is only 4.1% above price and the valuation methods diverge widely.",
    "pillars": [
-    "Price (445.11) sits below both SMA20 (447.28) and SMA50 (452.91), 1-day return is -2.04%, and the ta_memo's technical_stance is explicitly 'cautious' with structure 'transition' and momentum 'flat'.",
-    "The dossier's proven_now list is empty — none of the six historically-profitable strategies in proven_strategies is currently active, meaning there is no live technical edge backing the name today.",
-    "The 'near fair' valuation verdict is built from methods that disagree sharply: Graham (817.63) and relative-PE (551.88) versus earnings-power (376.58) and DDM (140.27) — a roughly 6x spread the fa_memo flags as 'not reconciled in the feed.'",
-    "Leverage/balance-sheet detail isn't in the data (balance_sheet_flags notes this gap). On dividends: payout ratio 6.58% against div_yield 0.88% is unremarkable for a cyclical cement name -- no reliability signal either way.",
-    "Recent news carries two impact-5/impact-4 macro shocks in the past month (a 6,400-point Hormuz-driven index drop on 2026-07-14, a further ~2,690-point drop on 2026-07-23) plus institutional-selling and fading-deal-hopes headlines as recently as today (2026-08-11), showing the tape LUCK trades within is currently volatile and macro-driven."
+    "Technical structure is weak: price is 406.18 versus SMA20 of 431.01 and SMA50 of 444.15, with negative 1-day, 5-day, and 20-day returns.",
+    "The stock is 9.95% below its 20-day high, while the TA memo identifies no confirmed support or resistance levels.",
+    "Valuation is not uniformly compelling: composite fair value is 422.88, only 4.1% above price, while methods range from 55.92 to 551.89.",
+    "Important risk information is absent: debt and detailed balance-sheet metrics are unavailable, and EPS basis is unknown."
    ],
-   "attack_on_bull": "The bull's valuation-based pillar (composite fair value near price, 'near_fair' stance) is the weakest: it's an average across methods spanning 140.27 to 817.63, a roughly six-fold dispersion the fa_memo itself says is unreconciled. A single 'fair' verdict manufactured from that spread tells us the inputs disagree more than they agree — it is not a settled reading of value, and leaning on it as support for a constructive stance overstates what the data actually shows.",
-   "broker_challenge": "The dossier's only broker item (Topline, 2026-07-14) names LUCK a 'FY26 top pick' but the cited number (203k) is a KSE-100 index-level call for Dec 2026, not a stock-specific valuation or estimate for LUCK itself. No track-record annotation is attached to weigh Topline's reliability on cement names specifically, and a sell-side 'top pick' list carries an inherent incentive to generate coverage/flow attention — the fa_memo itself downgrades this to 'a directional lean, not evidence on the name itself,' so it should not be read as fundamental support.",
-   "worst_case": "A continuation of the current setup — price stuck below SMA20/SMA50 with flat momentum and no active proven strategy triggering — combined with further high-impact macro/geopolitical news of the kind already logged twice in the past month (a 6,400-point and a 2,690-point index-wide drop) would mean the name drifts or falls with the broader tape while the 'near fair' valuation anchor itself offers little discipline, given its own methods span from 140.27 to 817.63.",
-   "thesis_ur": "LUCK فی الوقت ایک تکنیکی واپسی میں ہے -- اپنے SMA20 اور SMA50 دونوں کے نیچے رفتار فلیٹ اور صفر فعال ثابت شدہ سیٹ اپ -- جب اس کی 'منصفانہ قیمت' بے دھڑک تقویم طریقوں پر ہے اور اس کا منافع ڈیٹا ایک داخلی عدم مطابقت رکھتا ہے جو کھانا حل کر سکتی ہے۔ اوپری حصے میں ہے اہم اثر میکرو/جیو سیاسی خبریں پوری انڈیکس کو مار رہی ہیں، جو بنیادیں کے خلاف موصل نہیں کرتی۔",
-   "thesis_ur_hash": "f5f5fea8f54f",
-   "attack_on_bull_ur": "بیل کا تقویم پر مبنی ستون (مجموعی منصفانہ قیمت منصفانہ کے قریب، 'near_fair' کا موقف) سب سے کمزور ہے: یہ 140.27 سے 817.63 تک کے طریقوں میں ایک اوسط ہے، تقریباً چھ گنا پھیلاؤ fa_memo خود کہتی ہے غیر حل ہے۔ ایک واحد 'منصفانہ' فیصلہ اس پھیلاؤ سے تیار ہمیں بتاتا ہے ان پٹ اتفاق سے زیادہ اختلاف کرتے ہیں -- یہ قیمت کے ایک حل شدہ پڑھنا نہیں ہے، اور اسے ایک تعمیری موقف کے لیے معاون کے طور پر دیکھنا ڈیٹا اصل میں کیا ظاہر کرتا ہے۔",
-   "attack_on_bull_ur_hash": "4d8e0ac4f19b"
+   "attack_on_bull": "The bull's low-P/E pillar is the weakest: no peer-specific comparison is provided, EPS basis is unknown, and the valuation methods diverge materially, including a DDM estimate of 55.92.",
+   "broker_challenge": null,
+   "worst_case": "A renewed macro shock or cement-demand deterioration could extend the existing decline; the dossier already shows a 9.05% 20-session fall and provides no support level or debt detail to bound the downside.",
+   "thesis_ur": "منفی مؤقف کی مضبوط ترین بنیاد یہ ہے کہ سستی دکھائی دینے والی قدر بندی کی تصدیق شدہ بحالی میں تبدیلی نہیں ہوئی: قیمت SMA20 اور SMA50 سے نیچے ہے، 20 سیشنز میں 9.05% کم ہے، اور RSI14 31.1 ہے۔ حفاظتی مارجن محدود ہے کیونکہ مجموعی منصفانہ قدر قیمت سے صرف 4.1% زیادہ ہے اور قدر بندی کے طریقوں میں وسیع اختلاف ہے۔",
+   "thesis_ur_hash": "986e0d9b07bb",
+   "attack_on_bull_ur": "مثبت مؤقف کا کم P/E والا ستون سب سے کمزور ہے: ہم پلہ کمپنیوں کے ساتھ مخصوص موازنہ فراہم نہیں کیا گیا، EPS کی بنیاد نامعلوم ہے، اور قدر بندی کے طریقوں میں نمایاں اختلاف ہے، جس میں DDM کا تخمینہ 55.92 بھی شامل ہے۔",
+   "attack_on_bull_ur_hash": "a1c9cabe4fc6"
   },
-  "reaffirmed": "2026-08-13 17:48",
+  "reaffirmed": false,
   "qa": {
+   "ticker": "LUCK",
    "verdict": "clean",
-   "checked": "2026-08-11",
-   "note": "Prior high-severity finding (recent_dividends yield_pct 5x overstated, stale pre-split Rs10 par) fixed at the data layer: scripts/fetch_dividends.py now calibrates face value per symbol against dividends_deep.json (Yahoo split-adjusted amounts). LUCK recent_dividends re-verified: Rs4.00/Rs5.00, yields 0.90%/1.12%, consistent with div_yield/payout_ratio. Caveat text simplified back to a plain reading. Composite fair value, mispricing, TA stance, broker-audit language all checked clean."
+   "findings": [],
+   "summary": "Current rendered LUCK claims are clean. Rs89.04B is labeled profit attributable to owners; the unsupported cheapest-third comparison is removed and the peer-data limitation is stated; and Rs422.88 is described as a rough composite screen with valuation methods spanning Rs55.92-Rs551.89. The low-severity valuation-spread warning is therefore adequately caveated.",
+   "checked": "2026-09-14 19:49"
   }
  },
  "HBL": {
@@ -1651,23 +1653,19 @@
  "CNERGY": {
   "built": "2026-08-25 17:49",
   "dossier_asof": "2026-08-25",
-  "price_at_session": 14.27,
+  "price_at_session": 12.81,
   "material_hash": "c4882265b1e7",
   "ta_memo": {
-   "read": "Price (14.27) sits above both SMA20 (12.6) and SMA50 (10.45), consistent with an established uptrend, and RSI14 at 66.5 shows firm but not extreme momentum. The 20-day return of +32.62% has cooled into a -3.52% five-day pullback, with price now about 5.2% below the 20-day high. Volume surge at 0.79 (below average) suggests the recent move lacks fresh participation.",
-   "structure": "uptrend",
-   "momentum": "up",
-   "liquidity_note": "Average daily traded value of ~PKR 1,997.2M is very high, indicating a position could be entered or exited cleanly.",
+   "read": "CNERGY is in transition: price 12.81 is below SMA20 13.97 but above SMA50 11.9. Momentum is down, with 1d/5d/20d returns of -0.93%/-1.61%/-6.36% and RSI14 at 47.6. It sits 20.69% below its 20-day high, leaving the tape well off its recent peak.",
+   "structure": "transition",
+   "momentum": "down",
+   "liquidity_note": "avg_daily_traded_value_m of 2239.2 indicates strong liquidity for orderly position entry and exit.",
    "proven_now": [],
    "levels": {
-    "support": 12.6,
-    "resistance": 15.05
+    "support": 11.9,
+    "resistance": 13.97
    },
-   "technical_stance": "constructive",
-   "read_ur": "قیمت (14.27) SMA20 (12.6) اور SMA50 (10.45) دونوں سے اوپر ہے، جو ایک مضبوط اپ ٹریند کے مطابق ہے، اور RSI14 66.5 پر مضبوط لیکن انتہائی رفتار نہیں دکھاتا۔ 20 روز کی واپسی +32.62% سے -3.52% پانچ روز کی پول بیک میں ٹھنڈی پڑ گئی ہے، قیمت اب 20 روز کی بلندی سے تقریباً 5.2% نیچے ہے۔ 0.79 پر والیوم اضافہ (اوسط سے کم) تجویز کرتا ہے کہ حالیہ حرکت میں نئی شمولیت کی کمی ہے۔",
-   "read_ur_hash": "edc6703e707c",
-   "liquidity_note_ur": "روزانہ کی اوسط تجارت کی قیمت ~PKR 1,997.2M بہت زیادہ ہے، جو اشارہ کرتا ہے کہ پوزیشن صاف ستھرے طریقے سے داخل یا باہر نکالی جا سکتی ہے۔",
-   "liquidity_note_ur_hash": "f5d11451f27e"
+   "technical_stance": "cautious"
   },
   "fa_memo": {
    "read": "Cnergyico is a refiner/marketer trading at P/E 5.25 against 15.28B net income on 340.51B revenue — a thin 4.5% net margin typical of refining, offering little cushion if crack spreads or FX move against it. All three valuation methods in the feed (relative P/E 13.87, earnings power 16.87, Graham 18.2) sit above the 14.27 price, producing a composite fair value of 16.87 and an 18.2% undervalued verdict, though EPS basis is marked 'unknown' so the multiple's reliability is uncertain. There is no dividend, so any return depends entirely on price, and payout/yield fields are both null (not in the data). No broker research digest was provided for this name — only PSX administrative filings (an unusual-movement notice, a Reg 5.6.6A disclosure, Shariah re-certification, and Q3 FY26/9MFY26 results), none of which carry an analytical view to weigh.",
@@ -1729,7 +1727,8 @@
    "verdict": "flags_fixed",
    "checked": "2026-08-25",
    "note": "Verifier found fa_memo mislabeled 31-Mar-2026 filing as Q1 FY26; corrected to Q3 FY26/9MFY26 (9-month results). Price/TA/valuation figures and old pre-decade price glitch confirmed non-material."
-  }
+  },
+  "delta_updated": "2026-09-14 19:22"
  },
  "GHNI": {
   "built": "2026-07-19 13:32",
