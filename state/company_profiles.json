@@ -1,34 +1,34 @@
 {
- "updated": "2026-08-24 18:30",
+ "updated": "2026-09-14 12:32",
  "source": "https://dps.psx.com.pk/company/{symbol}",
  "cadence_days": 30,
  "pilot": {
   "method": "Top 20 PSX research-eligible tickers by liquidity. Keys are desk universe symbols.",
   "target_count": 20,
   "symbols": [
+   "PRL",
    "MLCF",
    "OGDC",
    "PPL",
+   "NRL",
+   "CNERGY",
    "DGKC",
    "PSO",
    "UBL",
-   "FFC",
+   "ATRL",
    "LUCK",
-   "HUBC",
-   "PRL",
    "BOP",
    "NBP",
+   "HUBC",
+   "FFC",
    "MEBL",
-   "ATRL",
    "HBL",
-   "MARI",
    "ENGROH",
    "GAL",
-   "NRL",
-   "CNERGY"
+   "AKBL"
   ],
   "due_this_run": [
-   "CNERGY"
+   "AKBL"
   ]
  },
  "stale": false,
@@ -335,6 +335,20 @@
     "value": "1995-01-09",
     "matched_text": "09 January 1995",
     "context": "incorporated in Pakistan as a public limited company on 09 January 1995 under the repealed Companies Ordinance, 1984 and was granted a certificate of commencement of business on 13 March 1995. The Company is a subsidiary of Bosicorc"
+   },
+   "stale": false
+  },
+  "AKBL": {
+   "symbol": "AKBL",
+   "source": "PSX DPS company page",
+   "source_url": "https://dps.psx.com.pk/company/AKBL",
+   "fetched": "2026-09-14",
+   "business_description": "Askari Bank Limited was incorporated in Pakistan on October 9, 1991 as a Public Limited Company. The Bank is a scheduled commercial bank and is principally engaged in the business of banking as defined in the Banking Companies Ordinance, 1962. The ultimate parent of the Bank is Fauji Foundation.",
+   "incorporation": {
+    "precision": "date",
+    "value": "1991-10-09",
+    "matched_text": "October 9, 1991",
+    "context": "incorporated in Pakistan on October 9, 1991 as a Public Limited Company. The Bank is a scheduled commercial bank and is principally engaged in the business of banking as defined in the Banking Companies Ordinance, 1962. The ultimate"
    },
    "stale": false
   }

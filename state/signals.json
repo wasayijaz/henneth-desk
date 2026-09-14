@@ -1,6 +1,43 @@
 {
- "updated": "2026-09-14 09:36",
+ "updated": "2026-09-14 12:40",
  "note": "deterministic candidate setups from proven strategies triggering on the latest bar; backtest-proven but NOT auditor-verified. Research, not advice.",
- "active": [],
- "n_candidates": 0
+ "active": [
+  {
+   "id": "20260914-NICL-roc60_leader_pullback",
+   "ticker": "NICL",
+   "strategy": "roc60_leader_pullback",
+   "template": "Long-run leader, short pullback",
+   "category": "momentum",
+   "sector": "Chemical",
+   "hold_sessions": 18,
+   "backtest": {
+    "hit_rate": 0.643,
+    "net_expectancy_pct": 1.64,
+    "n": 14,
+    "oos_hit": 0.833
+   },
+   "confidence": "low",
+   "basis": "backtest-proven, unaudited",
+   "thesis": "Long-run leader, short pullback is triggering now; on NICL's own history it won 64% over 14 trades (+1.6% net/trade), still profitable out-of-sample."
+  },
+  {
+   "id": "20260914-APL-lowvol_pullback",
+   "ticker": "APL",
+   "strategy": "lowvol_pullback",
+   "template": "Low-volatility pullback",
+   "category": "volatility",
+   "sector": "Oil & Gas Marketing Companies",
+   "hold_sessions": 10,
+   "backtest": {
+    "hit_rate": 0.706,
+    "net_expectancy_pct": 1.22,
+    "n": 17,
+    "oos_hit": 0.75
+   },
+   "confidence": "medium",
+   "basis": "backtest-proven, unaudited",
+   "thesis": "Low-volatility pullback is triggering now; on APL's own history it won 71% over 17 trades (+1.2% net/trade), still profitable out-of-sample."
+  }
+ ],
+ "n_candidates": 2
 }
