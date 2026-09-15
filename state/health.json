@@ -1,38 +1,36 @@
 {
- "checked": "2026-09-14 16:06",
- "status": "ok",
- "problems": [],
- "advisories": [
-  "dated_last_trade (informational; no suspension inferred): AAL=2024-09-26; AASM=2024-09-26; ABSON=2024-09-26; AMSL=2024-09-26; ANLPS=2024-09-26; ANNT=2024-09-26; APOT=2024-09-26; AWTX=2026-08-24; AZMT=2024-09-26; BIIC=2024-09-26; DBSL=2024-09-26; DCTL=2024-09-26; DKTM=2024-09-26; DMTM=2025-11-14; DSFL=2024-09-26; ENGL=2024-09-26; FAEL=2024-09-26; FCONM=2024-09-26; FIM=2024-09-26; FNBM=2024-09-26; FTHM=2024-09-26; GIL=2024-09-26; GLOT=2024-09-26; GUTM=2024-09-26; HADC=2024-09-26; HAJT=2024-09-26; HATM=2024-09-26; HKKT=2024-09-26; HMIM=2024-09-26; HSPI=2024-11-15; INMF=2024-09-26; KAKL=2024-09-26; MFTM=2024-09-26; MOHE=2024-09-26; MSOTPS=2024-09-26; MUBT=2024-09-26; NAFL=2024-09-26; NINA=2024-09-26; NMFL=2024-09-26; PHDL=2025-01-20; PICL=2024-09-26; PRIB=2024-09-26; PRIC=2024-09-26; REGAL=2024-09-26; SANE=2024-10-04; SCHT=2024-09-26; SDOT=2024-09-26; SFAT=2024-09-26; SGABL=2024-09-26; SHCI=2024-09-26; SLCL=2024-09-26; SLCPA=2024-09-26; SLL=2024-10-31; SPCL=2024-09-26; SSIC=2024-09-26; SURAJ=2024-09-26; SWL=2024-09-26; TAJT=2024-09-26; TRIBL=2024-09-26; USMT=2024-09-26; ZELP=2024-09-26"
+ "checked": "2026-09-15 08:51",
+ "status": "degraded",
+ "problems": [
+  "history refresh failed for SOYASUP",
+  "history freshness proof unavailable (coverage does not contain every source identity); stale history remains gating: AAL=2024-09-26; AASM=2024-09-26; ABSON=2024-09-26; AMSL=2024-09-26; ANLPS=2024-09-26; ANNT=2024-09-26; APOT=2024-09-26; AWTX=2026-08-24; AZMT=2024-09-26; BIIC=2024-09-26; DBSL=2024-09-26; DCTL=2024-09-26; DKTM=2024-09-26; DMTM=2025-11-14; DSFL=2024-09-26; ENGL=2024-09-26; FAEL=2024-09-26; FCONM=2024-09-26; FIM=2024-09-26; FNBM=2024-09-26; FPRMR2=2026-09-02; FTHM=2024-09-26; GIL=2024-09-26; GLOT=2024-09-26; GUTM=2024-09-26; HADC=2024-09-26; HAJT=2024-09-26; HATM=2024-09-26; HKKT=2024-09-26; HMIM=2024-09-26; HSPI=2024-11-15; INMF=2024-09-26; KAKL=2024-09-26; MFTM=2024-09-26; MOHE=2024-09-26; MSOTPS=2024-09-26; MUBT=2024-09-26; NAFL=2024-09-26; NINA=2024-09-26; NMFL=2024-09-26; PHDL=2025-01-20; PICL=2024-09-26; PRIB=2024-09-26; PRIC=2024-09-26; REGAL=2024-09-26; SANE=2024-10-04; SCHT=2024-09-26; SDOT=2024-09-26; SFAT=2024-09-26; SGABL=2024-09-26; SHCI=2024-09-26; SLCL=2024-09-26; SLCPA=2024-09-26; SLL=2024-10-31; SPCL=2024-09-26; SSIC=2024-09-26; STLR=2026-09-02; SURAJ=2024-09-26; SWL=2024-09-26; TAJT=2024-09-26; TRIBL=2024-09-26; USMT=2024-09-26; ZELP=2024-09-26"
  ],
+ "advisories": [],
  "history_symbols": 558,
- "universe_symbols": 558,
- "history_coverage_fraction": 1.0,
+ "universe_symbols": 559,
+ "history_coverage_fraction": 0.9982,
  "foreign_symbols": 23,
  "foreign_with_history": 23,
  "latest_eod": "2026-09-14",
  "oldest_eod": "2024-09-26",
- "stale_fleet": 61,
- "stale_fleet_fraction": 0.1093,
- "stale_fleet_cutoff": "2026-09-02",
+ "stale_fleet": 63,
+ "stale_fleet_fraction": 0.1127,
+ "stale_fleet_cutoff": "2026-09-03",
  "spot_check": {
   "symbol": "HUBC",
-  "live": 201.87,
+  "live": 203.5,
   "cached_close": 201.87,
-  "deviation_pct": 0.0
+  "deviation_pct": 0.81
  },
  "post_close_integrity": {
-  "required": true,
-  "session_date": "2026-09-14",
-  "checked_at": "2026-09-14T16:06:34.912973Z",
-  "status": "ok",
+  "required": false,
+  "session_date": "2026-09-15",
+  "checked_at": "2026-09-15T08:51:53.540271Z",
+  "status": "not_required",
   "problems": [],
-  "traded_symbols": 483,
-  "same_day_symbols": 483,
-  "same_day_fraction": 1.0,
-  "missing_symbols": [],
-  "snapshot_declared_symbols": 483,
-  "snapshot_matched_symbols": 483,
-  "ignored_non_psx_symbols": []
+  "traded_symbols": 0,
+  "same_day_symbols": 0,
+  "same_day_fraction": null,
+  "missing_symbols": []
  }
 }

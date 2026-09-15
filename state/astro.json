@@ -1,12 +1,12 @@
 {
- "updated": "2026-09-14 21:05",
- "updated_utc": "2026-09-14 16:05",
+ "updated": "2026-09-15 13:51",
+ "updated_utc": "2026-09-15 08:51",
  "status": "ok",
  "error": null,
  "system": {
   "zodiac": "sidereal",
   "ayanamsa": "Lahiri (Chitrapaksha)",
-  "ayanamsa_deg": 24.214,
+  "ayanamsa_deg": 24.2141,
   "node": "mean",
   "bodies": "the nine classical grahas (no outer planets)",
   "method": "sidereal = tropical \u2212 ayanamsa; the ayanamsa is derived each run by precessing Spica from its J2000 position (Chitrapaksha: Spica = 180\u00b0 sidereal), never hardcoded. Positions are VSOP87/ELP-2000 (pymeeus), geocentric apparent.",
@@ -23,97 +23,97 @@
  },
  "positions": {
   "Sun": {
-   "lon": 147.6502,
+   "lon": 148.3306,
    "sign": "Leo",
    "sign_sa": "Simha",
-   "deg_in_sign": 27.65,
+   "deg_in_sign": 28.33,
    "nakshatra": "Uttara Phalguni",
    "pada": 1,
-   "speed_deg_per_day": 0.9743,
+   "speed_deg_per_day": 0.9746,
    "retrograde": false
   },
   "Moon": {
-   "lon": 190.7303,
+   "lon": 199.4879,
    "sign": "Libra",
    "sign_sa": "Tula",
-   "deg_in_sign": 10.73,
+   "deg_in_sign": 19.49,
    "nakshatra": "Swati",
-   "pada": 2,
-   "speed_deg_per_day": 12.6448,
+   "pada": 4,
+   "speed_deg_per_day": 12.4462,
    "retrograde": false
   },
   "Mercury": {
-   "lon": 162.3854,
+   "lon": 163.5108,
    "sign": "Virgo",
    "sign_sa": "Kanya",
-   "deg_in_sign": 12.39,
+   "deg_in_sign": 13.51,
    "nakshatra": "Hasta",
-   "pada": 1,
-   "speed_deg_per_day": 1.618,
+   "pada": 2,
+   "speed_deg_per_day": 1.6055,
    "retrograde": false
   },
   "Venus": {
-   "lon": 188.4474,
+   "lon": 188.8402,
    "sign": "Libra",
    "sign_sa": "Tula",
-   "deg_in_sign": 8.45,
+   "deg_in_sign": 8.84,
    "nakshatra": "Swati",
    "pada": 1,
-   "speed_deg_per_day": 0.5701,
+   "speed_deg_per_day": 0.5548,
    "retrograde": false
   },
   "Mars": {
-   "lon": 87.7075,
+   "lon": 88.1349,
    "sign": "Gemini",
    "sign_sa": "Mithuna",
-   "deg_in_sign": 27.71,
+   "deg_in_sign": 28.13,
    "nakshatra": "Punarvasu",
    "pada": 3,
-   "speed_deg_per_day": 0.6126,
+   "speed_deg_per_day": 0.6114,
    "retrograde": false
   },
   "Jupiter": {
-   "lon": 112.2847,
+   "lon": 112.4232,
    "sign": "Cancer",
    "sign_sa": "Karka",
-   "deg_in_sign": 22.28,
+   "deg_in_sign": 22.42,
    "nakshatra": "Ashlesha",
    "pada": 2,
-   "speed_deg_per_day": 0.1986,
+   "speed_deg_per_day": 0.1979,
    "retrograde": false
   },
   "Saturn": {
-   "lon": 348.5938,
+   "lon": 348.5443,
    "sign": "Pisces",
    "sign_sa": "Meena",
-   "deg_in_sign": 18.59,
+   "deg_in_sign": 18.54,
    "nakshatra": "Revati",
    "pada": 1,
-   "speed_deg_per_day": -0.0705,
+   "speed_deg_per_day": -0.0711,
    "retrograde": true
   },
   "Rahu": {
-   "lon": 304.3635,
+   "lon": 304.3265,
    "sign": "Aquarius",
    "sign_sa": "Kumbha",
-   "deg_in_sign": 4.36,
+   "deg_in_sign": 4.33,
    "nakshatra": "Dhanishta",
    "pada": 4,
    "speed_deg_per_day": -0.053,
    "retrograde": true
   },
   "Ketu": {
-   "lon": 124.3635,
+   "lon": 124.3265,
    "sign": "Leo",
    "sign_sa": "Simha",
-   "deg_in_sign": 4.36,
+   "deg_in_sign": 4.33,
    "nakshatra": "Magha",
    "pada": 2,
    "speed_deg_per_day": -0.053,
    "retrograde": true
   }
  },
- "moon_phase_illumination": 0.136,
+ "moon_phase_illumination": 0.188,
  "events": [
   {
    "date": "2026-09-16",
@@ -206,6 +206,16 @@
    "importance": 2
   },
   {
+   "date": "2026-09-27",
+   "type": "conjunction",
+   "body": "Moon",
+   "with": "Saturn",
+   "sign": "Pisces",
+   "separation_deg": 0.87,
+   "text": "Moon conjunct Saturn in Pisces (0.87 deg apart)",
+   "importance": 1
+  },
+  {
    "date": "2026-09-28",
    "at_pkt": "2026-09-28 09:45",
    "type": "ingress",
@@ -258,12 +268,12 @@
   {
    "date": "2026-10-06",
    "type": "conjunction",
-   "body": "Mercury",
-   "with": "Venus",
-   "sign": "Libra",
-   "separation_deg": 0.45,
-   "text": "Mercury conjunct Venus in Libra (0.45 deg apart)",
-   "importance": 2
+   "body": "Moon",
+   "with": "Jupiter",
+   "sign": "Cancer",
+   "separation_deg": 0.87,
+   "text": "Moon conjunct Jupiter in Cancer (0.87 deg apart)",
+   "importance": 1
   },
   {
    "date": "2026-10-06",
@@ -274,6 +284,16 @@
    "to": "Leo",
    "text": "Moon enters Leo (Simha)",
    "importance": 1
+  },
+  {
+   "date": "2026-10-07",
+   "type": "conjunction",
+   "body": "Mercury",
+   "with": "Venus",
+   "sign": "Libra",
+   "separation_deg": 0.48,
+   "text": "Mercury conjunct Venus in Libra (0.48 deg apart)",
+   "importance": 2
   },
   {
    "date": "2026-10-09",
@@ -357,16 +377,6 @@
   },
   {
    "date": "2026-10-23",
-   "type": "conjunction",
-   "body": "Sun",
-   "with": "Venus",
-   "sign": "Libra",
-   "separation_deg": 0.78,
-   "text": "Sun conjunct Venus in Libra (0.78 deg apart)",
-   "importance": 2
-  },
-  {
-   "date": "2026-10-23",
    "at_pkt": "2026-10-23 14:33",
    "type": "ingress",
    "body": "Moon",
@@ -374,6 +384,16 @@
    "to": "Pisces",
    "text": "Moon enters Pisces (Meena)",
    "importance": 1
+  },
+  {
+   "date": "2026-10-24",
+   "type": "conjunction",
+   "body": "Sun",
+   "with": "Venus",
+   "sign": "Libra",
+   "separation_deg": 0.34,
+   "text": "Sun conjunct Venus in Libra (0.34 deg apart)",
+   "importance": 2
   },
   {
    "date": "2026-10-24",
@@ -461,8 +481,8 @@
    "body": "Sun",
    "with": "Mercury",
    "sign": "Libra",
-   "separation_deg": 0.16,
-   "text": "Sun conjunct Mercury in Libra (0.16 deg apart)",
+   "separation_deg": 0.54,
+   "text": "Sun conjunct Mercury in Libra (0.54 deg apart)",
    "importance": 2
   },
   {
@@ -521,8 +541,8 @@
    "body": "Jupiter",
    "with": "Ketu",
    "sign": "Leo",
-   "separation_deg": 0.02,
-   "text": "Jupiter conjunct Ketu in Leo (0.02 deg apart)",
+   "separation_deg": 0.07,
+   "text": "Jupiter conjunct Ketu in Leo (0.07 deg apart)",
    "importance": 3
   },
   {
@@ -557,16 +577,6 @@
   },
   {
    "date": "2026-11-14",
-   "type": "conjunction",
-   "body": "Mars",
-   "with": "Ketu",
-   "sign": "Leo",
-   "separation_deg": 0.18,
-   "text": "Mars conjunct Ketu in Leo (0.18 deg apart)",
-   "importance": 2
-  },
-  {
-   "date": "2026-11-14",
    "at_pkt": "2026-11-14 05:31",
    "type": "station",
    "body": "Venus",
@@ -574,6 +584,16 @@
    "sign": "Virgo",
    "text": "Venus stations direct in Virgo",
    "importance": 3
+  },
+  {
+   "date": "2026-11-15",
+   "type": "conjunction",
+   "body": "Mars",
+   "with": "Ketu",
+   "sign": "Leo",
+   "separation_deg": 0.18,
+   "text": "Mars conjunct Ketu in Leo (0.18 deg apart)",
+   "importance": 2
   },
   {
    "date": "2026-11-15",
@@ -591,8 +611,8 @@
    "body": "Mars",
    "with": "Jupiter",
    "sign": "Leo",
-   "separation_deg": 0.15,
-   "text": "Mars conjunct Jupiter in Leo (0.15 deg apart)",
+   "separation_deg": 0.04,
+   "text": "Mars conjunct Jupiter in Leo (0.04 deg apart)",
    "importance": 2
   },
   {
@@ -689,10 +709,10 @@
    "date": "2026-11-30",
    "type": "conjunction",
    "body": "Moon",
-   "with": "Mars",
+   "with": "Jupiter",
    "sign": "Leo",
-   "separation_deg": 0.74,
-   "text": "Moon conjunct Mars in Leo (0.74 deg apart)",
+   "separation_deg": 0.15,
+   "text": "Moon conjunct Jupiter in Leo (0.15 deg apart)",
    "importance": 1
   },
   {

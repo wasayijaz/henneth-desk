@@ -1,48 +1,11 @@
 {
- "updated": "2026-09-14 16:06",
+ "updated": "2026-09-15 08:52",
  "regime": "risk-off",
  "geo_risk": {
-  "score": 66,
-  "band": "elevated"
+  "score": 60,
+  "band": "moderate"
  },
- "signals": [
-  {
-   "id": "20260914-NICL-roc60_leader_pullback",
-   "ticker": "NICL",
-   "strategy": "roc60_leader_pullback",
-   "template": "Long-run leader, short pullback",
-   "category": "momentum",
-   "sector": "Chemical",
-   "hold_sessions": 18,
-   "backtest": {
-    "hit_rate": 0.643,
-    "net_expectancy_pct": 1.64,
-    "n": 14,
-    "oos_hit": 0.833
-   },
-   "confidence": "low",
-   "basis": "backtest-proven, unaudited",
-   "thesis": "Long-run leader, short pullback is triggering now; on NICL's own history it won 64% over 14 trades (+1.6% net/trade), still profitable out-of-sample."
-  },
-  {
-   "id": "20260914-APL-lowvol_pullback",
-   "ticker": "APL",
-   "strategy": "lowvol_pullback",
-   "template": "Low-volatility pullback",
-   "category": "volatility",
-   "sector": "Oil & Gas Marketing Companies",
-   "hold_sessions": 10,
-   "backtest": {
-    "hit_rate": 0.706,
-    "net_expectancy_pct": 1.22,
-    "n": 17,
-    "oos_hit": 0.75
-   },
-   "confidence": "medium",
-   "basis": "backtest-proven, unaudited",
-   "thesis": "Low-volatility pullback is triggering now; on APL's own history it won 71% over 17 trades (+1.2% net/trade), still profitable out-of-sample."
-  }
- ],
+ "signals": [],
  "positions": [],
  "top_predictable": [
   {
@@ -55,15 +18,11 @@
   },
   {
    "ticker": "GLD",
-   "score": 67.6
+   "score": 67.2
   },
   {
    "ticker": "XLV",
-   "score": 66.0
-  },
-  {
-   "ticker": "FFC",
-   "score": 65.3
+   "score": 65.6
   },
   {
    "ticker": "INDU",
@@ -74,16 +33,20 @@
    "score": 65.2
   },
   {
+   "ticker": "FFC",
+   "score": 65.2
+  },
+  {
    "ticker": "USDJI",
    "score": 65.2
   },
   {
-   "ticker": "FHAM",
-   "score": 64.5
+   "ticker": "USRUT",
+   "score": 64.7
   },
   {
-   "ticker": "USRUT",
-   "score": 63.9
+   "ticker": "FHAM",
+   "score": 64.5
   }
  ],
  "movers_up": [

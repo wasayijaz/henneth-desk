@@ -1,5 +1,5 @@
 {
- "updated": "2026-09-14 16:06",
+ "updated": "2026-09-15 08:51",
  "note": "Deterministic evidence pack per PSX sector. Every figure is computed from the desk's own state files - agents debating a sector must cite THIS, never memory. macro_drivers lists only correction-survived relationships; an empty list means no global factor has a demonstrated effect on the sector, which is a finding.",
  "min_members": 3,
  "n_sectors": 32,
@@ -876,16 +876,6 @@
    ],
    "upcoming_events": [
     {
-     "ticker": "GWLC",
-     "date": "2026-09-14",
-     "type": "results"
-    },
-    {
-     "ticker": "MLCF",
-     "date": "2026-09-14",
-     "type": "results"
-    },
-    {
      "ticker": "THCCL",
      "date": "2026-09-15",
      "type": "results"
@@ -914,6 +904,16 @@
      "ticker": "DCL",
      "date": "2026-09-30",
      "type": "results"
+    },
+    {
+     "ticker": "CHCC",
+     "date": "2026-10-05",
+     "type": "ex_dividend"
+    },
+    {
+     "ticker": "CHCC",
+     "date": "2026-10-06",
+     "type": "book_closure"
     }
    ],
    "members": [
@@ -2660,17 +2660,17 @@
    ]
   },
   "Fertilizer": {
-   "n_members": 6,
+   "n_members": 5,
    "breadth": {
-    "above_sma50": 1,
+    "above_sma50": 0,
     "advancing_1d": 2
    },
    "returns": {
-    "median_1d_pct": -0.56,
-    "median_20d_pct": -3.96,
+    "median_1d_pct": -1.13,
+    "median_20d_pct": -3.97,
     "best_20d": {
-     "sym": "AGLNCPS",
-     "pct": 9.85
+     "sym": "EFERT",
+     "pct": 1.12
     },
     "worst_20d": {
      "sym": "FATIMA",
@@ -2734,22 +2734,6 @@
     }
    ],
    "members": [
-    {
-     "sym": "AGLNCPS",
-     "name": "Agritech Non-Voting (Pref) Class A",
-     "close": 43.94,
-     "ret_1d": 0.0,
-     "ret_20d": 9.85,
-     "rsi14": 90.7,
-     "above_sma50": true,
-     "liquidity_rs_m": 0.0,
-     "pe": null,
-     "div_yield_pct": null,
-     "payout_pct": null,
-     "fair_gap_pct": null,
-     "fair_verdict": null,
-     "ttm_dividend_rs": null
-    },
     {
      "sym": "EFERT",
      "name": "Engro Fertilizers Limited",
@@ -3333,21 +3317,21 @@
    ]
   },
   "Glass & Ceramics": {
-   "n_members": 8,
+   "n_members": 7,
    "breadth": {
     "above_sma50": 2,
     "advancing_1d": 1
    },
    "returns": {
-    "median_1d_pct": -3.77,
-    "median_20d_pct": -14.71,
+    "median_1d_pct": -3.53,
+    "median_20d_pct": -14.46,
     "best_20d": {
      "sym": "KCL",
      "pct": 20.23
     },
     "worst_20d": {
-     "sym": "FRCL",
-     "pct": -19.7
+     "sym": "GGGL",
+     "pct": -16.65
     }
    },
    "valuation": {
@@ -3517,34 +3501,18 @@
      "fair_gap_pct": -51.8,
      "fair_verdict": "overvalued",
      "ttm_dividend_rs": null
-    },
-    {
-     "sym": "FRCL",
-     "name": "Frontier Ceramics Limited",
-     "close": 81.09,
-     "ret_1d": -6.6,
-     "ret_20d": -19.7,
-     "rsi14": 31.3,
-     "above_sma50": false,
-     "liquidity_rs_m": 0.2,
-     "pe": null,
-     "div_yield_pct": null,
-     "payout_pct": null,
-     "fair_gap_pct": null,
-     "fair_verdict": null,
-     "ttm_dividend_rs": null
     }
    ]
   },
   "Insurance": {
-   "n_members": 27,
+   "n_members": 26,
    "breadth": {
     "above_sma50": 5,
     "advancing_1d": 6
    },
    "returns": {
-    "median_1d_pct": -0.96,
-    "median_20d_pct": -6.9,
+    "median_1d_pct": -1.0,
+    "median_20d_pct": -7.37,
     "best_20d": {
      "sym": "PKGI",
      "pct": 106.44
@@ -3713,7 +3681,7 @@
      "payout_pct": 15.1,
      "fair_gap_pct": 17.4,
      "fair_verdict": "undervalued",
-     "ttm_dividend_rs": 5.5
+     "ttm_dividend_rs": 8.0
     },
     {
      "sym": "JGICL",
@@ -3762,22 +3730,6 @@
      "fair_gap_pct": null,
      "fair_verdict": null,
      "ttm_dividend_rs": 2.5
-    },
-    {
-     "sym": "UVIC",
-     "name": "The Universal Insurance Company Limited",
-     "close": 19.42,
-     "ret_1d": 0.0,
-     "ret_20d": -6.23,
-     "rsi14": 38.4,
-     "above_sma50": false,
-     "liquidity_rs_m": 0.1,
-     "pe": null,
-     "div_yield_pct": null,
-     "payout_pct": null,
-     "fair_gap_pct": null,
-     "fair_verdict": null,
-     "ttm_dividend_rs": null
     },
     {
      "sym": "UNIC",
@@ -3985,7 +3937,7 @@
      "payout_pct": null,
      "fair_gap_pct": null,
      "fair_verdict": null,
-     "ttm_dividend_rs": 0.62
+     "ttm_dividend_rs": 0.39
     },
     {
      "sym": "JLICL",
@@ -5086,14 +5038,14 @@
    ]
   },
   "Modarabas": {
-   "n_members": 18,
+   "n_members": 19,
    "breadth": {
-    "above_sma50": 7,
+    "above_sma50": 8,
     "advancing_1d": 4
    },
    "returns": {
-    "median_1d_pct": -2.57,
-    "median_20d_pct": -3.25,
+    "median_1d_pct": -2.45,
+    "median_20d_pct": 0.0,
     "best_20d": {
      "sym": "PIM",
      "pct": 130.54
@@ -5193,6 +5145,22 @@
      "fair_gap_pct": null,
      "fair_verdict": null,
      "ttm_dividend_rs": null
+    },
+    {
+     "sym": "FIMM",
+     "name": "First Imrooz Modaraba",
+     "close": 215.99,
+     "ret_1d": 0.0,
+     "ret_20d": 7.99,
+     "rsi14": 53.8,
+     "above_sma50": true,
+     "liquidity_rs_m": 0.0,
+     "pe": null,
+     "div_yield_pct": null,
+     "payout_pct": null,
+     "fair_gap_pct": null,
+     "fair_verdict": null,
+     "ttm_dividend_rs": 15.0
     },
     {
      "sym": "SINDM",
@@ -5576,11 +5544,6 @@
     }
    ],
    "upcoming_events": [
-    {
-     "ticker": "PPL",
-     "date": "2026-09-14",
-     "type": "results"
-    },
     {
      "ticker": "MARI",
      "date": "2026-09-21",
@@ -6293,7 +6256,7 @@
      "payout_pct": null,
      "fair_gap_pct": null,
      "fair_verdict": null,
-     "ttm_dividend_rs": 190.0
+     "ttm_dividend_rs": 270.0
     },
     {
      "sym": "CPHL",
@@ -6341,7 +6304,7 @@
      "payout_pct": 53.18,
      "fair_gap_pct": -47.6,
      "fair_verdict": "overvalued",
-     "ttm_dividend_rs": 20.0
+     "ttm_dividend_rs": 30.0
     },
     {
      "sym": "HINOON",
@@ -6421,7 +6384,7 @@
      "payout_pct": 52.0,
      "fair_gap_pct": -50.0,
      "fair_verdict": "overvalued",
-     "ttm_dividend_rs": 12.0
+     "ttm_dividend_rs": 19.0
     },
     {
      "sym": "SEARL",
@@ -6941,11 +6904,6 @@
    "macro_joint_r2_pct": null,
    "recent_news": [],
    "upcoming_events": [
-    {
-     "ticker": "JVDC",
-     "date": "2026-09-14",
-     "type": "results"
-    },
     {
      "ticker": "PACE",
      "date": "2026-10-05",
@@ -8408,13 +8366,13 @@
    ]
   },
   "Textile Composite": {
-   "n_members": 35,
+   "n_members": 37,
    "breadth": {
     "above_sma50": 4,
     "advancing_1d": 6
    },
    "returns": {
-    "median_1d_pct": -1.5,
+    "median_1d_pct": -1.43,
     "median_20d_pct": -9.35,
     "best_20d": {
      "sym": "ANTM",
@@ -8464,11 +8422,6 @@
    ],
    "upcoming_events": [
     {
-     "ticker": "KTML",
-     "date": "2026-09-14",
-     "type": "results"
-    },
-    {
      "ticker": "KML",
      "date": "2026-09-22",
      "type": "results"
@@ -8502,6 +8455,11 @@
      "ticker": "ILP",
      "date": "2026-10-07",
      "type": "book_closure"
+    },
+    {
+     "ticker": "MEHT",
+     "date": "2026-10-09",
+     "type": "results"
     }
    ],
    "members": [
@@ -8602,6 +8560,22 @@
      "ttm_dividend_rs": 10.0
     },
     {
+     "sym": "BHAT",
+     "name": "Bhanero Textile Mills Limited",
+     "close": 819.53,
+     "ret_1d": 0.0,
+     "ret_20d": -1.22,
+     "rsi14": 48.4,
+     "above_sma50": false,
+     "liquidity_rs_m": 0.1,
+     "pe": null,
+     "div_yield_pct": null,
+     "payout_pct": null,
+     "fair_gap_pct": null,
+     "fair_verdict": null,
+     "ttm_dividend_rs": null
+    },
+    {
      "sym": "REWM",
      "name": "Reliance Weaving Mills Limited",
      "close": 173.89,
@@ -8626,6 +8600,22 @@
      "rsi14": 51.6,
      "above_sma50": false,
      "liquidity_rs_m": 4.3,
+     "pe": null,
+     "div_yield_pct": null,
+     "payout_pct": null,
+     "fair_gap_pct": null,
+     "fair_verdict": null,
+     "ttm_dividend_rs": null
+    },
+    {
+     "sym": "BTL",
+     "name": "Blessed Textiles Limited",
+     "close": 900.6,
+     "ret_1d": 0.0,
+     "ret_20d": -1.99,
+     "rsi14": 34.5,
+     "above_sma50": false,
+     "liquidity_rs_m": 0.0,
      "pe": null,
      "div_yield_pct": null,
      "payout_pct": null,
@@ -8680,22 +8670,6 @@
      "fair_gap_pct": 3.3,
      "fair_verdict": "fair",
      "ttm_dividend_rs": 3.0
-    },
-    {
-     "sym": "ANLNV",
-     "name": "Azgard Nine Non-Voting Ordinary Shares",
-     "close": 7.55,
-     "ret_1d": 0.0,
-     "ret_20d": -5.39,
-     "rsi14": 41.8,
-     "above_sma50": false,
-     "liquidity_rs_m": 0.0,
-     "pe": null,
-     "div_yield_pct": null,
-     "payout_pct": null,
-     "fair_gap_pct": null,
-     "fair_verdict": null,
-     "ttm_dividend_rs": null
     },
     {
      "sym": "REDCO",
@@ -8906,6 +8880,22 @@
      "ttm_dividend_rs": null
     },
     {
+     "sym": "FASM",
+     "name": "Faisal Spinning Mills Limited",
+     "close": 315.0,
+     "ret_1d": 0.0,
+     "ret_20d": -12.68,
+     "rsi14": 42.1,
+     "above_sma50": false,
+     "liquidity_rs_m": 0.1,
+     "pe": null,
+     "div_yield_pct": null,
+     "payout_pct": null,
+     "fair_gap_pct": null,
+     "fair_verdict": null,
+     "ttm_dividend_rs": null
+    },
+    {
      "sym": "HAEL",
      "name": "Hala Enterprises Limited",
      "close": 25.0,
@@ -9068,14 +9058,14 @@
    ]
   },
   "Textile Spinning": {
-   "n_members": 41,
+   "n_members": 39,
    "breadth": {
     "above_sma50": 8,
     "advancing_1d": 2
    },
    "returns": {
-    "median_1d_pct": -2.67,
-    "median_20d_pct": -12.49,
+    "median_1d_pct": -2.74,
+    "median_20d_pct": -12.54,
     "best_20d": {
      "sym": "PRET",
      "pct": 12.43
@@ -9256,22 +9246,6 @@
      "ttm_dividend_rs": null
     },
     {
-     "sym": "NAGC",
-     "name": "Nagina Cotton Mills Limited",
-     "close": 77.0,
-     "ret_1d": 0.0,
-     "ret_20d": -3.39,
-     "rsi14": 40.6,
-     "above_sma50": false,
-     "liquidity_rs_m": 0.1,
-     "pe": null,
-     "div_yield_pct": null,
-     "payout_pct": null,
-     "fair_gap_pct": null,
-     "fair_verdict": null,
-     "ttm_dividend_rs": 1.0
-    },
-    {
      "sym": "SZTM",
      "name": "Shahzad Textile Mills Limited",
      "close": 84.05,
@@ -9408,22 +9382,6 @@
      "rsi14": 36.6,
      "above_sma50": false,
      "liquidity_rs_m": 1.8,
-     "pe": null,
-     "div_yield_pct": null,
-     "payout_pct": null,
-     "fair_gap_pct": null,
-     "fair_verdict": null,
-     "ttm_dividend_rs": null
-    },
-    {
-     "sym": "SNAI",
-     "name": "Sana Industries Limited",
-     "close": 36.54,
-     "ret_1d": -1.88,
-     "ret_20d": -11.65,
-     "rsi14": 45.6,
-     "above_sma50": false,
-     "liquidity_rs_m": 0.3,
      "pe": null,
      "div_yield_pct": null,
      "payout_pct": null,

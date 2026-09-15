@@ -1,5 +1,5 @@
 {
- "updated": "2026-09-14 16:03",
+ "updated": "2026-09-15 08:48",
  "source": "https://dps.psx.com.pk/screener (PSX's own sector <select>)",
  "note": "Authoritative PSX sector classification, parsed from PSX rather than hardcoded. Verified on every run against anchor tickers whose sector is not in doubt; a mismatch keeps the last good map instead of publishing a wrong one.",
  "anchors_checked": 19,
@@ -49,11 +49,11 @@
    "code": "0825",
    "sector": "Refinery"
   },
-  "WAVESAPPR": {
-   "code": "0803",
-   "sector": "Cable & Electrical Goods"
-  },
   "MDTL": {
+   "code": "0828",
+   "sector": "Technology & Communication"
+  },
+  "WTL": {
    "code": "0828",
    "sector": "Technology & Communication"
   },
@@ -61,15 +61,15 @@
    "code": "0825",
    "sector": "Refinery"
   },
-  "BOP": {
-   "code": "0807",
-   "sector": "Commercial Banks"
+  "TISL": {
+   "code": "0818",
+   "sector": "Miscellaneous"
   },
-  "FNEL": {
-   "code": "0813",
-   "sector": "Inv. Banks / Inv. Cos. / Securities Cos."
+  "GDL": {
+   "code": "0810",
+   "sector": "Food & Personal Care Products"
   },
-  "WTL": {
+  "ZUMA": {
    "code": "0828",
    "sector": "Technology & Communication"
   },
@@ -77,19 +77,59 @@
    "code": "0824",
    "sector": "Power Generation & Distribution"
   },
-  "BAFL": {
+  "PIBTL": {
+   "code": "0833",
+   "sector": "Transport"
+  },
+  "SSGC": {
+   "code": "0821",
+   "sector": "Oil & Gas Marketing Companies"
+  },
+  "BOP": {
    "code": "0807",
    "sector": "Commercial Banks"
+  },
+  "CLVL": {
+   "code": "0833",
+   "sector": "Transport"
+  },
+  "SOYASUP": {
+   "code": "0810",
+   "sector": "Food & Personal Care Products"
+  },
+  "FNEL": {
+   "code": "0813",
+   "sector": "Inv. Banks / Inv. Cos. / Securities Cos."
+  },
+  "UNITY": {
+   "code": "0810",
+   "sector": "Food & Personal Care Products"
+  },
+  "MLCF": {
+   "code": "0804",
+   "sector": "Cement"
   },
   "ASL": {
    "code": "0808",
    "sector": "Engineering"
   },
-  "TSBL": {
-   "code": "0813",
-   "sector": "Inv. Banks / Inv. Cos. / Securities Cos."
+  "HASCOL": {
+   "code": "0821",
+   "sector": "Oil & Gas Marketing Companies"
   },
-  "MLCF": {
+  "TPLP": {
+   "code": "0838",
+   "sector": "Property"
+  },
+  "FCCL": {
+   "code": "0804",
+   "sector": "Cement"
+  },
+  "MUGHAL": {
+   "code": "0808",
+   "sector": "Engineering"
+  },
+  "DGKC": {
    "code": "0804",
    "sector": "Cement"
   },
@@ -97,131 +137,275 @@
    "code": "0820",
    "sector": "Oil & Gas Exploration Companies"
   },
-  "TISL": {
-   "code": "0818",
-   "sector": "Miscellaneous"
-  },
-  "CSIL": {
-   "code": "0812",
-   "sector": "Insurance"
-  },
-  "HUMNL": {
-   "code": "0828",
-   "sector": "Technology & Communication"
-  },
-  "TPLP": {
-   "code": "0838",
-   "sector": "Property"
-  },
-  "SSGC": {
-   "code": "0821",
-   "sector": "Oil & Gas Marketing Companies"
-  },
-  "PIBTL": {
-   "code": "0833",
-   "sector": "Transport"
-  },
-  "HASCOL": {
-   "code": "0821",
-   "sector": "Oil & Gas Marketing Companies"
-  },
-  "LOTCHEM": {
-   "code": "0805",
-   "sector": "Chemical"
+  "BAFL": {
+   "code": "0807",
+   "sector": "Commercial Banks"
   },
   "TPL": {
    "code": "0828",
    "sector": "Technology & Communication"
   },
-  "SLM": {
-   "code": "0802",
-   "sector": "Automobile Parts & Accessories"
+  "TPLRF1": {
+   "code": "0836",
+   "sector": "Real Estate Investment Trust"
   },
-  "NRL": {
-   "code": "0825",
-   "sector": "Refinery"
+  "ITANZ": {
+   "code": "0828",
+   "sector": "Technology & Communication"
+  },
+  "TSBL": {
+   "code": "0813",
+   "sector": "Inv. Banks / Inv. Cos. / Securities Cos."
+  },
+  "NCPL": {
+   "code": "0824",
+   "sector": "Power Generation & Distribution"
+  },
+  "FPJM": {
+   "code": "0819",
+   "sector": "Modarabas"
+  },
+  "CSIL": {
+   "code": "0812",
+   "sector": "Insurance"
   },
   "SPSL": {
    "code": "0821",
    "sector": "Oil & Gas Marketing Companies"
   },
-  "OGDC": {
-   "code": "0820",
-   "sector": "Oil & Gas Exploration Companies"
-  },
-  "SNGP": {
-   "code": "0821",
-   "sector": "Oil & Gas Marketing Companies"
-  },
-  "PACE": {
-   "code": "0838",
-   "sector": "Property"
-  },
-  "SLGL": {
-   "code": "0833",
-   "sector": "Transport"
-  },
-  "ZUMA": {
-   "code": "0828",
-   "sector": "Technology & Communication"
-  },
-  "THCCL": {
-   "code": "0804",
-   "sector": "Cement"
+  "PAEL": {
+   "code": "0803",
+   "sector": "Cable & Electrical Goods"
   },
   "FCSC": {
    "code": "0813",
    "sector": "Inv. Banks / Inv. Cos. / Securities Cos."
   },
-  "TPLRF1": {
-   "code": "0836",
-   "sector": "Real Estate Investment Trust"
+  "HUBC": {
+   "code": "0824",
+   "sector": "Power Generation & Distribution"
   },
-  "KOSM": {
-   "code": "0830",
-   "sector": "Textile Spinning"
-  },
-  "DGKC": {
-   "code": "0804",
-   "sector": "Cement"
-  },
-  "FCCL": {
-   "code": "0804",
-   "sector": "Cement"
-  },
-  "MACFL": {
-   "code": "0822",
-   "sector": "Paper, Board & Packaging"
+  "NRL": {
+   "code": "0825",
+   "sector": "Refinery"
   },
   "WAVES": {
    "code": "0803",
    "sector": "Cable & Electrical Goods"
   },
+  "SLGL": {
+   "code": "0833",
+   "sector": "Transport"
+  },
+  "MEBL": {
+   "code": "0807",
+   "sector": "Commercial Banks"
+  },
+  "PACE": {
+   "code": "0838",
+   "sector": "Property"
+  },
+  "TRG": {
+   "code": "0828",
+   "sector": "Technology & Communication"
+  },
+  "DSIL": {
+   "code": "0830",
+   "sector": "Textile Spinning"
+  },
+  "WAVESAPP": {
+   "code": "0803",
+   "sector": "Cable & Electrical Goods"
+  },
+  "POWER": {
+   "code": "0804",
+   "sector": "Cement"
+  },
+  "LOTCHEM": {
+   "code": "0805",
+   "sector": "Chemical"
+  },
+  "SNGP": {
+   "code": "0821",
+   "sector": "Oil & Gas Marketing Companies"
+  },
+  "AGL": {
+   "code": "0809",
+   "sector": "Fertilizer"
+  },
+  "NPL": {
+   "code": "0824",
+   "sector": "Power Generation & Distribution"
+  },
+  "ASTM": {
+   "code": "0830",
+   "sector": "Textile Spinning"
+  },
+  "SEARL": {
+   "code": "0823",
+   "sector": "Pharmaceuticals"
+  },
+  "FFL": {
+   "code": "0810",
+   "sector": "Food & Personal Care Products"
+  },
+  "OGDC": {
+   "code": "0820",
+   "sector": "Oil & Gas Exploration Companies"
+  },
+  "SYM": {
+   "code": "0828",
+   "sector": "Technology & Communication"
+  },
+  "PASL": {
+   "code": "0813",
+   "sector": "Inv. Banks / Inv. Cos. / Securities Cos."
+  },
+  "SYS": {
+   "code": "0828",
+   "sector": "Technology & Communication"
+  },
+  "HCAR": {
+   "code": "0801",
+   "sector": "Automobile Assembler"
+  },
+  "SLM": {
+   "code": "0802",
+   "sector": "Automobile Parts & Accessories"
+  },
+  "KOSM": {
+   "code": "0830",
+   "sector": "Textile Spinning"
+  },
+  "GCWL": {
+   "code": "0805",
+   "sector": "Chemical"
+  },
+  "TREET": {
+   "code": "0810",
+   "sector": "Food & Personal Care Products"
+  },
+  "HMB": {
+   "code": "0807",
+   "sector": "Commercial Banks"
+  },
+  "SGPL": {
+   "code": "0824",
+   "sector": "Power Generation & Distribution"
+  },
   "NBP": {
    "code": "0807",
    "sector": "Commercial Banks"
   },
-  "TRSM": {
-   "code": "0819",
-   "sector": "Modarabas"
+  "OBOY": {
+   "code": "0821",
+   "sector": "Oil & Gas Marketing Companies"
   },
-  "UNITY": {
-   "code": "0810",
-   "sector": "Food & Personal Care Products"
+  "AGHA": {
+   "code": "0808",
+   "sector": "Engineering"
+  },
+  "ENGROH": {
+   "code": "0813",
+   "sector": "Inv. Banks / Inv. Cos. / Securities Cos."
+  },
+  "BERG": {
+   "code": "0805",
+   "sector": "Chemical"
   },
   "BECO": {
    "code": "0808",
    "sector": "Engineering"
   },
+  "THCCL": {
+   "code": "0804",
+   "sector": "Cement"
+  },
+  "LUCK": {
+   "code": "0804",
+   "sector": "Cement"
+  },
+  "TRSM": {
+   "code": "0819",
+   "sector": "Modarabas"
+  },
+  "GCIL": {
+   "code": "0805",
+   "sector": "Chemical"
+  },
+  "AKBL": {
+   "code": "0807",
+   "sector": "Commercial Banks"
+  },
   "UBL": {
    "code": "0807",
    "sector": "Commercial Banks"
+  },
+  "DCL": {
+   "code": "0804",
+   "sector": "Cement"
+  },
+  "EFERT": {
+   "code": "0809",
+   "sector": "Fertilizer"
+  },
+  "MACFL": {
+   "code": "0822",
+   "sector": "Paper, Board & Packaging"
+  },
+  "PREMA": {
+   "code": "0810",
+   "sector": "Food & Personal Care Products"
+  },
+  "BFBIO": {
+   "code": "0823",
+   "sector": "Pharmaceuticals"
+  },
+  "NRSL": {
+   "code": "0805",
+   "sector": "Chemical"
+  },
+  "PIAHCLA": {
+   "code": "0813",
+   "sector": "Inv. Banks / Inv. Cos. / Securities Cos."
+  },
+  "AHCL": {
+   "code": "0809",
+   "sector": "Fertilizer"
+  },
+  "CLOV": {
+   "code": "0810",
+   "sector": "Food & Personal Care Products"
+  },
+  "STPL": {
+   "code": "0818",
+   "sector": "Miscellaneous"
+  },
+  "ISL": {
+   "code": "0808",
+   "sector": "Engineering"
+  },
+  "BPL": {
+   "code": "0821",
+   "sector": "Oil & Gas Marketing Companies"
+  },
+  "WASL": {
+   "code": "0819",
+   "sector": "Modarabas"
+  },
+  "LEUL": {
+   "code": "0816",
+   "sector": "Leather & Tanneries"
+  },
+  "ATRL": {
+   "code": "0825",
+   "sector": "Refinery"
   },
   "AICL": {
    "code": "0812",
    "sector": "Insurance"
   },
-  "TELE": {
+  "QTECH": {
    "code": "0828",
    "sector": "Technology & Communication"
   },
@@ -229,83 +413,23 @@
    "code": "0828",
    "sector": "Technology & Communication"
   },
-  "FPJM": {
-   "code": "0819",
-   "sector": "Modarabas"
+  "TPLT": {
+   "code": "0828",
+   "sector": "Technology & Communication"
   },
-  "PAEL": {
-   "code": "0803",
-   "sector": "Cable & Electrical Goods"
-  },
-  "HUBC": {
-   "code": "0824",
-   "sector": "Power Generation & Distribution"
-  },
-  "GCIL": {
-   "code": "0805",
-   "sector": "Chemical"
-  },
-  "AGHA": {
-   "code": "0808",
-   "sector": "Engineering"
-  },
-  "NRSL": {
-   "code": "0805",
-   "sector": "Chemical"
+  "DFSM": {
+   "code": "0830",
+   "sector": "Textile Spinning"
   },
   "NML": {
    "code": "0829",
    "sector": "Textile Composite"
   },
-  "SEARL": {
-   "code": "0823",
-   "sector": "Pharmaceuticals"
+  "JVDC": {
+   "code": "0838",
+   "sector": "Property"
   },
-  "NCPL": {
-   "code": "0824",
-   "sector": "Power Generation & Distribution"
-  },
-  "ATRL": {
-   "code": "0825",
-   "sector": "Refinery"
-  },
-  "TPLT": {
-   "code": "0828",
-   "sector": "Technology & Communication"
-  },
-  "ENGROH": {
-   "code": "0813",
-   "sector": "Inv. Banks / Inv. Cos. / Securities Cos."
-  },
-  "GDL": {
-   "code": "0810",
-   "sector": "Food & Personal Care Products"
-  },
-  "DCL": {
-   "code": "0804",
-   "sector": "Cement"
-  },
-  "AKBL": {
-   "code": "0807",
-   "sector": "Commercial Banks"
-  },
-  "ITANZ": {
-   "code": "0828",
-   "sector": "Technology & Communication"
-  },
-  "HBL": {
-   "code": "0807",
-   "sector": "Commercial Banks"
-  },
-  "TREET": {
-   "code": "0810",
-   "sector": "Food & Personal Care Products"
-  },
-  "FATIMA": {
-   "code": "0809",
-   "sector": "Fertilizer"
-  },
-  "TRG": {
+  "AIRLINK": {
    "code": "0828",
    "sector": "Technology & Communication"
   },
@@ -313,23 +437,47 @@
    "code": "0821",
    "sector": "Oil & Gas Marketing Companies"
   },
-  "MCB": {
+  "FFC": {
+   "code": "0809",
+   "sector": "Fertilizer"
+  },
+  "GGL": {
+   "code": "0805",
+   "sector": "Chemical"
+  },
+  "ILP": {
+   "code": "0829",
+   "sector": "Textile Composite"
+  },
+  "SNBL": {
    "code": "0807",
    "sector": "Commercial Banks"
   },
-  "PREMA": {
+  "FCL": {
+   "code": "0803",
+   "sector": "Cable & Electrical Goods"
+  },
+  "GRR": {
+   "code": "0836",
+   "sector": "Real Estate Investment Trust"
+  },
+  "TOMCL": {
    "code": "0810",
    "sector": "Food & Personal Care Products"
   },
-  "PIAHCLA": {
-   "code": "0813",
-   "sector": "Inv. Banks / Inv. Cos. / Securities Cos."
+  "BLUEX": {
+   "code": "0833",
+   "sector": "Transport"
   },
-  "LSEFSL": {
-   "code": "0813",
-   "sector": "Inv. Banks / Inv. Cos. / Securities Cos."
+  "DBCI": {
+   "code": "0804",
+   "sector": "Cement"
   },
-  "GGL": {
+  "POL": {
+   "code": "0820",
+   "sector": "Oil & Gas Exploration Companies"
+  },
+  "NICL": {
    "code": "0805",
    "sector": "Chemical"
   },
@@ -337,149 +485,145 @@
    "code": "0829",
    "sector": "Textile Composite"
   },
-  "LUCK": {
-   "code": "0804",
-   "sector": "Cement"
-  },
-  "NPL": {
-   "code": "0824",
-   "sector": "Power Generation & Distribution"
-  },
-  "FFL": {
-   "code": "0810",
-   "sector": "Food & Personal Care Products"
-  },
-  "TPLL": {
-   "code": "0812",
-   "sector": "Insurance"
-  },
-  "BPL": {
-   "code": "0821",
-   "sector": "Oil & Gas Marketing Companies"
-  },
-  "MEBL": {
+  "BAHL": {
    "code": "0807",
    "sector": "Commercial Banks"
-  },
-  "PASL": {
-   "code": "0813",
-   "sector": "Inv. Banks / Inv. Cos. / Securities Cos."
-  },
-  "YOUW": {
-   "code": "0831",
-   "sector": "Textile Weaving"
-  },
-  "QTECH": {
-   "code": "0828",
-   "sector": "Technology & Communication"
-  },
-  "BNL": {
-   "code": "0810",
-   "sector": "Food & Personal Care Products"
-  },
-  "OBOY": {
-   "code": "0821",
-   "sector": "Oil & Gas Marketing Companies"
-  },
-  "MUGHAL": {
-   "code": "0808",
-   "sector": "Engineering"
-  },
-  "GATM": {
-   "code": "0829",
-   "sector": "Textile Composite"
-  },
-  "SYM": {
-   "code": "0828",
-   "sector": "Technology & Communication"
-  },
-  "FCL": {
-   "code": "0803",
-   "sector": "Cable & Electrical Goods"
-  },
-  "FFC": {
-   "code": "0809",
-   "sector": "Fertilizer"
-  },
-  "DSIL": {
-   "code": "0830",
-   "sector": "Textile Spinning"
   },
   "LSECL": {
    "code": "0813",
    "sector": "Inv. Banks / Inv. Cos. / Securities Cos."
   },
-  "ECOP": {
-   "code": "0818",
-   "sector": "Miscellaneous"
-  },
-  "WAVESAPP": {
-   "code": "0803",
-   "sector": "Cable & Electrical Goods"
+  "TELE": {
+   "code": "0828",
+   "sector": "Technology & Communication"
   },
   "CPHL": {
    "code": "0823",
    "sector": "Pharmaceuticals"
   },
-  "ILP": {
-   "code": "0829",
-   "sector": "Textile Composite"
-  },
-  "CLOV": {
-   "code": "0810",
-   "sector": "Food & Personal Care Products"
-  },
-  "AHCL": {
-   "code": "0809",
-   "sector": "Fertilizer"
-  },
-  "LOADS": {
-   "code": "0802",
-   "sector": "Automobile Parts & Accessories"
+  "MCB": {
+   "code": "0807",
+   "sector": "Commercial Banks"
   },
   "FCEPL": {
    "code": "0810",
    "sector": "Food & Personal Care Products"
   },
-  "TOMCL": {
-   "code": "0810",
-   "sector": "Food & Personal Care Products"
+  "ARUJ": {
+   "code": "0829",
+   "sector": "Textile Composite"
   },
-  "SYS": {
+  "GATM": {
+   "code": "0829",
+   "sector": "Textile Composite"
+  },
+  "MTL": {
+   "code": "0801",
+   "sector": "Automobile Assembler"
+  },
+  "EPQL": {
+   "code": "0824",
+   "sector": "Power Generation & Distribution"
+  },
+  "HUMNL": {
    "code": "0828",
    "sector": "Technology & Communication"
+  },
+  "JSBL": {
+   "code": "0807",
+   "sector": "Commercial Banks"
+  },
+  "HBL": {
+   "code": "0807",
+   "sector": "Commercial Banks"
   },
   "DSL": {
    "code": "0808",
    "sector": "Engineering"
   },
-  "BAHL": {
-   "code": "0807",
-   "sector": "Commercial Banks"
-  },
-  "BLUEX": {
-   "code": "0833",
-   "sector": "Transport"
-  },
-  "SPWL": {
-   "code": "0824",
-   "sector": "Power Generation & Distribution"
-  },
-  "GCWL": {
-   "code": "0805",
-   "sector": "Chemical"
-  },
-  "KTML": {
-   "code": "0829",
-   "sector": "Textile Composite"
-  },
-  "AIRLINK": {
+  "STL": {
    "code": "0828",
    "sector": "Technology & Communication"
   },
-  "BFBIO": {
-   "code": "0823",
-   "sector": "Pharmaceuticals"
+  "YOUW": {
+   "code": "0831",
+   "sector": "Textile Weaving"
+  },
+  "FATIMA": {
+   "code": "0809",
+   "sector": "Fertilizer"
+  },
+  "CTM": {
+   "code": "0830",
+   "sector": "Textile Spinning"
+  },
+  "GAL": {
+   "code": "0801",
+   "sector": "Automobile Assembler"
+  },
+  "PSX": {
+   "code": "0813",
+   "sector": "Inv. Banks / Inv. Cos. / Securities Cos."
+  },
+  "LSEFSL": {
+   "code": "0813",
+   "sector": "Inv. Banks / Inv. Cos. / Securities Cos."
+  },
+  "CHCC": {
+   "code": "0804",
+   "sector": "Cement"
+  },
+  "LOADS": {
+   "code": "0802",
+   "sector": "Automobile Parts & Accessories"
+  },
+  "OLPM": {
+   "code": "0819",
+   "sector": "Modarabas"
+  },
+  "ACPL": {
+   "code": "0804",
+   "sector": "Cement"
+  },
+  "BNL": {
+   "code": "0810",
+   "sector": "Food & Personal Care Products"
+  },
+  "BIPL": {
+   "code": "0807",
+   "sector": "Commercial Banks"
+  },
+  "SLYT": {
+   "code": "0830",
+   "sector": "Textile Spinning"
+  },
+  "AVN": {
+   "code": "0828",
+   "sector": "Technology & Communication"
+  },
+  "IPAK": {
+   "code": "0822",
+   "sector": "Paper, Board & Packaging"
+  },
+  "TBL": {
+   "code": "0802",
+   "sector": "Automobile Parts & Accessories"
+  },
+  "TOWL": {
+   "code": "0829",
+   "sector": "Textile Composite"
+  },
+  "CEPB": {
+   "code": "0822",
+   "sector": "Paper, Board & Packaging"
+  },
+  "ASTL": {
+   "code": "0808",
+   "sector": "Engineering"
+  },
+  "FIBLM": {
+   "code": "0819",
+   "sector": "Modarabas"
   },
   "BML": {
    "code": "0807",
@@ -489,373 +633,93 @@
    "code": "0824",
    "sector": "Power Generation & Distribution"
   },
-  "SNBL": {
-   "code": "0807",
-   "sector": "Commercial Banks"
-  },
-  "IREIT": {
-   "code": "0836",
-   "sector": "Real Estate Investment Trust"
-  },
-  "DNCC": {
-   "code": "0804",
-   "sector": "Cement"
-  },
-  "SGPL": {
-   "code": "0824",
-   "sector": "Power Generation & Distribution"
-  },
-  "PSX": {
-   "code": "0813",
-   "sector": "Inv. Banks / Inv. Cos. / Securities Cos."
-  },
-  "EFERT": {
-   "code": "0809",
-   "sector": "Fertilizer"
-  },
-  "PAKQATAR": {
-   "code": "0812",
-   "sector": "Insurance"
-  },
-  "PAKRI": {
-   "code": "0812",
-   "sector": "Insurance"
-  },
-  "GRR": {
-   "code": "0836",
-   "sector": "Real Estate Investment Trust"
-  },
-  "IPAK": {
-   "code": "0822",
-   "sector": "Paper, Board & Packaging"
-  },
-  "GLAXO": {
-   "code": "0823",
-   "sector": "Pharmaceuticals"
-  },
-  "GAL": {
-   "code": "0801",
-   "sector": "Automobile Assembler"
-  },
-  "MTL": {
-   "code": "0801",
-   "sector": "Automobile Assembler"
-  },
-  "POWER": {
-   "code": "0804",
-   "sector": "Cement"
-  },
-  "FABL": {
-   "code": "0807",
-   "sector": "Commercial Banks"
-  },
-  "TOWL": {
-   "code": "0829",
-   "sector": "Textile Composite"
-  },
-  "ISL": {
-   "code": "0808",
-   "sector": "Engineering"
-  },
-  "TBL": {
-   "code": "0802",
-   "sector": "Automobile Parts & Accessories"
-  },
-  "EPCL": {
-   "code": "0805",
-   "sector": "Chemical"
-  },
-  "MARI": {
-   "code": "0820",
-   "sector": "Oil & Gas Exploration Companies"
-  },
-  "CHCC": {
-   "code": "0804",
-   "sector": "Cement"
-  },
   "DFML": {
    "code": "0801",
    "sector": "Automobile Assembler"
-  },
-  "FDPL": {
-   "code": "0813",
-   "sector": "Inv. Banks / Inv. Cos. / Securities Cos."
-  },
-  "SRVI": {
-   "code": "0816",
-   "sector": "Leather & Tanneries"
-  },
-  "DCR": {
-   "code": "0836",
-   "sector": "Real Estate Investment Trust"
-  },
-  "ASC": {
-   "code": "0810",
-   "sector": "Food & Personal Care Products"
-  },
-  "AVN": {
-   "code": "0828",
-   "sector": "Technology & Communication"
-  },
-  "AGL": {
-   "code": "0809",
-   "sector": "Fertilizer"
-  },
-  "AMTEX": {
-   "code": "0830",
-   "sector": "Textile Spinning"
-  },
-  "CEPB": {
-   "code": "0822",
-   "sector": "Paper, Board & Packaging"
-  },
-  "RPL": {
-   "code": "0822",
-   "sector": "Paper, Board & Packaging"
-  },
-  "GHGL": {
-   "code": "0811",
-   "sector": "Glass & Ceramics"
-  },
-  "KOHE": {
-   "code": "0824",
-   "sector": "Power Generation & Distribution"
-  },
-  "JVDC": {
-   "code": "0838",
-   "sector": "Property"
-  },
-  "BIPL": {
-   "code": "0807",
-   "sector": "Commercial Banks"
-  },
-  "FFLM": {
-   "code": "0819",
-   "sector": "Modarabas"
-  },
-  "STPL": {
-   "code": "0818",
-   "sector": "Miscellaneous"
-  },
-  "HICL": {
-   "code": "0812",
-   "sector": "Insurance"
-  },
-  "IMAGE": {
-   "code": "0839",
-   "sector": "Apparel"
   },
   "SELECT": {
    "code": "0828",
    "sector": "Technology & Communication"
   },
-  "SLYT": {
+  "PAKRI": {
+   "code": "0812",
+   "sector": "Insurance"
+  },
+  "SSML": {
    "code": "0830",
    "sector": "Textile Spinning"
   },
-  "ARPL": {
-   "code": "0805",
-   "sector": "Chemical"
+  "MEHT": {
+   "code": "0829",
+   "sector": "Textile Composite"
   },
-  "ITTEFAQ": {
-   "code": "0808",
-   "sector": "Engineering"
-  },
-  "WASL": {
-   "code": "0819",
-   "sector": "Modarabas"
-  },
-  "WAHDAT": {
-   "code": "0810",
-   "sector": "Food & Personal Care Products"
-  },
-  "DBCI": {
-   "code": "0804",
-   "sector": "Cement"
+  "MARI": {
+   "code": "0820",
+   "sector": "Oil & Gas Exploration Companies"
   },
   "GGGL": {
    "code": "0811",
    "sector": "Glass & Ceramics"
   },
-  "STL": {
-   "code": "0828",
-   "sector": "Technology & Communication"
-  },
-  "ALTN": {
-   "code": "0824",
-   "sector": "Power Generation & Distribution"
-  },
-  "NICL": {
-   "code": "0805",
-   "sector": "Chemical"
-  },
-  "SBL": {
-   "code": "0807",
-   "sector": "Commercial Banks"
-  },
-  "NETSOL": {
-   "code": "0828",
-   "sector": "Technology & Communication"
-  },
-  "INIL": {
-   "code": "0808",
-   "sector": "Engineering"
-  },
-  "CLVL": {
-   "code": "0833",
-   "sector": "Transport"
-  },
-  "ZAL": {
-   "code": "0828",
-   "sector": "Technology & Communication"
-  },
-  "ACPL": {
-   "code": "0804",
-   "sector": "Cement"
-  },
-  "FANM": {
-   "code": "0819",
-   "sector": "Modarabas"
-  },
-  "BERG": {
-   "code": "0805",
-   "sector": "Chemical"
-  },
-  "PIOC": {
-   "code": "0804",
-   "sector": "Cement"
-  },
-  "ASTL": {
-   "code": "0808",
-   "sector": "Engineering"
-  },
-  "TGL": {
-   "code": "0811",
-   "sector": "Glass & Ceramics"
-  },
-  "MERIT": {
-   "code": "0822",
-   "sector": "Paper, Board & Packaging"
-  },
-  "GHNI": {
-   "code": "0801",
-   "sector": "Automobile Assembler"
-  },
-  "MWMP": {
-   "code": "0818",
-   "sector": "Miscellaneous"
-  },
-  "GTYR": {
-   "code": "0802",
-   "sector": "Automobile Parts & Accessories"
-  },
-  "BAPL": {
-   "code": "0805",
-   "sector": "Chemical"
-  },
-  "DOL": {
-   "code": "0805",
-   "sector": "Chemical"
-  },
-  "DFSM": {
-   "code": "0830",
-   "sector": "Textile Spinning"
-  },
-  "NCL": {
-   "code": "0829",
-   "sector": "Textile Composite"
-  },
-  "ALAC": {
-   "code": "0812",
-   "sector": "Insurance"
-  },
-  "PKGI": {
-   "code": "0812",
-   "sector": "Insurance"
-  },
-  "KOHC": {
-   "code": "0804",
-   "sector": "Cement"
-  },
-  "HMB": {
-   "code": "0807",
-   "sector": "Commercial Banks"
-  },
-  "HCAR": {
-   "code": "0801",
-   "sector": "Automobile Assembler"
-  },
-  "LEUL": {
-   "code": "0816",
-   "sector": "Leather & Tanneries"
-  },
-  "IBLHL": {
-   "code": "0823",
-   "sector": "Pharmaceuticals"
-  },
-  "CSAP": {
-   "code": "0808",
-   "sector": "Engineering"
-  },
-  "JSIL": {
+  "ICIBL": {
    "code": "0813",
    "sector": "Inv. Banks / Inv. Cos. / Securities Cos."
   },
-  "SPEL": {
-   "code": "0822",
-   "sector": "Paper, Board & Packaging"
+  "HICL": {
+   "code": "0812",
+   "sector": "Insurance"
   },
-  "WAFI": {
-   "code": "0821",
-   "sector": "Oil & Gas Marketing Companies"
-  },
-  "MSOT": {
-   "code": "0839",
-   "sector": "Apparel"
-  },
-  "POL": {
-   "code": "0820",
-   "sector": "Oil & Gas Exploration Companies"
-  },
-  "HIRAT": {
-   "code": "0830",
-   "sector": "Textile Spinning"
-  },
-  "SHFA": {
-   "code": "0818",
-   "sector": "Miscellaneous"
-  },
-  "JSBL": {
+  "FABL": {
    "code": "0807",
    "sector": "Commercial Banks"
-  },
-  "AGP": {
-   "code": "0823",
-   "sector": "Pharmaceuticals"
-  },
-  "PPVC": {
-   "code": "0805",
-   "sector": "Chemical"
-  },
-  "MFL": {
-   "code": "0810",
-   "sector": "Food & Personal Care Products"
-  },
-  "OCTOPUS": {
-   "code": "0828",
-   "sector": "Technology & Communication"
   },
   "SAZEW": {
    "code": "0801",
    "sector": "Automobile Assembler"
   },
-  "786": {
+  "KOHC": {
+   "code": "0804",
+   "sector": "Cement"
+  },
+  "FDPL": {
    "code": "0813",
    "sector": "Inv. Banks / Inv. Cos. / Securities Cos."
   },
-  "ASTM": {
-   "code": "0830",
-   "sector": "Textile Spinning"
+  "ITTEFAQ": {
+   "code": "0808",
+   "sector": "Engineering"
+  },
+  "STCL": {
+   "code": "0811",
+   "sector": "Glass & Ceramics"
+  },
+  "IREIT": {
+   "code": "0836",
+   "sector": "Real Estate Investment Trust"
+  },
+  "JSIL": {
+   "code": "0813",
+   "sector": "Inv. Banks / Inv. Cos. / Securities Cos."
+  },
+  "BUXL": {
+   "code": "0805",
+   "sector": "Chemical"
+  },
+  "INIL": {
+   "code": "0808",
+   "sector": "Engineering"
+  },
+  "ADMM": {
+   "code": "0829",
+   "sector": "Textile Composite"
+  },
+  "ASC": {
+   "code": "0810",
+   "sector": "Food & Personal Care Products"
+  },
+  "FFLM": {
+   "code": "0819",
+   "sector": "Modarabas"
   },
   "CENI": {
    "code": "0812",
@@ -865,55 +729,179 @@
    "code": "0818",
    "sector": "Miscellaneous"
   },
-  "PTL": {
-   "code": "0802",
-   "sector": "Automobile Parts & Accessories"
-  },
-  "EPQL": {
-   "code": "0824",
-   "sector": "Power Generation & Distribution"
-  },
-  "CLCPS": {
-   "code": "0829",
-   "sector": "Textile Composite"
-  },
-  "KML": {
-   "code": "0829",
-   "sector": "Textile Composite"
-  },
-  "SHDT": {
-   "code": "0830",
-   "sector": "Textile Spinning"
-  },
-  "PQGTL": {
-   "code": "0812",
-   "sector": "Insurance"
-  },
-  "PINL": {
-   "code": "0812",
-   "sector": "Insurance"
-  },
-  "UNIC": {
-   "code": "0812",
-   "sector": "Insurance"
-  },
-  "AGSML": {
-   "code": "0826",
-   "sector": "Sugar & Allied Industries"
-  },
-  "GVGL": {
-   "code": "0811",
-   "sector": "Glass & Ceramics"
+  "SPEL": {
+   "code": "0822",
+   "sector": "Paper, Board & Packaging"
   },
   "FPRM": {
    "code": "0819",
    "sector": "Modarabas"
   },
-  "QUICE": {
+  "PQGTL": {
+   "code": "0812",
+   "sector": "Insurance"
+  },
+  "KOHE": {
+   "code": "0824",
+   "sector": "Power Generation & Distribution"
+  },
+  "TATM": {
+   "code": "0830",
+   "sector": "Textile Spinning"
+  },
+  "DCR": {
+   "code": "0836",
+   "sector": "Real Estate Investment Trust"
+  },
+  "GHNI": {
+   "code": "0801",
+   "sector": "Automobile Assembler"
+  },
+  "ECOP": {
+   "code": "0818",
+   "sector": "Miscellaneous"
+  },
+  "IMAGE": {
+   "code": "0839",
+   "sector": "Apparel"
+  },
+  "GWLC": {
+   "code": "0804",
+   "sector": "Cement"
+  },
+  "TGL": {
+   "code": "0811",
+   "sector": "Glass & Ceramics"
+  },
+  "LCI": {
+   "code": "0805",
+   "sector": "Chemical"
+  },
+  "PAKQATAR": {
+   "code": "0812",
+   "sector": "Insurance"
+  },
+  "ESBL": {
+   "code": "0813",
+   "sector": "Inv. Banks / Inv. Cos. / Securities Cos."
+  },
+  "AMTEX": {
+   "code": "0830",
+   "sector": "Textile Spinning"
+  },
+  "SHDT": {
+   "code": "0830",
+   "sector": "Textile Spinning"
+  },
+  "GHGL": {
+   "code": "0811",
+   "sector": "Glass & Ceramics"
+  },
+  "PKGI": {
+   "code": "0812",
+   "sector": "Insurance"
+  },
+  "FECTC": {
+   "code": "0804",
+   "sector": "Cement"
+  },
+  "AHL": {
+   "code": "0813",
+   "sector": "Inv. Banks / Inv. Cos. / Securities Cos."
+  },
+  "FECM": {
+   "code": "0819",
+   "sector": "Modarabas"
+  },
+  "AKDSL": {
+   "code": "0813",
+   "sector": "Inv. Banks / Inv. Cos. / Securities Cos."
+  },
+  "CSAP": {
+   "code": "0808",
+   "sector": "Engineering"
+  },
+  "RPL": {
+   "code": "0822",
+   "sector": "Paper, Board & Packaging"
+  },
+  "SPAC2": {
+   "code": "0813",
+   "sector": "Inv. Banks / Inv. Cos. / Securities Cos."
+  },
+  "LSEVL": {
+   "code": "0813",
+   "sector": "Inv. Banks / Inv. Cos. / Securities Cos."
+  },
+  "PPP": {
+   "code": "0822",
+   "sector": "Paper, Board & Packaging"
+  },
+  "EPCL": {
+   "code": "0805",
+   "sector": "Chemical"
+  },
+  "ZAL": {
+   "code": "0828",
+   "sector": "Technology & Communication"
+  },
+  "MSOT": {
+   "code": "0839",
+   "sector": "Apparel"
+  },
+  "ALAC": {
+   "code": "0812",
+   "sector": "Insurance"
+  },
+  "JSCL": {
+   "code": "0813",
+   "sector": "Inv. Banks / Inv. Cos. / Securities Cos."
+  },
+  "DNCC": {
+   "code": "0804",
+   "sector": "Cement"
+  },
+  "PICT": {
+   "code": "0833",
+   "sector": "Transport"
+  },
+  "HIFA": {
+   "code": "0806",
+   "sector": "Close - End Mutual Fund"
+  },
+  "SGF": {
+   "code": "0816",
+   "sector": "Leather & Tanneries"
+  },
+  "COLG": {
    "code": "0810",
    "sector": "Food & Personal Care Products"
   },
-  "UCAPM": {
+  "GLAXO": {
+   "code": "0823",
+   "sector": "Pharmaceuticals"
+  },
+  "LPL": {
+   "code": "0824",
+   "sector": "Power Generation & Distribution"
+  },
+  "SHNI": {
+   "code": "0812",
+   "sector": "Insurance"
+  },
+  "KML": {
+   "code": "0829",
+   "sector": "Textile Composite"
+  },
+  "BCL": {
+   "code": "0808",
+   "sector": "Engineering"
+  },
+  "GTYR": {
+   "code": "0802",
+   "sector": "Automobile Parts & Accessories"
+  },
+  "FANM": {
    "code": "0819",
    "sector": "Modarabas"
   },
@@ -921,151 +909,15 @@
    "code": "0813",
    "sector": "Inv. Banks / Inv. Cos. / Securities Cos."
   },
-  "FECTC": {
-   "code": "0804",
-   "sector": "Cement"
+  "SPWL": {
+   "code": "0824",
+   "sector": "Power Generation & Distribution"
   },
-  "AKDSL": {
-   "code": "0813",
-   "sector": "Inv. Banks / Inv. Cos. / Securities Cos."
-  },
-  "BWHL": {
-   "code": "0802",
-   "sector": "Automobile Parts & Accessories"
-  },
-  "ANL": {
-   "code": "0829",
-   "sector": "Textile Composite"
-  },
-  "FEROZ": {
-   "code": "0823",
-   "sector": "Pharmaceuticals"
-  },
-  "BBFL": {
-   "code": "0810",
-   "sector": "Food & Personal Care Products"
-  },
-  "ADMM": {
-   "code": "0829",
-   "sector": "Textile Composite"
-  },
-  "AHL": {
-   "code": "0813",
-   "sector": "Inv. Banks / Inv. Cos. / Securities Cos."
-  },
-  "FEM": {
-   "code": "0819",
-   "sector": "Modarabas"
-  },
-  "TATM": {
-   "code": "0830",
-   "sector": "Textile Spinning"
-  },
-  "INKL": {
-   "code": "0839",
-   "sector": "Apparel"
-  },
-  "EMCO": {
-   "code": "0803",
-   "sector": "Cable & Electrical Goods"
-  },
-  "PPP": {
-   "code": "0822",
-   "sector": "Paper, Board & Packaging"
-  },
-  "IMS": {
-   "code": "0813",
-   "sector": "Inv. Banks / Inv. Cos. / Securities Cos."
-  },
-  "BFAGRO": {
-   "code": "0810",
-   "sector": "Food & Personal Care Products"
-  },
-  "PICT": {
-   "code": "0833",
-   "sector": "Transport"
-  },
-  "JSML": {
-   "code": "0826",
-   "sector": "Sugar & Allied Industries"
-  },
-  "HTL": {
-   "code": "0821",
-   "sector": "Oil & Gas Marketing Companies"
-  },
-  "JSCL": {
-   "code": "0813",
-   "sector": "Inv. Banks / Inv. Cos. / Securities Cos."
-  },
-  "NATF": {
-   "code": "0810",
-   "sector": "Food & Personal Care Products"
-  },
-  "GWLC": {
-   "code": "0804",
-   "sector": "Cement"
-  },
-  "FHAM": {
-   "code": "0819",
-   "sector": "Modarabas"
-  },
-  "FTSM": {
-   "code": "0819",
-   "sector": "Modarabas"
-  },
-  "LCI": {
-   "code": "0805",
-   "sector": "Chemical"
-  },
-  "PABC": {
-   "code": "0818",
-   "sector": "Miscellaneous"
-  },
-  "SEPL": {
-   "code": "0822",
-   "sector": "Paper, Board & Packaging"
-  },
-  "LSEVL": {
-   "code": "0813",
-   "sector": "Inv. Banks / Inv. Cos. / Securities Cos."
-  },
-  "CTM": {
-   "code": "0830",
-   "sector": "Textile Spinning"
-  },
-  "JLICL": {
-   "code": "0812",
-   "sector": "Insurance"
-  },
-  "APL": {
-   "code": "0821",
-   "sector": "Oil & Gas Marketing Companies"
-  },
-  "RUBY": {
-   "code": "0830",
-   "sector": "Textile Spinning"
-  },
-  "CJPL": {
-   "code": "0814",
-   "sector": "Jute"
-  },
-  "ARCTM": {
-   "code": "0830",
-   "sector": "Textile Spinning"
+  "NETSOL": {
+   "code": "0828",
+   "sector": "Technology & Communication"
   },
   "PIM": {
-   "code": "0819",
-   "sector": "Modarabas"
-  },
-  "ORM": {
-   "code": "0819",
-   "sector": "Modarabas"
-  },
-  "SGF": {
-   "code": "0816",
-   "sector": "Leather & Tanneries"
-  },
-  "FIBLM": {
    "code": "0819",
    "sector": "Modarabas"
   },
@@ -1073,297 +925,345 @@
    "code": "0829",
    "sector": "Textile Composite"
   },
-  "ABOT": {
-   "code": "0823",
-   "sector": "Pharmaceuticals"
+  "BFAGRO": {
+   "code": "0810",
+   "sector": "Food & Personal Care Products"
   },
-  "ICIBL": {
+  "786": {
    "code": "0813",
    "sector": "Inv. Banks / Inv. Cos. / Securities Cos."
-  },
-  "TCORP": {
-   "code": "0826",
-   "sector": "Sugar & Allied Industries"
-  },
-  "MEHT": {
-   "code": "0829",
-   "sector": "Textile Composite"
-  },
-  "PASM": {
-   "code": "0829",
-   "sector": "Textile Composite"
-  },
-  "BWCL": {
-   "code": "0804",
-   "sector": "Cement"
-  },
-  "KOHTM": {
-   "code": "0830",
-   "sector": "Textile Spinning"
-  },
-  "GEMPACRA": {
-   "code": "0818",
-   "sector": "Miscellaneous"
-  },
-  "CPPL": {
-   "code": "0822",
-   "sector": "Paper, Board & Packaging"
-  },
-  "NCML": {
-   "code": "0830",
-   "sector": "Textile Spinning"
   },
   "BGL": {
    "code": "0811",
    "sector": "Glass & Ceramics"
   },
-  "ICL": {
-   "code": "0805",
-   "sector": "Chemical"
+  "HTL": {
+   "code": "0821",
+   "sector": "Oil & Gas Marketing Companies"
   },
-  "SKRS": {
-   "code": "0826",
-   "sector": "Sugar & Allied Industries"
+  "MERIT": {
+   "code": "0822",
+   "sector": "Paper, Board & Packaging"
   },
-  "SHNI": {
+  "EMCO": {
+   "code": "0803",
+   "sector": "Cable & Electrical Goods"
+  },
+  "UNIC": {
    "code": "0812",
    "sector": "Insurance"
   },
-  "GSPM": {
-   "code": "0830",
-   "sector": "Textile Spinning"
-  },
-  "PAKT": {
-   "code": "0832",
-   "sector": "Tobacco"
-  },
-  "ABL": {
-   "code": "0807",
-   "sector": "Commercial Banks"
-  },
-  "THALL": {
-   "code": "0802",
-   "sector": "Automobile Parts & Accessories"
-  },
-  "AGTL": {
-   "code": "0801",
-   "sector": "Automobile Assembler"
-  },
-  "PIL": {
-   "code": "0812",
-   "sector": "Insurance"
-  },
-  "IDRT": {
-   "code": "0830",
-   "sector": "Textile Spinning"
-  },
-  "ATIL": {
-   "code": "0812",
-   "sector": "Insurance"
-  },
-  "HRPL": {
-   "code": "0826",
-   "sector": "Sugar & Allied Industries"
+  "BBFL": {
+   "code": "0810",
+   "sector": "Food & Personal Care Products"
   },
   "BIFO": {
    "code": "0805",
    "sector": "Chemical"
   },
-  "UDPL": {
-   "code": "0818",
-   "sector": "Miscellaneous"
-  },
-  "SSML": {
-   "code": "0830",
-   "sector": "Textile Spinning"
-  },
-  "UDLI": {
-   "code": "0818",
-   "sector": "Miscellaneous"
-  },
-  "SERT": {
-   "code": "0830",
-   "sector": "Textile Spinning"
-  },
-  "BCL": {
-   "code": "0808",
-   "sector": "Engineering"
-  },
-  "GRYL": {
-   "code": "0815",
-   "sector": "Leasing Companies"
-  },
-  "HGFA": {
-   "code": "0806",
-   "sector": "Close - End Mutual Fund"
-  },
-  "PSEL": {
-   "code": "0818",
-   "sector": "Miscellaneous"
-  },
-  "ZTL": {
-   "code": "0831",
-   "sector": "Textile Weaving"
-  },
-  "TSPL": {
+  "ALTN": {
    "code": "0824",
    "sector": "Power Generation & Distribution"
   },
-  "ZAHID": {
+  "WAHDAT": {
+   "code": "0810",
+   "sector": "Food & Personal Care Products"
+  },
+  "AGP": {
+   "code": "0823",
+   "sector": "Pharmaceuticals"
+  },
+  "APL": {
+   "code": "0821",
+   "sector": "Oil & Gas Marketing Companies"
+  },
+  "ARPL": {
+   "code": "0805",
+   "sector": "Chemical"
+  },
+  "KTML": {
    "code": "0829",
    "sector": "Textile Composite"
   },
-  "PNSC": {
-   "code": "0833",
-   "sector": "Transport"
+  "MFL": {
+   "code": "0810",
+   "sector": "Food & Personal Care Products"
   },
-  "PGLC": {
-   "code": "0815",
-   "sector": "Leasing Companies"
+  "HRPL": {
+   "code": "0826",
+   "sector": "Sugar & Allied Industries"
   },
-  "MUGHALC": {
-   "code": "0808",
-   "sector": "Engineering"
+  "QUICE": {
+   "code": "0810",
+   "sector": "Food & Personal Care Products"
   },
-  "OLPL": {
-   "code": "0813",
-   "sector": "Inv. Banks / Inv. Cos. / Securities Cos."
+  "MWMP": {
+   "code": "0818",
+   "sector": "Miscellaneous"
   },
-  "INDU": {
-   "code": "0801",
-   "sector": "Automobile Assembler"
-  },
-  "ASHT": {
-   "code": "0831",
-   "sector": "Textile Weaving"
+  "RUBY": {
+   "code": "0830",
+   "sector": "Textile Spinning"
   },
   "DWSM": {
    "code": "0826",
    "sector": "Sugar & Allied Industries"
   },
-  "STYLERS": {
-   "code": "0839",
-   "sector": "Apparel"
-  },
-  "DWTM": {
-   "code": "0830",
-   "sector": "Textile Spinning"
-  },
-  "HUSI": {
-   "code": "0838",
-   "sector": "Property"
-  },
-  "PSYL": {
-   "code": "0827",
-   "sector": "Synthetic & Rayon"
-  },
-  "KOHP": {
-   "code": "0824",
-   "sector": "Power Generation & Distribution"
-  },
-  "LIVEN": {
+  "IBLHL": {
    "code": "0823",
    "sector": "Pharmaceuticals"
   },
-  "LPGL": {
-   "code": "0805",
-   "sector": "Chemical"
+  "TSPL": {
+   "code": "0824",
+   "sector": "Power Generation & Distribution"
   },
-  "OLPM": {
+  "FHAM": {
    "code": "0819",
    "sector": "Modarabas"
   },
-  "AGIL": {
-   "code": "0802",
-   "sector": "Automobile Parts & Accessories"
-  },
-  "SAIF": {
-   "code": "0830",
-   "sector": "Textile Spinning"
-  },
-  "FLYNG": {
-   "code": "0804",
-   "sector": "Cement"
-  },
-  "GAMON": {
-   "code": "0818",
-   "sector": "Miscellaneous"
-  },
-  "JGICL": {
-   "code": "0812",
-   "sector": "Insurance"
-  },
-  "SNAI": {
-   "code": "0830",
-   "sector": "Textile Spinning"
-  },
-  "MCBIM": {
-   "code": "0813",
-   "sector": "Inv. Banks / Inv. Cos. / Securities Cos."
+  "ABL": {
+   "code": "0807",
+   "sector": "Commercial Banks"
   },
   "PAKOXY": {
    "code": "0805",
    "sector": "Chemical"
   },
-  "TPLI": {
-   "code": "0812",
-   "sector": "Insurance"
-  },
-  "QUET": {
-   "code": "0829",
-   "sector": "Textile Composite"
-  },
-  "STCL": {
-   "code": "0811",
-   "sector": "Glass & Ceramics"
-  },
-  "WAHN": {
+  "BAPL": {
    "code": "0805",
    "sector": "Chemical"
+  },
+  "ORM": {
+   "code": "0819",
+   "sector": "Modarabas"
+  },
+  "WAFI": {
+   "code": "0821",
+   "sector": "Oil & Gas Marketing Companies"
   },
   "HALEON": {
    "code": "0823",
    "sector": "Pharmaceuticals"
   },
-  "BOK": {
-   "code": "0807",
-   "sector": "Commercial Banks"
-  },
-  "DLL": {
-   "code": "0813",
-   "sector": "Inv. Banks / Inv. Cos. / Securities Cos."
-  },
-  "SURC": {
-   "code": "0829",
-   "sector": "Textile Composite"
-  },
-  "UBDL": {
-   "code": "0818",
-   "sector": "Miscellaneous"
-  },
-  "SEL": {
+  "KOHP": {
    "code": "0824",
    "sector": "Power Generation & Distribution"
   },
-  "BFMOD": {
-   "code": "0819",
-   "sector": "Modarabas"
-  },
-  "GFIL": {
-   "code": "0829",
-   "sector": "Textile Composite"
-  },
-  "IGIL": {
+  "PINL": {
    "code": "0812",
    "sector": "Insurance"
   },
-  "SINDM": {
+  "NATF": {
+   "code": "0810",
+   "sector": "Food & Personal Care Products"
+  },
+  "SRVI": {
+   "code": "0816",
+   "sector": "Leather & Tanneries"
+  },
+  "HIRAT": {
+   "code": "0830",
+   "sector": "Textile Spinning"
+  },
+  "KOHTM": {
+   "code": "0830",
+   "sector": "Textile Spinning"
+  },
+  "NCL": {
+   "code": "0829",
+   "sector": "Textile Composite"
+  },
+  "SEPL": {
+   "code": "0822",
+   "sector": "Paper, Board & Packaging"
+  },
+  "UCAPM": {
    "code": "0819",
    "sector": "Modarabas"
   },
-  "DAAG": {
+  "SERT": {
+   "code": "0830",
+   "sector": "Textile Spinning"
+  },
+  "MSCL": {
+   "code": "0808",
+   "sector": "Engineering"
+  },
+  "SBL": {
+   "code": "0807",
+   "sector": "Commercial Banks"
+  },
+  "ICCI": {
+   "code": "0831",
+   "sector": "Textile Weaving"
+  },
+  "AGTL": {
+   "code": "0801",
+   "sector": "Automobile Assembler"
+  },
+  "FLYNG": {
+   "code": "0804",
+   "sector": "Cement"
+  },
+  "LIVEN": {
+   "code": "0823",
+   "sector": "Pharmaceuticals"
+  },
+  "ANL": {
+   "code": "0829",
+   "sector": "Textile Composite"
+  },
+  "PTL": {
+   "code": "0802",
+   "sector": "Automobile Parts & Accessories"
+  },
+  "SHFA": {
+   "code": "0818",
+   "sector": "Miscellaneous"
+  },
+  "AGSML": {
+   "code": "0826",
+   "sector": "Sugar & Allied Industries"
+  },
+  "FTSM": {
+   "code": "0819",
+   "sector": "Modarabas"
+  },
+  "IMS": {
+   "code": "0813",
+   "sector": "Inv. Banks / Inv. Cos. / Securities Cos."
+  },
+  "CPPL": {
+   "code": "0822",
+   "sector": "Paper, Board & Packaging"
+  },
+  "PPVC": {
    "code": "0805",
    "sector": "Chemical"
+  },
+  "RUPL": {
+   "code": "0827",
+   "sector": "Synthetic & Rayon"
+  },
+  "CLCPS": {
+   "code": "0829",
+   "sector": "Textile Composite"
+  },
+  "HWQS": {
+   "code": "0826",
+   "sector": "Sugar & Allied Industries"
+  },
+  "MQTM": {
+   "code": "0830",
+   "sector": "Textile Spinning"
+  },
+  "DOL": {
+   "code": "0805",
+   "sector": "Chemical"
+  },
+  "OML": {
+   "code": "0818",
+   "sector": "Miscellaneous"
+  },
+  "KSBP": {
+   "code": "0808",
+   "sector": "Engineering"
+  },
+  "FTMM": {
+   "code": "0819",
+   "sector": "Modarabas"
+  },
+  "SPL": {
+   "code": "0805",
+   "sector": "Chemical"
+  },
+  "SCBPL": {
+   "code": "0807",
+   "sector": "Commercial Banks"
+  },
+  "OCTOPUS": {
+   "code": "0828",
+   "sector": "Technology & Communication"
+  },
+  "FCIBL": {
+   "code": "0813",
+   "sector": "Inv. Banks / Inv. Cos. / Securities Cos."
+  },
+  "GATI": {
+   "code": "0827",
+   "sector": "Synthetic & Rayon"
+  },
+  "HINOON": {
+   "code": "0823",
+   "sector": "Pharmaceuticals"
+  },
+  "GAMON": {
+   "code": "0818",
+   "sector": "Miscellaneous"
+  },
+  "BWCL": {
+   "code": "0804",
+   "sector": "Cement"
+  },
+  "BWHL": {
+   "code": "0802",
+   "sector": "Automobile Parts & Accessories"
+  },
+  "JSML": {
+   "code": "0826",
+   "sector": "Sugar & Allied Industries"
+  },
+  "DEL": {
+   "code": "0813",
+   "sector": "Inv. Banks / Inv. Cos. / Securities Cos."
+  },
+  "ANTM": {
+   "code": "0829",
+   "sector": "Textile Composite"
+  },
+  "GSPM": {
+   "code": "0830",
+   "sector": "Textile Spinning"
+  },
+  "TPLL": {
+   "code": "0812",
+   "sector": "Insurance"
+  },
+  "SMCPL": {
+   "code": "0804",
+   "sector": "Cement"
+  },
+  "UDLI": {
+   "code": "0818",
+   "sector": "Miscellaneous"
+  },
+  "TCORP": {
+   "code": "0826",
+   "sector": "Sugar & Allied Industries"
+  },
+  "PSEL": {
+   "code": "0818",
+   "sector": "Miscellaneous"
+  },
+  "GADT": {
+   "code": "0830",
+   "sector": "Textile Spinning"
+  },
+  "FEROZ": {
+   "code": "0823",
+   "sector": "Pharmaceuticals"
+  },
+  "ARCTM": {
+   "code": "0830",
+   "sector": "Textile Spinning"
+  },
+  "SAIF": {
+   "code": "0830",
+   "sector": "Textile Spinning"
+  },
+  "PCAL": {
+   "code": "0803",
+   "sector": "Cable & Electrical Goods"
   },
   "JATM": {
    "code": "0830",
@@ -1373,183 +1273,43 @@
    "code": "0818",
    "sector": "Miscellaneous"
   },
-  "SPAC2": {
-   "code": "0813",
-   "sector": "Inv. Banks / Inv. Cos. / Securities Cos."
+  "HGFA": {
+   "code": "0806",
+   "sector": "Close - End Mutual Fund"
   },
-  "DWAE": {
-   "code": "0802",
-   "sector": "Automobile Parts & Accessories"
+  "PIOC": {
+   "code": "0804",
+   "sector": "Cement"
   },
-  "FCIBL": {
-   "code": "0813",
-   "sector": "Inv. Banks / Inv. Cos. / Securities Cos."
+  "ALIFE": {
+   "code": "0812",
+   "sector": "Insurance"
   },
-  "ASLPS": {
-   "code": "0808",
-   "sector": "Engineering"
+  "UDPL": {
+   "code": "0818",
+   "sector": "Miscellaneous"
   },
-  "JUBS": {
-   "code": "0829",
-   "sector": "Textile Composite"
+  "PGLC": {
+   "code": "0815",
+   "sector": "Leasing Companies"
   },
   "SRR": {
    "code": "0836",
    "sector": "Real Estate Investment Trust"
   },
-  "RUPL": {
-   "code": "0827",
-   "sector": "Synthetic & Rayon"
-  },
-  "HAEL": {
-   "code": "0829",
-   "sector": "Textile Composite"
-  },
-  "SARC": {
-   "code": "0805",
-   "sector": "Chemical"
-  },
-  "DEL": {
-   "code": "0813",
-   "sector": "Inv. Banks / Inv. Cos. / Securities Cos."
-  },
-  "OML": {
-   "code": "0818",
-   "sector": "Miscellaneous"
-  },
-  "IGIHL": {
-   "code": "0812",
-   "sector": "Insurance"
-  },
-  "MSCL": {
-   "code": "0808",
-   "sector": "Engineering"
-  },
   "MIRKS": {
    "code": "0826",
    "sector": "Sugar & Allied Industries"
   },
-  "PKGP": {
-   "code": "0824",
-   "sector": "Power Generation & Distribution"
-  },
-  "IML": {
-   "code": "0813",
-   "sector": "Inv. Banks / Inv. Cos. / Securities Cos."
-  },
-  "ATBA": {
-   "code": "0802",
-   "sector": "Automobile Parts & Accessories"
-  },
-  "SCBPL": {
-   "code": "0807",
-   "sector": "Commercial Banks"
-  },
-  "PRET": {
-   "code": "0830",
-   "sector": "Textile Spinning"
-  },
-  "GATI": {
-   "code": "0827",
-   "sector": "Synthetic & Rayon"
-  },
-  "FTMM": {
-   "code": "0819",
-   "sector": "Modarabas"
-  },
-  "ICCI": {
-   "code": "0831",
-   "sector": "Textile Weaving"
-  },
-  "MACTER": {
-   "code": "0823",
-   "sector": "Pharmaceuticals"
-  },
-  "SMCPL": {
-   "code": "0804",
-   "sector": "Cement"
-  },
-  "SHCM": {
-   "code": "0830",
-   "sector": "Textile Spinning"
-  },
-  "EFUL": {
-   "code": "0812",
-   "sector": "Insurance"
-  },
-  "EPCLPS": {
+  "ICL": {
    "code": "0805",
    "sector": "Chemical"
   },
-  "AGIC": {
-   "code": "0812",
-   "sector": "Insurance"
-  },
-  "KSBP": {
-   "code": "0808",
-   "sector": "Engineering"
-  },
-  "REDCO": {
-   "code": "0829",
-   "sector": "Textile Composite"
-  },
-  "EFUG": {
-   "code": "0812",
-   "sector": "Insurance"
-  },
-  "SPAC1": {
-   "code": "0813",
-   "sector": "Inv. Banks / Inv. Cos. / Securities Cos."
-  },
-  "PCAL": {
-   "code": "0803",
-   "sector": "Cable & Electrical Goods"
-  },
-  "OTSU": {
-   "code": "0823",
-   "sector": "Pharmaceuticals"
-  },
-  "JSRR": {
-   "code": "0836",
-   "sector": "Real Estate Investment Trust"
-  },
-  "FML": {
-   "code": "0829",
-   "sector": "Textile Composite"
-  },
-  "SPL": {
-   "code": "0805",
-   "sector": "Chemical"
-  },
-  "SZTM": {
-   "code": "0830",
-   "sector": "Textile Spinning"
-  },
-  "KSTM": {
-   "code": "0830",
-   "sector": "Textile Spinning"
-  },
-  "DMC": {
-   "code": "0830",
-   "sector": "Textile Spinning"
-  },
-  "DINT": {
-   "code": "0830",
-   "sector": "Textile Spinning"
-  },
-  "JKSM": {
-   "code": "0830",
-   "sector": "Textile Spinning"
-  },
-  "LPL": {
+  "SEL": {
    "code": "0824",
    "sector": "Power Generation & Distribution"
   },
-  "PAKL": {
-   "code": "0816",
-   "sector": "Leather & Tanneries"
-  },
-  "HINOON": {
+  "ABOT": {
    "code": "0823",
    "sector": "Pharmaceuticals"
   },
@@ -1557,107 +1317,223 @@
    "code": "0828",
    "sector": "Technology & Communication"
   },
-  "GUSM": {
-   "code": "0830",
-   "sector": "Textile Spinning"
-  },
-  "KHTC": {
-   "code": "0832",
-   "sector": "Tobacco"
-  },
-  "IDEAL": {
-   "code": "0830",
-   "sector": "Textile Spinning"
-  },
-  "SUTM": {
-   "code": "0830",
-   "sector": "Textile Spinning"
-  },
-  "HIFA": {
-   "code": "0806",
-   "sector": "Close - End Mutual Fund"
-  },
-  "CHAS": {
-   "code": "0826",
-   "sector": "Sugar & Allied Industries"
-  },
-  "JDMT": {
-   "code": "0830",
-   "sector": "Textile Spinning"
-  },
-  "ELCM": {
-   "code": "0830",
-   "sector": "Textile Spinning"
-  },
-  "ESBL": {
+  "OLPL": {
    "code": "0813",
    "sector": "Inv. Banks / Inv. Cos. / Securities Cos."
   },
-  "ANTM": {
-   "code": "0829",
-   "sector": "Textile Composite"
-  },
-  "COLG": {
-   "code": "0810",
-   "sector": "Food & Personal Care Products"
-  },
-  "BNWM": {
-   "code": "0835",
-   "sector": "Woollen"
-  },
-  "ATLH": {
-   "code": "0801",
-   "sector": "Automobile Assembler"
-  },
-  "DYNO": {
+  "DAAG": {
    "code": "0805",
    "sector": "Chemical"
   },
-  "ARUJ": {
-   "code": "0829",
-   "sector": "Textile Composite"
+  "BFMOD": {
+   "code": "0819",
+   "sector": "Modarabas"
   },
-  "SSOM": {
-   "code": "0834",
-   "sector": "Vanaspati & Allied Industries"
-  },
-  "GADT": {
-   "code": "0830",
-   "sector": "Textile Spinning"
-  },
-  "MFFL": {
-   "code": "0810",
-   "sector": "Food & Personal Care Products"
-  },
-  "IBFL": {
-   "code": "0827",
-   "sector": "Synthetic & Rayon"
-  },
-  "BUXL": {
+  "LPGL": {
    "code": "0805",
    "sector": "Chemical"
   },
-  "NONS": {
+  "SURC": {
+   "code": "0829",
+   "sector": "Textile Composite"
+  },
+  "JSRR": {
+   "code": "0836",
+   "sector": "Real Estate Investment Trust"
+  },
+  "TCORPCPS": {
    "code": "0826",
    "sector": "Sugar & Allied Industries"
+  },
+  "SKRS": {
+   "code": "0826",
+   "sector": "Sugar & Allied Industries"
+  },
+  "STYLERS": {
+   "code": "0839",
+   "sector": "Apparel"
+  },
+  "AGIL": {
+   "code": "0802",
+   "sector": "Automobile Parts & Accessories"
   },
   "RICL": {
    "code": "0812",
    "sector": "Insurance"
   },
-  "AATM": {
+  "IDRT": {
    "code": "0830",
    "sector": "Textile Spinning"
+  },
+  "PNSC": {
+   "code": "0833",
+   "sector": "Transport"
+  },
+  "ASHT": {
+   "code": "0831",
+   "sector": "Textile Weaving"
+  },
+  "ATBA": {
+   "code": "0802",
+   "sector": "Automobile Parts & Accessories"
+  },
+  "GFIL": {
+   "code": "0829",
+   "sector": "Textile Composite"
+  },
+  "GRYL": {
+   "code": "0815",
+   "sector": "Leasing Companies"
+  },
+  "PASM": {
+   "code": "0829",
+   "sector": "Textile Composite"
+  },
+  "CHAS": {
+   "code": "0826",
+   "sector": "Sugar & Allied Industries"
+  },
+  "FML": {
+   "code": "0829",
+   "sector": "Textile Composite"
+  },
+  "GVGL": {
+   "code": "0811",
+   "sector": "Glass & Ceramics"
+  },
+  "ALNRS": {
+   "code": "0826",
+   "sector": "Sugar & Allied Industries"
+  },
+  "EFUG": {
+   "code": "0812",
+   "sector": "Insurance"
+  },
+  "TPLI": {
+   "code": "0812",
+   "sector": "Insurance"
   },
   "HINO": {
    "code": "0801",
    "sector": "Automobile Assembler"
   },
+  "MACTER": {
+   "code": "0823",
+   "sector": "Pharmaceuticals"
+  },
+  "PAKT": {
+   "code": "0832",
+   "sector": "Tobacco"
+  },
+  "ANSM": {
+   "code": "0826",
+   "sector": "Sugar & Allied Industries"
+  },
+  "FEM": {
+   "code": "0819",
+   "sector": "Modarabas"
+  },
+  "CJPL": {
+   "code": "0814",
+   "sector": "Jute"
+  },
+  "GUSM": {
+   "code": "0830",
+   "sector": "Textile Spinning"
+  },
+  "ADAMS": {
+   "code": "0826",
+   "sector": "Sugar & Allied Industries"
+  },
+  "DLL": {
+   "code": "0813",
+   "sector": "Inv. Banks / Inv. Cos. / Securities Cos."
+  },
+  "IBFL": {
+   "code": "0827",
+   "sector": "Synthetic & Rayon"
+  },
+  "PKGP": {
+   "code": "0824",
+   "sector": "Power Generation & Distribution"
+  },
+  "JGICL": {
+   "code": "0812",
+   "sector": "Insurance"
+  },
+  "INDU": {
+   "code": "0801",
+   "sector": "Automobile Assembler"
+  },
+  "NCML": {
+   "code": "0830",
+   "sector": "Textile Spinning"
+  },
+  "KSTM": {
+   "code": "0830",
+   "sector": "Textile Spinning"
+  },
+  "JLICL": {
+   "code": "0812",
+   "sector": "Insurance"
+  },
+  "SHCM": {
+   "code": "0830",
+   "sector": "Textile Spinning"
+  },
+  "WAHN": {
+   "code": "0805",
+   "sector": "Chemical"
+  },
+  "HUSI": {
+   "code": "0838",
+   "sector": "Property"
+  },
+  "PABC": {
+   "code": "0818",
+   "sector": "Miscellaneous"
+  },
+  "IDYM": {
+   "code": "0830",
+   "sector": "Textile Spinning"
+  },
+  "ZAHID": {
+   "code": "0829",
+   "sector": "Textile Composite"
+  },
+  "THALL": {
+   "code": "0802",
+   "sector": "Automobile Parts & Accessories"
+  },
+  "NONS": {
+   "code": "0826",
+   "sector": "Sugar & Allied Industries"
+  },
+  "PSYL": {
+   "code": "0827",
+   "sector": "Synthetic & Rayon"
+  },
+  "AHTM": {
+   "code": "0829",
+   "sector": "Textile Composite"
+  },
   "MRNS": {
    "code": "0826",
    "sector": "Sugar & Allied Industries"
   },
-  "CFL": {
+  "SML": {
+   "code": "0826",
+   "sector": "Sugar & Allied Industries"
+  },
+  "SPAC1": {
+   "code": "0813",
+   "sector": "Inv. Banks / Inv. Cos. / Securities Cos."
+  },
+  "IML": {
+   "code": "0813",
+   "sector": "Inv. Banks / Inv. Cos. / Securities Cos."
+  },
+  "DINT": {
    "code": "0830",
    "sector": "Textile Spinning"
   },
@@ -1665,135 +1541,319 @@
    "code": "0810",
    "sector": "Food & Personal Care Products"
   },
-  "CRTM": {
+  "HAEL": {
    "code": "0829",
    "sector": "Textile Composite"
   },
-  "IDYM": {
+  "MUGHALC": {
+   "code": "0808",
+   "sector": "Engineering"
+  },
+  "DWTM": {
    "code": "0830",
    "sector": "Textile Spinning"
   },
-  "EXIDE": {
+  "DWAE": {
    "code": "0802",
    "sector": "Automobile Parts & Accessories"
   },
-  "TCORPCPS": {
-   "code": "0826",
-   "sector": "Sugar & Allied Industries"
-  },
-  "AKDHL": {
-   "code": "0818",
-   "sector": "Miscellaneous"
-  },
-  "HWQS": {
-   "code": "0826",
-   "sector": "Sugar & Allied Industries"
-  },
-  "ARPAK": {
-   "code": "0818",
-   "sector": "Miscellaneous"
-  },
-  "ANSM": {
-   "code": "0826",
-   "sector": "Sugar & Allied Industries"
-  },
-  "AMBL": {
-   "code": "0813",
-   "sector": "Inv. Banks / Inv. Cos. / Securities Cos."
-  },
-  "SML": {
-   "code": "0826",
-   "sector": "Sugar & Allied Industries"
+  "IGIHL": {
+   "code": "0812",
+   "sector": "Insurance"
   },
   "AKGL": {
    "code": "0818",
    "sector": "Miscellaneous"
   },
-  "GEMMEL": {
-   "code": "0824",
-   "sector": "Power Generation & Distribution"
+  "ARPAK": {
+   "code": "0818",
+   "sector": "Miscellaneous"
+  },
+  "AATM": {
+   "code": "0830",
+   "sector": "Textile Spinning"
+  },
+  "AGIC": {
+   "code": "0812",
+   "sector": "Insurance"
+  },
+  "BNWM": {
+   "code": "0835",
+   "sector": "Woollen"
+  },
+  "ARMG": {
+   "code": "0813",
+   "sector": "Inv. Banks / Inv. Cos. / Securities Cos."
+  },
+  "PRET": {
+   "code": "0830",
+   "sector": "Textile Spinning"
+  },
+  "SHEZ": {
+   "code": "0810",
+   "sector": "Food & Personal Care Products"
+  },
+  "AKDHL": {
+   "code": "0818",
+   "sector": "Miscellaneous"
+  },
+  "ZTL": {
+   "code": "0831",
+   "sector": "Textile Weaving"
+  },
+  "ATLH": {
+   "code": "0801",
+   "sector": "Automobile Assembler"
+  },
+  "EXIDE": {
+   "code": "0802",
+   "sector": "Automobile Parts & Accessories"
   },
   "KPUS": {
    "code": "0826",
    "sector": "Sugar & Allied Industries"
   },
-  "STML": {
-   "code": "0829",
-   "sector": "Textile Composite"
-  },
-  "FECM": {
-   "code": "0819",
-   "sector": "Modarabas"
-  },
-  "FSWL": {
-   "code": "0829",
-   "sector": "Textile Composite"
-  },
-  "KCL": {
-   "code": "0811",
-   "sector": "Glass & Ceramics"
-  },
-  "NEXT": {
-   "code": "0813",
-   "sector": "Inv. Banks / Inv. Cos. / Securities Cos."
-  },
-  "ALNRS": {
-   "code": "0826",
-   "sector": "Sugar & Allied Industries"
-  },
-  "MQTM": {
+  "JDMT": {
    "code": "0830",
    "sector": "Textile Spinning"
   },
-  "BATA": {
-   "code": "0816",
-   "sector": "Leather & Tanneries"
+  "SINDM": {
+   "code": "0819",
+   "sector": "Modarabas"
   },
-  "TSMF": {
-   "code": "0806",
-   "sector": "Close - End Mutual Fund"
-  },
-  "PECO": {
-   "code": "0808",
-   "sector": "Engineering"
-  },
-  "FRCL": {
-   "code": "0811",
-   "sector": "Glass & Ceramics"
-  },
-  "SITC": {
-   "code": "0805",
-   "sector": "Chemical"
-  },
-  "FIL": {
-   "code": "0816",
-   "sector": "Leather & Tanneries"
-  },
-  "HPL": {
-   "code": "0823",
-   "sector": "Pharmaceuticals"
-  },
-  "BELA": {
-   "code": "0802",
-   "sector": "Automobile Parts & Accessories"
-  },
-  "ALIFE": {
+  "PIL": {
    "code": "0812",
    "sector": "Insurance"
   },
-  "SASML": {
-   "code": "0826",
-   "sector": "Sugar & Allied Industries"
+  "PAKL": {
+   "code": "0816",
+   "sector": "Leather & Tanneries"
   },
-  "ADAMS": {
-   "code": "0826",
-   "sector": "Sugar & Allied Industries"
+  "DYNO": {
+   "code": "0805",
+   "sector": "Chemical"
   },
   "PKGS": {
    "code": "0822",
    "sector": "Paper, Board & Packaging"
   },
-  "SHEZ": {
+  "ATIL": {
+   "code": "0812",
+   "sector": "Insurance"
+  },
+  "TSMF": {
+   "code": "0806",
+   "sector": "Close - End Mutual Fund"
+  },
+  "KCL": {
+   "code": "0811",
+   "sector": "Glass & Ceramics"
+  },
+  "INKL": {
+   "code": "0839",
+   "sector": "Apparel"
+  },
+  "BOK": {
+   "code": "0807",
+   "sector": "Commercial Banks"
+  },
+  "OTSU": {
+   "code": "0823",
+   "sector": "Pharmaceuticals"
+  },
+  "QUET": {
+   "code": "0829",
+   "sector": "Textile Composite"
+  },
+  "UBDL": {
+   "code": "0818",
+   "sector": "Miscellaneous"
+  },
+  "ASLPS": {
+   "code": "0808",
+   "sector": "Engineering"
+  },
+  "SSOM": {
+   "code": "0834",
+   "sector": "Vanaspati & Allied Industries"
+  },
+  "CRTM": {
+   "code": "0829",
+   "sector": "Textile Composite"
+  },
+  "CCM": {
+   "code": "0830",
+   "sector": "Textile Spinning"
+  },
+  "AMBL": {
+   "code": "0813",
+   "sector": "Inv. Banks / Inv. Cos. / Securities Cos."
+  },
+  "EPCLPS": {
+   "code": "0805",
+   "sector": "Chemical"
+  },
+  "SITC": {
+   "code": "0805",
+   "sector": "Chemical"
+  },
+  "DMC": {
+   "code": "0830",
+   "sector": "Textile Spinning"
+  },
+  "FZCM": {
+   "code": "0829",
+   "sector": "Textile Composite"
+  },
+  "EFUL": {
+   "code": "0812",
+   "sector": "Insurance"
+  },
+  "BATA": {
+   "code": "0816",
+   "sector": "Leather & Tanneries"
+  },
+  "MCBIM": {
+   "code": "0813",
+   "sector": "Inv. Banks / Inv. Cos. / Securities Cos."
+  },
+  "ELCM": {
+   "code": "0830",
+   "sector": "Textile Spinning"
+  },
+  "BELA": {
+   "code": "0802",
+   "sector": "Automobile Parts & Accessories"
+  },
+  "NEXT": {
+   "code": "0813",
+   "sector": "Inv. Banks / Inv. Cos. / Securities Cos."
+  },
+  "BAFS": {
+   "code": "0826",
+   "sector": "Sugar & Allied Industries"
+  },
+  "HPL": {
+   "code": "0823",
+   "sector": "Pharmaceuticals"
+  },
+  "KHTC": {
+   "code": "0832",
+   "sector": "Tobacco"
+  },
+  "FRSM": {
+   "code": "0826",
+   "sector": "Sugar & Allied Industries"
+  },
+  "IGIL": {
+   "code": "0812",
+   "sector": "Insurance"
+  },
+  "PRWM": {
+   "code": "0831",
+   "sector": "Textile Weaving"
+  },
+  "STML": {
+   "code": "0829",
+   "sector": "Textile Composite"
+  },
+  "IDEAL": {
+   "code": "0830",
+   "sector": "Textile Spinning"
+  },
+  "NATM": {
+   "code": "0830",
+   "sector": "Textile Spinning"
+  },
+  "MFFL": {
+   "code": "0810",
+   "sector": "Food & Personal Care Products"
+  },
+  "ASLCPS": {
+   "code": "0808",
+   "sector": "Engineering"
+  },
+  "GEMPACRA": {
+   "code": "0818",
+   "sector": "Miscellaneous"
+  },
+  "SARC": {
+   "code": "0805",
+   "sector": "Chemical"
+  },
+  "JDWS": {
+   "code": "0826",
+   "sector": "Sugar & Allied Industries"
+  },
+  "SZTM": {
+   "code": "0830",
+   "sector": "Textile Spinning"
+  },
+  "DADX": {
+   "code": "0808",
+   "sector": "Engineering"
+  },
+  "FIL": {
+   "code": "0816",
+   "sector": "Leather & Tanneries"
+  },
+  "SHJS": {
+   "code": "0826",
+   "sector": "Sugar & Allied Industries"
+  },
+  "FSWL": {
+   "code": "0829",
+   "sector": "Textile Composite"
+  },
+  "EWIC": {
+   "code": "0812",
+   "sector": "Insurance"
+  },
+  "SIBL": {
+   "code": "0813",
+   "sector": "Inv. Banks / Inv. Cos. / Securities Cos."
+  },
+  "NSRM": {
+   "code": "0827",
+   "sector": "Synthetic & Rayon"
+  },
+  "JVDCPS": {
+   "code": "0838",
+   "sector": "Property"
+  },
+  "FIMM": {
+   "code": "0819",
+   "sector": "Modarabas"
+  },
+  "TICL": {
+   "code": "0826",
+   "sector": "Sugar & Allied Industries"
+  },
+  "SASML": {
+   "code": "0826",
+   "sector": "Sugar & Allied Industries"
+  },
+  "JKSM": {
+   "code": "0830",
+   "sector": "Textile Spinning"
+  },
+  "GEMMEL": {
+   "code": "0824",
+   "sector": "Power Generation & Distribution"
+  },
+  "GOC": {
+   "code": "0818",
+   "sector": "Miscellaneous"
+  },
+  "JUBS": {
+   "code": "0829",
+   "sector": "Textile Composite"
+  },
+  "BRRG": {
+   "code": "0838",
+   "sector": "Property"
+  },
+  "NESTLE": {
    "code": "0810",
    "sector": "Food & Personal Care Products"
   },
@@ -1801,57 +1861,49 @@
    "code": "0803",
    "sector": "Cable & Electrical Goods"
   },
-  "UVIC": {
-   "code": "0812",
-   "sector": "Insurance"
+  "PECO": {
+   "code": "0808",
+   "sector": "Engineering"
   },
   "HABSM": {
    "code": "0826",
    "sector": "Sugar & Allied Industries"
   },
-  "ARMG": {
-   "code": "0813",
-   "sector": "Inv. Banks / Inv. Cos. / Securities Cos."
+  "REDCO": {
+   "code": "0829",
+   "sector": "Textile Composite"
   },
-  "NESTLE": {
-   "code": "0810",
-   "sector": "Food & Personal Care Products"
-  },
-  "FRSM": {
+  "TSML": {
    "code": "0826",
    "sector": "Sugar & Allied Industries"
-  },
-  "TICL": {
-   "code": "0826",
-   "sector": "Sugar & Allied Industries"
-  },
-  "DADX": {
-   "code": "0808",
-   "sector": "Engineering"
   },
   "POWERPS": {
    "code": "0804",
    "sector": "Cement"
   },
-  "NSRM": {
-   "code": "0827",
-   "sector": "Synthetic & Rayon"
+  "FASM": {
+   "code": "0829",
+   "sector": "Textile Composite"
   },
-  "GCWLPRS": {
-   "code": "0805",
-   "sector": "Chemical"
+  "ZIL": {
+   "code": "0810",
+   "sector": "Food & Personal Care Products"
   },
-  "CCM": {
-   "code": "0830",
-   "sector": "Textile Spinning"
+  "PMRS": {
+   "code": "0826",
+   "sector": "Sugar & Allied Industries"
   },
-  "PRWM": {
-   "code": "0831",
-   "sector": "Textile Weaving"
+  "SUHJ": {
+   "code": "0814",
+   "sector": "Jute"
   },
-  "ASLCPS": {
-   "code": "0808",
-   "sector": "Engineering"
+  "AABS": {
+   "code": "0826",
+   "sector": "Sugar & Allied Industries"
+  },
+  "BHAT": {
+   "code": "0829",
+   "sector": "Textile Composite"
   },
   "SFL": {
    "code": "0829",
@@ -1861,95 +1913,31 @@
    "code": "0810",
    "sector": "Food & Personal Care Products"
   },
-  "GOC": {
-   "code": "0818",
-   "sector": "Miscellaneous"
-  },
-  "BAFS": {
+  "SHSML": {
    "code": "0826",
    "sector": "Sugar & Allied Industries"
-  },
-  "POML": {
-   "code": "0834",
-   "sector": "Vanaspati & Allied Industries"
-  },
-  "TSML": {
-   "code": "0826",
-   "sector": "Sugar & Allied Industries"
-  },
-  "NATM": {
-   "code": "0830",
-   "sector": "Textile Spinning"
-  },
-  "JDWS": {
-   "code": "0826",
-   "sector": "Sugar & Allied Industries"
-  },
-  "PMRS": {
-   "code": "0826",
-   "sector": "Sugar & Allied Industries"
-  },
-  "BRRG": {
-   "code": "0838",
-   "sector": "Property"
-  },
-  "SAPT": {
-   "code": "0829",
-   "sector": "Textile Composite"
   },
   "ISIL": {
    "code": "0810",
    "sector": "Food & Personal Care Products"
   },
-  "SANSM": {
-   "code": "0826",
-   "sector": "Sugar & Allied Industries"
-  },
-  "AABS": {
-   "code": "0826",
-   "sector": "Sugar & Allied Industries"
-  },
-  "SIBL": {
-   "code": "0813",
-   "sector": "Inv. Banks / Inv. Cos. / Securities Cos."
-  },
-  "STJT": {
-   "code": "0831",
-   "sector": "Textile Weaving"
-  },
-  "SHJS": {
-   "code": "0826",
-   "sector": "Sugar & Allied Industries"
-  },
-  "NAGC": {
-   "code": "0830",
-   "sector": "Textile Spinning"
+  "SAPT": {
+   "code": "0829",
+   "sector": "Textile Composite"
   },
   "RMPL": {
    "code": "0810",
    "sector": "Food & Personal Care Products"
   },
+  "BTL": {
+   "code": "0829",
+   "sector": "Textile Composite"
+  },
   "PIAHCLB": {
    "code": "0813",
    "sector": "Inv. Banks / Inv. Cos. / Securities Cos."
   },
-  "EWIC": {
-   "code": "0812",
-   "sector": "Insurance"
-  },
-  "JVDCPS": {
-   "code": "0838",
-   "sector": "Property"
-  },
-  "AHTM": {
-   "code": "0829",
-   "sector": "Textile Composite"
-  },
-  "ZIL": {
-   "code": "0810",
-   "sector": "Food & Personal Care Products"
-  },
-  "FZCM": {
+  "REWM": {
    "code": "0829",
    "sector": "Textile Composite"
   },
@@ -1957,64 +1945,64 @@
    "code": "0829",
    "sector": "Textile Composite"
   },
+  "SANSM": {
+   "code": "0826",
+   "sector": "Sugar & Allied Industries"
+  },
   "KHYT": {
    "code": "0829",
    "sector": "Textile Composite"
   },
-  "REWM": {
-   "code": "0829",
-   "sector": "Textile Composite"
+  "STJT": {
+   "code": "0831",
+   "sector": "Textile Weaving"
   },
-  "SHSML": {
-   "code": "0826",
-   "sector": "Sugar & Allied Industries"
+  "SUTM": {
+   "code": "0830",
+   "sector": "Textile Spinning"
   },
-  "AGLNCPS": {
-   "code": "0809",
-   "sector": "Fertilizer"
-  },
-  "ANLNV": {
-   "code": "0829",
-   "sector": "Textile Composite"
+  "CFL": {
+   "code": "0830",
+   "sector": "Textile Spinning"
   }
  },
  "universe_counts": {
-  "Textile Spinning": 42,
-  "Textile Composite": 35,
+  "Textile Spinning": 40,
+  "Textile Composite": 37,
   "Inv. Banks / Inv. Cos. / Securities Cos.": 33,
   "Sugar & Allied Industries": 29,
-  "Insurance": 27,
-  "Chemical": 26,
-  "Food & Personal Care Products": 25,
+  "Food & Personal Care Products": 26,
+  "Insurance": 26,
+  "Chemical": 25,
   "Technology & Communication": 21,
+  "Miscellaneous": 19,
   "Commercial Banks": 19,
   "Cement": 19,
-  "Miscellaneous": 19,
+  "Modarabas": 19,
   "Engineering": 18,
-  "Modarabas": 18,
   "Power Generation & Distribution": 16,
   "Pharmaceuticals": 14,
   "Automobile Parts & Accessories": 12,
   "Oil & Gas Marketing Companies": 10,
-  "Paper, Board & Packaging": 10,
   "Automobile Assembler": 10,
-  "Cable & Electrical Goods": 8,
-  "Glass & Ceramics": 8,
-  "Property": 6,
+  "Paper, Board & Packaging": 10,
+  "Cable & Electrical Goods": 7,
+  "Glass & Ceramics": 7,
   "Transport": 6,
+  "Property": 6,
   "Real Estate Investment Trust": 6,
-  "Fertilizer": 6,
-  "Textile Weaving": 6,
   "Leather & Tanneries": 6,
+  "Textile Weaving": 6,
+  "Fertilizer": 5,
   "Synthetic & Rayon": 5,
   "Refinery": 4,
   "Oil & Gas Exploration Companies": 4,
   "Apparel": 4,
   "Close - End Mutual Fund": 3,
-  "Tobacco": 2,
   "Leasing Companies": 2,
-  "Vanaspati & Allied Industries": 2,
-  "Jute": 1,
-  "Woollen": 1
+  "Tobacco": 2,
+  "Jute": 2,
+  "Woollen": 1,
+  "Vanaspati & Allied Industries": 1
  }
 }
