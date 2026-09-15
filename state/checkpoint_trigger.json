@@ -1,14 +1,14 @@
 {
  "schema_version": 1,
- "generated": "2026-09-15T13:51:56+05:00",
+ "generated": "2026-09-15T18:55:13+05:00",
  "checkpoint_required": true,
- "summary": "5 material item(s) and 1 standing condition(s)",
+ "summary": "4 material item(s) and 1 standing condition(s)",
  "acked_at": "2026-09-14T18:44:07+05:00",
  "counts": {
-  "pending": 5,
+  "pending": 4,
   "pending_dropped": 0,
   "standing": 1,
-  "tracked": 11
+  "tracked": 10
  },
  "standing": [
   {
@@ -18,14 +18,6 @@
   }
  ],
  "pending": [
-  {
-   "id": "health_afde65741b490800",
-   "kind": "health",
-   "symbol": "",
-   "title": "data health is degraded",
-   "detail": "history refresh failed for SOYASUP; history freshness proof unavailable (coverage does not contain every source identity); stale history remains gating: AAL=2024-09-26; AASM=2024-0",
-   "first_seen": "2026-09-15T13:51:56+05:00"
-  },
   {
    "id": "news_32ac1e0948a1daa4",
    "kind": "news",
@@ -69,8 +61,7 @@
   "news_32ac1e0948a1daa4": "2026-09-14T21:06:45+05:00",
   "news_39c9105cc5845790": "2026-09-14T21:06:45+05:00",
   "news_768e9379ff1d1295": "2026-09-14T21:06:45+05:00",
-  "news_58493ffc3cf67cdf": "2026-09-14T21:06:45+05:00",
-  "health_afde65741b490800": "2026-09-15T13:51:56+05:00"
+  "news_58493ffc3cf67cdf": "2026-09-14T21:06:45+05:00"
  },
  "degraded": [],
  "note": "Deterministic checkpoint gate. Research infrastructure, not advice."

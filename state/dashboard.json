@@ -1,11 +1,84 @@
 {
- "updated": "2026-09-15 08:52",
+ "updated": "2026-09-15 13:55",
  "regime": "risk-off",
  "geo_risk": {
-  "score": 60,
+  "score": 57,
   "band": "moderate"
  },
- "signals": [],
+ "signals": [
+  {
+   "id": "20260915-IPAK-stoch_double_bottom",
+   "ticker": "IPAK",
+   "strategy": "stoch_double_bottom",
+   "template": "Stochastic reclaim from oversold",
+   "category": "oscillator",
+   "sector": "Paper, Board & Packaging",
+   "hold_sessions": 12,
+   "backtest": {
+    "hit_rate": 0.636,
+    "net_expectancy_pct": 1.24,
+    "n": 11,
+    "oos_hit": 0.667
+   },
+   "confidence": "low",
+   "basis": "backtest-proven, unaudited",
+   "thesis": "Stochastic reclaim from oversold is triggering now; on IPAK's own history it won 64% over 11 trades (+1.2% net/trade), still profitable out-of-sample."
+  },
+  {
+   "id": "20260915-MTL-triple_ema_align",
+   "ticker": "MTL",
+   "strategy": "triple_ema_align",
+   "template": "Triple EMA alignment",
+   "category": "trend",
+   "sector": "Automobile Assembler",
+   "hold_sessions": 12,
+   "backtest": {
+    "hit_rate": 0.562,
+    "net_expectancy_pct": 1.0,
+    "n": 96,
+    "oos_hit": 0.559
+   },
+   "confidence": "low",
+   "basis": "backtest-proven, unaudited",
+   "thesis": "Triple EMA alignment is triggering now; on MTL's own history it won 56% over 96 trades (+1.0% net/trade), still profitable out-of-sample."
+  },
+  {
+   "id": "20260915-BAFL-oversold_bounce",
+   "ticker": "BAFL",
+   "strategy": "oversold_bounce",
+   "template": "RSI oversold bounce",
+   "category": "mean_reversion",
+   "sector": "Commercial Banks",
+   "hold_sessions": 8,
+   "backtest": {
+    "hit_rate": 0.593,
+    "net_expectancy_pct": 0.77,
+    "n": 54,
+    "oos_hit": 0.583
+   },
+   "confidence": "low",
+   "basis": "backtest-proven, unaudited",
+   "thesis": "RSI oversold bounce is triggering now; on BAFL's own history it won 59% over 54 trades (+0.8% net/trade), still profitable out-of-sample."
+  },
+  {
+   "id": "20260915-TATM-stoch_bull_trend",
+   "ticker": "TATM",
+   "strategy": "stoch_bull_trend",
+   "template": "Stochastic cross in uptrend",
+   "category": "oscillator",
+   "sector": "Textile Spinning",
+   "hold_sessions": 9,
+   "backtest": {
+    "hit_rate": 0.556,
+    "net_expectancy_pct": 0.72,
+    "n": 9,
+    "oos_hit": 0.667
+   },
+   "confidence": "low",
+   "basis": "backtest-proven, unaudited",
+   "thesis": "Stochastic cross in uptrend is triggering now; on TATM's own history it won 56% over 9 trades (+0.7% net/trade), still profitable out-of-sample."
+  }
+ ],
  "positions": [],
  "top_predictable": [
   {
@@ -51,56 +124,56 @@
  ],
  "movers_up": [
   {
-   "ticker": "MDTL",
-   "ret_1d": 10.4,
-   "close": 7.64
+   "ticker": "BCL",
+   "ret_1d": 10.02,
+   "close": 72.59
   },
   {
    "ticker": "FPJM",
    "ret_1d": 10.02,
-   "close": 20.65
+   "close": 22.72
   },
   {
-   "ticker": "PSEL",
-   "ret_1d": 10.0,
-   "close": 1196.22
+   "ticker": "ADMM",
+   "ret_1d": 10.01,
+   "close": 56.51
   },
   {
-   "ticker": "GEMMEL",
-   "ret_1d": 10.0,
-   "close": 39.28
+   "ticker": "PIM",
+   "ret_1d": 10.01,
+   "close": 61.12
   },
   {
-   "ticker": "CENI",
+   "ticker": "IBFL",
    "ret_1d": 10.0,
-   "close": 62.79
+   "close": 255.43
   }
  ],
  "movers_down": [
   {
-   "ticker": "PIM",
-   "ret_1d": -9.86,
-   "close": 55.56
+   "ticker": "DMTM",
+   "ret_1d": -8.15,
+   "close": 8.56
   },
   {
-   "ticker": "CFL",
-   "ret_1d": -9.88,
-   "close": 59.4
+   "ticker": "PPVC",
+   "ret_1d": -9.02,
+   "close": 28.66
+  },
+  {
+   "ticker": "CLVL",
+   "ret_1d": -9.99,
+   "close": 28.84
   },
   {
    "ticker": "BUXL",
    "ret_1d": -10.0,
-   "close": 751.13
+   "close": 676.02
   },
   {
-   "ticker": "CLVL",
-   "ret_1d": -10.0,
-   "close": 32.04
-  },
-  {
-   "ticker": "LEUL",
-   "ret_1d": -10.0,
-   "close": 63.1
+   "ticker": "PKGI",
+   "ret_1d": -10.01,
+   "close": 44.16
   }
  ],
  "news": [
