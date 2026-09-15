@@ -55,7 +55,12 @@ Every run reads, in order:
 - The weekday judgment chain is dependency-serialized: PM checkpoint, then Daily refresh, then Desk
   Room. Daily and Room use `scripts/wait_for_routine_receipt.py` against `origin/main`; clock time
   alone is never predecessor evidence. They do not dispatch data while a predecessor receipt is
-  missing, and a successful catch-up resumes the current routine instead of ending it.
+  missing, and a successful catch-up resumes the current routine instead of ending it. Start one
+  receipt-waiting command and let it finish; do not surround it with browser refreshes, narrated
+  checks, or another polling loop.
+- Judgment work has one owner per weekday chain: PM owns the bounded news scan, Daily owns Macro and
+  Market Analyst, and Room owns selected debates. A downstream routine consumes verified upstream
+  state instead of repeating the same role.
 - Normal activated routines may publish their own verified outputs without asking again. Routines
   marked training-only stop before their first externally visible action.
 - **Standing publication approval (2026-09-13):** after the owner directly approved the Blog and
@@ -83,18 +88,19 @@ Every run reads, in order:
   Use an existing authenticated GitHub Actions transport and never run the full cloud data pipeline
   locally. Failure of one dispatch transport is not permission to abandon the approved recovery.
 - Read `state/checkpoint_trigger.json`. A false trigger is a valid no-op only after integrity passes.
-- Run news sentinel. Run monitor only with open positions. Run macro and market analyst only when
-  fresh news has impact 4 or higher.
+- Run News Sentinel once, with at most 10 external source retrievals. Run Monitor only with open
+  positions. Hand high-impact news to Daily; PM never runs Macro or Market Analyst.
 - Rebuild the dashboard, run preflight, publish verified state, then publish and verify the acknowledgement receipt.
 - Preserve append-only research and run history. Report the final remote SHA.
 
 ## Daily refresh
 
 - Publication slot 2 on trading weekdays.
-- Wait up to 60 minutes for the same-session PM receipt and verify its publication, runlog,
+- Wait up to 90 minutes for the same-session PM receipt and verify its publication, runlog,
   research SHA and acknowledgement from `origin/main`.
 - Run `scripts/post_close_integrity.py`; use the one-dispatch recovery path when needed.
-- Run exactly news sentinel, macro agent, and market analyst, in that order.
+- Consume PM's verified news scan. Run exactly Macro and Market Analyst, in that order, with at most
+  16 combined external source retrievals.
 - Each watchlist name needs a proven strategy, fundamental rating, and dated catalyst.
 - Rebuild the dashboard, rerun preflight after final synchronization, then publish.
 

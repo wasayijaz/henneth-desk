@@ -33,15 +33,16 @@ refreshes; this routine owns the checkpoint's judgment and acknowledgement.
    otherwise execute the role inline from this card. It scans the PSX announcements page plus a
    small set of Pakistani business sources since the last checkpoint, deduplicates against the tail,
    tags only universe tickers (or `MACRO`), scores impact 1–5, and appends only sourced items through
-   `scripts/newslog_append.py`. It must preserve the append-only news log and stop at 40 tool calls.
+   `scripts/newslog_append.py`. It must preserve the append-only news log and stop after 10 external
+   source retrievals. Reuse a source response already obtained in this run; do not reopen it through
+   another transport. PM is the weekday chain's only news scan.
 6. If `state/positions.json` has open positions, run the Monitor role once with the same Luna-high
    or inline fallback. It compares only `state/live.json` with each stored plan and writes the
    prescribed status (`HOLD`, `NEAR_TARGET`, `TAKE_PROFIT`, `STOP_OUT`, `THESIS_BROKEN`, or
    `TIME_EXIT`) and timestamps. Missing or stale live data is reported, never guessed.
-7. If this run appended an impact-4-or-5 item, run Macro and Market Analyst roles once, using Luna
-   high when callable or their inline cards from the committed role descriptions. Macro writes
-   sourced domestic facts and a regime to `state/macro.json`; Market Analyst writes a sourced,
-   non-advisory `state/daily_read.json` using state data only for prices.
+7. Do not run Macro or Market Analyst in PM. Record the count and identifiers of new impact-4-or-5
+   items for Daily, which owns those two roles once after the verified PM receipt. This prevents the
+   same high-reasoning research from running twice within one publication chain.
 8. Run `python scripts/build_dashboard.py`. A non-zero result is a hard stop: do not publish.
 9. When the gate passes, run `python scripts/publish.py "Checkpoint PM <PKT time>"`. Treat an
    unchanged state as a verified publication no-op. Record the exact resulting SHA and live URL
@@ -57,7 +58,8 @@ refreshes; this routine owns the checkpoint's judgment and acknowledgement.
 
 `checkpoint: PM`; `date` and start/end PKT timestamps; `holiday_or_weekend`; `gate_required`;
 `gate_summary`; `pending[]`; `news_items_found`; `high_impact_items`; `open_positions`;
-`monitor_statuses[]`; `escalated`; `preflight_or_build`; `acknowledgement`; `runlog_written`;
+`monitor_statuses[]`; `high_impact_handoff[]`; `escalated`; `preflight_or_build`;
+`acknowledgement`; `runlog_written`; `efficiency.external_source_retrievals`;
 `publication.status`; `publication.sha`; `publication.url`; `problems[]`; `next_action`.
 
 ## Outcomes

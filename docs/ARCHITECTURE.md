@@ -112,6 +112,12 @@ Daily waits for a remotely verified PM receipt and Room waits for a remotely ver
 receipt; each check pairs the receipt with its runlog, proves the research SHA is reachable from
 `origin/main`, and additionally verifies PM's acknowledgement proof. Missing evidence times out
 closed and never triggers an unrelated data refresh.
+
+The chain also owns judgment work once: PM performs the bounded News Sentinel scan, Daily consumes
+that verified scan and performs Macro plus Market Analyst, and Room performs only its selected
+debate work. Clock spacing reduces normal overlap, but receipts—not scheduler times—authorize each
+downstream publication. Receipt waiting uses one long-running process with three-minute polling so
+a delayed predecessor does not create repeated model or browser status loops.
 `check_research_publication.py` is the hard preflight boundary for prohibited signal execution
 fields and named-ticker Room chair fields. This enforces the existing internal publication policy;
 it does not claim to classify every possible prose recommendation.

@@ -13,8 +13,10 @@ assigned `wasayijaz/henneth-desk` routine worktree. Read [REPORTING.md](REPORTIN
 
 1. Synchronize the worktree and record PKT start time. Check `state/calendar.json`; a holiday or
    weekend is a `no-op` with no state or publication changes.
-2. Wait for and verify the same-session Daily receipt with
-   `python scripts/wait_for_routine_receipt.py --routine daily --date <YYYY-MM-DD> --timeout-seconds 5400`.
+2. Wait for and verify the same-session Daily receipt with one long-running command:
+   `python scripts/wait_for_routine_receipt.py --routine daily --date <YYYY-MM-DD> --timeout-seconds 7200 --poll-seconds 180`.
+   Let that command wait; do not add browser refreshes, narrated status checks, or another polling
+   loop around it.
    Do not dispatch data while waiting for Daily. After the receipt verifies, synchronize and run
    `python scripts/post_close_integrity.py`. Dispatch one cloud catch-up only when this integrity
    check itself fails; never dispatch merely because the Daily receipt is absent. Wait for that

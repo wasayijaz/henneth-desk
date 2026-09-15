@@ -111,6 +111,25 @@ def check() -> list[str]:
     if not (ROUTINES / "FINALIZATION.md").is_file():
         errors.append("missing FINALIZATION.md")
 
+    pm_path = ROUTINES / "henneth-pm-checkpoint.md"
+    daily_path = ROUTINES / "henneth-daily-refresh.md"
+    room_path = ROUTINES / "henneth-desk-room-loop.md"
+    if pm_path.is_file():
+        pm = pm_path.read_text(encoding="utf-8")
+        for phrase in ("only news scan", "10 external", "Do not run Macro or Market Analyst"):
+            if phrase not in pm:
+                errors.append(f"PM efficiency contract missing: {phrase}")
+    if daily_path.is_file():
+        daily = daily_path.read_text(encoding="utf-8")
+        for phrase in ("do not run News Sentinel again", "exactly two judgment roles",
+                       "16 external", "--poll-seconds 180"):
+            if phrase not in daily:
+                errors.append(f"Daily efficiency contract missing: {phrase}")
+    if room_path.is_file():
+        room = room_path.read_text(encoding="utf-8")
+        if "--poll-seconds 180" not in room:
+            errors.append("Room efficiency contract missing: --poll-seconds 180")
+
     blog_path = ROUTINES / "henneth-blog-publish.md"
     if blog_path.is_file():
         blog = blog_path.read_text(encoding="utf-8").casefold()

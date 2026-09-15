@@ -16,27 +16,32 @@ operations refresh guidance first.
    pipeline or a second liveness watchdog here.
 2. Read `state/calendar.json` first. A weekend or listed holiday is a deliberate `no-op`: do not
    edit state, dispatch catch-up, run judgment roles, commit, or publish.
-3. Wait for and verify the same-session PM checkpoint receipt with
-   `python scripts/wait_for_routine_receipt.py --routine pm --date <YYYY-MM-DD> --timeout-seconds 3600`.
+3. Wait for and verify the same-session PM checkpoint receipt with one long-running command:
+   `python scripts/wait_for_routine_receipt.py --routine pm --date <YYYY-MM-DD> --timeout-seconds 5400 --poll-seconds 180`.
    This command fetches `origin/main` and proves the receipt, matching runlog, research SHA, and PM
-   acknowledgement. Do not dispatch data while waiting for PM. After PM verifies, synchronize and
+   acknowledgement. Let that command wait; do not add browser refreshes, narrated status checks, or
+   a second polling loop around it. Do not dispatch data while waiting for PM. After PM verifies, synchronize and
    run `python scripts/post_close_integrity.py`. Only if that integrity gate fails may this routine
    use one authenticated `desk-data.yml` catch-up dispatch, wait for that exact run, synchronize,
    and recheck. A timed-out predecessor or still-failed post-close gate blocks this routine; never
    publish over it.
-4. Run exactly three judgment roles, in order. For each, use a `gpt-5.6-luna` high subagent when
+4. The verified PM receipt proves that the day's News Sentinel scan completed. Read the new PM
+   news from `state/newslog.json`; do not run News Sentinel again. Run exactly two judgment roles,
+   in order. For each, use a `gpt-5.6-luna` high subagent when
    callable; otherwise execute the role inline from the committed role description in this runbook.
    Tell each spawned role that the parent routine is already authorized and give it an exact file
    boundary; the role performs that scoped state update without asking the owner for another plan
    approval. The parent may answer a redundant role checkpoint and continue.
-   - News Sentinel: scan PSX announcements and Pakistani business press for the last two trading
-     days, tag universe tickers, score impact 1–5, and append sourced items to `state/newslog.json`.
    - Macro Analyst: read `state/global.json` and `state/georisk.json`, web-verify domestic facts
      (SBP, CPI, IMF, debt/yields, reserves and fiscal events), and write `state/macro.json`; use
-     `null` when a number cannot be verified.
+     `null` when a number cannot be verified. Use no more than eight external source retrievals and
+     reuse official source responses obtained in this run.
    - Market Analyst: read the current state bundle and write `state/daily_read.json` with a concise
      headline, regime-aware sectors, up to five watchlist names with proven strategy/fundamental/
      catalyst evidence, and risks. Never invent a price or make a named-security call.
+   The two roles together may use no more than 16 external source retrievals. Crossing the limit is
+   `blocked`, not permission to continue. Deterministic file reads, builds and Git verification do
+   not count toward this research-source limit.
 5. Run `python scripts/build_dashboard.py`. A failed build/preflight is a hard stop and must not
    reach the public site.
 6. Run `python scripts/publish.py "Daily desk refresh <YYYY-MM-DD>"`. A clean unchanged-state
@@ -52,14 +57,14 @@ operations refresh guidance first.
 
 ## Required result fields
 
-`date`; `market_day`; `roles_run[]`; `news_items_found`; `macro.regime`; `macro.sources[]`;
+`date`; `market_day`; `roles_run[]`; `pm_news_consumed`; `news_items_found`; `macro.regime`; `macro.sources[]`;
 `geo_risk`; `daily_read.headline`; `daily_read.watchlist_count`; `preflight_or_build`;
 `runlog_written`; `publication.status`; `publication.sha`; `publication.url`; `problems[]`;
-`next_action`.
+`next_action`; `efficiency.external_source_retrievals`.
 
 ## Outcomes
 
-- `success`: all three roles completed with sourced outputs, build/preflight passed, runlog was
+- `success`: both roles completed with sourced outputs after a verified PM news scan, build/preflight passed, runlog was
   appended, and publication was confirmed or verified unchanged.
 - `no-op`: non-market day or holiday was detected before judgment work; record the calendar evidence
   and no publication.

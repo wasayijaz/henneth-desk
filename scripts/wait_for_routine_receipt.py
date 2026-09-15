@@ -124,7 +124,7 @@ def main() -> int:
     parser.add_argument("--routine", choices=("pm", "daily"), required=True)
     parser.add_argument("--date", type=date.fromisoformat, required=True)
     parser.add_argument("--timeout-seconds", type=int, default=0)
-    parser.add_argument("--poll-seconds", type=int, default=60)
+    parser.add_argument("--poll-seconds", type=int, default=180)
     args = parser.parse_args()
     if args.timeout_seconds < 0 or not 1 <= args.poll_seconds <= 300:
         parser.error("timeout must be non-negative and poll interval must be 1-300 seconds")
