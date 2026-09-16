@@ -1,84 +1,11 @@
 {
- "updated": "2026-09-15 19:38",
+ "updated": "2026-09-16 08:45",
  "regime": "risk-off",
  "geo_risk": {
-  "score": 57,
+  "score": 62,
   "band": "moderate"
  },
- "signals": [
-  {
-   "id": "20260915-IPAK-stoch_double_bottom",
-   "ticker": "IPAK",
-   "strategy": "stoch_double_bottom",
-   "template": "Stochastic reclaim from oversold",
-   "category": "oscillator",
-   "sector": "Paper, Board & Packaging",
-   "hold_sessions": 12,
-   "backtest": {
-    "hit_rate": 0.636,
-    "net_expectancy_pct": 1.24,
-    "n": 11,
-    "oos_hit": 0.667
-   },
-   "confidence": "low",
-   "basis": "backtest-proven, unaudited",
-   "thesis": "Stochastic reclaim from oversold is triggering now; on IPAK's own history it won 64% over 11 trades (+1.2% net/trade), still profitable out-of-sample."
-  },
-  {
-   "id": "20260915-MTL-triple_ema_align",
-   "ticker": "MTL",
-   "strategy": "triple_ema_align",
-   "template": "Triple EMA alignment",
-   "category": "trend",
-   "sector": "Automobile Assembler",
-   "hold_sessions": 12,
-   "backtest": {
-    "hit_rate": 0.562,
-    "net_expectancy_pct": 1.0,
-    "n": 96,
-    "oos_hit": 0.559
-   },
-   "confidence": "low",
-   "basis": "backtest-proven, unaudited",
-   "thesis": "Triple EMA alignment is triggering now; on MTL's own history it won 56% over 96 trades (+1.0% net/trade), still profitable out-of-sample."
-  },
-  {
-   "id": "20260915-BAFL-oversold_bounce",
-   "ticker": "BAFL",
-   "strategy": "oversold_bounce",
-   "template": "RSI oversold bounce",
-   "category": "mean_reversion",
-   "sector": "Commercial Banks",
-   "hold_sessions": 8,
-   "backtest": {
-    "hit_rate": 0.593,
-    "net_expectancy_pct": 0.77,
-    "n": 54,
-    "oos_hit": 0.583
-   },
-   "confidence": "low",
-   "basis": "backtest-proven, unaudited",
-   "thesis": "RSI oversold bounce is triggering now; on BAFL's own history it won 59% over 54 trades (+0.8% net/trade), still profitable out-of-sample."
-  },
-  {
-   "id": "20260915-TATM-stoch_bull_trend",
-   "ticker": "TATM",
-   "strategy": "stoch_bull_trend",
-   "template": "Stochastic cross in uptrend",
-   "category": "oscillator",
-   "sector": "Textile Spinning",
-   "hold_sessions": 9,
-   "backtest": {
-    "hit_rate": 0.556,
-    "net_expectancy_pct": 0.72,
-    "n": 9,
-    "oos_hit": 0.667
-   },
-   "confidence": "low",
-   "basis": "backtest-proven, unaudited",
-   "thesis": "Stochastic cross in uptrend is triggering now; on TATM's own history it won 56% over 9 trades (+0.7% net/trade), still profitable out-of-sample."
-  }
- ],
+ "signals": [],
  "positions": [],
  "top_predictable": [
   {
@@ -98,15 +25,7 @@
    "score": 65.6
   },
   {
-   "ticker": "INDU",
-   "score": 65.3
-  },
-  {
    "ticker": "EFA",
-   "score": 65.2
-  },
-  {
-   "ticker": "FFC",
    "score": 65.2
   },
   {
@@ -114,8 +33,16 @@
    "score": 65.2
   },
   {
+   "ticker": "INDU",
+   "score": 65.1
+  },
+  {
    "ticker": "USRUT",
-   "score": 64.7
+   "score": 65.1
+  },
+  {
+   "ticker": "FFC",
+   "score": 65.0
   },
   {
    "ticker": "FHAM",
@@ -356,14 +283,6 @@
  "agent_wire": [],
  "runlog_tail": [
   {
-   "started": "2026-09-12T20:27:00+05:00",
-   "mode": "harvest",
-   "ended": "2026-09-13T01:05:08+05:00",
-   "outcome": "Weekly broker harvest completed: 2 dated broker calls verified; 1 unlisted IPO lead-manager candidate excluded; Commercial Banks debate reconciled; room QA, dashboard build, Rule 4, provenance, and preflight passed; 102 universe symbols backfilling history and 4 legacy high-severity price-series flags remain.",
-   "routine": "harvest",
-   "research_sha": "db3b538c3881726d4b39bcdb62a791386c19adc0"
-  },
-  {
    "started": "2026-09-14T18:26:39+05:00",
    "mode": "light-escalated",
    "ended": "2026-09-14T18:44:07+05:00",
@@ -394,6 +313,14 @@
    "outcome": "PM checkpoint completed after one desk-data catch-up; post-close integrity passed; 8 news items appended; no open positions; Macro and Market Analyst updated; dashboard and preflight passed with SOYASUP backfill warning.",
    "routine": "pm",
    "research_sha": "ac5a0ac6d2cd559e6b73b62c7637e8ad95abde38"
+  },
+  {
+   "started": "2026-09-15T18:32:49+05:00",
+   "mode": "full",
+   "ended": "2026-09-15T19:40:21+05:00",
+   "outcome": "risk-off daily read; geo-risk moderate 57; rebound cannot clear oil rupee and geopolitical overhang",
+   "routine": "daily",
+   "research_sha": "fbf788e3f2bef8bb65745991241c24e03e898545"
   }
  ]
 }
