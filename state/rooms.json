@@ -90,7 +90,7 @@
   "built": "2026-08-02 15:48",
   "sessions": 44,
   "note": "Desk Room sessions per ticker; rendered on the ticker page.",
-  "updated": "2026-09-14 19:25",
+  "updated": "2026-09-16 20:21",
   "covered": 50
  },
  "UBL": {
@@ -618,7 +618,7 @@
    "attack_on_bull_ur": "مثبت مؤقف کا مستقبل کے منظرنامے والا ستون سب سے کمزور ہے: P/E میں بہتری صرف 0.06 ٹرنز ہے اور نامعلوم EPS کی بنیاد کے ساتھ موجود ہے، اس لیے یہ مجموعی منصفانہ قدر پر 45.5% پریمیم کی وضاحت میں بہت کم مدد دیتی ہے۔",
    "attack_on_bull_ur_hash": "10116b1c7d46"
   },
-  "reaffirmed": false,
+  "reaffirmed": "2026-09-16 20:04",
   "qa": {
    "ticker": "MARI",
    "verdict": "clean",
@@ -796,7 +796,7 @@
    "attack_on_bull_ur": "مثبت مؤقف کا کم P/E والا ستون سب سے کمزور ہے: ہم پلہ کمپنیوں کے ساتھ مخصوص موازنہ فراہم نہیں کیا گیا، EPS کی بنیاد نامعلوم ہے، اور قدر بندی کے طریقوں میں نمایاں اختلاف ہے، جس میں DDM کا تخمینہ 55.92 بھی شامل ہے۔",
    "attack_on_bull_ur_hash": "a1c9cabe4fc6"
   },
-  "reaffirmed": false,
+  "reaffirmed": "2026-09-16 20:04",
   "qa": {
    "ticker": "LUCK",
    "verdict": "clean",
@@ -1722,7 +1722,7 @@
    "attack_on_bull_ur": "بل کا سب سے مضبوط ستون — تین ویلیویشن طریقے 16.87 پر جمع ہوتے ہیں — تین آزاد تصدیقیں نہیں ہیں؛ رشتہ دار P/E، ارنِنگز پاور، اور گراہم تمام اسی EPS کے اعداد و شمار کو چاہی کرتے ہیں جو fa_memo واضح طور پر بنیاد 'نامعلوم' کے طور پر لیبل کرتا ہے۔ اگر وہ EPS ریفائنر-عام ایک بار کے آئے ہوئے انوینٹری یا FX منافع میں شامل ہے بجائے پائیدار ارنِنگز کے، 'سستا' 5.25 P/E اور مکمل 18.2% کم قدری فاصلہ ایک ساتھ گرے گی، آزادانہ نہیں — یہ تین لباس میں ایک ناکامی کا نقطہ ہے۔",
    "attack_on_bull_ur_hash": "a2f70f31f658"
   },
-  "reaffirmed": "2026-09-04 18:02",
+  "reaffirmed": "2026-09-16 20:04",
   "qa": {
    "verdict": "flags_fixed",
    "checked": "2026-08-25",
@@ -1731,72 +1731,101 @@
   "delta_updated": "2026-09-14 19:22"
  },
  "GHNI": {
-  "built": "2026-07-19 13:32",
-  "dossier_asof": "2026-07-17",
-  "price_at_session": 1132.31,
-  "material_hash": "dbbae510ad7b",
+  "built": "2026-09-16 20:21",
+  "dossier_asof": "2026-09-16",
+  "price_at_session": 1154.73,
+  "material_hash": "1650bf662dd0",
   "ta_memo": {
-   "read": "GHNI trades at 1132.31, above both its SMA20 (1040.45) and SMA50 (943.42), with a strong +14.57% 20-day return underpinning the uptrend. The last week has cooled off (-3.08% over 5 days, -0.94% on the latest session) on below-average volume (vol_surge 0.3), leaving price about 8.96% off its 20-day high. RSI14 at 62.5 is firm but not stretched.",
-   "structure": "uptrend",
-   "momentum": "up",
-   "liquidity_note": "Avg daily traded value of 476.1M supports clean entry/exit at this size.",
-   "proven_now": [],
+   "read": "As of 2026-09-16, GHNI is in a downtrend: price is 1154.73, below SMA20 at 1253.76 and SMA50 at 1216.65. Momentum is down, with returns of -1.3% over 1 day, -5.32% over 5 days, and -12.61% over 20 days; RSI14 is 36.4. Price is 14.43% below the 20-day high. Support and resistance are not in the data.",
+   "structure": "downtrend",
+   "momentum": "down",
+   "liquidity_note": "Average daily traded value is 155.8m; no further entry/exit liquidity assessment is in the data.",
+   "proven_now": [
+    "2-ATR stretch below 20MA"
+   ],
    "levels": {
-    "support": 1040.45,
-    "resistance": 1243.4
+    "support": null,
+    "resistance": null
    },
-   "technical_stance": "constructive",
-   "claim": {
-    "kind": "direction",
-    "direction": "up",
-    "horizon_days": 20,
-    "text": "With price holding above SMA20 (1040.45) and SMA50 (943.42) after a 14.57% 20-day advance and RSI14 at a non-overbought 62.5, GHNI is expected to be higher than 1132.31 within 20 sessions from 2026-07-17, absent a close back below 1040.45."
-   }
+   "technical_stance": "cautious",
+   "read_ur": "2026-09-16 تک، GHNI ایک نزولی رجحان میں ہے: قیمت 1154.73 ہے، SMA20 (1253.76) اور SMA50 (1216.65) سے نیچے ہے۔ رفتار منفی ہے، 1 دن میں -1.3%، 5 دن میں -5.32%، اور 20 دن میں -12.61% کی واپسی کے ساتھ؛ RSI14 36.4 ہے۔ قیمت 20 روز کی بلند ترین قیمت سے 14.43% نیچے ہے۔ سپورٹ اور ریزسٹنس ڈیٹا میں نہیں ہیں۔",
+   "read_ur_hash": "233e5f28733d",
+   "liquidity_note_ur": "اوسط روزانہ کاروبار کی قیمت 155.8m ہے؛ داخل اور نکلنے کی نقدیت کی کوئی اور تشخیص ڈیٹا میں نہیں ہے۔",
+   "liquidity_note_ur_hash": "1564b975b670"
   },
   "fa_memo": {
-   "read": "Ghandhara Industries screens cheap on trailing P/E (6.98x, in the cheapest third of PSX names) with a healthy ~12% net margin (net income 6.92B on revenue 58.41B), but the desk's composite fair-value model (776.92) puts the current price (1132.31) 31.4% above fair value — an 'overvalued' verdict. The valuation methods disagree sharply: relative-PE (1352.13) and earnings-power (1034.54) support the current price, while Graham (519.31) and DDM (56.94) argue it is expensive — the DDM figure is depressed mechanically by the near-zero payout ratio, so it's a weak read here. Forward P/E (7.86x) sitting above trailing P/E (6.98x) with growth_est_pct at 0.0 hints the market expects flatter or softer earnings ahead.",
+   "read": "The feed shows positive profitability: revenue is Rs58.41B, net income is Rs6.92B, and the scorecard reports a 12% net margin. P/E 7.11 is described as roughly in line with PSX peers, while forward P/E 6.63 indicates an improving earnings view; EPS basis remains unknown. The valuation output is labelled fair, but its composite assessment is below the reference valuation by 9.8%, while the methods range widely, so the model signal is not robust. Dividend burden appears low from the 6.16% payout ratio and one listed Rs10.00 final dividend, though cash-flow coverage is not in the data.",
    "valuation_stance": "rich_vs_fair",
-   "earnings_quality": "Net margin ~12%, profitable, no loss/negative-EPS flag; forward P/E above trailing P/E plus 0% growth estimate flags possible earnings softening ahead.",
-   "dividend_safety": "Payout ratio 5.61% against a 0.88% yield — well covered, but token-sized, not an income holding.",
+   "earnings_quality": "Positive reported earnings: Rs6.92B net income on Rs58.41B revenue, a 12% net margin; EPS is positive at Rs162.32, but its basis is unknown.",
+   "dividend_safety": "Payout ratio is 6.16% and the only listed recent dividend is Rs10.00 final; reported payout burden is low, but cash-flow coverage is not in the data.",
    "balance_sheet_flags": [
-    "debt/leverage not in the data",
-    "ROE/ROA not in the data",
-    "small-cap (48.25B) with beta 0.79 per scorecard"
+    "debt not in data",
+    "cash-flow coverage not in data",
+    "EPS basis unknown",
+    "business and segment detail not in data"
    ],
    "broker_view": null,
    "fundamental_stance": "cautious",
-   "claim": {
-    "kind": "thesis",
-    "horizon_days": 90,
-    "text": "By 2026-10-17, GHNI trades closer to its composite fair value (776.92) than to the current 1132.31, as the -31.4% mispricing and a forward P/E (7.86x) already above trailing (6.98x) work through the price rather than the market re-rating higher."
-   }
+   "read_ur": "فیڈ مثبت نفع دکھاتا ہے: ریونیو 58.41B روپے ہے، خالص آمدنی 6.92B روپے ہے، اور سکور کارڈ 12% نیٹ مارجن رپورٹ کرتا ہے۔ P/E 7.11 کو PSX ہم مثالوں کے مطابق بیان کیا گیا ہے، جبکہ فارورڈ P/E 6.63 بہتر آمدنی کے نقطہ نظر کی نشاندہی کرتا ہے؛ EPS کی بنیاد نامعلوم رہتی ہے۔ ویلویشن آؤٹ پٹ منصفانہ لیبل ہے، لیکن اس کا کمپوزٹ اندازہ حوالہ ویلویشن سے 9.8% نیچے ہے، جبکہ طریقے بہت متنوع ہیں، اس لیے ماڈل سگنل مضبوط نہیں ہے۔ ڈیویڈنڈ بوجھ 6.16% معاوضہ تناسب اور ایک درج Rs10.00 حتمی ڈیویڈنڈ سے کم لگتا ہے، اگرچہ نقد بہاؤ کا احاطہ ڈیٹا میں نہیں ہے۔",
+   "read_ur_hash": "6845a9102f4b",
+   "earnings_quality_ur": "مثبت رپورٹ شدہ آمدنی: 58.41B روپے کی ریونیو پر 6.92B روپے کی خالص آمدنی، 12% نیٹ مارجن؛ EPS مثبت Rs162.32 ہے، لیکن اس کی بنیاد نامعلوم ہے۔",
+   "earnings_quality_ur_hash": "d91e59882eb5",
+   "dividend_safety_ur": "معاوضہ تناسب 6.16% ہے اور واحد درج حالیہ ڈیویڈنڈ Rs10.00 حتمی ہے؛ رپورٹ شدہ معاوضہ بوجھ کم ہے، لیکن نقد بہاؤ کا احاطہ ڈیٹا میں نہیں ہے۔",
+   "dividend_safety_ur_hash": "ba07d2f92f80"
   },
   "bull_case": {
-   "thesis": "GHNI is in a confirmed uptrend on cheap trailing earnings — price (1132.31) sits above both SMA20 (1040.45) and SMA50 (943.42) after a 14.57% 20-day advance, and it screens in the cheapest third of PSX names on P/E (6.98x). A pullback to support, not a broken trend, is what the tape shows so far.",
+   "thesis": "GHNI combines reported profitability with a valuation described as roughly in line with PSX peers and a forward P/E below its trailing P/E. The technical setup is weak, but the low reported payout burden and the listed stretch-below-20MA pattern provide a counterweight in the supplied data.",
    "pillars": [
-    "Trend intact: price above SMA20 (1040.45) and SMA50 (943.42), structure 'uptrend', momentum 'up'.",
-    "RSI14 at 62.5 is firm but not overbought, leaving room before a classic exhaustion signal.",
-    "Valuation floor: trailing P/E 6.98x, cheapest third of PSX names, net margin ~12% (6.92B / 58.41B).",
-    "Liquidity supports sizing: avg daily traded value 476.1M.",
-    "House strategy edge: '2-ATR stretch below 20MA' has a 0.65 hit rate and 0.64% net return over n=23."
+    "Net income is Rs6.92B on revenue of Rs58.41B, and the scorecard reports a 12% net margin.",
+    "P/E is 7.11 and described as roughly in line with PSX peers; forward P/E is 6.63 versus trailing P/E of 7.11.",
+    "Payout ratio is 6.16%, with one listed recent Rs10.00 final dividend; cash-flow coverage remains unknown.",
+    "2-ATR stretch below 20MA is listed with hit 0.65 and 23 observations.",
+    "Average daily traded value is 155.8m, providing a documented liquidity measure despite the small-cap classification."
    ],
-   "best_evidence": "Price holding above both moving averages (SMA20 1040.45, SMA50 943.42) with RSI14 at a non-overbought 62.5 after a 14.57% 20-day advance.",
-   "what_would_break_it": "A close back below the SMA20 (1040.45) — the level the ta_memo itself names as invalidation — or the -3.08% 5-day slide extending on rising volume."
+   "best_evidence": "The strongest concrete support is Rs6.92B of net income on Rs58.41B of revenue, alongside the reported 12% net margin.",
+   "what_would_break_it": "The case weakens if the improving forward valuation view fails to translate into stronger earnings, if the unknown EPS basis changes comparability, or if the wide valuation methods remain unresolved while the downtrend continues.",
+   "thesis_ur": "GHNI رپورٹ شدہ نفع کو PSX ہم مثالوں کے مطابق بیان کردہ ویلویشن اور ایک فارورڈ P/E سے ملاتا ہے جو اس کے ٹریلنگ P/E سے کم ہے۔ تکنیکی سیٹ اپ کمزور ہے، لیکن کم رپورٹ شدہ معاوضہ بوجھ اور درج 20MA کے نیچے پھیلاؤ پیٹرن فراہم کردہ ڈیٹا میں ایک جوابی وزن فراہم کرتے ہیں۔",
+   "thesis_ur_hash": "49f72dcdb12c",
+   "best_evidence_ur": "سب سے مضبوط ٹھوس حمایت 58.41B روپے کی ریونیو پر 6.92B روپے کی خالص آمدنی، رپورٹ شدہ 12% نیٹ مارجن کے ساتھ ہے۔",
+   "best_evidence_ur_hash": "13c28d6848f9",
+   "what_would_break_it_ur": "اگر بہتر فارورڈ ویلویشن نقطہ نظر مضبوط ترین آمدنی میں منتقل نہیں ہوتا، اگر نامعلوم EPS کی بنیاد موازنہ کو تبدیل کرتی ہے، یا اگر ڈیویڈنڈ طریقے حالیہ رہتے ہیں جبکہ نزولی رجحان جاری رہتا ہے تو کیس کمزور ہوتا ہے۔",
+   "what_would_break_it_ur_hash": "0990a39220cd"
   },
   "bear_case": {
-   "thesis": "The composite fair-value model puts GHNI 31.4% above fair value (776.92 vs 1132.31, 'overvalued'), and the market's own forward pricing (forward P/E 7.86x above trailing 6.98x, with 0% growth estimate) hints at softening earnings ahead, not the re-rating the trend implies. The last five sessions already show the tape stalling (-3.08%) on thin volume.",
+   "thesis": "The skeptical case is that GHNI's price structure is weak while the valuation evidence is not robust. Price is below both moving averages, medium-term returns are negative, and the valuation methods diverge widely; the dossier also classifies GHNI as small-cap with thinner liquidity and higher risk.",
    "pillars": [
-    "Composite fair value 776.92 vs price 1132.31 = -31.4% mispricing, explicit 'overvalued' verdict.",
-    "Two of four valuation methods argue expensive — Graham 519.31, DDM 56.94 — versus relative-PE 1352.13 and earnings-power 1034.54; the split signals fragility, not consensus.",
-    "Forward P/E (7.86x) above trailing (6.98x) with growth_est_pct 0.0 — flagged as possible earnings softening.",
-    "5-day momentum rolling over: -3.08% over 5 days, -0.94% latest session, price 8.96% off its 20-day high.",
-    "Thin dividend cushion: 0.88% yield, not an income holding."
+    "Price is 1154.73, below SMA20 at 1253.76 and SMA50 at 1216.65; returns are -1.3% over 1 day, -5.32% over 5 days, and -12.61% over 20 days, with RSI14 at 36.4.",
+    "Composite fair value is 1041.68, or -9.8% versus price; methods range from 94.14 to 1334.33 and EPS basis is unknown.",
+    "The 49.36B market-cap classification is small-cap, with the scorecard citing thinner liquidity and higher risk; average daily traded value is 155.8m.",
+    "Debt, cash-flow coverage, and business and segment detail are not in the data.",
+    "The only listed recent dividend is Rs10.00 final, while the stated dividend yield is 0.78%, limiting the documented income support."
    ],
-   "attack_on_bull": "Zoya's valuation pillar ('cheapest third of PSX on trailing P/E 6.98x') is the weakest: it cherry-picks the one metric that looks cheap while ignoring that the desk's own composite fair-value model — which blends four methods, not one — says price is 31.4% rich. Trailing P/E alone is silent on the 0% growth estimate and the forward P/E already sitting above it; cheap-on-trailing-earnings is not cheap-on-forward-earnings.",
+   "attack_on_bull": "The 2-ATR stretch-below-20MA pattern is the weakest bull pillar: it is listed at hit 0.65 over 23 observations, but the supplied data contain no ATR value or exact trigger confirmation for the current setup.",
    "broker_challenge": null,
-   "worst_case": "Price reverts toward the composite fair value of 776.92 — roughly a 31% drawdown from 1132.31 — with the SMA20 (1040.45) breaking first as early confirmation."
+   "worst_case": "A continued decline could leave the weak trend as the dominant signal while composite fair value remains below price and the missing debt or cash-flow facts reveal additional downside exposure.",
+   "thesis_ur": "شکی کیس یہ ہے کہ GHNI کی قیمت کی ساخت کمزور ہے جبکہ ویلویشن کے شواہد مضبوط نہیں ہیں۔ قیمت دونوں حرکی اوسط سے نیچے ہے، درمیانی مدت کی واپسی منفی ہے، اور ویلویشن طریقے بڑی حد تک مختلف ہیں؛ ڈوسیہ GHNI کو چھوٹی حد میں درجہ بندی کرتا ہے جس میں نازک نقدیت اور زیادہ خطرہ ہے۔",
+   "thesis_ur_hash": "632ba6c29d89",
+   "attack_on_bull_ur": "2-ATR پھیلاؤ-20MA کے نیچے پیٹرن سب سے کمزور بل ستون ہے: یہ 23 مشاہدات میں 0.65 کی ضربت پر درج ہے، لیکن فراہم کردہ ڈیٹا میں موجودہ سیٹ اپ کے لیے کوئی ATR قدر یا درست ٹریگر تصدیق نہیں ہے۔",
+   "attack_on_bull_ur_hash": "adae28a6a98d",
+   "worst_case_ur": "جاری نزول کمزور رجحان کو حاکمانہ سگنل کے طور پر چھوڑ سکتا ہے جبکہ کمپوزٹ منصفانہ قیمت قیمت سے نیچے رہتی ہے اور گم شدہ قرض یا نقد بہاؤ کے حقائق اضافی نیچے کی نمائش کو ظاہر کرتے ہیں۔",
+   "worst_case_ur_hash": "70938995be35"
   },
-  "reaffirmed": "2026-07-20 17:48"
+  "reaffirmed": false,
+  "qa": {
+   "ticker": "GHNI",
+   "verdict": "flags",
+   "findings": [
+    {
+     "severity": "low",
+     "claim": "The valuation output is labelled fair, with composite fair value 1041.68 and methods ranging from 94.14 to 1334.33.",
+     "issue": "The methods disagree by 14.2x, so the composite is a rough screen rather than a robust valuation conclusion.",
+     "evidence": "state/verify.json[GHNI] flags fairvalue.spread; state/dossiers.json[GHNI].valuation.methods contains relative_pe 1087.54, earnings_power 995.83, graham 1334.33, and ddm 94.14; state/rooms.json[GHNI].fa_memo already describes the methods as widely ranged and the model signal as not robust.",
+     "fix": "Retain the existing rough-screen caveat and avoid presenting the composite as decisive."
+    }
+   ],
+   "summary": "GHNI is internally consistent: the session price and as-of match the dossier, the technical and fundamental memos trace to the supplied data, and the composite matches the median of the four methods. The only deterministic issue is the already-caveated low-severity valuation spread; no blocking factual error is present.",
+   "checked": "2026-09-16 20:25"
+  }
  },
  "KEL": {
   "built": "2026-07-19 13:32",
@@ -3252,85 +3281,106 @@
   "delta_updated": "2026-07-28 11:23"
  },
  "AIRLINK": {
-  "built": "2026-08-13 17:49",
-  "dossier_asof": "2026-08-13",
-  "price_at_session": 135.69,
-  "material_hash": "25df48947e15",
+  "built": "2026-09-16 20:21",
+  "dossier_asof": "2026-09-16",
+  "price_at_session": 123.04,
+  "material_hash": "90c777a31a3c",
   "ta_memo": {
-   "read": "AIRLINK sits just below its 20-day SMA (136.43) and well below its 50-day SMA (147.71), with negative returns across the 1d, 5d, and 20d windows (-0.29%, -2.36%, -5.5%). RSI14 at 41.2 is neutral, not oversold. Price is about 5.82% off its 20-day high, and a vol_surge reading of 0.25 points to below-average participation in the recent slide, suggesting limited conviction behind the move.",
+   "read": "At Rs123.04 on 2026-09-16, price is below SMA20 at Rs129.76 and SMA50 at Rs135.63. Returns are negative over 1, 5, and 20 days, with RSI14 at 28.7 and price 8.88% below the 20-day high, consistent with a downtrend structure.",
    "structure": "downtrend",
    "momentum": "down",
-   "liquidity_note": "avg_daily_traded_value_m of 145.2 indicates ample liquidity for clean entry/exit sizing.",
+   "liquidity_note": "Average daily traded value is Rs77.2m; the data provides no benchmark for judging entry or exit cleanliness.",
    "proven_now": [],
    "levels": {
     "support": null,
-    "resistance": 136.43
+    "resistance": null
    },
    "technical_stance": "cautious",
-   "read_ur": "AIRLINK اپنے 20 روز کے SMA (136.43) سے بالکل نیچے بیٹھا ہے اور اپنے 50 روز کے SMA (147.71) سے بہت نیچے ہے، 1d، 5d، اور 20d ونڈوز میں منفی ریٹرن کے ساتھ (-0.29%، -2.36%، -5.5%)۔ RSI14 41.2 پر غیر جانبدار ہے، بہت کم خریدے جانے والے نہیں۔ قیمت اپنے 20 روز کی بلند ترین قیمت سے تقریباً 5.82% دور ہے، اور 0.25 کی vol_surge تشریح حالیہ کھسک میں اوسط سے کم شرکت کی طرف اشارہ کرتی ہے، حرکت کے پیچھے محدود عزم کی تجویز کرتے ہوئے۔",
-   "read_ur_hash": "ba732a53bf7b",
-   "liquidity_note_ur": "avg_daily_traded_value_m 145.2 صاف داخلہ/خروج کی سائزنگ کے لیے وافر نقدی کی نشاندہی کرتا ہے۔",
-   "liquidity_note_ur_hash": "97b64bbf75b6"
+   "read_ur": "2026-09-16 کو Rs123.04 پر، قیمت Rs129.76 پر SMA20 اور Rs135.63 پر SMA50 سے نیچے ہے۔ 1، 5، اور 20 دن میں واپسی منفی ہے، RSI14 28.7 پر اور قیمت 20 روز کی بلند ترین سے 8.88% نیچے ہے، جو نزولی ساخت کے مطابق ہے۔",
+   "read_ur_hash": "7735d1a601a6",
+   "liquidity_note_ur": "اوسط روزانہ کاروبار کی قیمت Rs77.2m ہے؛ ڈیٹا داخل یا نکلنے کی صفائی کا اندازہ لگانے کے لیے کوئی بینچ مارک فراہم نہیں کرتا۔",
+   "liquidity_note_ur_hash": "6176c305a37a"
   },
   "fa_memo": {
-   "read": "Air Link is a profitable mid-cap (5.54B net income on 87.20B revenue) trading at a trailing P/E of 9.71 and forward P/E of 8.12, roughly mid-pack for PSX, with the model's composite fair value (238.27) well above the current price (135.69). That gap should be read cautiously: the four valuation methods disagree sharply (earnings-power at 86.01 vs. DDM at 342.32), so the 'undervalued' composite is an average across a wide dispersion, not a tight consensus. Net margin is thin at roughly 6%, leaving little cushion if input costs or currency move against the business. The dividend looks funded off current earnings at a 64% payout with a 6.61% yield and a track record of recent interim and final payments.",
+   "read": "Airlink is profitable, but the supplied scorecard describes a thin-margin business with limited cost cushion. Its trailing P/E is described as mid-pack for PSX, while the model labels the valuation undervalued and the lower forward P/E suggests an improving earnings outlook; that conclusion remains dependent on widely dispersed methods and an unknown EPS basis. The feed states a 6.83% yield on an unidentified basis, while the recorded trailing dividends imply 5.28% at the session price; the stated payout ratio is 64.19% and cash-flow coverage is not in the data. Small-cap classification and thinner liquidity add risk context despite beta 0.53.",
    "valuation_stance": "cheap_vs_fair",
-   "earnings_quality": "Net margin ~6.4% (5.54B/87.20B) is thin; EPS 14.02 is positive with forward P/E below trailing, implying expected earnings growth but no loss/negative-EPS flag.",
-   "dividend_safety": "Payout ratio 64.19% against a 6.61% yield, with three recent dividend payments (interim and final) suggests the distribution is currently covered by earnings.",
+   "earnings_quality": "Positive reported earnings: Rs87.20B revenue and Rs5.54B net income, matching the scorecard's 6% thin net margin; EPS is positive but its basis is unknown.",
+   "dividend_safety": "The feed states a 6.83% yield on an unidentified basis; recorded trailing dividends of Rs6.50 per share imply 5.28% at the Rs123.04 session price. The stated payout ratio is 64.19%, and cash-flow coverage is not in the data.",
    "balance_sheet_flags": [
-    "debt/leverage not in the data",
-    "current ratio / liquidity not in the data",
-    "cash flow statement not in the data"
+    "debt not in data",
+    "cash-flow coverage not in data",
+    "EPS basis unknown",
+    "thin net margin leaves limited cost cushion",
+    "small-cap classification and thinner liquidity are flagged in the scorecard"
    ],
    "broker_view": null,
-   "fundamental_stance": "constructive",
-   "read_ur": "Air Link ایک منافع بخش درمیانے سائز کی حدود ہے (87.20B آمدنی پر 5.54B خالص آمدنی) 9.71 کے ٹریلنگ P/E اور 8.12 کے آگے P/E پر تجارت کرتے ہوئے، PSX کے لیے تقریباً درمیانے پیکڈ، ماڈل کی جامع منصفانہ قیمت (238.27) موجودہ قیمت (135.69) سے بہت اوپر۔ اس فاصلے کو احتیاط سے پڑھا جانا چاہیے: چار تشخیص کے طریقے شدید طور پر مختلف ہیں (86.01 میں منافع کی طاقت بمقابلہ 342.32 میں DDM)، اس لیے 'کم قیمت' جامع اوسط ہے وسیع پھیلاؤ میں، سخت اتفاق نہیں۔ خالص مارجن تقریباً 6% پر پتلا ہے، اگر ان پٹ کی لاگت یا کرنسی کاروبار کے خلاف چل جائے تو بہت کم کشن چھوڑتے ہوئے۔ ڈیویڈنڈ موجودہ منافع سے 64% ادائیگی کے ساتھ 6.61% پیداوار اور حالیہ درمیانی اور حتمی ادائیگیوں کی ٹریک ریکارڈ سے فنڈ شدہ لگتا ہے۔",
-   "read_ur_hash": "2372be283e2f",
-   "earnings_quality_ur": "خالص مارجن تقریباً 6.4% (5.54B/87.20B) پتلا ہے؛ EPS 14.02 آگے P/E کے ساتھ ٹریلنگ سے نیچے مثبت ہے، متوقع منافع کی بڑھتری کا مطلب ہے لیکن کوئی نقصان/منفی-EPS جھنڈا نہیں۔",
-   "earnings_quality_ur_hash": "f70dc96ff06c",
-   "dividend_safety_ur": "ادائیگی کا تناسب 64.19% 6.61% پیداوار کے خلاف، تین حالیہ ڈیویڈنڈ ادائیگیوں کے ساتھ (درمیانی اور حتمی) تقسیم کا مطلب ہے کہ تقسیم فی الوقت منافع سے محفوظ ہے۔",
-   "dividend_safety_ur_hash": "473c2a516c96"
+   "fundamental_stance": "neutral",
+   "read_ur": "ایرلنک منافع بخش ہے، لیکن فراہم کردہ سکور کارڈ ایک پتلی مارجن کاروبار کی تفصیل کرتا ہے جس میں محدود لاگت کشن ہے۔ اس کا ٹریلنگ P/E کو PSX کے لیے درمیانی بھی بیان کیا گیا ہے، جبکہ ماڈل ویلویشن کو کم قدر اور کم فارورڈ P/E بہتر آمدنی کے نقطہ نظر کی تجویز کرتے ہوئے؛ وہ نتیجہ وسیع پھیلے ہوئے طریقوں اور نامعلوم EPS کی بنیاد پر منحصر رہتا ہے۔ فیڈ 6.83% یلڈ کو ایک نامعلوم بنیاد پر بیان کرتا ہے، جبکہ ریکارڈ شدہ ٹریلنگ ڈیویڈنڈ سیشن کی قیمت پر 5.28% کا مطلب دیتے ہیں؛ بیان کردہ معاوضہ تناسب 64.19% ہے اور نقد بہاؤ کا احاطہ ڈیٹا میں نہیں ہے۔ سکور کارڈ میں نازک نقدیت کے باوجود چھوٹی حد میں درجہ بندی اور نازک نقدیت کا اضافی خطرہ ہے اگرچہ بیٹا 0.53 ہے۔",
+   "read_ur_hash": "65bfeaeda8d4",
+   "earnings_quality_ur": "مثبت رپورٹ شدہ آمدنی: 87.20B روپے کی ریونیو اور 5.54B روپے کی خالص آمدنی، سکور کارڈ کے 6% پتلی نیٹ مارجن کے مطابق؛ EPS مثبت ہے لیکن اس کی بنیاد نامعلوم ہے۔",
+   "earnings_quality_ur_hash": "8aeb8938c18d",
+   "dividend_safety_ur": "فیڈ 6.83% یلڈ کو ایک نامعلوم بنیاد پر بیان کرتا ہے؛ ریکارڈ شدہ ٹریلنگ ڈیویڈنڈ Rs6.50 فی شیئر سیشن کی Rs123.04 قیمت پر 5.28% کا مطلب دیتے ہیں۔ بیان کردہ معاوضہ تناسب 64.19% ہے، اور نقد بہاؤ کا احاطہ ڈیٹا میں نہیں ہے۔",
+   "dividend_safety_ur_hash": "733f34f8ca40"
   },
   "bull_case": {
-   "thesis": "AIRLINK is a profitable, dividend-paying mid-cap where the market's near-term pessimism sits against improving forward earnings optics and a fresh index-inclusion catalyst. The case rests on cash generation and a growth-implying forward multiple, not on chasing the recent slide.",
+   "thesis": "The constructive case is that Air Link combines positive reported earnings with a lower forward P/E and a modelled fair value above the current price. Recorded trailing dividends imply a 5.28% yield at the session price, while the feed's 6.83% basis is unidentified; the weak technical structure, dispersed valuation methods, and unknown EPS basis limit the strength of the case.",
    "pillars": [
-    "Forward P/E of 8.12 is below the trailing 9.71, implying the market expects earnings growth (fa_memo)",
-    "Dividend yield of 6.61% is covered by a 64.19% payout ratio, backed by three recent interim/final payments (dossier)",
-    "MSCI added Air Link Communications to its Frontier Market Small Cap Index on 2026-08-13 (impact 4 news), a concrete inclusion catalyst",
-    "Ample liquidity: avg daily traded value of PKR 145.2M supports clean position entry/exit (ta_memo)",
-    "Low beta of 0.53 means the stock historically moves less than the broader market, damping drawdown risk"
+    "Revenue is Rs87.20B and net income is Rs5.54B, matching the scorecard's 6% net-margin assessment.",
+    "Forward P/E is 7.37 versus trailing P/E of 8.78, and the scorecard labels the forward view improving.",
+    "Composite fair value is Rs200.33 against price Rs123.04, with the valuation model labelled undervalued.",
+    "The feed states a 6.83% dividend yield on an unidentified basis and a 64.19% payout ratio; recorded trailing dividends total Rs6.50 per share, implying 5.28% at the Rs123.04 session price.",
+    "MSCI added Air Link Communications to its Frontier Market Small Cap Index in the supplied news record."
    ],
-   "best_evidence": "The 2026-08-13 MSCI Frontier Market Small Cap Index addition is a verified, impact-4 catalyst distinct from model-based valuation claims.",
-   "what_would_break_it": "Continued failure to reclaim the 20-day SMA (136.43) or 50-day SMA (147.71), or a Sep 2, 2026 earnings print that fails to validate the forward-P/E growth assumption given the already-thin ~6% net margin.",
-   "thesis_ur": "AIRLINK ایک منافع بخش، ڈیویڈنڈ ادا کرنے والا درمیانے سائز ہے جہاں بازار کی قریب ترین مدت کی نام نہاد بہتر ہوتی ہوئی آگے کی منافع کی دیکھ بھال اور ایک تازہ انڈیکس شمولیت کے محرک کے خلاف بیٹھی ہے۔ یہ معاملہ نقد نگینے کی نسل اور ایک بڑھتری کے مطلب آگے کی ملٹیپل پر منحصر ہے، حالیہ کھسک کا تعاقب کرنے پر نہیں۔",
-   "thesis_ur_hash": "3fb163ee3b77",
-   "best_evidence_ur": "2026-08-13 MSCI Frontier Market Small Cap Index اضافہ ایک تصدیق شدہ، اثر-4 محرک ہے ماڈل پر مبنی تشخیص کے دعویٰ سے علیحدہ۔",
-   "best_evidence_ur_hash": "438123f51e92",
-   "what_would_break_it_ur": "20 روز کے SMA (136.43) یا 50 روز کے SMA (147.71) کو دوبارہ دعویٰ کرنے میں مسلسل ناکامی، یا Sep 2، 2026 منافع کی پرنٹ جو آگے-P/E بڑھتری کے مفہوم کی تصدیق میں ناکام رہے پہلے سے پتلے تقریباً 6% خالص مارجن کے ساتھ۔",
-   "what_would_break_it_ur_hash": "12279f96080a"
+   "best_evidence": "The strongest concrete support is Rs5.54B of reported net income on Rs87.20B of revenue alongside a forward P/E of 7.37 below the trailing 8.78.",
+   "what_would_break_it": "The case would weaken if the forward earnings improvement fails to appear, the 6% margin deteriorates, or the valuation gap proves unreliable because the methods are dispersed and the EPS basis is unknown. Persistent price weakness below SMA20 and SMA50 would also erode the technical counterweight.",
+   "thesis_ur": "تعمیری کیس ہے کہ ایئر لنک مثبت رپورٹ شدہ آمدنی کو کم فارورڈ P/E اور ماڈل کی منصفانہ قیمت کے ساتھ ملاتا ہے جو موجودہ قیمت سے اوپر ہے۔ ریکارڈ شدہ ٹریلنگ ڈیویڈنڈ سیشن کی Rs123.04 قیمت پر 5.28% یلڈ کا مطلب دیتے ہیں، جبکہ فیڈ کی 6.83% بنیاد نامعلوم ہے؛ کمزور تکنیکی ڈھانچہ، پھیلے ہوئے ویلویشن طریقے، اور نامعلوم EPS کی بنیاد کیس کی طاقت کو محدود کرتی ہے۔",
+   "thesis_ur_hash": "09a7409dd5bd",
+   "best_evidence_ur": "سب سے مضبوط ٹھوس حمایت 87.20B روپے کی ریونیو پر 5.54B روپے کی رپورٹ شدہ خالص آمدنی کے ساتھ ٹریلنگ 8.78 سے کم 7.37 کا فارورڈ P/E ہے۔",
+   "best_evidence_ur_hash": "00d8b7974c16",
+   "what_would_break_it_ur": "اگر فارورڈ آمدنی میں بہتری ظاہر نہیں ہوتی، 6% مارجن خراب ہوتا ہے، یا ویلویشن گیپ ناقابل اعتماد ثابت ہوتا ہے کیونکہ طریقے پھیلے ہوئے ہیں اور EPS کی بنیاد نامعلوم ہے تو کیس کمزور ہوتا۔ SMA20 اور SMA50 سے نیچے مسلسل قیمت کی کمزوری بھی تکنیکی جوابی وزن کو ختم کرے گی۔",
+   "what_would_break_it_ur_hash": "864b1c9133a5"
   },
   "bear_case": {
-   "thesis": "Price structure is a confirmed downtrend with momentum still negative, and the fundamental 'undervalued' narrative rests on a valuation model that disagrees with itself by nearly 4x. Thin margins leave no buffer heading into the next earnings date.",
+   "thesis": "The skeptical case is that a large modelled discount sits beside a weak chart, a thin reported margin, and incomplete balance-sheet and cash-flow information. Price is below both moving averages with RSI14 at 28.7, while the valuation conclusion depends on an unknown EPS basis and widely separated methods.",
    "pillars": [
-    "Price sits below both the 20-day (136.43) and 50-day (147.71) SMAs, with structure flagged as 'downtrend' and momentum 'down' (ta_memo)",
-    "Returns are negative across all windows: -0.29% (1d), -2.36% (5d), -5.5% (20d)",
-    "RSI14 at 41.2 is neutral, not oversold — no capitulation signal to suggest the selloff is exhausted",
-    "Net margin is thin at ~6.4% (5.54B/87.20B), offering little cushion against cost or FX pressure",
-    "Balance-sheet leverage, liquidity, and cash flow are explicitly flagged as absent from the data (fa_memo), so debt risk is unverifiable"
+    "Price is Rs123.04, below SMA20 at Rs129.76 and SMA50 at Rs135.63; 1-day, 5-day, and 20-day returns are negative, and RSI14 is 28.7.",
+    "Valuation methods range from Rs86.01 to Rs320.74, while EPS basis is unknown, weakening confidence in the Rs200.33 composite.",
+    "The scorecard describes a 6% net margin with little cost cushion; debt and cash-flow coverage are not in the data.",
+    "Air Link is classified as a small-cap with Rs48.78B market cap and thinner liquidity; average daily traded value is Rs77.2m.",
+    "The stated 64.19% payout ratio represents a meaningful distribution, but cash-flow coverage is not in the data."
    ],
-   "attack_on_bull": "The bull's valuation framing is the weak pillar: the fa_memo itself notes the four fair-value methods span 86.01 to 342.32 — a nearly 4x dispersion. The earnings-power method (86.01) is actually below the current price of 135.69, meaning one of four models says AIRLINK is overvalued, not cheap. The 75.6% 'undervalued' composite is an average across disagreement, not a consensus signal.",
+   "attack_on_bull": "The weakest bull pillar is the Rs200.33 composite fair value: the methods span Rs86.01 to Rs320.74 and the EPS basis is unknown, so the apparent discount is not decisive.",
    "broker_challenge": null,
-   "worst_case": "The existing -5.5% 20-day trend extends and the gap to the 50-day SMA (147.71) widens further, while the thin ~6% net margin offers minimal cushion if costs or FX move unfavorably into the Sep 2, 2026 earnings date — a miss there would undercut the forward-P/E growth assumption the bull case leans on.",
-   "thesis_ur": "قیمت کی ڈھانچہ ایک تصدیق شدہ نزولی رجحان ہے منفی رفتار کے ساتھ ابھی تک، اور بنیادی 'کم قیمت' کہانی ایک تشخیص کے ماڈل پر منحصر ہے جو خود سے تقریباً 4x مختلف ہے۔ پتلے مارجن اگلے منافع کی تاریخ کی طرف کوئی بفر نہیں چھوڑتے۔",
-   "thesis_ur_hash": "9c76217ef5ce",
-   "attack_on_bull_ur": "بیل کی تشخیص کی تشکیل کمزور ستون ہے: fa_memo خود نوٹ کرتا ہے چار منصفانہ-قیمت کے طریقے 86.01 سے 342.32 تک - تقریباً 4x پھیلاؤ۔ منافع کی طاقت کا طریقہ (86.01) دراصل 135.69 کی موجودہ قیمت سے نیچے ہے، مطلب یہ ہے کہ چار ماڈل میں سے ایک کہتا ہے AIRLINK زیادہ قیمت والا ہے، سستا نہیں۔ 75.6% 'کم قیمت' جامع اختلاف میں اوسط ہے، اتفاق کے نشان پر نہیں۔",
-   "attack_on_bull_ur_hash": "644a9561e1df"
+   "worst_case": "A deeper technical decline while the 6% margin comes under pressure or undisclosed debt and cash-flow issues prove adverse would weaken the earnings and valuation case. In that scenario, the dispersed valuation methods would provide no reliable counterweight.",
+   "thesis_ur": "شکی کیس یہ ہے کہ ایک بڑی ماڈل شدہ ڈسکاؤنٹ کمزور چارٹ، پتلی رپورٹ شدہ مارجن، اور نامکمل بیلنس شیٹ اور نقد بہاؤ کی معلومات کے ساتھ بیٹھتی ہے۔ قیمت دونوں حرکی اوسط سے نیچے ہے RSI14 28.7 کے ساتھ، جبکہ ویلویشن کا نتیجہ نامعلوم EPS کی بنیاد اور وسیع طور پر الگ الگ طریقوں پر منحصر ہے۔",
+   "thesis_ur_hash": "c920339f4dae",
+   "attack_on_bull_ur": "سب سے کمزور بل ستون Rs200.33 کمپوزٹ منصفانہ قیمت ہے: طریقے Rs86.01 سے Rs320.74 تک پھیلے ہوئے ہیں اور EPS کی بنیاد نامعلوم ہے، اس لیے ظاہری ڈسکاؤنٹ فیصلہ کن نہیں ہے۔",
+   "attack_on_bull_ur_hash": "c5b0f31ee49c",
+   "worst_case_ur": "گہری تکنیکی نزول جبکہ 6% مارجن دباؤ میں آتا ہے یا افشاء شدہ قرض اور نقد بہاؤ کے مسائل منفی ثابت ہوں تو آمدنی اور ویلویشن کے کیس کو کمزور کریں۔ اس منظر نامے میں، پھیلے ہوئے ویلویشن طریقے کوئی قابل اعتماد جوابی وزن فراہم نہیں کریں گے۔",
+   "worst_case_ur_hash": "bf9c543fd81f"
   },
   "reaffirmed": false,
   "qa": {
+   "ticker": "AIRLINK",
    "verdict": "flags",
-   "checked": "2026-08-13",
-   "note": "All headline numbers (price, SMA, RSI, P/E, dividend, fair value composite/median, 4.0x method-dispersion) trace exactly to dossier and are properly caveated. MSCI Frontier Market Small Cap inclusion (bull best_evidence) independently confirmed via web search. Only issue: ta_memo support level left null with no explanation. No high-severity/blocking issues."
+   "findings": [
+    {
+     "severity": "low",
+     "claim": "Composite fair value is Rs200.33 against price Rs123.04.",
+     "issue": "The four valuation methods range from Rs86.01 to Rs320.74, a 3.7x spread, so the composite is only a rough screen.",
+     "evidence": "state/verify.json[AIRLINK].fairvalue.spread; state/dossiers.json[AIRLINK].valuation.methods",
+     "fix": "Retain the explicit rough-screen caveat wherever the composite fair value is presented."
+    },
+    {
+     "severity": "medium",
+     "claim": "The feed states a 6.83% dividend yield on an unidentified basis; recorded trailing dividends imply 5.28% at the session price.",
+     "issue": "The source yield and trailing-dividend calculation use different or unidentified bases.",
+     "evidence": "state/verify.json[AIRLINK].fundamentals.div_yield; state/dossiers.json[AIRLINK].fundamental.recent_dividends; state/rooms.json[AIRLINK].fa_memo",
+     "fix": "Resolved in the Room text by labeling the feed basis as unidentified and carrying the 5.28% trailing-dividend calculation."
+    }
+   ],
+   "summary": "Publishable with flags: the dividend-yield discrepancy is now explicitly reconciled and caveated in the Room text, and the valuation spread remains labeled as a rough screen. The room price, dossier as-of date, and material hash match.",
+   "checked": "2026-09-16 20:25"
   }
  },
  "AKBL": {
@@ -3678,19 +3728,19 @@
  "FCL": {
   "built": "2026-08-24 18:28",
   "dossier_asof": "2026-07-17",
-  "price_at_session": 23.97,
+  "price_at_session": 27.12,
   "material_hash": "c49e05d9db19",
   "ta_memo": {
-   "read": "CAVEAT (QA): this snapshot is dated 2026-07-17 (dossier_asof) and predates a filed FY26 annual results announcement (2026-08-18) and a subsequent price move on the exchange. The valuation/mispricing and TA reads below are computed on that pre-results snapshot and are stale pending a data-layer refresh — treat as unreliable until the dossier is re-fetched. FCL is consolidating with price (23.97) sandwiched between SMA20 (24.20) and SMA50 (23.95), which have converged, showing no directional MA structure. RSI14 at 49.2 is neutral, and the 20-day return of -3.42% versus a small 1-day bounce of +1.27% points to a sideways, low-momentum tape. Price sits about 3.75% below its 20-day high, with volume running below average (vol_surge 0.43).",
-   "structure": "range",
+   "read": "At 27.12 as of 2026-09-16, FCL is below SMA20 at 27.49 but above SMA50 at 25.52, sitting 6.16% below its 20-day high. Returns are mixed: +0.97% over 1 day versus -1.38% over 5 days and -1.42% over 20 days, while RSI14 is 54.8.",
+   "structure": "transition",
    "momentum": "flat",
-   "liquidity_note": "avg_daily_traded_value_m of 46.7 supports clean entry/exit for typical desk position sizes.",
+   "liquidity_note": "Average daily traded value is 145.9m, volume surge is 0.63, and volatility rank is 34.1.",
    "proven_now": [
     "Volume leads price"
    ],
    "levels": {
-    "support": 23.95,
-    "resistance": 24.87
+    "support": null,
+    "resistance": null
    },
    "technical_stance": "neutral"
   },
@@ -3737,7 +3787,8 @@
    "verdict": "blocked",
    "checked": "2026-08-24",
    "note": "Session built on a 2026-07-17 snapshot that predates FCL's filed FY26 results (2026-08-18) and a subsequent price move; composite fair value / mispricing / TA levels are stale. Caveats added to ta_memo, fa_memo and bull/bear pillars; do not surface this session's valuation verdict as current until scripts/fetch_fundamentals.py + scripts/quant.py are re-run for FCL and the session rebuilt."
-  }
+  },
+  "delta_updated": "2026-09-16 20:07"
  },
  "BOP": {
   "built": "2026-09-01 17:49",
