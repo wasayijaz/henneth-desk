@@ -36,6 +36,9 @@ Every run reads, in order:
 - Synchronize with `wasayijaz/henneth-desk` before work and again before publication.
 - **Synchronization proof:** after a fresh fetch, compare the assigned checkout's `HEAD` with
   `origin/main` before research. A fetch updates the remote reference, not the working files.
+  Do not read a runbook or state file before proving equality. Fast-forward a clean checkout; block
+  on dirty or divergent state. A Git-metadata permission error requires scoped escalation of the
+  same safe command, not skipping synchronization.
   If they differ, preserve the draft and synchronize the working branch through normal Git;
   stop on conflicts. Report both full SHAs. Do not run old local checks and label them as
   validation of the remote release. Revalidate affected findings after synchronization.
@@ -85,8 +88,9 @@ Every run reads, in order:
 - Publication slot 1 on trading weekdays.
 - Run `scripts/post_close_integrity.py` before treating the checkpoint trigger as a no-op.
 - If deterministic data is stale, dispatch `desk-data.yml` once, wait, synchronize, and recheck.
-  Use an existing authenticated GitHub Actions transport and never run the full cloud data pipeline
-  locally. Failure of one dispatch transport is not permission to abandon the approved recovery.
+  Check the authenticated GitHub CLI first and never run the full cloud data pipeline locally. A
+  browser is a fallback only after the CLI is proven unavailable. Failure of one dispatch transport
+  is not permission to abandon the approved recovery.
 - Read `state/checkpoint_trigger.json`. A false trigger is a valid no-op only after integrity passes.
 - Run News Sentinel once, with at most 10 external source retrievals. Run Monitor only with open
   positions. Hand high-impact news to Daily; PM never runs Macro or Market Analyst.

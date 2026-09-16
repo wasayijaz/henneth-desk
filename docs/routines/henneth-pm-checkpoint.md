@@ -14,13 +14,19 @@ refreshes; this routine owns the checkpoint's judgment and acknowledgement.
 
 ## Run
 
-1. Synchronize the assigned worktree with the canonical remote. Record the starting PKT timestamp.
+1. Before reading any runbook or state file, synchronize the assigned worktree with the canonical
+   remote. Run a fresh `git fetch --prune origin main`, fast-forward the clean checkout to
+   `origin/main`, and prove `git rev-parse HEAD` equals `git rev-parse origin/main`. If Git metadata
+   needs scoped filesystem escalation, retry that same safe operation with escalation. A dirty,
+   divergent, or still-stale checkout is `blocked`; never assess today's data from it. Record the
+   starting PKT timestamp only after equality is proven.
 2. Read `state/calendar.json` first. On a weekend or listed holiday, report a `no-op` with no
    judgement work, acknowledgement, runlog change, catch-up dispatch, or publication.
 3. Run `python scripts/post_close_integrity.py` against the dated snapshot before treating any
    checkpoint as a no-op. If the gate fails, use exactly one authenticated GitHub Actions dispatch
-   for `desk-data.yml` on `wasayijaz/henneth-desk` `main` (the installed `gh workflow run` command,
-   GitHub API, or Actions UI are all valid transports), wait for that exact run, synchronize again,
+   for `desk-data.yml` on `wasayijaz/henneth-desk` `main`. Check `gh auth status` first and use the
+   authenticated `gh workflow run` command when available; do not open a browser before testing the
+   CLI. GitHub API or Actions UI are fallbacks only when the CLI is unavailable. Wait for that exact run, synchronize again,
    and recheck. This approved zero-cost recovery is part of the routine and must not be abandoned
    merely because one transport is unavailable. Never run the full cloud data pipeline locally;
    if the dispatched run or the recheck fails, block publication and report the exact problems.

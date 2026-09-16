@@ -116,7 +116,9 @@ def check() -> list[str]:
     room_path = ROUTINES / "henneth-desk-room-loop.md"
     if pm_path.is_file():
         pm = pm_path.read_text(encoding="utf-8")
-        for phrase in ("only news scan", "10 external", "Do not run Macro or Market Analyst"):
+        for phrase in ("only news scan", "10 external", "Do not run Macro or Market Analyst",
+                       "Before reading any runbook or state file", "git rev-parse HEAD",
+                       "Check `gh auth status` first", "do not open a browser"):
             if phrase not in pm:
                 errors.append(f"PM efficiency contract missing: {phrase}")
     if daily_path.is_file():
