@@ -121,6 +121,15 @@ def check() -> list[str]:
                        "Check `gh auth status` first", "do not open a browser"):
             if phrase not in pm:
                 errors.append(f"PM efficiency contract missing: {phrase}")
+        sentinel_path = ROOT / ".claude" / "agents" / "news-sentinel.md"
+        sentinel = sentinel_path.read_text(encoding="utf-8") if sentinel_path.is_file() else ""
+        for phrase in ("10 EXTERNAL SOURCE RETRIEVALS", "one bounded PM scan",
+                       "Daily consumes this output"):
+            if phrase not in sentinel:
+                errors.append(f"News Sentinel efficiency contract missing: {phrase}")
+        for obsolete in ("40 TOOL CALLS", "ABSOLUTE MAX 40", "Use every cycle"):
+            if obsolete.casefold() in sentinel.casefold():
+                errors.append(f"News Sentinel retains obsolete instruction: {obsolete}")
     if daily_path.is_file():
         daily = daily_path.read_text(encoding="utf-8")
         for phrase in ("do not run News Sentinel again", "exactly two judgment roles",
