@@ -1,6 +1,25 @@
 {
- "updated": "2026-09-16 08:45",
+ "updated": "2026-09-16 13:39",
  "note": "deterministic candidate setups from proven strategies triggering on the latest bar; backtest-proven but NOT auditor-verified. Research, not advice.",
- "active": [],
- "n_candidates": 0
+ "active": [
+  {
+   "id": "20260916-FCL-obv_divergence_up",
+   "ticker": "FCL",
+   "strategy": "obv_divergence_up",
+   "template": "Volume leads price",
+   "category": "volume",
+   "sector": "Cable & Electrical Goods",
+   "hold_sessions": 15,
+   "backtest": {
+    "hit_rate": 0.571,
+    "net_expectancy_pct": 0.68,
+    "n": 28,
+    "oos_hit": 0.625
+   },
+   "confidence": "low",
+   "basis": "backtest-proven, unaudited",
+   "thesis": "Volume leads price is triggering now; on FCL's own history it won 57% over 28 trades (+0.7% net/trade), still profitable out-of-sample."
+  }
+ ],
+ "n_candidates": 1
 }

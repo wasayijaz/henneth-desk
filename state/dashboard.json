@@ -1,11 +1,30 @@
 {
- "updated": "2026-09-16 08:45",
+ "updated": "2026-09-16 13:39",
  "regime": "risk-off",
  "geo_risk": {
   "score": 62,
   "band": "moderate"
  },
- "signals": [],
+ "signals": [
+  {
+   "id": "20260916-FCL-obv_divergence_up",
+   "ticker": "FCL",
+   "strategy": "obv_divergence_up",
+   "template": "Volume leads price",
+   "category": "volume",
+   "sector": "Cable & Electrical Goods",
+   "hold_sessions": 15,
+   "backtest": {
+    "hit_rate": 0.571,
+    "net_expectancy_pct": 0.68,
+    "n": 28,
+    "oos_hit": 0.625
+   },
+   "confidence": "low",
+   "basis": "backtest-proven, unaudited",
+   "thesis": "Volume leads price is triggering now; on FCL's own history it won 57% over 28 trades (+0.7% net/trade), still profitable out-of-sample."
+  }
+ ],
  "positions": [],
  "top_predictable": [
   {
@@ -51,56 +70,56 @@
  ],
  "movers_up": [
   {
-   "ticker": "BCL",
-   "ret_1d": 10.02,
-   "close": 72.59
+   "ticker": "FPRM",
+   "ret_1d": 10.14,
+   "close": 10.86
   },
   {
-   "ticker": "FPJM",
-   "ret_1d": 10.02,
-   "close": 22.72
+   "ticker": "PASM",
+   "ret_1d": 10.1,
+   "close": 9.27
   },
   {
-   "ticker": "ADMM",
+   "ticker": "OML",
    "ret_1d": 10.01,
-   "close": 56.51
+   "close": 75.75
+  },
+  {
+   "ticker": "ASTM",
+   "ret_1d": 10.0,
+   "close": 118.85
   },
   {
    "ticker": "PIM",
-   "ret_1d": 10.01,
-   "close": 61.12
-  },
-  {
-   "ticker": "IBFL",
    "ret_1d": 10.0,
-   "close": 255.43
+   "close": 67.23
   }
  ],
  "movers_down": [
   {
-   "ticker": "DMTM",
-   "ret_1d": -8.15,
-   "close": 8.56
+   "ticker": "STJT",
+   "ret_1d": -9.03,
+   "close": 151.13
   },
   {
-   "ticker": "PPVC",
-   "ret_1d": -9.02,
-   "close": 28.66
-  },
-  {
-   "ticker": "CLVL",
-   "ret_1d": -9.99,
-   "close": 28.84
-  },
-  {
-   "ticker": "BUXL",
-   "ret_1d": -10.0,
-   "close": 676.02
+   "ticker": "HAEL",
+   "ret_1d": -9.33,
+   "close": 23.12
   },
   {
    "ticker": "PKGI",
+   "ret_1d": -9.53,
+   "close": 39.95
+  },
+  {
+   "ticker": "AATM",
+   "ret_1d": -9.99,
+   "close": 47.02
+  },
+  {
+   "ticker": "SLYT",
    "ret_1d": -10.01,
-   "close": 44.16
+   "close": 17.35
   }
  ],
  "news": [

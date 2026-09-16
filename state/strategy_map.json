@@ -1,5 +1,5 @@
 {
- "updated": "2026-09-16 08:42",
+ "updated": "2026-09-16 13:36",
  "tickers": {
   "APL": [
    {
@@ -3106,11 +3106,11 @@
     "id": "stoch_double_bottom",
     "name": "Stochastic reclaim from oversold",
     "category": "oscillator",
-    "net_expectancy_pct": 1.24,
-    "hit_rate": 0.636,
-    "n": 11,
-    "oos_n": 3,
-    "oos_hit": 0.667,
+    "net_expectancy_pct": 0.84,
+    "hit_rate": 0.583,
+    "n": 12,
+    "oos_n": 4,
+    "oos_hit": 0.5,
     "friction_pct": 0.6,
     "target_pct": 6,
     "stop_pct": 3,
@@ -4167,64 +4167,6 @@
     "hold": 15
    }
   ],
-  "NICL": [
-   {
-    "id": "donchian55_break",
-    "name": "Donchian 55 breakout (turtle)",
-    "category": "breakout",
-    "net_expectancy_pct": 2.04,
-    "hit_rate": 0.636,
-    "n": 11,
-    "oos_n": 7,
-    "oos_hit": 0.571,
-    "friction_pct": 0.6,
-    "target_pct": 10,
-    "stop_pct": 5,
-    "hold": 25
-   },
-   {
-    "id": "roc60_leader_pullback",
-    "name": "Long-run leader, short pullback",
-    "category": "momentum",
-    "net_expectancy_pct": 1.46,
-    "hit_rate": 0.6,
-    "n": 15,
-    "oos_n": 7,
-    "oos_hit": 0.714,
-    "friction_pct": 0.6,
-    "target_pct": 8,
-    "stop_pct": 4,
-    "hold": 18
-   },
-   {
-    "id": "cci_zero_cross",
-    "name": "CCI zero-line cross",
-    "category": "oscillator",
-    "net_expectancy_pct": 0.7,
-    "hit_rate": 0.625,
-    "n": 8,
-    "oos_n": 6,
-    "oos_hit": 0.5,
-    "friction_pct": 0.6,
-    "target_pct": 5,
-    "stop_pct": 3,
-    "hold": 10
-   },
-   {
-    "id": "vol_dryup_surge",
-    "name": "Dry-up then surge",
-    "category": "volume",
-    "net_expectancy_pct": 0.61,
-    "hit_rate": 0.588,
-    "n": 17,
-    "oos_n": 5,
-    "oos_hit": 0.6,
-    "friction_pct": 0.6,
-    "target_pct": 6,
-    "stop_pct": 3,
-    "hold": 9
-   }
-  ],
   "OGDC": [
    {
     "id": "hi252_fresh_break",
@@ -4402,7 +4344,7 @@
     "id": "donch55_trend_break",
     "name": "Donchian 55 breakout",
     "category": "breakout",
-    "net_expectancy_pct": 5.56,
+    "net_expectancy_pct": 5.74,
     "hit_rate": 0.727,
     "n": 11,
     "oos_n": 8,
@@ -4416,7 +4358,7 @@
     "id": "donchian55_break",
     "name": "Donchian 55 breakout (turtle)",
     "category": "breakout",
-    "net_expectancy_pct": 4.41,
+    "net_expectancy_pct": 4.56,
     "hit_rate": 0.714,
     "n": 14,
     "oos_n": 10,
@@ -4947,8 +4889,8 @@
     "net_expectancy_pct": 2.65,
     "hit_rate": 0.643,
     "n": 14,
-    "oos_n": 7,
-    "oos_hit": 0.857,
+    "oos_n": 6,
+    "oos_hit": 1.0,
     "friction_pct": 0.6,
     "target_pct": 7,
     "stop_pct": 3.5,
@@ -4989,8 +4931,8 @@
     "net_expectancy_pct": 2.4,
     "hit_rate": 0.6,
     "n": 10,
-    "oos_n": 6,
-    "oos_hit": 0.667,
+    "oos_n": 5,
+    "oos_hit": 0.8,
     "friction_pct": 0.6,
     "target_pct": 7,
     "stop_pct": 3,
@@ -7919,22 +7861,6 @@
     "hold": 12
    }
   ],
-  "TATM": [
-   {
-    "id": "stoch_bull_trend",
-    "name": "Stochastic cross in uptrend",
-    "category": "oscillator",
-    "net_expectancy_pct": 0.72,
-    "hit_rate": 0.556,
-    "n": 9,
-    "oos_n": 6,
-    "oos_hit": 0.667,
-    "friction_pct": 0.6,
-    "target_pct": 5,
-    "stop_pct": 3,
-    "hold": 9
-   }
-  ],
   "BIPL": [
    {
     "id": "donch20_pullback_break",
@@ -8023,6 +7949,50 @@
     "target_pct": 5,
     "stop_pct": 3,
     "hold": 10
+   }
+  ],
+  "NICL": [
+   {
+    "id": "roc60_leader_pullback",
+    "name": "Long-run leader, short pullback",
+    "category": "momentum",
+    "net_expectancy_pct": 1.47,
+    "hit_rate": 0.6,
+    "n": 15,
+    "oos_n": 7,
+    "oos_hit": 0.714,
+    "friction_pct": 0.6,
+    "target_pct": 8,
+    "stop_pct": 4,
+    "hold": 18
+   },
+   {
+    "id": "cci_zero_cross",
+    "name": "CCI zero-line cross",
+    "category": "oscillator",
+    "net_expectancy_pct": 0.7,
+    "hit_rate": 0.625,
+    "n": 8,
+    "oos_n": 6,
+    "oos_hit": 0.5,
+    "friction_pct": 0.6,
+    "target_pct": 5,
+    "stop_pct": 3,
+    "hold": 10
+   },
+   {
+    "id": "vol_dryup_surge",
+    "name": "Dry-up then surge",
+    "category": "volume",
+    "net_expectancy_pct": 0.62,
+    "hit_rate": 0.588,
+    "n": 17,
+    "oos_n": 5,
+    "oos_hit": 0.6,
+    "friction_pct": 0.6,
+    "target_pct": 6,
+    "stop_pct": 3,
+    "hold": 9
    }
   ],
   "PTL": [
@@ -8396,7 +8366,7 @@
     "id": "obv_divergence_up",
     "name": "Volume leads price",
     "category": "volume",
-    "net_expectancy_pct": 0.64,
+    "net_expectancy_pct": 0.68,
     "hit_rate": 0.571,
     "n": 28,
     "oos_n": 8,
