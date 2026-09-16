@@ -65,6 +65,10 @@ def check() -> list[str]:
                    "New costs", "failed gate"):
         if phrase not in shared_text:
             errors.append(f"shared standing-publication contract missing: {phrase}")
+    for phrase in ("load_workspace_dependencies", "exact bundled Python executable",
+                   "never call bare `python` or `py`"):
+        if phrase not in shared_text:
+            errors.append(f"shared runtime contract missing: {phrase}")
     reporting = ROUTINES / "REPORTING.md"
     if not reporting.is_file():
         errors.append("missing docs/routines/REPORTING.md")
@@ -118,7 +122,8 @@ def check() -> list[str]:
         pm = pm_path.read_text(encoding="utf-8")
         for phrase in ("only news scan", "10 external", "Do not run Macro or Market Analyst",
                        "Before reading any runbook or state file", "git rev-parse HEAD",
-                       "Check `gh auth status` first", "do not open a browser"):
+                       "Check `gh auth status` first", "do not open a browser",
+                       "exact bundled Python executable"):
             if phrase not in pm:
                 errors.append(f"PM efficiency contract missing: {phrase}")
         sentinel_path = ROOT / ".claude" / "agents" / "news-sentinel.md"
@@ -133,13 +138,14 @@ def check() -> list[str]:
     if daily_path.is_file():
         daily = daily_path.read_text(encoding="utf-8")
         for phrase in ("do not run News Sentinel again", "exactly two judgment roles",
-                       "16 external", "--poll-seconds 180"):
+                       "16 external", "--poll-seconds 180", "exact bundled Python executable"):
             if phrase not in daily:
                 errors.append(f"Daily efficiency contract missing: {phrase}")
     if room_path.is_file():
         room = room_path.read_text(encoding="utf-8")
-        if "--poll-seconds 180" not in room:
-            errors.append("Room efficiency contract missing: --poll-seconds 180")
+        for phrase in ("--poll-seconds 180", "exact bundled Python executable"):
+            if phrase not in room:
+                errors.append(f"Room efficiency contract missing: {phrase}")
 
     blog_path = ROUTINES / "henneth-blog-publish.md"
     if blog_path.is_file():

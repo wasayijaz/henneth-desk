@@ -12,8 +12,10 @@ operations refresh guidance first.
 
 ## Run
 
-1. Synchronize the assigned worktree and record the PKT start time. Do not run the full cloud data
-   pipeline or a second liveness watchdog here.
+1. Synchronize the assigned worktree and record the PKT start time. Resolve
+   `load_workspace_dependencies` once and use the exact bundled Python executable for every Python
+   command; never call bare `python` or `py`. Do not run the full cloud data pipeline or a second
+   liveness watchdog here.
 2. Read `state/calendar.json` first. A weekend or listed holiday is a deliberate `no-op`: do not
    edit state, dispatch catch-up, run judgment roles, commit, or publish.
 3. Wait for and verify the same-session PM checkpoint receipt with one long-running command:

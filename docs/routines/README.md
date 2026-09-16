@@ -46,7 +46,10 @@ Every run reads, in order:
   normal Git operation. Do not treat a permission error as a successful synchronization, change
   global Git trust, or create a replacement task. Preserve dirty work and stop on a real conflict.
 - Desk and marketing routines never rebuild, stage, publish, or gate on Henneth CI.
-- Use the bundled runtime paths returned by `load_workspace_dependencies`.
+- Resolve `load_workspace_dependencies` once at the start of every run and retain the returned
+  absolute executable paths. On Windows, invoke the exact bundled Python executable for every
+  Python command; never call bare `python` or `py`. A missing shell alias is an execution error to
+  correct immediately, not evidence that a predecessor is absent or that the routine should stop.
 - Use Luna High subagents when judgment roles are required and callable. Otherwise perform the
   role inline from its repository definition. Never search for another provider's CLI.
 - A spawned role receives an execution brief that explicitly limits its files and states that the

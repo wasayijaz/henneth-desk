@@ -11,8 +11,10 @@ assigned `wasayijaz/henneth-desk` routine worktree. Read [REPORTING.md](REPORTIN
 
 ## Run
 
-1. Synchronize the worktree and record PKT start time. Check `state/calendar.json`; a holiday or
-   weekend is a `no-op` with no state or publication changes.
+1. Synchronize the worktree and record PKT start time. Resolve `load_workspace_dependencies` once
+   and use the exact bundled Python executable for every Python command; never call bare `python`
+   or `py`. Check `state/calendar.json`; a holiday or weekend is a `no-op` with no state or
+   publication changes.
 2. Wait for and verify the same-session Daily receipt with one long-running command:
    `python scripts/wait_for_routine_receipt.py --routine daily --date <YYYY-MM-DD> --timeout-seconds 7200 --poll-seconds 180`.
    Let that command wait; do not add browser refreshes, narrated status checks, or another polling

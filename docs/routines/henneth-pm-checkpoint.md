@@ -19,7 +19,9 @@ refreshes; this routine owns the checkpoint's judgment and acknowledgement.
    `origin/main`, and prove `git rev-parse HEAD` equals `git rev-parse origin/main`. If Git metadata
    needs scoped filesystem escalation, retry that same safe operation with escalation. A dirty,
    divergent, or still-stale checkout is `blocked`; never assess today's data from it. Record the
-   starting PKT timestamp only after equality is proven.
+   starting PKT timestamp only after equality is proven. Resolve `load_workspace_dependencies`
+   once and use the exact bundled Python executable for every Python command; never call bare
+   `python` or `py`.
 2. Read `state/calendar.json` first. On a weekend or listed holiday, report a `no-op` with no
    judgement work, acknowledgement, runlog change, catch-up dispatch, or publication.
 3. Run `python scripts/post_close_integrity.py` against the dated snapshot before treating any
