@@ -942,7 +942,7 @@
     if (radarHost) {
       const radarRows = data.deskRadar || data.radar || data.dailyRead?.watchlist || data.daily_read?.watchlist || [];
       const rows = prepareDeskRadar(radarRows, options.radar || {});
-      radarHost.innerHTML = deskRadarHtml(rows, { ...(options.radar || {}), source: data.dashboard?.updated || data.dailyRead?.date });
+      radarHost.innerHTML = deskRadarHtml(rows, { ...(options.radar || {}), source: options.radar?.source || data.dashboard?.updated || data.dailyRead?.date });
       mountDeskRadar(radarHost);
       out.radar = rows.length;
     }

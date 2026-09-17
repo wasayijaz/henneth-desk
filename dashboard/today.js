@@ -246,7 +246,7 @@
     </div>`;
     try {
       if (typeof window.HennethTodayCharts?.enhance === "function") {
-        window.HennethTodayCharts.enhance(root, { index: { ...ix, history: indices?.history || {}, updated: indices?.source_at }, quant, live, sectors, watchlist: rows, catalysts: dr.catalysts || [], dailyRead: dr, dashboard: dash, radar, deskRadar: radar }, { compact: true, radar: { compactHeader: true } });
+        window.HennethTodayCharts.enhance(root, { index: { ...ix, history: indices?.history || {}, updated: indices?.source_at }, quant, live, sectors, watchlist: rows, catalysts: dr.catalysts || [], dailyRead: dr, dashboard: dash, radar, deskRadar: radar }, { compact: true, radar: { compactHeader: true, source: radarDate } });
       } else {
         const host = root.querySelector("[data-hn-sector-breadth]");
         if (host) host.innerHTML = `<div class="today-empty">Breadth view unavailable in this snapshot.</div>`;
