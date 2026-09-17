@@ -1,18 +1,18 @@
 {
- "updated": "2026-09-16 13:24",
+ "updated": "2026-09-17 19:17",
  "kse100_total": 100,
  "kmi30_total": 30,
- "allshr_total": 559,
+ "allshr_total": 560,
  "tiers": {
   "core": 103,
-  "listed": 456,
+  "listed": 457,
   "_note": "core = KSE100 + KMI30, full research pipeline. listed = the rest of the KSE All Share, covered with prices/quant/sector/dividends and a real page, but no deep backtests or Desk Room debates. Any script that is expensive per ticker must filter to tier == 'core'."
  },
  "symbols": {
   "FFC": {
    "symbol": "FFC",
    "name": "Fauji Fertilizer Company Limited",
-   "weight_pct": 8.88,
+   "weight_pct": 8.82,
    "in": [
     "KSE100",
     "KMI30",
@@ -24,7 +24,7 @@
   "UBL": {
    "symbol": "UBL",
    "name": "United Bank Limited",
-   "weight_pct": 7.77,
+   "weight_pct": 7.78,
    "in": [
     "KSE100",
     "ALLSHR"
@@ -34,7 +34,7 @@
   "MEBL": {
    "symbol": "MEBL",
    "name": "Meezan Bank Limited",
-   "weight_pct": 5.15,
+   "weight_pct": 5.14,
    "in": [
     "KSE100",
     "KMI30",
@@ -46,7 +46,7 @@
   "ENGROH": {
    "symbol": "ENGROH",
    "name": "Engro Holdings Limited",
-   "weight_pct": 4.95,
+   "weight_pct": 4.96,
    "in": [
     "KSE100",
     "KMI30",
@@ -70,7 +70,7 @@
   "HUBC": {
    "symbol": "HUBC",
    "name": "The Hub Power Company Limited",
-   "weight_pct": 4.15,
+   "weight_pct": 4.14,
    "in": [
     "KSE100",
     "KMI30",
@@ -82,19 +82,22 @@
   "LUCK": {
    "symbol": "LUCK",
    "name": "Lucky Cement Limited",
-   "weight_pct": 3.79,
+   "weight_pct": 3.75,
    "in": [
     "KSE100",
     "KMI30",
     "ALLSHR",
     "KMIALLSHR"
    ],
-   "tier": "core"
+   "tier": "core",
+   "source_badges": [
+    "XD"
+   ]
   },
   "HBL": {
    "symbol": "HBL",
    "name": "Habib Bank Limited",
-   "weight_pct": 3.64,
+   "weight_pct": 3.66,
    "in": [
     "KSE100",
     "ALLSHR"
@@ -104,7 +107,7 @@
   "MCB": {
    "symbol": "MCB",
    "name": "MCB Bank Limited",
-   "weight_pct": 3.41,
+   "weight_pct": 3.4,
    "in": [
     "KSE100",
     "ALLSHR"
@@ -114,7 +117,7 @@
   "MARI": {
    "symbol": "MARI",
    "name": "Mari Energies Limited",
-   "weight_pct": 3.25,
+   "weight_pct": 3.28,
    "in": [
     "KSE100",
     "KMI30",
@@ -126,7 +129,7 @@
   "PPL": {
    "symbol": "PPL",
    "name": "Pakistan Petroleum Limited",
-   "weight_pct": 3.08,
+   "weight_pct": 3.17,
    "in": [
     "KSE100",
     "KMI30",
@@ -138,7 +141,7 @@
   "BAHL": {
    "symbol": "BAHL",
    "name": "Bank AL Habib Limited",
-   "weight_pct": 2.67,
+   "weight_pct": 2.66,
    "in": [
     "KSE100",
     "ALLSHR"
@@ -148,7 +151,7 @@
   "SYS": {
    "symbol": "SYS",
    "name": "Systems Limited",
-   "weight_pct": 2.47,
+   "weight_pct": 2.45,
    "in": [
     "KSE100",
     "KMI30",
@@ -160,7 +163,7 @@
   "EFERT": {
    "symbol": "EFERT",
    "name": "Engro Fertilizers Limited",
-   "weight_pct": 2.38,
+   "weight_pct": 2.36,
    "in": [
     "KSE100",
     "KMI30",
@@ -172,7 +175,7 @@
   "POL": {
    "symbol": "POL",
    "name": "Pakistan Oilfields Limited",
-   "weight_pct": 2.01,
+   "weight_pct": 2.02,
    "in": [
     "KSE100",
     "ALLSHR"
@@ -182,7 +185,17 @@
   "NBP": {
    "symbol": "NBP",
    "name": "National Bank of Pakistan",
-   "weight_pct": 1.82,
+   "weight_pct": 1.79,
+   "in": [
+    "KSE100",
+    "ALLSHR"
+   ],
+   "tier": "core"
+  },
+  "BAFL": {
+   "symbol": "BAFL",
+   "name": "Bank Alfalah Limited",
+   "weight_pct": 1.7,
    "in": [
     "KSE100",
     "ALLSHR"
@@ -201,20 +214,10 @@
    ],
    "tier": "core"
   },
-  "BAFL": {
-   "symbol": "BAFL",
-   "name": "Bank Alfalah Limited",
-   "weight_pct": 1.66,
-   "in": [
-    "KSE100",
-    "ALLSHR"
-   ],
-   "tier": "core"
-  },
   "MTL": {
    "symbol": "MTL",
    "name": "Millat Tractors Limited",
-   "weight_pct": 1.14,
+   "weight_pct": 1.12,
    "in": [
     "KSE100",
     "ALLSHR",
@@ -225,7 +228,7 @@
   "FABL": {
    "symbol": "FABL",
    "name": "Faysal Bank Limited",
-   "weight_pct": 1.03,
+   "weight_pct": 1.04,
    "in": [
     "KSE100",
     "ALLSHR",
@@ -233,10 +236,20 @@
    ],
    "tier": "core"
   },
+  "AKBL": {
+   "symbol": "AKBL",
+   "name": "Askari Bank Limited",
+   "weight_pct": 0.98,
+   "in": [
+    "KSE100",
+    "ALLSHR"
+   ],
+   "tier": "core"
+  },
   "ATRL": {
    "symbol": "ATRL",
    "name": "Attock Refinery Limited",
-   "weight_pct": 0.99,
+   "weight_pct": 0.98,
    "in": [
     "KSE100",
     "KMI30",
@@ -248,21 +261,11 @@
   "FATIMA": {
    "symbol": "FATIMA",
    "name": "Fatima Fertilizer Company Limited",
-   "weight_pct": 0.98,
+   "weight_pct": 0.97,
    "in": [
     "KSE100",
     "ALLSHR",
     "KMIALLSHR"
-   ],
-   "tier": "core"
-  },
-  "AKBL": {
-   "symbol": "AKBL",
-   "name": "Askari Bank Limited",
-   "weight_pct": 0.97,
-   "in": [
-    "KSE100",
-    "ALLSHR"
    ],
    "tier": "core"
   },
@@ -279,7 +282,7 @@
   "FCCL": {
    "symbol": "FCCL",
    "name": "Fauji Cement Company Limited",
-   "weight_pct": 0.95,
+   "weight_pct": 0.96,
    "in": [
     "KSE100",
     "KMI30",
@@ -291,7 +294,7 @@
   "MLCF": {
    "symbol": "MLCF",
    "name": "Maple Leaf Cement Factory Limited",
-   "weight_pct": 0.91,
+   "weight_pct": 0.92,
    "in": [
     "KSE100",
     "KMI30",
@@ -303,7 +306,7 @@
   "BOP": {
    "symbol": "BOP",
    "name": "The Bank of Punjab",
-   "weight_pct": 0.88,
+   "weight_pct": 0.89,
    "in": [
     "KSE100",
     "ALLSHR"
@@ -316,7 +319,7 @@
   "DGKC": {
    "symbol": "DGKC",
    "name": "D.G. Khan Cement Company Limited",
-   "weight_pct": 0.88,
+   "weight_pct": 0.89,
    "in": [
     "KSE100",
     "KMI30",
@@ -328,7 +331,7 @@
   "SRVI": {
    "symbol": "SRVI",
    "name": "Service Industries Limited",
-   "weight_pct": 0.88,
+   "weight_pct": 0.89,
    "in": [
     "KSE100",
     "ALLSHR",
@@ -339,7 +342,7 @@
   "PSEL": {
    "symbol": "PSEL",
    "name": "Pakistan Services Limited",
-   "weight_pct": 0.87,
+   "weight_pct": 0.85,
    "in": [
     "KSE100",
     "ALLSHR",
@@ -372,7 +375,7 @@
   "NESTLE": {
    "symbol": "NESTLE",
    "name": "Nestle Pakistan Limited",
-   "weight_pct": 0.72,
+   "weight_pct": 0.71,
    "in": [
     "KSE100",
     "ALLSHR",
@@ -394,7 +397,7 @@
   "COLG": {
    "symbol": "COLG",
    "name": "Colgate-Palmolive (Pakistan) Limited",
-   "weight_pct": 0.58,
+   "weight_pct": 0.57,
    "in": [
     "KSE100",
     "ALLSHR",
@@ -416,24 +419,24 @@
    ],
    "tier": "core"
   },
-  "BWCL": {
-   "symbol": "BWCL",
-   "name": "Bestway Cement Limited",
-   "weight_pct": 0.55,
-   "in": [
-    "KSE100",
-    "ALLSHR"
-   ],
-   "tier": "core"
-  },
   "JVDC": {
    "symbol": "JVDC",
    "name": "Javedan Corporation Limited",
-   "weight_pct": 0.55,
+   "weight_pct": 0.56,
    "in": [
     "KSE100",
     "ALLSHR",
     "KMIALLSHR"
+   ],
+   "tier": "core"
+  },
+  "BWCL": {
+   "symbol": "BWCL",
+   "name": "Bestway Cement Limited",
+   "weight_pct": 0.54,
+   "in": [
+    "KSE100",
+    "ALLSHR"
    ],
    "tier": "core"
   },
@@ -444,6 +447,18 @@
    "in": [
     "KSE100",
     "ALLSHR"
+   ],
+   "tier": "core"
+  },
+  "SNGP": {
+   "symbol": "SNGP",
+   "name": "Sui Northern Gas Pipelines Limited",
+   "weight_pct": 0.49,
+   "in": [
+    "KSE100",
+    "KMI30",
+    "ALLSHR",
+    "KMIALLSHR"
    ],
    "tier": "core"
   },
@@ -459,22 +474,10 @@
    ],
    "tier": "core"
   },
-  "SNGP": {
-   "symbol": "SNGP",
-   "name": "Sui Northern Gas Pipelines Limited",
-   "weight_pct": 0.48,
-   "in": [
-    "KSE100",
-    "KMI30",
-    "ALLSHR",
-    "KMIALLSHR"
-   ],
-   "tier": "core"
-  },
   "DCR": {
    "symbol": "DCR",
    "name": "Dolmen City REIT",
-   "weight_pct": 0.47,
+   "weight_pct": 0.46,
    "in": [
     "KSE100",
     "ALLSHR",
@@ -508,7 +511,7 @@
   "KOHC": {
    "symbol": "KOHC",
    "name": "Kohat Cement Company Limited",
-   "weight_pct": 0.44,
+   "weight_pct": 0.43,
    "in": [
     "KSE100",
     "ALLSHR",
@@ -594,21 +597,11 @@
   "HINOON": {
    "symbol": "HINOON",
    "name": "Highnoon Laboratories Limited",
-   "weight_pct": 0.41,
+   "weight_pct": 0.4,
    "in": [
     "KSE100",
     "ALLSHR",
     "KMIALLSHR"
-   ],
-   "tier": "core"
-  },
-  "APL": {
-   "symbol": "APL",
-   "name": "Attock Petroleum Limited",
-   "weight_pct": 0.38,
-   "in": [
-    "KSE100",
-    "ALLSHR"
    ],
    "tier": "core"
   },
@@ -635,6 +628,16 @@
    ],
    "tier": "core"
   },
+  "APL": {
+   "symbol": "APL",
+   "name": "Attock Petroleum Limited",
+   "weight_pct": 0.37,
+   "in": [
+    "KSE100",
+    "ALLSHR"
+   ],
+   "tier": "core"
+  },
   "CNERGY": {
    "symbol": "CNERGY",
    "name": "Cnergyico PK  Limited",
@@ -653,18 +656,6 @@
    "in": [
     "KSE100",
     "ALLSHR"
-   ],
-   "tier": "core"
-  },
-  "GHNI": {
-   "symbol": "GHNI",
-   "name": "Ghandhara Industries Limited",
-   "weight_pct": 0.36,
-   "in": [
-    "KSE100",
-    "KMI30",
-    "ALLSHR",
-    "KMIALLSHR"
    ],
    "tier": "core"
   },
@@ -688,6 +679,18 @@
    ],
    "tier": "core"
   },
+  "GHNI": {
+   "symbol": "GHNI",
+   "name": "Ghandhara Industries Limited",
+   "weight_pct": 0.35,
+   "in": [
+    "KSE100",
+    "KMI30",
+    "ALLSHR",
+    "KMIALLSHR"
+   ],
+   "tier": "core"
+  },
   "AIRLINK": {
    "symbol": "AIRLINK",
    "name": "Air Link Communication Limited",
@@ -703,7 +706,7 @@
   "GHGL": {
    "symbol": "GHGL",
    "name": "Ghani Glass Limited",
-   "weight_pct": 0.29,
+   "weight_pct": 0.3,
    "in": [
     "KSE100",
     "ALLSHR",
@@ -744,6 +747,20 @@
    ],
    "tier": "core"
   },
+  "UPFL": {
+   "symbol": "UPFL",
+   "name": "Unilever Pakistan Foods Limited",
+   "weight_pct": 0.27,
+   "in": [
+    "KSE100",
+    "ALLSHR",
+    "KMIALLSHR"
+   ],
+   "tier": "core",
+   "source_badges": [
+    "XD"
+   ]
+  },
   "GAL": {
    "symbol": "GAL",
    "name": "Ghandhara Automobiles Limited",
@@ -756,9 +773,9 @@
    ],
    "tier": "core"
   },
-  "SHFA": {
-   "symbol": "SHFA",
-   "name": "Shifa International Hospitals Limited",
+  "ISL": {
+   "symbol": "ISL",
+   "name": "International Steels Limited",
    "weight_pct": 0.26,
    "in": [
     "KSE100",
@@ -767,24 +784,10 @@
    ],
    "tier": "core"
   },
-  "UPFL": {
-   "symbol": "UPFL",
-   "name": "Unilever Pakistan Foods Limited",
+  "SHFA": {
+   "symbol": "SHFA",
+   "name": "Shifa International Hospitals Limited",
    "weight_pct": 0.26,
-   "in": [
-    "KSE100",
-    "ALLSHR",
-    "KMIALLSHR"
-   ],
-   "tier": "core",
-   "source_badges": [
-    "XD"
-   ]
-  },
-  "ISL": {
-   "symbol": "ISL",
-   "name": "International Steels Limited",
-   "weight_pct": 0.25,
    "in": [
     "KSE100",
     "ALLSHR",
@@ -862,7 +865,7 @@
   "NPL": {
    "symbol": "NPL",
    "name": "Nishat Power Limited",
-   "weight_pct": 0.23,
+   "weight_pct": 0.22,
    "in": [
     "KSE100",
     "ALLSHR"
@@ -925,7 +928,7 @@
   "CPHL": {
    "symbol": "CPHL",
    "name": "Citi Pharma Ltd.",
-   "weight_pct": 0.17,
+   "weight_pct": 0.18,
    "in": [
     "KSE100",
     "KMI30",
@@ -945,24 +948,24 @@
    ],
    "tier": "core"
   },
+  "SSGC": {
+   "symbol": "SSGC",
+   "name": "Sui Southern Gas Company Limited",
+   "weight_pct": 0.17,
+   "in": [
+    "KSE100",
+    "KMI30",
+    "ALLSHR",
+    "KMIALLSHR"
+   ],
+   "tier": "core"
+  },
   "JDWS": {
    "symbol": "JDWS",
    "name": "JDW Sugar Mills Limited",
    "weight_pct": 0.16,
    "in": [
     "KSE100",
-    "ALLSHR",
-    "KMIALLSHR"
-   ],
-   "tier": "core"
-  },
-  "SSGC": {
-   "symbol": "SSGC",
-   "name": "Sui Southern Gas Company Limited",
-   "weight_pct": 0.16,
-   "in": [
-    "KSE100",
-    "KMI30",
     "ALLSHR",
     "KMIALLSHR"
    ],
@@ -995,7 +998,7 @@
   "PABC": {
    "symbol": "PABC",
    "name": "Pakistan Aluminium Beverage Cans Limited",
-   "weight_pct": 0.1,
+   "weight_pct": 0.11,
    "in": [
     "KSE100",
     "ALLSHR"
@@ -1022,10 +1025,7 @@
     "ALLSHR",
     "KMIALLSHR"
    ],
-   "tier": "core",
-   "source_badges": [
-    "XD"
-   ]
+   "tier": "core"
   },
   "HGFA": {
    "symbol": "HGFA",
@@ -1158,7 +1158,7 @@
   "SLM": {
    "symbol": "SLM",
    "name": "Service Long March Tyres Limited",
-   "weight_pct": 0.94,
+   "weight_pct": 0.93,
    "in": [
     "ALLSHR",
     "KMIALLSHR"
@@ -1190,7 +1190,7 @@
   "FCEPL": {
    "symbol": "FCEPL",
    "name": "Frieslandcampina Engro Pakistan Limited",
-   "weight_pct": 0.56,
+   "weight_pct": 0.57,
    "in": [
     "ALLSHR",
     "KMIALLSHR"
@@ -1200,7 +1200,7 @@
   "PNSC": {
    "symbol": "PNSC",
    "name": "Pakistan National Shipping Corporation",
-   "weight_pct": 0.53,
+   "weight_pct": 0.54,
    "in": [
     "ALLSHR"
    ],
@@ -1218,7 +1218,7 @@
   "BML": {
    "symbol": "BML",
    "name": "Bank Makramah Limited",
-   "weight_pct": 0.24,
+   "weight_pct": 0.25,
    "in": [
     "ALLSHR"
    ],
@@ -1256,10 +1256,19 @@
    ],
    "tier": "listed"
   },
+  "BOK": {
+   "symbol": "BOK",
+   "name": "The Bank of Khyber",
+   "weight_pct": 0.18,
+   "in": [
+    "ALLSHR"
+   ],
+   "tier": "listed"
+  },
   "IGIHL": {
    "symbol": "IGIHL",
    "name": "IGI Holdings Limited",
-   "weight_pct": 0.19,
+   "weight_pct": 0.18,
    "in": [
     "ALLSHR"
    ],
@@ -1294,15 +1303,6 @@
    ],
    "tier": "listed"
   },
-  "BOK": {
-   "symbol": "BOK",
-   "name": "The Bank of Khyber",
-   "weight_pct": 0.17,
-   "in": [
-    "ALLSHR"
-   ],
-   "tier": "listed"
-  },
   "SAPT": {
    "symbol": "SAPT",
    "name": "Sapphire Textile Mills Limited",
@@ -1310,15 +1310,6 @@
    "in": [
     "ALLSHR",
     "KMIALLSHR"
-   ],
-   "tier": "listed"
-  },
-  "AGL": {
-   "symbol": "AGL",
-   "name": "Agritech Limited",
-   "weight_pct": 0.16,
-   "in": [
-    "ALLSHR"
    ],
    "tier": "listed"
   },
@@ -1341,13 +1332,12 @@
    ],
    "tier": "listed"
   },
-  "PAKOXY": {
-   "symbol": "PAKOXY",
-   "name": "Pakistan Oxygen Limited",
-   "weight_pct": 0.16,
+  "AGL": {
+   "symbol": "AGL",
+   "name": "Agritech Limited",
+   "weight_pct": 0.15,
    "in": [
-    "ALLSHR",
-    "KMIALLSHR"
+    "ALLSHR"
    ],
    "tier": "listed"
   },
@@ -1364,9 +1354,9 @@
     "XD"
    ]
   },
-  "IPAK": {
-   "symbol": "IPAK",
-   "name": "International Packaging Films Limited",
+  "PAKOXY": {
+   "symbol": "PAKOXY",
+   "name": "Pakistan Oxygen Limited",
    "weight_pct": 0.15,
    "in": [
     "ALLSHR",
@@ -1380,6 +1370,16 @@
    "weight_pct": 0.14,
    "in": [
     "ALLSHR"
+   ],
+   "tier": "listed"
+  },
+  "IPAK": {
+   "symbol": "IPAK",
+   "name": "International Packaging Films Limited",
+   "weight_pct": 0.14,
+   "in": [
+    "ALLSHR",
+    "KMIALLSHR"
    ],
    "tier": "listed"
   },
@@ -1417,6 +1417,16 @@
    "weight_pct": 0.13,
    "in": [
     "ALLSHR"
+   ],
+   "tier": "listed"
+  },
+  "SELECT": {
+   "symbol": "SELECT",
+   "name": "Select Technologies Limited",
+   "weight_pct": 0.13,
+   "in": [
+    "ALLSHR",
+    "KMIALLSHR"
    ],
    "tier": "listed"
   },
@@ -1459,16 +1469,6 @@
    ],
    "tier": "listed"
   },
-  "SELECT": {
-   "symbol": "SELECT",
-   "name": "Select Technologies Limited",
-   "weight_pct": 0.12,
-   "in": [
-    "ALLSHR",
-    "KMIALLSHR"
-   ],
-   "tier": "listed"
-  },
   "AGTL": {
    "symbol": "AGTL",
    "name": "Al-Ghazi Tractors Limited",
@@ -1488,6 +1488,18 @@
     "KMIALLSHR"
    ],
    "tier": "listed"
+  },
+  "HASCOL": {
+   "symbol": "HASCOL",
+   "name": "Hascol Petroleum Limited",
+   "weight_pct": 0.11,
+   "in": [
+    "ALLSHR"
+   ],
+   "tier": "listed",
+   "source_badges": [
+    "NC"
+   ]
   },
   "NCPL": {
    "symbol": "NCPL",
@@ -1546,28 +1558,6 @@
    ],
    "tier": "listed"
   },
-  "GCIL": {
-   "symbol": "GCIL",
-   "name": "Ghani Chemical Industries Limited",
-   "weight_pct": 0.1,
-   "in": [
-    "ALLSHR",
-    "KMIALLSHR"
-   ],
-   "tier": "listed"
-  },
-  "HASCOL": {
-   "symbol": "HASCOL",
-   "name": "Hascol Petroleum Limited",
-   "weight_pct": 0.1,
-   "in": [
-    "ALLSHR"
-   ],
-   "tier": "listed",
-   "source_badges": [
-    "NC"
-   ]
-  },
   "JSCL": {
    "symbol": "JSCL",
    "name": "Jahangir Siddiqui & Co. Ltd.",
@@ -1605,12 +1595,13 @@
    ],
    "tier": "listed"
   },
-  "JLICL": {
-   "symbol": "JLICL",
-   "name": "Jubilee Life Insurance Company Limited",
+  "GCIL": {
+   "symbol": "GCIL",
+   "name": "Ghani Chemical Industries Limited",
    "weight_pct": 0.09,
    "in": [
-    "ALLSHR"
+    "ALLSHR",
+    "KMIALLSHR"
    ],
    "tier": "listed"
   },
@@ -1634,6 +1625,16 @@
    ],
    "tier": "listed"
   },
+  "FEROZ": {
+   "symbol": "FEROZ",
+   "name": "Ferozsons Laboratories Limited",
+   "weight_pct": 0.08,
+   "in": [
+    "ALLSHR",
+    "KMIALLSHR"
+   ],
+   "tier": "listed"
+  },
   "GATM": {
    "symbol": "GATM",
    "name": "Gul Ahmed Textile Mills Limited",
@@ -1647,6 +1648,15 @@
   "JGICL": {
    "symbol": "JGICL",
    "name": "Jubilee General Insurance Company Ltd.",
+   "weight_pct": 0.08,
+   "in": [
+    "ALLSHR"
+   ],
+   "tier": "listed"
+  },
+  "JLICL": {
+   "symbol": "JLICL",
+   "name": "Jubilee Life Insurance Company Limited",
    "weight_pct": 0.08,
    "in": [
     "ALLSHR"
@@ -1679,16 +1689,6 @@
    "weight_pct": 0.07,
    "in": [
     "ALLSHR"
-   ],
-   "tier": "listed"
-  },
-  "FEROZ": {
-   "symbol": "FEROZ",
-   "name": "Ferozsons Laboratories Limited",
-   "weight_pct": 0.07,
-   "in": [
-    "ALLSHR",
-    "KMIALLSHR"
    ],
    "tier": "listed"
   },
@@ -1877,15 +1877,6 @@
    ],
    "tier": "listed"
   },
-  "TPLI": {
-   "symbol": "TPLI",
-   "name": "TPL Insurance Limited",
-   "weight_pct": 0.06,
-   "in": [
-    "ALLSHR"
-   ],
-   "tier": "listed"
-  },
   "ZAHID": {
    "symbol": "ZAHID",
    "name": "Zahidjee Textile Mills Limited",
@@ -1952,19 +1943,18 @@
    ],
    "tier": "listed"
   },
-  "TATM": {
-   "symbol": "TATM",
-   "name": "Tata Textile Mills Limited",
-   "weight_pct": 0.05,
-   "in": [
-    "ALLSHR",
-    "KMIALLSHR"
-   ],
-   "tier": "listed"
-  },
   "TBL": {
    "symbol": "TBL",
    "name": "Treet Battery Limited.",
+   "weight_pct": 0.05,
+   "in": [
+    "ALLSHR"
+   ],
+   "tier": "listed"
+  },
+  "TPLI": {
+   "symbol": "TPLI",
+   "name": "TPL Insurance Limited",
    "weight_pct": 0.05,
    "in": [
     "ALLSHR"
@@ -2053,6 +2043,16 @@
    ],
    "tier": "listed"
   },
+  "GGL": {
+   "symbol": "GGL",
+   "name": "Ghani Global Holdings Limited",
+   "weight_pct": 0.04,
+   "in": [
+    "ALLSHR",
+    "KMIALLSHR"
+   ],
+   "tier": "listed"
+  },
   "GVGL": {
    "symbol": "GVGL",
    "name": "Ghani Value Glass Limited",
@@ -2085,6 +2085,16 @@
   "KSBP": {
    "symbol": "KSBP",
    "name": "KSB Pumps Company Limited",
+   "weight_pct": 0.04,
+   "in": [
+    "ALLSHR",
+    "KMIALLSHR"
+   ],
+   "tier": "listed"
+  },
+  "NNAR": {
+   "symbol": "NNAR",
+   "name": "Naya Nazimabad Apartments Reit",
    "weight_pct": 0.04,
    "in": [
     "ALLSHR",
@@ -2151,6 +2161,16 @@
    ],
    "tier": "listed"
   },
+  "TATM": {
+   "symbol": "TATM",
+   "name": "Tata Textile Mills Limited",
+   "weight_pct": 0.04,
+   "in": [
+    "ALLSHR",
+    "KMIALLSHR"
+   ],
+   "tier": "listed"
+  },
   "TPLP": {
    "symbol": "TPLP",
    "name": "TPL Properties Limited",
@@ -2160,9 +2180,9 @@
    ],
    "tier": "listed"
   },
-  "ADMM": {
-   "symbol": "ADMM",
-   "name": "Artistic Denim Mills Limited",
+  "AGHA": {
+   "symbol": "AGHA",
+   "name": "Agha Steel Ind.Ltd",
    "weight_pct": 0.03,
    "in": [
     "ALLSHR"
@@ -2307,16 +2327,6 @@
    ],
    "tier": "listed"
   },
-  "GGL": {
-   "symbol": "GGL",
-   "name": "Ghani Global Holdings Limited",
-   "weight_pct": 0.03,
-   "in": [
-    "ALLSHR",
-    "KMIALLSHR"
-   ],
-   "tier": "listed"
-  },
   "HTL": {
    "symbol": "HTL",
    "name": "Hi-Tech Lubricants Limited",
@@ -2330,6 +2340,16 @@
   "IMAGE": {
    "symbol": "IMAGE",
    "name": "Image Pakistan Limited",
+   "weight_pct": 0.03,
+   "in": [
+    "ALLSHR",
+    "KMIALLSHR"
+   ],
+   "tier": "listed"
+  },
+  "LOADS": {
+   "symbol": "LOADS",
+   "name": "Loads Limited",
    "weight_pct": 0.03,
    "in": [
     "ALLSHR",
@@ -2472,9 +2492,9 @@
     "NC"
    ]
   },
-  "AGHA": {
-   "symbol": "AGHA",
-   "name": "Agha Steel Ind.Ltd",
+  "ADMM": {
+   "symbol": "ADMM",
+   "name": "Artistic Denim Mills Limited",
    "weight_pct": 0.02,
    "in": [
     "ALLSHR"
@@ -2744,16 +2764,6 @@
    ],
    "tier": "listed"
   },
-  "KCL": {
-   "symbol": "KCL",
-   "name": "Karam Ceramics Limited",
-   "weight_pct": 0.02,
-   "in": [
-    "ALLSHR",
-    "KMIALLSHR"
-   ],
-   "tier": "listed"
-  },
   "KML": {
    "symbol": "KML",
    "name": "Kohinoor Mills Limited",
@@ -2763,19 +2773,18 @@
    ],
    "tier": "listed"
   },
-  "LIVEN": {
-   "symbol": "LIVEN",
-   "name": "Liven Pharma Limited",
+  "KOSM": {
+   "symbol": "KOSM",
+   "name": "Kohinoor Spinning Mills Limited",
    "weight_pct": 0.02,
    "in": [
-    "ALLSHR",
-    "KMIALLSHR"
+    "ALLSHR"
    ],
    "tier": "listed"
   },
-  "LOADS": {
-   "symbol": "LOADS",
-   "name": "Loads Limited",
+  "LIVEN": {
+   "symbol": "LIVEN",
+   "name": "Liven Pharma Limited",
    "weight_pct": 0.02,
    "in": [
     "ALLSHR",
@@ -3373,16 +3382,6 @@
    ],
    "tier": "listed"
   },
-  "JDMT": {
-   "symbol": "JDMT",
-   "name": "Janana De Malucho Textile Mills Limited",
-   "weight_pct": 0.01,
-   "in": [
-    "ALLSHR",
-    "KMIALLSHR"
-   ],
-   "tier": "listed"
-  },
   "JSIL": {
    "symbol": "JSIL",
    "name": "JS Investments Limited",
@@ -3423,6 +3422,16 @@
    "source_badges": [
     "NC"
    ]
+  },
+  "KCL": {
+   "symbol": "KCL",
+   "name": "Karam Ceramics Limited",
+   "weight_pct": 0.01,
+   "in": [
+    "ALLSHR",
+    "KMIALLSHR"
+   ],
+   "tier": "listed"
   },
   "KHTC": {
    "symbol": "KHTC",
@@ -3466,15 +3475,6 @@
   "KOIL": {
    "symbol": "KOIL",
    "name": "Kohinoor Industries Limited",
-   "weight_pct": 0.01,
-   "in": [
-    "ALLSHR"
-   ],
-   "tier": "listed"
-  },
-  "KOSM": {
-   "symbol": "KOSM",
-   "name": "Kohinoor Spinning Mills Limited",
    "weight_pct": 0.01,
    "in": [
     "ALLSHR"
@@ -3570,6 +3570,16 @@
   "OLPM": {
    "symbol": "OLPM",
    "name": "OLP Modaraba",
+   "weight_pct": 0.01,
+   "in": [
+    "ALLSHR",
+    "KMIALLSHR"
+   ],
+   "tier": "listed"
+  },
+  "OML": {
+   "symbol": "OML",
+   "name": "Olympia Mills Limited",
    "weight_pct": 0.01,
    "in": [
     "ALLSHR",
@@ -3952,16 +3962,6 @@
   "WAHN": {
    "symbol": "WAHN",
    "name": "Wah Noble Chemicals Limited",
-   "weight_pct": 0.01,
-   "in": [
-    "ALLSHR",
-    "KMIALLSHR"
-   ],
-   "tier": "listed"
-  },
-  "WASL": {
-   "symbol": "WASL",
-   "name": "Wasl Mobility Modaraba",
    "weight_pct": 0.01,
    "in": [
     "ALLSHR",
@@ -5012,6 +5012,16 @@
    ],
    "tier": "listed"
   },
+  "JDMT": {
+   "symbol": "JDMT",
+   "name": "Janana De Malucho Textile Mills Limited",
+   "weight_pct": 0.0,
+   "in": [
+    "ALLSHR",
+    "KMIALLSHR"
+   ],
+   "tier": "listed"
+  },
   "JVDCPS": {
    "symbol": "JVDCPS",
    "name": "Javedan Corporation (Pref)",
@@ -5214,16 +5224,6 @@
    "weight_pct": 0.0,
    "in": [
     "ALLSHR"
-   ],
-   "tier": "listed"
-  },
-  "OML": {
-   "symbol": "OML",
-   "name": "Olympia Mills Limited",
-   "weight_pct": 0.0,
-   "in": [
-    "ALLSHR",
-    "KMIALLSHR"
    ],
    "tier": "listed"
   },
@@ -5762,6 +5762,16 @@
    "source_badges": [
     "NC"
    ]
+  },
+  "WASL": {
+   "symbol": "WASL",
+   "name": "Wasl Mobility Modaraba",
+   "weight_pct": 0.0,
+   "in": [
+    "ALLSHR",
+    "KMIALLSHR"
+   ],
+   "tier": "listed"
   },
   "WAVESAPPR": {
    "symbol": "WAVESAPPR",

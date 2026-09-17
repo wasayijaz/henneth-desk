@@ -1,28 +1,82 @@
 {
- "updated": "2026-09-16 20:33",
+ "updated": "2026-09-17 19:33",
  "regime": "risk-off",
  "geo_risk": {
-  "score": 62,
+  "score": 58,
   "band": "moderate"
  },
  "signals": [
   {
-   "id": "20260916-FCL-obv_divergence_up",
-   "ticker": "FCL",
-   "strategy": "obv_divergence_up",
-   "template": "Volume leads price",
+   "id": "20260917-SGPL-vol_dryup_surge",
+   "ticker": "SGPL",
+   "strategy": "vol_dryup_surge",
+   "template": "Dry-up then surge",
    "category": "volume",
-   "sector": "Cable & Electrical Goods",
-   "hold_sessions": 15,
+   "sector": "Power Generation & Distribution",
+   "hold_sessions": 9,
    "backtest": {
-    "hit_rate": 0.571,
-    "net_expectancy_pct": 0.68,
-    "n": 28,
-    "oos_hit": 0.625
+    "hit_rate": 0.643,
+    "net_expectancy_pct": 2.17,
+    "n": 14,
+    "oos_hit": 0.5
    },
    "confidence": "low",
    "basis": "backtest-proven, unaudited",
-   "thesis": "Volume leads price is triggering now; on FCL's own history it won 57% over 28 trades (+0.7% net/trade), still profitable out-of-sample."
+   "thesis": "Dry-up then surge is triggering now; on SGPL's own history it won 64% over 14 trades (+2.2% net/trade), still profitable out-of-sample."
+  },
+  {
+   "id": "20260917-ASL-macd_hist_rising",
+   "ticker": "ASL",
+   "strategy": "macd_hist_rising",
+   "template": "MACD histogram turning up",
+   "category": "momentum",
+   "sector": "Engineering",
+   "hold_sessions": 10,
+   "backtest": {
+    "hit_rate": 0.643,
+    "net_expectancy_pct": 1.77,
+    "n": 14,
+    "oos_hit": 0.6
+   },
+   "confidence": "low",
+   "basis": "backtest-proven, unaudited",
+   "thesis": "MACD histogram turning up is triggering now; on ASL's own history it won 64% over 14 trades (+1.8% net/trade), still profitable out-of-sample."
+  },
+  {
+   "id": "20260917-NICL-roc60_leader_pullback",
+   "ticker": "NICL",
+   "strategy": "roc60_leader_pullback",
+   "template": "Long-run leader, short pullback",
+   "category": "momentum",
+   "sector": "Chemical",
+   "hold_sessions": 18,
+   "backtest": {
+    "hit_rate": 0.667,
+    "net_expectancy_pct": 1.6,
+    "n": 15,
+    "oos_hit": 0.857
+   },
+   "confidence": "medium",
+   "basis": "backtest-proven, unaudited",
+   "thesis": "Long-run leader, short pullback is triggering now; on NICL's own history it won 67% over 15 trades (+1.6% net/trade), still profitable out-of-sample."
+  },
+  {
+   "id": "20260917-BML-oversold_bounce",
+   "ticker": "BML",
+   "strategy": "oversold_bounce",
+   "template": "RSI oversold bounce",
+   "category": "mean_reversion",
+   "sector": "Commercial Banks",
+   "hold_sessions": 8,
+   "backtest": {
+    "hit_rate": 0.6,
+    "net_expectancy_pct": 1.39,
+    "n": 10,
+    "oos_hit": 0.556
+   },
+   "confidence": "low",
+   "basis": "backtest-proven, unaudited",
+   "thesis": "RSI oversold bounce is triggering now; on BML's own history it won 60% over 10 trades (+1.4% net/trade), still profitable out-of-sample."
   }
  ],
  "positions": [],
@@ -48,10 +102,6 @@
    "score": 65.2
   },
   {
-   "ticker": "USDJI",
-   "score": 65.2
-  },
-  {
    "ticker": "INDU",
    "score": 65.1
   },
@@ -66,60 +116,64 @@
   {
    "ticker": "FHAM",
    "score": 64.5
+  },
+  {
+   "ticker": "USDJI",
+   "score": 63.6
   }
  ],
  "movers_up": [
   {
+   "ticker": "DSIL",
+   "ret_1d": 12.05,
+   "close": 9.3
+  },
+  {
    "ticker": "FPRM",
-   "ret_1d": 10.14,
-   "close": 10.86
+   "ret_1d": 10.04,
+   "close": 11.95
   },
   {
-   "ticker": "PASM",
-   "ret_1d": 10.1,
-   "close": 9.27
+   "ticker": "JATM",
+   "ret_1d": 10.03,
+   "close": 36.75
   },
   {
-   "ticker": "OML",
+   "ticker": "ASTL",
+   "ret_1d": 10.02,
+   "close": 16.8
+  },
+  {
+   "ticker": "GEMMEL",
    "ret_1d": 10.01,
-   "close": 75.75
-  },
-  {
-   "ticker": "ASTM",
-   "ret_1d": 10.0,
-   "close": 118.85
-  },
-  {
-   "ticker": "PIM",
-   "ret_1d": 10.0,
-   "close": 67.23
+   "close": 43.21
   }
  ],
  "movers_down": [
   {
-   "ticker": "STJT",
-   "ret_1d": -9.03,
-   "close": 151.13
+   "ticker": "DMTM",
+   "ret_1d": -8.15,
+   "close": 8.56
   },
   {
-   "ticker": "HAEL",
-   "ret_1d": -9.33,
-   "close": 23.12
+   "ticker": "BUXL",
+   "ret_1d": -9.39,
+   "close": 573.92
   },
   {
-   "ticker": "PKGI",
-   "ret_1d": -9.53,
-   "close": 39.95
+   "ticker": "PIM",
+   "ret_1d": -9.8,
+   "close": 60.64
   },
   {
-   "ticker": "AATM",
-   "ret_1d": -9.99,
-   "close": 47.02
+   "ticker": "FPJM",
+   "ret_1d": -10.0,
+   "close": 22.49
   },
   {
-   "ticker": "SLYT",
-   "ret_1d": -10.01,
-   "close": 17.35
+   "ticker": "USVIX",
+   "ret_1d": -12.31,
+   "close": 15.53
   }
  ],
  "news": [
@@ -307,14 +361,6 @@
  "agent_wire": [],
  "runlog_tail": [
   {
-   "started": "2026-09-14T19:15:20+05:00",
-   "mode": "room",
-   "ended": "2026-09-14T19:52:22+05:00",
-   "outcome": "Desk Room completed: LUCK and MARI full reviews; CNERGY delta; independent QA and preflight passed",
-   "routine": "room",
-   "research_sha": "8ce20948a6e7f908659353c221296c71db9d78af"
-  },
-  {
    "started": "2026-09-15T18:31:45+05:00",
    "mode": "light-escalated",
    "ended": "2026-09-15T19:15:57+05:00",
@@ -345,6 +391,14 @@
    "outcome": "risk-off daily read; geo-risk moderate at 62; headline: KSE-100 selling returned as oil and regional risk kept the desk defensive",
    "routine": "daily",
    "research_sha": "35907cf4cde429356a853065d410e911aeca818e"
+  },
+  {
+   "started": "2026-09-16T20:01:05+05:00",
+   "mode": "room",
+   "ended": "2026-09-16T20:34:57+05:00",
+   "outcome": "Desk Room completed: GHNI and AIRLINK full reviews; FCL delta; LUCK, MARI, and CNERGY reaffirmed; independent QA and preflight passed",
+   "routine": "room",
+   "research_sha": "af6130a69545247b392a50c1d8f665996901f0d6"
   }
  ]
 }

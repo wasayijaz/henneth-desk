@@ -2,23 +2,11 @@
  "reaffirm": [
   "LUCK",
   "MARI",
-  "CNERGY"
+  "CNERGY",
+  "FCL"
  ],
- "delta": [
-  {
-   "symbol": "FCL",
-   "why": "price moved 13.1% since last Room"
-  }
- ],
+ "delta": [],
  "full": [
-  {
-   "symbol": "GHNI",
-   "why": "material change since last Room"
-  },
-  {
-   "symbol": "AIRLINK",
-   "why": "material change since last Room"
-  },
   {
    "symbol": "ILP",
    "why": "never covered"
@@ -36,11 +24,11 @@
    "why": "material change since last Room"
   },
   {
-   "symbol": "PSO",
+   "symbol": "BAFL",
    "why": "material change since last Room"
   },
   {
-   "symbol": "BAFL",
+   "symbol": "PSO",
    "why": "material change since last Room"
   },
   {
@@ -88,12 +76,12 @@
    "why": "never covered"
   },
   {
-   "symbol": "WTL",
-   "why": "never covered"
-  },
-  {
    "symbol": "KEL",
    "why": "material change since last Room"
+  },
+  {
+   "symbol": "WTL",
+   "why": "never covered"
   },
   {
    "symbol": "SSGC",
@@ -136,10 +124,6 @@
    "why": "never covered"
   },
   {
-   "symbol": "GCIL",
-   "why": "never covered"
-  },
-  {
    "symbol": "NETSOL",
    "why": "never covered"
   },
@@ -148,7 +132,19 @@
    "why": "never covered"
   },
   {
-   "symbol": "MTL",
+   "symbol": "GHNI",
+   "why": "material change since last Room"
+  },
+  {
+   "symbol": "NICL",
+   "why": "never covered"
+  },
+  {
+   "symbol": "SGPL",
+   "why": "never covered"
+  },
+  {
+   "symbol": "BAHL",
    "why": "material change since last Room"
   },
   {
@@ -164,6 +160,10 @@
    "why": "never covered"
   },
   {
+   "symbol": "PAEL",
+   "why": "material change since last Room"
+  },
+  {
    "symbol": "MUGHAL",
    "why": "never covered"
   },
@@ -174,14 +174,6 @@
   {
    "symbol": "ITANZ",
    "why": "never covered"
-  },
-  {
-   "symbol": "BAHL",
-   "why": "material change since last Room"
-  },
-  {
-   "symbol": "PAEL",
-   "why": "material change since last Room"
   },
   {
    "symbol": "LOTCHEM",
@@ -280,10 +272,6 @@
    "why": "never covered"
   },
   {
-   "symbol": "NICL",
-   "why": "never covered"
-  },
-  {
    "symbol": "SPSL",
    "why": "never covered"
   },
@@ -292,15 +280,15 @@
    "why": "never covered"
   },
   {
+   "symbol": "GCIL",
+   "why": "never covered"
+  },
+  {
    "symbol": "PREMA",
    "why": "never covered"
   },
   {
    "symbol": "TPLP",
-   "why": "never covered"
-  },
-  {
-   "symbol": "GGL",
    "why": "never covered"
   },
   {
@@ -332,8 +320,8 @@
    "why": "never covered"
   },
   {
-   "symbol": "SGPL",
-   "why": "never covered"
+   "symbol": "MTL",
+   "why": "material change since last Room"
   },
   {
    "symbol": "FABL",
@@ -354,22 +342,24 @@
   {
    "symbol": "UNITY",
    "why": "material change since last Room"
+  },
+  {
+   "symbol": "AIRLINK",
+   "why": "material change since last Room"
   }
  ],
  "_meta": {
-  "built": "2026-09-16 20:03",
+  "built": "2026-09-17 19:33",
   "full_budget": 2,
   "run_full_now": [
-   "GHNI",
-   "AIRLINK"
+   "ILP",
+   "ATRL"
   ],
   "deferred_full": [
-   "ILP",
-   "ATRL",
    "PRL",
    "PTC",
-   "PSO",
    "BAFL",
+   "PSO",
    "MEBL",
    "HUBC",
    "NBP",
@@ -381,8 +371,8 @@
    "HBL",
    "MCB",
    "FATIMA",
-   "WTL",
    "KEL",
+   "WTL",
    "SSGC",
    "MLCF",
    "GAL",
@@ -393,18 +383,19 @@
    "PIBTL",
    "NPL",
    "NCPL",
-   "GCIL",
    "NETSOL",
    "BERG",
-   "MTL",
+   "GHNI",
+   "NICL",
+   "SGPL",
+   "BAHL",
    "DGKC",
    "JVDC",
    "GLAXO",
+   "PAEL",
    "MUGHAL",
    "SPEL",
    "ITANZ",
-   "BAHL",
-   "PAEL",
    "LOTCHEM",
    "FFL",
    "NRL",
@@ -429,12 +420,11 @@
    "PIAHCLA",
    "FCEPL",
    "THCCL",
-   "NICL",
    "SPSL",
    "HASCOL",
+   "GCIL",
    "PREMA",
    "TPLP",
-   "GGL",
    "TOMCL",
    "TPL",
    "MACFL",
@@ -442,20 +432,21 @@
    "QTECH",
    "ZUMA",
    "OBOY",
-   "SGPL",
+   "MTL",
    "FABL",
    "PIOC",
    "SNGP",
    "AICL",
-   "UNITY"
+   "UNITY",
+   "AIRLINK"
   ],
   "counts": {
-   "full_due": 86,
+   "full_due": 85,
    "full_now": 2,
-   "delta": 1,
-   "reaffirm": 3
+   "delta": 0,
+   "reaffirm": 4
   },
-  "est_tokens_today": 49000,
+  "est_tokens_today": 44000,
   "note": "Tiered plan. Only run_full_now get the 5-persona debate; delta get a cheap TA refresh; reaffirm cost nothing. Full universe stays current at a fraction of naive cost (naive = every ticker debated every run)."
  }
 }
