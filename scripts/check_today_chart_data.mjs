@@ -43,6 +43,26 @@ const missing = charts.prepareDeskRadar([{ ticker: "XYZ", netExpectancyPct: 1.2,
 assert.equal(missing[0].oosHit, null, "missing OOS stays unknown, not zero");
 assert.equal(missing[0].oosLabel, "", "missing OOS has no fabricated label");
 
+// Regression: a stale Daily Read can name tickers that are absent from the latest
+// dashboard signals. In that case the current join has no complete chart rows, but
+// a complete prior dated snapshot must remain renderable instead of leaving radar blank.
+const dailyReadOnly = { date: "2026-09-10", watchlist: [{ ticker: "DAILY_ONLY" }] };
+const latestSignalsOnly = { signals: [{ ticker: "LATEST_ONLY" }] };
+assert.equal(
+  dailyReadOnly.watchlist.some(row => latestSignalsOnly.signals.some(signal => signal.ticker === row.ticker)),
+  false,
+  "regression fixture has no Daily Read/latest-signal ticker overlap",
+);
+assert.equal(charts.prepareDeskRadar(dailyReadOnly.watchlist).length, 0, "mismatched current rows do not invent radar metrics");
+const previousCompleteRadar = {
+  date: "2026-09-09",
+  rows: [{ ticker: "DAILY_ONLY", strategy: "prior-strategy", netExpectancyPct: 1.4, winRate: 0.62, tradeCount: 12, oos_hit: 0.58 }],
+};
+const previousRadarHtml = charts.deskRadarHtml(previousCompleteRadar.rows, { source: previousCompleteRadar.date, compactHeader: true });
+assert.notEqual(previousRadarHtml, "", "complete prior radar snapshot renders non-empty HTML");
+assert.match(previousRadarHtml, /DAILY_ONLY/, "prior radar keeps its ticker visible");
+assert.match(previousRadarHtml, /Source 2026-09-09/, "prior radar keeps its dated source visible");
+
 const catalysts = charts.prepareCatalysts({ date: "2026-09-04", catalysts: [
   { date: "2026-09-04", event: "Today" }, { date: "2026-09-10", event: "Upcoming" }, { event: "Undated" },
 ] });

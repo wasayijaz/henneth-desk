@@ -12,6 +12,47 @@ from psx_data import STATE, load_config, load_json, save_json
 SCRIPTS = Path(__file__).resolve().parent
 
 
+def build_research_radar(daily_read, active_signals, previous):
+    """Return the newest complete, dated Today-page radar snapshot.
+
+    The deterministic signal set can advance before the daily analyst note.  A
+    radar assembled by joining those two different cycles is incomplete, so it
+    must not replace the last complete snapshot.
+    """
+    by_ticker = {
+        str(signal.get("ticker") or "").upper(): signal
+        for signal in active_signals
+        if isinstance(signal, dict) and signal.get("ticker")
+    }
+    rows = []
+    for item in daily_read.get("watchlist", []) if isinstance(daily_read, dict) else []:
+        if not isinstance(item, dict):
+            continue
+        ticker = str(item.get("ticker") or "").upper()
+        signal = by_ticker.get(ticker)
+        backtest = signal.get("backtest", {}) if isinstance(signal, dict) else {}
+        required = ("hit_rate", "net_expectancy_pct", "n")
+        if not signal or not isinstance(backtest, dict) or any(backtest.get(key) is None for key in required):
+            continue
+        rows.append({
+            "ticker": ticker,
+            "strategy": signal.get("template") or signal.get("strategy") or "unknown",
+            "hit_rate": backtest.get("hit_rate"),
+            "net_expectancy_pct": backtest.get("net_expectancy_pct"),
+            "n": backtest.get("n"),
+            "oos_hit": backtest.get("oos_hit"),
+            "confidence": signal.get("confidence") or "unknown",
+            "angle": item.get("angle") or "",
+            "risk": item.get("risk") or "",
+        })
+    date = daily_read.get("date") if isinstance(daily_read, dict) else None
+    if rows and date:
+        return {"date": date, "rows": rows[:8]}
+    if isinstance(previous, dict) and previous.get("date") and previous.get("rows"):
+        return previous
+    return {"date": date, "rows": []}
+
+
 def main():
     # deterministic derived layers (free, no LLM) — run via build_dashboard so the
     # already-deployed workflow picks them up without a workflow edit.
@@ -31,7 +72,12 @@ def main():
     signals = load_json(STATE / "signals.json", {"active": []})
     positions = load_json(STATE / "positions.json", {"open": []})
     runlog = load_json(STATE / "runlog.json", [])
+    daily_read = load_json(STATE / "daily_read.json", {})
     prev = load_json(STATE / "dashboard.json", {})
+    previous_radar = load_json(STATE / "research_radar.json", {})
+    active_signals = signals.get("active", [])
+    research_radar = build_research_radar(daily_read, active_signals, previous_radar)
+    save_json(STATE / "research_radar.json", research_radar)
 
     movers = sorted(quant.items(), key=lambda kv: -(kv[1].get("ret_1d") or 0))
     top = [{"ticker": s, "ret_1d": v["ret_1d"], "close": v["close"]} for s, v in movers[:5]]
@@ -42,7 +88,7 @@ def main():
         "updated": time.strftime("%Y-%m-%d %H:%M"),
         "regime": macro.get("regime", "unknown"),
         "geo_risk": {"score": geo.get("score"), "band": geo.get("band")} if geo else None,
-        "signals": signals.get("active", []),
+        "signals": active_signals,
         "positions": positions.get("open", []),
         "top_predictable": [{"ticker": s, "score": v["score"]} for s, v in top_pred],
         "movers_up": top, "movers_down": bottom,

@@ -57,6 +57,9 @@ scripts/ --writes--> state/*.json <--writes-- local agents
 | Public marketing extract | `build_public_slice.py`, `build_astro_lite.py` | Astro pages under `site/` |
 
 `state/` is the seam between producers and consumers. Python writes it through `psx_data.save_json`;
+`state/research_radar.json` retains the last complete dated join of the Daily Read watchlist and
+its tested signal evidence, so a newer deterministic cycle cannot blank the Today-page radar while
+the next analyst note is delayed.
 the dashboard and marketing build read it. Consumers do not reach around the seam to call providers.
 
 Security identity comes from DPS company/ETF links checked against `data-order`; display badges

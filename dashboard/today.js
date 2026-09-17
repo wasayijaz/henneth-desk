@@ -128,7 +128,22 @@
     return `<td class="num ${signClass(value)}"><span>${pct(value)}</span><small class="today-table-source">${esc0(row.returnAsOf)}</small></td>`;
   }
 
-  function radarRows(dr, dash) {
+  function radarRows(dr, dash, snapshot) {
+    if (snapshot?.date && Array.isArray(snapshot.rows) && snapshot.rows.length) {
+      return snapshot.rows.slice(0, 8).map(row => ({
+        ticker: String(row.ticker || "").toUpperCase(),
+        strategy: row.strategy || "—",
+        hitRate: row.hit_rate,
+        winRate: row.hit_rate,
+        netExpectancyPct: row.net_expectancy_pct,
+        tradeCount: row.n,
+        oosHit: row.oos_hit,
+        oosStatus: row.oos_hit == null ? "" : `${Math.round(Number(row.oos_hit) * 100)}% hit`,
+        confidence: row.confidence || "—",
+        angle: row.angle || "",
+        risk: row.risk || ""
+      })).filter(row => row.ticker);
+    }
     const signals = {};
     (dash?.signals || []).forEach(s => { if (s?.ticker && !signals[s.ticker]) signals[s.ticker] = s; });
     return (dr?.watchlist || []).slice(0, 8).map(w => {
@@ -182,15 +197,17 @@
   async function renderer() {
     const root = typeof $ === "function" ? $("view") : document.getElementById("view");
     if (!root || typeof j !== "function") return;
-    const [dr, quant, live, uni, indices, sectors, cur, dash, news] = await Promise.all([
-      j("daily_read.json"), j("quant.json"), j("live.json"), j("universe.json"), j("indices.json"), j("sectors.json"), j("curriculum.json"), j("dashboard.json"), j("newslog.json")
+    const [dr, quant, live, uni, indices, sectors, cur, dash, news, radarSnapshot] = await Promise.all([
+      j("daily_read.json"), j("quant.json"), j("live.json"), j("universe.json"), j("indices.json"), j("sectors.json"), j("curriculum.json"), j("dashboard.json"), j("newslog.json"), j("research_radar.json")
     ]);
     if (!dr) {
       root.innerHTML = `<section class="today-empty-state"><p class="today-kicker">TODAY'S READ</p><h1>Daily read unavailable</h1><p>The market-analyst note has not been published for this cycle.</p></section>`;
       return;
     }
     const ix = indexRead(indices), tone = String(dr.tone || "cautious"), toneClass = tone === "constructive" ? "up" : tone === "defensive" || tone === "cautious" ? "dn" : "";
-    const ss = sectorSummary(dr), rows = tickerRows(dr, quant, live, uni), radar = radarRows(dr, dash);
+    const ss = sectorSummary(dr), rows = tickerRows(dr, quant, live, uni), radar = radarRows(dr, dash, radarSnapshot);
+    const radarDate = radarSnapshot?.date || dr.date || "date unknown";
+    const radarIsPrevious = Boolean(dr.date && radarDate && radarDate !== dr.date);
     const watchHistories = await Promise.all(rows.map(async row => {
       try { return await j(`history/${encodeURIComponent(row.sym)}.json`); }
       catch { return null; }
@@ -220,7 +237,7 @@
         <div class="today-priority"><p class="today-kicker dn" data-icon="risk">AVOIDING</p><b>${ss.avoidNames.length ? esc0(ss.avoidNames.join(", ")) : "None flagged"}</b><small>${ss.avoid.length} sector${ss.avoid.length === 1 ? "" : "s"}</small></div>
         <div class="today-priority"><p class="today-kicker" data-icon="calendar">NEXT CATALYST</p><b>${esc0(dr.catalysts?.[0]?.date || "—")}</b><small>${esc0(text(dr.catalysts?.[0] || {}, "event") || dr.catalysts?.[0]?.event || "No dated event")}</small></div>
       </section>
-      <section class="today-radar" id="research-radar"><div class="today-section-head"><p class="today-kicker" data-icon="radar">RESEARCH RADAR <span>· HOVER A TICKER FOR THE DESK'S READ · NOT RECOMMENDATIONS</span></p></div><div class="today-radar-host" data-hn-desk-radar>${radarFallback(radar)}</div><div class="today-radar-cards" id="radar-evidence">${radarCards(radar)}</div></section>
+      <section class="today-radar" id="research-radar"><div class="today-section-head"><p class="today-kicker" data-icon="radar">RESEARCH RADAR <span>· ${radarIsPrevious ? "PREVIOUS COMPLETE SNAPSHOT" : "LATEST COMPLETE SNAPSHOT"} · AS OF ${esc0(radarDate)} · NOT RECOMMENDATIONS</span></p></div><div class="today-radar-host" data-hn-desk-radar>${radarFallback(radar)}</div><div class="today-radar-cards" id="radar-evidence">${radarCards(radar)}</div></section>
       <section class="today-breadth" id="sector-breadth"><div class="today-section-head"><p class="today-kicker" data-icon="sectors">SECTOR BREADTH <span>(ADV / DEC)</span></p></div><div class="today-breadth-list" data-hn-sector-breadth><div class="today-empty">Loading breadth view…</div></div></section>
       <section class="today-grid"><div class="today-panel"><div class="today-section-head"><p class="today-kicker" data-icon="watchlist">WATCHLIST (${rows.length})</p><a href="/watchlist">View full →</a></div><div class="today-table-wrap" data-hn-today-watch><table class="today-table"><thead><tr><th>Symbol</th><th>Name</th><th>Price</th><th>1D</th><th>5D</th><th>20D</th></tr></thead><tbody>${rows.map(r => `<tr class="clickable" onclick="navigate('/ticker/${esc0(r.sym)}')"><td><b>${esc0(r.sym)}</b></td><td>${esc0(String(r.name).slice(0, 27))}</td>${fallbackPriceCell(r)}${fallbackReturnCell(r.q.ret_1d, r)}${fallbackReturnCell(r.q.ret_5d, r)}${fallbackReturnCell(r.q.ret_20d, r)}</tr>`).join("") || `<tr><td colspan="6" class="today-empty">No watchlist names in this snapshot.</td></tr>`}</tbody></table></div></div><div class="today-panel"><div class="today-section-head"><p class="today-kicker" data-icon="calendar">CATALYST TIMELINE</p><a href="/calendar">View full →</a></div><div class="today-events" data-hn-catalysts>${renderTimeline(dr.catalysts)}</div></div></section>
       ${articleHtml}
