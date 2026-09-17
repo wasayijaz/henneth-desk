@@ -253,6 +253,7 @@ class MarketCaptureChecks(unittest.TestCase):
         self.put("calendar.json", {"session_times_updated": today})
         post_close = {"required": False, "status": "not_required", "problems": []}
         with patch.object(data_health, "date") as clock, \
+                patch.object(data_health, "datetime", CaptureClock), \
                 patch.object(data_health, "intraday_last", return_value=None), \
                 patch.object(data_health, "evaluate_post_close", return_value=post_close), \
                 patch.object(data_health.time, "strftime",
