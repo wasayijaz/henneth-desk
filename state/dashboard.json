@@ -1,84 +1,11 @@
 {
- "updated": "2026-09-17 19:33",
+ "updated": "2026-09-18 08:26",
  "regime": "risk-off",
  "geo_risk": {
-  "score": 58,
+  "score": 54,
   "band": "moderate"
  },
- "signals": [
-  {
-   "id": "20260917-SGPL-vol_dryup_surge",
-   "ticker": "SGPL",
-   "strategy": "vol_dryup_surge",
-   "template": "Dry-up then surge",
-   "category": "volume",
-   "sector": "Power Generation & Distribution",
-   "hold_sessions": 9,
-   "backtest": {
-    "hit_rate": 0.643,
-    "net_expectancy_pct": 2.17,
-    "n": 14,
-    "oos_hit": 0.5
-   },
-   "confidence": "low",
-   "basis": "backtest-proven, unaudited",
-   "thesis": "Dry-up then surge is triggering now; on SGPL's own history it won 64% over 14 trades (+2.2% net/trade), still profitable out-of-sample."
-  },
-  {
-   "id": "20260917-ASL-macd_hist_rising",
-   "ticker": "ASL",
-   "strategy": "macd_hist_rising",
-   "template": "MACD histogram turning up",
-   "category": "momentum",
-   "sector": "Engineering",
-   "hold_sessions": 10,
-   "backtest": {
-    "hit_rate": 0.643,
-    "net_expectancy_pct": 1.77,
-    "n": 14,
-    "oos_hit": 0.6
-   },
-   "confidence": "low",
-   "basis": "backtest-proven, unaudited",
-   "thesis": "MACD histogram turning up is triggering now; on ASL's own history it won 64% over 14 trades (+1.8% net/trade), still profitable out-of-sample."
-  },
-  {
-   "id": "20260917-NICL-roc60_leader_pullback",
-   "ticker": "NICL",
-   "strategy": "roc60_leader_pullback",
-   "template": "Long-run leader, short pullback",
-   "category": "momentum",
-   "sector": "Chemical",
-   "hold_sessions": 18,
-   "backtest": {
-    "hit_rate": 0.667,
-    "net_expectancy_pct": 1.6,
-    "n": 15,
-    "oos_hit": 0.857
-   },
-   "confidence": "medium",
-   "basis": "backtest-proven, unaudited",
-   "thesis": "Long-run leader, short pullback is triggering now; on NICL's own history it won 67% over 15 trades (+1.6% net/trade), still profitable out-of-sample."
-  },
-  {
-   "id": "20260917-BML-oversold_bounce",
-   "ticker": "BML",
-   "strategy": "oversold_bounce",
-   "template": "RSI oversold bounce",
-   "category": "mean_reversion",
-   "sector": "Commercial Banks",
-   "hold_sessions": 8,
-   "backtest": {
-    "hit_rate": 0.6,
-    "net_expectancy_pct": 1.39,
-    "n": 10,
-    "oos_hit": 0.556
-   },
-   "confidence": "low",
-   "basis": "backtest-proven, unaudited",
-   "thesis": "RSI oversold bounce is triggering now; on BML's own history it won 60% over 10 trades (+1.4% net/trade), still profitable out-of-sample."
-  }
- ],
+ "signals": [],
  "positions": [],
  "top_predictable": [
   {
@@ -151,6 +78,11 @@
  ],
  "movers_down": [
   {
+   "ticker": "PECO",
+   "ret_1d": -7.32,
+   "close": 621.7
+  },
+  {
    "ticker": "DMTM",
    "ret_1d": -8.15,
    "close": 8.56
@@ -169,11 +101,6 @@
    "ticker": "FPJM",
    "ret_1d": -10.0,
    "close": 22.49
-  },
-  {
-   "ticker": "USVIX",
-   "ret_1d": -12.31,
-   "close": 15.53
   }
  ],
  "news": [
