@@ -10,19 +10,19 @@
   {
    "sev": "low",
    "field": "fairvalue.spread",
-   "msg": "methods disagree 3.1x — treat composite as a rough screen"
+   "msg": "methods disagree 3.2x — treat composite as a rough screen"
   }
  ],
  "MEBL": [
   {
    "sev": "low",
    "field": "fairvalue.spread",
-   "msg": "methods disagree 3.9x — treat composite as a rough screen"
+   "msg": "methods disagree 4.0x — treat composite as a rough screen"
   },
   {
    "sev": "medium",
    "field": "fundamentals.div_yield",
-   "msg": "stated div_yield 5.89% vs 3.95% implied by trailing-365d dividends (Rs 21.50/share at close Rs 543.86) — 33% off",
+   "msg": "stated div_yield 5.89% vs 3.89% implied by trailing-365d dividends (Rs 21.50/share at close Rs 552.75) — 34% off",
    "escalate": true
   }
  ],
@@ -44,19 +44,25 @@
   {
    "sev": "low",
    "field": "fairvalue.spread",
-   "msg": "methods disagree 5.2x — treat composite as a rough screen"
+   "msg": "methods disagree 5.1x — treat composite as a rough screen"
+  },
+  {
+   "sev": "medium",
+   "field": "fundamentals.div_yield",
+   "msg": "stated div_yield 1.15% vs 0.96% implied by trailing-365d dividends (Rs 4.00/share at close Rs 416.0) — 16% off",
+   "escalate": true
   }
  ],
  "HBL": [
   {
    "sev": "low",
    "field": "fairvalue.spread",
-   "msg": "methods disagree 3.1x — treat composite as a rough screen"
+   "msg": "methods disagree 3.2x — treat composite as a rough screen"
   },
   {
    "sev": "medium",
    "field": "fundamentals.div_yield",
-   "msg": "stated div_yield 7.68% vs 5.72% implied by trailing-365d dividends (Rs 17.00/share at close Rs 297.41) — 26% off",
+   "msg": "stated div_yield 7.68% vs 5.61% implied by trailing-365d dividends (Rs 17.00/share at close Rs 303.04) — 27% off",
    "escalate": true
   }
  ],
@@ -64,7 +70,7 @@
   {
    "sev": "medium",
    "field": "fundamentals.div_yield",
-   "msg": "stated div_yield 9.35% vs 6.92% implied by trailing-365d dividends (Rs 27.00/share at close Rs 390.37) — 26% off",
+   "msg": "stated div_yield 9.35% vs 6.79% implied by trailing-365d dividends (Rs 27.00/share at close Rs 397.36) — 27% off",
    "escalate": true
   }
  ],
@@ -72,7 +78,7 @@
   {
    "sev": "medium",
    "field": "fundamentals.div_yield",
-   "msg": "stated div_yield 5.63% vs 4.61% implied by trailing-365d dividends (Rs 30.00/share at close Rs 650.22) — 18% off",
+   "msg": "stated div_yield 5.63% vs 4.61% implied by trailing-365d dividends (Rs 30.00/share at close Rs 650.51) — 18% off",
    "escalate": true
   }
  ],
@@ -99,7 +105,7 @@
   {
    "sev": "medium",
    "field": "fundamentals.div_yield",
-   "msg": "stated div_yield 7.88% vs 6.55% implied by trailing-365d dividends (Rs 12.25/share at close Rs 187.03) — 17% off",
+   "msg": "stated div_yield 7.88% vs 6.51% implied by trailing-365d dividends (Rs 12.25/share at close Rs 188.22) — 17% off",
    "escalate": true
   }
  ],
@@ -107,7 +113,7 @@
   {
    "sev": "medium",
    "field": "fundamentals.div_yield",
-   "msg": "stated div_yield 13.67% vs 6.76% implied by trailing-365d dividends (Rs 50.00/share at close Rs 740.17) — 51% off",
+   "msg": "stated div_yield 13.67% vs 6.74% implied by trailing-365d dividends (Rs 50.00/share at close Rs 741.48) — 51% off",
    "escalate": true
   }
  ],
@@ -115,7 +121,7 @@
   {
    "sev": "low",
    "field": "fairvalue.spread",
-   "msg": "methods disagree 7.7x — treat composite as a rough screen"
+   "msg": "methods disagree 7.6x — treat composite as a rough screen"
   }
  ],
  "BAFL": [
@@ -129,7 +135,7 @@
   {
    "sev": "medium",
    "field": "fundamentals.div_yield",
-   "msg": "stated div_yield 9.94% vs 5.87% implied by trailing-365d dividends (Rs 17.50/share at close Rs 298.32) — 41% off",
+   "msg": "stated div_yield 9.94% vs 5.82% implied by trailing-365d dividends (Rs 17.50/share at close Rs 300.49) — 41% off",
    "escalate": true
   }
  ],
@@ -137,27 +143,19 @@
   {
    "sev": "low",
    "field": "fairvalue.spread",
-   "msg": "methods disagree 3.9x — treat composite as a rough screen"
+   "msg": "methods disagree 3.7x — treat composite as a rough screen"
   }
  ],
  "ATRL": [
   {
    "sev": "low",
    "field": "fairvalue.spread",
-   "msg": "methods disagree 9.3x — treat composite as a rough screen"
+   "msg": "methods disagree 9.4x — treat composite as a rough screen"
   },
   {
    "sev": "medium",
    "field": "fundamentals.div_yield",
-   "msg": "stated div_yield 1.53% vs 0.45% implied by trailing-365d dividends (Rs 5.00/share at close Rs 1099.69) — 70% off",
-   "escalate": true
-  }
- ],
- "FATIMA": [
-  {
-   "sev": "medium",
-   "field": "fundamentals.div_yield",
-   "msg": "stated div_yield 3.93% vs 1.70% implied by trailing-365d dividends (Rs 2.50/share at close Rs 146.97) — 57% off",
+   "msg": "stated div_yield 1.53% vs 0.46% implied by trailing-365d dividends (Rs 5.00/share at close Rs 1095.15) — 70% off",
    "escalate": true
   }
  ],
@@ -165,12 +163,20 @@
   {
    "sev": "low",
    "field": "fairvalue.spread",
-   "msg": "methods disagree 3.2x — treat composite as a rough screen"
+   "msg": "methods disagree 3.3x — treat composite as a rough screen"
   },
   {
    "sev": "medium",
    "field": "fundamentals.div_yield",
-   "msg": "stated div_yield 2.84% vs 5.18% implied by trailing-365d dividends (Rs 2.75/share at close Rs 53.09) — 82% off",
+   "msg": "stated div_yield 2.84% vs 5.06% implied by trailing-365d dividends (Rs 2.75/share at close Rs 54.35) — 78% off",
+   "escalate": true
+  }
+ ],
+ "FATIMA": [
+  {
+   "sev": "medium",
+   "field": "fundamentals.div_yield",
+   "msg": "stated div_yield 3.93% vs 1.70% implied by trailing-365d dividends (Rs 2.50/share at close Rs 147.28) — 57% off",
    "escalate": true
   }
  ],
@@ -178,7 +184,7 @@
   {
    "sev": "medium",
    "field": "fundamentals.div_yield",
-   "msg": "stated div_yield 12% vs 7.68% implied by trailing-365d dividends (Rs 7.50/share at close Rs 97.7) — 36% off",
+   "msg": "stated div_yield 12% vs 7.62% implied by trailing-365d dividends (Rs 7.50/share at close Rs 98.4) — 36% off",
    "escalate": true
   }
  ],
@@ -186,7 +192,7 @@
   {
    "sev": "low",
    "field": "fairvalue.spread",
-   "msg": "methods disagree 4.0x — treat composite as a rough screen"
+   "msg": "methods disagree 3.9x — treat composite as a rough screen"
   }
  ],
  "BOP": [
@@ -200,12 +206,12 @@
   {
    "sev": "low",
    "field": "fairvalue.spread",
-   "msg": "methods disagree 18.2x — treat composite as a rough screen"
+   "msg": "methods disagree 18.0x — treat composite as a rough screen"
   },
   {
    "sev": "medium",
    "field": "fundamentals.div_yield",
-   "msg": "stated div_yield 0.49% vs 1.03% implied by trailing-365d dividends (Rs 2.00/share at close Rs 193.98) — 110% off",
+   "msg": "stated div_yield 0.49% vs 1.02% implied by trailing-365d dividends (Rs 2.00/share at close Rs 196.08) — 108% off",
    "escalate": true
   }
  ],
@@ -213,7 +219,7 @@
   {
    "sev": "low",
    "field": "fairvalue.spread",
-   "msg": "methods disagree 12.2x — treat composite as a rough screen"
+   "msg": "methods disagree 12.5x — treat composite as a rough screen"
   }
  ],
  "PTC": [
@@ -234,7 +240,15 @@
   {
    "sev": "low",
    "field": "fairvalue.spread",
-   "msg": "methods disagree 4.4x — treat composite as a rough screen"
+   "msg": "methods disagree 4.2x — treat composite as a rough screen"
+  }
+ ],
+ "COLG": [
+  {
+   "sev": "medium",
+   "field": "fundamentals.div_yield",
+   "msg": "stated div_yield 5.46% vs 2.57% implied by trailing-365d dividends (Rs 29.00/share at close Rs 1127.3) — 53% off",
+   "escalate": true
   }
  ],
  "ILP": [
@@ -246,15 +260,7 @@
   {
    "sev": "medium",
    "field": "fundamentals.div_yield",
-   "msg": "stated div_yield 3.96% vs 3.10% implied by trailing-365d dividends (Rs 3.00/share at close Rs 96.83) — 22% off",
-   "escalate": true
-  }
- ],
- "COLG": [
-  {
-   "sev": "medium",
-   "field": "fundamentals.div_yield",
-   "msg": "stated div_yield 5.46% vs 2.58% implied by trailing-365d dividends (Rs 29.00/share at close Rs 1125.32) — 53% off",
+   "msg": "stated div_yield 3.96% vs 3.05% implied by trailing-365d dividends (Rs 3.00/share at close Rs 98.46) — 23% off",
    "escalate": true
   }
  ],
@@ -262,7 +268,7 @@
   {
    "sev": "medium",
    "field": "fundamentals.div_yield",
-   "msg": "stated div_yield 9.11% vs 6.91% implied by trailing-365d dividends (Rs 30.00/share at close Rs 434.18) — 24% off",
+   "msg": "stated div_yield 9.11% vs 6.82% implied by trailing-365d dividends (Rs 30.00/share at close Rs 440.02) — 25% off",
    "escalate": true
   }
  ],
@@ -277,7 +283,7 @@
   {
    "sev": "medium",
    "field": "fundamentals.div_yield",
-   "msg": "stated div_yield 2.04% vs 3.80% implied by trailing-365d dividends (Rs 1.70/share at close Rs 44.77) — 86% off",
+   "msg": "stated div_yield 2.04% vs 3.74% implied by trailing-365d dividends (Rs 1.70/share at close Rs 45.43) — 83% off",
    "escalate": true
   }
  ],
@@ -285,14 +291,14 @@
   {
    "sev": "low",
    "field": "fairvalue.spread",
-   "msg": "methods disagree 17.7x — treat composite as a rough screen"
+   "msg": "methods disagree 17.6x — treat composite as a rough screen"
   }
  ],
  "AICL": [
   {
    "sev": "medium",
    "field": "fundamentals.div_yield",
-   "msg": "stated div_yield 6.5% vs 5.04% implied by trailing-365d dividends (Rs 5.00/share at close Rs 99.2) — 22% off",
+   "msg": "stated div_yield 6.5% vs 5.10% implied by trailing-365d dividends (Rs 5.00/share at close Rs 97.99) — 21% off",
    "escalate": true
   }
  ],
@@ -312,7 +318,7 @@
   {
    "sev": "medium",
    "field": "fundamentals.div_yield",
-   "msg": "stated div_yield 6.77% vs 2.57% implied by trailing-365d dividends (Rs 9.00/share at close Rs 350.15) — 62% off",
+   "msg": "stated div_yield 6.77% vs 2.57% implied by trailing-365d dividends (Rs 9.00/share at close Rs 350.59) — 62% off",
    "escalate": true
   }
  ],
@@ -321,6 +327,12 @@
    "sev": "low",
    "field": "fairvalue.spread",
    "msg": "methods disagree 4.0x — treat composite as a rough screen"
+  },
+  {
+   "sev": "medium",
+   "field": "fundamentals.div_yield",
+   "msg": "stated div_yield 4.7% vs 5.43% implied by trailing-365d dividends (Rs 11.45/share at close Rs 210.82) — 16% off",
+   "escalate": true
   }
  ],
  "KEL": [
@@ -341,7 +353,7 @@
   {
    "sev": "medium",
    "field": "fundamentals.div_yield",
-   "msg": "stated div_yield 10.31% vs 2.28% implied by trailing-365d dividends (Rs 13.00/share at close Rs 570.94) — 78% off",
+   "msg": "stated div_yield 10.31% vs 2.26% implied by trailing-365d dividends (Rs 13.00/share at close Rs 574.47) — 78% off",
    "escalate": true
   }
  ],
@@ -356,7 +368,7 @@
   {
    "sev": "medium",
    "field": "fundamentals.div_yield",
-   "msg": "stated div_yield 10.77% vs 8.88% implied by trailing-365d dividends (Rs 120.00/share at close Rs 1351.8) — 18% off",
+   "msg": "stated div_yield 10.77% vs 8.82% implied by trailing-365d dividends (Rs 120.00/share at close Rs 1359.93) — 18% off",
    "escalate": true
   }
  ],
@@ -369,7 +381,7 @@
   {
    "sev": "medium",
    "field": "fundamentals.div_yield",
-   "msg": "stated div_yield 5.71% vs 3.94% implied by trailing-365d dividends (Rs 21.00/share at close Rs 533.01) — 31% off",
+   "msg": "stated div_yield 5.71% vs 3.91% implied by trailing-365d dividends (Rs 21.00/share at close Rs 536.7) — 31% off",
    "escalate": true
   }
  ],
@@ -377,12 +389,12 @@
   {
    "sev": "low",
    "field": "fairvalue.spread",
-   "msg": "methods disagree 20.5x — treat composite as a rough screen"
+   "msg": "methods disagree 21.5x — treat composite as a rough screen"
   },
   {
    "sev": "medium",
    "field": "fundamentals.div_yield",
-   "msg": "stated div_yield 0.78% vs 0.91% implied by trailing-365d dividends (Rs 10.00/share at close Rs 1103.09) — 16% off",
+   "msg": "stated div_yield 0.78% vs 0.92% implied by trailing-365d dividends (Rs 10.00/share at close Rs 1081.24) — 19% off",
    "escalate": true
   }
  ],
@@ -390,12 +402,12 @@
   {
    "sev": "low",
    "field": "fairvalue.spread",
-   "msg": "methods disagree 3.7x — treat composite as a rough screen"
+   "msg": "methods disagree 3.9x — treat composite as a rough screen"
   },
   {
    "sev": "medium",
    "field": "fundamentals.div_yield",
-   "msg": "stated div_yield 6.83% vs 5.26% implied by trailing-365d dividends (Rs 6.50/share at close Rs 123.56) — 23% off",
+   "msg": "stated div_yield 6.83% vs 5.04% implied by trailing-365d dividends (Rs 6.50/share at close Rs 129.03) — 26% off",
    "escalate": true
   }
  ],
@@ -403,7 +415,7 @@
   {
    "sev": "medium",
    "field": "fundamentals.div_yield",
-   "msg": "stated div_yield 8.42% vs 6.22% implied by trailing-365d dividends (Rs 2.50/share at close Rs 40.21) — 26% off",
+   "msg": "stated div_yield 8.42% vs 6.24% implied by trailing-365d dividends (Rs 2.50/share at close Rs 40.08) — 26% off",
    "escalate": true
   }
  ],
@@ -411,7 +423,7 @@
   {
    "sev": "medium",
    "field": "fundamentals.div_yield",
-   "msg": "stated div_yield 6.45% vs 4.08% implied by trailing-365d dividends (Rs 1013.00/share at close Rs 24800.0) — 37% off",
+   "msg": "stated div_yield 6.45% vs 4.04% implied by trailing-365d dividends (Rs 1013.00/share at close Rs 25083.44) — 37% off",
    "escalate": true
   }
  ],
@@ -424,7 +436,7 @@
   {
    "sev": "medium",
    "field": "fundamentals.div_yield",
-   "msg": "stated div_yield 1.57% vs 1.83% implied by trailing-365d dividends (Rs 10.00/share at close Rs 546.91) — 16% off",
+   "msg": "stated div_yield 1.57% vs 1.84% implied by trailing-365d dividends (Rs 10.00/share at close Rs 543.38) — 17% off",
    "escalate": true
   }
  ],
@@ -432,12 +444,12 @@
   {
    "sev": "low",
    "field": "fairvalue.spread",
-   "msg": "methods disagree 3.8x — treat composite as a rough screen"
+   "msg": "methods disagree 3.9x — treat composite as a rough screen"
   },
   {
    "sev": "medium",
    "field": "fundamentals.div_yield",
-   "msg": "stated div_yield 6.53% vs 2.50% implied by trailing-365d dividends (Rs 2.00/share at close Rs 79.98) — 62% off",
+   "msg": "stated div_yield 6.53% vs 2.44% implied by trailing-365d dividends (Rs 2.00/share at close Rs 81.99) — 63% off",
    "escalate": true
   }
  ],
@@ -445,19 +457,19 @@
   {
    "sev": "low",
    "field": "fairvalue.spread",
-   "msg": "methods disagree 8.2x — treat composite as a rough screen"
+   "msg": "methods disagree 7.9x — treat composite as a rough screen"
   }
  ],
  "KAPCO": [
   {
    "sev": "low",
    "field": "fairvalue.spread",
-   "msg": "methods disagree 15.4x — treat composite as a rough screen"
+   "msg": "methods disagree 15.5x — treat composite as a rough screen"
   },
   {
    "sev": "medium",
    "field": "fundamentals.div_yield",
-   "msg": "stated div_yield 26.92% vs 15.23% implied by trailing-365d dividends (Rs 4.00/share at close Rs 26.26) — 43% off",
+   "msg": "stated div_yield 26.92% vs 15.09% implied by trailing-365d dividends (Rs 4.00/share at close Rs 26.51) — 44% off",
    "escalate": true
   }
  ],
@@ -465,12 +477,12 @@
   {
    "sev": "low",
    "field": "fairvalue.spread",
-   "msg": "methods disagree 35.1x — treat composite as a rough screen"
+   "msg": "methods disagree 36.0x — treat composite as a rough screen"
   },
   {
    "sev": "medium",
    "field": "fundamentals.div_yield",
-   "msg": "stated div_yield 0.95% vs 4.65% implied by trailing-365d dividends (Rs 2.00/share at close Rs 42.98) — 390% off",
+   "msg": "stated div_yield 0.95% vs 4.65% implied by trailing-365d dividends (Rs 2.00/share at close Rs 43.0) — 390% off",
    "escalate": true
   }
  ],
@@ -485,12 +497,12 @@
   {
    "sev": "low",
    "field": "fairvalue.spread",
-   "msg": "methods disagree 3.4x — treat composite as a rough screen"
+   "msg": "methods disagree 3.6x — treat composite as a rough screen"
   },
   {
    "sev": "medium",
    "field": "fundamentals.div_yield",
-   "msg": "stated div_yield 4.55% vs 2.42% implied by trailing-365d dividends (Rs 1.50/share at close Rs 61.9) — 47% off",
+   "msg": "stated div_yield 4.55% vs 2.33% implied by trailing-365d dividends (Rs 1.50/share at close Rs 64.37) — 49% off",
    "escalate": true
   }
  ],
@@ -498,12 +510,12 @@
   {
    "sev": "low",
    "field": "fairvalue.spread",
-   "msg": "methods disagree 4.5x — treat composite as a rough screen"
+   "msg": "methods disagree 4.4x — treat composite as a rough screen"
   },
   {
    "sev": "medium",
    "field": "fundamentals.div_yield",
-   "msg": "stated div_yield 4.49% vs 3.46% implied by trailing-365d dividends (Rs 31.50/share at close Rs 911.14) — 23% off",
+   "msg": "stated div_yield 4.49% vs 3.37% implied by trailing-365d dividends (Rs 31.50/share at close Rs 934.69) — 25% off",
    "escalate": true
   }
  ],
@@ -511,14 +523,14 @@
   {
    "sev": "low",
    "field": "fairvalue.spread",
-   "msg": "methods disagree 5.4x — treat composite as a rough screen"
+   "msg": "methods disagree 5.3x — treat composite as a rough screen"
   }
  ],
  "INIL": [
   {
    "sev": "low",
    "field": "fairvalue.spread",
-   "msg": "methods disagree 4.2x — treat composite as a rough screen"
+   "msg": "methods disagree 4.1x — treat composite as a rough screen"
   }
  ],
  "LOTCHEM": [
@@ -530,7 +542,7 @@
   {
    "sev": "medium",
    "field": "fundamentals.div_yield",
-   "msg": "stated div_yield 18.73% vs 26.43% implied by trailing-365d dividends (Rs 6.50/share at close Rs 24.59) — 41% off",
+   "msg": "stated div_yield 18.73% vs 25.87% implied by trailing-365d dividends (Rs 6.50/share at close Rs 25.13) — 38% off",
    "escalate": true
   }
  ],
@@ -552,7 +564,7 @@
   {
    "sev": "medium",
    "field": "fundamentals.div_yield",
-   "msg": "stated div_yield 6.46% vs 4.80% implied by trailing-365d dividends (Rs 434.00/share at close Rs 9050.0) — 26% off",
+   "msg": "stated div_yield 6.46% vs 4.80% implied by trailing-365d dividends (Rs 434.00/share at close Rs 9040.0) — 26% off",
    "escalate": true
   }
  ],
@@ -574,7 +586,7 @@
   {
    "sev": "low",
    "field": "fairvalue.spread",
-   "msg": "methods disagree 15.0x — treat composite as a rough screen"
+   "msg": "methods disagree 15.2x — treat composite as a rough screen"
   }
  ],
  "YOUW": [
@@ -588,14 +600,14 @@
   {
    "sev": "low",
    "field": "fairvalue.spread",
-   "msg": "methods disagree 3.4x — treat composite as a rough screen"
+   "msg": "methods disagree 3.3x — treat composite as a rough screen"
   }
  ],
  "PRL": [
   {
    "sev": "low",
    "field": "fairvalue.spread",
-   "msg": "methods disagree 12.4x — treat composite as a rough screen"
+   "msg": "methods disagree 12.5x — treat composite as a rough screen"
   }
  ],
  "TREET": [
@@ -616,12 +628,12 @@
   {
    "sev": "low",
    "field": "fairvalue.spread",
-   "msg": "methods disagree 5.6x — treat composite as a rough screen"
+   "msg": "methods disagree 5.5x — treat composite as a rough screen"
   },
   {
    "sev": "medium",
    "field": "fundamentals.div_yield",
-   "msg": "stated div_yield 3.13% vs 2.31% implied by trailing-365d dividends (Rs 5.50/share at close Rs 237.91) — 26% off",
+   "msg": "stated div_yield 3.13% vs 2.27% implied by trailing-365d dividends (Rs 5.50/share at close Rs 241.85) — 27% off",
    "escalate": true
   }
  ],
@@ -642,12 +654,12 @@
   {
    "sev": "low",
    "field": "fairvalue.spread",
-   "msg": "methods disagree 3.2x — treat composite as a rough screen"
+   "msg": "methods disagree 3.1x — treat composite as a rough screen"
   },
   {
    "sev": "medium",
    "field": "fundamentals.div_yield",
-   "msg": "stated div_yield 3.08% vs 1.49% implied by trailing-365d dividends (Rs 4.00/share at close Rs 269.32) — 52% off",
+   "msg": "stated div_yield 3.08% vs 1.49% implied by trailing-365d dividends (Rs 4.00/share at close Rs 269.22) — 52% off",
    "escalate": true
   }
  ],
@@ -655,7 +667,7 @@
   {
    "sev": "medium",
    "field": "fundamentals.div_yield",
-   "msg": "stated div_yield 11.24% vs 5.07% implied by trailing-365d dividends (Rs 1.25/share at close Rs 24.66) — 55% off",
+   "msg": "stated div_yield 11.24% vs 5.00% implied by trailing-365d dividends (Rs 1.25/share at close Rs 24.98) — 55% off",
    "escalate": true
   }
  ],
@@ -663,14 +675,14 @@
   {
    "sev": "low",
    "field": "fairvalue.spread",
-   "msg": "methods disagree 11.6x — treat composite as a rough screen"
+   "msg": "methods disagree 11.7x — treat composite as a rough screen"
   }
  ],
  "SGF": [
   {
    "sev": "low",
    "field": "fairvalue.spread",
-   "msg": "methods disagree 12.5x — treat composite as a rough screen"
+   "msg": "methods disagree 12.1x — treat composite as a rough screen"
   }
  ],
  "GWLC": [
@@ -682,7 +694,7 @@
   {
    "sev": "medium",
    "field": "fundamentals.div_yield",
-   "msg": "stated div_yield 1.91% vs 1.00% implied by trailing-365d dividends (Rs 0.50/share at close Rs 49.83) — 47% off",
+   "msg": "stated div_yield 1.91% vs 0.98% implied by trailing-365d dividends (Rs 0.50/share at close Rs 50.96) — 49% off",
    "escalate": true
   }
  ],
@@ -690,12 +702,12 @@
   {
    "sev": "low",
    "field": "fairvalue.spread",
-   "msg": "methods disagree 4.5x — treat composite as a rough screen"
+   "msg": "methods disagree 4.8x — treat composite as a rough screen"
   },
   {
    "sev": "medium",
    "field": "fundamentals.div_yield",
-   "msg": "stated div_yield 5.26% vs 2.69% implied by trailing-365d dividends (Rs 1.50/share at close Rs 55.78) — 49% off",
+   "msg": "stated div_yield 5.26% vs 2.55% implied by trailing-365d dividends (Rs 1.50/share at close Rs 58.84) — 52% off",
    "escalate": true
   }
  ],
@@ -710,7 +722,7 @@
   {
    "sev": "medium",
    "field": "fundamentals.div_yield",
-   "msg": "stated div_yield 5.59% vs 1.85% implied by trailing-365d dividends (Rs 0.50/share at close Rs 26.97) — 67% off",
+   "msg": "stated div_yield 5.59% vs 1.85% implied by trailing-365d dividends (Rs 0.50/share at close Rs 27.04) — 67% off",
    "escalate": true
   }
  ],
@@ -718,12 +730,12 @@
   {
    "sev": "low",
    "field": "fairvalue.spread",
-   "msg": "methods disagree 4.3x — treat composite as a rough screen"
+   "msg": "methods disagree 4.2x — treat composite as a rough screen"
   },
   {
    "sev": "medium",
    "field": "fundamentals.div_yield",
-   "msg": "stated div_yield 3.01% vs 2.31% implied by trailing-365d dividends (Rs 3.00/share at close Rs 129.88) — 23% off",
+   "msg": "stated div_yield 3.01% vs 2.31% implied by trailing-365d dividends (Rs 3.00/share at close Rs 129.94) — 23% off",
    "escalate": true
   }
  ],
@@ -738,35 +750,14 @@
   {
    "sev": "low",
    "field": "fairvalue.spread",
-   "msg": "methods disagree 15.1x — treat composite as a rough screen"
+   "msg": "methods disagree 14.9x — treat composite as a rough screen"
   }
  ],
  "NCL": [
   {
    "sev": "medium",
    "field": "fundamentals.div_yield",
-   "msg": "stated div_yield 5.54% vs 2.75% implied by trailing-365d dividends (Rs 1.00/share at close Rs 36.36) — 50% off",
-   "escalate": true
-  }
- ],
- "SPEL": [
-  {
-   "sev": "low",
-   "field": "fairvalue.spread",
-   "msg": "methods disagree 5.8x — treat composite as a rough screen"
-  },
-  {
-   "sev": "medium",
-   "field": "fundamentals.div_yield",
-   "msg": "stated div_yield 2.27% vs 1.21% implied by trailing-365d dividends (Rs 0.50/share at close Rs 41.41) — 47% off",
-   "escalate": true
-  }
- ],
- "AHL": [
-  {
-   "sev": "medium",
-   "field": "fundamentals.div_yield",
-   "msg": "stated div_yield 9.75% vs 7.63% implied by trailing-365d dividends (Rs 10.00/share at close Rs 131.06) — 22% off",
+   "msg": "stated div_yield 5.54% vs 2.53% implied by trailing-365d dividends (Rs 1.00/share at close Rs 39.52) — 54% off",
    "escalate": true
   }
  ],
@@ -774,14 +765,14 @@
   {
    "sev": "low",
    "field": "fairvalue.spread",
-   "msg": "methods disagree 5.0x — treat composite as a rough screen"
+   "msg": "methods disagree 4.9x — treat composite as a rough screen"
   }
  ],
  "EPQL": [
   {
    "sev": "medium",
    "field": "fundamentals.div_yield",
-   "msg": "stated div_yield 16.46% vs 7.40% implied by trailing-365d dividends (Rs 1.75/share at close Rs 23.65) — 55% off",
+   "msg": "stated div_yield 16.46% vs 7.31% implied by trailing-365d dividends (Rs 1.75/share at close Rs 23.93) — 56% off",
    "escalate": true
   }
  ],
@@ -796,7 +787,20 @@
   {
    "sev": "medium",
    "field": "fundamentals.div_yield",
-   "msg": "stated div_yield 8.06% vs 4.06% implied by trailing-365d dividends (Rs 2.00/share at close Rs 49.31) — 50% off",
+   "msg": "stated div_yield 8.06% vs 3.97% implied by trailing-365d dividends (Rs 2.00/share at close Rs 50.41) — 51% off",
+   "escalate": true
+  }
+ ],
+ "SPEL": [
+  {
+   "sev": "low",
+   "field": "fairvalue.spread",
+   "msg": "methods disagree 5.7x — treat composite as a rough screen"
+  },
+  {
+   "sev": "medium",
+   "field": "fundamentals.div_yield",
+   "msg": "stated div_yield 2.27% vs 1.18% implied by trailing-365d dividends (Rs 0.50/share at close Rs 42.48) — 48% off",
    "escalate": true
   }
  ],
@@ -804,14 +808,14 @@
   {
    "sev": "low",
    "field": "fairvalue.spread",
-   "msg": "methods disagree 11.0x — treat composite as a rough screen"
+   "msg": "methods disagree 10.9x — treat composite as a rough screen"
   }
  ],
  "BIFO": [
   {
    "sev": "medium",
    "field": "fundamentals.div_yield",
-   "msg": "stated div_yield 4.13% vs 5.21% implied by trailing-365d dividends (Rs 6.00/share at close Rs 115.1) — 26% off",
+   "msg": "stated div_yield 4.13% vs 5.15% implied by trailing-365d dividends (Rs 6.00/share at close Rs 116.55) — 25% off",
    "escalate": true
   }
  ],
@@ -824,7 +828,7 @@
   {
    "sev": "medium",
    "field": "fundamentals.div_yield",
-   "msg": "stated div_yield 3.74% vs 2.97% implied by trailing-365d dividends (Rs 3.00/share at close Rs 100.87) — 20% off",
+   "msg": "stated div_yield 3.74% vs 2.95% implied by trailing-365d dividends (Rs 3.00/share at close Rs 101.72) — 21% off",
    "escalate": true
   }
  ],
@@ -837,7 +841,7 @@
   {
    "sev": "medium",
    "field": "fundamentals.div_yield",
-   "msg": "stated div_yield 3.85% vs 2.13% implied by trailing-365d dividends (Rs 2.00/share at close Rs 93.81) — 45% off",
+   "msg": "stated div_yield 3.85% vs 2.10% implied by trailing-365d dividends (Rs 2.00/share at close Rs 95.29) — 45% off",
    "escalate": true
   }
  ],
@@ -845,7 +849,7 @@
   {
    "sev": "medium",
    "field": "fundamentals.div_yield",
-   "msg": "stated div_yield 7.61% vs 3.98% implied by trailing-365d dividends (Rs 1.00/share at close Rs 25.11) — 48% off",
+   "msg": "stated div_yield 7.61% vs 3.96% implied by trailing-365d dividends (Rs 1.00/share at close Rs 25.25) — 48% off",
    "escalate": true
   }
  ],
@@ -859,7 +863,7 @@
   {
    "sev": "medium",
    "field": "fundamentals.div_yield",
-   "msg": "stated div_yield 4.14% vs 8.40% implied by trailing-365d dividends (Rs 1.00/share at close Rs 11.9) — 103% off",
+   "msg": "stated div_yield 4.14% vs 7.68% implied by trailing-365d dividends (Rs 1.00/share at close Rs 13.02) — 86% off",
    "escalate": true
   }
  ],
@@ -867,21 +871,21 @@
   {
    "sev": "low",
    "field": "fairvalue.spread",
-   "msg": "methods disagree 3.5x — treat composite as a rough screen"
+   "msg": "methods disagree 3.3x — treat composite as a rough screen"
   }
  ],
  "MACFL": [
   {
    "sev": "low",
    "field": "fairvalue.spread",
-   "msg": "methods disagree 3.9x — treat composite as a rough screen"
+   "msg": "methods disagree 3.8x — treat composite as a rough screen"
   }
  ],
  "SYM": [
   {
    "sev": "low",
    "field": "fairvalue.spread",
-   "msg": "methods disagree 19.0x — treat composite as a rough screen"
+   "msg": "methods disagree 18.5x — treat composite as a rough screen"
   }
  ],
  "AWTX": [
@@ -895,14 +899,14 @@
   {
    "sev": "low",
    "field": "fairvalue.spread",
-   "msg": "methods disagree 3.9x — treat composite as a rough screen"
+   "msg": "methods disagree 4.0x — treat composite as a rough screen"
   }
  ],
  "KOHTM": [
   {
    "sev": "low",
    "field": "fairvalue.spread",
-   "msg": "methods disagree 8.3x — treat composite as a rough screen"
+   "msg": "methods disagree 7.5x — treat composite as a rough screen"
   }
  ],
  "MDTL": [
@@ -917,7 +921,7 @@
   {
    "sev": "low",
    "field": "fairvalue.spread",
-   "msg": "methods disagree 10.5x — treat composite as a rough screen"
+   "msg": "methods disagree 10.1x — treat composite as a rough screen"
   }
  ],
  "CLCPS": [
@@ -979,12 +983,11 @@
   }
  ],
  "_meta": {
-  "built": "2026-09-18 08:26",
-  "tickers_with_issues": 112,
+  "built": "2026-09-18 13:04",
+  "tickers_with_issues": 111,
   "high_severity": 4,
   "escalate_to_agent": [
    "ACPL",
-   "AHL",
    "AICL",
    "AIRLINK",
    "APL",
@@ -1015,8 +1018,10 @@
    "ISL",
    "KAPCO",
    "KTML",
+   "LCI",
    "LOTCHEM",
    "LSEVL",
+   "LUCK",
    "MARI",
    "MCB",
    "MDTL",

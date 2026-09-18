@@ -1,5 +1,5 @@
 {
- "updated": "2026-09-18 08:24",
+ "updated": "2026-09-18 13:03",
  "source": "Yahoo Finance",
  "note": "Pakistan-domestic macro (SBP rate, CPI, IMF, debt) is in macro.json, filled by macro-agent",
  "instruments": {
@@ -7,17 +7,17 @@
    "label": "Brent crude",
    "group": "energy",
    "psx_read": "↑ = import bill up, PKR/inflation risk; E&P + refiners rise",
-   "price": 98.36,
-   "chg_1d_pct": -6.16,
-   "chg_1mo_pct": 8.06
+   "price": 98.77,
+   "chg_1d_pct": -5.77,
+   "chg_1mo_pct": 8.51
   },
   "CL=F": {
    "label": "WTI crude",
    "group": "energy",
    "psx_read": "global oil proxy",
-   "price": 95.37,
-   "chg_1d_pct": -6.42,
-   "chg_1mo_pct": 12.28
+   "price": 96.71,
+   "chg_1d_pct": -5.1,
+   "chg_1mo_pct": 13.86
   },
   "^GSPC": {
    "label": "S&P 500",
@@ -39,49 +39,49 @@
    "label": "VIX",
    "group": "risk",
    "psx_read": "fear gauge; high = risk-off = PSX outflows",
-   "price": 15.18,
-   "chg_1d_pct": -1.68,
-   "chg_1mo_pct": -4.17
+   "price": 15.5,
+   "chg_1d_pct": 0.39,
+   "chg_1mo_pct": -2.15
   },
   "GC=F": {
    "label": "Gold",
    "group": "safe_haven",
    "psx_read": "safe-haven + PKR/inflation hedge sentiment",
-   "price": 4430.5,
-   "chg_1d_pct": 0.7,
-   "chg_1mo_pct": 0.22
+   "price": 4406.1,
+   "chg_1d_pct": 0.15,
+   "chg_1mo_pct": -0.33
   },
   "BTC-USD": {
    "label": "Bitcoin",
    "group": "crypto",
    "psx_read": "global liquidity / retail risk barometer",
-   "price": 77998.98,
-   "chg_1d_pct": 2.09,
-   "chg_1mo_pct": 20.59
+   "price": 77920.5,
+   "chg_1d_pct": 1.99,
+   "chg_1mo_pct": 20.47
   },
   "ETH-USD": {
    "label": "Ethereum",
    "group": "crypto",
    "psx_read": "risk appetite",
-   "price": 2501.64,
-   "chg_1d_pct": 2.23,
-   "chg_1mo_pct": 30.53
+   "price": 2493.77,
+   "chg_1d_pct": 1.91,
+   "chg_1mo_pct": 30.12
   },
   "PKR=X": {
    "label": "USD/PKR",
    "group": "fx",
    "psx_read": "biggest lever: weak PKR = imported inflation = hawkish SBP = equity headwind",
-   "price": 277.12,
-   "chg_1d_pct": 0.03,
-   "chg_1mo_pct": 0.34
+   "price": 277.16,
+   "chg_1d_pct": 0.04,
+   "chg_1mo_pct": 0.35
   },
   "DX-Y.NYB": {
    "label": "US Dollar Index",
    "group": "fx",
    "psx_read": "strong USD pressures EM/frontier currencies incl PKR",
-   "price": 100.29,
-   "chg_1d_pct": 0.07,
-   "chg_1mo_pct": 0.64
+   "price": 100.47,
+   "chg_1d_pct": 0.25,
+   "chg_1mo_pct": 0.83
   }
  },
  "failed": []

@@ -1,6 +1,79 @@
 {
- "updated": "2026-09-18 08:26",
+ "updated": "2026-09-18 13:04",
  "note": "deterministic candidate setups from proven strategies triggering on the latest bar; backtest-proven but NOT auditor-verified. Research, not advice.",
- "active": [],
- "n_candidates": 0
+ "active": [
+  {
+   "id": "20260918-DFSM-triple_screen_long",
+   "ticker": "DFSM",
+   "strategy": "triple_screen_long",
+   "template": "Triple screen alignment",
+   "category": "trend",
+   "sector": "Textile Spinning",
+   "hold_sessions": 18,
+   "backtest": {
+    "hit_rate": 0.75,
+    "net_expectancy_pct": 3.78,
+    "n": 8,
+    "oos_hit": 0.6
+   },
+   "confidence": "low",
+   "basis": "backtest-proven, unaudited",
+   "thesis": "Triple screen alignment is triggering now; on DFSM's own history it won 75% over 8 trades (+3.8% net/trade), still profitable out-of-sample."
+  },
+  {
+   "id": "20260918-MDTL-donch55_trend_break",
+   "ticker": "MDTL",
+   "strategy": "donch55_trend_break",
+   "template": "Donchian 55 breakout",
+   "category": "breakout",
+   "sector": "Technology & Communication",
+   "hold_sessions": 30,
+   "backtest": {
+    "hit_rate": 0.625,
+    "net_expectancy_pct": 3.78,
+    "n": 8,
+    "oos_hit": 0.667
+   },
+   "confidence": "low",
+   "basis": "backtest-proven, unaudited",
+   "thesis": "Donchian 55 breakout is triggering now; on MDTL's own history it won 62% over 8 trades (+3.8% net/trade), still profitable out-of-sample."
+  },
+  {
+   "id": "20260918-SGPL-vol_dryup_surge",
+   "ticker": "SGPL",
+   "strategy": "vol_dryup_surge",
+   "template": "Dry-up then surge",
+   "category": "volume",
+   "sector": "Power Generation & Distribution",
+   "hold_sessions": 9,
+   "backtest": {
+    "hit_rate": 0.643,
+    "net_expectancy_pct": 2.19,
+    "n": 14,
+    "oos_hit": 0.5
+   },
+   "confidence": "low",
+   "basis": "backtest-proven, unaudited",
+   "thesis": "Dry-up then surge is triggering now; on SGPL's own history it won 64% over 14 trades (+2.2% net/trade), still profitable out-of-sample."
+  },
+  {
+   "id": "20260918-BML-oversold_bounce",
+   "ticker": "BML",
+   "strategy": "oversold_bounce",
+   "template": "RSI oversold bounce",
+   "category": "mean_reversion",
+   "sector": "Commercial Banks",
+   "hold_sessions": 8,
+   "backtest": {
+    "hit_rate": 0.636,
+    "net_expectancy_pct": 1.67,
+    "n": 11,
+    "oos_hit": 0.6
+   },
+   "confidence": "low",
+   "basis": "backtest-proven, unaudited",
+   "thesis": "RSI oversold bounce is triggering now; on BML's own history it won 64% over 11 trades (+1.7% net/trade), still profitable out-of-sample."
+  }
+ ],
+ "n_candidates": 11
 }
