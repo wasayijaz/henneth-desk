@@ -32,7 +32,7 @@
  },
  "selection": {
   "status": "leading_candidate_not_golden",
-  "leader_symbol": "DGKC",
+  "leader_symbol": "MLCF",
   "reason": "ranked only by retained source-grounded full-statement coverage; the leader remains unqualified until every financial-truth gate is satisfied"
  },
  "companies": {
@@ -72,15 +72,27 @@
    "model_ready_financial_statement_coverage": {
     "annual": {
      "required": 5,
-     "present": 0,
-     "qualified_periods": [],
-     "direct_flow_statement_periods": [],
-     "direct_balance_sheet_periods": [],
+     "present": 2,
+     "qualified_periods": [
+      "2025-06-30",
+      "2024-06-30"
+     ],
+     "direct_flow_statement_periods": [
+      "2025-06-30",
+      "2024-06-30"
+     ],
+     "direct_balance_sheet_periods": [
+      "2025-06-30",
+      "2024-06-30"
+     ],
      "derived_ebitda_periods": [
       "2025-06-30",
       "2024-06-30"
      ],
-     "derived_free_cash_flow_periods": [],
+     "derived_free_cash_flow_periods": [
+      "2025-06-30",
+      "2024-06-30"
+     ],
      "required_direct_metrics": [
       "revenue",
       "gross_profit",
@@ -192,7 +204,7 @@
     {
      "requirement": "qualified_annual_financial_statement_schedules",
      "required": 5,
-     "present": 0,
+     "present": 2,
      "status": "blocked"
     },
     {
@@ -281,8 +293,8 @@
     "valuation": "not_emitted",
     "market_expectations": "not_emitted"
    },
-   "candidate_rank": 13,
-   "selection_status": "not_selected"
+   "candidate_rank": 1,
+   "selection_status": "leading_candidate_not_golden"
   },
   "OGDC": {
    "symbol": "OGDC",
@@ -971,8 +983,8 @@
     "valuation": "not_emitted",
     "market_expectations": "not_emitted"
    },
-   "candidate_rank": 1,
-   "selection_status": "leading_candidate_not_golden"
+   "candidate_rank": 2,
+   "selection_status": "not_selected"
   },
   "PSO": {
    "symbol": "PSO",
@@ -1659,7 +1671,7 @@
     "valuation": "not_emitted",
     "market_expectations": "not_emitted"
    },
-   "candidate_rank": 6,
+   "candidate_rank": 7,
    "selection_status": "not_selected"
   },
   "LUCK": {
@@ -1875,7 +1887,7 @@
     "valuation": "not_emitted",
     "market_expectations": "not_emitted"
    },
-   "candidate_rank": 10,
+   "candidate_rank": 11,
    "selection_status": "not_selected"
   },
   "HUBC": {
@@ -2115,7 +2127,7 @@
     "valuation": "not_emitted",
     "market_expectations": "not_emitted"
    },
-   "candidate_rank": 9,
+   "candidate_rank": 10,
    "selection_status": "not_selected"
   },
   "PRL": {
@@ -2585,7 +2597,7 @@
     "valuation": "not_emitted",
     "market_expectations": "not_emitted"
    },
-   "candidate_rank": 3,
+   "candidate_rank": 4,
    "selection_status": "not_selected"
   },
   "NBP": {
@@ -3066,7 +3078,7 @@
     "valuation": "not_emitted",
     "market_expectations": "not_emitted"
    },
-   "candidate_rank": 12,
+   "candidate_rank": 13,
    "selection_status": "not_selected"
   },
   "ATRL": {
@@ -3296,7 +3308,7 @@
     "valuation": "not_emitted",
     "market_expectations": "not_emitted"
    },
-   "candidate_rank": 2,
+   "candidate_rank": 3,
    "selection_status": "not_selected"
   },
   "HBL": {
@@ -3537,7 +3549,7 @@
     "valuation": "not_emitted",
     "market_expectations": "not_emitted"
    },
-   "candidate_rank": 8,
+   "candidate_rank": 9,
    "selection_status": "not_selected"
   },
   "MARI": {
@@ -3772,7 +3784,7 @@
     "valuation": "not_emitted",
     "market_expectations": "not_emitted"
    },
-   "candidate_rank": 11,
+   "candidate_rank": 12,
    "selection_status": "not_selected"
   },
   "ENGROH": {
@@ -4013,7 +4025,7 @@
     "valuation": "not_emitted",
     "market_expectations": "not_emitted"
    },
-   "candidate_rank": 5,
+   "candidate_rank": 6,
    "selection_status": "not_selected"
   },
   "GAL": {
@@ -4253,7 +4265,7 @@
     "valuation": "not_emitted",
     "market_expectations": "not_emitted"
    },
-   "candidate_rank": 7,
+   "candidate_rank": 8,
    "selection_status": "not_selected"
   },
   "NRL": {
@@ -4704,20 +4716,20 @@
     "valuation": "not_emitted",
     "market_expectations": "not_emitted"
    },
-   "candidate_rank": 4,
+   "candidate_rank": 5,
    "selection_status": "not_selected"
   }
  },
  "summary": {
   "company_count": 20,
   "qualified_company_count": 0,
-  "leader_symbol": "DGKC"
+  "leader_symbol": "MLCF"
  },
  "_meta": {
   "generator_version": "ci_artifact_integrity_v1",
-  "source_commit_sha": "bc61d16d73ab1acea58998310009d3b1420cf160",
-  "build_cutoff_at": "2026-09-19T19:53:07Z",
-  "generated_at": "2026-09-19T19:53:07Z",
+  "source_commit_sha": "b687d5395433a8656e67524f4241859d1f84d678",
+  "build_cutoff_at": "2026-09-19T21:20:39Z",
+  "generated_at": "2026-09-19T21:20:39Z",
   "artifact_path": "state/company_intel/financial_truth_qualification.json",
   "timestamp_semantics": {
    "build_cutoff_at": "generation boundary only; not a source-effective or source-published time",

@@ -1,7 +1,7 @@
 {
  "schema_version": 1,
  "kind": "ci_work_routing_policy",
- "as_of": "2026-08-31",
+ "as_of": "2026-09-20",
  "pilot_symbols": [
   "MLCF",
   "OGDC",
@@ -78,6 +78,7 @@
   "request_scope": "single_company_or_explicit_trigger_batch_only",
   "candidate_symbols": [
    "MLCF",
+   "PPL",
    "DGKC",
    "PSO",
    "UBL",
@@ -89,9 +90,10 @@
    "ATRL",
    "HBL",
    "MARI",
-   "NRL"
+   "NRL",
+   "CNERGY"
   ],
-  "candidate_count": 13,
+  "candidate_count": 15,
   "max_untriggered_company_requests": 0,
   "daily_per_ticker_ai_schedule_allowed": false,
   "issuer_document_first_seen_import_is_not_a_trigger": true
@@ -148,10 +150,24 @@
   "PPL": {
    "symbol": "PPL",
    "deterministic_scan_status": "degraded",
-   "targeted_work_status": "no_targeted_work_request",
-   "targeted_triggers": [],
-   "targeted_trigger_count": 0,
-   "allowed_targeted_work": [],
+   "targeted_work_status": "eligible_for_owner_review_request",
+   "targeted_triggers": [
+    {
+     "trigger_type": "active_event_review_window",
+     "event_type": "results",
+     "date": "2026-09-18",
+     "window_start": "2026-09-16",
+     "window_end": "2026-09-20",
+     "confirmed": false,
+     "source_kind": "earnings_calendar",
+     "source_url": "https://stockanalysis.com/quote/psx/PPL/"
+    }
+   ],
+   "targeted_trigger_count": 1,
+   "allowed_targeted_work": [
+    "owner_review",
+    "single_company_ai_analysis"
+   ],
    "prohibited_work": [
     "daily_per_ticker_ai_schedule",
     "roster_wide_ai_sweep",
@@ -719,10 +735,24 @@
   "CNERGY": {
    "symbol": "CNERGY",
    "deterministic_scan_status": "healthy",
-   "targeted_work_status": "no_targeted_work_request",
-   "targeted_triggers": [],
-   "targeted_trigger_count": 0,
-   "allowed_targeted_work": [],
+   "targeted_work_status": "eligible_for_owner_review_request",
+   "targeted_triggers": [
+    {
+     "trigger_type": "active_event_review_window",
+     "event_type": "results",
+     "date": "2026-09-18",
+     "window_start": "2026-09-16",
+     "window_end": "2026-09-20",
+     "confirmed": false,
+     "source_kind": "earnings_calendar",
+     "source_url": "https://stockanalysis.com/quote/psx/CNERGY/"
+    }
+   ],
+   "targeted_trigger_count": 1,
+   "allowed_targeted_work": [
+    "owner_review",
+    "single_company_ai_analysis"
+   ],
    "prohibited_work": [
     "daily_per_ticker_ai_schedule",
     "roster_wide_ai_sweep",
@@ -732,15 +762,15 @@
  },
  "summary": {
   "company_count": 20,
-  "targeted_candidate_count": 13,
-  "targeted_trigger_count": 32,
+  "targeted_candidate_count": 15,
+  "targeted_trigger_count": 34,
   "scheduled_ai_task_count": 0
  },
  "_meta": {
   "generator_version": "ci_artifact_integrity_v1",
-  "source_commit_sha": "323537ed74c6242c094838bcf812ffa7ad032538",
-  "build_cutoff_at": "2026-09-19T18:50:06Z",
-  "generated_at": "2026-09-19T18:50:06Z",
+  "source_commit_sha": "b687d5395433a8656e67524f4241859d1f84d678",
+  "build_cutoff_at": "2026-09-19T21:20:39Z",
+  "generated_at": "2026-09-19T21:20:39Z",
   "artifact_path": "state/company_intel/work_routing_policy.json",
   "timestamp_semantics": {
    "build_cutoff_at": "generation boundary only; not a source-effective or source-published time",

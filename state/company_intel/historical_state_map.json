@@ -939,12 +939,27 @@
      "reason": null,
      "annual": {
       "required": 5,
-      "present": 0,
-      "qualified_periods": [],
-      "direct_flow_statement_periods": [],
-      "direct_balance_sheet_periods": [],
-      "derived_ebitda_periods": [],
-      "derived_free_cash_flow_periods": [],
+      "present": 2,
+      "qualified_periods": [
+       "2025-06-30",
+       "2024-06-30"
+      ],
+      "direct_flow_statement_periods": [
+       "2025-06-30",
+       "2024-06-30"
+      ],
+      "direct_balance_sheet_periods": [
+       "2025-06-30",
+       "2024-06-30"
+      ],
+      "derived_ebitda_periods": [
+       "2025-06-30",
+       "2024-06-30"
+      ],
+      "derived_free_cash_flow_periods": [
+       "2025-06-30",
+       "2024-06-30"
+      ],
       "required_direct_metrics": [
        "revenue",
        "gross_profit",
@@ -1677,9 +1692,9 @@
  },
  "_meta": {
   "generator_version": "ci_artifact_integrity_v1",
-  "source_commit_sha": "323537ed74c6242c094838bcf812ffa7ad032538",
-  "build_cutoff_at": "2026-09-19T18:50:06Z",
-  "generated_at": "2026-09-19T18:50:06Z",
+  "source_commit_sha": "b687d5395433a8656e67524f4241859d1f84d678",
+  "build_cutoff_at": "2026-09-19T21:20:39Z",
+  "generated_at": "2026-09-19T21:20:39Z",
   "artifact_path": "state/company_intel/historical_state_map.json",
   "timestamp_semantics": {
    "build_cutoff_at": "generation boundary only; not a source-effective or source-published time",
