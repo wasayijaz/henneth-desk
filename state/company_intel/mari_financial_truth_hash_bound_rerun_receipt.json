@@ -1,0 +1,303 @@
+{
+ "schema_version": 1,
+ "receipt_type": "mari_financial_truth_hash_bound_rerun_receipt",
+ "receipt_version": "mari_financial_truth_hash_bound_rerun_v1",
+ "ticker": "MARI",
+ "audit_date": "2026-09-13",
+ "status": "zero_delta_parser_rerun_blocked_missing_retained_bytes_or_geometry",
+ "source_receipt": {
+  "path": "state/company_intel/mari_financial_truth_next_intake_receipt.json",
+  "receipt_type": "mari_financial_truth_next_intake_receipt",
+  "status": "next_intake_required_no_parser_correction",
+  "hash_bound_statement_restage_wave": {
+   "psx:275583": "b2d9a7ce564306b3fccfb301801f774c90accb69ceffa8e3c0c1c9e69137c02b",
+   "psx:271327": "e53fccd6eca58c685dbf9225140056303be704b1f389b876ba33d87aa4b687b3",
+   "psx:264550": "7f4cf3461439d968407a7cb06d446dc02876f13e923893c165d36a9e0e7f88f5"
+  }
+ },
+ "parser": {
+  "version": "financial_statement_v2",
+  "revision": "block_geometry_v6",
+  "source": "scripts/financial_statement_facts.py",
+  "mode": "exact_retained_bytes_only"
+ },
+ "policy": {
+  "fail_closed": true,
+  "no_fetch": true,
+  "no_audit_only_relabel": true,
+  "no_canonical_fact_write": true,
+  "fact_level_output_only": true
+ },
+ "coverage_before": {
+  "annual_income_triplets": {
+   "required": 5,
+   "present": 0,
+   "qualified_periods": []
+  },
+  "reported_quarter_fact_sets": {
+   "required": 8,
+   "present": 0,
+   "qualified_periods": []
+  },
+  "annual_operating_cash_flow": {
+   "required": 5,
+   "present": 0,
+   "qualified_periods": []
+  },
+  "annual_full_statement_schedules": {
+   "required": 5,
+   "present": 0,
+   "qualified_periods": []
+  },
+  "reported_quarter_full_statement_schedules": {
+   "required": 8,
+   "present": 0,
+   "qualified_periods": []
+  },
+  "official_share_count_capital_note_tie_out": {
+   "required": 1,
+   "present": 0,
+   "status": "missing_official_share_count_capital_note_tie_out",
+   "source": null,
+   "available_on": null
+  }
+ },
+ "coverage_after": {
+  "annual_income_triplets": {
+   "required": 5,
+   "present": 0,
+   "qualified_periods": []
+  },
+  "reported_quarter_fact_sets": {
+   "required": 8,
+   "present": 0,
+   "qualified_periods": []
+  },
+  "annual_operating_cash_flow": {
+   "required": 5,
+   "present": 0,
+   "qualified_periods": []
+  },
+  "annual_full_statement_schedules": {
+   "required": 5,
+   "present": 0,
+   "qualified_periods": []
+  },
+  "reported_quarter_full_statement_schedules": {
+   "required": 8,
+   "present": 0,
+   "qualified_periods": []
+  },
+  "official_share_count_capital_note_tie_out": {
+   "required": 1,
+   "present": 0,
+   "status": "missing_official_share_count_capital_note_tie_out",
+   "source": null,
+   "available_on": null
+  }
+ },
+ "state_delta": {
+  "financial_truth_state_changed": false,
+  "company_financial_series_changed": false,
+  "canonical_facts_written": 0,
+  "audit_only_relabels": 0,
+  "fact_level_outputs_emitted_to_receipt": 0
+ },
+ "retained_series_inventory_before": {
+  "fact_count": 29,
+  "model_loadable_count": 0,
+  "audit_only_count": 29,
+  "by_document": {
+   "psx:275583": {
+    "fact_count": 8,
+    "model_loadable_count": 0,
+    "audit_only_count": 8,
+    "parser_revisions": {
+     "block_geometry_v5": 4,
+     "none": 4
+    },
+    "quality_flags": [
+     "invalid_structured_consolidation",
+     "legacy_extractor_not_model_eligible",
+     "legacy_parser_revision_quarantine",
+     "missing_consolidation_basis"
+    ]
+   },
+   "psx:271327": {
+    "fact_count": 11,
+    "model_loadable_count": 0,
+    "audit_only_count": 11,
+    "parser_revisions": {
+     "none": 9,
+     "block_geometry_v5": 2
+    },
+    "quality_flags": [
+     "legacy_extractor_not_model_eligible",
+     "legacy_parser_revision_quarantine",
+     "missing_consolidation_basis",
+     "missing_period_end",
+     "unparseable_raw_value"
+    ]
+   },
+   "psx:264550": {
+    "fact_count": 10,
+    "model_loadable_count": 0,
+    "audit_only_count": 10,
+    "parser_revisions": {
+     "none": 10
+    },
+    "quality_flags": [
+     "legacy_extractor_not_model_eligible",
+     "legacy_parser_revision_quarantine",
+     "missing_consolidation_basis",
+     "missing_period_end"
+    ]
+   }
+  }
+ },
+ "documents": [
+  {
+   "document_id": "psx:275583",
+   "status": "zero_delta",
+   "parser_version": "financial_statement_v2",
+   "parser_revision": "block_geometry_v6",
+   "document_status": "ready",
+   "title": "Transmission of Quarterly Report for the Period Ended 2026-03-31",
+   "source_url": "https://dps.psx.com.pk/download/document/275583.pdf",
+   "published_at": "2026-04-28T15:21:00+05:00",
+   "retrieved_at": "2026-08-31T11:43:41Z",
+   "available_on": "2026-04-28",
+   "content_sha256": "b2d9a7ce564306b3fccfb301801f774c90accb69ceffa8e3c0c1c9e69137c02b",
+   "expected_content_sha256": "b2d9a7ce564306b3fccfb301801f774c90accb69ceffa8e3c0c1c9e69137c02b",
+   "local_sha256": "b2d9a7ce564306b3fccfb301801f774c90accb69ceffa8e3c0c1c9e69137c02b",
+   "hash_bound": true,
+   "content_length": 10221652,
+   "page_count": 64,
+   "retained_byte_check": {
+    "explicit_path_candidates": [],
+    "cache_exact_hash_matches": [],
+    "exact_local_pdf_bytes_present": false,
+    "selected_path": null
+   },
+   "retained_geometry_check": {
+    "has_any_persisted_geometry_or_full_pages": false,
+    "fields_present": {},
+    "bounded_evidence_excerpt_count": 8,
+    "bounded_facts_count": 8
+   },
+   "parser_run_attempted": false,
+   "parser_blocker": "exact_retained_pdf_bytes_missing_and_no_persisted_text_geometry",
+   "facts_emitted": 0,
+   "fact_level_output": [],
+   "canonical_facts_written": 0,
+   "audit_only_relabels": 0
+  },
+  {
+   "document_id": "psx:271327",
+   "status": "zero_delta",
+   "parser_version": "financial_statement_v2",
+   "parser_revision": "block_geometry_v6",
+   "document_status": "ready",
+   "title": "Transmission of Quarterly Financial Statements for the Period Ended 2025-12-31",
+   "source_url": "https://dps.psx.com.pk/download/document/271327.pdf",
+   "published_at": "2026-02-27T09:03:00+05:00",
+   "retrieved_at": "2026-08-31T11:43:41Z",
+   "available_on": "2026-02-27",
+   "content_sha256": "e53fccd6eca58c685dbf9225140056303be704b1f389b876ba33d87aa4b687b3",
+   "expected_content_sha256": "e53fccd6eca58c685dbf9225140056303be704b1f389b876ba33d87aa4b687b3",
+   "local_sha256": "e53fccd6eca58c685dbf9225140056303be704b1f389b876ba33d87aa4b687b3",
+   "hash_bound": true,
+   "content_length": 10871045,
+   "page_count": 66,
+   "retained_byte_check": {
+    "explicit_path_candidates": [],
+    "cache_exact_hash_matches": [],
+    "exact_local_pdf_bytes_present": false,
+    "selected_path": null
+   },
+   "retained_geometry_check": {
+    "has_any_persisted_geometry_or_full_pages": false,
+    "fields_present": {},
+    "bounded_evidence_excerpt_count": 8,
+    "bounded_facts_count": 8
+   },
+   "parser_run_attempted": false,
+   "parser_blocker": "exact_retained_pdf_bytes_missing_and_no_persisted_text_geometry",
+   "facts_emitted": 0,
+   "fact_level_output": [],
+   "canonical_facts_written": 0,
+   "audit_only_relabels": 0
+  },
+  {
+   "document_id": "psx:264550",
+   "status": "zero_delta",
+   "parser_version": "financial_statement_v2",
+   "parser_revision": "block_geometry_v6",
+   "document_status": "ready",
+   "title": "Transmission of Quarterly Report for the period ended September 30. 2025",
+   "source_url": "https://dps.psx.com.pk/download/document/264550.pdf",
+   "published_at": "2025-10-30T15:11:00+05:00",
+   "retrieved_at": "2026-08-31T11:45:27Z",
+   "available_on": "2025-10-30",
+   "content_sha256": "7f4cf3461439d968407a7cb06d446dc02876f13e923893c165d36a9e0e7f88f5",
+   "expected_content_sha256": "7f4cf3461439d968407a7cb06d446dc02876f13e923893c165d36a9e0e7f88f5",
+   "local_sha256": "7f4cf3461439d968407a7cb06d446dc02876f13e923893c165d36a9e0e7f88f5",
+   "hash_bound": true,
+   "content_length": 3036018,
+   "page_count": 59,
+   "retained_byte_check": {
+    "explicit_path_candidates": [],
+    "cache_exact_hash_matches": [],
+    "exact_local_pdf_bytes_present": false,
+    "selected_path": null
+   },
+   "retained_geometry_check": {
+    "has_any_persisted_geometry_or_full_pages": false,
+    "fields_present": {},
+    "bounded_evidence_excerpt_count": 8,
+    "bounded_facts_count": 8
+   },
+   "parser_run_attempted": false,
+   "parser_blocker": "exact_retained_pdf_bytes_missing_and_no_persisted_text_geometry",
+   "facts_emitted": 0,
+   "fact_level_output": [],
+   "canonical_facts_written": 0,
+   "audit_only_relabels": 0
+  }
+ ],
+ "blockers": [
+  {
+   "document_id": "psx:275583",
+   "reason": "exact_retained_pdf_bytes_missing_and_no_persisted_text_geometry",
+   "zero_delta": true
+  },
+  {
+   "document_id": "psx:271327",
+   "reason": "exact_retained_pdf_bytes_missing_and_no_persisted_text_geometry",
+   "zero_delta": true
+  },
+  {
+   "document_id": "psx:264550",
+   "reason": "exact_retained_pdf_bytes_missing_and_no_persisted_text_geometry",
+   "zero_delta": true
+  }
+ ],
+ "_meta": {
+  "generator_version": "mari_financial_truth_hash_bound_rerun_v1",
+  "artifact_path": "state/company_intel/mari_financial_truth_hash_bound_rerun_receipt.json",
+  "inputs_sha256": {
+   "company_documents": "ddd7c22b4e2333f0e6698558f79aa978e3c9b3e84a53837e79ae0405621ead1a",
+   "company_financial_series": "dd48bc16c8c669e75567629f8577e04db6ac6d0ac88699986cd57e98fb759d5f",
+   "financial_truth_qualification": "7aa49faffb3b9f1da6fa1c164155f78dfa541d394b9f30f17bc8d36305c2ba77",
+   "next_intake_receipt": "11c7698798afbcb79c978272b50ed18c907880bbf5c7a6271fc1dd6035e17f08"
+  },
+  "target_content_sha256": {
+   "psx:275583": "b2d9a7ce564306b3fccfb301801f774c90accb69ceffa8e3c0c1c9e69137c02b",
+   "psx:271327": "e53fccd6eca58c685dbf9225140056303be704b1f389b876ba33d87aa4b687b3",
+   "psx:264550": "7f4cf3461439d968407a7cb06d446dc02876f13e923893c165d36a9e0e7f88f5"
+  },
+  "timestamp_semantics": {
+   "audit_date": "local audit date only; not a source-effective or source-published date"
+  }
+ }
+}
