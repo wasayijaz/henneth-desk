@@ -283,6 +283,37 @@ def _synthetic_assertions() -> None:
     unit_record = next((record for record in unit_noise_row.get("facts") or [] if record.get("source", {}).get("fact_id") == "revenue-2025-unit-noise"), None)
     if not unit_record or unit_record.get("status") != "quarantined" or "missing_or_non_pkr_currency" not in (unit_record.get("reasons") or []):
         _fail("unit-noise fact was not visibly quarantined")
+    # A reported line can reach the ledger from two qualified lanes at different
+    # source scales - a thousands-scaled parser fact and a unit-scaled
+    # owner-verified claim. The slot key must compare the normalized quantity,
+    # so a disagreement blocks and an agreement stays clean.
+    cross_scale_conflict_row = company_reconciliation("MLCF", [
+        _fact(value=100),
+        _fact(value=101, fact_id="revenue-2025-cross-scale",
+              unit_multiplier=1, normalized_value=101 * 1_000_000),
+    ], _coverage(), {}, {"status": "blocked_insufficient_qualified_history", "qualified_period_count": 0}, "2026-08-26")
+    if cross_scale_conflict_row.get("source_conflict_count") != 1:
+        _fail("cross-scale disagreement on one reported line escaped the conflict gate")
+    if any(record.get("status") != "quarantined" for record in cross_scale_conflict_row.get("facts") or []):
+        _fail("cross-scale conflicting fact rows were not quarantined")
+    cross_scale_conflict = (cross_scale_conflict_row.get("conflicts") or [{}])[0]
+    if {entry.get("unit_multiplier") for entry in cross_scale_conflict.get("values") or []} != {1, 1_000_000}:
+        _fail("cross-scale conflict did not retain each value's source scale")
+    cross_scale_agreement_row = company_reconciliation("MLCF", [
+        _fact(value=100),
+        _fact(value=100, fact_id="revenue-2025-cross-scale-agreed",
+              unit_multiplier=1, normalized_value=100 * 1_000_000),
+    ], _coverage(), {}, {"status": "blocked_insufficient_qualified_history", "qualified_period_count": 0}, "2026-08-26")
+    if cross_scale_agreement_row.get("source_conflict_count") != 0 or cross_scale_agreement_row.get("conflicts"):
+        _fail("agreeing cross-scale restatements of one reported line were treated as a conflict")
+    if any(record.get("status") != "eligible" for record in cross_scale_agreement_row.get("facts") or []):
+        _fail("agreeing cross-scale facts lost eligibility")
+    eps_scale_row = company_reconciliation("MLCF", [
+        _fact(value=100),
+        _fact("basic_eps", value=10.0, fact_id="eps-2025-scale-guard"),
+    ], _coverage(), {}, {"status": "blocked_insufficient_qualified_history", "qualified_period_count": 0}, "2026-08-26")
+    if eps_scale_row.get("source_conflict_count") != 0 or eps_scale_row.get("conflicts"):
+        _fail("distinct reported quantities collided in the conflict slot key")
     future_row = company_reconciliation("MLCF", [_fact(available_on="2027-02-01")], _coverage(), {}, {"status": "blocked_insufficient_qualified_history", "qualified_period_count": 0}, "2026-08-26")
     if any(record.get("status") == "eligible" for record in future_row.get("facts") or []):
         _fail("future available_on became eligible")

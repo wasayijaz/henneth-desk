@@ -343,6 +343,15 @@ def _fact_record(symbol: str, fact: dict[str, Any], as_of: str | None = None) ->
 
 
 def _same_slot_key(fact: dict[str, Any]) -> tuple[Any, ...]:
+    """Group facts by the reported quantity, never by how it was scaled.
+    Conflicts are decided on ``normalized_value``, which already has the source
+    scale applied. Including ``unit_multiplier`` here would partition the same
+    reported line into separate slots whenever two qualified lanes express it at
+    different scales - a thousands-scaled parser fact beside a unit-scaled
+    owner-verified claim - so a genuine disagreement between them could never be
+    detected. ``unit`` stays in the key: PKR and PKR/share are different
+    quantities.
+    """
     return (
         fact.get("line") or fact.get("metric"),
         fact.get("period_end"),
@@ -352,7 +361,6 @@ def _same_slot_key(fact: dict[str, Any]) -> tuple[Any, ...]:
         fact.get("currency"),
         fact.get("statement_type"),
         fact.get("unit"),
-        fact.get("unit_multiplier"),
     )
 
 
@@ -375,9 +383,9 @@ def _conflicts(symbol: str, facts: list[dict[str, Any]], as_of: str | None = Non
         values = {_num(fact.get("normalized_value")) for fact in group}
         values.discard(None)
         if len(group) > 1 and len(values) > 1:
-            metric, period_end, period_type, duration_months, consolidation, currency, statement_type, unit, unit_multiplier = key
+            metric, period_end, period_type, duration_months, consolidation, currency, statement_type, unit = key
             rows.append({
-                "conflict_id": stable_id("finconflict", symbol, metric, period_end, consolidation, currency, statement_type, unit, unit_multiplier),
+                "conflict_id": stable_id("finconflict", symbol, metric, period_end, consolidation, currency, statement_type, unit),
                 "symbol": symbol,
                 "metric": metric,
                 "period_end": period_end,
@@ -387,7 +395,6 @@ def _conflicts(symbol: str, facts: list[dict[str, Any]], as_of: str | None = Non
                 "currency": currency,
                 "statement_type": statement_type,
                 "unit": unit,
-                "unit_multiplier": unit_multiplier,
                 "status": "quarantined",
                 "reason": "conflicting_values_retained_no_silent_selection",
                 "values": [
@@ -395,6 +402,7 @@ def _conflicts(symbol: str, facts: list[dict[str, Any]], as_of: str | None = Non
                         "fact_id": fact.get("fact_id"),
                         "document_id": fact.get("document_id"),
                         "normalized_value": fact.get("normalized_value"),
+                        "unit_multiplier": fact.get("unit_multiplier"),
                         "source_url": fact.get("source_url"),
                         "page": _first_evidence(fact).get("page"),
                     }
