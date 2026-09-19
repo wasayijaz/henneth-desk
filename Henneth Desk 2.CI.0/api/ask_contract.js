@@ -54,6 +54,7 @@ const CASE_MECHANISM_BOUNDARY =
 const UNSAFE_MODEL_TEXT =
   /(?:https?:\/\/|www\.|\b(?:buy|purchase|sell|dispose|accumulate|trim|reduce|overweight|underweight|outperform|underperform|take\s+profit|stop\s+loss|entry|enter|exit|hold|short|long|leverage|should|must|recommend|guarantee|promise|definite|definitely|certain|certainty|causal|causes|caused|will\s+(?:lead|cause|increase|decrease|rise|fall|improve|hurt)|profit|return|upside|downside|target price|fair value|prompt|developer|system|instruction|ignore previous|january|february|march|april|may|june|july|august|september|october|november|december|jan|feb|mar|apr|jun|jul|aug|sep|sept|oct|nov|dec|pkr|rs\.?|rupees?|\$|percent|percentage|zero|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen|twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety|hundred|thousand|million|billion|trillion)\b)/i;
 const DIGIT_OR_FULLWIDTH = /[\d\uFF10-\uFF19\u0660-\u0669\u06F0-\u06F9]/u;
+const CASE_FORBIDDEN_TEXT = /\b(?:forecast|valuation|market_expectations|price_target|recommendation|reported_values)\b/i;
 
 export function byteLength(value) {
   const text = typeof value === "string" ? value : JSON.stringify(value);
@@ -673,7 +674,7 @@ function projectCaseMechanism(caseObject, registry, symbol) {
     .slice(0, 1)
     .map((item) => {
       const text = boundedString(item?.text, 220);
-      if (!text || hasDigit(text)) return null;
+      if (!text || hasDigit(text) || CASE_FORBIDDEN_TEXT.test(text)) return null;
       const citation_ids = (Array.isArray(item?.evidence) ? item.evidence : [])
         .slice(0, 2)
         .filter(isSourceBoundEvidence)

@@ -32,7 +32,7 @@ function main() {
     assert(Array.isArray(coverage.required_annual_periods) && coverage.required_annual_periods.length === 3, `${row.symbol} annual slots mismatch`);
     assert(Array.isArray(coverage.missing_revenue_pat_eps_by_annual_period) && coverage.missing_revenue_pat_eps_by_annual_period.length === 3, `${row.symbol} missing metric slots mismatch`);
     const slots = coverage.missing_revenue_pat_eps_by_annual_period;
-    if (row.forecast_readiness?.status === "input_ready") {
+    if (row.financial_truth_qualification?.status === "qualified") {
       assert(slots.filter(slot => slot.period_end).some(slot => (slot.missing_metrics || []).length === 0 && slot.status === "complete"), `${row.symbol} qualified annual revenue/PAT/EPS coverage missing`);
     } else {
       assert(slots.every(slot => Array.isArray(slot.missing_metrics) && Array.isArray(slot.present_model_ready_metrics) && typeof slot.status === "string"), `${row.symbol} missing revenue/PAT/EPS coverage is not explicit`);
@@ -61,6 +61,11 @@ function main() {
   assert(block.includes("downstream.forecast") && block.includes("downstream.valuation"), "forecast and valuation blocked states are displayed");
   assert(block.includes("does not infer periods, promote values, parse PDFs, or trigger restage"), "browser read-only boundary is visible");
   assert(!/fetch\(|companyThesisRequest|restage|parsePdf|parsePDF|calculate|infer/i.test(block.replace("does not infer periods, promote values, parse PDFs, or trigger restage", "")), "renderer must not fetch, infer, calculate, parse, or restage");
+
+  const dgkc = rows.find(row => row.symbol === "DGKC");
+  assert(dgkc?.forecast_readiness?.status === "input_ready" && dgkc?.financial_coverage?.status !== "complete", "DGKC readiness/coverage mismatch fixture is present");
+  const readinessBlock = app.slice(app.indexOf("function renderForecastReadiness"), app.indexOf("function renderFinancialCoverage"));
+  assert(readinessBlock.includes("blocked_financial_truth_not_qualified") && readinessBlock.includes("coverageMismatch"), "forecast readiness must fail closed when coverage or financial truth disagrees");
 
   assert(css.includes(".financial-coverage-panel") && css.includes(".financial-coverage-summary") && css.includes(".financial-coverage-docs"), "Financial Coverage styles exist");
   assert(/@media \(max-width:900px\)[\s\S]*?\.financial-coverage-summary/.test(css), "Financial Coverage has mobile layout");

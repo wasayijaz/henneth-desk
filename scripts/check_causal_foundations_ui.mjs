@@ -20,7 +20,7 @@ function assert(condition, message) {
 
 function rendererBlock() {
   const start = app.indexOf("function renderCausalFoundations");
-  const end = app.indexOf("function renderOverview", start);
+  const end = app.indexOf("function overviewObjectItems", start);
   assert(start >= 0 && end > start, "causal renderer block must exist before overview");
   return app.slice(start, end);
 }
@@ -60,8 +60,12 @@ try {
   }
 
   assert(!block.includes("r.driver_graph"), "causal renderer must not derive from driver_graph");
+  assert(!block.includes("r.sector"), "causal renderer must not substitute the row sector for emitted foundations");
   assert(!block.includes("r.operating_events"), "causal renderer must not derive from operating_events");
   assert(!block.includes("r.event_studies"), "causal renderer must not derive from event_studies");
+  assert(!block.includes(".reduce("), "causal renderer must not derive evidence aggregates in the browser");
+  assert(block.includes("coverage.evidence_status_counts"), "causal status counts must come from emitted coverage");
+  assert(block.includes('coverage.driver_edge_count ?? "unknown"') && block.includes('coverage.causal_row_count ?? "unknown"'), "causal summary must fail closed when emitted counts are absent");
   assert(!/revenue_impact|ebitda_impact|eps_impact|fcf_impact|valuation_impact/.test(block), "causal renderer must not display scenario impact fields");
   assert(!/\b(Math|parseFloat|parseInt)\b/.test(block), "causal renderer must not calculate estimates");
   assert(!/\b(price|shares|entry|stop|target_price)\b\s*[+\-*/=]/i.test(block), "causal renderer must not calculate trading or valuation values");

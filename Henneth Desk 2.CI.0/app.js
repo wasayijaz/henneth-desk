@@ -1431,12 +1431,8 @@ function renderCausalFoundations(r) {
   const foundations = r.causal_foundations || {};
   const rows = Array.isArray(foundations.causal_rows) ? foundations.causal_rows : [];
   const coverage = foundations.coverage || {};
-  const statusCounts = rows.reduce((acc, row) => {
-    const key = row.evidence_status || "unknown";
-    acc[key] = (acc[key] || 0) + 1;
-    return acc;
-  }, {});
-  const statusStrip = Object.keys(statusCounts).length
+  const statusCounts = coverage.evidence_status_counts;
+  const statusStrip = statusCounts && typeof statusCounts === "object" && !Array.isArray(statusCounts)
     ? Object.entries(statusCounts).map(([status, count]) => `<span class="pill">${esc(status)} ${esc(count)}</span>`).join("")
     : `<span class="muted">No categorical evidence status emitted.</span>`;
   const cards = rows.length ? rows.map(row => {
@@ -1467,11 +1463,11 @@ function renderCausalFoundations(r) {
     <button type="button" class="overview-back-button" data-research-route="directory_ownership">Ownership &amp; Peers workspace</button><span class="kicker">Causal driver evidence map</span><h2 id="causalTitle">Driver evidence, not impact estimates</h2>
     <p class="section-note">Read-only backend output from causal_foundations. The browser displays categorical evidence, exact refs and blocked downstream policy only; it does not estimate impact, forecast, value the company, or turn this into advice.</p>
     <div class="causal-summary">
-      <div><span>Sector model</span><b>${esc(foundations.sector || r.sector || "unknown")}</b></div>
-      <div><span>Driver edges</span><b>${esc(coverage.driver_edge_count ?? rows.length)}</b></div>
-      <div><span>Causal rows</span><b>${esc(coverage.causal_row_count ?? rows.length)}</b></div>
-      <div><span>Observed event rows</span><b>${esc(coverage.observed_event_rows ?? 0)}</b></div>
-      <div><span>Strict study rows</span><b>${esc(coverage.strict_study_rows ?? 0)}</b></div>
+      <div><span>Sector model</span><b>${esc(foundations.sector || "unknown")}</b></div>
+      <div><span>Driver edges</span><b>${esc(coverage.driver_edge_count ?? "unknown")}</b></div>
+      <div><span>Causal rows</span><b>${esc(coverage.causal_row_count ?? "unknown")}</b></div>
+      <div><span>Observed event rows</span><b>${esc(coverage.observed_event_rows ?? "unknown")}</b></div>
+      <div><span>Strict study rows</span><b>${esc(coverage.strict_study_rows ?? "unknown")}</b></div>
     </div>
     <div class="causal-status-strip" aria-label="Categorical evidence statuses">${statusStrip}</div>
     <div class="causal-grid">${cards}</div>
@@ -2635,6 +2631,8 @@ function renderInvestorSnapshot(r) {
   const readinessChart = ciChart("blocked", ciEnvelopeBlocked(forecast, "Formal outputs remain gated", ["Qualified financial history", "Reviewed assumptions", "Deterministic forecast"]));
   const catalystDomain = brainDomain(brain, "catalysts");
   const riskDomain = brainDomain(brain, "risks");
+  const valuationDomain = brainDomain(brain, "valuation");
+  const forecastDomain = brainDomain(brain, "forecasts");
   const signalCount = (r.signal_clusters?.clusters || []).length;
   return `<section class="panel span9 overview-detail-shell snapshot-detail" aria-labelledby="snapshotTitle">
     <header class="overview-detail-header"><div><span class="kicker">Investor snapshot</span><h2 id="snapshotTitle">The research position today</h2><p>A concise reading of what the retained company file supports now—and what it does not yet support.</p></div><button type="button" class="overview-back-button" data-research-route="directory_overview">Overview workspace</button></header>
@@ -2653,13 +2651,14 @@ function renderInvestorSnapshot(r) {
     </div>
     <div class="overview-detail-grid">
       <article class="overview-evidence-card"><header><span class="kicker">Evidence mix</span><h3>What kinds of intelligence are actually retained</h3></header>${evidenceChart}<p>Lengths compare counts of typed objects. They do not convert evidence volume into conviction.</p></article>
-      <article class="overview-evidence-card"><header><span class="kicker">Readiness</span><h3>Why formal conclusions may still be held back</h3></header>${readinessChart}<p>${esc(forecast.text || "Formal outputs appear only when their evidence gates pass.")}</p><button type="button" class="overview-route-button" data-research-route="intelligence">Open Event-to-Value view<iconify-icon icon="lucide:arrow-right" aria-hidden="true"></iconify-icon></button><details class="ci-raw-status"><summary>Technical status</summary><code>${esc(JSON.stringify(forecast.formal_status || { forecast: forecast.status || "unknown" }))}</code></details></article>
+      <article class="overview-evidence-card"><header><span class="kicker">Valuation readiness</span><h3>Why formal conclusions may still be held back</h3></header>${readinessChart}<p>Company Brain valuation domain: ${esc(valuationDomain.status || "unknown")}. Forecast domain: ${esc(forecastDomain.status || "unknown")}.</p><p>${esc(forecast.text || "Formal outputs appear only when their evidence gates pass.")}</p><button type="button" class="overview-route-button" data-research-route="intelligence">Open Event-to-Value view<iconify-icon icon="lucide:arrow-right" aria-hidden="true"></iconify-icon></button><details class="ci-raw-status"><summary>Technical status</summary><code>${esc(JSON.stringify(forecast.formal_status || { forecast: forecast.status || "unknown" }))}</code></details></article>
     </div>
     <div class="snapshot-signal-grid">
-      <article><span>Catalyst coverage</span><b>${esc(ciHumanStatus(catalystDomain.status))}</b><small>${esc((catalystDomain.object_refs || []).length)} typed references</small></article>
-      <article><span>Risk coverage</span><b>${esc(ciHumanStatus(riskDomain.status))}</b><small>${esc((riskDomain.object_refs || []).length)} typed references</small></article>
-      <article><span>Validated signal clusters</span><b>${esc(signalCount)}</b><small>Absence does not mean no change</small></article>
+      <article><span>Catalysts</span><b>${esc(ciHumanStatus(catalystDomain.status))}</b><small>${esc((catalystDomain.object_refs || []).length)} typed references</small></article>
+      <article><span>Risks</span><b>${esc(ciHumanStatus(riskDomain.status))}</b><small>${esc((riskDomain.object_refs || []).length)} typed references</small></article>
+      <article><span>Hidden signals</span><b>${esc(signalCount)}</b><small>Absence does not mean no change</small></article>
       <article><span>Monitoring</span><b>${esc(ciHumanStatus(r.monitoring?.status))}</b><small>${esc(r.monitoring?.alert_count ?? 0)} retained alerts</small></article>
+      <article><span>Henneth scenarios</span><b>${esc(forecastDomain.status || "unknown")}</b><small>Company Brain forecast domain</small></article>
     </div>
   </section>`;
 }
@@ -3681,21 +3680,13 @@ function renderCiMonitoring(r) {
     ? monitoring.activity
     : {};
   const alerts = Array.isArray(monitoring.alerts) ? monitoring.alerts : [];
-  const monitoringLineageItems = [
-    monitoring.latest_source_at ? { date: monitoring.latest_source_at, label: "Latest retained source", kind: "source", observed: true } : null,
-    monitoring.latest_change_at ? { date: monitoring.latest_change_at, label: "Latest retained change", kind: "source", observed: true } : null,
-    monitoring.latest_event_at ? { date: monitoring.latest_event_at, label: "Latest retained event", kind: "event", observed: true } : null,
-    ...alerts.map(alert => alert?.date ? {
-      date: alert.date,
-      label: alert.title || alert.type || "Monitoring alert",
-      kind: /source|page/i.test(String(alert.type || "")) ? "source" : "event",
-      observed: true,
-      detail: alert.status || alert.reason || "Retained alert",
-    } : null),
-  ].filter(Boolean).slice(-24);
-  const monitoringChart = monitoringLineageItems.length
-    ? ciChart("dated_lineage", { status: "available", label: "Retained monitoring activity by date", items: monitoringLineageItems })
-    : ciBlockedChart("blocked_no_dated_monitoring_records", "No dated monitoring records are retained", ["Latest retained source", "Latest retained change", "Latest retained event"]);
+  const alertsMarkup = !Number.isInteger(monitoring.alert_count)
+    ? `<div class="monitoring-empty">Alert count is unknown; retained alert rows cannot be confirmed.</div>`
+    : monitoring.alert_count === 0
+      ? `<div class="monitoring-empty">No backend alert row is active for ${esc(r.symbol)}.</div>`
+      : alerts.length
+        ? `<div class="monitoring-alerts">${alerts.map(renderCiMonitoringAlert).join("")}</div>`
+        : `<div class="monitoring-empty">The backend emitted ${esc(monitoring.alert_count)} alert(s), but did not emit the corresponding rows.</div>`;
   return `<section class="panel span9 ci-monitoring status-${esc(monitoring.status || "unknown")}" aria-labelledby="ciMonitoringTitle">
     <button type="button" class="overview-back-button" data-research-route="directory_ownership">Ownership &amp; Peers workspace</button><span class="kicker">CI monitoring</span><h2 id="ciMonitoringTitle">Freshness and alert state</h2>
     <p class="section-note">Read-only backend output from row.monitoring. The browser displays emitted freshness, source health, activity counts and source-linked alerts only; it does not calculate status, reduce alerts, score companies, forecast, value the company, or turn this into advice.</p>
@@ -3718,10 +3709,8 @@ function renderCiMonitoring(r) {
       <div><span>Guidance contradictions</span><b>${esc(activity.guidance_contradiction_count ?? "unknown")}</b></div>
       <div><span>Monitored pages</span><b>${esc(sourceHealth.monitored_page_count ?? "unknown")}</b></div>
     </div>
-    ${monitoringChart}
-    <p class="section-note">The visual shows when retained monitoring activity was recorded. It does not turn a watch row into a prediction or an instruction.</p>
     ${renderCiEventWindows(r)}
-    ${alerts.length ? `<div class="monitoring-alerts">${alerts.map(renderCiMonitoringAlert).join("")}</div>` : `<div class="monitoring-empty">No backend alert row is active for ${esc(r.symbol)}.</div>`}
+    ${alertsMarkup}
   </section>`;
 }
 
@@ -4150,6 +4139,14 @@ function renderForecastReadiness(r) {
   const downstream = readiness.downstream_status || {};
   const registry = readiness.model_registry && typeof readiness.model_registry === "object" ? readiness.model_registry : {};
   const adapter = readiness.model_adapter && typeof readiness.model_adapter === "object" ? readiness.model_adapter : {};
+  const coverage = r.financial_coverage && typeof r.financial_coverage === "object" && !Array.isArray(r.financial_coverage)
+    ? r.financial_coverage
+    : null;
+  const truth = r.financial_truth_qualification && typeof r.financial_truth_qualification === "object" && !Array.isArray(r.financial_truth_qualification)
+    ? r.financial_truth_qualification
+    : null;
+  const coverageMismatch = readiness.status === "input_ready" && (!coverage || coverage.status !== "complete" || truth?.status !== "qualified");
+  const displayStatus = coverageMismatch ? "blocked_financial_truth_not_qualified" : readiness.status;
   const candidates = readiness.qualification_candidate_document_refs || readiness.qualification_candidate_documents || [];
   const policy = readiness.policy || {};
   const limitations = readiness.limitations || [];
@@ -4157,12 +4154,15 @@ function renderForecastReadiness(r) {
     <button type="button" class="overview-back-button" data-research-route="directory_financials">Financials workspace</button><span class="kicker">Forecast / valuation readiness</span><h2 id="forecastReadinessTitle">Model gate and blocked outputs</h2>
     <p class="section-note">Read-only backend output from row.forecast_readiness. The browser displays exact status, version, missing requirements, official candidate refs, policy and blocked downstream states only.</p>
     <div class="forecast-readiness-summary">
-      <div><span>Status</span><b>${esc(readiness.status || "unknown")}</b></div>
+      <div><span>Status</span><b>${esc(displayStatus || "unknown")}</b></div>
+      <div><span>Financial coverage gate</span><b>${esc(coverage?.status || "unknown")}</b></div>
+      <div><span>Financial truth gate</span><b>${esc(truth?.status || "unknown")}</b></div>
       <div><span>Driver registry</span><b>${esc(registry.status || "unknown")} · ${esc(registry.selected_sector || "unknown")}</b></div>
       <div><span>Registry version</span><b>${esc(readiness.registry_version || registry.registry_version || "unknown")}</b></div>
       <div><span>Numerical adapter</span><b>${esc(readiness.adapter_version || adapter.adapter_version || adapter.status || "unknown")}</b></div>
       <div><span>Qualified periods</span><b>${esc(readiness.qualified_period_count ?? "unknown")}</b></div>
     </div>
+    ${coverageMismatch ? `<p class="baseline-warning">Formal readiness is fail-closed because financial coverage and financial-truth qualification are not both complete. The browser will not treat this row as input-ready.</p>` : ""}
     <div class="forecast-readiness-downstream" aria-label="Blocked downstream model states">
       ${["forecast", "valuation", "market_expectations", "numeric_impact"].map(key => `<span>${esc(key.replaceAll("_", " "))}<b>${esc(downstream[key] || "blocked_model_adapter_unavailable")}</b></span>`).join("")}
     </div>
