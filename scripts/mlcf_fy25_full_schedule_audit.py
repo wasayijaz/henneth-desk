@@ -1,13 +1,16 @@
 """Emit a fail-closed, audit-only receipt for the retained MLCF FY25 annual source.
 
-This integration checkout does not retain the original PDF bytes for ``psx:260032``.
-The receipt therefore records metadata and explicit omissions only.  It never reads a
-different worktree, downloads a source, invokes OCR, parses text, or writes facts.
+The receipt reads only the exact owner-retained PDF bytes for ``psx:260032`` and
+records the current geometry parser's bounded result. It never reads a different
+worktree, downloads a source, invokes OCR, or writes canonical facts.
 """
 from __future__ import annotations
 
 import json
+import hashlib
 from pathlib import Path
+
+from financial_statement_facts import PARSER_REVISION, PARSER_VERSION, extract_facts
 
 ROOT = Path(__file__).resolve().parents[1]
 MANIFEST = ROOT / "config/ci_reprocess_review_manifest.json"
@@ -37,6 +40,48 @@ SCHEDULE_LINES = {
 }
 
 
+def _page_records(raw: bytes, page_scope: list[int]) -> tuple[list[str], list[list[tuple]], list[dict[str, object]], int]:
+    """Read only the owner-approved statement pages from the retained PDF."""
+    import pymupdf
+
+    pdf = pymupdf.open(stream=raw, filetype="pdf")
+    try:
+        if any(page < 1 or page > len(pdf) for page in page_scope):
+            raise ValueError("retained FY25 source page scope is outside the verified PDF")
+        records = [pdf[page - 1] for page in page_scope]
+        pages = [page.get_text("text") or "" for page in records]
+        words = [page.get_text("words") or [] for page in records]
+        page_records = [
+            {"page": page_no, "text": text, "words": page_words}
+            for page_no, text, page_words in zip(page_scope, pages, words)
+        ]
+        return pages, words, page_records, len(pdf)
+    finally:
+        pdf.close()
+
+
+def _compact_fact(fact: dict[str, object]) -> dict[str, object]:
+    """Keep audit evidence source-bound without copying parser geometry or IDs."""
+    return {
+        "statement_type": fact.get("statement_type"),
+        "canonical_line": fact.get("line"),
+        "period_end": fact.get("period_end"),
+        "duration_months": fact.get("duration_months"),
+        "column_role": fact.get("column_role"),
+        "consolidation": fact.get("consolidation"),
+        "currency": fact.get("currency"),
+        "scale": fact.get("scale"),
+        "unit": fact.get("unit"),
+        "raw_value": fact.get("raw_value"),
+        "normalized_value": fact.get("normalized_value"),
+        "page": fact.get("page"),
+        "parser_version": fact.get("parser_version"),
+        "parser_revision": fact.get("parser_revision"),
+        "quality_flags": list(fact.get("quality_flags") or []),
+        "readiness": fact.get("readiness"),
+    }
+
+
 def build() -> dict[str, object]:
     manifest = json.loads(MANIFEST.read_text(encoding="utf-8"))
     doc = manifest["documents"][DOCUMENT_ID]
@@ -48,19 +93,98 @@ def build() -> dict[str, object]:
             or retained_document.get("content_sha256") != EXPECTED_HASH
             or not retained_document.get("available_on")):
         raise ValueError("retained FY25 document-state availability binding is incomplete")
-    # A present file is deliberately not consumed by this blocked implementation: parsing
-    # requires a separately reviewed geometry path and must not silently change this receipt.
-    local_status = "present_but_unprocessed" if LOCAL_SOURCE.is_file() else "missing"
+    page_scope = [291, 292, 293, 295]
+    raw = LOCAL_SOURCE.read_bytes() if LOCAL_SOURCE.is_file() else None
+    local_status = "missing"
+    facts: list[dict[str, object]] = []
+    page_count = None
+    parser = {
+        "version": PARSER_VERSION,
+        "revision": PARSER_REVISION,
+        "page_scope": page_scope,
+        "current_period_fact_count": 0,
+        "all_period_fact_count": 0,
+    }
+    if raw is not None:
+        local_hash = hashlib.sha256(raw).hexdigest()
+        if local_hash != EXPECTED_HASH:
+            raise ValueError("retained FY25 source bytes do not match the approved SHA-256")
+        local_status = "retained_hash_verified"
+        pages, words, page_records, page_count = _page_records(raw, page_scope)
+        doc_for_parser = {
+            "doc_id": DOCUMENT_ID,
+            "title": doc.get("title") or "",
+            "source_url": SOURCE_URL,
+            "content_sha256": EXPECTED_HASH,
+            "period_end": "2025-06-30",
+            "published_at": doc.get("published_at"),
+            "available_on": retained_document.get("available_on"),
+        }
+        parsed = extract_facts(doc_for_parser, pages, words=words, page_records=page_records)
+        current = [
+            fact for fact in parsed
+            if fact.get("period_end") == "2025-06-30"
+            and fact.get("column_role") == "current_period"
+            and fact.get("consolidation") == "consolidated"
+            and fact.get("parser_version") == PARSER_VERSION
+            and fact.get("parser_revision") == PARSER_REVISION
+        ]
+        facts = sorted(
+            (_compact_fact(fact) for fact in current),
+            key=lambda row: (str(row.get("statement_type")), str(row.get("canonical_line")), int(row.get("page") or 0)),
+        )
+        parser["current_period_fact_count"] = len(facts)
+        parser["all_period_fact_count"] = len(parsed)
+    required = {
+        (statement_type, line): page
+        for statement_type, page in (("balance_sheet", 291), ("income_statement", 293), ("cash_flow_statement", 295))
+        for line in SCHEDULE_LINES[statement_type]
+    }
+    present = {(str(row.get("statement_type")), str(row.get("canonical_line"))) for row in facts}
     omissions = [
         {
             "statement_type": statement_type,
             "canonical_line": line,
-            "reason": "exact_local_source_bytes_absent",
+            "reason": "current_parser_did_not_emit_required_fact" if local_status != "missing" else "exact_local_source_bytes_absent",
             "original_page": page,
+            "parser_revision": PARSER_REVISION,
         }
-        for statement_type, page in (("balance_sheet", 291), ("income_statement", 293), ("cash_flow_statement", 295))
-        for line in SCHEDULE_LINES[statement_type]
+        for (statement_type, line), page in required.items()
+        if (statement_type, line) not in present
     ]
+    if local_status == "missing":
+        # No source means no parser claim. Keep the fail-closed legacy omissions.
+        omissions = [
+            {
+                "statement_type": statement_type,
+                "canonical_line": line,
+                "reason": "exact_local_source_bytes_absent",
+                "original_page": page,
+            }
+            for (statement_type, line), page in required.items()
+        ]
+    qualified = local_status == "retained_hash_verified" and not omissions
+    if qualified:
+        qualification_reason = "all required current-period full-statement lines were emitted by the current parser"
+    elif local_status == "missing":
+        qualification_reason = "exact local FY25 source bytes are absent; no geometry-bound extraction is permitted"
+    else:
+        qualification_reason = (
+            f"current parser emitted {len(facts)} of {len(required)} required current-period lines; "
+            f"{len(omissions)} required lines remain absent"
+        )
+    blockers = []
+    if local_status == "missing":
+        blockers.extend([
+            "exact local source bytes absent at source.raw_path",
+            "original-page statement geometry unavailable without those bytes",
+        ])
+    else:
+        blockers.extend([
+            "current parser did not emit every required full-statement line",
+            "formal financial-truth qualification remains blocked until the complete schedule is proven",
+        ])
+    blockers.append("consolidated identity, unit/scale, headers, rows and cells remain subject to independent tie-out")
     return {
         "schema_version": 1,
         "receipt_version": "mlcf_fy25_full_schedule_audit_v1",
@@ -72,7 +196,9 @@ def build() -> dict[str, object]:
             "raw_path": str(LOCAL_SOURCE.relative_to(ROOT)).replace("\\", "/"),
             "local_bytes_status": local_status,
             "content_sha256": EXPECTED_HASH,
-            "page_scope": [291, 293, 295],
+            "local_sha256": hashlib.sha256(raw).hexdigest() if raw is not None else None,
+            "page_scope": page_scope,
+            "page_count": page_count,
             "official_availability": {
                 "published_at": doc.get("published_at"),
                 "available_on": retained_document.get("available_on"),
@@ -97,19 +223,16 @@ def build() -> dict[str, object]:
             "valuation_changed": False,
             "expectations_changed": False,
         },
-        "candidates": [],
+        "parser": parser,
+        "candidates": facts,
         "omissions": omissions,
-        "counts": {"candidate_count": 0, "omission_count": len(omissions)},
+        "counts": {"candidate_count": len(facts), "omission_count": len(omissions)},
         "qualification": {
-            "status": "blocked",
-            "full_schedule_qualified": False,
-            "reason": "exact local FY25 source bytes are absent; no geometry-bound extraction is permitted",
+            "status": "qualified" if qualified else "blocked",
+            "full_schedule_qualified": qualified,
+            "reason": qualification_reason,
         },
-        "blockers": [
-            "exact local source bytes absent at source.raw_path",
-            "original-page statement geometry unavailable without those bytes",
-            "consolidated identity, unit/scale, headers, rows and cells cannot be proven",
-        ],
+        "blockers": blockers,
         "required_before_promotion": [
             "exact local original PDF bytes with matching SHA-256",
             "original-page consolidated statement geometry for pages 291, 293 and 295",

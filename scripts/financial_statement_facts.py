@@ -26,13 +26,13 @@ INCOME_STATEMENT_LINE_PATTERNS = {
     "ebitda": r"(?:ebitda|earnings\s+before\s+interest,?\s+tax(?:es)?,?\s+depreciation\s+(?:and|&)\s+amorti[sz]ation)",
     "operating_profit": r"(?:operating profit|profit from operations)",
     "finance_cost": r"(?:finance cost|finance costs|financial charges)",
-    "profit_before_tax": r"(?:profit before tax|profit before taxation)",
+    "profit_before_tax": r"(?:profit before (?:income )?tax(?:ation)?)",
     # Keep PAT before tax: issuer tables commonly label the total as
     # ``Profit after taxation`` and would otherwise be misclassified by the
     # broad ``taxation`` expression below.  The owner row is the attributable
     # value needed by the forecast gate; retain the existing PAT wording too.
     "profit_after_tax_attributable": r"(?:owners of (?:the )?(?:parent|holding)(?: company)?|equity holders of (?:the )?(?:parent|holding)(?: company)?|profit after tax(?:ation)? attributable|profit attributable to owners|profit after tax(?:ation)?|profit for the period)",
-    "tax_expense": r"(?:taxation|income tax expense|tax expense)",
+    "tax_expense": r"(?:taxation|income tax expense|tax expense|\bincome tax\b)",
     # Issuers alternate between ``Earnings per share`` and the singular
     # ``Earning per share`` label; both denote the same basic EPS row.
     "basic_eps": r"(?:basic )?eps(?:\s|$)|earnings? per share",
@@ -63,7 +63,7 @@ CASH_FLOW_LINE_PATTERNS = {
     # only recognised ``cash flows from``/``cash generated from`` and thus
     # missed the actual total row despite valid statement geometry.
     "operating_cash_flow": r"\b(?:net\s+)?cash\s+(?:generated\s+from|provided\s+by|used\s+in|flows?\s+from|(?:in|out)flow\s+from)\s+operating\s+activities\b",
-    "capital_expenditure": r"\b(?:capital\s+expenditure|fixed\s+capital\s+expenditure|(?:purchase|acquisition|additions?)\s+of\s+property,\s+plant\s+and\s+equipment)\b",
+    "capital_expenditure": r"\b(?:capital\s+expenditure|fixed\s+capital\s+expenditure|(?:purchase|acquisition|additions?)\s+of\s+property,\s+plant\s+and\s+equipment|payments?\s+for\s+property,\s+plant\s+and\s+equipment)\b",
     "depreciation_amortization": r"\bdepreciation\s+(?:and|/)\s+amorti[sz]ation\b",
     "net_cash_from_investing_activities": r"\bnet\s+cash\s+(?:used\s+in|generated\s+from|flows?\s+from|(?:in|out)flow\s+from)\s+investing\s+activities\b",
     "net_cash_from_financing_activities": r"\bnet\s+cash\s+(?:used\s+in|generated\s+from|flows?\s+from|(?:in|out)flow\s+from)\s+financing\s+activities\b",
@@ -902,6 +902,13 @@ def _line_match(row: dict[str, Any], statement_type: str | None = None) -> tuple
             ):
                 continue
             if line == "long_term_borrowings" and re.search(r"\bcurrent\s+portion\s+of\b", row["text"], re.I):
+                continue
+            # ``Profit before final taxes and income tax`` contains the phrase
+            # ``income tax`` but is a pre-tax profit row, not the tax charge;
+            # cash-flow wordings (tax paid / refunds) are not tax expense.
+            if line == "tax_expense" and re.search(
+                r"\bprofit\s+before\b|\brefunds?\b|\bpaid\b", row["text"], re.I
+            ):
                 continue
             return line, m
     return None

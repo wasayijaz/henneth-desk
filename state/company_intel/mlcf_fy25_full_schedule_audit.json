@@ -1,230 +1,513 @@
 {
- "blockers": [
-  "exact local source bytes absent at source.raw_path",
-  "original-page statement geometry unavailable without those bytes",
-  "consolidated identity, unit/scale, headers, rows and cells cannot be proven"
- ],
- "candidates": [],
- "counts": {
-  "candidate_count": 0,
-  "omission_count": 25
- },
- "document_id": "psx:260032",
- "non_effects": "This audit-only receipt cannot alter canonical facts, coverage, lifecycle, forecasts, valuation, or expectations.",
- "omissions": [
-  {
-   "canonical_line": "cash_and_cash_equivalents",
-   "original_page": 291,
-   "reason": "exact_local_source_bytes_absent",
-   "statement_type": "balance_sheet"
-  },
-  {
-   "canonical_line": "trade_receivables",
-   "original_page": 291,
-   "reason": "exact_local_source_bytes_absent",
-   "statement_type": "balance_sheet"
-  },
-  {
-   "canonical_line": "inventories",
-   "original_page": 291,
-   "reason": "exact_local_source_bytes_absent",
-   "statement_type": "balance_sheet"
-  },
-  {
-   "canonical_line": "total_current_assets",
-   "original_page": 291,
-   "reason": "exact_local_source_bytes_absent",
-   "statement_type": "balance_sheet"
-  },
-  {
-   "canonical_line": "property_plant_equipment",
-   "original_page": 291,
-   "reason": "exact_local_source_bytes_absent",
-   "statement_type": "balance_sheet"
-  },
-  {
-   "canonical_line": "total_assets",
-   "original_page": 291,
-   "reason": "exact_local_source_bytes_absent",
-   "statement_type": "balance_sheet"
-  },
-  {
-   "canonical_line": "short_term_borrowings",
-   "original_page": 291,
-   "reason": "exact_local_source_bytes_absent",
-   "statement_type": "balance_sheet"
-  },
-  {
-   "canonical_line": "long_term_borrowings",
-   "original_page": 291,
-   "reason": "exact_local_source_bytes_absent",
-   "statement_type": "balance_sheet"
-  },
-  {
-   "canonical_line": "trade_payables",
-   "original_page": 291,
-   "reason": "exact_local_source_bytes_absent",
-   "statement_type": "balance_sheet"
-  },
-  {
-   "canonical_line": "total_equity",
-   "original_page": 291,
-   "reason": "exact_local_source_bytes_absent",
-   "statement_type": "balance_sheet"
-  },
-  {
-   "canonical_line": "revenue",
-   "original_page": 293,
-   "reason": "exact_local_source_bytes_absent",
-   "statement_type": "income_statement"
-  },
-  {
-   "canonical_line": "gross_profit",
-   "original_page": 293,
-   "reason": "exact_local_source_bytes_absent",
-   "statement_type": "income_statement"
-  },
-  {
-   "canonical_line": "ebitda",
-   "original_page": 293,
-   "reason": "exact_local_source_bytes_absent",
-   "statement_type": "income_statement"
-  },
-  {
-   "canonical_line": "operating_profit",
-   "original_page": 293,
-   "reason": "exact_local_source_bytes_absent",
-   "statement_type": "income_statement"
-  },
-  {
-   "canonical_line": "finance_cost",
-   "original_page": 293,
-   "reason": "exact_local_source_bytes_absent",
-   "statement_type": "income_statement"
-  },
-  {
-   "canonical_line": "profit_before_tax",
-   "original_page": 293,
-   "reason": "exact_local_source_bytes_absent",
-   "statement_type": "income_statement"
-  },
-  {
-   "canonical_line": "profit_after_tax_attributable",
-   "original_page": 293,
-   "reason": "exact_local_source_bytes_absent",
-   "statement_type": "income_statement"
-  },
-  {
-   "canonical_line": "tax_expense",
-   "original_page": 293,
-   "reason": "exact_local_source_bytes_absent",
-   "statement_type": "income_statement"
-  },
-  {
-   "canonical_line": "basic_eps",
-   "original_page": 293,
-   "reason": "exact_local_source_bytes_absent",
-   "statement_type": "income_statement"
-  },
-  {
-   "canonical_line": "operating_cash_flow",
-   "original_page": 295,
-   "reason": "exact_local_source_bytes_absent",
-   "statement_type": "cash_flow_statement"
-  },
-  {
-   "canonical_line": "capital_expenditure",
-   "original_page": 295,
-   "reason": "exact_local_source_bytes_absent",
-   "statement_type": "cash_flow_statement"
-  },
-  {
-   "canonical_line": "depreciation_amortization",
-   "original_page": 295,
-   "reason": "exact_local_source_bytes_absent",
-   "statement_type": "cash_flow_statement"
-  },
-  {
-   "canonical_line": "net_cash_from_investing_activities",
-   "original_page": 295,
-   "reason": "exact_local_source_bytes_absent",
-   "statement_type": "cash_flow_statement"
-  },
-  {
-   "canonical_line": "net_cash_from_financing_activities",
-   "original_page": 295,
-   "reason": "exact_local_source_bytes_absent",
-   "statement_type": "cash_flow_statement"
-  },
-  {
-   "canonical_line": "dividends_paid",
-   "original_page": 295,
-   "reason": "exact_local_source_bytes_absent",
-   "statement_type": "cash_flow_statement"
-  }
- ],
- "period": {
-  "comparison_period_end": "2024-06-30",
-  "duration_months": 12,
-  "period_end": "2025-06-30"
- },
- "policy": {
-  "audit_only": true,
-  "canonical_financial_facts_written": false,
-  "consolidated_statement_only": true,
-  "coverage_changed": false,
-  "current_column_header_required": true,
-  "expectations_changed": false,
-  "forecasts_changed": false,
-  "lifecycle_changed": false,
-  "local_scale_required": true,
-  "no_network": true,
-  "no_ocr": true,
-  "official_hash_bound_original_only": true,
-  "row_geometry_required": true,
-  "valuation_changed": false
- },
- "qualification": {
-  "full_schedule_qualified": false,
-  "reason": "exact local FY25 source bytes are absent; no geometry-bound extraction is permitted",
-  "status": "blocked"
- },
- "receipt_version": "mlcf_fy25_full_schedule_audit_v1",
- "required_before_promotion": [
-  "exact local original PDF bytes with matching SHA-256",
-  "original-page consolidated statement geometry for pages 291, 293 and 295",
-  "independent full-statement extraction and annual tie-out",
-  "existing canonical conflict check and financial-truth builder acceptance"
- ],
- "schema_version": 1,
- "source": {
-  "content_sha256": "4fdfb4cbd2eee65576cbb89b43334ce0c09a7e5ffd573d5bf93b414029eba6d1",
-  "document_id": "psx:260032",
-  "local_bytes_status": "missing",
-  "official_availability": {
-   "available_on": "2025-09-25",
-   "no_date_inferred": true,
-   "published_at": "2025-09-25T12:43:00+05:00",
-   "status": "proven_from_retained_manifest_and_document_state"
-  },
-  "page_scope": [
-   291,
-   293,
-   295
+  "blockers": [
+    "current parser did not emit every required full-statement line",
+    "formal financial-truth qualification remains blocked until the complete schedule is proven",
+    "consolidated identity, unit/scale, headers, rows and cells remain subject to independent tie-out"
   ],
-  "raw_path": ".cache/company_intel/raw/manual/260032.pdf",
-  "source_url": "https://dps.psx.com.pk/download/document/260032.pdf"
- },
- "symbol": "MLCF",
- "_meta": {
-  "generator_version": "ci_artifact_integrity_v1",
-  "source_commit_sha": "836c3cdf4f7f36994498ada2d957ca35b12496b4",
-  "build_cutoff_at": "2026-08-31T17:23:47Z",
-  "generated_at": "2026-08-31T17:23:47Z",
-  "artifact_path": "state/company_intel/mlcf_fy25_full_schedule_audit.json",
-  "timestamp_semantics": {
-   "build_cutoff_at": "generation boundary only; not a source-effective or source-published time",
-   "generated_at": "artifact generation time only; not a source-effective or source-published time"
-  }
- }
+  "candidates": [
+    {
+      "canonical_line": "cash_and_cash_equivalents",
+      "column_role": "current_period",
+      "consolidation": "consolidated",
+      "currency": "PKR",
+      "duration_months": 12,
+      "normalized_value": 1861551000.0,
+      "page": 292,
+      "parser_revision": "block_geometry_v6",
+      "parser_version": "financial_statement_v2",
+      "period_end": "2025-06-30",
+      "quality_flags": [],
+      "raw_value": "1,861,551",
+      "readiness": "model_loadable",
+      "scale": 1000,
+      "statement_type": "balance_sheet",
+      "unit": "PKR"
+    },
+    {
+      "canonical_line": "inventories",
+      "column_role": "current_period",
+      "consolidation": "consolidated",
+      "currency": "PKR",
+      "duration_months": 12,
+      "normalized_value": 4278247000.0,
+      "page": 292,
+      "parser_revision": "block_geometry_v6",
+      "parser_version": "financial_statement_v2",
+      "period_end": "2025-06-30",
+      "quality_flags": [],
+      "raw_value": "4,278,247",
+      "readiness": "model_loadable",
+      "scale": 1000,
+      "statement_type": "balance_sheet",
+      "unit": "PKR"
+    },
+    {
+      "canonical_line": "long_term_borrowings",
+      "column_role": "current_period",
+      "consolidation": "consolidated",
+      "currency": "PKR",
+      "duration_months": 12,
+      "normalized_value": 9781639000.0,
+      "page": 291,
+      "parser_revision": "block_geometry_v6",
+      "parser_version": "financial_statement_v2",
+      "period_end": "2025-06-30",
+      "quality_flags": [],
+      "raw_value": "9,781,639",
+      "readiness": "model_loadable",
+      "scale": 1000,
+      "statement_type": "balance_sheet",
+      "unit": "PKR"
+    },
+    {
+      "canonical_line": "property_plant_equipment",
+      "column_role": "current_period",
+      "consolidation": "consolidated",
+      "currency": "PKR",
+      "duration_months": 12,
+      "normalized_value": 72403474000.0,
+      "page": 292,
+      "parser_revision": "block_geometry_v6",
+      "parser_version": "financial_statement_v2",
+      "period_end": "2025-06-30",
+      "quality_flags": [],
+      "raw_value": "72,403,474",
+      "readiness": "model_loadable",
+      "scale": 1000,
+      "statement_type": "balance_sheet",
+      "unit": "PKR"
+    },
+    {
+      "canonical_line": "short_term_borrowings",
+      "column_role": "current_period",
+      "consolidation": "consolidated",
+      "currency": "PKR",
+      "duration_months": 12,
+      "normalized_value": 822285000.0,
+      "page": 291,
+      "parser_revision": "block_geometry_v6",
+      "parser_version": "financial_statement_v2",
+      "period_end": "2025-06-30",
+      "quality_flags": [],
+      "raw_value": "822,285",
+      "readiness": "model_loadable",
+      "scale": 1000,
+      "statement_type": "balance_sheet",
+      "unit": "PKR"
+    },
+    {
+      "canonical_line": "total_assets",
+      "column_role": "current_period",
+      "consolidation": "consolidated",
+      "currency": "PKR",
+      "duration_months": 12,
+      "normalized_value": 118731599000.0,
+      "page": 292,
+      "parser_revision": "block_geometry_v6",
+      "parser_version": "financial_statement_v2",
+      "period_end": "2025-06-30",
+      "quality_flags": [],
+      "raw_value": "118,731,599",
+      "readiness": "model_loadable",
+      "scale": 1000,
+      "statement_type": "balance_sheet",
+      "unit": "PKR"
+    },
+    {
+      "canonical_line": "total_current_assets",
+      "column_role": "current_period",
+      "consolidation": "consolidated",
+      "currency": "PKR",
+      "duration_months": 12,
+      "normalized_value": 36654982000.0,
+      "page": 292,
+      "parser_revision": "block_geometry_v6",
+      "parser_version": "financial_statement_v2",
+      "period_end": "2025-06-30",
+      "quality_flags": [],
+      "raw_value": "36,654,982",
+      "readiness": "model_loadable",
+      "scale": 1000,
+      "statement_type": "balance_sheet",
+      "unit": "PKR"
+    },
+    {
+      "canonical_line": "total_equity",
+      "column_role": "current_period",
+      "consolidation": "consolidated",
+      "currency": "PKR",
+      "duration_months": 12,
+      "normalized_value": 70959286000.0,
+      "page": 291,
+      "parser_revision": "block_geometry_v6",
+      "parser_version": "financial_statement_v2",
+      "period_end": "2025-06-30",
+      "quality_flags": [],
+      "raw_value": "70,959,286",
+      "readiness": "model_loadable",
+      "scale": 1000,
+      "statement_type": "balance_sheet",
+      "unit": "PKR"
+    },
+    {
+      "canonical_line": "trade_payables",
+      "column_role": "current_period",
+      "consolidation": "consolidated",
+      "currency": "PKR",
+      "duration_months": 12,
+      "normalized_value": 17698228000.0,
+      "page": 291,
+      "parser_revision": "block_geometry_v6",
+      "parser_version": "financial_statement_v2",
+      "period_end": "2025-06-30",
+      "quality_flags": [],
+      "raw_value": "17,698,228",
+      "readiness": "model_loadable",
+      "scale": 1000,
+      "statement_type": "balance_sheet",
+      "unit": "PKR"
+    },
+    {
+      "canonical_line": "trade_receivables",
+      "column_role": "current_period",
+      "consolidation": "consolidated",
+      "currency": "PKR",
+      "duration_months": 12,
+      "normalized_value": 4610182000.0,
+      "page": 292,
+      "parser_revision": "block_geometry_v6",
+      "parser_version": "financial_statement_v2",
+      "period_end": "2025-06-30",
+      "quality_flags": [],
+      "raw_value": "4,610,182",
+      "readiness": "model_loadable",
+      "scale": 1000,
+      "statement_type": "balance_sheet",
+      "unit": "PKR"
+    },
+    {
+      "canonical_line": "capital_expenditure",
+      "column_role": "current_period",
+      "consolidation": "consolidated",
+      "currency": "PKR",
+      "duration_months": 12,
+      "normalized_value": -3611410000.0,
+      "page": 295,
+      "parser_revision": "block_geometry_v6",
+      "parser_version": "financial_statement_v2",
+      "period_end": "2025-06-30",
+      "quality_flags": [],
+      "raw_value": "(3,611,410)",
+      "readiness": "model_loadable",
+      "scale": 1000,
+      "statement_type": "cash_flow_statement",
+      "unit": "PKR"
+    },
+    {
+      "canonical_line": "dividends_paid",
+      "column_role": "current_period",
+      "consolidation": "consolidated",
+      "currency": "PKR",
+      "duration_months": 12,
+      "normalized_value": -378000.0,
+      "page": 295,
+      "parser_revision": "block_geometry_v6",
+      "parser_version": "financial_statement_v2",
+      "period_end": "2025-06-30",
+      "quality_flags": [],
+      "raw_value": "(378)",
+      "readiness": "model_loadable",
+      "scale": 1000,
+      "statement_type": "cash_flow_statement",
+      "unit": "PKR"
+    },
+    {
+      "canonical_line": "net_cash_from_financing_activities",
+      "column_role": "current_period",
+      "consolidation": "consolidated",
+      "currency": "PKR",
+      "duration_months": 12,
+      "normalized_value": -2284481000.0,
+      "page": 295,
+      "parser_revision": "block_geometry_v6",
+      "parser_version": "financial_statement_v2",
+      "period_end": "2025-06-30",
+      "quality_flags": [],
+      "raw_value": "(2,284,481)",
+      "readiness": "model_loadable",
+      "scale": 1000,
+      "statement_type": "cash_flow_statement",
+      "unit": "PKR"
+    },
+    {
+      "canonical_line": "net_cash_from_investing_activities",
+      "column_role": "current_period",
+      "consolidation": "consolidated",
+      "currency": "PKR",
+      "duration_months": 12,
+      "normalized_value": -14987553000.0,
+      "page": 295,
+      "parser_revision": "block_geometry_v6",
+      "parser_version": "financial_statement_v2",
+      "period_end": "2025-06-30",
+      "quality_flags": [],
+      "raw_value": "(14,987,553)",
+      "readiness": "model_loadable",
+      "scale": 1000,
+      "statement_type": "cash_flow_statement",
+      "unit": "PKR"
+    },
+    {
+      "canonical_line": "operating_cash_flow",
+      "column_role": "current_period",
+      "consolidation": "consolidated",
+      "currency": "PKR",
+      "duration_months": 12,
+      "normalized_value": 19120528000.0,
+      "page": 295,
+      "parser_revision": "block_geometry_v6",
+      "parser_version": "financial_statement_v2",
+      "period_end": "2025-06-30",
+      "quality_flags": [],
+      "raw_value": "19,120,528",
+      "readiness": "model_loadable",
+      "scale": 1000,
+      "statement_type": "cash_flow_statement",
+      "unit": "PKR"
+    },
+    {
+      "canonical_line": "basic_eps",
+      "column_role": "current_period",
+      "consolidation": "consolidated",
+      "currency": "PKR",
+      "duration_months": 12,
+      "normalized_value": 10.98,
+      "page": 293,
+      "parser_revision": "block_geometry_v6",
+      "parser_version": "financial_statement_v2",
+      "period_end": "2025-06-30",
+      "quality_flags": [],
+      "raw_value": "10.98",
+      "readiness": "model_loadable",
+      "scale": 1,
+      "statement_type": "income_statement",
+      "unit": "PKR/share"
+    },
+    {
+      "canonical_line": "finance_cost",
+      "column_role": "current_period",
+      "consolidation": "consolidated",
+      "currency": "PKR",
+      "duration_months": 12,
+      "normalized_value": -3011546000.0,
+      "page": 293,
+      "parser_revision": "block_geometry_v6",
+      "parser_version": "financial_statement_v2",
+      "period_end": "2025-06-30",
+      "quality_flags": [],
+      "raw_value": "(3,011,546)",
+      "readiness": "model_loadable",
+      "scale": 1000,
+      "statement_type": "income_statement",
+      "unit": "PKR"
+    },
+    {
+      "canonical_line": "gross_profit",
+      "column_role": "current_period",
+      "consolidation": "consolidated",
+      "currency": "PKR",
+      "duration_months": 12,
+      "normalized_value": 25441916000.0,
+      "page": 293,
+      "parser_revision": "block_geometry_v6",
+      "parser_version": "financial_statement_v2",
+      "period_end": "2025-06-30",
+      "quality_flags": [],
+      "raw_value": "25,441,916",
+      "readiness": "model_loadable",
+      "scale": 1000,
+      "statement_type": "income_statement",
+      "unit": "PKR"
+    },
+    {
+      "canonical_line": "operating_profit",
+      "column_role": "current_period",
+      "consolidation": "consolidated",
+      "currency": "PKR",
+      "duration_months": 12,
+      "normalized_value": 19107711000.0,
+      "page": 293,
+      "parser_revision": "block_geometry_v6",
+      "parser_version": "financial_statement_v2",
+      "period_end": "2025-06-30",
+      "quality_flags": [],
+      "raw_value": "19,107,711",
+      "readiness": "model_loadable",
+      "scale": 1000,
+      "statement_type": "income_statement",
+      "unit": "PKR"
+    },
+    {
+      "canonical_line": "profit_after_tax_attributable",
+      "column_role": "current_period",
+      "consolidation": "consolidated",
+      "currency": "PKR",
+      "duration_months": 12,
+      "normalized_value": 11503305000.0,
+      "page": 293,
+      "parser_revision": "block_geometry_v6",
+      "parser_version": "financial_statement_v2",
+      "period_end": "2025-06-30",
+      "quality_flags": [],
+      "raw_value": "11,503,305",
+      "readiness": "model_loadable",
+      "scale": 1000,
+      "statement_type": "income_statement",
+      "unit": "PKR"
+    },
+    {
+      "canonical_line": "profit_before_tax",
+      "column_role": "current_period",
+      "consolidation": "consolidated",
+      "currency": "PKR",
+      "duration_months": 12,
+      "normalized_value": 16329735000.0,
+      "page": 293,
+      "parser_revision": "block_geometry_v6",
+      "parser_version": "financial_statement_v2",
+      "period_end": "2025-06-30",
+      "quality_flags": [],
+      "raw_value": "16,329,735",
+      "readiness": "model_loadable",
+      "scale": 1000,
+      "statement_type": "income_statement",
+      "unit": "PKR"
+    },
+    {
+      "canonical_line": "revenue",
+      "column_role": "current_period",
+      "consolidation": "consolidated",
+      "currency": "PKR",
+      "duration_months": 12,
+      "normalized_value": 68653999000.0,
+      "page": 293,
+      "parser_revision": "block_geometry_v6",
+      "parser_version": "financial_statement_v2",
+      "period_end": "2025-06-30",
+      "quality_flags": [],
+      "raw_value": "68,653,999",
+      "readiness": "model_loadable",
+      "scale": 1000,
+      "statement_type": "income_statement",
+      "unit": "PKR"
+    },
+    {
+      "canonical_line": "tax_expense",
+      "column_role": "current_period",
+      "consolidation": "consolidated",
+      "currency": "PKR",
+      "duration_months": 12,
+      "normalized_value": -4826457000.0,
+      "page": 293,
+      "parser_revision": "block_geometry_v6",
+      "parser_version": "financial_statement_v2",
+      "period_end": "2025-06-30",
+      "quality_flags": [],
+      "raw_value": "(4,826,457)",
+      "readiness": "model_loadable",
+      "scale": 1000,
+      "statement_type": "income_statement",
+      "unit": "PKR"
+    }
+  ],
+  "counts": {
+    "candidate_count": 23,
+    "omission_count": 2
+  },
+  "document_id": "psx:260032",
+  "non_effects": "This audit-only receipt cannot alter canonical facts, coverage, lifecycle, forecasts, valuation, or expectations.",
+  "omissions": [
+    {
+      "canonical_line": "ebitda",
+      "original_page": 293,
+      "parser_revision": "block_geometry_v6",
+      "reason": "current_parser_did_not_emit_required_fact",
+      "statement_type": "income_statement"
+    },
+    {
+      "canonical_line": "depreciation_amortization",
+      "original_page": 295,
+      "parser_revision": "block_geometry_v6",
+      "reason": "current_parser_did_not_emit_required_fact",
+      "statement_type": "cash_flow_statement"
+    }
+  ],
+  "parser": {
+    "all_period_fact_count": 46,
+    "current_period_fact_count": 23,
+    "page_scope": [
+      291,
+      292,
+      293,
+      295
+    ],
+    "revision": "block_geometry_v6",
+    "version": "financial_statement_v2"
+  },
+  "period": {
+    "comparison_period_end": "2024-06-30",
+    "duration_months": 12,
+    "period_end": "2025-06-30"
+  },
+  "policy": {
+    "audit_only": true,
+    "canonical_financial_facts_written": false,
+    "consolidated_statement_only": true,
+    "coverage_changed": false,
+    "current_column_header_required": true,
+    "expectations_changed": false,
+    "forecasts_changed": false,
+    "lifecycle_changed": false,
+    "local_scale_required": true,
+    "no_network": true,
+    "no_ocr": true,
+    "official_hash_bound_original_only": true,
+    "row_geometry_required": true,
+    "valuation_changed": false
+  },
+  "qualification": {
+    "full_schedule_qualified": false,
+    "reason": "current parser emitted 23 of 25 required current-period lines; 2 required lines remain absent",
+    "status": "blocked"
+  },
+  "receipt_version": "mlcf_fy25_full_schedule_audit_v1",
+  "required_before_promotion": [
+    "exact local original PDF bytes with matching SHA-256",
+    "original-page consolidated statement geometry for pages 291, 293 and 295",
+    "independent full-statement extraction and annual tie-out",
+    "existing canonical conflict check and financial-truth builder acceptance"
+  ],
+  "schema_version": 1,
+  "source": {
+    "content_sha256": "4fdfb4cbd2eee65576cbb89b43334ce0c09a7e5ffd573d5bf93b414029eba6d1",
+    "document_id": "psx:260032",
+    "local_bytes_status": "retained_hash_verified",
+    "local_sha256": "4fdfb4cbd2eee65576cbb89b43334ce0c09a7e5ffd573d5bf93b414029eba6d1",
+    "official_availability": {
+      "available_on": "2025-09-25",
+      "no_date_inferred": true,
+      "published_at": "2025-09-25T12:43:00+05:00",
+      "status": "proven_from_retained_manifest_and_document_state"
+    },
+    "page_count": 401,
+    "page_scope": [
+      291,
+      292,
+      293,
+      295
+    ],
+    "raw_path": ".cache/company_intel/raw/manual/260032.pdf",
+    "source_url": "https://dps.psx.com.pk/download/document/260032.pdf"
+  },
+  "symbol": "MLCF"
 }
