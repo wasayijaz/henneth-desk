@@ -284,12 +284,21 @@ def assert_ci_slice_current_truth_guard() -> None:
             fail(f"CI slice leaked stale computed {kind} result")
 
 
+def assert_preflight_uses_ci_projection_contract() -> None:
+    source = (ROOT / "scripts" / "preflight.py").read_text(encoding="utf-8")
+    for kind in ("financial_forecasts", "formal_valuations", "market_expectations"):
+        expected = f'wave1.get("{kind}", {{}}), sym, "{kind}", financial_truth_state'
+        if expected not in source:
+            fail(f"preflight bypasses CI projection contract for {kind}")
+
+
 def main() -> None:
     assert_synthetic_ready()
     assert_financial_truth_boundary()
     assert_blocks()
     assert_temp_builder_ready()
     assert_ci_slice_current_truth_guard()
+    assert_preflight_uses_ci_projection_contract()
     assert_real_state()
     print("formal financial engines: PASS (synthetic computed, real state blocked)")
 

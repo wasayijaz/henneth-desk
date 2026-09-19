@@ -35,6 +35,7 @@ FOCUSED_CHECKS: tuple[str, ...] = (
     "check_official_share_capital_approvals.py",
     "check_mlcf_financial_truth_gap.py",
     "check_mlcf_derived_facts.py",
+    "check_mlcf_canonical_promotion_acceptance.py",
     "check_owner_financial_assumption_handoff.py",
     "check_earnings_bridges.py",
     "check_forecast_contract.py",

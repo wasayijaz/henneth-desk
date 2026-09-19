@@ -4,12 +4,14 @@ from __future__ import annotations
 import json
 import re
 import sys
+import tempfile
 from pathlib import Path
 from unittest.mock import patch
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 
 import build_pso_sales_expansion_evidence_gap_receipt as builder
+import build_operating_events as operating_events
 
 PASSED = 0
 HASH_RE = re.compile(r"^[0-9a-f]{64}$")
@@ -33,7 +35,10 @@ def walk(value):
 
 
 def main() -> None:
-    receipt = builder.build(write=True)
+    # The checker is strictly read-only: raw PDF intake and receipt writing are
+    # owner-invoked operations, never a validation side effect.
+    receipt = builder.load_committed_receipt()
+    check("committed receipt valid", bool(receipt))
     check("schema", receipt["schema_version"] == builder.SCHEMA_VERSION)
     check("intake revision", receipt["intake_revision"] == builder.INTAKE_REVISION)
     check("identity", receipt["case_id"] == "case_pso_fy2025_distribution_network_expansion_gap_v1")
@@ -140,9 +145,35 @@ def main() -> None:
           and receipt["policy"]["canonical_observed_layer_promotion_only"] is True
           and receipt["policy"]["no_financial_promotion"] is True)
     with patch.object(builder, "save_json", side_effect=AssertionError("write attempted")):
-        no_write = builder.build(write=False)
-    check("write false skips save", no_write["status"] == receipt["status"])
-    check("deterministic", json.dumps(receipt, sort_keys=True) == json.dumps(builder.build(write=False), sort_keys=True))
+        no_write = builder.load_committed_receipt()
+    check("read-only projection skips save", json.dumps(no_write, sort_keys=True) == json.dumps(receipt, sort_keys=True))
+    check("deterministic", json.dumps(receipt, sort_keys=True) == json.dumps(builder.load_committed_receipt(), sort_keys=True))
+
+    # Projection regression: the raw PDF may be absent in a clean checkout;
+    # a valid committed receipt still emits the exact event.  Tampering or a
+    # degraded receipt must fail closed with no synthesized event.
+    with tempfile.TemporaryDirectory() as tmp:
+        receipt_path = Path(tmp) / "receipt.json"
+        receipt_path.write_text(json.dumps(receipt), encoding="utf-8")
+        with patch.object(builder, "OUTPUT_PATH", receipt_path), \
+             patch.object(builder, "LOCAL_PDF_PATH", Path(tmp) / "missing.pdf"):
+            projected = operating_events._pso_distribution_network_event(None)
+            check("clean projection from receipt", projected is not None
+                  and projected["event_id"] == operating_events.PSO_DISTRIBUTION_EVENT_ID)
+
+            tampered = dict(receipt)
+            tampered_authority = dict(tampered["retained_authority_state"])
+            tampered_decisive = dict(tampered_authority["decisive_psx_260771"])
+            tampered_decisive["source_url"] = "https://example.invalid/tampered.pdf"
+            tampered_authority["decisive_psx_260771"] = tampered_decisive
+            tampered["retained_authority_state"] = tampered_authority
+            receipt_path.write_text(json.dumps(tampered), encoding="utf-8")
+            check("tampered receipt emits no event", operating_events._pso_distribution_network_event(None) is None)
+
+            degraded = dict(receipt)
+            degraded["observed_seed_permitted"] = False
+            receipt_path.write_text(json.dumps(degraded), encoding="utf-8")
+            check("degraded receipt emits no event", operating_events._pso_distribution_network_event(None) is None)
 
     print(f"pso sales expansion evidence gap receipt: PASS ({PASSED} checks)")
 

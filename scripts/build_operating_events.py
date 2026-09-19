@@ -100,13 +100,15 @@ PSO_DISTRIBUTION_EVENT_ID = stable_id("PSO", pso_receipt_builder.PSX_DOC_ID, "di
 
 
 def _pso_distribution_network_event(source_cutoff: date | None) -> dict | None:
-    receipt = pso_receipt_builder.build(write=False)
+    # Projection consumes only the committed owner-invoked intake receipt.
+    # It must remain usable in a clean checkout where the ignored source PDF is
+    # intentionally absent; raw-byte validation belongs to the intake writer.
+    receipt = pso_receipt_builder.load_committed_receipt()
     decisive = ((receipt.get("retained_authority_state") or {}).get("decisive_psx_260771") or {})
     if (
-        receipt.get("observed_seed_permitted") is not True
-        or decisive.get("status") != "hash_page_bound_observed_seed_defensible"
-        or decisive.get("document_id") != pso_receipt_builder.PSX_DOC_ID
-        or decisive.get("content_sha256") != pso_receipt_builder.EXPECTED_CONTENT_SHA256
+        not receipt
+        or receipt.get("intake_revision") != pso_receipt_builder.INTAKE_REVISION
+        or not pso_receipt_builder.validate_committed_decisive_source(decisive)
     ):
         return None
     evidence_rows = []

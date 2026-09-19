@@ -288,28 +288,35 @@ def assert_real_state_builds() -> None:
                 fail("real-state reference case can enter approved value path")
         gaps = state.get("assumption_gaps") or {}
         companies = gaps.get("companies") or {}
-        for symbol in ("MLCF", "DGKC"):
-            row = companies.get(symbol) or {}
-            if row.get("status") != "input_ready_pending_approved_records":
-                fail(f"{symbol}: real-state assumption gap did not mark input-ready pending records")
-            if row.get("reference_cases_can_satisfy_missing_records") is not False:
-                fail(f"{symbol}: reference cases can satisfy missing records")
-            products = row.get("products") or {}
-            expected = {
-                "forecast": ["revenue_growth_pct", "net_margin_pct"],
-                "valuation": ["revenue_growth_pct", "net_margin_pct", "exit_pe", "net_debt"],
-                "market_expectations": ["exit_pe", "net_margin_pct", "revenue_growth_pct"],
-            }
-            for product, missing in expected.items():
-                observed = products.get(product, {}).get("missing_approved_records")
-                if observed != missing:
-                    fail(f"{symbol}: {product} gap mismatch {observed}")
-                accepted = [record.get("metric") for record in products.get(product, {}).get("accepted_records") or []]
-                required_market = ["shares_out"] if product != "market_expectations" else ["current_price", "shares_out"]
-                if accepted != required_market:
-                    fail(f"{symbol}: {product} accepted deterministic operands mismatch {accepted}")
+        mlcf = companies.get("MLCF") or {}
+        if mlcf.get("status") != "input_ready_pending_approved_records":
+            fail("MLCF: real-state assumption gap did not mark input-ready pending records")
+        if mlcf.get("reference_cases_can_satisfy_missing_records") is not False:
+            fail("MLCF: reference cases can satisfy missing records")
+        expected = {
+            "forecast": ["revenue_growth_pct", "net_margin_pct"],
+            "valuation": ["revenue_growth_pct", "net_margin_pct", "exit_pe", "net_debt"],
+            "market_expectations": ["exit_pe", "net_margin_pct", "revenue_growth_pct"],
+        }
+        for product, missing in expected.items():
+            row = (mlcf.get("products") or {}).get(product) or {}
+            if row.get("missing_approved_records") != missing:
+                fail(f"MLCF: {product} gap mismatch {row.get('missing_approved_records')}")
+            accepted = [record.get("metric") for record in row.get("accepted_records") or []]
+            required_market = ["shares_out"] if product != "market_expectations" else ["current_price", "shares_out"]
+            if accepted != required_market:
+                fail(f"MLCF: {product} accepted deterministic operands mismatch {accepted}")
+
+        dgkc = companies.get("DGKC") or {}
+        if dgkc.get("status") != "not_evaluated_until_input_ready" or dgkc.get("financial_model_inputs_status") != "partial":
+            fail("DGKC: partial model inputs did not keep assumption review fail-closed")
+        for product, row in (dgkc.get("products") or {}).items():
+            if row.get("status") != "not_evaluated_until_input_ready":
+                fail(f"DGKC: {product} activated before model inputs were ready")
+            if row.get("missing_approved_records") != [] or row.get("missing_prerequisites") != ["financial_model_inputs_ready"]:
+                fail(f"DGKC: {product} prerequisite boundary mismatch")
         summary = gaps.get("summary") or {}
-        if summary.get("input_ready_company_count") != 2 or summary.get("ready_product_count") != 0:
+        if summary.get("input_ready_company_count") != 1 or summary.get("ready_product_count") != 0:
             fail("real-state assumption gap summary mismatch")
 
 

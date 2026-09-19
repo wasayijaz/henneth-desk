@@ -37,6 +37,7 @@ RAW_BYTES_MISSING = "raw_document_bytes_not_retained_for_reprocess"
 FACT_EVIDENCE_MISSING = "fact_level_source_evidence_missing"
 
 RETAINED_MLCF_DOCUMENT_IDS: tuple[str, ...] = ("psx:219092", "psx:225623", "psx:229941")
+PROMOTED_ANNUAL_PERIODS: tuple[str, ...] = ("2025-06-30", "2024-06-30")
 
 _BASELINE_KEYS = {
     "annual_income_triplets",
@@ -222,7 +223,7 @@ _REVIEW_TOP_KEYS = {"schema_version", "manifest_version", "manifest_id", "source
 _REVIEW_DOCUMENT_KEYS = {"document_id", "symbol", "period", "classification", "title", "expected_title_pattern", "published_at", "source_url", "content_sha256", "content_identity", "safe_period", "approval_status", "reason"}
 _REVIEW_SOURCE = {"financial_coverage": "state/company_intel/financial_coverage.json", "research_index": "state/research_index.json"}
 _COMPANY_DOCUMENT_TOP_KEYS = {"schema_version", "documents", "_meta"}
-_COMPANY_DOCUMENT_KEYS = {"schema_version", "doc_id", "tickers", "title", "doc_type", "published_at", "retrieved_at", "available_on", "source_url", "source", "content_sha256", "local_sha256", "content_length", "page_count", "media_type", "status", "stale", "error", "evidence", "events", "facts", "versions", "brief_evidence", "ledger_changes"}
+_COMPANY_DOCUMENT_KEYS = {"schema_version", "doc_id", "tickers", "title", "doc_type", "classification", "published_at", "retrieved_at", "available_on", "source_url", "source", "content_sha256", "local_sha256", "content_length", "page_count", "media_type", "status", "stale", "error", "evidence", "events", "facts", "versions", "brief_evidence", "ledger_changes"}
 _RESEARCH_INDEX_TOP_KEYS = {"documents", "by_ticker", "_meta"}
 _RESEARCH_INDEX_DOCUMENT_KEYS = {"id", "hash", "source", "source_type", "doc_type", "date", "published_at", "tickers", "company_name", "title", "digest", "digest_level", "claims", "url", "source_page", "official_document_id", "omissions"}
 
@@ -618,12 +619,28 @@ def build_case_from_retained_state(
     _closed_keys(share_state, _SHARE_COUNT_KEYS, share_path)
     full_coverage = _state_row(qualification.get("model_ready_financial_statement_coverage"), "financial_truth.companies.MLCF.model_ready_financial_statement_coverage")
     _closed_keys(full_coverage, {"annual", "reported_quarter", "limitation"}, "financial_truth.companies.MLCF.model_ready_financial_statement_coverage")
+    expected_schedule_periods = {
+        "annual": list(PROMOTED_ANNUAL_PERIODS),
+        "reported_quarter": [],
+    }
+    period_fields = (
+        "qualified_periods",
+        "direct_flow_statement_periods",
+        "direct_balance_sheet_periods",
+        "derived_ebitda_periods",
+        "derived_free_cash_flow_periods",
+    )
     for key, required in (("annual", TARGET_ANNUAL_PERIODS), ("reported_quarter", TARGET_REPORTED_INTERIM_PERIODS)):
         schedule = _state_row(full_coverage.get(key), f"financial_truth.companies.MLCF.model_ready_financial_statement_coverage.{key}")
         _closed_keys(schedule, {"required", "present", "qualified_periods", "direct_flow_statement_periods", "direct_balance_sheet_periods", "derived_ebitda_periods", "derived_free_cash_flow_periods", "required_direct_metrics", "derived_metric_lineage"}, f"financial_truth.companies.MLCF.model_ready_financial_statement_coverage.{key}")
         _validate_coverage({field: schedule.get(field) for field in _COVERAGE_KEYS}, f"financial_truth.companies.MLCF.model_ready_financial_statement_coverage.{key}")
-        if schedule.get("required") != required or schedule.get("present") != 0:
-            _fail(f"financial_truth.companies.MLCF.model_ready_financial_statement_coverage.{key}", "full-statement schedule unexpectedly qualified")
+        expected_periods = expected_schedule_periods[key]
+        path = f"financial_truth.companies.MLCF.model_ready_financial_statement_coverage.{key}"
+        if schedule.get("required") != required or schedule.get("present") != len(expected_periods):
+            _fail(path, "full-statement schedule does not match the approved retained state")
+        for field in period_fields:
+            if schedule.get(field) != expected_periods:
+                _fail(f"{path}.{field}", "period set does not match the approved retained state")
     if financial_tie_out.get("status") != "blocked":
         _fail("financial_truth.companies.MLCF.financial_tie_out", "financial tie-out is no longer blocked")
     if downstream.get("forecast") != "blocked_financial_truth_not_qualified":

@@ -1779,6 +1779,8 @@ def main() -> int:
         else:
             raise AssertionError("cleanup accepted path escape")
 
+    # Receipt projection is covered by the PSO receipt checker; this restage
+    # checker intentionally does not write or preserve operating-event state.
     print("reprocess_company_documents self-check: ok")
     return 0
 

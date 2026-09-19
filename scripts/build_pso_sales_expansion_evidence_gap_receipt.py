@@ -219,6 +219,59 @@ def _extract_decisive_source(psx_index_doc: Mapping[str, Any] | None) -> dict[st
     }
 
 
+def validate_committed_decisive_source(decisive: Mapping[str, Any] | None) -> bool:
+    """Validate a committed intake projection without reading raw bytes.
+
+    The raw PDF is an owner-invoked intake input.  Every downstream projection
+    must consume only this hash/page-bound receipt, so a clean checkout remains
+    deterministic and cannot silently re-intake or synthesize the event.
+    """
+    if not isinstance(decisive, Mapping):
+        return False
+    exact = {
+        "status": "hash_page_bound_observed_seed_defensible",
+        "document_id": PSX_DOC_ID,
+        "title": OFFICIAL_TITLE,
+        "source_url": OFFICIAL_URL,
+        "published_at": OFFICIAL_PUBLISHED_AT,
+        "content_sha256": EXPECTED_CONTENT_SHA256,
+        "content_length": 13034584,
+        "page_count": EXPECTED_PAGE_COUNT,
+        "event_date": "2025-06-30",
+        "event_type": "distribution_network_expansion",
+        "event_subtype": "fuel_retail_and_convenience_channel",
+    }
+    if any(decisive.get(key) != value for key, value in exact.items()):
+        return False
+    evidence = decisive.get("evidence")
+    if not isinstance(evidence, list) or len(evidence) != len(EVIDENCE_SELECTORS):
+        return False
+    by_id = {row.get("evidence_id"): row for row in evidence if isinstance(row, Mapping)}
+    for selector in EVIDENCE_SELECTORS:
+        row = by_id.get(selector["evidence_id"])
+        if not isinstance(row, Mapping) or row.get("page") != selector["page"]:
+            return False
+        if row.get("source_url") != OFFICIAL_URL or row.get("content_sha256") != EXPECTED_CONTENT_SHA256:
+            return False
+        text = str(row.get("text") or "").lower()
+        if selector["anchor"].lower() not in text or any(term.lower() not in text for term in selector["required_terms"]):
+            return False
+    return decisive.get("qualifies_observed_seed") is True
+
+
+def load_committed_receipt(path=None) -> dict[str, Any]:
+    path = path or OUTPUT_PATH
+    payload = load_json(path, {})
+    if not isinstance(payload, dict):
+        return {}
+    decisive = (payload.get("retained_authority_state") or {}).get("decisive_psx_260771")
+    return payload if (
+        payload.get("intake_revision") == INTAKE_REVISION
+        and payload.get("observed_seed_permitted") is True
+        and validate_committed_decisive_source(decisive)
+    ) else {}
+
+
 def _documents_table(company_documents: Mapping[str, Any]) -> Mapping[str, Any]:
     documents = company_documents.get("documents")
     return documents if isinstance(documents, Mapping) else {}

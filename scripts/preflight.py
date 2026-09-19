@@ -447,9 +447,15 @@ def check_ci_slice():
         financial_coverage_state = (wave1.get("financial_coverage", {}).get("companies", {}).get(sym) or {})
         financial_truth_state = (wave1.get("financial_truth_qualification", {}).get("companies", {}).get(sym) or {})
         forecast_readiness_state = (wave1.get("forecast_readiness", {}).get("companies", {}).get(sym) or {})
-        financial_forecast_state = (wave1.get("financial_forecasts", {}).get("companies", {}).get(sym) or {})
-        formal_valuation_state = (wave1.get("formal_valuations", {}).get("companies", {}).get(sym) or {})
-        market_expectations_state = (wave1.get("market_expectations", {}).get("companies", {}).get(sym) or {})
+        financial_forecast_state = build_ci_slice._formal_engine_product(
+            wave1.get("financial_forecasts", {}), sym, "financial_forecasts", financial_truth_state
+        )
+        formal_valuation_state = build_ci_slice._formal_engine_product(
+            wave1.get("formal_valuations", {}), sym, "formal_valuations", financial_truth_state
+        )
+        market_expectations_state = build_ci_slice._formal_engine_product(
+            wave1.get("market_expectations", {}), sym, "market_expectations", financial_truth_state
+        )
         scenario_lab_state = (wave1.get("scenario_lab", {}).get("companies", {}).get(sym) or {})
         company_brain_state = (wave1.get("company_brains", {}).get("companies", {}).get(sym) or {})
         thesis_state_row = (thesis_state.get("companies") or {}).get(sym)
@@ -973,6 +979,7 @@ def check_mlcf_financial_audits():
     """Run the committed MLCF derived-fact contract."""
     for name in (
         "check_mlcf_derived_facts.py",
+        "check_mlcf_canonical_promotion_acceptance.py",
     ):
         path = os.path.join(ROOT, "scripts", name)
         if not os.path.exists(path):

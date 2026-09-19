@@ -122,7 +122,31 @@ def main() -> int:
             return
         raise AssertionError(f"{label} reconstructed an authority candidate")
 
+    def assert_schedule_reject(states: dict[str, dict[str, object]], label: str) -> None:
+        try:
+            build_case(states)
+        except ValueError as exc:
+            if "model_ready_financial_statement_coverage" not in str(exc):
+                raise AssertionError(f"{label} reached the wrong blocker: {exc}") from exc
+            checks.append(label)
+            return
+        raise AssertionError(f"{label} accepted schedule drift")
+
     assert_unavailable(baseline, "normal retained state fails closed")
+
+    forged = copy.deepcopy(baseline)
+    forged["financial_truth"]["companies"]["MLCF"]["model_ready_financial_statement_coverage"]["annual"]["present"] = 3
+    forged["financial_truth"]["companies"]["MLCF"]["model_ready_financial_statement_coverage"]["annual"]["qualified_periods"].append("2023-06-30")
+    assert_schedule_reject(forged, "premature 3/5 annual schedule rejected")
+
+    forged = copy.deepcopy(baseline)
+    forged["financial_truth"]["companies"]["MLCF"]["model_ready_financial_statement_coverage"]["annual"]["qualified_periods"] = ["2025-06-30", "2023-06-30"]
+    assert_schedule_reject(forged, "wrong annual period set rejected")
+
+    forged = copy.deepcopy(baseline)
+    forged["financial_truth"]["companies"]["MLCF"]["model_ready_financial_statement_coverage"]["reported_quarter"]["present"] = 1
+    forged["financial_truth"]["companies"]["MLCF"]["model_ready_financial_statement_coverage"]["reported_quarter"]["qualified_periods"] = ["2025-03-31"]
+    assert_schedule_reject(forged, "premature 1/8 quarter schedule rejected")
 
     forged = copy.deepcopy(baseline)
     for document_id in RETAINED_MLCF_DOCUMENT_IDS:
