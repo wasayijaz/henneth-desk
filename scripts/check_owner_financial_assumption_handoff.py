@@ -30,7 +30,58 @@ EXPECTED_PRODUCTS = {
         "market_expectations": ["exit_pe", "net_margin_pct", "revenue_growth_pct"],
     },
 }
-EXPECTED_UNIQUE_MISSING = ("exit_pe", "net_debt", "net_margin_pct", "revenue_growth_pct")
+
+
+def expected_missing_prerequisites(row: dict[str, Any]) -> list[str]:
+    missing_prerequisites = []
+    if row.get("financial_model_inputs_status") != "ready":
+        missing_prerequisites.append("financial_model_inputs_ready")
+    if row.get("forecast_readiness_status") != "input_ready":
+        missing_prerequisites.append("forecast_readiness_input_ready")
+    if row.get("financial_truth_status") != "qualified":
+        missing_prerequisites.append("financial_truth_qualified")
+    return missing_prerequisites
+
+
+def expected_company_status(row: dict[str, Any]) -> str:
+    if expected_missing_prerequisites(row):
+        return "not_ready_for_assumption_handoff"
+    return "input_ready_pending_owner_drafts"
+
+
+def expected_product_status(row: dict[str, Any]) -> str:
+    if expected_missing_prerequisites(row):
+        return "not_evaluated_until_input_ready"
+    return "blocked_missing_approved_records"
+
+
+def assert_prerequisite_boundary_checks() -> None:
+    green = {
+        "financial_model_inputs_status": "ready",
+        "forecast_readiness_status": "input_ready",
+        "financial_truth_status": "qualified",
+    }
+    if expected_missing_prerequisites(green):
+        fail("positive boundary: green prerequisites reported missing")
+    if expected_company_status(green) != "input_ready_pending_owner_drafts":
+        fail("positive boundary: green prerequisites did not open handoff")
+    if expected_product_status(green) != "blocked_missing_approved_records":
+        fail("positive boundary: green prerequisites did not evaluate products")
+
+    red_cases = (
+        ("model inputs", "financial_model_inputs_status", "partial", ["financial_model_inputs_ready"]),
+        ("forecast readiness", "forecast_readiness_status", "blocked", ["forecast_readiness_input_ready"]),
+        ("financial truth", "financial_truth_status", "not_qualified", ["financial_truth_qualified"]),
+    )
+    for label, field, value, expected in red_cases:
+        row = dict(green)
+        row[field] = value
+        if expected_missing_prerequisites(row) != expected:
+            fail(f"negative boundary: {label} prerequisite mismatch")
+        if expected_company_status(row) != "not_ready_for_assumption_handoff":
+            fail(f"negative boundary: {label} did not close company handoff")
+        if expected_product_status(row) != "not_evaluated_until_input_ready":
+            fail(f"negative boundary: {label} did not close product evaluation")
 
 
 def fail(message: str) -> None:
@@ -68,6 +119,7 @@ def _has_control_chars(value: str) -> bool:
 
 
 def assert_manifest_current() -> dict[str, Any]:
+    assert_prerequisite_boundary_checks()
     if not OUT.exists():
         fail("owner financial-assumption handoff manifest is missing")
     manifest = load_json(OUT, {})
@@ -95,12 +147,14 @@ def assert_manifest_current() -> dict[str, Any]:
     companies = manifest.get("companies") or {}
     if set(companies) != set(TARGET_SYMBOLS):
         fail("handoff company boundary mismatch")
+    source = manifest.get("source") or {}
+    if source.get("financial_truth_qualification") != "state/company_intel/financial_truth_qualification.json":
+        fail("handoff manifest does not declare financial truth source gate")
     for symbol in TARGET_SYMBOLS:
         row = companies.get(symbol) or {}
-        if row.get("status") != "input_ready_pending_owner_drafts":
-            fail(f"{symbol}: expected input-ready pending owner drafts")
-        if row.get("forecast_readiness_status") != "input_ready" or row.get("financial_model_inputs_status") != "ready":
-            fail(f"{symbol}: source prerequisites are not ready")
+        missing_prerequisites = expected_missing_prerequisites(row)
+        if row.get("status") != expected_company_status(row):
+            fail(f"{symbol}: handoff status does not match source prerequisites")
         if row.get("reference_cases_can_satisfy_missing_records") is not False:
             fail(f"{symbol}: reference cases can satisfy missing records")
         refs = row.get("historical_reference_cases") or []
@@ -111,10 +165,13 @@ def assert_manifest_current() -> dict[str, Any]:
         products = row.get("products") or {}
         for product, missing in EXPECTED_PRODUCTS[symbol].items():
             product_row = products.get(product) or {}
-            if product_row.get("status") != "blocked_missing_approved_records":
-                fail(f"{symbol}: {product} is not blocked on missing approved records")
-            if product_row.get("missing_approved_records") != missing:
+            if product_row.get("status") != expected_product_status(row):
+                fail(f"{symbol}: {product} status does not match source prerequisites")
+            expected_missing = [] if missing_prerequisites else missing
+            if product_row.get("missing_approved_records") != expected_missing:
                 fail(f"{symbol}: {product} missing records drifted: {product_row.get('missing_approved_records')}")
+            if product_row.get("missing_prerequisites") != missing_prerequisites:
+                fail(f"{symbol}: {product} prerequisite list drifted")
             accepted = [record.get("metric") for record in product_row.get("accepted_records") or []]
             expected_accepted = ["shares_out"] if product != "market_expectations" else ["current_price", "shares_out"]
             if accepted != expected_accepted:
@@ -123,8 +180,10 @@ def assert_manifest_current() -> dict[str, Any]:
                 if record.get("record_type") != "approved_market_operand" or record.get("value_present") is not True:
                     fail(f"{symbol}: {product} accepted a non-market operand")
         missing_metrics = [record.get("metric") for record in row.get("handoff_records") or []]
-        if missing_metrics != list(EXPECTED_UNIQUE_MISSING):
-            fail(f"{symbol}: unique handoff metrics drifted: {missing_metrics}")
+        if missing_prerequisites and missing_metrics:
+            fail(f"{symbol}: blocked prerequisite company must have no handoff records")
+        if missing_metrics != sorted(set(missing_metrics)):
+            fail(f"{symbol}: unique handoff metrics are not deterministic: {missing_metrics}")
         for record in row.get("handoff_records") or []:
             if "value" in record or "row_id" in record or "approved_at" in record:
                 fail(f"{symbol}: handoff record contains activating row/value fields")
@@ -136,7 +195,18 @@ def assert_manifest_current() -> dict[str, Any]:
             if contract.get("unit") != unit or contract.get("minimum") != minimum or contract.get("maximum") != maximum:
                 fail(f"{symbol}: metric contract drifted for {metric}")
     summary = manifest.get("summary") or {}
-    if summary.get("unique_missing_company_metric_count") != 8 or summary.get("formal_products_ready_count") != 0:
+    expected_missing_count = sum(
+        len((companies.get(symbol) or {}).get("handoff_records") or [])
+        for symbol in TARGET_SYMBOLS
+    )
+    expected_product_gap_count = sum(
+        len((product or {}).get("missing_approved_records") or [])
+        for company in companies.values()
+        for product in ((company or {}).get("products") or {}).values()
+    )
+    if summary.get("unique_missing_company_metric_count") != expected_missing_count:
+        fail("handoff summary missing-record count is not derived from company rows")
+    if summary.get("product_missing_entry_count") != expected_product_gap_count or summary.get("formal_products_ready_count") != 0:
         fail("handoff summary claims missing or ready count incorrectly")
     return manifest
 
@@ -204,9 +274,10 @@ def assert_draft_export(path: Path, manifest: dict[str, Any]) -> None:
             continue
         seen.add((str(row["symbol"]).upper(), str(row["metric"])))
     expected = {
-        (symbol, metric)
+        (symbol, record.get("metric"))
         for symbol in TARGET_SYMBOLS
-        for metric in EXPECTED_UNIQUE_MISSING
+        for record in ((manifest.get("companies") or {}).get(symbol) or {}).get("handoff_records") or []
+        if isinstance(record, dict) and record.get("metric")
     }
     missing = sorted(f"{symbol}:{metric}" for symbol, metric in expected - seen)
     extra = sorted(f"{symbol}:{metric}" for symbol, metric in seen - expected)
@@ -224,7 +295,12 @@ def main(argv: list[str] | None = None) -> None:
         assert_draft_export(args.draft_export, manifest)
         print("owner_financial_assumption_handoff: PASS (manifest current; draft export complete and inert)")
     else:
-        print("owner_financial_assumption_handoff: PASS (manifest current; review-only, 8 company-metric drafts required)")
+        summary = manifest.get("summary") or {}
+        draft_count = summary.get("unique_missing_company_metric_count")
+        print(
+            "owner_financial_assumption_handoff: "
+            f"PASS (manifest current; review-only, {draft_count} company-metric drafts required)"
+        )
 
 
 if __name__ == "__main__":

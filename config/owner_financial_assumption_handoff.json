@@ -8,6 +8,7 @@
  ],
  "source": {
   "financial_engine_assumptions": "state/company_intel/financial_engine_assumptions.json",
+  "financial_truth_qualification": "state/company_intel/financial_truth_qualification.json",
   "forecast_readiness": "state/company_intel/forecast_readiness.json",
   "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
   "formal_engine_contract": "scripts/forecast_contract.py",
@@ -31,9 +32,10 @@
  "companies": {
   "MLCF": {
    "symbol": "MLCF",
-   "status": "input_ready_pending_owner_drafts",
+   "status": "not_ready_for_assumption_handoff",
    "forecast_readiness_status": "input_ready",
    "financial_model_inputs_status": "ready",
+   "financial_truth_status": "not_qualified",
    "qualified_period_count": 3,
    "qualified_periods": [
     "2024-06-30",
@@ -43,7 +45,7 @@
    "gap_status_from_financial_engine_assumptions": "input_ready_pending_approved_records",
    "products": {
     "forecast": {
-     "status": "blocked_missing_approved_records",
+     "status": "not_evaluated_until_input_ready",
      "required_approved_records": [
       "revenue_growth_pct",
       "net_margin_pct",
@@ -64,14 +66,13 @@
        "value_present": true
       }
      ],
-     "missing_approved_records": [
-      "revenue_growth_pct",
-      "net_margin_pct"
-     ],
-     "missing_prerequisites": []
+     "missing_approved_records": [],
+     "missing_prerequisites": [
+      "financial_truth_qualified"
+     ]
     },
     "valuation": {
-     "status": "blocked_missing_approved_records",
+     "status": "not_evaluated_until_input_ready",
      "required_approved_records": [
       "revenue_growth_pct",
       "net_margin_pct",
@@ -94,16 +95,13 @@
        "value_present": true
       }
      ],
-     "missing_approved_records": [
-      "revenue_growth_pct",
-      "net_margin_pct",
-      "exit_pe",
-      "net_debt"
-     ],
-     "missing_prerequisites": []
+     "missing_approved_records": [],
+     "missing_prerequisites": [
+      "financial_truth_qualified"
+     ]
     },
     "market_expectations": {
-     "status": "blocked_missing_approved_records",
+     "status": "not_evaluated_until_input_ready",
      "required_approved_records": [
       "current_price",
       "exit_pe",
@@ -139,121 +137,13 @@
        "value_present": true
       }
      ],
-     "missing_approved_records": [
-      "exit_pe",
-      "net_margin_pct",
-      "revenue_growth_pct"
-     ],
-     "missing_prerequisites": []
+     "missing_approved_records": [],
+     "missing_prerequisites": [
+      "financial_truth_qualified"
+     ]
     }
    },
-   "handoff_records": [
-    {
-     "symbol": "MLCF",
-     "metric": "exit_pe",
-     "required_for_products": [
-      "market_expectations",
-      "valuation"
-     ],
-     "contract": {
-      "metric": "exit_pe",
-      "unit": "x",
-      "minimum": 0.0,
-      "maximum": 200.0,
-      "minimum_inclusive": false,
-      "maximum_inclusive": true
-     },
-     "draft_requirements_before_append_copy_approval": {
-      "approved": false,
-      "approved_at": null,
-      "unit": "x",
-      "value_must_satisfy_contract": true,
-      "available_on_must_not_exceed_manifest_as_of": true,
-      "source_label_required": true,
-      "rationale_required": true,
-      "source_url_if_present_must_be_https": true
-     }
-    },
-    {
-     "symbol": "MLCF",
-     "metric": "net_debt",
-     "required_for_products": [
-      "valuation"
-     ],
-     "contract": {
-      "metric": "net_debt",
-      "unit": "PKR",
-      "minimum": -10000000000000.0,
-      "maximum": 10000000000000.0,
-      "minimum_inclusive": true,
-      "maximum_inclusive": true
-     },
-     "draft_requirements_before_append_copy_approval": {
-      "approved": false,
-      "approved_at": null,
-      "unit": "PKR",
-      "value_must_satisfy_contract": true,
-      "available_on_must_not_exceed_manifest_as_of": true,
-      "source_label_required": true,
-      "rationale_required": true,
-      "source_url_if_present_must_be_https": true
-     }
-    },
-    {
-     "symbol": "MLCF",
-     "metric": "net_margin_pct",
-     "required_for_products": [
-      "forecast",
-      "market_expectations",
-      "valuation"
-     ],
-     "contract": {
-      "metric": "net_margin_pct",
-      "unit": "pct",
-      "minimum": 0.0,
-      "maximum": 100.0,
-      "minimum_inclusive": false,
-      "maximum_inclusive": true
-     },
-     "draft_requirements_before_append_copy_approval": {
-      "approved": false,
-      "approved_at": null,
-      "unit": "pct",
-      "value_must_satisfy_contract": true,
-      "available_on_must_not_exceed_manifest_as_of": true,
-      "source_label_required": true,
-      "rationale_required": true,
-      "source_url_if_present_must_be_https": true
-     }
-    },
-    {
-     "symbol": "MLCF",
-     "metric": "revenue_growth_pct",
-     "required_for_products": [
-      "forecast",
-      "market_expectations",
-      "valuation"
-     ],
-     "contract": {
-      "metric": "revenue_growth_pct",
-      "unit": "pct",
-      "minimum": -100.0,
-      "maximum": 500.0,
-      "minimum_inclusive": false,
-      "maximum_inclusive": true
-     },
-     "draft_requirements_before_append_copy_approval": {
-      "approved": false,
-      "approved_at": null,
-      "unit": "pct",
-      "value_must_satisfy_contract": true,
-      "available_on_must_not_exceed_manifest_as_of": true,
-      "source_label_required": true,
-      "rationale_required": true,
-      "source_url_if_present_must_be_https": true
-     }
-    }
-   ],
+   "handoff_records": [],
    "historical_reference_cases": [
     {
      "metric": "net_margin_pct",
@@ -275,13 +165,14 @@
     }
    ],
    "reference_cases_can_satisfy_missing_records": false,
-   "next_required_action": "owner_create_inert_drafts_then_run_local_handoff_checker_before_append_copy_approval"
+   "next_required_action": "none"
   },
   "DGKC": {
    "symbol": "DGKC",
-   "status": "input_ready_pending_owner_drafts",
+   "status": "not_ready_for_assumption_handoff",
    "forecast_readiness_status": "input_ready",
-   "financial_model_inputs_status": "ready",
+   "financial_model_inputs_status": "partial",
+   "financial_truth_status": "not_qualified",
    "qualified_period_count": 4,
    "qualified_periods": [
     "2022-06-30",
@@ -292,7 +183,7 @@
    "gap_status_from_financial_engine_assumptions": "input_ready_pending_approved_records",
    "products": {
     "forecast": {
-     "status": "blocked_missing_approved_records",
+     "status": "not_evaluated_until_input_ready",
      "required_approved_records": [
       "revenue_growth_pct",
       "net_margin_pct",
@@ -313,14 +204,14 @@
        "value_present": true
       }
      ],
-     "missing_approved_records": [
-      "revenue_growth_pct",
-      "net_margin_pct"
-     ],
-     "missing_prerequisites": []
+     "missing_approved_records": [],
+     "missing_prerequisites": [
+      "financial_model_inputs_ready",
+      "financial_truth_qualified"
+     ]
     },
     "valuation": {
-     "status": "blocked_missing_approved_records",
+     "status": "not_evaluated_until_input_ready",
      "required_approved_records": [
       "revenue_growth_pct",
       "net_margin_pct",
@@ -343,16 +234,14 @@
        "value_present": true
       }
      ],
-     "missing_approved_records": [
-      "revenue_growth_pct",
-      "net_margin_pct",
-      "exit_pe",
-      "net_debt"
-     ],
-     "missing_prerequisites": []
+     "missing_approved_records": [],
+     "missing_prerequisites": [
+      "financial_model_inputs_ready",
+      "financial_truth_qualified"
+     ]
     },
     "market_expectations": {
-     "status": "blocked_missing_approved_records",
+     "status": "not_evaluated_until_input_ready",
      "required_approved_records": [
       "current_price",
       "exit_pe",
@@ -388,121 +277,14 @@
        "value_present": true
       }
      ],
-     "missing_approved_records": [
-      "exit_pe",
-      "net_margin_pct",
-      "revenue_growth_pct"
-     ],
-     "missing_prerequisites": []
+     "missing_approved_records": [],
+     "missing_prerequisites": [
+      "financial_model_inputs_ready",
+      "financial_truth_qualified"
+     ]
     }
    },
-   "handoff_records": [
-    {
-     "symbol": "DGKC",
-     "metric": "exit_pe",
-     "required_for_products": [
-      "market_expectations",
-      "valuation"
-     ],
-     "contract": {
-      "metric": "exit_pe",
-      "unit": "x",
-      "minimum": 0.0,
-      "maximum": 200.0,
-      "minimum_inclusive": false,
-      "maximum_inclusive": true
-     },
-     "draft_requirements_before_append_copy_approval": {
-      "approved": false,
-      "approved_at": null,
-      "unit": "x",
-      "value_must_satisfy_contract": true,
-      "available_on_must_not_exceed_manifest_as_of": true,
-      "source_label_required": true,
-      "rationale_required": true,
-      "source_url_if_present_must_be_https": true
-     }
-    },
-    {
-     "symbol": "DGKC",
-     "metric": "net_debt",
-     "required_for_products": [
-      "valuation"
-     ],
-     "contract": {
-      "metric": "net_debt",
-      "unit": "PKR",
-      "minimum": -10000000000000.0,
-      "maximum": 10000000000000.0,
-      "minimum_inclusive": true,
-      "maximum_inclusive": true
-     },
-     "draft_requirements_before_append_copy_approval": {
-      "approved": false,
-      "approved_at": null,
-      "unit": "PKR",
-      "value_must_satisfy_contract": true,
-      "available_on_must_not_exceed_manifest_as_of": true,
-      "source_label_required": true,
-      "rationale_required": true,
-      "source_url_if_present_must_be_https": true
-     }
-    },
-    {
-     "symbol": "DGKC",
-     "metric": "net_margin_pct",
-     "required_for_products": [
-      "forecast",
-      "market_expectations",
-      "valuation"
-     ],
-     "contract": {
-      "metric": "net_margin_pct",
-      "unit": "pct",
-      "minimum": 0.0,
-      "maximum": 100.0,
-      "minimum_inclusive": false,
-      "maximum_inclusive": true
-     },
-     "draft_requirements_before_append_copy_approval": {
-      "approved": false,
-      "approved_at": null,
-      "unit": "pct",
-      "value_must_satisfy_contract": true,
-      "available_on_must_not_exceed_manifest_as_of": true,
-      "source_label_required": true,
-      "rationale_required": true,
-      "source_url_if_present_must_be_https": true
-     }
-    },
-    {
-     "symbol": "DGKC",
-     "metric": "revenue_growth_pct",
-     "required_for_products": [
-      "forecast",
-      "market_expectations",
-      "valuation"
-     ],
-     "contract": {
-      "metric": "revenue_growth_pct",
-      "unit": "pct",
-      "minimum": -100.0,
-      "maximum": 500.0,
-      "minimum_inclusive": false,
-      "maximum_inclusive": true
-     },
-     "draft_requirements_before_append_copy_approval": {
-      "approved": false,
-      "approved_at": null,
-      "unit": "pct",
-      "value_must_satisfy_contract": true,
-      "available_on_must_not_exceed_manifest_as_of": true,
-      "source_label_required": true,
-      "rationale_required": true,
-      "source_url_if_present_must_be_https": true
-     }
-    }
-   ],
+   "handoff_records": [],
    "historical_reference_cases": [
     {
      "metric": "net_margin_pct",
@@ -524,14 +306,14 @@
     }
    ],
    "reference_cases_can_satisfy_missing_records": false,
-   "next_required_action": "owner_create_inert_drafts_then_run_local_handoff_checker_before_append_copy_approval"
+   "next_required_action": "none"
   }
  },
  "summary": {
   "company_count": 2,
-  "input_ready_company_count": 2,
-  "unique_missing_company_metric_count": 8,
-  "product_missing_entry_count": 18,
+  "input_ready_company_count": 0,
+  "unique_missing_company_metric_count": 0,
+  "product_missing_entry_count": 0,
   "formal_products_ready_count": 0
  }
 }

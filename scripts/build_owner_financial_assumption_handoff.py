@@ -76,12 +76,14 @@ def _company_row(
     *,
     model_inputs: dict[str, Any],
     readiness: dict[str, Any],
+    financial_truth: dict[str, Any],
     assumptions: dict[str, Any],
     gaps: dict[str, Any],
     as_of: str | None,
 ) -> dict[str, Any]:
     model_row = (model_inputs.get("companies") or {}).get(symbol) or {}
     readiness_row = (readiness.get("companies") or {}).get(symbol) or {}
+    truth_row = (financial_truth.get("companies") or {}).get(symbol) or {}
     gap_row = (gaps.get("companies") or {}).get(symbol) or {}
     accepted = approved_records(assumptions, symbol, as_of)
     accepted_metrics = set(accepted)
@@ -90,6 +92,8 @@ def _company_row(
         missing_prerequisites.append("financial_model_inputs_ready")
     if readiness_row.get("status") != "input_ready":
         missing_prerequisites.append("forecast_readiness_input_ready")
+    if truth_row.get("status") != "qualified":
+        missing_prerequisites.append("financial_truth_qualified")
 
     products: dict[str, Any] = {}
     missing_by_metric: dict[str, set[str]] = {}
@@ -148,6 +152,7 @@ def _company_row(
         "status": status,
         "forecast_readiness_status": readiness_row.get("status"),
         "financial_model_inputs_status": model_row.get("status"),
+        "financial_truth_status": truth_row.get("status"),
         "qualified_period_count": readiness_row.get("qualified_period_count"),
         "qualified_periods": [
             period.get("period_end")
@@ -170,6 +175,7 @@ def _company_row(
 def build(write: bool = True, output_path: Path = OUT) -> dict[str, Any]:
     model_inputs = load_json(STATE / "company_intel" / "financial_model_inputs.json", {})
     readiness = load_json(STATE / "company_intel" / "forecast_readiness.json", {})
+    financial_truth = load_json(STATE / "company_intel" / "financial_truth_qualification.json", {})
     assumptions = load_json(STATE / "company_intel" / "financial_engine_assumptions.json", {"records": []})
     gaps = assumptions.get("assumption_gaps") or {}
     as_of = assumptions.get("as_of") or gaps.get("as_of")
@@ -178,6 +184,7 @@ def build(write: bool = True, output_path: Path = OUT) -> dict[str, Any]:
             symbol,
             model_inputs=model_inputs,
             readiness=readiness,
+            financial_truth=financial_truth,
             assumptions=assumptions,
             gaps=gaps,
             as_of=as_of,
@@ -197,6 +204,7 @@ def build(write: bool = True, output_path: Path = OUT) -> dict[str, Any]:
         "target_symbols": list(TARGET_SYMBOLS),
         "source": {
             "financial_engine_assumptions": "state/company_intel/financial_engine_assumptions.json",
+            "financial_truth_qualification": "state/company_intel/financial_truth_qualification.json",
             "forecast_readiness": "state/company_intel/forecast_readiness.json",
             "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
             "formal_engine_contract": "scripts/forecast_contract.py",
