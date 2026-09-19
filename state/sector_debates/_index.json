@@ -717,6 +717,59 @@
      {"text": "Commercial Banks underperform the KSE-100 over the 30-day window from 2026-09-12 through 2026-10-12, unless breadth repairs above zero and the sector's relative return improves.", "horizon_days": 30, "market_relative": true, "resolves_on": "2026-10-12"}
     ]
    }
+  },
+  "Modarabas": {
+   "sector": "Modarabas",
+   "as_of": "2026-09-18",
+   "bull": {
+    "tldr": "Modarabas showed unusually broad one-day participation: 16 of 19 members advanced and 9 remain above the 50-day average. FPJM led with a 68.76% 20-day gain, but the sector's -2.98% median 20-day return and thin fundamental coverage limit the recovery case.",
+    "case": "The strongest constructive evidence is breadth rather than valuation. Sixteen of 19 names advanced on the latest session and 9 of 19 sit above the 50-day average, indicating that the move was not confined to one ticker. FPJM is up 68.76% over 20 sessions, while PIM, SINDM and FTMM are also up 55.85%, 24.76% and 19.74%. The sector's median payout is only 33.33%, and FHAM combines a 4.55 P/E, 6.89% yield and +38.8% fair-value gap, providing one priced example of potential value support.",
+    "pillars": [
+     {"claim":"Latest-session participation was broad","evidence":"breadth.advancing_1d = 16 of 19 members; returns.median_1d_pct = +2.47%"},
+     {"claim":"Several members have positive medium-term momentum","evidence":"FPJM +68.76%, PIM +55.85%, SINDM +24.76% and FTMM +19.74% over 20 sessions"},
+     {"claim":"At least one priced name combines value and income support","evidence":"FHAM P/E 4.55, fair_gap_pct +38.8%, yield 6.89% and payout 33.33%"}
+    ],
+    "weakest_pillar":"The momentum pillar is vulnerable because the sector median 20-day return is still -2.98%, FPJM is a single outlier, and most members have no valuation or income data."
+   },
+   "bear": {
+    "tldr":"The one-day rebound does not repair the medium-term picture: Modarabas have a -2.98% median 20-day return, only 3 of 19 members carry valuation data, and just one member pays a recorded dividend. The best and worst 20-day returns span +68.76% to -30.94%.",
+    "case":"The sector's fundamental base is too thin for a high-confidence recovery call. Only 3 of 19 members have P/E or fair-value coverage; two of those three are overvalued, including WASL at a -91.1% fair-value gap and TRSM at -89.7%. Only one member is counted as a payer, so the 6.89% median yield is not a sector-wide income cushion. Price dispersion is severe: FPJM is up 68.76% over 20 days while FTSM is down 30.94%, and the sector median remains negative despite 16 advances in the latest session.",
+    "pillars": [
+     {"claim":"Medium-term performance remains negative despite the rebound","evidence":"returns.median_20d_pct = -2.98%; best FPJM +68.76% versus worst FTSM -30.94%"},
+     {"claim":"Valuation coverage is sparse and mostly adverse","evidence":"n_valued = 3 of 19; n_overvalued = 2 versus n_undervalued = 1; median_fair_gap_pct = -89.7%"},
+     {"claim":"Income support is not broad enough to underwrite the sector","evidence":"income.n_payers = 1 of 19; median yield 6.89% and median payout 33.33%"}
+    ],
+    "attacks_bull":"The bull's breadth argument is real but short-horizon: 16 advancing names coexist with a negative 20-day median, and the strongest named winners include thinly covered or low-liquidity members. FHAM's attractive figures cannot stand in for the other 18 members, while FPJM's +68.76% return is an outlier rather than sector-wide evidence.",
+    "weakest_pillar":"The valuation attack relies on only three priced names, so its negative conclusion cannot be generalized to the full 19-member sector without acknowledging the same coverage problem that weakens the bull case."
+   },
+   "bull_rebuttal":"The bear is right that coverage is the binding constraint and that the -2.98% median 20-day return has not been repaired. The remaining bull case is narrower: the 16-of-19 advancing count and 9-of-19 above-SMA50 count show that the latest move had breadth, while FHAM demonstrates that at least one priced member has both value and income support. That is evidence of a possible stabilization, not proof of a sector re-rating.",
+   "what_would_settle_it":[
+    "Whether the 16-of-19 advancing session is followed by a positive median 20-day return and breadth above the current 9-of-19 above-SMA50 count.",
+    "Whether FPJM's +68.76% 20-day move holds while the sector median stops underperforming the KSE-100.",
+    "The scheduled WASL results on 2026-09-29 and FHAM results on 2026-10-28, including whether fresh filings expand reliable valuation and income coverage beyond 3 of 19 members."
+   ],
+   "dossier_gaps":[
+    "Sixteen of 19 members have no P/E or fair-value coverage, so both valuation cases rest on a very small sample.",
+    "Only one of 19 members is counted as a dividend payer, limiting the usefulness of the sector income medians.",
+    "The dossier provides no sector-level liquidity aggregate, making it difficult to distinguish broad investable demand from thin-name price movement.",
+    "Macro drivers are empty and macro_joint_r2_pct is null, so the dossier does not quantify a global-factor explanation for the sector's returns."
+   ],
+   "house_view": {
+    "stance":"cautious",
+    "conviction":"low",
+    "tldr":"Cautious, low conviction: Modarabas produced a broad +2.47% median one-day move with 16 of 19 advancing, but the median 20-day return remains -2.98%, valuation covers only 3 names, and income covers only one payer.",
+    "summary":"The latest tape is constructive but not yet a repaired trend. Sixteen of 19 members advanced and 9 remain above their 50-day average, while FPJM, PIM, SINDM and FTMM posted strong 20-day gains. Against that, the sector median 20-day return is -2.98%, the return range is dominated by FPJM at +68.76% and FTSM at -30.94%, and only 3 members carry valuation data. Two of those three are marked overvalued, while only one member is counted as a payer. FHAM is a credible priced counterexample with P/E 4.55, +38.8% fair-value gap and 6.89% yield, but it cannot underwrite the rest of the roster. The desk therefore keeps a cautious, low-conviction view until the breadth improvement persists and the upcoming results add reliable coverage.",
+    "key_evidence":[
+     "breadth.above_sma50 = 9 of 19; breadth.advancing_1d = 16 of 19; returns.median_1d_pct = +2.47%",
+     "returns.median_20d_pct = -2.98%; best_20d FPJM +68.76%; worst_20d FTSM -30.94%",
+     "valuation.n_valued = 3 of 19; n_overvalued = 2; n_undervalued = 1; median_fair_gap_pct = -89.7%",
+     "income.n_payers = 1 of 19; FHAM P/E 4.55, fair_gap_pct +38.8%, yield 6.89%, payout 33.33%"
+    ],
+    "dissent":"The strongest argument against caution is the breadth of the latest rebound. Sixteen of 19 members advanced and 9 of 19 sit above the 50-day average, which is materially stronger than a one-name move; the gains in FPJM, PIM, SINDM and FTMM indicate several independent pockets of demand. The negative median 20-day return may therefore be a lagging statistic after a sharp rotation rather than evidence that the rebound is failing. The bear's valuation case is also internally limited: 2 overvalued names out of 3 priced members cannot establish that the other 16 are expensive when they have no coverage, and FHAM is a concrete counterexample with low P/E, positive fair-value gap and a moderate payout. If the next dossier keeps breadth near or above 9 of 19, expands valuation coverage, and the sector median turns positive, the cautious stance would be too restrictive. That is why conviction remains low rather than high.",
+    "what_changed":"first session",
+    "benchmark":{"name":"KSE100","level":170884.58,"as_of":"2026-09-18"},
+    "claims":[{"text":"Modarabas underperform the KSE-100 over the 30-day window from 2026-09-19 through 2026-10-19 unless the sector's breadth remains above 9 of 19 and its median 20-day return turns positive.","horizon_days":30,"market_relative":true,"resolves_on":"2026-10-19"}]
+   }
   }
  }
 }

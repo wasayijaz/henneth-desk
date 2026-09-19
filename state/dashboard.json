@@ -1,5 +1,5 @@
 {
- "updated": "2026-09-18 20:20",
+ "updated": "2026-09-19 16:39",
  "regime": "risk-off",
  "geo_risk": {
   "score": 54,
@@ -7,7 +7,7 @@
  },
  "signals": [
   {
-   "id": "20260918-DFSM-triple_screen_long",
+   "id": "20260919-DFSM-triple_screen_long",
    "ticker": "DFSM",
    "strategy": "triple_screen_long",
    "template": "Triple screen alignment",
@@ -25,7 +25,7 @@
    "thesis": "Triple screen alignment is triggering now; on DFSM's own history it won 75% over 8 trades (+3.8% net/trade), still profitable out-of-sample."
   },
   {
-   "id": "20260918-MDTL-donch55_trend_break",
+   "id": "20260919-MDTL-donch55_trend_break",
    "ticker": "MDTL",
    "strategy": "donch55_trend_break",
    "template": "Donchian 55 breakout",
@@ -43,7 +43,7 @@
    "thesis": "Donchian 55 breakout is triggering now; on MDTL's own history it won 62% over 8 trades (+3.8% net/trade), still profitable out-of-sample."
   },
   {
-   "id": "20260918-SGPL-vol_dryup_surge",
+   "id": "20260919-SGPL-vol_dryup_surge",
    "ticker": "SGPL",
    "strategy": "vol_dryup_surge",
    "template": "Dry-up then surge",
@@ -61,7 +61,7 @@
    "thesis": "Dry-up then surge is triggering now; on SGPL's own history it won 64% over 14 trades (+2.2% net/trade), still profitable out-of-sample."
   },
   {
-   "id": "20260918-BML-oversold_bounce",
+   "id": "20260919-BML-oversold_bounce",
    "ticker": "BML",
    "strategy": "oversold_bounce",
    "template": "RSI oversold bounce",
@@ -355,14 +355,6 @@
  "agent_wire": [],
  "runlog_tail": [
   {
-   "started": "2026-09-16T17:45:32+05:00",
-   "mode": "light-escalated",
-   "ended": "2026-09-16T18:48:01+05:00",
-   "outcome": "PM checkpoint resumed after the successful approved catch-up; post-close integrity passed; 4 news items appended including 3 impact-4 items; no open positions; dashboard and preflight passed; Macro and Market Analyst were not run per PM scope.",
-   "routine": "pm",
-   "research_sha": "04f92b6b4261a0f70a652f64c97152acde52004d"
-  },
-  {
    "started": "2026-09-16T19:01:00+05:00",
    "mode": "full",
    "ended": "2026-09-16T19:26:48+05:00",
@@ -393,6 +385,14 @@
    "outcome": "risk-off daily read; geo-risk moderate at 54; headline: A rebound improved PSX tone, but oil, flows and fuel-price risk still argue for selectivity",
    "routine": "daily",
    "research_sha": "95007dfd1cbe8e5f8de0506fc499eba9eedab299"
+  },
+  {
+   "started": "2026-09-18T20:03:04+05:00",
+   "mode": "room",
+   "ended": "2026-09-18T20:24:56+05:00",
+   "outcome": "Desk Room completed: ILP and ATRL full reviews; 0 delta; LUCK, MARI, CNERGY, and FCL reaffirmed; QA and preflight passed",
+   "routine": "room",
+   "research_sha": "f688931344fb77f4ba8dca3082a55b0d827428a0"
   }
  ]
 }

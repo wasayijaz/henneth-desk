@@ -531,6 +531,12 @@
    "sev": "low",
    "field": "fairvalue.spread",
    "msg": "methods disagree 4.1x — treat composite as a rough screen"
+  },
+  {
+   "sev": "medium",
+   "field": "fundamentals.div_yield",
+   "msg": "stated div_yield 4.19% vs 1.23% implied by trailing-365d dividends (Rs 2.00/share at close Rs 162.18) — 71% off",
+   "escalate": true
   }
  ],
  "LOTCHEM": [
@@ -892,7 +898,7 @@
   {
    "sev": "medium",
    "field": "quant.date",
-   "msg": "quant is 25 days stale (2026-08-24)"
+   "msg": "quant is 26 days stale (2026-08-24)"
   }
  ],
  "ECOP": [
@@ -936,42 +942,42 @@
   {
    "sev": "medium",
    "field": "quant.date",
-   "msg": "quant is 308 days stale (2025-11-14)"
+   "msg": "quant is 309 days stale (2025-11-14)"
   }
  ],
  "GEMNETS": [
   {
    "sev": "medium",
    "field": "quant.date",
-   "msg": "quant is 7 days stale (2026-09-11)"
+   "msg": "quant is 8 days stale (2026-09-11)"
   }
  ],
  "HSPI": [
   {
    "sev": "medium",
    "field": "quant.date",
-   "msg": "quant is 672 days stale (2024-11-15)"
+   "msg": "quant is 673 days stale (2024-11-15)"
   }
  ],
  "PHDL": [
   {
    "sev": "medium",
    "field": "quant.date",
-   "msg": "quant is 606 days stale (2025-01-20)"
+   "msg": "quant is 607 days stale (2025-01-20)"
   }
  ],
  "SANE": [
   {
    "sev": "medium",
    "field": "quant.date",
-   "msg": "quant is 714 days stale (2024-10-04)"
+   "msg": "quant is 715 days stale (2024-10-04)"
   }
  ],
  "SLL": [
   {
    "sev": "medium",
    "field": "quant.date",
-   "msg": "quant is 687 days stale (2024-10-31)"
+   "msg": "quant is 688 days stale (2024-10-31)"
   }
  ],
  "USVIX": [
@@ -983,7 +989,7 @@
   }
  ],
  "_meta": {
-  "built": "2026-09-18 20:13",
+  "built": "2026-09-19 16:39",
   "tickers_with_issues": 111,
   "high_severity": 4,
   "escalate_to_agent": [
@@ -1015,6 +1021,7 @@
    "IGIHL",
    "ILP",
    "IMAGE",
+   "INIL",
    "ISL",
    "KAPCO",
    "KTML",
