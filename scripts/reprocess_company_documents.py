@@ -1134,8 +1134,6 @@ def consume_canonical(registry_path: Path, queue_path: Path, output_root: Path,
             builder()
         stage = "build_intelligence_cases"
         build_intelligence_cases()
-        stage = "build_historical_state_map"
-        build_historical_state_map()
         stage = "build_financial_model_inputs"
         model_builder()
         stage = "build_financial_evidence_reconciliation"
@@ -1144,6 +1142,12 @@ def consume_canonical(registry_path: Path, queue_path: Path, output_root: Path,
         build_share_capital_approvals()
         stage = "build_financial_truth_qualification"
         truth_builder()
+        # Historical State Map projects the current financial-truth gate.  It
+        # must be built after qualification, otherwise a canonical restage can
+        # leave the map carrying the prior cycle's truth row and its own
+        # idempotency checker will correctly reject the stale artifact.
+        stage = "build_historical_state_map"
+        build_historical_state_map()
         stage = "build_formal_financial_engines"
         formal_builder()
         for builder in source_ci_builders:

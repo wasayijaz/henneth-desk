@@ -868,6 +868,7 @@ def main() -> int:
             "check_company_brain_source_index.py",
             "check_ci_completion_matrix.py",
             "check_event_studies.py",
+            "check_historical_state_map.py",
             "check_operating_intelligence.py",
             "preflight.py",
         ], checker_calls
