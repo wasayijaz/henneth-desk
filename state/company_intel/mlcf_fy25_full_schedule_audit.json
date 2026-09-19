@@ -424,6 +424,149 @@
   "candidate_count": 23,
   "omission_count": 2
  },
+ "derived": {
+  "depreciation_amortization": {
+   "formula": {
+    "expression": "depreciation_operating_fixed_assets + depreciation_right_of_use + amortisation_intangible_assets",
+    "id": "mlcf_derived_dna_sum_v1",
+    "reported_as_single_line": false,
+    "semantics": "sum_of_three_reported_note_rows"
+   },
+   "periods": {
+    "2024-06-30": {
+     "column_role": "comparative_prior_period",
+     "operand_count": 3,
+     "operands": [
+      {
+       "column_role": "comparative_prior_period",
+       "normalized_value": 11964000.0,
+       "note_reference": "20.1",
+       "operand_key": "amortisation_intangible_assets",
+       "page": 361,
+       "period_end": "2024-06-30",
+       "raw_value": "11,964",
+       "reported_label": "- Amortisation on intangible assets 20.1",
+       "row_y": 334.1,
+       "scale": 1000,
+       "unit": "PKR",
+       "value_x": 492.16448974609375
+      },
+      {
+       "column_role": "comparative_prior_period",
+       "normalized_value": 4835924000.0,
+       "note_reference": "19.1.1",
+       "operand_key": "depreciation_operating_fixed_assets",
+       "page": 361,
+       "period_end": "2024-06-30",
+       "raw_value": "4,835,924",
+       "reported_label": "- Depreciation on operating fixed assets 19.1.1",
+       "row_y": 292.1,
+       "scale": 1000,
+       "unit": "PKR",
+       "value_x": 479.83349609375
+      },
+      {
+       "column_role": "comparative_prior_period",
+       "normalized_value": 20498000.0,
+       "note_reference": "19.4.1",
+       "operand_key": "depreciation_right_of_use",
+       "page": 361,
+       "period_end": "2024-06-30",
+       "raw_value": "20,498",
+       "reported_label": "- Depreciation on right-of-use asset 19.4.1",
+       "row_y": 302.6,
+       "scale": 1000,
+       "unit": "PKR",
+       "value_x": 492.16448974609375
+      }
+     ],
+     "sum_normalized_value": 4868386000.0,
+     "sum_raw_value_thousand": "4,868,386"
+    },
+    "2025-06-30": {
+     "column_role": "current_period",
+     "operand_count": 3,
+     "operands": [
+      {
+       "column_role": "current_period",
+       "normalized_value": 30200000.0,
+       "note_reference": "20.1",
+       "operand_key": "amortisation_intangible_assets",
+       "page": 361,
+       "period_end": "2025-06-30",
+       "raw_value": "30,200",
+       "reported_label": "- Amortisation on intangible assets 20.1",
+       "row_y": 334.1,
+       "scale": 1000,
+       "unit": "PKR",
+       "value_x": 412.1650085449219
+      },
+      {
+       "column_role": "current_period",
+       "normalized_value": 4785637000.0,
+       "note_reference": "19.1.1",
+       "operand_key": "depreciation_operating_fixed_assets",
+       "page": 361,
+       "period_end": "2025-06-30",
+       "raw_value": "4,785,637",
+       "reported_label": "- Depreciation on operating fixed assets 19.1.1",
+       "row_y": 292.1,
+       "scale": 1000,
+       "unit": "PKR",
+       "value_x": 399.833984375
+      },
+      {
+       "column_role": "current_period",
+       "normalized_value": 40555000.0,
+       "note_reference": "19.4.1",
+       "operand_key": "depreciation_right_of_use",
+       "page": 361,
+       "period_end": "2025-06-30",
+       "raw_value": "40,555",
+       "reported_label": "- Depreciation on right-of-use asset 19.4.1",
+       "row_y": 302.6,
+       "scale": 1000,
+       "unit": "PKR",
+       "value_x": 412.16497802734375
+      }
+     ],
+     "sum_normalized_value": 4856392000.0,
+     "sum_raw_value_thousand": "4,856,392"
+    }
+   },
+   "reported": false,
+   "source": {
+    "content_sha256": "4fdfb4cbd2eee65576cbb89b43334ce0c09a7e5ffd573d5bf93b414029eba6d1",
+    "document_id": "psx:260032",
+    "note": "43.1",
+    "note_heading": "CASH FLOW INFORMATION",
+    "page": 361,
+    "scale": 1000,
+    "unit": "PKR",
+    "unit_evidence": "Rupees in thousand"
+   }
+  },
+  "ebitda": {
+   "formula": {
+    "expression": "operating_profit + derived_depreciation_amortization",
+    "id": "mlcf_derived_ebitda_v1"
+   },
+   "periods": {
+    "2025-06-30": {
+     "derived_depreciation_amortization_normalized_value": 4856392000.0,
+     "normalized_value": 23964103000.0,
+     "operating_profit_normalized_value": 19107711000.0,
+     "operating_profit_page": 293
+    }
+   },
+   "reported": false
+  },
+  "policy": {
+   "canonical_promotion": "blocked",
+   "derived_only_not_reported": true,
+   "financial_truth_gate_effect": "none"
+  }
+ },
  "document_id": "psx:260032",
  "non_effects": "This audit-only receipt cannot alter canonical facts, coverage, lifecycle, forecasts, valuation, or expectations.",
  "omissions": [
@@ -512,9 +655,9 @@
  "symbol": "MLCF",
  "_meta": {
   "generator_version": "ci_artifact_integrity_v1",
-  "source_commit_sha": "323537ed74c6242c094838bcf812ffa7ad032538",
-  "build_cutoff_at": "2026-09-19T18:50:06Z",
-  "generated_at": "2026-09-19T18:50:06Z",
+  "source_commit_sha": "565a4ae1d5cdbb20e22944952695b90542e05624",
+  "build_cutoff_at": "2026-09-19T18:59:08Z",
+  "generated_at": "2026-09-19T18:59:08Z",
   "artifact_path": "state/company_intel/mlcf_fy25_full_schedule_audit.json",
   "timestamp_semantics": {
    "build_cutoff_at": "generation boundary only; not a source-effective or source-published time",

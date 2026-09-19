@@ -8,6 +8,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
 
 import mlcf_fy24_full_schedule_audit as audit
+from mlcf_derived_dna import DerivedDnaError, NOTE_PAGE, extract_operands, read_note_page
 from ci_checker_helpers import without_root_meta
 from psx_data import load_json
 
@@ -72,6 +73,40 @@ def main() -> None:
         _fail(f"Total equity mismatch: {facts_by_line.get('total_equity')}")
     if facts_by_line.get("total_assets", {}).get("normalized_value") != EXPECTED_ASSETS:
         _fail(f"Total assets mismatch: {facts_by_line.get('total_assets')}")
+
+    derived = saved.get("derived") or {}
+    dna = derived.get("depreciation_amortization") or {}
+    if dna.get("reported") is not False:
+        _fail("derived D&A must be marked not reported")
+    periods = dna.get("periods") or {}
+    if periods.get("2024-06-30", {}).get("sum_normalized_value") != 4868386000.0:
+        _fail("FY24 derived D&A sum mismatch")
+    if periods.get("2025-06-30", {}).get("sum_normalized_value") != 4856392000.0:
+        _fail("FY25 derived D&A sum mismatch")
+    if (dna.get("source") or {}).get("page") != NOTE_PAGE or (dna.get("source") or {}).get("content_sha256") != audit.EXPECTED_HASH:
+        _fail("derived D&A source binding mismatch")
+    ebitda = (derived.get("ebitda") or {}).get("periods", {}).get("2024-06-30") or {}
+    if ebitda.get("normalized_value") != 19086956000.0:
+        _fail(f"FY24 derived EBITDA mismatch: {ebitda}")
+    if ebitda.get("operating_profit_normalized_value") != 14218570000.0:
+        _fail("FY24 derived EBITDA operating profit operand mismatch")
+    if (derived.get("policy") or {}).get("financial_truth_gate_effect") != "none":
+        _fail("derived lane must not affect the financial-truth gate")
+
+    raw = audit.LOCAL_SOURCE.read_bytes()
+    note_text, note_words = read_note_page(raw)
+    try:
+        extract_operands([w for w in note_words if "right-of-use" not in w[4] and "right" != w[4]], note_text)
+        raise AssertionError("missing operand was not rejected")
+    except DerivedDnaError as exc:
+        if not str(exc).startswith("operand_row_missing:"):
+            raise AssertionError(f"unexpected rejection: {exc}")
+    try:
+        extract_operands([], note_text)
+        raise AssertionError("empty geometry was not rejected")
+    except DerivedDnaError as exc:
+        if not str(exc).startswith(("note_heading_missing", "year_header_missing")):
+            raise AssertionError(f"unexpected rejection: {exc}")
 
     print(f"check_mlcf_fy24_full_schedule_audit: PASS (23 candidate facts validated for FY24 comparative)")
 

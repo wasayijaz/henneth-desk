@@ -8,6 +8,13 @@ import sys
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from financial_statement_facts import PARSER_REVISION, PARSER_VERSION
+from mlcf_derived_dna import (
+    CURRENT_PERIOD_END,
+    DerivedDnaError,
+    NOTE_PAGE,
+    extract_operands,
+    read_note_page,
+)
 
 ROOT = Path(__file__).resolve().parents[1]
 MANIFEST = ROOT / "config/ci_reprocess_review_manifest.json"
@@ -88,6 +95,60 @@ def main() -> int:
     }
     assert "exact local source bytes absent" not in json.dumps(receipt["blockers"], sort_keys=True)
     assert "cannot alter canonical facts, coverage, lifecycle, forecasts, valuation, or expectations" in receipt["non_effects"]
+    derived = receipt["derived"]
+    assert derived["policy"] == {
+        "derived_only_not_reported": True,
+        "canonical_promotion": "blocked",
+        "financial_truth_gate_effect": "none",
+    }
+    dna = derived["depreciation_amortization"]
+    assert dna["reported"] is False
+    assert dna["source"]["page"] == NOTE_PAGE and dna["source"]["content_sha256"] == SHA
+    assert dna["source"]["unit"] == "PKR" and dna["source"]["scale"] == 1000
+    assert dna["formula"]["reported_as_single_line"] is False
+    periods = dna["periods"]
+    assert periods["2025-06-30"]["sum_normalized_value"] == 4856392000.0
+    assert periods["2025-06-30"]["sum_raw_value_thousand"] == "4,856,392"
+    assert periods["2024-06-30"]["sum_normalized_value"] == 4868386000.0
+    assert periods["2024-06-30"]["sum_raw_value_thousand"] == "4,868,386"
+    for node in periods.values():
+        assert node["operand_count"] == 3
+        operands = {row["operand_key"]: row for row in node["operands"]}
+        assert operands["depreciation_operating_fixed_assets"]["note_reference"] == "19.1.1"
+        assert operands["depreciation_right_of_use"]["note_reference"] == "19.4.1"
+        assert operands["amortisation_intangible_assets"]["note_reference"] == "20.1"
+        assert all(row["page"] == NOTE_PAGE and row["unit"] == "PKR" and row["scale"] == 1000 for row in operands.values())
+        assert all(row["period_end"] == ("2025-06-30" if node is periods["2025-06-30"] else "2024-06-30") for row in operands.values())
+    ebitda = derived["ebitda"]
+    assert ebitda["reported"] is False
+    node = ebitda["periods"]["2025-06-30"]
+    assert node["operating_profit_normalized_value"] == 19107711000.0
+    assert node["derived_depreciation_amortization_normalized_value"] == 4856392000.0
+    assert node["normalized_value"] == 23964103000.0
+
+    raw = LOCAL_SOURCE.read_bytes()
+    note_text, note_words = read_note_page(raw)
+    try:
+        extract_operands([w for w in note_words if "Amortisation" not in w[4]], note_text)
+        raise AssertionError("missing operand was not rejected")
+    except DerivedDnaError as exc:
+        assert str(exc).startswith("operand_row_missing:")
+    try:
+        extract_operands(note_words, note_text.replace("Rupees in thousand", "Unknown unit"))
+        raise AssertionError("wrong unit was not rejected")
+    except DerivedDnaError as exc:
+        assert str(exc) == "unit_evidence_missing"
+    try:
+        extract_operands([w for w in note_words if w[4] != "2024"], note_text)
+        raise AssertionError("wrong period/year header was not rejected")
+    except DerivedDnaError as exc:
+        assert str(exc) == "year_header_missing:2024"
+    try:
+        shifted = note_words + [(w[0], w[1] + 50.0, w[2], w[3], w[4], w[5], w[6], w[7]) for w in note_words if abs(w[1] - 292.1) < 2]
+        extract_operands(shifted, note_text)
+        raise AssertionError("ambiguous duplicate row was not rejected")
+    except DerivedDnaError as exc:
+        assert str(exc).startswith("ambiguous_operand_rows:")
     print(f"mlcf_fy25_full_schedule_audit: PASS ({EXPECTED_CANDIDATES} parser candidates; {EXPECTED_OMISSIONS} explicit omissions; blocked)")
     return 0
 

@@ -11,6 +11,7 @@ import hashlib
 from pathlib import Path
 
 from financial_statement_facts import PARSER_REVISION, PARSER_VERSION, extract_facts
+from mlcf_derived_dna import DerivedDnaError, build_receipt_block, read_note_page
 
 ROOT = Path(__file__).resolve().parents[1]
 MANIFEST = ROOT / "config/ci_reprocess_review_manifest.json"
@@ -135,6 +136,26 @@ def build() -> dict[str, object]:
         )
         parser["current_period_fact_count"] = len(facts)
         parser["all_period_fact_count"] = len(parsed)
+    derived_block = None
+    if raw is not None and facts:
+        operating_profit = next(
+            (row for row in facts if row.get("canonical_line") == "operating_profit"), None
+        )
+        if operating_profit is None:
+            raise ValueError("current-period operating profit fact missing; derived EBITDA lineage cannot bind")
+        note_text, note_words = read_note_page(raw)
+        try:
+            derived_block = build_receipt_block(
+                DOCUMENT_ID,
+                EXPECTED_HASH,
+                note_words,
+                note_text,
+                "2025-06-30",
+                float(operating_profit["normalized_value"]),
+                int(operating_profit["page"]),
+            )
+        except DerivedDnaError as exc:
+            raise ValueError(f"note 43.1 operand geometry failed strict validation: {exc}") from exc
     required = {
         (statement_type, line): page
         for statement_type, page in (("balance_sheet", 291), ("income_statement", 293), ("cash_flow_statement", 295))
@@ -225,6 +246,7 @@ def build() -> dict[str, object]:
         },
         "parser": parser,
         "candidates": facts,
+        "derived": derived_block,
         "omissions": omissions,
         "counts": {"candidate_count": len(facts), "omission_count": len(omissions)},
         "qualification": {
