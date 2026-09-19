@@ -193,6 +193,23 @@ Astro pages rendered from `site/src/data/public/tickers.json` (pilot names), `as
 
 ### 4e. What the private Company Intelligence app sees
 
+The CI refresh has an independent deterministic coordinator, `scripts/run_ci_refresh.py`.
+It is intentionally separate from `run_cloud.py` and the Henneth Desk workflow. A low-cost
+daily invocation reuses `fetch_company_documents.py` for one roster-wide official PSX poll,
+stages changed official bytes, runs the existing issuer-source conditional monitor only on its
+weekly boundary, and then consumes changed evidence through the bounded CI-only deterministic
+chain (financial qualification/engines, events, scenarios, monitoring, slice, integrity and
+focused checks). No LLM or per-company scheduled task is involved. `scripts/build_ci_refresh_receipt.py`
+compares the retained PSX and issuer-source hash seams and writes
+`state/company_intel/refresh_receipt.json` only for a meaningful source/failure delta; the
+receipt records polls, changed/unchanged hashes, outputs attempted, retry state,
+review-required status, and lineage without secrets. A producer failure degrades the receipt,
+skips the derived chain, and leaves the prior investor-facing projection untouched. A failed
+derived stage is also degraded/retryable but does not claim transactional rollback of
+intermediate generated files. The offline runner and receipt checks validate these boundaries
+without network access or production mutation. The runner does not publish a release or
+activate formal outputs unless their existing qualification gates are already satisfied.
+
 `fetch_company_profiles.py` retains sourced DPS issuer profiles. `fetch_company_documents.py`
 incrementally indexes official PSX/PUCARS announcements in the existing research index, can merge an
 explicit metadata-only historical seed manifest for at most five exact `psx:<digits>` official IDs,

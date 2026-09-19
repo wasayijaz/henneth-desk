@@ -35,6 +35,10 @@ EXCLUDED_STATE_NAMES = {
     "backfill_cursor.json",
     "cursors.json",
     "reprocess_receipts.json",
+    # Operational CI refresh lineage is append/update state, not a generated
+    # investor artifact. Excluding it prevents a no-change/poll receipt update
+    # from invalidating the sealed product envelope.
+    "refresh_receipt.json",
     "supabase_archive_receipt.json",
     "private_thesis_storage_receipt.json",
     # Owner-approved, append-only page geometry for image-only documents. It

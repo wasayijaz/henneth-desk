@@ -35,6 +35,39 @@ source-qualified financial, valuation, and current-price-expectations outputs.
   The execution log below records the investor behaviour, data coverage, and
   unresolved blocker before the next part begins.
 
+## CI self-maintenance acceptance gate
+
+The Alpha's ordinary evidence maintenance is accepted only when the private CI
+surface can refresh itself through one independent, CI-only deterministic
+runner. The runner may poll the 20-company roster once per cadence for official
+PSX and issuer-source changes, but it must not create a daily per-company job,
+run a roster-wide AI pass, or depend on the Desk runner. A retained source
+delta must trigger bounded staging, deterministic extraction, derived-output
+rebuild, and the existing CI projection; a no-change run must skip that work.
+
+The gate is satisfied only when all of the following remain true:
+
+- source discovery is one minimal roster-wide official-source poll, with no
+  routine model-token usage and no LLM-powered or per-company scheduled task
+  in the CI path;
+- new or changed retained evidence reaches the existing deterministic
+  document, financial-series, source-QA, graph, change-intelligence, CI
+  derived-output, integrity, archive, and focused-check stages in the same
+  run, in dependency order;
+- source failure leaves the last-good investor-facing projection untouched,
+  while a durable receipt records degraded status, retry state, source/hash
+  delta, and the attempted outputs;
+- a derived-stage failure stops the chain, marks the run degraded and
+  retryable, and does not claim a refreshed projection; the runner does not
+  promise transactional rollback of intermediate generated files;
+- clean no-op runs do not rewrite the durable receipt or rebuild unchanged
+  outputs, and a manual recovery invocation can retry retained handoffs;
+- ambiguous or image-only evidence remains quarantined for exceptional,
+  targeted review and cannot be promoted by the refresh runner;
+- the CI runner is operationally separate from the Henneth Desk schedule and
+  never invokes Desk scripts, routine LLM calls, publication, deployment, or
+  order execution.
+
 ## Active execution order — vertical case lanes
 
 The numbered Parts below remain the completeness checklist and final acceptance
@@ -286,6 +319,8 @@ same commit:
   `200` / non-owner `403` checks against `ci.henneth.app`.
 
 ## Change log
+
+| 2026-09-20 | Added the bounded CI self-maintenance acceptance gate and deterministic evidence refresh path. | `scripts/run_ci_refresh.py` reuses the official PSX/issuer producers, stages and consumes changed retained evidence through the existing CI evidence chain, skips unchanged work, preserves last-good investor output on source failure, and records degraded/retry lineage without model calls. `scripts/check_ci_refresh_runner.py` checks the runner boundary offline; the receipt checker remains the source/failure ledger contract. This is maintenance, not evidence qualification or formal-engine activation. |
 
 | 2026-09-13 | Separated the Henneth Company Intelligence product shell from the Henneth Desk while retaining the four-panel CI workspace. | The local CI surface now uses CI-only header, navigation, footer, theme storage and internal landmarks for the company directory, Intelligence Cases, Scenario Lab and Ask Henneth. Focused identity, JavaScript and browser checks confirm no inherited Desk URL or visible Desk label remains; this is interface clarity only and does not promote any case or activate a formal output. |
 

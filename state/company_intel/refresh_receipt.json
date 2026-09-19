@@ -1,0 +1,42 @@
+{
+ "schema_version": 1,
+ "kind": "ci_refresh_receipt",
+ "run_id": "be572793-2394-4f17-8e91-9af874f09a9c",
+ "run_status": "ok",
+ "started_at": "2026-09-19T19:13:22Z",
+ "finished_at": "2026-09-19T19:13:22Z",
+ "source_commit_sha": "3e20dac5a521c8d0e0bff21b7a64e30f4656147a",
+ "lineage": {"parent_run_id": null, "previous_receipt_sha256": null},
+ "source_polls": [{
+  "name": "initial-state", "cadence": "manual", "status": "ok", "returncode": 0,
+  "started_at": "2026-09-19T19:13:22Z", "finished_at": "2026-09-19T19:13:22Z",
+  "changed": false, "diagnostic": "baseline receipt"
+ }],
+ "source_hashes": {
+  "before_count": 1772, "after_count": 1772,
+  "before_digest": "1ba730d0c74526eb72dd3fc4ff42240b62d19cebb70f92e9f835eb0ac1554e77",
+  "after_digest": "1ba730d0c74526eb72dd3fc4ff42240b62d19cebb70f92e9f835eb0ac1554e77",
+  "delta": {"added": [], "removed": [], "changed": [], "unchanged_count": 1772},
+  "delta_hashes": {"added": [], "removed": [], "changed": []}
+ },
+ "outputs_attempted": [
+  "state/company_intel/cursors.json",
+  "state/company_intel/source_registry.json",
+  "state/research_index.json"
+ ],
+ "output_hashes": {
+  "state/company_intel/cursors.json": "14ca458094e6f3fda5e987eae7fc6dcc29f2671216fca3aed4b29a0f3f4dd237",
+  "state/company_intel/source_registry.json": "ddde5dafc21262941d82dba28e813ebd90195126d179e3c25296782d694a7e55",
+  "state/research_index.json": "0dce78b11ac98f33fc04a48ce60c0fa35a6aeaa5f409bea1c7161231c0a5dd08"
+ },
+ "artifact_integrity_manifest_sha256": "28390b4ba8b25675e000f836203bc20e4fdae1bd8ec215fc1fccbe1adde5456e",
+ "failures": [],
+ "retry_state": {"retryable": false, "attempts": 0, "next_action": "poll-on-next-cadence"},
+ "review_required": false,
+ "policy": {
+  "deterministic": true, "llm_calls": 0,
+  "source_failure_preserves_last_good_projection": true,
+  "temporary_pdf_bytes_not_receipted": true,
+  "no_change_runs_do_not_rewrite_receipt": true
+ }
+}

@@ -62,6 +62,8 @@ FOCUSED_CHECKS: tuple[str, ...] = (
     "check_supabase_ci_store.py",
     "check_supabase_archive_receipt.py",
     "check_private_thesis_storage_receipt.py",
+    "check_ci_refresh_receipt.py",
+    "check_ci_refresh_runner.py",
     "record_private_thesis_storage_verification.py",
     "provenance_lint.py",
     "check_generated_url_safety.py",
@@ -188,6 +190,12 @@ def run_checks(
             results.append(CheckResult(normalized, command, "failed", detail="unsupported checker extension"))
             continue
         results.append(_run_command(root, normalized, command, timeout))
+        # This operational ledger has two distinct contracts: the checked-in
+        # baseline must validate, and its isolated self-test must remain free of
+        # network/state mutation. Keep both in the curated aggregate.
+        if normalized == "check_ci_refresh_receipt.py":
+            self_test_command = (sys.executable, str(path), "--self-check")
+            results.append(_run_command(root, f"{normalized} --self-check", self_test_command, timeout))
 
     if finalize_artifacts:
         finalizer_name = "build_ci_artifact_integrity.py"
@@ -260,6 +268,12 @@ def self_test() -> int:
             return 1
         if "check_intelligence_case_payloads.py" not in FOCUSED_CHECKS:
             print("self-test failed: intelligence case payload checker is not in the aggregate list")
+            return 1
+        if "check_ci_refresh_receipt.py" not in FOCUSED_CHECKS:
+            print("self-test failed: CI refresh receipt checker is not in the aggregate list")
+            return 1
+        if "check_ci_refresh_runner.py" not in FOCUSED_CHECKS:
+            print("self-test failed: CI refresh runner checker is not in the aggregate list")
             return 1
         invoked = run_checks(root, ("check_mlcf_financial_truth_gap.py",), timeout=5, finalize_artifacts=False)
         if len(invoked) != 1 or invoked[0].status != "passed" or not (root / "mlcf-gap-invoked").exists():
