@@ -10,10 +10,13 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from financial_statement_facts import PARSER_REVISION, PARSER_VERSION
 from mlcf_derived_dna import (
     CURRENT_PERIOD_END,
+    DERIVED_LINEAGE_VERSION,
     DerivedDnaError,
     NOTE_PAGE,
+    SOURCE_PAGE_SCOPE,
     extract_operands,
     read_note_page,
+    validate_derived_receipt,
 )
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -33,7 +36,9 @@ def main() -> int:
     documents = json.loads(DOCUMENTS.read_text(encoding="utf-8"))
     doc = manifest["documents"][DOC]
     retained_document = documents["documents"][DOC]
-    assert receipt["receipt_version"] == "mlcf_fy25_full_schedule_audit_v1"
+    assert receipt["schema_version"] == 2
+    assert receipt["receipt_version"] == "mlcf_fy25_full_schedule_audit_v2"
+    assert receipt["derived_lineage_version"] == DERIVED_LINEAGE_VERSION
     assert receipt["document_id"] == DOC and receipt["symbol"] == "MLCF"
     source = receipt["source"]
     assert source["source_url"] == doc["source_url"] == "https://dps.psx.com.pk/download/document/260032.pdf"
@@ -41,7 +46,9 @@ def main() -> int:
     assert source["raw_path"] == ".cache/company_intel/raw/manual/260032.pdf"
     assert source["local_bytes_status"] == "retained_hash_verified" and LOCAL_SOURCE.exists()
     assert source["local_sha256"] == SHA
-    assert source["page_scope"] == [291, 292, 293, 295]
+    assert source["page_scope"] == list(SOURCE_PAGE_SCOPE)
+    assert source["statement_page_scope"] == [291, 292, 293, 295]
+    assert source["derived_page_scope"] == [NOTE_PAGE]
     assert source["page_count"] == 401
     availability = source["official_availability"]
     assert availability["status"] == "proven_from_retained_manifest_and_document_state"
@@ -57,7 +64,7 @@ def main() -> int:
     assert parser == {
         "version": PARSER_VERSION,
         "revision": PARSER_REVISION,
-        "page_scope": [291, 292, 293, 295],
+        "page_scope": list(SOURCE_PAGE_SCOPE),
         "current_period_fact_count": EXPECTED_CANDIDATES,
         "all_period_fact_count": 46,
     }
@@ -96,16 +103,23 @@ def main() -> int:
     assert "exact local source bytes absent" not in json.dumps(receipt["blockers"], sort_keys=True)
     assert "cannot alter canonical facts, coverage, lifecycle, forecasts, valuation, or expectations" in receipt["non_effects"]
     derived = receipt["derived"]
+    assert derived["schema_version"] == 2
+    assert derived["derived_lineage_version"] == DERIVED_LINEAGE_VERSION
     assert derived["policy"] == {
         "derived_only_not_reported": True,
+        "no_manual_source_method": True,
         "canonical_promotion": "blocked",
-        "financial_truth_gate_effect": "none",
+        "financial_truth_gate_effect": "derived_ebitda_lineage_only",
     }
     dna = derived["depreciation_amortization"]
     assert dna["reported"] is False
+    assert dna["epistemic_type"] == "derived_fact"
     assert dna["source"]["page"] == NOTE_PAGE and dna["source"]["content_sha256"] == SHA
     assert dna["source"]["unit"] == "PKR" and dna["source"]["scale"] == 1000
     assert dna["formula"]["reported_as_single_line"] is False
+    assert dna["formula"]["calculation_version"] == DERIVED_LINEAGE_VERSION
+    assert dna["formula"]["rou_included"] is True
+    assert "right-of-use" in dna["formula"]["rou_definition"]
     periods = dna["periods"]
     assert periods["2025-06-30"]["sum_normalized_value"] == 4856392000.0
     assert periods["2025-06-30"]["sum_raw_value_thousand"] == "4,856,392"
@@ -117,14 +131,23 @@ def main() -> int:
         assert operands["depreciation_operating_fixed_assets"]["note_reference"] == "19.1.1"
         assert operands["depreciation_right_of_use"]["note_reference"] == "19.4.1"
         assert operands["amortisation_intangible_assets"]["note_reference"] == "20.1"
+        assert all(row["reported_label"] not in ("19.1.1", "19.4.1", "20.1") for row in operands.values())
+        assert all(row["epistemic_type"] == "reported_fact" for row in operands.values())
         assert all(row["page"] == NOTE_PAGE and row["unit"] == "PKR" and row["scale"] == 1000 for row in operands.values())
         assert all(row["period_end"] == ("2025-06-30" if node is periods["2025-06-30"] else "2024-06-30") for row in operands.values())
     ebitda = derived["ebitda"]
     assert ebitda["reported"] is False
+    assert ebitda["epistemic_type"] == "derived_fact"
     node = ebitda["periods"]["2025-06-30"]
     assert node["operating_profit_normalized_value"] == 19107711000.0
     assert node["derived_depreciation_amortization_normalized_value"] == 4856392000.0
     assert node["normalized_value"] == 23964103000.0
+    assert node["formula"]["calculation_version"] == DERIVED_LINEAGE_VERSION
+    assert node["formula"]["rou_included"] is True
+    assert derived["pbt_basis_discrepancy"]["periods"]["2025-06-30"]["normalized_value"] == 38972000.0
+    assert derived["pbt_basis_discrepancy"]["periods"]["2024-06-30"]["normalized_value"] == 45804000.0
+    assert len(derived["facts"]) == 4
+    validate_derived_receipt(receipt)
 
     raw = LOCAL_SOURCE.read_bytes()
     note_text, note_words = read_note_page(raw)
@@ -149,6 +172,11 @@ def main() -> int:
         raise AssertionError("ambiguous duplicate row was not rejected")
     except DerivedDnaError as exc:
         assert str(exc).startswith("ambiguous_operand_rows:")
+    try:
+        extract_operands([w for w in note_words if w[4] != "43.1"], note_text)
+        raise AssertionError("missing note token was not rejected")
+    except DerivedDnaError as exc:
+        assert str(exc) == "note_token_missing"
     print(f"mlcf_fy25_full_schedule_audit: PASS ({EXPECTED_CANDIDATES} parser candidates; {EXPECTED_OMISSIONS} explicit omissions; blocked)")
     return 0
 

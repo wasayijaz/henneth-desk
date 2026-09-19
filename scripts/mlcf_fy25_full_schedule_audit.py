@@ -11,7 +11,15 @@ import hashlib
 from pathlib import Path
 
 from financial_statement_facts import PARSER_REVISION, PARSER_VERSION, extract_facts
-from mlcf_derived_dna import DerivedDnaError, build_receipt_block, read_note_page
+from mlcf_derived_dna import (
+    DERIVED_LINEAGE_VERSION,
+    SOURCE_PAGE_SCOPE,
+    STATEMENT_PAGE_SCOPE,
+    DerivedDnaError,
+    build_receipt_block,
+    read_note_page,
+    validate_source_page_scope,
+)
 
 ROOT = Path(__file__).resolve().parents[1]
 MANIFEST = ROOT / "config/ci_reprocess_review_manifest.json"
@@ -47,6 +55,7 @@ def _page_records(raw: bytes, page_scope: list[int]) -> tuple[list[str], list[li
 
     pdf = pymupdf.open(stream=raw, filetype="pdf")
     try:
+        validate_source_page_scope(page_scope)
         if any(page < 1 or page > len(pdf) for page in page_scope):
             raise ValueError("retained FY25 source page scope is outside the verified PDF")
         records = [pdf[page - 1] for page in page_scope]
@@ -80,6 +89,11 @@ def _compact_fact(fact: dict[str, object]) -> dict[str, object]:
         "parser_revision": fact.get("parser_revision"),
         "quality_flags": list(fact.get("quality_flags") or []),
         "readiness": fact.get("readiness"),
+        "fact_id": fact.get("fact_id"),
+        "reported_label": fact.get("reported_label"),
+        "statement_heading": fact.get("statement_heading"),
+        "source_url": fact.get("source_url"),
+        "content_sha256": fact.get("content_sha256"),
     }
 
 
@@ -94,10 +108,11 @@ def build() -> dict[str, object]:
             or retained_document.get("content_sha256") != EXPECTED_HASH
             or not retained_document.get("available_on")):
         raise ValueError("retained FY25 document-state availability binding is incomplete")
-    page_scope = [291, 292, 293, 295]
+    page_scope = list(SOURCE_PAGE_SCOPE)
     raw = LOCAL_SOURCE.read_bytes() if LOCAL_SOURCE.is_file() else None
     local_status = "missing"
     facts: list[dict[str, object]] = []
+    all_facts: list[dict[str, object]] = []
     page_count = None
     parser = {
         "version": PARSER_VERSION,
@@ -134,14 +149,28 @@ def build() -> dict[str, object]:
             (_compact_fact(fact) for fact in current),
             key=lambda row: (str(row.get("statement_type")), str(row.get("canonical_line")), int(row.get("page") or 0)),
         )
+        all_facts = [
+            _compact_fact(fact)
+            for fact in parsed
+            if fact.get("consolidation") == "consolidated"
+            and fact.get("parser_version") == PARSER_VERSION
+            and fact.get("parser_revision") == PARSER_REVISION
+        ]
         parser["current_period_fact_count"] = len(facts)
         parser["all_period_fact_count"] = len(parsed)
     derived_block = None
     if raw is not None and facts:
-        operating_profit = next(
-            (row for row in facts if row.get("canonical_line") == "operating_profit"), None
-        )
-        if operating_profit is None:
+        operating_profit = {
+            row["period_end"]: row
+            for row in all_facts
+            if row.get("canonical_line") == "operating_profit"
+        }
+        pbt_facts = {
+            row["period_end"]: row
+            for row in all_facts
+            if row.get("canonical_line") == "profit_before_tax"
+        }
+        if set(operating_profit) != {"2024-06-30", "2025-06-30"} or set(pbt_facts) != {"2024-06-30", "2025-06-30"}:
             raise ValueError("current-period operating profit fact missing; derived EBITDA lineage cannot bind")
         note_text, note_words = read_note_page(raw)
         try:
@@ -151,8 +180,14 @@ def build() -> dict[str, object]:
                 note_words,
                 note_text,
                 "2025-06-30",
-                float(operating_profit["normalized_value"]),
-                int(operating_profit["page"]),
+                operating_profit,
+                int(operating_profit["2025-06-30"]["page"]),
+                pbt_facts=pbt_facts,
+                statement_page_words={
+                    page: page_words
+                    for page, page_words in zip(page_scope, words)
+                    if page in STATEMENT_PAGE_SCOPE
+                },
             )
         except DerivedDnaError as exc:
             raise ValueError(f"note 43.1 operand geometry failed strict validation: {exc}") from exc
@@ -207,18 +242,22 @@ def build() -> dict[str, object]:
         ])
     blockers.append("consolidated identity, unit/scale, headers, rows and cells remain subject to independent tie-out")
     return {
-        "schema_version": 1,
-        "receipt_version": "mlcf_fy25_full_schedule_audit_v1",
+        "schema_version": 2,
+        "receipt_version": "mlcf_fy25_full_schedule_audit_v2",
+        "derived_lineage_version": DERIVED_LINEAGE_VERSION,
         "symbol": "MLCF",
         "document_id": DOCUMENT_ID,
         "source": {
             "document_id": DOCUMENT_ID,
             "source_url": SOURCE_URL,
+            "page": 361,
             "raw_path": str(LOCAL_SOURCE.relative_to(ROOT)).replace("\\", "/"),
             "local_bytes_status": local_status,
             "content_sha256": EXPECTED_HASH,
             "local_sha256": hashlib.sha256(raw).hexdigest() if raw is not None else None,
             "page_scope": page_scope,
+            "statement_page_scope": list(STATEMENT_PAGE_SCOPE),
+            "derived_page_scope": [361],
             "page_count": page_count,
             "official_availability": {
                 "published_at": doc.get("published_at"),

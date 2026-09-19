@@ -159,6 +159,7 @@ _RECONCILIATION_COMPANY_KEYS = {
     "conflicts",
     "eligible_fact_count",
     "facts",
+    "derived_fact_lane",
     "missing_slot_count",
     "missing_slots",
     "qualified_periods",
@@ -174,9 +175,14 @@ _RECONCILIATION_FACT_KEYS = {
     "consolidation",
     "currency",
     "duration_months",
+    "epistemic_type",
     "eligibility_scope",
     "evidence_id",
     "evidence_label",
+    "derived_lineage_validated",
+    "formula",
+    "calculation_version",
+    "lineage",
     "metric",
     "normalized_value",
     "parser",
@@ -203,6 +209,14 @@ _RECONCILIATION_FACT_SOURCE_KEYS = {
     "source",
     "source_url",
     "text",
+}
+_DERIVED_FACT_LANE_KEYS = {
+    "status",
+    "accepted_fact_count",
+    "document_id",
+    "content_sha256",
+    "formula_versions",
+    "scope",
 }
 _REVIEW_TOP_KEYS = {"schema_version", "manifest_version", "manifest_id", "source", "policy", "pilot_symbols", "approved_review_slots", "document_ids", "documents", "summary"}
 _REVIEW_DOCUMENT_KEYS = {"document_id", "symbol", "period", "classification", "title", "expected_title_pattern", "published_at", "source_url", "content_sha256", "content_identity", "safe_period", "approval_status", "reason"}
@@ -523,12 +537,34 @@ def _validate_qualification_against_reconciliation(
             _fail(path, "coverage periods/counts do not match retained reconciliation facts")
     documents = company_documents.get("documents") or {}
     index_documents = research_index.get("documents") or {}
+    lane = reconciliation.get("derived_fact_lane")
+    if not isinstance(lane, dict):
+        _fail("reconciliation.companies.MLCF.derived_fact_lane", "must be an object")
+    _closed_keys(lane, _DERIVED_FACT_LANE_KEYS, "reconciliation.companies.MLCF.derived_fact_lane")
+    if lane != {
+        "status": "validated",
+        "accepted_fact_count": 4,
+        "document_id": "psx:260032",
+        "content_sha256": lane.get("content_sha256"),
+        "formula_versions": ["mlcf_derived_lineage_v2"],
+        "scope": "MLCF psx:260032 only",
+    }:
+        _fail("reconciliation.companies.MLCF.derived_fact_lane", "bounded derived-fact lane drifted")
+    if not isinstance(lane.get("content_sha256"), str) or not _HASH_RE.fullmatch(lane["content_sha256"]):
+        _fail("reconciliation.companies.MLCF.derived_fact_lane.content_sha256", "must be a lowercase SHA-256")
     if not isinstance(reconciliation.get("facts"), list):
         _fail("reconciliation.companies.MLCF.facts", "must be a list")
     for index, fact in enumerate(reconciliation["facts"]):
         if not isinstance(fact, dict) or fact.get("status") != "eligible":
             continue
         _closed_keys(fact, _RECONCILIATION_FACT_KEYS, f"reconciliation.companies.MLCF.facts[{index}]")
+        if fact.get("epistemic_type") == "derived_fact":
+            if fact.get("derived_lineage_validated") is not True or fact.get("calculation_version") != "mlcf_derived_lineage_v2":
+                _fail(f"reconciliation.companies.MLCF.facts[{index}]", "derived fact lineage is not validated")
+            if not isinstance(fact.get("formula"), dict) or not isinstance(fact.get("lineage"), dict):
+                _fail(f"reconciliation.companies.MLCF.facts[{index}]", "derived fact formula/lineage missing")
+            if fact.get("source", {}).get("document_id") != "psx:260032" or fact.get("source", {}).get("page") != 361:
+                _fail(f"reconciliation.companies.MLCF.facts[{index}]", "derived fact source is outside bounded MLCF lane")
         source = _state_row(fact.get("source"), f"reconciliation.companies.MLCF.facts[{index}].source")
         _closed_keys(source, _RECONCILIATION_FACT_SOURCE_KEYS, f"reconciliation.companies.MLCF.facts[{index}].source")
         if fact.get("eligibility_scope") not in {ANNUAL_INCOME_SCOPE, REPORTED_QUARTER_SCOPE, ANNUAL_CASHFLOW_SCOPE, "annual_balance_sheet_financial_truth_gate", "reported_quarter_balance_sheet_financial_truth_gate"}:

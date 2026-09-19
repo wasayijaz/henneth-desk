@@ -383,7 +383,8 @@
        "company_financial_series": "state/company_financial_series.json",
        "financial_coverage": "state/company_intel/financial_coverage.json",
        "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
-       "forecast_readiness": "state/company_intel/forecast_readiness.json"
+       "forecast_readiness": "state/company_intel/forecast_readiness.json",
+       "derived_receipts": "state/company_intel/mlcf_fy25_full_schedule_audit.json (MLCF psx:260032 only)"
       },
       "policy": {
        "research_only": true,
@@ -391,6 +392,9 @@
        "no_external_document_ingestion": true,
        "no_audit_only_promotion": true,
        "no_silent_conflict_selection": true,
+       "derived_fact_validation": "exact_source_hash_page_geometry_formula_only",
+       "derived_fact_scope": "MLCF psx:260032 only",
+       "derived_fact_not_reported_or_manual": true,
        "no_lookahead": true,
        "no_numeric_forecast": true,
        "no_numeric_valuation": true,
@@ -398,7 +402,7 @@
        "valuation": "blocked_insufficient_qualified_history",
        "market_expectations": "blocked_insufficient_qualified_history"
       },
-      "reconciliation_version": "financial_evidence_reconciliation_v1"
+      "reconciliation_version": "financial_evidence_reconciliation_v2"
      },
      "row_metadata": {
       "symbol": "ATRL",
@@ -1324,7 +1328,8 @@
        "company_financial_series": "state/company_financial_series.json",
        "financial_coverage": "state/company_intel/financial_coverage.json",
        "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
-       "forecast_readiness": "state/company_intel/forecast_readiness.json"
+       "forecast_readiness": "state/company_intel/forecast_readiness.json",
+       "derived_receipts": "state/company_intel/mlcf_fy25_full_schedule_audit.json (MLCF psx:260032 only)"
       },
       "policy": {
        "research_only": true,
@@ -1332,6 +1337,9 @@
        "no_external_document_ingestion": true,
        "no_audit_only_promotion": true,
        "no_silent_conflict_selection": true,
+       "derived_fact_validation": "exact_source_hash_page_geometry_formula_only",
+       "derived_fact_scope": "MLCF psx:260032 only",
+       "derived_fact_not_reported_or_manual": true,
        "no_lookahead": true,
        "no_numeric_forecast": true,
        "no_numeric_valuation": true,
@@ -1339,7 +1347,7 @@
        "valuation": "blocked_insufficient_qualified_history",
        "market_expectations": "blocked_insufficient_qualified_history"
       },
-      "reconciliation_version": "financial_evidence_reconciliation_v1"
+      "reconciliation_version": "financial_evidence_reconciliation_v2"
      },
      "row_metadata": {
       "symbol": "BOP",
@@ -2458,7 +2466,8 @@
        "company_financial_series": "state/company_financial_series.json",
        "financial_coverage": "state/company_intel/financial_coverage.json",
        "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
-       "forecast_readiness": "state/company_intel/forecast_readiness.json"
+       "forecast_readiness": "state/company_intel/forecast_readiness.json",
+       "derived_receipts": "state/company_intel/mlcf_fy25_full_schedule_audit.json (MLCF psx:260032 only)"
       },
       "policy": {
        "research_only": true,
@@ -2466,6 +2475,9 @@
        "no_external_document_ingestion": true,
        "no_audit_only_promotion": true,
        "no_silent_conflict_selection": true,
+       "derived_fact_validation": "exact_source_hash_page_geometry_formula_only",
+       "derived_fact_scope": "MLCF psx:260032 only",
+       "derived_fact_not_reported_or_manual": true,
        "no_lookahead": true,
        "no_numeric_forecast": true,
        "no_numeric_valuation": true,
@@ -2473,7 +2485,7 @@
        "valuation": "blocked_insufficient_qualified_history",
        "market_expectations": "blocked_insufficient_qualified_history"
       },
-      "reconciliation_version": "financial_evidence_reconciliation_v1"
+      "reconciliation_version": "financial_evidence_reconciliation_v2"
      },
      "row_metadata": {
       "symbol": "CNERGY",
@@ -4590,7 +4602,8 @@
        "company_financial_series": "state/company_financial_series.json",
        "financial_coverage": "state/company_intel/financial_coverage.json",
        "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
-       "forecast_readiness": "state/company_intel/forecast_readiness.json"
+       "forecast_readiness": "state/company_intel/forecast_readiness.json",
+       "derived_receipts": "state/company_intel/mlcf_fy25_full_schedule_audit.json (MLCF psx:260032 only)"
       },
       "policy": {
        "research_only": true,
@@ -4598,6 +4611,9 @@
        "no_external_document_ingestion": true,
        "no_audit_only_promotion": true,
        "no_silent_conflict_selection": true,
+       "derived_fact_validation": "exact_source_hash_page_geometry_formula_only",
+       "derived_fact_scope": "MLCF psx:260032 only",
+       "derived_fact_not_reported_or_manual": true,
        "no_lookahead": true,
        "no_numeric_forecast": true,
        "no_numeric_valuation": true,
@@ -4605,7 +4621,7 @@
        "valuation": "blocked_insufficient_qualified_history",
        "market_expectations": "blocked_insufficient_qualified_history"
       },
-      "reconciliation_version": "financial_evidence_reconciliation_v1"
+      "reconciliation_version": "financial_evidence_reconciliation_v2"
      },
      "row_metadata": {
       "symbol": "DGKC",
@@ -5787,7 +5803,8 @@
        "company_financial_series": "state/company_financial_series.json",
        "financial_coverage": "state/company_intel/financial_coverage.json",
        "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
-       "forecast_readiness": "state/company_intel/forecast_readiness.json"
+       "forecast_readiness": "state/company_intel/forecast_readiness.json",
+       "derived_receipts": "state/company_intel/mlcf_fy25_full_schedule_audit.json (MLCF psx:260032 only)"
       },
       "policy": {
        "research_only": true,
@@ -5795,6 +5812,9 @@
        "no_external_document_ingestion": true,
        "no_audit_only_promotion": true,
        "no_silent_conflict_selection": true,
+       "derived_fact_validation": "exact_source_hash_page_geometry_formula_only",
+       "derived_fact_scope": "MLCF psx:260032 only",
+       "derived_fact_not_reported_or_manual": true,
        "no_lookahead": true,
        "no_numeric_forecast": true,
        "no_numeric_valuation": true,
@@ -5802,7 +5822,7 @@
        "valuation": "blocked_insufficient_qualified_history",
        "market_expectations": "blocked_insufficient_qualified_history"
       },
-      "reconciliation_version": "financial_evidence_reconciliation_v1"
+      "reconciliation_version": "financial_evidence_reconciliation_v2"
      },
      "row_metadata": {
       "symbol": "ENGROH",
@@ -6541,7 +6561,8 @@
        "company_financial_series": "state/company_financial_series.json",
        "financial_coverage": "state/company_intel/financial_coverage.json",
        "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
-       "forecast_readiness": "state/company_intel/forecast_readiness.json"
+       "forecast_readiness": "state/company_intel/forecast_readiness.json",
+       "derived_receipts": "state/company_intel/mlcf_fy25_full_schedule_audit.json (MLCF psx:260032 only)"
       },
       "policy": {
        "research_only": true,
@@ -6549,6 +6570,9 @@
        "no_external_document_ingestion": true,
        "no_audit_only_promotion": true,
        "no_silent_conflict_selection": true,
+       "derived_fact_validation": "exact_source_hash_page_geometry_formula_only",
+       "derived_fact_scope": "MLCF psx:260032 only",
+       "derived_fact_not_reported_or_manual": true,
        "no_lookahead": true,
        "no_numeric_forecast": true,
        "no_numeric_valuation": true,
@@ -6556,7 +6580,7 @@
        "valuation": "blocked_insufficient_qualified_history",
        "market_expectations": "blocked_insufficient_qualified_history"
       },
-      "reconciliation_version": "financial_evidence_reconciliation_v1"
+      "reconciliation_version": "financial_evidence_reconciliation_v2"
      },
      "row_metadata": {
       "symbol": "FFC",
@@ -7258,7 +7282,8 @@
        "company_financial_series": "state/company_financial_series.json",
        "financial_coverage": "state/company_intel/financial_coverage.json",
        "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
-       "forecast_readiness": "state/company_intel/forecast_readiness.json"
+       "forecast_readiness": "state/company_intel/forecast_readiness.json",
+       "derived_receipts": "state/company_intel/mlcf_fy25_full_schedule_audit.json (MLCF psx:260032 only)"
       },
       "policy": {
        "research_only": true,
@@ -7266,6 +7291,9 @@
        "no_external_document_ingestion": true,
        "no_audit_only_promotion": true,
        "no_silent_conflict_selection": true,
+       "derived_fact_validation": "exact_source_hash_page_geometry_formula_only",
+       "derived_fact_scope": "MLCF psx:260032 only",
+       "derived_fact_not_reported_or_manual": true,
        "no_lookahead": true,
        "no_numeric_forecast": true,
        "no_numeric_valuation": true,
@@ -7273,7 +7301,7 @@
        "valuation": "blocked_insufficient_qualified_history",
        "market_expectations": "blocked_insufficient_qualified_history"
       },
-      "reconciliation_version": "financial_evidence_reconciliation_v1"
+      "reconciliation_version": "financial_evidence_reconciliation_v2"
      },
      "row_metadata": {
       "symbol": "GAL",
@@ -7975,7 +8003,8 @@
        "company_financial_series": "state/company_financial_series.json",
        "financial_coverage": "state/company_intel/financial_coverage.json",
        "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
-       "forecast_readiness": "state/company_intel/forecast_readiness.json"
+       "forecast_readiness": "state/company_intel/forecast_readiness.json",
+       "derived_receipts": "state/company_intel/mlcf_fy25_full_schedule_audit.json (MLCF psx:260032 only)"
       },
       "policy": {
        "research_only": true,
@@ -7983,6 +8012,9 @@
        "no_external_document_ingestion": true,
        "no_audit_only_promotion": true,
        "no_silent_conflict_selection": true,
+       "derived_fact_validation": "exact_source_hash_page_geometry_formula_only",
+       "derived_fact_scope": "MLCF psx:260032 only",
+       "derived_fact_not_reported_or_manual": true,
        "no_lookahead": true,
        "no_numeric_forecast": true,
        "no_numeric_valuation": true,
@@ -7990,7 +8022,7 @@
        "valuation": "blocked_insufficient_qualified_history",
        "market_expectations": "blocked_insufficient_qualified_history"
       },
-      "reconciliation_version": "financial_evidence_reconciliation_v1"
+      "reconciliation_version": "financial_evidence_reconciliation_v2"
      },
      "row_metadata": {
       "symbol": "HBL",
@@ -8791,7 +8823,8 @@
        "company_financial_series": "state/company_financial_series.json",
        "financial_coverage": "state/company_intel/financial_coverage.json",
        "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
-       "forecast_readiness": "state/company_intel/forecast_readiness.json"
+       "forecast_readiness": "state/company_intel/forecast_readiness.json",
+       "derived_receipts": "state/company_intel/mlcf_fy25_full_schedule_audit.json (MLCF psx:260032 only)"
       },
       "policy": {
        "research_only": true,
@@ -8799,6 +8832,9 @@
        "no_external_document_ingestion": true,
        "no_audit_only_promotion": true,
        "no_silent_conflict_selection": true,
+       "derived_fact_validation": "exact_source_hash_page_geometry_formula_only",
+       "derived_fact_scope": "MLCF psx:260032 only",
+       "derived_fact_not_reported_or_manual": true,
        "no_lookahead": true,
        "no_numeric_forecast": true,
        "no_numeric_valuation": true,
@@ -8806,7 +8842,7 @@
        "valuation": "blocked_insufficient_qualified_history",
        "market_expectations": "blocked_insufficient_qualified_history"
       },
-      "reconciliation_version": "financial_evidence_reconciliation_v1"
+      "reconciliation_version": "financial_evidence_reconciliation_v2"
      },
      "row_metadata": {
       "symbol": "HUBC",
@@ -9948,7 +9984,8 @@
        "company_financial_series": "state/company_financial_series.json",
        "financial_coverage": "state/company_intel/financial_coverage.json",
        "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
-       "forecast_readiness": "state/company_intel/forecast_readiness.json"
+       "forecast_readiness": "state/company_intel/forecast_readiness.json",
+       "derived_receipts": "state/company_intel/mlcf_fy25_full_schedule_audit.json (MLCF psx:260032 only)"
       },
       "policy": {
        "research_only": true,
@@ -9956,6 +9993,9 @@
        "no_external_document_ingestion": true,
        "no_audit_only_promotion": true,
        "no_silent_conflict_selection": true,
+       "derived_fact_validation": "exact_source_hash_page_geometry_formula_only",
+       "derived_fact_scope": "MLCF psx:260032 only",
+       "derived_fact_not_reported_or_manual": true,
        "no_lookahead": true,
        "no_numeric_forecast": true,
        "no_numeric_valuation": true,
@@ -9963,7 +10003,7 @@
        "valuation": "blocked_insufficient_qualified_history",
        "market_expectations": "blocked_insufficient_qualified_history"
       },
-      "reconciliation_version": "financial_evidence_reconciliation_v1"
+      "reconciliation_version": "financial_evidence_reconciliation_v2"
      },
      "row_metadata": {
       "symbol": "LUCK",
@@ -11056,7 +11096,8 @@
        "company_financial_series": "state/company_financial_series.json",
        "financial_coverage": "state/company_intel/financial_coverage.json",
        "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
-       "forecast_readiness": "state/company_intel/forecast_readiness.json"
+       "forecast_readiness": "state/company_intel/forecast_readiness.json",
+       "derived_receipts": "state/company_intel/mlcf_fy25_full_schedule_audit.json (MLCF psx:260032 only)"
       },
       "policy": {
        "research_only": true,
@@ -11064,6 +11105,9 @@
        "no_external_document_ingestion": true,
        "no_audit_only_promotion": true,
        "no_silent_conflict_selection": true,
+       "derived_fact_validation": "exact_source_hash_page_geometry_formula_only",
+       "derived_fact_scope": "MLCF psx:260032 only",
+       "derived_fact_not_reported_or_manual": true,
        "no_lookahead": true,
        "no_numeric_forecast": true,
        "no_numeric_valuation": true,
@@ -11071,7 +11115,7 @@
        "valuation": "blocked_insufficient_qualified_history",
        "market_expectations": "blocked_insufficient_qualified_history"
       },
-      "reconciliation_version": "financial_evidence_reconciliation_v1"
+      "reconciliation_version": "financial_evidence_reconciliation_v2"
      },
      "row_metadata": {
       "symbol": "MARI",
@@ -11846,7 +11890,8 @@
        "company_financial_series": "state/company_financial_series.json",
        "financial_coverage": "state/company_intel/financial_coverage.json",
        "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
-       "forecast_readiness": "state/company_intel/forecast_readiness.json"
+       "forecast_readiness": "state/company_intel/forecast_readiness.json",
+       "derived_receipts": "state/company_intel/mlcf_fy25_full_schedule_audit.json (MLCF psx:260032 only)"
       },
       "policy": {
        "research_only": true,
@@ -11854,6 +11899,9 @@
        "no_external_document_ingestion": true,
        "no_audit_only_promotion": true,
        "no_silent_conflict_selection": true,
+       "derived_fact_validation": "exact_source_hash_page_geometry_formula_only",
+       "derived_fact_scope": "MLCF psx:260032 only",
+       "derived_fact_not_reported_or_manual": true,
        "no_lookahead": true,
        "no_numeric_forecast": true,
        "no_numeric_valuation": true,
@@ -11861,7 +11909,7 @@
        "valuation": "blocked_insufficient_qualified_history",
        "market_expectations": "blocked_insufficient_qualified_history"
       },
-      "reconciliation_version": "financial_evidence_reconciliation_v1"
+      "reconciliation_version": "financial_evidence_reconciliation_v2"
      },
      "row_metadata": {
       "symbol": "MEBL",
@@ -13016,7 +13064,8 @@
        "company_financial_series": "state/company_financial_series.json",
        "financial_coverage": "state/company_intel/financial_coverage.json",
        "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
-       "forecast_readiness": "state/company_intel/forecast_readiness.json"
+       "forecast_readiness": "state/company_intel/forecast_readiness.json",
+       "derived_receipts": "state/company_intel/mlcf_fy25_full_schedule_audit.json (MLCF psx:260032 only)"
       },
       "policy": {
        "research_only": true,
@@ -13024,6 +13073,9 @@
        "no_external_document_ingestion": true,
        "no_audit_only_promotion": true,
        "no_silent_conflict_selection": true,
+       "derived_fact_validation": "exact_source_hash_page_geometry_formula_only",
+       "derived_fact_scope": "MLCF psx:260032 only",
+       "derived_fact_not_reported_or_manual": true,
        "no_lookahead": true,
        "no_numeric_forecast": true,
        "no_numeric_valuation": true,
@@ -13031,7 +13083,7 @@
        "valuation": "blocked_insufficient_qualified_history",
        "market_expectations": "blocked_insufficient_qualified_history"
       },
-      "reconciliation_version": "financial_evidence_reconciliation_v1"
+      "reconciliation_version": "financial_evidence_reconciliation_v2"
      },
      "row_metadata": {
       "symbol": "MLCF",
@@ -13820,7 +13872,8 @@
        "company_financial_series": "state/company_financial_series.json",
        "financial_coverage": "state/company_intel/financial_coverage.json",
        "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
-       "forecast_readiness": "state/company_intel/forecast_readiness.json"
+       "forecast_readiness": "state/company_intel/forecast_readiness.json",
+       "derived_receipts": "state/company_intel/mlcf_fy25_full_schedule_audit.json (MLCF psx:260032 only)"
       },
       "policy": {
        "research_only": true,
@@ -13828,6 +13881,9 @@
        "no_external_document_ingestion": true,
        "no_audit_only_promotion": true,
        "no_silent_conflict_selection": true,
+       "derived_fact_validation": "exact_source_hash_page_geometry_formula_only",
+       "derived_fact_scope": "MLCF psx:260032 only",
+       "derived_fact_not_reported_or_manual": true,
        "no_lookahead": true,
        "no_numeric_forecast": true,
        "no_numeric_valuation": true,
@@ -13835,7 +13891,7 @@
        "valuation": "blocked_insufficient_qualified_history",
        "market_expectations": "blocked_insufficient_qualified_history"
       },
-      "reconciliation_version": "financial_evidence_reconciliation_v1"
+      "reconciliation_version": "financial_evidence_reconciliation_v2"
      },
      "row_metadata": {
       "symbol": "NBP",
@@ -14537,7 +14593,8 @@
        "company_financial_series": "state/company_financial_series.json",
        "financial_coverage": "state/company_intel/financial_coverage.json",
        "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
-       "forecast_readiness": "state/company_intel/forecast_readiness.json"
+       "forecast_readiness": "state/company_intel/forecast_readiness.json",
+       "derived_receipts": "state/company_intel/mlcf_fy25_full_schedule_audit.json (MLCF psx:260032 only)"
       },
       "policy": {
        "research_only": true,
@@ -14545,6 +14602,9 @@
        "no_external_document_ingestion": true,
        "no_audit_only_promotion": true,
        "no_silent_conflict_selection": true,
+       "derived_fact_validation": "exact_source_hash_page_geometry_formula_only",
+       "derived_fact_scope": "MLCF psx:260032 only",
+       "derived_fact_not_reported_or_manual": true,
        "no_lookahead": true,
        "no_numeric_forecast": true,
        "no_numeric_valuation": true,
@@ -14552,7 +14612,7 @@
        "valuation": "blocked_insufficient_qualified_history",
        "market_expectations": "blocked_insufficient_qualified_history"
       },
-      "reconciliation_version": "financial_evidence_reconciliation_v1"
+      "reconciliation_version": "financial_evidence_reconciliation_v2"
      },
      "row_metadata": {
       "symbol": "NRL",
@@ -15254,7 +15314,8 @@
        "company_financial_series": "state/company_financial_series.json",
        "financial_coverage": "state/company_intel/financial_coverage.json",
        "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
-       "forecast_readiness": "state/company_intel/forecast_readiness.json"
+       "forecast_readiness": "state/company_intel/forecast_readiness.json",
+       "derived_receipts": "state/company_intel/mlcf_fy25_full_schedule_audit.json (MLCF psx:260032 only)"
       },
       "policy": {
        "research_only": true,
@@ -15262,6 +15323,9 @@
        "no_external_document_ingestion": true,
        "no_audit_only_promotion": true,
        "no_silent_conflict_selection": true,
+       "derived_fact_validation": "exact_source_hash_page_geometry_formula_only",
+       "derived_fact_scope": "MLCF psx:260032 only",
+       "derived_fact_not_reported_or_manual": true,
        "no_lookahead": true,
        "no_numeric_forecast": true,
        "no_numeric_valuation": true,
@@ -15269,7 +15333,7 @@
        "valuation": "blocked_insufficient_qualified_history",
        "market_expectations": "blocked_insufficient_qualified_history"
       },
-      "reconciliation_version": "financial_evidence_reconciliation_v1"
+      "reconciliation_version": "financial_evidence_reconciliation_v2"
      },
      "row_metadata": {
       "symbol": "OGDC",
@@ -16017,7 +16081,8 @@
        "company_financial_series": "state/company_financial_series.json",
        "financial_coverage": "state/company_intel/financial_coverage.json",
        "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
-       "forecast_readiness": "state/company_intel/forecast_readiness.json"
+       "forecast_readiness": "state/company_intel/forecast_readiness.json",
+       "derived_receipts": "state/company_intel/mlcf_fy25_full_schedule_audit.json (MLCF psx:260032 only)"
       },
       "policy": {
        "research_only": true,
@@ -16025,6 +16090,9 @@
        "no_external_document_ingestion": true,
        "no_audit_only_promotion": true,
        "no_silent_conflict_selection": true,
+       "derived_fact_validation": "exact_source_hash_page_geometry_formula_only",
+       "derived_fact_scope": "MLCF psx:260032 only",
+       "derived_fact_not_reported_or_manual": true,
        "no_lookahead": true,
        "no_numeric_forecast": true,
        "no_numeric_valuation": true,
@@ -16032,7 +16100,7 @@
        "valuation": "blocked_insufficient_qualified_history",
        "market_expectations": "blocked_insufficient_qualified_history"
       },
-      "reconciliation_version": "financial_evidence_reconciliation_v1"
+      "reconciliation_version": "financial_evidence_reconciliation_v2"
      },
      "row_metadata": {
       "symbol": "PPL",
@@ -16747,7 +16815,8 @@
        "company_financial_series": "state/company_financial_series.json",
        "financial_coverage": "state/company_intel/financial_coverage.json",
        "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
-       "forecast_readiness": "state/company_intel/forecast_readiness.json"
+       "forecast_readiness": "state/company_intel/forecast_readiness.json",
+       "derived_receipts": "state/company_intel/mlcf_fy25_full_schedule_audit.json (MLCF psx:260032 only)"
       },
       "policy": {
        "research_only": true,
@@ -16755,6 +16824,9 @@
        "no_external_document_ingestion": true,
        "no_audit_only_promotion": true,
        "no_silent_conflict_selection": true,
+       "derived_fact_validation": "exact_source_hash_page_geometry_formula_only",
+       "derived_fact_scope": "MLCF psx:260032 only",
+       "derived_fact_not_reported_or_manual": true,
        "no_lookahead": true,
        "no_numeric_forecast": true,
        "no_numeric_valuation": true,
@@ -16762,7 +16834,7 @@
        "valuation": "blocked_insufficient_qualified_history",
        "market_expectations": "blocked_insufficient_qualified_history"
       },
-      "reconciliation_version": "financial_evidence_reconciliation_v1"
+      "reconciliation_version": "financial_evidence_reconciliation_v2"
      },
      "row_metadata": {
       "symbol": "PRL",
@@ -17514,7 +17586,8 @@
        "company_financial_series": "state/company_financial_series.json",
        "financial_coverage": "state/company_intel/financial_coverage.json",
        "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
-       "forecast_readiness": "state/company_intel/forecast_readiness.json"
+       "forecast_readiness": "state/company_intel/forecast_readiness.json",
+       "derived_receipts": "state/company_intel/mlcf_fy25_full_schedule_audit.json (MLCF psx:260032 only)"
       },
       "policy": {
        "research_only": true,
@@ -17522,6 +17595,9 @@
        "no_external_document_ingestion": true,
        "no_audit_only_promotion": true,
        "no_silent_conflict_selection": true,
+       "derived_fact_validation": "exact_source_hash_page_geometry_formula_only",
+       "derived_fact_scope": "MLCF psx:260032 only",
+       "derived_fact_not_reported_or_manual": true,
        "no_lookahead": true,
        "no_numeric_forecast": true,
        "no_numeric_valuation": true,
@@ -17529,7 +17605,7 @@
        "valuation": "blocked_insufficient_qualified_history",
        "market_expectations": "blocked_insufficient_qualified_history"
       },
-      "reconciliation_version": "financial_evidence_reconciliation_v1"
+      "reconciliation_version": "financial_evidence_reconciliation_v2"
      },
      "row_metadata": {
       "symbol": "PSO",
@@ -18473,7 +18549,8 @@
        "company_financial_series": "state/company_financial_series.json",
        "financial_coverage": "state/company_intel/financial_coverage.json",
        "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
-       "forecast_readiness": "state/company_intel/forecast_readiness.json"
+       "forecast_readiness": "state/company_intel/forecast_readiness.json",
+       "derived_receipts": "state/company_intel/mlcf_fy25_full_schedule_audit.json (MLCF psx:260032 only)"
       },
       "policy": {
        "research_only": true,
@@ -18481,6 +18558,9 @@
        "no_external_document_ingestion": true,
        "no_audit_only_promotion": true,
        "no_silent_conflict_selection": true,
+       "derived_fact_validation": "exact_source_hash_page_geometry_formula_only",
+       "derived_fact_scope": "MLCF psx:260032 only",
+       "derived_fact_not_reported_or_manual": true,
        "no_lookahead": true,
        "no_numeric_forecast": true,
        "no_numeric_valuation": true,
@@ -18488,7 +18568,7 @@
        "valuation": "blocked_insufficient_qualified_history",
        "market_expectations": "blocked_insufficient_qualified_history"
       },
-      "reconciliation_version": "financial_evidence_reconciliation_v1"
+      "reconciliation_version": "financial_evidence_reconciliation_v2"
      },
      "row_metadata": {
       "symbol": "UBL",
@@ -19105,9 +19185,9 @@
  },
  "_meta": {
   "generator_version": "ci_artifact_integrity_v1",
-  "source_commit_sha": "323537ed74c6242c094838bcf812ffa7ad032538",
-  "build_cutoff_at": "2026-09-19T18:50:06Z",
-  "generated_at": "2026-09-19T18:50:06Z",
+  "source_commit_sha": "bc61d16d73ab1acea58998310009d3b1420cf160",
+  "build_cutoff_at": "2026-09-19T19:53:07Z",
+  "generated_at": "2026-09-19T19:53:07Z",
   "artifact_path": "state/company_intel/company_brains.json",
   "timestamp_semantics": {
    "build_cutoff_at": "generation boundary only; not a source-effective or source-published time",

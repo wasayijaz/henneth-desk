@@ -32,7 +32,7 @@ from financial_statement_facts import (
 ROOT = Path(__file__).resolve().parents[1]
 PDF = ROOT / ".cache" / "company_intel" / "raw" / "manual" / "260032.pdf"
 SOURCE_URL = "https://dps.psx.com.pk/download/document/260032.pdf"
-PAGES = (291, 292, 293, 295)
+PAGES = (291, 292, 293, 295, 361)
 
 EXPECTED_BALANCE_LINES = {
     "cash_and_cash_equivalents", "trade_receivables", "inventories",
@@ -50,9 +50,12 @@ EXPECTED_MLCF_LINES = {
     "gross_profit": 2,
     "operating_profit": 2,
     "finance_cost": 2,
+    "profit_before_tax": 2,
+    "tax_expense": 2,
     "profit_after_tax_attributable": 2,
     "basic_eps": 2,
     "operating_cash_flow": 2,
+    "capital_expenditure": 2,
     "net_cash_from_investing_activities": 2,
     "net_cash_from_financing_activities": 2,
     "dividends_paid": 2,
@@ -126,22 +129,22 @@ def _assert_allowlists_are_exact() -> None:
 def _assert_mlcf_facts_classify() -> list[dict[str, Any]]:
     doc, pages, facts = _extracted()
     rows = _normalized(doc, pages, facts)
-    _check("parsed_fact_count", len(facts) == 40, str(len(facts)))
-    _check("normalized_row_count", len(rows) == 40, str(len(rows)))
-    _check("parser_model_loadable", Counter(fact.get("readiness") for fact in facts) == {"model_loadable": 40},
+    _check("parsed_fact_count", len(facts) == 46, str(len(facts)))
+    _check("normalized_row_count", len(rows) == 46, str(len(rows)))
+    _check("parser_model_loadable", Counter(fact.get("readiness") for fact in facts) == {"model_loadable": 46},
            str(Counter(fact.get("readiness") for fact in facts)))
     _check("fact_lines", Counter(fact.get("line") for fact in facts) == EXPECTED_MLCF_LINES,
            str(Counter(fact.get("line") for fact in facts)))
-    _check("series_model_loadable", Counter(row.get("readiness") for row in rows) == {"model_loadable": 40},
+    _check("series_model_loadable", Counter(row.get("readiness") for row in rows) == {"model_loadable": 46},
            str(Counter(row.get("readiness") for row in rows)))
     _check("series_clean_flags", all(not row.get("quality_flags") for row in rows),
            str([row.get("quality_flags") for row in rows if row.get("quality_flags")]))
-    _check("eligible_statuses", Counter(fact_status(row) for row in rows) == {"eligible": 40},
+    _check("eligible_statuses", Counter(fact_status(row) for row in rows) == {"eligible": 46},
            str(Counter(fact_status(row) for row in rows)))
     _check("eligibility_scopes", Counter(eligibility_scope(row) for row in rows) == {
         ANNUAL_BALANCE_SCOPE: 20,
-        ANNUAL_INCOME_SCOPE: 12,
-        ANNUAL_CASHFLOW_SCOPE: 8,
+        ANNUAL_INCOME_SCOPE: 16,
+        ANNUAL_CASHFLOW_SCOPE: 10,
     }, str(Counter(eligibility_scope(row) for row in rows)))
     return rows
 

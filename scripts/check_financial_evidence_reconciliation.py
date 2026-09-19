@@ -221,7 +221,12 @@ def _assert_shape(data: dict, pilot: list[str]) -> None:
                 _fail(f"{symbol}: missing stable ids")
             source = record.get("source") or {}
             if record.get("status") == "eligible":
-                if not (
+                if record.get("epistemic_type") == "derived_fact":
+                    if not record.get("derived_lineage_validated"):
+                        _fail(f"{symbol}: eligible derived fact missing validated lineage")
+                    if str(source.get("document_id") or "") != "psx:260032":
+                        _fail(f"{symbol}: eligible derived fact missing bound MLCF document")
+                elif not (
                     str(source.get("document_id") or "").startswith("psx:")
                     or str(source.get("document_id") or "").startswith("issuer:")
                 ):

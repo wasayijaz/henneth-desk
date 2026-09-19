@@ -28,9 +28,10 @@ from financial_truth_qualification import (
     REPORTED_QUARTER_SCOPE,
 )
 from manual_financial_claims import MANUAL_SOURCE_METHOD, is_qualified_manual_fact
+from mlcf_derived_dna import DerivedDnaError, validate_derived_fact, validate_derived_receipt
 
 
-RECONCILIATION_VERSION = "financial_evidence_reconciliation_v1"
+RECONCILIATION_VERSION = "financial_evidence_reconciliation_v2"
 EARNINGS_BRIDGE_VERSION = "earnings_bridge_readiness_v1"
 REQUIRED_STATUS = ("eligible", "audit_only", "quarantined", "missing")
 ELIGIBLE_LINES = tuple(REQUIRED_LINES)
@@ -117,14 +118,18 @@ def _first_evidence(fact: dict[str, Any]) -> dict[str, Any]:
 
 def _evidence_row(fact: dict[str, Any]) -> dict[str, Any]:
     evidence = _first_evidence(fact)
-    document_id = str(fact.get("document_id") or "")
+    derived_source = fact.get("source") if fact.get("epistemic_type") == "derived_fact" and isinstance(fact.get("source"), dict) else {}
+    document_id = str(fact.get("document_id") or derived_source.get("document_id") or "")
+    content_sha256 = fact.get("content_sha256") or derived_source.get("content_sha256")
+    source_url = fact.get("source_url") or derived_source.get("source_url")
+    page = evidence.get("page") or derived_source.get("page")
     row = {
-        "document_id": fact.get("document_id"),
+        "document_id": document_id or None,
         "fact_id": fact.get("fact_id"),
-        "content_sha256": fact.get("content_sha256"),
-        "source_url": fact.get("source_url"),
+        "content_sha256": content_sha256,
+        "source_url": source_url,
         "source": "PSX DPS" if document_id.startswith("psx:") else "Issuer registry" if document_id.startswith("issuer:") else "unknown",
-        "page": evidence.get("page"),
+        "page": page,
         "text": evidence.get("text"),
         "available_on": fact.get("available_on"),
         "published_at": fact.get("published_at"),
@@ -136,6 +141,12 @@ def _evidence_row(fact: dict[str, Any]) -> dict[str, Any]:
 
 
 def _source_ok(fact: dict[str, Any]) -> bool:
+    if fact.get("epistemic_type") == "derived_fact":
+        try:
+            validate_derived_fact(fact, receipt_source=fact.get("_derived_receipt_source") or {})
+            return True
+        except (DerivedDnaError, TypeError, ValueError):
+            return False
     return official_financial_fact_provenance(fact)
 
 
@@ -216,7 +227,8 @@ def classification_reasons(fact: dict[str, Any], as_of: str | None = None) -> li
     line = _line(fact)
     if line not in FINANCIAL_TRUTH_LINES:
         reasons.append("outside_required_financial_truth_metric_set")
-    if not qualified_financial_fact_source(fact):
+    source_valid = _source_ok(fact) if fact.get("epistemic_type") == "derived_fact" else qualified_financial_fact_source(fact)
+    if not source_valid:
         reasons.append("unqualified_financial_fact_source")
     if fact.get("source_method") == MANUAL_SOURCE_METHOD and not is_qualified_manual_fact(fact):
         reasons.append("manual_document_authority_missing_or_mismatch")
@@ -314,11 +326,15 @@ def _fact_record(symbol: str, fact: dict[str, Any], as_of: str | None = None) ->
     fact_id = fact.get("fact_id")
     period_end = fact.get("period_end")
     metric = fact.get("line") or fact.get("metric")
-    return {
+    source_binding = fact.get("source") if isinstance(fact.get("source"), dict) else {}
+    source_document_id = fact.get("document_id") or source_binding.get("document_id")
+    source_page = _first_evidence(fact).get("page") or source_binding.get("page")
+    record = {
         "reconciliation_id": stable_id("finrec", symbol, metric, period_end, fact_id),
-        "evidence_id": stable_id("finev", symbol, fact.get("document_id"), fact_id, _first_evidence(fact).get("page")),
+        "evidence_id": stable_id("finev", symbol, source_document_id, fact_id, source_page),
         "symbol": symbol,
         "metric": metric,
+        "epistemic_type": fact.get("epistemic_type") or "reported_fact",
         "period_end": period_end,
         "period_type": fact.get("period_type") or "unknown",
         "duration_months": fact.get("duration_months"),
@@ -339,6 +355,41 @@ def _fact_record(symbol: str, fact: dict[str, Any], as_of: str | None = None) ->
         },
         "evidence_label": "fact_source_reported" if status == "eligible" else "missing_required_source" if "missing_required_provenance" in reasons else "stale_source" if "legacy_parser_revision_quarantine" in reasons else "unknown",
         "confidence": "high" if status == "eligible" else "low",
+    }
+    if fact.get("epistemic_type") == "derived_fact":
+        record["derived_lineage_validated"] = bool(fact.get("_derived_lineage_validated"))
+        record["formula"] = fact.get("formula")
+        record["calculation_version"] = fact.get("calculation_version")
+        record["lineage"] = fact.get("lineage")
+        record["evidence_label"] = "derived_fact_source_bound" if status == "eligible" else "derived_fact_quarantined"
+    return record
+
+
+def _validated_mlcf_derived_facts(symbol: str, receipt: dict[str, Any] | None) -> tuple[list[dict[str, Any]], dict[str, Any]]:
+    """Accept only the retained MLCF derived receipt; never infer a fallback."""
+    if symbol != "MLCF" or not isinstance(receipt, dict):
+        return [], {"status": "not_in_scope", "accepted_fact_count": 0}
+    try:
+        facts = validate_derived_receipt(receipt)
+    except (DerivedDnaError, TypeError, ValueError) as exc:
+        return [], {"status": "quarantined", "accepted_fact_count": 0, "reason": str(exc)}
+    source = receipt.get("source") or {}
+    accepted: list[dict[str, Any]] = []
+    for fact in facts:
+        row = dict(fact)
+        row["_derived_receipt_source"] = source
+        row["_derived_lineage_validated"] = True
+        row["available_on"] = source.get("official_availability", {}).get("available_on") or source.get("available_on")
+        row["published_at"] = source.get("official_availability", {}).get("published_at") or source.get("published_at")
+        row["retrieved_at"] = source.get("official_availability", {}).get("available_on") or row.get("available_on")
+        accepted.append(row)
+    return accepted, {
+        "status": "validated",
+        "accepted_fact_count": len(accepted),
+        "document_id": source.get("document_id"),
+        "content_sha256": source.get("content_sha256") or source.get("expected_content_sha256"),
+        "formula_versions": sorted({str(row.get("calculation_version")) for row in accepted}),
+        "scope": "MLCF psx:260032 only",
     }
 
 
@@ -458,8 +509,11 @@ def company_reconciliation(
     model_row: dict[str, Any] | None,
     readiness_row: dict[str, Any] | None,
     as_of: str | None = None,
+    derived_receipt: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     facts = [fact for fact in facts if isinstance(fact, dict)]
+    derived_facts, derived_lane = _validated_mlcf_derived_facts(symbol, derived_receipt)
+    facts.extend(derived_facts)
     facts, future_source_fact_count = _published_facts_as_of(facts, as_of)
     coverage_row = coverage_row or {}
     model_row = model_row or {}
@@ -499,6 +553,7 @@ def company_reconciliation(
         "source_conflict_count": len(conflicts),
         "withheld_future_source_fact_count": future_source_fact_count,
         "facts": fact_records,
+        "derived_fact_lane": derived_lane,
         "conflicts": conflicts,
         "missing_slots": missing_slots,
         "qualified_periods": qualified,
@@ -521,6 +576,7 @@ def build_reconciliation(
     financial_coverage: dict[str, Any],
     financial_model_inputs: dict[str, Any],
     forecast_readiness: dict[str, Any],
+    derived_receipts: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     companies = {}
     series_rows = financial_series.get("tickers") or {}
@@ -537,6 +593,7 @@ def build_reconciliation(
             model_rows.get(symbol),
             readiness_rows.get(symbol),
             as_of,
+            (derived_receipts or {}).get(symbol),
         )
     total = {
         "eligible_fact_count": sum(row["eligible_fact_count"] for row in companies.values()),
@@ -558,6 +615,7 @@ def build_reconciliation(
             "financial_coverage": "state/company_intel/financial_coverage.json",
             "financial_model_inputs": "state/company_intel/financial_model_inputs.json",
             "forecast_readiness": "state/company_intel/forecast_readiness.json",
+            "derived_receipts": "state/company_intel/mlcf_fy25_full_schedule_audit.json (MLCF psx:260032 only)",
         },
         "policy": {
             "research_only": True,
@@ -565,6 +623,9 @@ def build_reconciliation(
             "no_external_document_ingestion": True,
             "no_audit_only_promotion": True,
             "no_silent_conflict_selection": True,
+            "derived_fact_validation": "exact_source_hash_page_geometry_formula_only",
+            "derived_fact_scope": "MLCF psx:260032 only",
+            "derived_fact_not_reported_or_manual": True,
             "no_lookahead": True,
             "no_numeric_forecast": True,
             "no_numeric_valuation": True,

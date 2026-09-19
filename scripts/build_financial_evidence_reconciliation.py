@@ -15,12 +15,16 @@ def build() -> dict:
     financial_coverage = load_json(STATE / "company_intel" / "financial_coverage.json", {"companies": {}})
     financial_model_inputs = load_json(STATE / "company_intel" / "financial_model_inputs.json", {"companies": {}})
     forecast_readiness = load_json(STATE / "company_intel" / "forecast_readiness.json", {"companies": {}})
+    derived_receipts = {
+        "MLCF": load_json(STATE / "company_intel" / "mlcf_fy25_full_schedule_audit.json", {}),
+    }
     result = build_reconciliation(
         pilot,
         financial_series,
         financial_coverage,
         financial_model_inputs,
         forecast_readiness,
+        derived_receipts,
     )
     save_json(OUT, result)
     summary = result.get("summary") or {}

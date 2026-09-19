@@ -969,6 +969,22 @@ def check_financial_truth_qualification():
     except Exception as e:
         fail(f"check_financial_truth_qualification.py did not run — {e}")
 
+def check_mlcf_financial_audits():
+    """Run the committed MLCF derived-fact contract."""
+    for name in (
+        "check_mlcf_derived_facts.py",
+    ):
+        path = os.path.join(ROOT, "scripts", name)
+        if not os.path.exists(path):
+            fail(f"{name} missing — MLCF audit contract cannot be verified")
+            continue
+        try:
+            result = subprocess.run([sys.executable, path], capture_output=True, text=True, timeout=45)
+            if result.returncode != 0:
+                fail(f"{name} failed — " + ((result.stdout or result.stderr or "")[-500:].strip()))
+        except Exception as e:
+            fail(f"{name} did not run — {e}")
+
 def check_official_share_capital_approvals():
     path = os.path.join(ROOT, "scripts", "check_official_share_capital_approvals.py")
     if not os.path.exists(path):
@@ -1507,6 +1523,7 @@ def main():
     check_cement_operating_series_ui()
     check_financial_coverage()
     check_financial_truth_qualification()
+    check_mlcf_financial_audits()
     check_official_share_capital_approvals()
     check_financial_statement_v2_candidate_queue()
     check_financial_reprocess_blockers()
