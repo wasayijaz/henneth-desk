@@ -140,7 +140,7 @@ function main() {
   assert(app.includes("function renderAssumptionGapProduct") && app.includes("required_approved_records") && app.includes("missing_approved_records") && app.includes("accepted_records"), "assumption review product tables missing");
   assert(app.includes("safeHref(record?.source_url)"), "assumption record links must use safeHref");
 
-  const reviewBlock = functionBlock(app, "renderFinancialEngineAssumptionReview", "renderForecastReadiness");
+  const reviewBlock = functionBlock(app, "renderFinancialEngineAssumptionReview", "renderEventToValueProductReadiness");
   assert(reviewBlock.includes("r.financial_engine_assumption_gaps"), "assumption review must read row.financial_engine_assumption_gaps");
   assert(reviewBlock.includes("does_not_approve_assumptions") && reviewBlock.includes("does_not_compute_formal_outputs"), "assumption review must display manifest policy");
   assert(!/\b(?:approve|approved)\s*\(/i.test(reviewBlock), "assumption review must not call approval code");

@@ -22,7 +22,7 @@ function main() {
   assert(app.includes('renderGuidanceDomainView(r, "guidance"'), "Guidance route uses backend guidance renderer");
   assert(app.includes('renderGuidanceDomainView(r, "risks"'), "Risks route uses backend guidance renderer");
   assert(app.includes("function renderGuidanceDomainView"), "Guidance domain renderer exists");
-  const block = app.slice(app.indexOf("function guidanceState"), app.indexOf("function renderCompanyBusiness"));
+  const block = app.slice(app.indexOf("function guidanceState"), app.indexOf("function renderCompanyOperations"));
   assert(block.includes("r.guidance_contradictions"), "renderer reads row.guidance_contradictions");
   assert(block.includes("The browser will not derive guidance, risks, contradictions, forecasts, valuation, or advice"), "missing-state copy forbids browser derivation");
   assert(block.includes("only displays emitted assertion objects and exact-key contradiction rows"), "generated-state copy stays display-only");
