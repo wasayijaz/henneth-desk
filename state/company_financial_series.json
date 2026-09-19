@@ -61888,7 +61888,7 @@
      "metric": "operating_cash_flow",
      "parser_version": "financial_statement_v2",
      "line": "operating_cash_flow",
-     "parser_revision": "block_geometry_v5",
+     "parser_revision": "block_geometry_v6",
      "available_on": "2025-09-25",
      "published_at": "2025-09-25T12:43:00+05:00",
      "retrieved_at": "2026-08-31T11:26:31Z",
@@ -61916,10 +61916,8 @@
        "source_url": "https://dps.psx.com.pk/download/document/260032.pdf"
       }
      ],
-     "quality_flags": [
-      "legacy_parser_revision_quarantine"
-     ],
-     "readiness": "audit_only"
+     "quality_flags": [],
+     "readiness": "model_loadable"
     },
     {
      "series_id": "series_4f53de21b5e96d01c6d16876",
@@ -64364,7 +64362,7 @@
      "metric": "operating_cash_flow",
      "parser_version": "financial_statement_v2",
      "line": "operating_cash_flow",
-     "parser_revision": "block_geometry_v5",
+     "parser_revision": "block_geometry_v6",
      "available_on": "2025-09-25",
      "published_at": "2025-09-25T12:43:00+05:00",
      "retrieved_at": "2026-08-31T11:26:31Z",
@@ -64392,10 +64390,8 @@
        "source_url": "https://dps.psx.com.pk/download/document/260032.pdf"
       }
      ],
-     "quality_flags": [
-      "legacy_parser_revision_quarantine"
-     ],
-     "readiness": "audit_only"
+     "quality_flags": [],
+     "readiness": "model_loadable"
     },
     {
      "series_id": "series_3363d9447269a5010bee0bde",
@@ -71290,8 +71286,8 @@
     "missing_required_source": false,
     "missing_period_count": 5,
     "conflict_count": 0,
-    "model_loadable_count": 9,
-    "audit_only_count": 243
+    "model_loadable_count": 11,
+    "audit_only_count": 241
    },
    "metrics": {
     "change_pct": [
@@ -73815,7 +73811,7 @@
   }
  },
  "_meta": {
-  "updated": "2026-09-01 01:43",
+  "updated": "2026-09-13 17:05",
   "source": "state/company_documents.json + current verified extraction",
   "source_documents": 320,
   "rejected_facts": 0,

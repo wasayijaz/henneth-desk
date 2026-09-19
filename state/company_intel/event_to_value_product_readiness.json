@@ -2,9 +2,9 @@
  "schema_version": 1,
  "product_version": "event_to_value_product_readiness_v1",
  "kind": "event_to_value_product_readiness",
- "as_of": "2026-09-01T00:00:00Z",
- "status": "blocked",
- "reason": "selected_symbols_not_exactly_three:count=2",
+ "as_of": "2026-09-19T18:50:06Z",
+ "status": "available",
+ "reason": null,
  "policy": {
   "research_only": true,
   "read_only_audit": true,
@@ -27,17 +27,17 @@
  },
  "lineage": {
   "product_version": "event_to_value_product_readiness_v1",
-  "generated_at": "2026-09-01T00:00:00Z",
+  "generated_at": "2026-09-19T18:50:06Z",
   "source_as_of": {
    "intelligence_cases": "2026-08-31T19:11:28+05:00",
-   "financial_truth_qualification": "2026-09-01T00:00:00Z",
+   "financial_truth_qualification": "2026-09-19T18:50:06Z",
    "forecast_readiness": "2026-08-31 15:13",
-   "impact_scenarios": "2026-09-01T00:00:00Z",
+   "impact_scenarios": "2026-09-19T18:50:06Z",
    "financial_forecasts": "2026-08-31",
    "formal_valuations": "2026-08-31",
    "market_expectations": "2026-08-31",
    "thesis_monitoring": "2026-08-31T19:11:28+05:00",
-   "artifact_integrity": "2026-09-01T00:00:00Z",
+   "artifact_integrity": "2026-09-19T18:50:06Z",
    "release_integrity_receipt": "2026-08-28T00:00:00Z"
   },
   "source_schema_version": {
@@ -65,7 +65,7 @@
    "release_integrity_receipt": "ci_release_integrity_receipt"
   },
   "source_status": {
-   "intelligence_cases": "blocked",
+   "intelligence_cases": "available",
    "financial_truth_qualification": "available",
    "forecast_readiness": "blocked",
    "impact_scenarios": "available",
@@ -77,7 +77,7 @@
    "release_integrity_receipt": "blocked"
   },
   "source_reason": {
-   "intelligence_cases": "selected_symbols_not_exactly_three:count=2",
+   "intelligence_cases": null,
    "financial_truth_qualification": null,
    "forecast_readiness": "forecast_readiness_as_of_invalid",
    "impact_scenarios": null,
@@ -88,26 +88,31 @@
    "artifact_integrity": null,
    "release_integrity_receipt": "release_integrity_receipt_release_status_not_verified:not_verified"
   },
-  "source_commit_sha": "cb864bffd50b3bd24c5a5c5d0ee8e211cd20f718",
-  "build_cutoff_at": "2026-09-01T00:00:00Z",
+  "source_commit_sha": "323537ed74c6242c094838bcf812ffa7ad032538",
+  "build_cutoff_at": "2026-09-19T18:50:06Z",
   "artifact_integrity_status": "available",
   "artifact_integrity_reason": null,
   "artifact_integrity": {
-   "expected_artifact_count": 64,
-   "manifest_artifact_count": 64,
+   "expected_artifact_count": 74,
+   "manifest_artifact_count": 74,
    "missing_paths": [],
    "extra_paths": [],
    "covered": true
   },
-  "selected_symbols": [],
+  "selected_symbols": [
+   "MARI",
+   "MLCF",
+   "PSO"
+  ],
   "selected_symbols_source_path": "state/company_intel/intelligence_cases.json",
-  "selected_symbols_status": "blocked",
-  "selected_symbols_reason": "selected_symbols_not_exactly_three:count=2"
+  "selected_symbols_status": "available",
+  "selected_symbols_reason": null,
+  "candidate_lane_progress": null
  },
  "summary": {
   "metric_count": 12,
-  "available_metric_count": 1,
-  "blocked_metric_count": 11,
+  "available_metric_count": 3,
+  "blocked_metric_count": 9,
   "blocked_metric_ids": [
    "model_ready_companies",
    "published_cases",
@@ -116,8 +121,6 @@
    "live_valuation_outputs",
    "live_market_expectation_outputs",
    "ask_henneth_test_status",
-   "active_thesis_monitoring_cases",
-   "required_output_nulls",
    "no_lookahead_status",
    "production_gate_status"
   ],
@@ -129,10 +132,15 @@
    "live_valuation_outputs": 3,
    "live_market_expectation_outputs": 3
   },
-  "selected_symbols": [],
-  "selected_symbols_status": "blocked",
-  "selected_symbols_reason": "selected_symbols_not_exactly_three:count=2",
+  "selected_symbols": [
+   "MARI",
+   "MLCF",
+   "PSO"
+  ],
+  "selected_symbols_status": "available",
+  "selected_symbols_reason": null,
   "selected_symbols_source_path": "state/company_intel/intelligence_cases.json",
+  "candidate_lane_progress": null,
   "forecast_readiness_input_ready_count": 2,
   "forecast_readiness_is_not_model_ready": true
  },
@@ -141,126 +149,119 @@
    "id": "model_ready_companies",
    "label": "Model-ready companies",
    "status": "blocked",
-   "value": null,
+   "value": 0,
    "denominator": 3,
-   "display": null,
+   "display": "0/3",
    "definition": "Count of selected golden-case companies whose financial_truth_qualification.status is qualified. Unselected companies and forecast-readiness input_ready do not count.",
    "source_path": "state/company_intel/financial_truth_qualification.json",
-   "as_of": "2026-09-01T00:00:00Z",
-   "reason": "selected_symbols_not_exactly_three:count=2",
-   "notes": [
-    "selected_symbols=['MARI', 'MLCF']"
-   ],
+   "as_of": "2026-09-19T18:50:06Z",
+   "reason": "no_selected_company_has_qualified_financial_truth",
+   "notes": [],
    "lineage": {
     "source_path": "state/company_intel/financial_truth_qualification.json",
-    "as_of": "2026-09-01T00:00:00Z",
+    "as_of": "2026-09-19T18:50:06Z",
     "status": "blocked",
-    "reason": "selected_symbols_not_exactly_three:count=2"
+    "reason": "no_selected_company_has_qualified_financial_truth"
    }
   },
   {
    "id": "published_cases",
    "label": "Published Intelligence Cases",
    "status": "blocked",
-   "value": null,
+   "value": 0,
    "denominator": 3,
-   "display": null,
+   "display": "0/3",
    "definition": "Count of Published intelligence_cases on the selected golden-case symbols only.",
    "source_path": "state/company_intel/intelligence_cases.json",
    "as_of": "2026-08-31T19:11:28+05:00",
-   "reason": "selected_symbols_not_exactly_three:count=2",
+   "reason": "observed_cases_exist_but_none_are_published",
    "notes": [
-    "selected_symbols=['MARI', 'MLCF']"
+    "MARI:case_mari_working_interest_observed_v1:Observed",
+    "MARI:case_mari_sky47_karakoram1_launch_sales_observed_v1:Observed",
+    "MLCF:case_mlcf_pioc_control_observed_v1:Observed",
+    "PSO:case_pso_fy2025_distribution_network_expansion_observed_v1:Observed"
    ],
    "lineage": {
     "source_path": "state/company_intel/intelligence_cases.json",
     "as_of": "2026-08-31T19:11:28+05:00",
     "status": "blocked",
-    "reason": "selected_symbols_not_exactly_three:count=2"
+    "reason": "observed_cases_exist_but_none_are_published"
    }
   },
   {
    "id": "financially_computed_scenarios",
    "label": "Financially computed scenarios",
    "status": "blocked",
-   "value": null,
+   "value": 0,
    "denominator": 9,
-   "display": null,
+   "display": "0/9",
    "definition": "Count of selected-symbol impact_scenarios with explicit computed/modelled status, a finite numeric impact, and source/lineage. unmodeled_driver and blocked/not_generated/inferred rows do not count even if a number is present.",
    "source_path": "state/company_intel/impact_scenarios.json",
-   "as_of": "2026-09-01T00:00:00Z",
-   "reason": "selected_symbols_not_exactly_three:count=2",
-   "notes": [
-    "selected_symbols=['MARI', 'MLCF']"
-   ],
+   "as_of": "2026-09-19T18:50:06Z",
+   "reason": "no_financially_computed_scenario_impacts_for_selected_symbols",
+   "notes": [],
    "lineage": {
     "source_path": "state/company_intel/impact_scenarios.json",
-    "as_of": "2026-09-01T00:00:00Z",
+    "as_of": "2026-09-19T18:50:06Z",
     "status": "blocked",
-    "reason": "selected_symbols_not_exactly_three:count=2"
+    "reason": "no_financially_computed_scenario_impacts_for_selected_symbols"
    }
   },
   {
    "id": "live_forecast_outputs",
    "label": "Live forecast outputs",
    "status": "blocked",
-   "value": null,
+   "value": 0,
    "denominator": 3,
-   "display": null,
+   "display": "0/3",
    "definition": "Count of selected-symbol financial_forecasts rows with status computed and a non-null result.",
    "source_path": "state/company_intel/financial_forecasts.json",
    "as_of": "2026-08-31",
-   "reason": "selected_symbols_not_exactly_three:count=2",
-   "notes": [
-    "selected_symbols=['MARI', 'MLCF']"
-   ],
+   "reason": "no_live_computed_result_for_selected_symbols",
+   "notes": [],
    "lineage": {
     "source_path": "state/company_intel/financial_forecasts.json",
     "as_of": "2026-08-31",
     "status": "blocked",
-    "reason": "selected_symbols_not_exactly_three:count=2"
+    "reason": "no_live_computed_result_for_selected_symbols"
    }
   },
   {
    "id": "live_valuation_outputs",
    "label": "Live valuation outputs",
    "status": "blocked",
-   "value": null,
+   "value": 0,
    "denominator": 3,
-   "display": null,
+   "display": "0/3",
    "definition": "Count of selected-symbol formal_valuations rows with status computed and a non-null result.",
    "source_path": "state/company_intel/formal_valuations.json",
    "as_of": "2026-08-31",
-   "reason": "selected_symbols_not_exactly_three:count=2",
-   "notes": [
-    "selected_symbols=['MARI', 'MLCF']"
-   ],
+   "reason": "no_live_computed_result_for_selected_symbols",
+   "notes": [],
    "lineage": {
     "source_path": "state/company_intel/formal_valuations.json",
     "as_of": "2026-08-31",
     "status": "blocked",
-    "reason": "selected_symbols_not_exactly_three:count=2"
+    "reason": "no_live_computed_result_for_selected_symbols"
    }
   },
   {
    "id": "live_market_expectation_outputs",
    "label": "Live market-expectation outputs",
    "status": "blocked",
-   "value": null,
+   "value": 0,
    "denominator": 3,
-   "display": null,
+   "display": "0/3",
    "definition": "Count of selected-symbol market_expectations rows with status computed and a non-null result.",
    "source_path": "state/company_intel/market_expectations.json",
    "as_of": "2026-08-31",
-   "reason": "selected_symbols_not_exactly_three:count=2",
-   "notes": [
-    "selected_symbols=['MARI', 'MLCF']"
-   ],
+   "reason": "no_live_computed_result_for_selected_symbols",
+   "notes": [],
    "lineage": {
     "source_path": "state/company_intel/market_expectations.json",
     "as_of": "2026-08-31",
     "status": "blocked",
-    "reason": "selected_symbols_not_exactly_three:count=2"
+    "reason": "no_live_computed_result_for_selected_symbols"
    }
   },
   {
@@ -287,65 +288,74 @@
   {
    "id": "active_thesis_monitoring_cases",
    "label": "Active thesis-monitoring cases",
-   "status": "blocked",
-   "value": null,
+   "status": "available",
+   "value": 1,
    "denominator": null,
    "display": null,
    "definition": "Sum of thesis_monitoring.active_thesis_count across the selected golden-case symbols only.",
    "source_path": "state/company_intel/thesis_monitoring.json",
    "as_of": "2026-08-31T19:11:28+05:00",
-   "reason": "selected_symbols_not_exactly_three:count=2",
+   "reason": null,
    "notes": [
-    "selected_symbols=['MARI', 'MLCF']"
+    "MARI:0:blocked_financial_truth_not_qualified",
+    "MLCF:1"
    ],
    "lineage": {
     "source_path": "state/company_intel/thesis_monitoring.json",
     "as_of": "2026-08-31T19:11:28+05:00",
-    "status": "blocked",
-    "reason": "selected_symbols_not_exactly_three:count=2"
+    "status": "available",
+    "reason": null
    }
   },
   {
    "id": "required_output_nulls",
    "label": "Required-output nulls",
-   "status": "blocked",
-   "value": null,
+   "status": "available",
+   "value": 9,
    "denominator": null,
    "display": null,
    "definition": "Count of selected-symbol forecast, valuation, and market-expectation rows whose result is null or not computed.",
    "source_path": "state/company_intel/financial_forecasts.json",
    "as_of": "2026-08-31",
-   "reason": "selected_symbols_not_exactly_three:count=2",
+   "reason": null,
    "notes": [
-    "selected_symbols=['MARI', 'MLCF']"
+    "financial_forecasts:MARI:missing_source_gated_inputs",
+    "financial_forecasts:MLCF:missing_source_gated_inputs",
+    "financial_forecasts:PSO:missing_source_gated_inputs",
+    "formal_valuations:MARI:missing_source_gated_inputs",
+    "formal_valuations:MLCF:missing_source_gated_inputs",
+    "formal_valuations:PSO:missing_source_gated_inputs",
+    "market_expectations:MARI:missing_source_gated_inputs",
+    "market_expectations:MLCF:missing_source_gated_inputs",
+    "market_expectations:PSO:missing_source_gated_inputs"
    ],
    "lineage": {
     "source_path": "state/company_intel/financial_forecasts.json",
     "as_of": "2026-08-31",
-    "status": "blocked",
-    "reason": "selected_symbols_not_exactly_three:count=2"
+    "status": "available",
+    "reason": null
    }
   },
   {
    "id": "provenance_coverage",
    "label": "Provenance coverage",
    "status": "available",
-   "value": "64/64",
+   "value": "74/74",
    "denominator": null,
    "display": null,
    "definition": "Hashed artifact_integrity rows versus artifact_count. The generated readiness artifact itself must be covered by the sealed manifest.",
    "source_path": "state/company_intel/artifact_integrity.json",
-   "as_of": "2026-09-01T00:00:00Z",
+   "as_of": "2026-09-19T18:50:06Z",
    "reason": null,
    "notes": [
-    "cb864bffd50b3bd24c5a5c5d0ee8e211cd20f718",
-    "artifact_count=64",
-    "expected_artifact_count=64",
+    "323537ed74c6242c094838bcf812ffa7ad032538",
+    "artifact_count=74",
+    "expected_artifact_count=74",
     "state/company_intel/event_to_value_product_readiness.json"
    ],
    "lineage": {
     "source_path": "state/company_intel/artifact_integrity.json",
-    "as_of": "2026-09-01T00:00:00Z",
+    "as_of": "2026-09-19T18:50:06Z",
     "status": "available",
     "reason": null
    }

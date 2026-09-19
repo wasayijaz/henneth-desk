@@ -40,7 +40,7 @@
  },
  "summary": {
   "company_count": 20,
-  "queued_company_count": 18
+  "queued_company_count": 19
  },
  "companies": {
   "MLCF": {
@@ -455,8 +455,12 @@
     "quality_flags": []
    },
    "audit_only_series": {
-    "audit_only_fact_count": 147,
+    "audit_only_fact_count": 241,
     "audit_only_metrics": [
+     {
+      "metric": "basic_eps",
+      "fact_count": 22
+     },
      {
       "metric": "change_pct",
       "fact_count": 20
@@ -466,19 +470,27 @@
       "fact_count": 5
      },
      {
+      "metric": "gross_profit",
+      "fact_count": 24
+     },
+     {
       "metric": "operating_cash_flow",
-      "fact_count": 4
+      "fact_count": 6
      },
      {
       "metric": "profit",
       "fact_count": 61
      },
      {
+      "metric": "profit_after_tax_attributable",
+      "fact_count": 22
+     },
+     {
       "metric": "revenue",
-      "fact_count": 57
+      "fact_count": 81
      }
     ],
-    "model_loadable_count": 105,
+    "model_loadable_count": 11,
     "note": "Audit-only facts are retained as coverage signals only and are not promoted into required values."
    },
    "qualification_queue": {
@@ -1087,7 +1099,7 @@
   },
   "DGKC": {
    "symbol": "DGKC",
-   "status": "complete",
+   "status": "queued_for_qualification",
    "classification": "financial_results_coverage",
    "indexed_official_financial_doc_count": 10,
    "indexed_official_financial_docs": [
@@ -1291,14 +1303,14 @@
       "profit_after_tax_attributable",
       "basic_eps"
      ],
-     "present_model_ready_metrics": [
+     "present_model_ready_metrics": [],
+     "missing_metrics": [
       "revenue",
       "profit_after_tax_attributable",
       "basic_eps"
      ],
-     "missing_metrics": [],
      "period_evidence_status": "explicit",
-     "status": "complete"
+     "status": "missing_required_metrics"
     },
     {
      "slot": "annual_period_2",
@@ -1309,14 +1321,14 @@
       "profit_after_tax_attributable",
       "basic_eps"
      ],
-     "present_model_ready_metrics": [
+     "present_model_ready_metrics": [],
+     "missing_metrics": [
       "revenue",
       "profit_after_tax_attributable",
       "basic_eps"
      ],
-     "missing_metrics": [],
      "period_evidence_status": "explicit",
-     "status": "complete"
+     "status": "missing_required_metrics"
     },
     {
      "slot": "annual_period_3",
@@ -1327,28 +1339,34 @@
       "profit_after_tax_attributable",
       "basic_eps"
      ],
-     "present_model_ready_metrics": [
+     "present_model_ready_metrics": [],
+     "missing_metrics": [
       "revenue",
       "profit_after_tax_attributable",
       "basic_eps"
      ],
-     "missing_metrics": [],
      "period_evidence_status": "explicit",
-     "status": "complete"
+     "status": "missing_required_metrics"
     }
    ],
    "model_readiness": {
-    "status": "ready",
+    "status": "partial",
     "model_version": null,
     "downstream_status": {
      "forecast": "blocked_not_implemented",
      "valuation": "blocked_not_implemented"
     },
-    "quality_flags": []
+    "quality_flags": [
+     "insufficient_three_year_consolidated_v2_history"
+    ]
    },
    "audit_only_series": {
-    "audit_only_fact_count": 694,
+    "audit_only_fact_count": 732,
     "audit_only_metrics": [
+     {
+      "metric": "basic_eps",
+      "fact_count": 8
+     },
      {
       "metric": "change_pct",
       "fact_count": 202
@@ -1362,15 +1380,23 @@
       "fact_count": 25
      },
      {
+      "metric": "gross_profit",
+      "fact_count": 12
+     },
+     {
       "metric": "profit",
       "fact_count": 150
      },
      {
+      "metric": "profit_after_tax_attributable",
+      "fact_count": 6
+     },
+     {
       "metric": "revenue",
-      "fact_count": 299
+      "fact_count": 311
      }
     ],
-    "model_loadable_count": 38,
+    "model_loadable_count": 0,
     "note": "Audit-only facts are retained as coverage signals only and are not promoted into required values."
    },
    "qualification_queue": {
@@ -2584,8 +2610,12 @@
     ]
    },
    "audit_only_series": {
-    "audit_only_fact_count": 420,
+    "audit_only_fact_count": 460,
     "audit_only_metrics": [
+     {
+      "metric": "basic_eps",
+      "fact_count": 8
+     },
      {
       "metric": "change_pct",
       "fact_count": 84
@@ -2599,23 +2629,31 @@
       "fact_count": 7
      },
      {
+      "metric": "finance_cost",
+      "fact_count": 2
+     },
+     {
+      "metric": "gross_profit",
+      "fact_count": 12
+     },
+     {
       "metric": "profit",
       "fact_count": 107
      },
      {
       "metric": "profit_after_tax_attributable",
-      "fact_count": 12
+      "fact_count": 18
      },
      {
       "metric": "revenue",
-      "fact_count": 190
+      "fact_count": 202
      },
      {
       "metric": "tax_expense",
       "fact_count": 12
      }
     ],
-    "model_loadable_count": 40,
+    "model_loadable_count": 0,
     "note": "Audit-only facts are retained as coverage signals only and are not promoted into required values."
    },
    "qualification_queue": {
@@ -5282,7 +5320,7 @@
     ]
    },
    "audit_only_series": {
-    "audit_only_fact_count": 56,
+    "audit_only_fact_count": 60,
     "audit_only_metrics": [
      {
       "metric": "change_pct",
@@ -5294,7 +5332,7 @@
      },
      {
       "metric": "operating_cash_flow",
-      "fact_count": 2
+      "fact_count": 6
      },
      {
       "metric": "profit",
@@ -5305,7 +5343,7 @@
       "fact_count": 21
      }
     ],
-    "model_loadable_count": 4,
+    "model_loadable_count": 0,
     "note": "Audit-only facts are retained as coverage signals only and are not promoted into required values."
    },
    "qualification_queue": {
@@ -6591,11 +6629,19 @@
     ]
    },
    "audit_only_series": {
-    "audit_only_fact_count": 57,
+    "audit_only_fact_count": 75,
     "audit_only_metrics": [
      {
       "metric": "change_pct",
       "fact_count": 3
+     },
+     {
+      "metric": "gross_profit",
+      "fact_count": 4
+     },
+     {
+      "metric": "operating_profit",
+      "fact_count": 4
      },
      {
       "metric": "profit",
@@ -6603,10 +6649,14 @@
      },
      {
       "metric": "revenue",
-      "fact_count": 34
+      "fact_count": 38
+     },
+     {
+      "metric": "tax_expense",
+      "fact_count": 6
      }
     ],
-    "model_loadable_count": 18,
+    "model_loadable_count": 0,
     "note": "Audit-only facts are retained as coverage signals only and are not promoted into required values."
    },
    "qualification_queue": {
@@ -6665,9 +6715,9 @@
  },
  "_meta": {
   "generator_version": "ci_artifact_integrity_v1",
-  "source_commit_sha": "836c3cdf4f7f36994498ada2d957ca35b12496b4",
-  "build_cutoff_at": "2026-08-31T17:23:47Z",
-  "generated_at": "2026-08-31T17:23:47Z",
+  "source_commit_sha": "323537ed74c6242c094838bcf812ffa7ad032538",
+  "build_cutoff_at": "2026-09-19T18:50:06Z",
+  "generated_at": "2026-09-19T18:50:06Z",
   "artifact_path": "state/company_intel/financial_coverage.json",
   "timestamp_semantics": {
    "build_cutoff_at": "generation boundary only; not a source-effective or source-published time",

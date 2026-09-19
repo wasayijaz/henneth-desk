@@ -46,10 +46,10 @@
  },
  "summary": {
   "company_count": 20,
-  "eligible_fact_count": 75,
-  "audit_only_fact_count": 1565,
-  "quarantined_fact_count": 130,
-  "missing_slot_count": 160,
+  "eligible_fact_count": 11,
+  "audit_only_fact_count": 1759,
+  "quarantined_fact_count": 0,
+  "missing_slot_count": 171,
   "source_conflict_count": 0,
   "withheld_future_source_fact_count": 0,
   "forecast_ready_company_count": 2
@@ -58,9 +58,9 @@
   "MLCF": {
    "symbol": "MLCF",
    "status": "eligible_for_review",
-   "eligible_fact_count": 29,
-   "audit_only_fact_count": 147,
-   "quarantined_fact_count": 76,
+   "eligible_fact_count": 11,
+   "audit_only_fact_count": 241,
+   "quarantined_fact_count": 0,
    "missing_slot_count": 0,
    "source_conflict_count": 0,
    "withheld_future_source_fact_count": 0,
@@ -117,9 +117,12 @@
      "unit_multiplier": 1,
      "raw_value": "4.98",
      "normalized_value": 4.98,
-     "status": "quarantined",
+     "status": "audit_only",
      "reasons": [
-      "missing_or_nonconsolidated_basis"
+      "legacy_parser_revision_quarantine",
+      "missing_or_nonconsolidated_basis",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -138,7 +141,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -156,9 +159,12 @@
      "unit_multiplier": 1,
      "raw_value": "1.28",
      "normalized_value": 1.28,
-     "status": "quarantined",
+     "status": "audit_only",
      "reasons": [
-      "not_direct_current_period_quarter_fact"
+      "legacy_parser_revision_quarantine",
+      "not_direct_current_period_quarter_fact",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -177,7 +183,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -195,10 +201,13 @@
      "unit_multiplier": 1,
      "raw_value": "0.99",
      "normalized_value": 0.99,
-     "status": "quarantined",
+     "status": "audit_only",
      "reasons": [
+      "legacy_parser_revision_quarantine",
       "missing_or_nonconsolidated_basis",
-      "not_direct_current_period_quarter_fact"
+      "not_direct_current_period_quarter_fact",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -217,7 +226,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -235,9 +244,12 @@
      "unit_multiplier": 1,
      "raw_value": "4.85",
      "normalized_value": 4.85,
-     "status": "quarantined",
+     "status": "audit_only",
      "reasons": [
-      "not_annual_or_direct_three_month_quarter"
+      "legacy_parser_revision_quarantine",
+      "not_annual_or_direct_three_month_quarter",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -256,7 +268,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -274,10 +286,13 @@
      "unit_multiplier": 1,
      "raw_value": "4.08",
      "normalized_value": 4.08,
-     "status": "quarantined",
+     "status": "audit_only",
      "reasons": [
+      "legacy_parser_revision_quarantine",
       "missing_or_nonconsolidated_basis",
-      "not_annual_or_direct_three_month_quarter"
+      "not_annual_or_direct_three_month_quarter",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -296,7 +311,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -314,10 +329,13 @@
      "unit_multiplier": 1,
      "raw_value": "3.08",
      "normalized_value": 3.08,
-     "status": "quarantined",
+     "status": "audit_only",
      "reasons": [
+      "legacy_parser_revision_quarantine",
       "missing_or_nonconsolidated_basis",
-      "not_direct_current_period_quarter_fact"
+      "not_direct_current_period_quarter_fact",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -336,7 +354,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -354,9 +372,12 @@
      "unit_multiplier": 1,
      "raw_value": "3.57",
      "normalized_value": 3.57,
-     "status": "quarantined",
+     "status": "audit_only",
      "reasons": [
-      "not_direct_current_period_quarter_fact"
+      "legacy_parser_revision_quarantine",
+      "not_direct_current_period_quarter_fact",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -375,7 +396,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -393,9 +414,12 @@
      "unit_multiplier": 1,
      "raw_value": "7.51",
      "normalized_value": 7.51,
-     "status": "quarantined",
+     "status": "audit_only",
      "reasons": [
-      "not_annual_or_direct_three_month_quarter"
+      "legacy_parser_revision_quarantine",
+      "not_annual_or_direct_three_month_quarter",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -414,7 +438,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -432,10 +456,13 @@
      "unit_multiplier": 1,
      "raw_value": "11.57",
      "normalized_value": 11.57,
-     "status": "quarantined",
+     "status": "audit_only",
      "reasons": [
+      "legacy_parser_revision_quarantine",
       "missing_or_nonconsolidated_basis",
-      "not_annual_or_direct_three_month_quarter"
+      "not_annual_or_direct_three_month_quarter",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -454,7 +481,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -472,10 +499,13 @@
      "unit_multiplier": 1,
      "raw_value": "7.49",
      "normalized_value": 7.49,
-     "status": "quarantined",
+     "status": "audit_only",
      "reasons": [
+      "legacy_parser_revision_quarantine",
       "missing_or_nonconsolidated_basis",
-      "not_direct_current_period_quarter_fact"
+      "not_direct_current_period_quarter_fact",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -494,7 +524,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -512,9 +542,12 @@
      "unit_multiplier": 1,
      "raw_value": "2.67",
      "normalized_value": 2.67,
-     "status": "quarantined",
+     "status": "audit_only",
      "reasons": [
-      "not_direct_current_period_quarter_fact"
+      "legacy_parser_revision_quarantine",
+      "not_direct_current_period_quarter_fact",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -533,7 +566,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -551,9 +584,12 @@
      "unit_multiplier": 1,
      "raw_value": "16.26",
      "normalized_value": 16.26,
-     "status": "quarantined",
+     "status": "audit_only",
      "reasons": [
-      "missing_or_nonconsolidated_basis"
+      "legacy_parser_revision_quarantine",
+      "missing_or_nonconsolidated_basis",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -572,7 +608,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -627,9 +663,12 @@
      "unit_multiplier": 1,
      "raw_value": "2.49",
      "normalized_value": 2.49,
-     "status": "quarantined",
+     "status": "audit_only",
      "reasons": [
-      "missing_or_nonconsolidated_basis"
+      "legacy_parser_revision_quarantine",
+      "missing_or_nonconsolidated_basis",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -648,7 +687,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -666,9 +705,13 @@
      "unit_multiplier": 1,
      "raw_value": "2.60",
      "normalized_value": 2.6,
-     "status": "eligible",
-     "reasons": [],
-     "eligibility_scope": "reported_quarter_financial_truth_gate",
+     "status": "audit_only",
+     "reasons": [
+      "legacy_parser_revision_quarantine",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
+     ],
+     "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
       "document_id": "psx:263397",
       "fact_id": "fact_92b0fbd64442767a7c78b5cf",
@@ -685,8 +728,8 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "fact_source_reported",
-     "confidence": "high"
+     "evidence_label": "stale_source",
+     "confidence": "low"
     },
     {
      "reconciliation_id": "finrec_45c6c321f87012c678a9",
@@ -703,9 +746,13 @@
      "unit_multiplier": 1,
      "raw_value": "2.98",
      "normalized_value": 2.98,
-     "status": "eligible",
-     "reasons": [],
-     "eligibility_scope": "reported_quarter_financial_truth_gate",
+     "status": "audit_only",
+     "reasons": [
+      "legacy_parser_revision_quarantine",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
+     ],
+     "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
       "document_id": "psx:271712",
       "fact_id": "fact_21219ad6535dba6844cd768f",
@@ -722,8 +769,8 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "fact_source_reported",
-     "confidence": "high"
+     "evidence_label": "stale_source",
+     "confidence": "low"
     },
     {
      "reconciliation_id": "finrec_b2bbbfb3b12564e001d4",
@@ -740,10 +787,13 @@
      "unit_multiplier": 1,
      "raw_value": "4.89",
      "normalized_value": 4.89,
-     "status": "quarantined",
+     "status": "audit_only",
      "reasons": [
+      "legacy_parser_revision_quarantine",
       "missing_or_nonconsolidated_basis",
-      "not_annual_or_direct_three_month_quarter"
+      "not_annual_or_direct_three_month_quarter",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -762,7 +812,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -780,9 +830,12 @@
      "unit_multiplier": 1,
      "raw_value": "5.58",
      "normalized_value": 5.58,
-     "status": "quarantined",
+     "status": "audit_only",
      "reasons": [
-      "not_annual_or_direct_three_month_quarter"
+      "legacy_parser_revision_quarantine",
+      "not_annual_or_direct_three_month_quarter",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -801,7 +854,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -819,9 +872,12 @@
      "unit_multiplier": 1,
      "raw_value": "2.40",
      "normalized_value": 2.4,
-     "status": "quarantined",
+     "status": "audit_only",
      "reasons": [
-      "missing_or_nonconsolidated_basis"
+      "legacy_parser_revision_quarantine",
+      "missing_or_nonconsolidated_basis",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -840,7 +896,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -858,10 +914,13 @@
      "unit_multiplier": 1,
      "raw_value": "5.81",
      "normalized_value": 5.81,
-     "status": "quarantined",
+     "status": "audit_only",
      "reasons": [
+      "legacy_parser_revision_quarantine",
       "missing_or_nonconsolidated_basis",
-      "not_annual_or_direct_three_month_quarter"
+      "not_annual_or_direct_three_month_quarter",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -880,7 +939,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -898,9 +957,13 @@
      "unit_multiplier": 1,
      "raw_value": "1.86",
      "normalized_value": 1.86,
-     "status": "eligible",
-     "reasons": [],
-     "eligibility_scope": "reported_quarter_financial_truth_gate",
+     "status": "audit_only",
+     "reasons": [
+      "legacy_parser_revision_quarantine",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
+     ],
+     "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
       "document_id": "psx:275425",
       "fact_id": "fact_3f911831bae096e028adb476",
@@ -917,8 +980,8 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "fact_source_reported",
-     "confidence": "high"
+     "evidence_label": "stale_source",
+     "confidence": "low"
     },
     {
      "reconciliation_id": "finrec_482c540c39918a007f37",
@@ -935,9 +998,12 @@
      "unit_multiplier": 1,
      "raw_value": "0.92",
      "normalized_value": 0.92,
-     "status": "quarantined",
+     "status": "audit_only",
      "reasons": [
-      "missing_or_nonconsolidated_basis"
+      "legacy_parser_revision_quarantine",
+      "missing_or_nonconsolidated_basis",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -956,7 +1022,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -974,9 +1040,12 @@
      "unit_multiplier": 1,
      "raw_value": "7.44",
      "normalized_value": 7.44,
-     "status": "quarantined",
+     "status": "audit_only",
      "reasons": [
-      "not_annual_or_direct_three_month_quarter"
+      "legacy_parser_revision_quarantine",
+      "not_annual_or_direct_three_month_quarter",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -995,7 +1064,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -2168,9 +2237,13 @@
      "unit_multiplier": 1000,
      "raw_value": "22,430,465",
      "normalized_value": 22430465000.0,
-     "status": "eligible",
-     "reasons": [],
-     "eligibility_scope": "annual_income_financial_truth_gate",
+     "status": "audit_only",
+     "reasons": [
+      "legacy_parser_revision_quarantine",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
+     ],
+     "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
       "document_id": "psx:260032",
       "fact_id": "fact_5b4105146e3bc5c1baf23213",
@@ -2187,8 +2260,8 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "fact_source_reported",
-     "confidence": "high"
+     "evidence_label": "stale_source",
+     "confidence": "low"
     },
     {
      "reconciliation_id": "finrec_a5945566c1908991a953",
@@ -2205,9 +2278,12 @@
      "unit_multiplier": 1000,
      "raw_value": "20,964,284",
      "normalized_value": 20964284000.0,
-     "status": "quarantined",
+     "status": "audit_only",
      "reasons": [
-      "missing_or_nonconsolidated_basis"
+      "legacy_parser_revision_quarantine",
+      "missing_or_nonconsolidated_basis",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -2226,7 +2302,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -2244,10 +2320,13 @@
      "unit_multiplier": 1000,
      "raw_value": "4,678,939",
      "normalized_value": 4678939000.0,
-     "status": "quarantined",
+     "status": "audit_only",
      "reasons": [
+      "legacy_parser_revision_quarantine",
       "missing_or_nonconsolidated_basis",
-      "not_direct_current_period_quarter_fact"
+      "not_direct_current_period_quarter_fact",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -2266,7 +2345,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -2284,9 +2363,12 @@
      "unit_multiplier": 1000,
      "raw_value": "4,962,677",
      "normalized_value": 4962677000.0,
-     "status": "quarantined",
+     "status": "audit_only",
      "reasons": [
-      "not_direct_current_period_quarter_fact"
+      "legacy_parser_revision_quarantine",
+      "not_direct_current_period_quarter_fact",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -2305,7 +2387,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -2323,9 +2405,12 @@
      "unit_multiplier": 1000,
      "raw_value": "12,539,719",
      "normalized_value": 12539719000.0,
-     "status": "quarantined",
+     "status": "audit_only",
      "reasons": [
-      "not_annual_or_direct_three_month_quarter"
+      "legacy_parser_revision_quarantine",
+      "not_annual_or_direct_three_month_quarter",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -2344,7 +2429,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -2362,10 +2447,13 @@
      "unit_multiplier": 1000,
      "raw_value": "7,138,468",
      "normalized_value": 7138468000.0,
-     "status": "quarantined",
+     "status": "audit_only",
      "reasons": [
+      "legacy_parser_revision_quarantine",
       "missing_or_nonconsolidated_basis",
-      "not_direct_current_period_quarter_fact"
+      "not_direct_current_period_quarter_fact",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -2384,7 +2472,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -2402,9 +2490,12 @@
      "unit_multiplier": 1000,
      "raw_value": "7,577,044",
      "normalized_value": 7577044000.0,
-     "status": "quarantined",
+     "status": "audit_only",
      "reasons": [
-      "not_direct_current_period_quarter_fact"
+      "legacy_parser_revision_quarantine",
+      "not_direct_current_period_quarter_fact",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -2423,7 +2514,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -2441,10 +2532,13 @@
      "unit_multiplier": 1000,
      "raw_value": "11,817,407",
      "normalized_value": 11817407000.0,
-     "status": "quarantined",
+     "status": "audit_only",
      "reasons": [
+      "legacy_parser_revision_quarantine",
       "missing_or_nonconsolidated_basis",
-      "not_annual_or_direct_three_month_quarter"
+      "not_annual_or_direct_three_month_quarter",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -2463,7 +2557,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -2481,10 +2575,13 @@
      "unit_multiplier": 1000,
      "raw_value": "5,198,390",
      "normalized_value": 5198390000.0,
-     "status": "quarantined",
+     "status": "audit_only",
      "reasons": [
+      "legacy_parser_revision_quarantine",
       "missing_or_nonconsolidated_basis",
-      "not_direct_current_period_quarter_fact"
+      "not_direct_current_period_quarter_fact",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -2503,7 +2600,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -2521,10 +2618,13 @@
      "unit_multiplier": 1000,
      "raw_value": "17,015,797",
      "normalized_value": 17015797000.0,
-     "status": "quarantined",
+     "status": "audit_only",
      "reasons": [
+      "legacy_parser_revision_quarantine",
       "missing_or_nonconsolidated_basis",
-      "not_annual_or_direct_three_month_quarter"
+      "not_annual_or_direct_three_month_quarter",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -2543,7 +2643,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -2561,9 +2661,12 @@
      "unit_multiplier": 1000,
      "raw_value": "18,442,739",
      "normalized_value": 18442739000.0,
-     "status": "quarantined",
+     "status": "audit_only",
      "reasons": [
-      "not_annual_or_direct_three_month_quarter"
+      "legacy_parser_revision_quarantine",
+      "not_annual_or_direct_three_month_quarter",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -2582,7 +2685,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -2600,9 +2703,12 @@
      "unit_multiplier": 1000,
      "raw_value": "5,903,020",
      "normalized_value": 5903020000.0,
-     "status": "quarantined",
+     "status": "audit_only",
      "reasons": [
-      "not_direct_current_period_quarter_fact"
+      "legacy_parser_revision_quarantine",
+      "not_direct_current_period_quarter_fact",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -2621,7 +2727,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -2639,9 +2745,12 @@
      "unit_multiplier": 1000,
      "raw_value": "23,746,816",
      "normalized_value": 23746816000.0,
-     "status": "quarantined",
+     "status": "audit_only",
      "reasons": [
-      "missing_or_nonconsolidated_basis"
+      "legacy_parser_revision_quarantine",
+      "missing_or_nonconsolidated_basis",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -2660,7 +2769,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -2678,9 +2787,13 @@
      "unit_multiplier": 1000,
      "raw_value": "25,441,916",
      "normalized_value": 25441916000.0,
-     "status": "eligible",
-     "reasons": [],
-     "eligibility_scope": "annual_income_financial_truth_gate",
+     "status": "audit_only",
+     "reasons": [
+      "legacy_parser_revision_quarantine",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
+     ],
+     "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
       "document_id": "psx:260032",
       "fact_id": "fact_ef4234ccd5ec9c55674f23d0",
@@ -2697,8 +2810,8 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "fact_source_reported",
-     "confidence": "high"
+     "evidence_label": "stale_source",
+     "confidence": "low"
     },
     {
      "reconciliation_id": "finrec_1478cb62e0948afdacb4",
@@ -2715,9 +2828,13 @@
      "unit_multiplier": 1000,
      "raw_value": "5,591,609",
      "normalized_value": 5591609000.0,
-     "status": "eligible",
-     "reasons": [],
-     "eligibility_scope": "reported_quarter_financial_truth_gate",
+     "status": "audit_only",
+     "reasons": [
+      "legacy_parser_revision_quarantine",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
+     ],
+     "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
       "document_id": "psx:263397",
       "fact_id": "fact_c58f283151d6dfee9c29e362",
@@ -2734,8 +2851,8 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "fact_source_reported",
-     "confidence": "high"
+     "evidence_label": "stale_source",
+     "confidence": "low"
     },
     {
      "reconciliation_id": "finrec_81db08c168ec5bdad5db",
@@ -2752,9 +2869,12 @@
      "unit_multiplier": 1000,
      "raw_value": "4,981,820",
      "normalized_value": 4981820000.0,
-     "status": "quarantined",
+     "status": "audit_only",
      "reasons": [
-      "missing_or_nonconsolidated_basis"
+      "legacy_parser_revision_quarantine",
+      "missing_or_nonconsolidated_basis",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -2773,7 +2893,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -2791,9 +2911,13 @@
      "unit_multiplier": 1000,
      "raw_value": "6,565,303",
      "normalized_value": 6565303000.0,
-     "status": "eligible",
-     "reasons": [],
-     "eligibility_scope": "reported_quarter_financial_truth_gate",
+     "status": "audit_only",
+     "reasons": [
+      "legacy_parser_revision_quarantine",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
+     ],
+     "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
       "document_id": "psx:271712",
       "fact_id": "fact_c69df0da3a449bf3ac245214",
@@ -2810,8 +2934,8 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "fact_source_reported",
-     "confidence": "high"
+     "evidence_label": "stale_source",
+     "confidence": "low"
     },
     {
      "reconciliation_id": "finrec_7662b0fe53e5581a56c7",
@@ -2828,9 +2952,12 @@
      "unit_multiplier": 1000,
      "raw_value": "6,032,935",
      "normalized_value": 6032935000.0,
-     "status": "quarantined",
+     "status": "audit_only",
      "reasons": [
-      "missing_or_nonconsolidated_basis"
+      "legacy_parser_revision_quarantine",
+      "missing_or_nonconsolidated_basis",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -2849,7 +2976,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -2867,9 +2994,12 @@
      "unit_multiplier": 1000,
      "raw_value": "12,156,912",
      "normalized_value": 12156912000.0,
-     "status": "quarantined",
+     "status": "audit_only",
      "reasons": [
-      "not_annual_or_direct_three_month_quarter"
+      "legacy_parser_revision_quarantine",
+      "not_annual_or_direct_three_month_quarter",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -2888,7 +3018,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -2906,10 +3036,13 @@
      "unit_multiplier": 1000,
      "raw_value": "11,014,755",
      "normalized_value": 11014755000.0,
-     "status": "quarantined",
+     "status": "audit_only",
      "reasons": [
+      "legacy_parser_revision_quarantine",
       "missing_or_nonconsolidated_basis",
-      "not_annual_or_direct_three_month_quarter"
+      "not_annual_or_direct_three_month_quarter",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -2928,7 +3061,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -2946,9 +3079,13 @@
      "unit_multiplier": 1000,
      "raw_value": "7,129,766",
      "normalized_value": 7129766000.0,
-     "status": "eligible",
-     "reasons": [],
-     "eligibility_scope": "reported_quarter_financial_truth_gate",
+     "status": "audit_only",
+     "reasons": [
+      "legacy_parser_revision_quarantine",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
+     ],
+     "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
       "document_id": "psx:275425",
       "fact_id": "fact_4ddca5d73749649b8fb51101",
@@ -2965,8 +3102,8 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "fact_source_reported",
-     "confidence": "high"
+     "evidence_label": "stale_source",
+     "confidence": "low"
     },
     {
      "reconciliation_id": "finrec_950a3cd8f8bcedb59a99",
@@ -2983,9 +3120,12 @@
      "unit_multiplier": 1000,
      "raw_value": "19,286,679",
      "normalized_value": 19286679000.0,
-     "status": "quarantined",
+     "status": "audit_only",
      "reasons": [
-      "not_annual_or_direct_three_month_quarter"
+      "legacy_parser_revision_quarantine",
+      "not_annual_or_direct_three_month_quarter",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -3004,7 +3144,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -3022,9 +3162,12 @@
      "unit_multiplier": 1000,
      "raw_value": "4,984,011",
      "normalized_value": 4984011000.0,
-     "status": "quarantined",
+     "status": "audit_only",
      "reasons": [
-      "missing_or_nonconsolidated_basis"
+      "legacy_parser_revision_quarantine",
+      "missing_or_nonconsolidated_basis",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -3043,7 +3186,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -3061,10 +3204,13 @@
      "unit_multiplier": 1000,
      "raw_value": "15,998,766",
      "normalized_value": 15998766000.0,
-     "status": "quarantined",
+     "status": "audit_only",
      "reasons": [
+      "legacy_parser_revision_quarantine",
       "missing_or_nonconsolidated_basis",
-      "not_annual_or_direct_three_month_quarter"
+      "not_annual_or_direct_three_month_quarter",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -3083,7 +3229,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -3103,9 +3249,10 @@
      "normalized_value": 9496243000.0,
      "status": "audit_only",
      "reasons": [
-      "conflict",
+      "legacy_parser_revision_quarantine",
       "missing_or_nonconsolidated_basis",
-      "readiness_is_audit_only"
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -3124,7 +3271,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -3144,9 +3291,10 @@
      "normalized_value": 12810292000.0,
      "status": "audit_only",
      "reasons": [
-      "conflict",
+      "legacy_parser_revision_quarantine",
       "missing_or_nonconsolidated_basis",
-      "readiness_is_audit_only"
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -3165,7 +3313,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -3200,7 +3348,7 @@
      },
      "parser": {
       "version": "financial_statement_v2",
-      "revision": "block_geometry_v5"
+      "revision": "block_geometry_v6"
      },
      "evidence_label": "fact_source_reported",
      "confidence": "high"
@@ -3220,10 +3368,13 @@
      "unit_multiplier": 1000,
      "raw_value": "12,007,251",
      "normalized_value": 12007251000.0,
-     "status": "quarantined",
+     "status": "audit_only",
      "reasons": [
+      "legacy_parser_revision_quarantine",
       "not_annual_period",
-      "not_twelve_month_annual"
+      "not_twelve_month_annual",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -3242,7 +3393,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -3277,7 +3428,7 @@
      },
      "parser": {
       "version": "financial_statement_v2",
-      "revision": "block_geometry_v5"
+      "revision": "block_geometry_v6"
      },
      "evidence_label": "fact_source_reported",
      "confidence": "high"
@@ -3299,9 +3450,10 @@
      "normalized_value": 23320309000.0,
      "status": "audit_only",
      "reasons": [
-      "conflict",
+      "legacy_parser_revision_quarantine",
       "missing_or_nonconsolidated_basis",
-      "readiness_is_audit_only"
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -3320,7 +3472,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -3340,9 +3492,10 @@
      "normalized_value": 19316637000.0,
      "status": "audit_only",
      "reasons": [
-      "conflict",
+      "legacy_parser_revision_quarantine",
       "missing_or_nonconsolidated_basis",
-      "readiness_is_audit_only"
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -3361,7 +3514,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -3379,10 +3532,13 @@
      "unit_multiplier": 1000,
      "raw_value": "13,766,213",
      "normalized_value": 13766213000.0,
-     "status": "quarantined",
+     "status": "audit_only",
      "reasons": [
+      "legacy_parser_revision_quarantine",
       "not_annual_period",
-      "not_twelve_month_annual"
+      "not_twelve_month_annual",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -3401,7 +3557,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -6134,9 +6290,13 @@
      "unit_multiplier": 1000,
      "raw_value": "6,891,064",
      "normalized_value": 6891064000.0,
-     "status": "eligible",
-     "reasons": [],
-     "eligibility_scope": "annual_income_financial_truth_gate",
+     "status": "audit_only",
+     "reasons": [
+      "legacy_parser_revision_quarantine",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
+     ],
+     "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
       "document_id": "psx:260032",
       "fact_id": "fact_4579f98e3b83040dc49dda12",
@@ -6153,8 +6313,8 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "fact_source_reported",
-     "confidence": "high"
+     "evidence_label": "stale_source",
+     "confidence": "low"
     },
     {
      "reconciliation_id": "finrec_20955be7036eda0eb19e",
@@ -6171,9 +6331,12 @@
      "unit_multiplier": 1000,
      "raw_value": "1,342,743",
      "normalized_value": 1342743000.0,
-     "status": "quarantined",
+     "status": "audit_only",
      "reasons": [
-      "not_direct_current_period_quarter_fact"
+      "legacy_parser_revision_quarantine",
+      "not_direct_current_period_quarter_fact",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -6192,7 +6355,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -6210,10 +6373,13 @@
      "unit_multiplier": 1000,
      "raw_value": "1,041,387",
      "normalized_value": 1041387000.0,
-     "status": "quarantined",
+     "status": "audit_only",
      "reasons": [
+      "legacy_parser_revision_quarantine",
       "missing_or_nonconsolidated_basis",
-      "not_direct_current_period_quarter_fact"
+      "not_direct_current_period_quarter_fact",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -6232,7 +6398,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -6250,10 +6416,13 @@
      "unit_multiplier": 1000,
      "raw_value": "4,268,926",
      "normalized_value": 4268926000.0,
-     "status": "quarantined",
+     "status": "audit_only",
      "reasons": [
+      "legacy_parser_revision_quarantine",
       "missing_or_nonconsolidated_basis",
-      "not_annual_or_direct_three_month_quarter"
+      "not_annual_or_direct_three_month_quarter",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -6272,7 +6441,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -6290,9 +6459,12 @@
      "unit_multiplier": 1000,
      "raw_value": "3,735,090",
      "normalized_value": 3735090000.0,
-     "status": "quarantined",
+     "status": "audit_only",
      "reasons": [
-      "not_direct_current_period_quarter_fact"
+      "legacy_parser_revision_quarantine",
+      "not_direct_current_period_quarter_fact",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -6311,7 +6483,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -6329,10 +6501,13 @@
      "unit_multiplier": 1000,
      "raw_value": "3,227,539",
      "normalized_value": 3227539000.0,
-     "status": "quarantined",
+     "status": "audit_only",
      "reasons": [
+      "legacy_parser_revision_quarantine",
       "missing_or_nonconsolidated_basis",
-      "not_direct_current_period_quarter_fact"
+      "not_direct_current_period_quarter_fact",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -6351,7 +6526,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -6369,9 +6544,12 @@
      "unit_multiplier": 1000,
      "raw_value": "5,077,833",
      "normalized_value": 5077833000.0,
-     "status": "quarantined",
+     "status": "audit_only",
      "reasons": [
-      "not_annual_or_direct_three_month_quarter"
+      "legacy_parser_revision_quarantine",
+      "not_annual_or_direct_three_month_quarter",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -6390,7 +6568,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -6408,9 +6586,12 @@
      "unit_multiplier": 1000,
      "raw_value": "2,793,410",
      "normalized_value": 2793410000.0,
-     "status": "quarantined",
+     "status": "audit_only",
      "reasons": [
-      "not_direct_current_period_quarter_fact"
+      "legacy_parser_revision_quarantine",
+      "not_direct_current_period_quarter_fact",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -6429,7 +6610,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -6447,10 +6628,13 @@
      "unit_multiplier": 1000,
      "raw_value": "7,849,459",
      "normalized_value": 7849459000.0,
-     "status": "quarantined",
+     "status": "audit_only",
      "reasons": [
+      "legacy_parser_revision_quarantine",
       "missing_or_nonconsolidated_basis",
-      "not_direct_current_period_quarter_fact"
+      "not_direct_current_period_quarter_fact",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -6469,7 +6653,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -6487,10 +6671,13 @@
      "unit_multiplier": 1000,
      "raw_value": "12,118,386",
      "normalized_value": 12118386000.0,
-     "status": "quarantined",
+     "status": "audit_only",
      "reasons": [
+      "legacy_parser_revision_quarantine",
       "missing_or_nonconsolidated_basis",
-      "not_annual_or_direct_three_month_quarter"
+      "not_annual_or_direct_three_month_quarter",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -6509,7 +6696,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -6527,9 +6714,12 @@
      "unit_multiplier": 1000,
      "raw_value": "7,871,244",
      "normalized_value": 7871244000.0,
-     "status": "quarantined",
+     "status": "audit_only",
      "reasons": [
-      "not_annual_or_direct_three_month_quarter"
+      "legacy_parser_revision_quarantine",
+      "not_annual_or_direct_three_month_quarter",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -6548,7 +6738,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -6566,9 +6756,13 @@
      "unit_multiplier": 1000,
      "raw_value": "11,503,305",
      "normalized_value": 11503305000.0,
-     "status": "eligible",
-     "reasons": [],
-     "eligibility_scope": "annual_income_financial_truth_gate",
+     "status": "audit_only",
+     "reasons": [
+      "legacy_parser_revision_quarantine",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
+     ],
+     "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
       "document_id": "psx:260032",
       "fact_id": "fact_e8d4d3e966945b46f273e243",
@@ -6585,8 +6779,8 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "fact_source_reported",
-     "confidence": "high"
+     "evidence_label": "stale_source",
+     "confidence": "low"
     },
     {
      "reconciliation_id": "finrec_3e6186336ad772e4bfa3",
@@ -6640,9 +6834,13 @@
      "unit_multiplier": 1000,
      "raw_value": "2,728,256",
      "normalized_value": 2728256000.0,
-     "status": "eligible",
-     "reasons": [],
-     "eligibility_scope": "reported_quarter_financial_truth_gate",
+     "status": "audit_only",
+     "reasons": [
+      "legacy_parser_revision_quarantine",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
+     ],
+     "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
       "document_id": "psx:263397",
       "fact_id": "fact_85776c58e26675a3e5028406",
@@ -6659,8 +6857,8 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "fact_source_reported",
-     "confidence": "high"
+     "evidence_label": "stale_source",
+     "confidence": "low"
     },
     {
      "reconciliation_id": "finrec_b314cdcbf583a0d75ccb",
@@ -6677,9 +6875,12 @@
      "unit_multiplier": 1000,
      "raw_value": "2,608,289",
      "normalized_value": 2608289000.0,
-     "status": "quarantined",
+     "status": "audit_only",
      "reasons": [
-      "missing_or_nonconsolidated_basis"
+      "legacy_parser_revision_quarantine",
+      "missing_or_nonconsolidated_basis",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -6698,7 +6899,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -6716,9 +6917,12 @@
      "unit_multiplier": 1000,
      "raw_value": "2,514,286",
      "normalized_value": 2514286000.0,
-     "status": "quarantined",
+     "status": "audit_only",
      "reasons": [
-      "missing_or_nonconsolidated_basis"
+      "legacy_parser_revision_quarantine",
+      "missing_or_nonconsolidated_basis",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -6737,7 +6941,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -6755,9 +6959,12 @@
      "unit_multiplier": 1000,
      "raw_value": "5,846,315",
      "normalized_value": 5846315000.0,
-     "status": "quarantined",
+     "status": "audit_only",
      "reasons": [
-      "not_annual_or_direct_three_month_quarter"
+      "legacy_parser_revision_quarantine",
+      "not_annual_or_direct_three_month_quarter",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -6776,7 +6983,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -6794,9 +7001,13 @@
      "unit_multiplier": 1000,
      "raw_value": "3,118,059",
      "normalized_value": 3118059000.0,
-     "status": "eligible",
-     "reasons": [],
-     "eligibility_scope": "reported_quarter_financial_truth_gate",
+     "status": "audit_only",
+     "reasons": [
+      "legacy_parser_revision_quarantine",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
+     ],
+     "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
       "document_id": "psx:271712",
       "fact_id": "fact_bd0552172ead6f3df2a1283c",
@@ -6813,8 +7024,8 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "fact_source_reported",
-     "confidence": "high"
+     "evidence_label": "stale_source",
+     "confidence": "low"
     },
     {
      "reconciliation_id": "finrec_9bdfa36b6078f5096965",
@@ -6831,10 +7042,13 @@
      "unit_multiplier": 1000,
      "raw_value": "5,122,575",
      "normalized_value": 5122575000.0,
-     "status": "quarantined",
+     "status": "audit_only",
      "reasons": [
+      "legacy_parser_revision_quarantine",
       "missing_or_nonconsolidated_basis",
-      "not_annual_or_direct_three_month_quarter"
+      "not_annual_or_direct_three_month_quarter",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -6853,7 +7067,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -6871,9 +7085,12 @@
      "unit_multiplier": 1000,
      "raw_value": "960,727",
      "normalized_value": 960727000.0,
-     "status": "quarantined",
+     "status": "audit_only",
      "reasons": [
-      "missing_or_nonconsolidated_basis"
+      "legacy_parser_revision_quarantine",
+      "missing_or_nonconsolidated_basis",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -6892,7 +7109,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -6910,10 +7127,13 @@
      "unit_multiplier": 1000,
      "raw_value": "6,083,302",
      "normalized_value": 6083302000.0,
-     "status": "quarantined",
+     "status": "audit_only",
      "reasons": [
+      "legacy_parser_revision_quarantine",
       "missing_or_nonconsolidated_basis",
-      "not_annual_or_direct_three_month_quarter"
+      "not_annual_or_direct_three_month_quarter",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -6932,7 +7152,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -6950,9 +7170,12 @@
      "unit_multiplier": 1000,
      "raw_value": "7,617,271",
      "normalized_value": 7617271000.0,
-     "status": "quarantined",
+     "status": "audit_only",
      "reasons": [
-      "not_annual_or_direct_three_month_quarter"
+      "legacy_parser_revision_quarantine",
+      "not_annual_or_direct_three_month_quarter",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -6971,7 +7194,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -6989,9 +7212,13 @@
      "unit_multiplier": 1000,
      "raw_value": "1,770,955",
      "normalized_value": 1770955000.0,
-     "status": "eligible",
-     "reasons": [],
-     "eligibility_scope": "reported_quarter_financial_truth_gate",
+     "status": "audit_only",
+     "reasons": [
+      "legacy_parser_revision_quarantine",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
+     ],
+     "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
       "document_id": "psx:275425",
       "fact_id": "fact_ec96970b526ee9fa59de26a6",
@@ -7008,8 +7235,8 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "fact_source_reported",
-     "confidence": "high"
+     "evidence_label": "stale_source",
+     "confidence": "low"
     },
     {
      "reconciliation_id": "finrec_8c43a2e98046ad5db502",
@@ -7196,9 +7423,12 @@
      "unit_multiplier": 1000,
      "raw_value": "66,452,348",
      "normalized_value": 66452348000.0,
-     "status": "quarantined",
+     "status": "audit_only",
      "reasons": [
-      "missing_or_nonconsolidated_basis"
+      "legacy_parser_revision_quarantine",
+      "missing_or_nonconsolidated_basis",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -7217,7 +7447,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -7235,9 +7465,13 @@
      "unit_multiplier": 1000,
      "raw_value": "66,452,348",
      "normalized_value": 66452348000.0,
-     "status": "eligible",
-     "reasons": [],
-     "eligibility_scope": "annual_income_financial_truth_gate",
+     "status": "audit_only",
+     "reasons": [
+      "legacy_parser_revision_quarantine",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
+     ],
+     "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
       "document_id": "psx:260032",
       "fact_id": "fact_394f42ea6daa2044e4ad6dac",
@@ -7254,8 +7488,8 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "fact_source_reported",
-     "confidence": "high"
+     "evidence_label": "stale_source",
+     "confidence": "low"
     },
     {
      "reconciliation_id": "finrec_c2fc82df37ba36bbee34",
@@ -7272,9 +7506,12 @@
      "unit_multiplier": 1000,
      "raw_value": "15,719,838",
      "normalized_value": 15719838000.0,
-     "status": "quarantined",
+     "status": "audit_only",
      "reasons": [
-      "not_direct_current_period_quarter_fact"
+      "legacy_parser_revision_quarantine",
+      "not_direct_current_period_quarter_fact",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -7293,7 +7530,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -7311,10 +7548,13 @@
      "unit_multiplier": 1000,
      "raw_value": "15,719,838",
      "normalized_value": 15719838000.0,
-     "status": "quarantined",
+     "status": "audit_only",
      "reasons": [
+      "legacy_parser_revision_quarantine",
       "missing_or_nonconsolidated_basis",
-      "not_direct_current_period_quarter_fact"
+      "not_direct_current_period_quarter_fact",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -7333,7 +7573,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -7351,9 +7591,12 @@
      "unit_multiplier": 1000,
      "raw_value": "19,028,151",
      "normalized_value": 19028151000.0,
-     "status": "quarantined",
+     "status": "audit_only",
      "reasons": [
-      "not_direct_current_period_quarter_fact"
+      "legacy_parser_revision_quarantine",
+      "not_direct_current_period_quarter_fact",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -7372,7 +7615,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -7390,9 +7633,12 @@
      "unit_multiplier": 1000,
      "raw_value": "34,747,988",
      "normalized_value": 34747988000.0,
-     "status": "quarantined",
+     "status": "audit_only",
      "reasons": [
-      "not_annual_or_direct_three_month_quarter"
+      "legacy_parser_revision_quarantine",
+      "not_annual_or_direct_three_month_quarter",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -7411,7 +7657,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -7429,10 +7675,13 @@
      "unit_multiplier": 1000,
      "raw_value": "19,028,150",
      "normalized_value": 19028150000.0,
-     "status": "quarantined",
+     "status": "audit_only",
      "reasons": [
+      "legacy_parser_revision_quarantine",
       "missing_or_nonconsolidated_basis",
-      "not_direct_current_period_quarter_fact"
+      "not_direct_current_period_quarter_fact",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -7451,7 +7700,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -7469,10 +7718,13 @@
      "unit_multiplier": 1000,
      "raw_value": "34,747,988",
      "normalized_value": 34747988000.0,
-     "status": "quarantined",
+     "status": "audit_only",
      "reasons": [
+      "legacy_parser_revision_quarantine",
       "missing_or_nonconsolidated_basis",
-      "not_annual_or_direct_three_month_quarter"
+      "not_annual_or_direct_three_month_quarter",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -7491,7 +7743,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -7509,9 +7761,12 @@
      "unit_multiplier": 1000,
      "raw_value": "16,631,126",
      "normalized_value": 16631126000.0,
-     "status": "quarantined",
+     "status": "audit_only",
      "reasons": [
-      "not_direct_current_period_quarter_fact"
+      "legacy_parser_revision_quarantine",
+      "not_direct_current_period_quarter_fact",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -7530,7 +7785,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -7548,9 +7803,12 @@
      "unit_multiplier": 1000,
      "raw_value": "51,379,114",
      "normalized_value": 51379114000.0,
-     "status": "quarantined",
+     "status": "audit_only",
      "reasons": [
-      "not_annual_or_direct_three_month_quarter"
+      "legacy_parser_revision_quarantine",
+      "not_annual_or_direct_three_month_quarter",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -7569,7 +7827,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -7587,10 +7845,13 @@
      "unit_multiplier": 1000,
      "raw_value": "51,379,114",
      "normalized_value": 51379114000.0,
-     "status": "quarantined",
+     "status": "audit_only",
      "reasons": [
+      "legacy_parser_revision_quarantine",
       "missing_or_nonconsolidated_basis",
-      "not_annual_or_direct_three_month_quarter"
+      "not_annual_or_direct_three_month_quarter",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -7609,7 +7870,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -7627,10 +7888,13 @@
      "unit_multiplier": 1000,
      "raw_value": "16,631,126",
      "normalized_value": 16631126000.0,
-     "status": "quarantined",
+     "status": "audit_only",
      "reasons": [
+      "legacy_parser_revision_quarantine",
       "missing_or_nonconsolidated_basis",
-      "not_direct_current_period_quarter_fact"
+      "not_direct_current_period_quarter_fact",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -7649,7 +7913,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -7847,9 +8111,12 @@
      "unit_multiplier": 1000,
      "raw_value": "68,942,446",
      "normalized_value": 68942446000.0,
-     "status": "quarantined",
+     "status": "audit_only",
      "reasons": [
-      "missing_or_nonconsolidated_basis"
+      "legacy_parser_revision_quarantine",
+      "missing_or_nonconsolidated_basis",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -7868,7 +8135,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -8159,9 +8426,13 @@
      "unit_multiplier": 1000,
      "raw_value": "68,653,999",
      "normalized_value": 68653999000.0,
-     "status": "eligible",
-     "reasons": [],
-     "eligibility_scope": "annual_income_financial_truth_gate",
+     "status": "audit_only",
+     "reasons": [
+      "legacy_parser_revision_quarantine",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
+     ],
+     "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
       "document_id": "psx:260032",
       "fact_id": "fact_418ac80a7d5cbc105b272259",
@@ -8178,8 +8449,8 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "fact_source_reported",
-     "confidence": "high"
+     "evidence_label": "stale_source",
+     "confidence": "low"
     },
     {
      "reconciliation_id": "finrec_90a56327ac662b89783a",
@@ -8874,9 +9145,12 @@
      "unit_multiplier": 1000,
      "raw_value": "16,483,361",
      "normalized_value": 16483361000.0,
-     "status": "quarantined",
+     "status": "audit_only",
      "reasons": [
-      "missing_or_nonconsolidated_basis"
+      "legacy_parser_revision_quarantine",
+      "missing_or_nonconsolidated_basis",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -8895,7 +9169,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -9049,9 +9323,13 @@
      "unit_multiplier": 1000,
      "raw_value": "16,483,361",
      "normalized_value": 16483361000.0,
-     "status": "eligible",
-     "reasons": [],
-     "eligibility_scope": "reported_quarter_financial_truth_gate",
+     "status": "audit_only",
+     "reasons": [
+      "legacy_parser_revision_quarantine",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
+     ],
+     "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
       "document_id": "psx:263397",
       "fact_id": "fact_1db63a2cb083db29cfef5269",
@@ -9068,8 +9346,8 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "fact_source_reported",
-     "confidence": "high"
+     "evidence_label": "stale_source",
+     "confidence": "low"
     },
     {
      "reconciliation_id": "finrec_26380f9ee5b9abfbcaf3",
@@ -9312,10 +9590,13 @@
      "unit_multiplier": 1000,
      "raw_value": "35,418,855",
      "normalized_value": 35418855000.0,
-     "status": "quarantined",
+     "status": "audit_only",
      "reasons": [
+      "legacy_parser_revision_quarantine",
       "missing_or_nonconsolidated_basis",
-      "not_annual_or_direct_three_month_quarter"
+      "not_annual_or_direct_three_month_quarter",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -9334,7 +9615,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -9398,9 +9679,13 @@
      "unit_multiplier": 1000,
      "raw_value": "18,935,494",
      "normalized_value": 18935494000.0,
-     "status": "eligible",
-     "reasons": [],
-     "eligibility_scope": "reported_quarter_financial_truth_gate",
+     "status": "audit_only",
+     "reasons": [
+      "legacy_parser_revision_quarantine",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
+     ],
+     "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
       "document_id": "psx:271712",
       "fact_id": "fact_2626aa36bc5f2168fd10df96",
@@ -9417,8 +9702,8 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "fact_source_reported",
-     "confidence": "high"
+     "evidence_label": "stale_source",
+     "confidence": "low"
     },
     {
      "reconciliation_id": "finrec_6f2b25b4e45ea4dbfd60",
@@ -9573,9 +9858,12 @@
      "unit_multiplier": 1000,
      "raw_value": "18,935,494",
      "normalized_value": 18935494000.0,
-     "status": "quarantined",
+     "status": "audit_only",
      "reasons": [
-      "missing_or_nonconsolidated_basis"
+      "legacy_parser_revision_quarantine",
+      "missing_or_nonconsolidated_basis",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -9594,7 +9882,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -9745,9 +10033,12 @@
      "unit_multiplier": 1000,
      "raw_value": "35,418,855",
      "normalized_value": 35418855000.0,
-     "status": "quarantined",
+     "status": "audit_only",
      "reasons": [
-      "not_annual_or_direct_three_month_quarter"
+      "legacy_parser_revision_quarantine",
+      "not_annual_or_direct_three_month_quarter",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -9766,7 +10057,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -9830,9 +10121,13 @@
      "unit_multiplier": 1000,
      "raw_value": "21,545,015",
      "normalized_value": 21545015000.0,
-     "status": "eligible",
-     "reasons": [],
-     "eligibility_scope": "reported_quarter_financial_truth_gate",
+     "status": "audit_only",
+     "reasons": [
+      "legacy_parser_revision_quarantine",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
+     ],
+     "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
       "document_id": "psx:275425",
       "fact_id": "fact_110e8d90dfb6861692cdf97a",
@@ -9849,8 +10144,8 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "fact_source_reported",
-     "confidence": "high"
+     "evidence_label": "stale_source",
+     "confidence": "low"
     },
     {
      "reconciliation_id": "finrec_d17ce97395e0943fa5c3",
@@ -9913,9 +10208,12 @@
      "unit_multiplier": 1000,
      "raw_value": "16,931,582",
      "normalized_value": 16931582000.0,
-     "status": "quarantined",
+     "status": "audit_only",
      "reasons": [
-      "missing_or_nonconsolidated_basis"
+      "legacy_parser_revision_quarantine",
+      "missing_or_nonconsolidated_basis",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -9934,7 +10232,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -10270,9 +10568,12 @@
      "unit_multiplier": 1000,
      "raw_value": "56,963,871",
      "normalized_value": 56963871000.0,
-     "status": "quarantined",
+     "status": "audit_only",
      "reasons": [
-      "not_annual_or_direct_three_month_quarter"
+      "legacy_parser_revision_quarantine",
+      "not_annual_or_direct_three_month_quarter",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -10291,7 +10592,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -10309,10 +10610,13 @@
      "unit_multiplier": 1000,
      "raw_value": "52,350,437",
      "normalized_value": 52350437000.0,
-     "status": "quarantined",
+     "status": "audit_only",
      "reasons": [
+      "legacy_parser_revision_quarantine",
       "missing_or_nonconsolidated_basis",
-      "not_annual_or_direct_three_month_quarter"
+      "not_annual_or_direct_three_month_quarter",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -10331,7 +10635,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -10720,22 +11024,21 @@
    "qualified_periods": [
     {
      "period_end": "2024-06-30",
-     "available_on": "2025-09-25",
+     "available_on": "2024-09-11T09:09:00+05:00",
      "consolidation": "consolidated",
      "currency": "PKR",
      "statement_type": "income_statement",
      "monetary_unit": "PKR",
-     "monetary_unit_multiplier": 1000,
+     "monetary_unit_multiplier": 1,
      "eps_unit": "PKR/share",
      "eps_unit_multiplier": 1,
      "source_fact_ids": {
-      "revenue": "fact_394f42ea6daa2044e4ad6dac",
-      "profit_after_tax_attributable": "fact_4579f98e3b83040dc49dda12",
+      "revenue": "manual_fact_66b17ef9298dc2847c1e5371",
+      "profit_after_tax_attributable": "manual_fact_532ab7b94f52d71ab3797be2",
       "basic_eps": "manual_fact_9ada08b53835fb51ea67380e"
      },
      "document_ids": [
-      "psx:236626",
-      "psx:260032"
+      "psx:236626"
      ]
     },
     {
@@ -10745,16 +11048,15 @@
      "currency": "PKR",
      "statement_type": "income_statement",
      "monetary_unit": "PKR",
-     "monetary_unit_multiplier": 1000,
+     "monetary_unit_multiplier": 1,
      "eps_unit": "PKR/share",
      "eps_unit_multiplier": 1,
      "source_fact_ids": {
-      "revenue": "fact_418ac80a7d5cbc105b272259",
-      "profit_after_tax_attributable": "fact_e8d4d3e966945b46f273e243",
+      "revenue": "manual_fact_81f61eff38c0e596815acb84",
+      "profit_after_tax_attributable": "manual_fact_1143daa1f48237ac5b1b2534",
       "basic_eps": "manual_fact_25817c1077196ec499d808b6"
      },
      "document_ids": [
-      "psx:260032",
       "psx:280589"
      ]
     },
@@ -11952,11 +12254,11 @@
   },
   "DGKC": {
    "symbol": "DGKC",
-   "status": "eligible_for_review",
-   "eligible_fact_count": 22,
-   "audit_only_fact_count": 694,
-   "quarantined_fact_count": 16,
-   "missing_slot_count": 0,
+   "status": "blocked",
+   "eligible_fact_count": 0,
+   "audit_only_fact_count": 732,
+   "quarantined_fact_count": 0,
+   "missing_slot_count": 9,
    "source_conflict_count": 0,
    "withheld_future_source_fact_count": 0,
    "facts": [
@@ -11975,9 +12277,13 @@
      "unit_multiplier": 1,
      "raw_value": "7.21",
      "normalized_value": 7.21,
-     "status": "eligible",
-     "reasons": [],
-     "eligibility_scope": "annual_income_financial_truth_gate",
+     "status": "audit_only",
+     "reasons": [
+      "legacy_parser_revision_quarantine",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
+     ],
+     "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
       "document_id": "issuer:57fbec27bd4005d116acb827",
       "fact_id": "fact_31c99710afb5186824e5fa4c",
@@ -12006,8 +12312,8 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "fact_source_reported",
-     "confidence": "high"
+     "evidence_label": "stale_source",
+     "confidence": "low"
     },
     {
      "reconciliation_id": "finrec_6e7d413e6ae39fa7d101",
@@ -12024,9 +12330,12 @@
      "unit_multiplier": 1,
      "raw_value": "6.78",
      "normalized_value": 6.78,
-     "status": "quarantined",
+     "status": "audit_only",
      "reasons": [
-      "missing_or_nonconsolidated_basis"
+      "legacy_parser_revision_quarantine",
+      "missing_or_nonconsolidated_basis",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -12057,7 +12366,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -12075,9 +12384,12 @@
      "unit_multiplier": 1,
      "raw_value": "(8.30)",
      "normalized_value": -8.3,
-     "status": "quarantined",
+     "status": "audit_only",
      "reasons": [
-      "missing_or_nonconsolidated_basis"
+      "legacy_parser_revision_quarantine",
+      "missing_or_nonconsolidated_basis",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -12108,7 +12420,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -12126,9 +12438,13 @@
      "unit_multiplier": 1,
      "raw_value": "(8.06)",
      "normalized_value": -8.06,
-     "status": "eligible",
-     "reasons": [],
-     "eligibility_scope": "annual_income_financial_truth_gate",
+     "status": "audit_only",
+     "reasons": [
+      "legacy_parser_revision_quarantine",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
+     ],
+     "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
       "document_id": "issuer:57fbec27bd4005d116acb827",
       "fact_id": "fact_fc46520f2a718dac26de7887",
@@ -12157,8 +12473,8 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "fact_source_reported",
-     "confidence": "high"
+     "evidence_label": "stale_source",
+     "confidence": "low"
     },
     {
      "reconciliation_id": "finrec_ceea2f335ae53342e868",
@@ -12175,9 +12491,13 @@
      "unit_multiplier": 1,
      "raw_value": "1.42",
      "normalized_value": 1.42,
-     "status": "eligible",
-     "reasons": [],
-     "eligibility_scope": "annual_income_financial_truth_gate",
+     "status": "audit_only",
+     "reasons": [
+      "legacy_parser_revision_quarantine",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
+     ],
+     "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
       "document_id": "issuer:39fe974f6ef82bbeadf83938",
       "fact_id": "fact_8f1115b75fe057745f21986e",
@@ -12206,8 +12526,8 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "fact_source_reported",
-     "confidence": "high"
+     "evidence_label": "stale_source",
+     "confidence": "low"
     },
     {
      "reconciliation_id": "finrec_57371a6c47f5c4bd5d92",
@@ -12224,9 +12544,12 @@
      "unit_multiplier": 1,
      "raw_value": "1.24",
      "normalized_value": 1.24,
-     "status": "quarantined",
+     "status": "audit_only",
      "reasons": [
-      "missing_or_nonconsolidated_basis"
+      "legacy_parser_revision_quarantine",
+      "missing_or_nonconsolidated_basis",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -12257,7 +12580,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -12275,9 +12598,12 @@
      "unit_multiplier": 1,
      "raw_value": "19.80",
      "normalized_value": 19.8,
-     "status": "quarantined",
+     "status": "audit_only",
      "reasons": [
-      "missing_or_nonconsolidated_basis"
+      "legacy_parser_revision_quarantine",
+      "missing_or_nonconsolidated_basis",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -12308,7 +12634,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -12326,9 +12652,13 @@
      "unit_multiplier": 1,
      "raw_value": "21.09",
      "normalized_value": 21.09,
-     "status": "eligible",
-     "reasons": [],
-     "eligibility_scope": "annual_income_financial_truth_gate",
+     "status": "audit_only",
+     "reasons": [
+      "legacy_parser_revision_quarantine",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
+     ],
+     "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
       "document_id": "issuer:39fe974f6ef82bbeadf83938",
       "fact_id": "fact_ab6b180a01741c4ac4a76a81",
@@ -12357,8 +12687,8 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "fact_source_reported",
-     "confidence": "high"
+     "evidence_label": "stale_source",
+     "confidence": "low"
     },
     {
      "reconciliation_id": "finrec_675dee653389bc4e5763",
@@ -24357,9 +24687,12 @@
      "unit_multiplier": 1000,
      "raw_value": "10,428,312",
      "normalized_value": 10428312000.0,
-     "status": "quarantined",
+     "status": "audit_only",
      "reasons": [
-      "missing_or_nonconsolidated_basis"
+      "legacy_parser_revision_quarantine",
+      "missing_or_nonconsolidated_basis",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -24390,7 +24723,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -24408,9 +24741,13 @@
      "unit_multiplier": 1000,
      "raw_value": "11,325,231",
      "normalized_value": 11325231000.0,
-     "status": "eligible",
-     "reasons": [],
-     "eligibility_scope": "annual_income_financial_truth_gate",
+     "status": "audit_only",
+     "reasons": [
+      "legacy_parser_revision_quarantine",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
+     ],
+     "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
       "document_id": "issuer:57fbec27bd4005d116acb827",
       "fact_id": "fact_e1ebd37e6fad2029a04516ea",
@@ -24439,8 +24776,8 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "fact_source_reported",
-     "confidence": "high"
+     "evidence_label": "stale_source",
+     "confidence": "low"
     },
     {
      "reconciliation_id": "finrec_01f2f1250ed78e141d83",
@@ -24457,9 +24794,12 @@
      "unit_multiplier": 1000,
      "raw_value": "9,555,775",
      "normalized_value": 9555775000.0,
-     "status": "quarantined",
+     "status": "audit_only",
      "reasons": [
-      "missing_or_nonconsolidated_basis"
+      "legacy_parser_revision_quarantine",
+      "missing_or_nonconsolidated_basis",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -24490,7 +24830,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -24508,9 +24848,13 @@
      "unit_multiplier": 1000,
      "raw_value": "10,674,284",
      "normalized_value": 10674284000.0,
-     "status": "eligible",
-     "reasons": [],
-     "eligibility_scope": "annual_income_financial_truth_gate",
+     "status": "audit_only",
+     "reasons": [
+      "legacy_parser_revision_quarantine",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
+     ],
+     "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
       "document_id": "issuer:57fbec27bd4005d116acb827",
       "fact_id": "fact_c0b453edaffaab615c249eab",
@@ -24539,8 +24883,8 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "fact_source_reported",
-     "confidence": "high"
+     "evidence_label": "stale_source",
+     "confidence": "low"
     },
     {
      "reconciliation_id": "finrec_d2d2a677de8b3d2cf89e",
@@ -24557,9 +24901,12 @@
      "unit_multiplier": 1000,
      "raw_value": "9,555,775",
      "normalized_value": 9555775000.0,
-     "status": "quarantined",
+     "status": "audit_only",
      "reasons": [
-      "missing_or_nonconsolidated_basis"
+      "legacy_parser_revision_quarantine",
+      "missing_or_nonconsolidated_basis",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -24590,7 +24937,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -24608,9 +24955,13 @@
      "unit_multiplier": 1000,
      "raw_value": "10,674,284",
      "normalized_value": 10674284000.0,
-     "status": "eligible",
-     "reasons": [],
-     "eligibility_scope": "annual_income_financial_truth_gate",
+     "status": "audit_only",
+     "reasons": [
+      "legacy_parser_revision_quarantine",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
+     ],
+     "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
       "document_id": "issuer:91e2da11249269bcac96ae5a",
       "fact_id": "fact_8f3cafc0257aeff30eeaed17",
@@ -24639,8 +24990,8 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "fact_source_reported",
-     "confidence": "high"
+     "evidence_label": "stale_source",
+     "confidence": "low"
     },
     {
      "reconciliation_id": "finrec_5a8e1d0fbc925d1e16d1",
@@ -24657,9 +25008,12 @@
      "unit_multiplier": 1000,
      "raw_value": "10,528,260",
      "normalized_value": 10528260000.0,
-     "status": "quarantined",
+     "status": "audit_only",
      "reasons": [
-      "missing_or_nonconsolidated_basis"
+      "legacy_parser_revision_quarantine",
+      "missing_or_nonconsolidated_basis",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -24690,7 +25044,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -24708,9 +25062,13 @@
      "unit_multiplier": 1000,
      "raw_value": "11,611,779",
      "normalized_value": 11611779000.0,
-     "status": "eligible",
-     "reasons": [],
-     "eligibility_scope": "annual_income_financial_truth_gate",
+     "status": "audit_only",
+     "reasons": [
+      "legacy_parser_revision_quarantine",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
+     ],
+     "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
       "document_id": "issuer:39fe974f6ef82bbeadf83938",
       "fact_id": "fact_edbed14d965c782bd28db854",
@@ -24739,8 +25097,8 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "fact_source_reported",
-     "confidence": "high"
+     "evidence_label": "stale_source",
+     "confidence": "low"
     },
     {
      "reconciliation_id": "finrec_65d41e24aa0f6206de67",
@@ -24757,9 +25115,12 @@
      "unit_multiplier": 1000,
      "raw_value": "10,528,260",
      "normalized_value": 10528260000.0,
-     "status": "quarantined",
+     "status": "audit_only",
      "reasons": [
-      "missing_or_nonconsolidated_basis"
+      "legacy_parser_revision_quarantine",
+      "missing_or_nonconsolidated_basis",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -24790,7 +25151,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -24808,9 +25169,13 @@
      "unit_multiplier": 1000,
      "raw_value": "11,611,779",
      "normalized_value": 11611779000.0,
-     "status": "eligible",
-     "reasons": [],
-     "eligibility_scope": "annual_income_financial_truth_gate",
+     "status": "audit_only",
+     "reasons": [
+      "legacy_parser_revision_quarantine",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
+     ],
+     "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
       "document_id": "issuer:91e2da11249269bcac96ae5a",
       "fact_id": "fact_563f1e0c85791b03974dbd8e",
@@ -24839,8 +25204,8 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "fact_source_reported",
-     "confidence": "high"
+     "evidence_label": "stale_source",
+     "confidence": "low"
     },
     {
      "reconciliation_id": "finrec_e39b3a786cfbd6702fc8",
@@ -24857,9 +25222,12 @@
      "unit_multiplier": 1000,
      "raw_value": "18,505,671",
      "normalized_value": 18505671000.0,
-     "status": "quarantined",
+     "status": "audit_only",
      "reasons": [
-      "missing_or_nonconsolidated_basis"
+      "legacy_parser_revision_quarantine",
+      "missing_or_nonconsolidated_basis",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -24890,7 +25258,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -24908,9 +25276,13 @@
      "unit_multiplier": 1000,
      "raw_value": "19,799,331",
      "normalized_value": 19799331000.0,
-     "status": "eligible",
-     "reasons": [],
-     "eligibility_scope": "annual_income_financial_truth_gate",
+     "status": "audit_only",
+     "reasons": [
+      "legacy_parser_revision_quarantine",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
+     ],
+     "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
       "document_id": "issuer:39fe974f6ef82bbeadf83938",
       "fact_id": "fact_f8d246e08b5fc9a9100d5fde",
@@ -24939,8 +25311,8 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "fact_source_reported",
-     "confidence": "high"
+     "evidence_label": "stale_source",
+     "confidence": "low"
     },
     {
      "reconciliation_id": "finrec_7feae93a1d08cde086e7",
@@ -32160,9 +32532,13 @@
      "unit_multiplier": 1000,
      "raw_value": "3,160,534",
      "normalized_value": 3160534000.0,
-     "status": "eligible",
-     "reasons": [],
-     "eligibility_scope": "annual_income_financial_truth_gate",
+     "status": "audit_only",
+     "reasons": [
+      "legacy_parser_revision_quarantine",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
+     ],
+     "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
       "document_id": "issuer:57fbec27bd4005d116acb827",
       "fact_id": "fact_91c730095894d88bc54748df",
@@ -32191,8 +32567,8 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "fact_source_reported",
-     "confidence": "high"
+     "evidence_label": "stale_source",
+     "confidence": "low"
     },
     {
      "reconciliation_id": "finrec_4387346c62dc36da7a96",
@@ -32209,9 +32585,13 @@
      "unit_multiplier": 1000,
      "raw_value": "(3,530,256)",
      "normalized_value": -3530256000.0,
-     "status": "eligible",
-     "reasons": [],
-     "eligibility_scope": "annual_income_financial_truth_gate",
+     "status": "audit_only",
+     "reasons": [
+      "legacy_parser_revision_quarantine",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
+     ],
+     "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
       "document_id": "issuer:57fbec27bd4005d116acb827",
       "fact_id": "fact_2eb04ac24dd217a9d52eb96a",
@@ -32240,8 +32620,8 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "fact_source_reported",
-     "confidence": "high"
+     "evidence_label": "stale_source",
+     "confidence": "low"
     },
     {
      "reconciliation_id": "finrec_97412fc29c7c67a1280d",
@@ -32258,9 +32638,13 @@
      "unit_multiplier": 1000,
      "raw_value": "(3,530,256)",
      "normalized_value": -3530256000.0,
-     "status": "eligible",
-     "reasons": [],
-     "eligibility_scope": "annual_income_financial_truth_gate",
+     "status": "audit_only",
+     "reasons": [
+      "legacy_parser_revision_quarantine",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
+     ],
+     "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
       "document_id": "issuer:91e2da11249269bcac96ae5a",
       "fact_id": "fact_3f32e20ecb0cfc82ea193def",
@@ -32289,8 +32673,8 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "fact_source_reported",
-     "confidence": "high"
+     "evidence_label": "stale_source",
+     "confidence": "low"
     },
     {
      "reconciliation_id": "finrec_6b25e038bdf37acb6641",
@@ -32307,9 +32691,13 @@
      "unit_multiplier": 1000,
      "raw_value": "620,898",
      "normalized_value": 620898000.0,
-     "status": "eligible",
-     "reasons": [],
-     "eligibility_scope": "annual_income_financial_truth_gate",
+     "status": "audit_only",
+     "reasons": [
+      "legacy_parser_revision_quarantine",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
+     ],
+     "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
       "document_id": "issuer:39fe974f6ef82bbeadf83938",
       "fact_id": "fact_ea9aa004bf9391956151654e",
@@ -32338,8 +32726,8 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "fact_source_reported",
-     "confidence": "high"
+     "evidence_label": "stale_source",
+     "confidence": "low"
     },
     {
      "reconciliation_id": "finrec_0bc3602e279ad8799ba9",
@@ -32356,9 +32744,13 @@
      "unit_multiplier": 1000,
      "raw_value": "620,898",
      "normalized_value": 620898000.0,
-     "status": "eligible",
-     "reasons": [],
-     "eligibility_scope": "annual_income_financial_truth_gate",
+     "status": "audit_only",
+     "reasons": [
+      "legacy_parser_revision_quarantine",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
+     ],
+     "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
       "document_id": "issuer:91e2da11249269bcac96ae5a",
       "fact_id": "fact_01067a087cecc04c23c2ceb5",
@@ -32387,8 +32779,8 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "fact_source_reported",
-     "confidence": "high"
+     "evidence_label": "stale_source",
+     "confidence": "low"
     },
     {
      "reconciliation_id": "finrec_1c6f8afa9dff890ece78",
@@ -32405,9 +32797,13 @@
      "unit_multiplier": 1000,
      "raw_value": "9,239,142",
      "normalized_value": 9239142000.0,
-     "status": "eligible",
-     "reasons": [],
-     "eligibility_scope": "annual_income_financial_truth_gate",
+     "status": "audit_only",
+     "reasons": [
+      "legacy_parser_revision_quarantine",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
+     ],
+     "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
       "document_id": "issuer:39fe974f6ef82bbeadf83938",
       "fact_id": "fact_ad38f41dbfc4ca549a54e3d8",
@@ -32436,8 +32832,8 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "fact_source_reported",
-     "confidence": "high"
+     "evidence_label": "stale_source",
+     "confidence": "low"
     },
     {
      "reconciliation_id": "finrec_9b5dec0a02c822959088",
@@ -34282,9 +34678,12 @@
      "unit_multiplier": 1000,
      "raw_value": "58,043,863",
      "normalized_value": 58043863000.0,
-     "status": "quarantined",
+     "status": "audit_only",
      "reasons": [
-      "missing_or_nonconsolidated_basis"
+      "legacy_parser_revision_quarantine",
+      "missing_or_nonconsolidated_basis",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -34315,7 +34714,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -34333,9 +34732,13 @@
      "unit_multiplier": 1000,
      "raw_value": "61,653,833",
      "normalized_value": 61653833000.0,
-     "status": "eligible",
-     "reasons": [],
-     "eligibility_scope": "annual_income_financial_truth_gate",
+     "status": "audit_only",
+     "reasons": [
+      "legacy_parser_revision_quarantine",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
+     ],
+     "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
       "document_id": "issuer:57fbec27bd4005d116acb827",
       "fact_id": "fact_7b534d8a452f8f3c264aab40",
@@ -34364,8 +34767,8 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "fact_source_reported",
-     "confidence": "high"
+     "evidence_label": "stale_source",
+     "confidence": "low"
     },
     {
      "reconciliation_id": "finrec_9eb934e573e65ebce26e",
@@ -34667,9 +35070,13 @@
      "unit_multiplier": 1000,
      "raw_value": "70,495,201",
      "normalized_value": 70495201000.0,
-     "status": "eligible",
-     "reasons": [],
-     "eligibility_scope": "annual_income_financial_truth_gate",
+     "status": "audit_only",
+     "reasons": [
+      "legacy_parser_revision_quarantine",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
+     ],
+     "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
       "document_id": "issuer:57fbec27bd4005d116acb827",
       "fact_id": "fact_b792374bde93e8dda3e384b5",
@@ -34698,8 +35105,8 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "fact_source_reported",
-     "confidence": "high"
+     "evidence_label": "stale_source",
+     "confidence": "low"
     },
     {
      "reconciliation_id": "finrec_d479e53dde13d4b0c58d",
@@ -34763,9 +35170,12 @@
      "unit_multiplier": 1000,
      "raw_value": "64,983,821",
      "normalized_value": 64983821000.0,
-     "status": "quarantined",
+     "status": "audit_only",
      "reasons": [
-      "missing_or_nonconsolidated_basis"
+      "legacy_parser_revision_quarantine",
+      "missing_or_nonconsolidated_basis",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -34796,7 +35206,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -34957,9 +35367,13 @@
      "unit_multiplier": 1000,
      "raw_value": "70,495,201",
      "normalized_value": 70495201000.0,
-     "status": "eligible",
-     "reasons": [],
-     "eligibility_scope": "annual_income_financial_truth_gate",
+     "status": "audit_only",
+     "reasons": [
+      "legacy_parser_revision_quarantine",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
+     ],
+     "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
       "document_id": "issuer:91e2da11249269bcac96ae5a",
       "fact_id": "fact_720e88feb7bdfac7965e6d1b",
@@ -34988,8 +35402,8 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "fact_source_reported",
-     "confidence": "high"
+     "evidence_label": "stale_source",
+     "confidence": "low"
     },
     {
      "reconciliation_id": "finrec_de1062f42577a25f20b6",
@@ -35006,9 +35420,12 @@
      "unit_multiplier": 1000,
      "raw_value": "64,983,821",
      "normalized_value": 64983821000.0,
-     "status": "quarantined",
+     "status": "audit_only",
      "reasons": [
-      "missing_or_nonconsolidated_basis"
+      "legacy_parser_revision_quarantine",
+      "missing_or_nonconsolidated_basis",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -35039,7 +35456,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -35057,9 +35474,13 @@
      "unit_multiplier": 1000,
      "raw_value": "71,888,079",
      "normalized_value": 71888079000.0,
-     "status": "eligible",
-     "reasons": [],
-     "eligibility_scope": "annual_income_financial_truth_gate",
+     "status": "audit_only",
+     "reasons": [
+      "legacy_parser_revision_quarantine",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
+     ],
+     "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
       "document_id": "issuer:39fe974f6ef82bbeadf83938",
       "fact_id": "fact_400b4de2b3b08a3718366c18",
@@ -35088,8 +35509,8 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "fact_source_reported",
-     "confidence": "high"
+     "evidence_label": "stale_source",
+     "confidence": "low"
     },
     {
      "reconciliation_id": "finrec_b19c46e64ec2fd553355",
@@ -35106,9 +35527,12 @@
      "unit_multiplier": 1000,
      "raw_value": "66,038,689",
      "normalized_value": 66038689000.0,
-     "status": "quarantined",
+     "status": "audit_only",
      "reasons": [
-      "missing_or_nonconsolidated_basis"
+      "legacy_parser_revision_quarantine",
+      "missing_or_nonconsolidated_basis",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -35139,7 +35563,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -35157,9 +35581,13 @@
      "unit_multiplier": 1000,
      "raw_value": "71,888,079",
      "normalized_value": 71888079000.0,
-     "status": "eligible",
-     "reasons": [],
-     "eligibility_scope": "annual_income_financial_truth_gate",
+     "status": "audit_only",
+     "reasons": [
+      "legacy_parser_revision_quarantine",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
+     ],
+     "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
       "document_id": "issuer:91e2da11249269bcac96ae5a",
       "fact_id": "fact_063a8833d046d4b83f21294d",
@@ -35188,8 +35616,8 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "fact_source_reported",
-     "confidence": "high"
+     "evidence_label": "stale_source",
+     "confidence": "low"
     },
     {
      "reconciliation_id": "finrec_626811e8ee789ebcc790",
@@ -35252,9 +35680,12 @@
      "unit_multiplier": 1000,
      "raw_value": "66,038,689",
      "normalized_value": 66038689000.0,
-     "status": "quarantined",
+     "status": "audit_only",
      "reasons": [
-      "missing_or_nonconsolidated_basis"
+      "legacy_parser_revision_quarantine",
+      "missing_or_nonconsolidated_basis",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -35285,7 +35716,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -35584,9 +36015,12 @@
      "unit_multiplier": 1000,
      "raw_value": "71,892,837",
      "normalized_value": 71892837000.0,
-     "status": "quarantined",
+     "status": "audit_only",
      "reasons": [
-      "missing_or_nonconsolidated_basis"
+      "legacy_parser_revision_quarantine",
+      "missing_or_nonconsolidated_basis",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -35617,7 +36051,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -35681,9 +36115,13 @@
      "unit_multiplier": 1000,
      "raw_value": "78,633,908",
      "normalized_value": 78633908000.0,
-     "status": "eligible",
-     "reasons": [],
-     "eligibility_scope": "annual_income_financial_truth_gate",
+     "status": "audit_only",
+     "reasons": [
+      "legacy_parser_revision_quarantine",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
+     ],
+     "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
       "document_id": "issuer:39fe974f6ef82bbeadf83938",
       "fact_id": "fact_f5a50636a81e6a6bbc063176",
@@ -35712,8 +36150,8 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "fact_source_reported",
-     "confidence": "high"
+     "evidence_label": "stale_source",
+     "confidence": "low"
     },
     {
      "reconciliation_id": "finrec_b7890f31199a064dd085",
@@ -47770,92 +48208,158 @@
     }
    ],
    "conflicts": [],
-   "missing_slots": [],
-   "qualified_periods": [
+   "missing_slots": [
     {
-     "period_end": "2022-06-30",
-     "available_on": "2026-08-27",
-     "consolidation": "consolidated",
-     "currency": "PKR",
-     "statement_type": "income_statement",
-     "monetary_unit": "PKR",
-     "monetary_unit_multiplier": 1000,
-     "eps_unit": "PKR/share",
-     "eps_unit_multiplier": 1,
-     "source_fact_ids": {
-      "revenue": "fact_7b534d8a452f8f3c264aab40",
-      "profit_after_tax_attributable": "fact_91c730095894d88bc54748df",
-      "basic_eps": "fact_31c99710afb5186824e5fa4c"
-     },
-     "document_ids": [
-      "issuer:57fbec27bd4005d116acb827"
-     ]
-    },
-    {
-     "period_end": "2023-06-30",
-     "available_on": "2026-08-27",
-     "consolidation": "consolidated",
-     "currency": "PKR",
-     "statement_type": "income_statement",
-     "monetary_unit": "PKR",
-     "monetary_unit_multiplier": 1000,
-     "eps_unit": "PKR/share",
-     "eps_unit_multiplier": 1,
-     "source_fact_ids": {
-      "revenue": "fact_720e88feb7bdfac7965e6d1b",
-      "profit_after_tax_attributable": "fact_2eb04ac24dd217a9d52eb96a",
-      "basic_eps": "fact_fc46520f2a718dac26de7887"
-     },
-     "document_ids": [
-      "issuer:57fbec27bd4005d116acb827",
-      "issuer:91e2da11249269bcac96ae5a"
-     ]
-    },
-    {
-     "period_end": "2024-06-30",
-     "available_on": "2026-08-27",
-     "consolidation": "consolidated",
-     "currency": "PKR",
-     "statement_type": "income_statement",
-     "monetary_unit": "PKR",
-     "monetary_unit_multiplier": 1000,
-     "eps_unit": "PKR/share",
-     "eps_unit_multiplier": 1,
-     "source_fact_ids": {
-      "revenue": "fact_063a8833d046d4b83f21294d",
-      "profit_after_tax_attributable": "fact_01067a087cecc04c23c2ceb5",
-      "basic_eps": "fact_8f1115b75fe057745f21986e"
-     },
-     "document_ids": [
-      "issuer:39fe974f6ef82bbeadf83938",
-      "issuer:91e2da11249269bcac96ae5a"
-     ]
-    },
-    {
+     "reconciliation_id": "finmissing_9364548ef5be859087f9",
+     "symbol": "DGKC",
+     "metric": "revenue",
      "period_end": "2025-06-30",
-     "available_on": "2026-08-27",
-     "consolidation": "consolidated",
-     "currency": "PKR",
-     "statement_type": "income_statement",
-     "monetary_unit": "PKR",
-     "monetary_unit_multiplier": 1000,
-     "eps_unit": "PKR/share",
-     "eps_unit_multiplier": 1,
-     "source_fact_ids": {
-      "revenue": "fact_f5a50636a81e6a6bbc063176",
-      "profit_after_tax_attributable": "fact_ad38f41dbfc4ca549a54e3d8",
-      "basic_eps": "fact_ab6b180a01741c4ac4a76a81"
-     },
-     "document_ids": [
-      "issuer:39fe974f6ef82bbeadf83938"
-     ]
+     "period_type": "annual",
+     "status": "missing",
+     "reason": "missing_eligible_reported_fact_for_required_annual_slot",
+     "slot": "annual_period_1",
+     "period_evidence_status": "explicit",
+     "source": {
+      "document_id": "psx:258454",
+      "title": "FINANCIAL RESULTS FOR THE YEAR ENDED JUNE 30, 2025",
+      "matched_text": "YEAR ENDED JUNE 30, 2025"
+     }
+    },
+    {
+     "reconciliation_id": "finmissing_f4bdf35616f8935ecde1",
+     "symbol": "DGKC",
+     "metric": "profit_after_tax_attributable",
+     "period_end": "2025-06-30",
+     "period_type": "annual",
+     "status": "missing",
+     "reason": "missing_eligible_reported_fact_for_required_annual_slot",
+     "slot": "annual_period_1",
+     "period_evidence_status": "explicit",
+     "source": {
+      "document_id": "psx:258454",
+      "title": "FINANCIAL RESULTS FOR THE YEAR ENDED JUNE 30, 2025",
+      "matched_text": "YEAR ENDED JUNE 30, 2025"
+     }
+    },
+    {
+     "reconciliation_id": "finmissing_b73f8e9c9b5d8bc2ac7b",
+     "symbol": "DGKC",
+     "metric": "basic_eps",
+     "period_end": "2025-06-30",
+     "period_type": "annual",
+     "status": "missing",
+     "reason": "missing_eligible_reported_fact_for_required_annual_slot",
+     "slot": "annual_period_1",
+     "period_evidence_status": "explicit",
+     "source": {
+      "document_id": "psx:258454",
+      "title": "FINANCIAL RESULTS FOR THE YEAR ENDED JUNE 30, 2025",
+      "matched_text": "YEAR ENDED JUNE 30, 2025"
+     }
+    },
+    {
+     "reconciliation_id": "finmissing_6dee842ebe0d35400ab1",
+     "symbol": "DGKC",
+     "metric": "revenue",
+     "period_end": "2024-06-30",
+     "period_type": "annual",
+     "status": "missing",
+     "reason": "missing_eligible_reported_fact_for_required_annual_slot",
+     "slot": "annual_period_2",
+     "period_evidence_status": "explicit",
+     "source": {
+      "document_id": "psx:237525",
+      "title": "TRANSMISSION OF ANNUAL REPORT FOR THE YEAR ENDED JUNE 30, 2024",
+      "matched_text": "YEAR ENDED JUNE 30, 2024"
+     }
+    },
+    {
+     "reconciliation_id": "finmissing_e9a32128b98727d7ff31",
+     "symbol": "DGKC",
+     "metric": "profit_after_tax_attributable",
+     "period_end": "2024-06-30",
+     "period_type": "annual",
+     "status": "missing",
+     "reason": "missing_eligible_reported_fact_for_required_annual_slot",
+     "slot": "annual_period_2",
+     "period_evidence_status": "explicit",
+     "source": {
+      "document_id": "psx:237525",
+      "title": "TRANSMISSION OF ANNUAL REPORT FOR THE YEAR ENDED JUNE 30, 2024",
+      "matched_text": "YEAR ENDED JUNE 30, 2024"
+     }
+    },
+    {
+     "reconciliation_id": "finmissing_6dfaab0e3c7c62f51d95",
+     "symbol": "DGKC",
+     "metric": "basic_eps",
+     "period_end": "2024-06-30",
+     "period_type": "annual",
+     "status": "missing",
+     "reason": "missing_eligible_reported_fact_for_required_annual_slot",
+     "slot": "annual_period_2",
+     "period_evidence_status": "explicit",
+     "source": {
+      "document_id": "psx:237525",
+      "title": "TRANSMISSION OF ANNUAL REPORT FOR THE YEAR ENDED JUNE 30, 2024",
+      "matched_text": "YEAR ENDED JUNE 30, 2024"
+     }
+    },
+    {
+     "reconciliation_id": "finmissing_22833015f1a628a9513c",
+     "symbol": "DGKC",
+     "metric": "revenue",
+     "period_end": "2023-06-30",
+     "period_type": "annual",
+     "status": "missing",
+     "reason": "missing_eligible_reported_fact_for_required_annual_slot",
+     "slot": "annual_period_3",
+     "period_evidence_status": "explicit",
+     "source": {
+      "document_id": "psx:216733",
+      "title": "TRANSMISSION OF ANNUAL REPORT FOR THE YEAR ENDED JUNE 30, 2023",
+      "matched_text": "YEAR ENDED JUNE 30, 2023"
+     }
+    },
+    {
+     "reconciliation_id": "finmissing_36468afe33ef3ac3af79",
+     "symbol": "DGKC",
+     "metric": "profit_after_tax_attributable",
+     "period_end": "2023-06-30",
+     "period_type": "annual",
+     "status": "missing",
+     "reason": "missing_eligible_reported_fact_for_required_annual_slot",
+     "slot": "annual_period_3",
+     "period_evidence_status": "explicit",
+     "source": {
+      "document_id": "psx:216733",
+      "title": "TRANSMISSION OF ANNUAL REPORT FOR THE YEAR ENDED JUNE 30, 2023",
+      "matched_text": "YEAR ENDED JUNE 30, 2023"
+     }
+    },
+    {
+     "reconciliation_id": "finmissing_00d5d3b9ba2f7562129a",
+     "symbol": "DGKC",
+     "metric": "basic_eps",
+     "period_end": "2023-06-30",
+     "period_type": "annual",
+     "status": "missing",
+     "reason": "missing_eligible_reported_fact_for_required_annual_slot",
+     "slot": "annual_period_3",
+     "period_evidence_status": "explicit",
+     "source": {
+      "document_id": "psx:216733",
+      "title": "TRANSMISSION OF ANNUAL REPORT FOR THE YEAR ENDED JUNE 30, 2023",
+      "matched_text": "YEAR ENDED JUNE 30, 2023"
+     }
     }
    ],
+   "qualified_periods": [],
    "readiness": {
     "forecast_readiness_status": "input_ready",
     "forecast_qualified_period_count": 4,
-    "financial_model_input_status": "ready",
-    "earnings_bridge_status": "ready_for_bridge_calculation",
+    "financial_model_input_status": "partial",
+    "earnings_bridge_status": "blocked",
     "forecast": "blocked_insufficient_qualified_history",
     "valuation": "blocked_insufficient_qualified_history",
     "market_expectations": "blocked_insufficient_qualified_history",
@@ -49981,10 +50485,10 @@
   "LUCK": {
    "symbol": "LUCK",
    "status": "blocked",
-   "eligible_fact_count": 16,
-   "audit_only_fact_count": 420,
-   "quarantined_fact_count": 24,
-   "missing_slot_count": 7,
+   "eligible_fact_count": 0,
+   "audit_only_fact_count": 460,
+   "quarantined_fact_count": 0,
+   "missing_slot_count": 9,
    "source_conflict_count": 0,
    "withheld_future_source_fact_count": 0,
    "facts": [
@@ -50003,9 +50507,12 @@
      "unit_multiplier": 1,
      "raw_value": "47.31",
      "normalized_value": 47.31,
-     "status": "quarantined",
+     "status": "audit_only",
      "reasons": [
-      "missing_or_nonconsolidated_basis"
+      "legacy_parser_revision_quarantine",
+      "missing_or_nonconsolidated_basis",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -50036,7 +50543,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -50054,9 +50561,12 @@
      "unit_multiplier": 1,
      "raw_value": "43.06",
      "normalized_value": 43.06,
-     "status": "quarantined",
+     "status": "audit_only",
      "reasons": [
-      "missing_or_nonconsolidated_basis"
+      "legacy_parser_revision_quarantine",
+      "missing_or_nonconsolidated_basis",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -50087,7 +50597,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -50105,9 +50615,12 @@
      "unit_multiplier": 1,
      "raw_value": "43.06",
      "normalized_value": 43.06,
-     "status": "quarantined",
+     "status": "audit_only",
      "reasons": [
-      "missing_or_nonconsolidated_basis"
+      "legacy_parser_revision_quarantine",
+      "missing_or_nonconsolidated_basis",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -50138,7 +50651,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -50156,9 +50669,12 @@
      "unit_multiplier": 1,
      "raw_value": "18.91",
      "normalized_value": 18.91,
-     "status": "quarantined",
+     "status": "audit_only",
      "reasons": [
-      "missing_or_nonconsolidated_basis"
+      "legacy_parser_revision_quarantine",
+      "missing_or_nonconsolidated_basis",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -50189,7 +50705,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -50207,9 +50723,13 @@
      "unit_multiplier": 1,
      "raw_value": "44.10",
      "normalized_value": 44.1,
-     "status": "eligible",
-     "reasons": [],
-     "eligibility_scope": "annual_income_financial_truth_gate",
+     "status": "audit_only",
+     "reasons": [
+      "legacy_parser_revision_quarantine",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
+     ],
+     "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
       "document_id": "issuer:814f586f0a7a9fb56900185d",
       "fact_id": "fact_bd8c45a2ab01920ae8c5094c",
@@ -50238,8 +50758,8 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "fact_source_reported",
-     "confidence": "high"
+     "evidence_label": "stale_source",
+     "confidence": "low"
     },
     {
      "reconciliation_id": "finrec_c11d0653a6c87a0a4da3",
@@ -50256,9 +50776,12 @@
      "unit_multiplier": 1,
      "raw_value": "94.54",
      "normalized_value": 94.54,
-     "status": "quarantined",
+     "status": "audit_only",
      "reasons": [
-      "missing_or_nonconsolidated_basis"
+      "legacy_parser_revision_quarantine",
+      "missing_or_nonconsolidated_basis",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -50289,7 +50812,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -50307,9 +50830,12 @@
      "unit_multiplier": 1,
      "raw_value": "22.59",
      "normalized_value": 22.59,
-     "status": "quarantined",
+     "status": "audit_only",
      "reasons": [
-      "missing_or_nonconsolidated_basis"
+      "legacy_parser_revision_quarantine",
+      "missing_or_nonconsolidated_basis",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -50340,7 +50866,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -50358,9 +50884,13 @@
      "unit_multiplier": 1,
      "raw_value": "52.53",
      "normalized_value": 52.53,
-     "status": "eligible",
-     "reasons": [],
-     "eligibility_scope": "annual_income_financial_truth_gate",
+     "status": "audit_only",
+     "reasons": [
+      "legacy_parser_revision_quarantine",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
+     ],
+     "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
       "document_id": "issuer:814f586f0a7a9fb56900185d",
       "fact_id": "fact_f93d0864506a39f18933426d",
@@ -50389,8 +50919,8 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "fact_source_reported",
-     "confidence": "high"
+     "evidence_label": "stale_source",
+     "confidence": "low"
     },
     {
      "reconciliation_id": "finrec_0e9d2f76ba3f6fe3091b",
@@ -55199,9 +55729,13 @@
      "unit_multiplier": 1000,
      "raw_value": "(30,640,895)",
      "normalized_value": -30640895000.0,
-     "status": "eligible",
-     "reasons": [],
-     "eligibility_scope": "annual_income_financial_truth_gate",
+     "status": "audit_only",
+     "reasons": [
+      "legacy_parser_revision_quarantine",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
+     ],
+     "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
       "document_id": "issuer:a4ad80e1b79ef02784142ce8",
       "fact_id": "fact_9eb0bd0ee016c91f5ee46e2e",
@@ -55230,8 +55764,8 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "fact_source_reported",
-     "confidence": "high"
+     "evidence_label": "stale_source",
+     "confidence": "low"
     },
     {
      "reconciliation_id": "finrec_964d55a2abb3b1cb39ae",
@@ -55248,9 +55782,13 @@
      "unit_multiplier": 1000,
      "raw_value": "(36,698,507)",
      "normalized_value": -36698507000.0,
-     "status": "eligible",
-     "reasons": [],
-     "eligibility_scope": "annual_income_financial_truth_gate",
+     "status": "audit_only",
+     "reasons": [
+      "legacy_parser_revision_quarantine",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
+     ],
+     "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
       "document_id": "issuer:a4ad80e1b79ef02784142ce8",
       "fact_id": "fact_fda89464eb091b72c85b3675",
@@ -55279,8 +55817,8 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "fact_source_reported",
-     "confidence": "high"
+     "evidence_label": "stale_source",
+     "confidence": "low"
     },
     {
      "reconciliation_id": "finrec_0be52d8b77f36faa0270",
@@ -55297,9 +55835,12 @@
      "unit_multiplier": 1000,
      "raw_value": "22,551,841",
      "normalized_value": 22551841000.0,
-     "status": "quarantined",
+     "status": "audit_only",
      "reasons": [
-      "missing_or_nonconsolidated_basis"
+      "legacy_parser_revision_quarantine",
+      "missing_or_nonconsolidated_basis",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -55330,7 +55871,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -55348,9 +55889,13 @@
      "unit_multiplier": 1000,
      "raw_value": "60,041,088",
      "normalized_value": 60041088000.0,
-     "status": "eligible",
-     "reasons": [],
-     "eligibility_scope": "annual_income_financial_truth_gate",
+     "status": "audit_only",
+     "reasons": [
+      "legacy_parser_revision_quarantine",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
+     ],
+     "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
       "document_id": "issuer:a4e067f83e17c5ea85d8f654",
       "fact_id": "fact_d7250446408c4f996c1b2d62",
@@ -55379,8 +55924,8 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "fact_source_reported",
-     "confidence": "high"
+     "evidence_label": "stale_source",
+     "confidence": "low"
     },
     {
      "reconciliation_id": "finrec_3765dfbe1f44cbe414aa",
@@ -55397,9 +55942,12 @@
      "unit_multiplier": 1000,
      "raw_value": "26,060,678",
      "normalized_value": 26060678000.0,
-     "status": "quarantined",
+     "status": "audit_only",
      "reasons": [
-      "missing_or_nonconsolidated_basis"
+      "legacy_parser_revision_quarantine",
+      "missing_or_nonconsolidated_basis",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -55430,7 +55978,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -55448,9 +55996,13 @@
      "unit_multiplier": 1000,
      "raw_value": "93,634,000",
      "normalized_value": 93634000000.0,
-     "status": "eligible",
-     "reasons": [],
-     "eligibility_scope": "annual_income_financial_truth_gate",
+     "status": "audit_only",
+     "reasons": [
+      "legacy_parser_revision_quarantine",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
+     ],
+     "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
       "document_id": "issuer:a4ad80e1b79ef02784142ce8",
       "fact_id": "fact_cd4fb73757b28734811e2fc6",
@@ -55479,8 +56031,8 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "fact_source_reported",
-     "confidence": "high"
+     "evidence_label": "stale_source",
+     "confidence": "low"
     },
     {
      "reconciliation_id": "finrec_4a1a3280d7b113c2ae0e",
@@ -55497,9 +56049,12 @@
      "unit_multiplier": 1000,
      "raw_value": "26,060,678",
      "normalized_value": 26060678000.0,
-     "status": "quarantined",
+     "status": "audit_only",
      "reasons": [
-      "missing_or_nonconsolidated_basis"
+      "legacy_parser_revision_quarantine",
+      "missing_or_nonconsolidated_basis",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -55530,7 +56085,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -55548,9 +56103,13 @@
      "unit_multiplier": 1000,
      "raw_value": "93,634,000",
      "normalized_value": 93634000000.0,
-     "status": "eligible",
-     "reasons": [],
-     "eligibility_scope": "annual_income_financial_truth_gate",
+     "status": "audit_only",
+     "reasons": [
+      "legacy_parser_revision_quarantine",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
+     ],
+     "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
       "document_id": "issuer:a4e067f83e17c5ea85d8f654",
       "fact_id": "fact_6aa7d963bbaeabdab19fe5fd",
@@ -55579,8 +56138,8 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "fact_source_reported",
-     "confidence": "high"
+     "evidence_label": "stale_source",
+     "confidence": "low"
     },
     {
      "reconciliation_id": "finrec_d945b86bd97a5a7b3032",
@@ -55597,9 +56156,12 @@
      "unit_multiplier": 1000,
      "raw_value": "38,804,572",
      "normalized_value": 38804572000.0,
-     "status": "quarantined",
+     "status": "audit_only",
      "reasons": [
-      "missing_or_nonconsolidated_basis"
+      "legacy_parser_revision_quarantine",
+      "missing_or_nonconsolidated_basis",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -55630,7 +56192,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -55648,9 +56210,13 @@
      "unit_multiplier": 1000,
      "raw_value": "123,516,941",
      "normalized_value": 123516941000.0,
-     "status": "eligible",
-     "reasons": [],
-     "eligibility_scope": "annual_income_financial_truth_gate",
+     "status": "audit_only",
+     "reasons": [
+      "legacy_parser_revision_quarantine",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
+     ],
+     "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
       "document_id": "issuer:814f586f0a7a9fb56900185d",
       "fact_id": "fact_a2a2e18cdc73917cefb9b3e7",
@@ -55679,8 +56245,8 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "fact_source_reported",
-     "confidence": "high"
+     "evidence_label": "stale_source",
+     "confidence": "low"
     },
     {
      "reconciliation_id": "finrec_3cfc21ab23964d431430",
@@ -55697,9 +56263,12 @@
      "unit_multiplier": 1000,
      "raw_value": "38,804,572",
      "normalized_value": 38804572000.0,
-     "status": "quarantined",
+     "status": "audit_only",
      "reasons": [
-      "missing_or_nonconsolidated_basis"
+      "legacy_parser_revision_quarantine",
+      "missing_or_nonconsolidated_basis",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -55730,7 +56299,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -55748,9 +56317,13 @@
      "unit_multiplier": 1000,
      "raw_value": "123,516,941",
      "normalized_value": 123516941000.0,
-     "status": "eligible",
-     "reasons": [],
-     "eligibility_scope": "annual_income_financial_truth_gate",
+     "status": "audit_only",
+     "reasons": [
+      "legacy_parser_revision_quarantine",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
+     ],
+     "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
       "document_id": "issuer:a4ad80e1b79ef02784142ce8",
       "fact_id": "fact_bb6c91ca0622615692482bdb",
@@ -55779,8 +56352,8 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "fact_source_reported",
-     "confidence": "high"
+     "evidence_label": "stale_source",
+     "confidence": "low"
     },
     {
      "reconciliation_id": "finrec_04846a686dcd9246ba7c",
@@ -55797,9 +56370,12 @@
      "unit_multiplier": 1000,
      "raw_value": "42,684,684",
      "normalized_value": 42684684000.0,
-     "status": "quarantined",
+     "status": "audit_only",
      "reasons": [
-      "missing_or_nonconsolidated_basis"
+      "legacy_parser_revision_quarantine",
+      "missing_or_nonconsolidated_basis",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -55830,7 +56406,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -55848,9 +56424,13 @@
      "unit_multiplier": 1000,
      "raw_value": "122,737,896",
      "normalized_value": 122737896000.0,
-     "status": "eligible",
-     "reasons": [],
-     "eligibility_scope": "annual_income_financial_truth_gate",
+     "status": "audit_only",
+     "reasons": [
+      "legacy_parser_revision_quarantine",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
+     ],
+     "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
       "document_id": "issuer:814f586f0a7a9fb56900185d",
       "fact_id": "fact_832b26accd8ee973c0982142",
@@ -55879,8 +56459,8 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "fact_source_reported",
-     "confidence": "high"
+     "evidence_label": "stale_source",
+     "confidence": "low"
     },
     {
      "reconciliation_id": "finrec_0f351bf69f4bdf55c80b",
@@ -60940,8 +61520,9 @@
      "normalized_value": 29497340000.0,
      "status": "audit_only",
      "reasons": [
-      "conflict",
-      "readiness_is_audit_only"
+      "legacy_parser_revision_quarantine",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -60972,7 +61553,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -60990,9 +61571,12 @@
      "unit_multiplier": 1000,
      "raw_value": "15,298,618",
      "normalized_value": 15298618000.0,
-     "status": "quarantined",
+     "status": "audit_only",
      "reasons": [
-      "missing_or_nonconsolidated_basis"
+      "legacy_parser_revision_quarantine",
+      "missing_or_nonconsolidated_basis",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -61023,7 +61607,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -61043,8 +61627,9 @@
      "normalized_value": 35617581000.0,
      "status": "audit_only",
      "reasons": [
-      "conflict",
-      "readiness_is_audit_only"
+      "legacy_parser_revision_quarantine",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -61075,7 +61660,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -61095,8 +61680,9 @@
      "normalized_value": 49445167000.0,
      "status": "audit_only",
      "reasons": [
-      "conflict",
-      "readiness_is_audit_only"
+      "legacy_parser_revision_quarantine",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -61127,7 +61713,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -61147,8 +61733,9 @@
      "normalized_value": 48758341000.0,
      "status": "audit_only",
      "reasons": [
-      "conflict",
-      "readiness_is_audit_only"
+      "legacy_parser_revision_quarantine",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -61179,7 +61766,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -61197,9 +61784,12 @@
      "unit_multiplier": 1000,
      "raw_value": "13,725,814",
      "normalized_value": 13725814000.0,
-     "status": "quarantined",
+     "status": "audit_only",
      "reasons": [
-      "missing_or_nonconsolidated_basis"
+      "legacy_parser_revision_quarantine",
+      "missing_or_nonconsolidated_basis",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -61230,7 +61820,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -61250,8 +61840,9 @@
      "normalized_value": 48758341000.0,
      "status": "audit_only",
      "reasons": [
-      "conflict",
-      "readiness_is_audit_only"
+      "legacy_parser_revision_quarantine",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -61282,7 +61873,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -61300,9 +61891,12 @@
      "unit_multiplier": 1000,
      "raw_value": "13,725,814",
      "normalized_value": 13725814000.0,
-     "status": "quarantined",
+     "status": "audit_only",
      "reasons": [
-      "missing_or_nonconsolidated_basis"
+      "legacy_parser_revision_quarantine",
+      "missing_or_nonconsolidated_basis",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -61333,7 +61927,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -61353,8 +61947,9 @@
      "normalized_value": 49445167000.0,
      "status": "audit_only",
      "reasons": [
-      "conflict",
-      "readiness_is_audit_only"
+      "legacy_parser_revision_quarantine",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -61385,7 +61980,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -61403,9 +61998,12 @@
      "unit_multiplier": 1000,
      "raw_value": "28,106,539",
      "normalized_value": 28106539000.0,
-     "status": "quarantined",
+     "status": "audit_only",
      "reasons": [
-      "missing_or_nonconsolidated_basis"
+      "legacy_parser_revision_quarantine",
+      "missing_or_nonconsolidated_basis",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -61436,7 +62034,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -61456,8 +62054,9 @@
      "normalized_value": 72336747000.0,
      "status": "audit_only",
      "reasons": [
-      "conflict",
-      "readiness_is_audit_only"
+      "legacy_parser_revision_quarantine",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -61488,7 +62087,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -61508,8 +62107,9 @@
      "normalized_value": 65555505000.0,
      "status": "audit_only",
      "reasons": [
-      "conflict",
-      "readiness_is_audit_only"
+      "legacy_parser_revision_quarantine",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -61540,7 +62140,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -61560,8 +62160,9 @@
      "normalized_value": 65555505000.0,
      "status": "audit_only",
      "reasons": [
-      "conflict",
-      "readiness_is_audit_only"
+      "legacy_parser_revision_quarantine",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -61592,7 +62193,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -61612,8 +62213,9 @@
      "normalized_value": 72336747000.0,
      "status": "audit_only",
      "reasons": [
-      "conflict",
-      "readiness_is_audit_only"
+      "legacy_parser_revision_quarantine",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -61644,7 +62246,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -61662,9 +62264,12 @@
      "unit_multiplier": 1000,
      "raw_value": "28,106,539",
      "normalized_value": 28106539000.0,
-     "status": "quarantined",
+     "status": "audit_only",
      "reasons": [
-      "missing_or_nonconsolidated_basis"
+      "legacy_parser_revision_quarantine",
+      "missing_or_nonconsolidated_basis",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -61695,7 +62300,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -61713,9 +62318,12 @@
      "unit_multiplier": 1000,
      "raw_value": "33,092,162",
      "normalized_value": 33092162000.0,
-     "status": "quarantined",
+     "status": "audit_only",
      "reasons": [
-      "missing_or_nonconsolidated_basis"
+      "legacy_parser_revision_quarantine",
+      "missing_or_nonconsolidated_basis",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -61746,7 +62354,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -61766,8 +62374,9 @@
      "normalized_value": 84498377000.0,
      "status": "audit_only",
      "reasons": [
-      "conflict",
-      "readiness_is_audit_only"
+      "legacy_parser_revision_quarantine",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -61798,7 +62407,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -61818,8 +62427,9 @@
      "normalized_value": 76956147000.0,
      "status": "audit_only",
      "reasons": [
-      "conflict",
-      "readiness_is_audit_only"
+      "legacy_parser_revision_quarantine",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -61850,7 +62460,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -62010,9 +62620,13 @@
      "unit_multiplier": 1000,
      "raw_value": "396,704,391",
      "normalized_value": 396704391000.0,
-     "status": "eligible",
-     "reasons": [],
-     "eligibility_scope": "annual_income_financial_truth_gate",
+     "status": "audit_only",
+     "reasons": [
+      "legacy_parser_revision_quarantine",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
+     ],
+     "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
       "document_id": "issuer:a4e067f83e17c5ea85d8f654",
       "fact_id": "fact_33672f3566b6bc4aa6a5f945",
@@ -62041,8 +62655,8 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "fact_source_reported",
-     "confidence": "high"
+     "evidence_label": "stale_source",
+     "confidence": "low"
     },
     {
      "reconciliation_id": "finrec_24b18f969217e42127ea",
@@ -62059,9 +62673,12 @@
      "unit_multiplier": 1000,
      "raw_value": "81,093,525",
      "normalized_value": 81093525000.0,
-     "status": "quarantined",
+     "status": "audit_only",
      "reasons": [
-      "missing_or_nonconsolidated_basis"
+      "legacy_parser_revision_quarantine",
+      "missing_or_nonconsolidated_basis",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -62092,7 +62709,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -62971,9 +63588,13 @@
      "unit_multiplier": 1000,
      "raw_value": "459,459,165",
      "normalized_value": 459459165000.0,
-     "status": "eligible",
-     "reasons": [],
-     "eligibility_scope": "annual_income_financial_truth_gate",
+     "status": "audit_only",
+     "reasons": [
+      "legacy_parser_revision_quarantine",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
+     ],
+     "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
       "document_id": "issuer:a4ad80e1b79ef02784142ce8",
       "fact_id": "fact_06f7272c9156300ca134f439",
@@ -63002,8 +63623,8 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "fact_source_reported",
-     "confidence": "high"
+     "evidence_label": "stale_source",
+     "confidence": "low"
     },
     {
      "reconciliation_id": "finrec_5034616ccef3189b17a8",
@@ -63020,9 +63641,12 @@
      "unit_multiplier": 1000,
      "raw_value": "95,832,147",
      "normalized_value": 95832147000.0,
-     "status": "quarantined",
+     "status": "audit_only",
      "reasons": [
-      "missing_or_nonconsolidated_basis"
+      "legacy_parser_revision_quarantine",
+      "missing_or_nonconsolidated_basis",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -63053,7 +63677,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -63867,9 +64491,12 @@
      "unit_multiplier": 1000,
      "raw_value": "95,832,147",
      "normalized_value": 95832147000.0,
-     "status": "quarantined",
+     "status": "audit_only",
      "reasons": [
-      "missing_or_nonconsolidated_basis"
+      "legacy_parser_revision_quarantine",
+      "missing_or_nonconsolidated_basis",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -63900,7 +64527,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -63918,9 +64545,13 @@
      "unit_multiplier": 1000,
      "raw_value": "459,459,165",
      "normalized_value": 459459165000.0,
-     "status": "eligible",
-     "reasons": [],
-     "eligibility_scope": "annual_income_financial_truth_gate",
+     "status": "audit_only",
+     "reasons": [
+      "legacy_parser_revision_quarantine",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
+     ],
+     "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
       "document_id": "issuer:a4e067f83e17c5ea85d8f654",
       "fact_id": "fact_b2f5148490e304afbb658d49",
@@ -63949,8 +64580,8 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "fact_source_reported",
-     "confidence": "high"
+     "evidence_label": "stale_source",
+     "confidence": "low"
     },
     {
      "reconciliation_id": "finrec_43a70e5fc52b477dd875",
@@ -64154,9 +64785,13 @@
      "unit_multiplier": 1000,
      "raw_value": "489,363,447",
      "normalized_value": 489363447000.0,
-     "status": "eligible",
-     "reasons": [],
-     "eligibility_scope": "annual_income_financial_truth_gate",
+     "status": "audit_only",
+     "reasons": [
+      "legacy_parser_revision_quarantine",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
+     ],
+     "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
       "document_id": "issuer:814f586f0a7a9fb56900185d",
       "fact_id": "fact_887b900f06e64e3f60d52c27",
@@ -64185,8 +64820,8 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "fact_source_reported",
-     "confidence": "high"
+     "evidence_label": "stale_source",
+     "confidence": "low"
     },
     {
      "reconciliation_id": "finrec_14bd1c3e556f0422878f",
@@ -64203,9 +64838,12 @@
      "unit_multiplier": 1000,
      "raw_value": "151,808,171",
      "normalized_value": 151808171000.0,
-     "status": "quarantined",
+     "status": "audit_only",
      "reasons": [
-      "missing_or_nonconsolidated_basis"
+      "legacy_parser_revision_quarantine",
+      "missing_or_nonconsolidated_basis",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -64236,7 +64874,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -65097,9 +65735,13 @@
      "unit_multiplier": 1000,
      "raw_value": "489,363,447",
      "normalized_value": 489363447000.0,
-     "status": "eligible",
-     "reasons": [],
-     "eligibility_scope": "annual_income_financial_truth_gate",
+     "status": "audit_only",
+     "reasons": [
+      "legacy_parser_revision_quarantine",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
+     ],
+     "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
       "document_id": "issuer:a4ad80e1b79ef02784142ce8",
       "fact_id": "fact_980e09291722d83651b9d3ac",
@@ -65128,8 +65770,8 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "fact_source_reported",
-     "confidence": "high"
+     "evidence_label": "stale_source",
+     "confidence": "low"
     },
     {
      "reconciliation_id": "finrec_9fc20f4add72d91ee862",
@@ -65336,9 +65978,12 @@
      "unit_multiplier": 1000,
      "raw_value": "115,324,942",
      "normalized_value": 115324942000.0,
-     "status": "quarantined",
+     "status": "audit_only",
      "reasons": [
-      "missing_or_nonconsolidated_basis"
+      "legacy_parser_revision_quarantine",
+      "missing_or_nonconsolidated_basis",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -65369,7 +66014,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -65482,9 +66127,13 @@
      "unit_multiplier": 1000,
      "raw_value": "559,204,434",
      "normalized_value": 559204434000.0,
-     "status": "eligible",
-     "reasons": [],
-     "eligibility_scope": "annual_income_financial_truth_gate",
+     "status": "audit_only",
+     "reasons": [
+      "legacy_parser_revision_quarantine",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
+     ],
+     "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
       "document_id": "issuer:814f586f0a7a9fb56900185d",
       "fact_id": "fact_0d1e26cd6ab3d94ceb02b69d",
@@ -65513,8 +66162,8 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "fact_source_reported",
-     "confidence": "high"
+     "evidence_label": "stale_source",
+     "confidence": "low"
     },
     {
      "reconciliation_id": "finrec_367b548143d4f6e32012",
@@ -66602,9 +67251,12 @@
      "unit_multiplier": 1000,
      "raw_value": "174,302,064",
      "normalized_value": 174302064000.0,
-     "status": "quarantined",
+     "status": "audit_only",
      "reasons": [
-      "missing_or_nonconsolidated_basis"
+      "legacy_parser_revision_quarantine",
+      "missing_or_nonconsolidated_basis",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -66635,7 +67287,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -72262,9 +72914,41 @@
      }
     },
     {
+     "reconciliation_id": "finmissing_a815b213f8a57af2140a",
+     "symbol": "LUCK",
+     "metric": "revenue",
+     "period_end": "2025-06-30",
+     "period_type": "annual",
+     "status": "missing",
+     "reason": "missing_eligible_reported_fact_for_required_annual_slot",
+     "slot": "annual_period_2",
+     "period_evidence_status": "explicit",
+     "source": {
+      "document_id": "psx:257573",
+      "title": "Financial Results for the year ended - June 30, 2025",
+      "matched_text": "year ended - June 30, 2025"
+     }
+    },
+    {
      "reconciliation_id": "finmissing_99b141a4c198f0387578",
      "symbol": "LUCK",
      "metric": "profit_after_tax_attributable",
+     "period_end": "2025-06-30",
+     "period_type": "annual",
+     "status": "missing",
+     "reason": "missing_eligible_reported_fact_for_required_annual_slot",
+     "slot": "annual_period_2",
+     "period_evidence_status": "explicit",
+     "source": {
+      "document_id": "psx:257573",
+      "title": "Financial Results for the year ended - June 30, 2025",
+      "matched_text": "year ended - June 30, 2025"
+     }
+    },
+    {
+     "reconciliation_id": "finmissing_cb50830d6e3ca1b8c84f",
+     "symbol": "LUCK",
+     "metric": "basic_eps",
      "period_end": "2025-06-30",
      "period_type": "annual",
      "status": "missing",
@@ -79991,8 +80675,8 @@
    "symbol": "MARI",
    "status": "blocked",
    "eligible_fact_count": 0,
-   "audit_only_fact_count": 56,
-   "quarantined_fact_count": 4,
+   "audit_only_fact_count": 60,
+   "quarantined_fact_count": 0,
    "missing_slot_count": 9,
    "source_conflict_count": 0,
    "withheld_future_source_fact_count": 0,
@@ -80821,10 +81505,13 @@
      "unit_multiplier": 1000,
      "raw_value": "38,498,612",
      "normalized_value": 38498612000.0,
-     "status": "quarantined",
+     "status": "audit_only",
      "reasons": [
+      "legacy_parser_revision_quarantine",
       "not_annual_period",
-      "not_twelve_month_annual"
+      "not_twelve_month_annual",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -80843,7 +81530,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -80861,10 +81548,13 @@
      "unit_multiplier": 1000,
      "raw_value": "54,654,684",
      "normalized_value": 54654684000.0,
-     "status": "quarantined",
+     "status": "audit_only",
      "reasons": [
+      "legacy_parser_revision_quarantine",
       "not_annual_period",
-      "not_twelve_month_annual"
+      "not_twelve_month_annual",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -80883,7 +81573,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -80904,11 +81594,13 @@
      "status": "audit_only",
      "reasons": [
       "invalid_structured_consolidation",
+      "legacy_parser_revision_quarantine",
       "missing_consolidation_basis",
       "missing_or_nonconsolidated_basis",
       "not_annual_period",
       "not_twelve_month_annual",
-      "readiness_is_audit_only"
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -80927,7 +81619,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -80945,10 +81637,13 @@
      "unit_multiplier": 1000,
      "raw_value": "39,055,668",
      "normalized_value": 39055668000.0,
-     "status": "quarantined",
+     "status": "audit_only",
      "reasons": [
+      "legacy_parser_revision_quarantine",
       "not_annual_period",
-      "not_twelve_month_annual"
+      "not_twelve_month_annual",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -80967,7 +81662,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -80988,11 +81683,13 @@
      "status": "audit_only",
      "reasons": [
       "invalid_structured_consolidation",
+      "legacy_parser_revision_quarantine",
       "missing_consolidation_basis",
       "missing_or_nonconsolidated_basis",
       "not_annual_period",
       "not_twelve_month_annual",
-      "readiness_is_audit_only"
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -81011,7 +81708,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -81029,10 +81726,13 @@
      "unit_multiplier": 1000,
      "raw_value": "68,565,814",
      "normalized_value": 68565814000.0,
-     "status": "quarantined",
+     "status": "audit_only",
      "reasons": [
+      "legacy_parser_revision_quarantine",
       "not_annual_period",
-      "not_twelve_month_annual"
+      "not_twelve_month_annual",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -81051,7 +81751,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -82733,7 +83433,7 @@
      "consolidation": "unknown",
      "currency": "PKR",
      "unit": "reported",
-     "unit_multiplier": 1000000000,
+     "unit_multiplier": 1000000,
      "raw_value": "90.1 billion",
      "normalized_value": 90100000000.0,
      "status": "audit_only",
@@ -83438,9 +84138,9 @@
   "CNERGY": {
    "symbol": "CNERGY",
    "status": "blocked",
-   "eligible_fact_count": 8,
-   "audit_only_fact_count": 57,
-   "quarantined_fact_count": 10,
+   "eligible_fact_count": 0,
+   "audit_only_fact_count": 75,
+   "quarantined_fact_count": 0,
    "missing_slot_count": 9,
    "source_conflict_count": 0,
    "withheld_future_source_fact_count": 0,
@@ -83598,9 +84298,13 @@
      "unit_multiplier": 1000,
      "raw_value": "2,159,190",
      "normalized_value": 2159190000.0,
-     "status": "eligible",
-     "reasons": [],
-     "eligibility_scope": "annual_income_financial_truth_gate",
+     "status": "audit_only",
+     "reasons": [
+      "legacy_parser_revision_quarantine",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
+     ],
+     "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
       "document_id": "issuer:65e8a35ca116cd2bd32ec092",
       "fact_id": "fact_4d5fae97163d62495f9d4b96",
@@ -83629,8 +84333,8 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "fact_source_reported",
-     "confidence": "high"
+     "evidence_label": "stale_source",
+     "confidence": "low"
     },
     {
      "reconciliation_id": "finrec_a7906441bc56cdc53461",
@@ -83647,9 +84351,12 @@
      "unit_multiplier": 1000,
      "raw_value": "2,896,444",
      "normalized_value": 2896444000.0,
-     "status": "quarantined",
+     "status": "audit_only",
      "reasons": [
-      "missing_or_nonconsolidated_basis"
+      "legacy_parser_revision_quarantine",
+      "missing_or_nonconsolidated_basis",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -83680,7 +84387,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -83698,9 +84405,13 @@
      "unit_multiplier": 1000,
      "raw_value": "7,257,448",
      "normalized_value": 7257448000.0,
-     "status": "eligible",
-     "reasons": [],
-     "eligibility_scope": "annual_income_financial_truth_gate",
+     "status": "audit_only",
+     "reasons": [
+      "legacy_parser_revision_quarantine",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
+     ],
+     "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
       "document_id": "issuer:65e8a35ca116cd2bd32ec092",
       "fact_id": "fact_4b04094dbc2ef1ae9a14dd05",
@@ -83729,8 +84440,8 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "fact_source_reported",
-     "confidence": "high"
+     "evidence_label": "stale_source",
+     "confidence": "low"
     },
     {
      "reconciliation_id": "finrec_02d79c9614994e4798e9",
@@ -83747,9 +84458,12 @@
      "unit_multiplier": 1000,
      "raw_value": "8,108,275",
      "normalized_value": 8108275000.0,
-     "status": "quarantined",
+     "status": "audit_only",
      "reasons": [
-      "missing_or_nonconsolidated_basis"
+      "legacy_parser_revision_quarantine",
+      "missing_or_nonconsolidated_basis",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -83780,7 +84494,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -83798,9 +84512,13 @@
      "unit_multiplier": 1000,
      "raw_value": "791,899",
      "normalized_value": 791899000.0,
-     "status": "eligible",
-     "reasons": [],
-     "eligibility_scope": "annual_income_financial_truth_gate",
+     "status": "audit_only",
+     "reasons": [
+      "legacy_parser_revision_quarantine",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
+     ],
+     "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
       "document_id": "issuer:65e8a35ca116cd2bd32ec092",
       "fact_id": "fact_71009515cc6872ecfba26d22",
@@ -83829,8 +84547,8 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "fact_source_reported",
-     "confidence": "high"
+     "evidence_label": "stale_source",
+     "confidence": "low"
     },
     {
      "reconciliation_id": "finrec_0664ec8384eaec30d553",
@@ -83847,9 +84565,12 @@
      "unit_multiplier": 1000,
      "raw_value": "1,529,596",
      "normalized_value": 1529596000.0,
-     "status": "quarantined",
+     "status": "audit_only",
      "reasons": [
-      "missing_or_nonconsolidated_basis"
+      "legacy_parser_revision_quarantine",
+      "missing_or_nonconsolidated_basis",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -83880,7 +84601,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -83898,9 +84619,13 @@
      "unit_multiplier": 1000,
      "raw_value": "5,433,968",
      "normalized_value": 5433968000.0,
-     "status": "eligible",
-     "reasons": [],
-     "eligibility_scope": "annual_income_financial_truth_gate",
+     "status": "audit_only",
+     "reasons": [
+      "legacy_parser_revision_quarantine",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
+     ],
+     "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
       "document_id": "issuer:65e8a35ca116cd2bd32ec092",
       "fact_id": "fact_0cad5c1c21bd8f2511024e42",
@@ -83929,8 +84654,8 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "fact_source_reported",
-     "confidence": "high"
+     "evidence_label": "stale_source",
+     "confidence": "low"
     },
     {
      "reconciliation_id": "finrec_a21a4994c656629085a6",
@@ -83947,9 +84672,12 @@
      "unit_multiplier": 1000,
      "raw_value": "6,286,314",
      "normalized_value": 6286314000.0,
-     "status": "quarantined",
+     "status": "audit_only",
      "reasons": [
-      "missing_or_nonconsolidated_basis"
+      "legacy_parser_revision_quarantine",
+      "missing_or_nonconsolidated_basis",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -83980,7 +84708,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -85147,9 +85875,12 @@
      "unit_multiplier": 1000,
      "raw_value": "173,898,930",
      "normalized_value": 173898930000.0,
-     "status": "quarantined",
+     "status": "audit_only",
      "reasons": [
-      "missing_or_nonconsolidated_basis"
+      "legacy_parser_revision_quarantine",
+      "missing_or_nonconsolidated_basis",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -85180,7 +85911,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -85294,9 +86025,13 @@
      "unit_multiplier": 1000,
      "raw_value": "173,898,930",
      "normalized_value": 173898930000.0,
-     "status": "eligible",
-     "reasons": [],
-     "eligibility_scope": "annual_income_financial_truth_gate",
+     "status": "audit_only",
+     "reasons": [
+      "legacy_parser_revision_quarantine",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
+     ],
+     "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
       "document_id": "issuer:65e8a35ca116cd2bd32ec092",
       "fact_id": "fact_a390848bfdb0e4748e92fb34",
@@ -85325,8 +86060,8 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "fact_source_reported",
-     "confidence": "high"
+     "evidence_label": "stale_source",
+     "confidence": "low"
     },
     {
      "reconciliation_id": "finrec_74233bb2f0cf5a0081e0",
@@ -85343,9 +86078,12 @@
      "unit_multiplier": 1000,
      "raw_value": "142,150,298",
      "normalized_value": 142150298000.0,
-     "status": "quarantined",
+     "status": "audit_only",
      "reasons": [
-      "missing_or_nonconsolidated_basis"
+      "legacy_parser_revision_quarantine",
+      "missing_or_nonconsolidated_basis",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -85376,7 +86114,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -85394,9 +86132,13 @@
      "unit_multiplier": 1000,
      "raw_value": "142,150,298",
      "normalized_value": 142150298000.0,
-     "status": "eligible",
-     "reasons": [],
-     "eligibility_scope": "annual_income_financial_truth_gate",
+     "status": "audit_only",
+     "reasons": [
+      "legacy_parser_revision_quarantine",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
+     ],
+     "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
       "document_id": "issuer:65e8a35ca116cd2bd32ec092",
       "fact_id": "fact_ccdcb03561b03bb65b8edac2",
@@ -85425,8 +86167,8 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "fact_source_reported",
-     "confidence": "high"
+     "evidence_label": "stale_source",
+     "confidence": "low"
     },
     {
      "reconciliation_id": "finrec_d143e330f0a07c032bc8",
@@ -86741,9 +87483,12 @@
      "unit_multiplier": 1000,
      "raw_value": "1,282,932",
      "normalized_value": 1282932000.0,
-     "status": "quarantined",
+     "status": "audit_only",
      "reasons": [
-      "missing_or_nonconsolidated_basis"
+      "legacy_parser_revision_quarantine",
+      "missing_or_nonconsolidated_basis",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -86774,7 +87519,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -86792,9 +87537,12 @@
      "unit_multiplier": 1000,
      "raw_value": "1,145,880",
      "normalized_value": 1145880000.0,
-     "status": "quarantined",
+     "status": "audit_only",
      "reasons": [
-      "missing_or_nonconsolidated_basis"
+      "legacy_parser_revision_quarantine",
+      "missing_or_nonconsolidated_basis",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -86825,7 +87573,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -86843,9 +87591,13 @@
      "unit_multiplier": 1000,
      "raw_value": "(2,935,266)",
      "normalized_value": -2935266000.0,
-     "status": "eligible",
-     "reasons": [],
-     "eligibility_scope": "annual_income_financial_truth_gate",
+     "status": "audit_only",
+     "reasons": [
+      "legacy_parser_revision_quarantine",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
+     ],
+     "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
       "document_id": "issuer:65e8a35ca116cd2bd32ec092",
       "fact_id": "fact_82bb77190a0443a4f0cbcfc2",
@@ -86874,8 +87626,8 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "fact_source_reported",
-     "confidence": "high"
+     "evidence_label": "stale_source",
+     "confidence": "low"
     },
     {
      "reconciliation_id": "finrec_0b049928abf744de56bd",
@@ -86892,9 +87644,12 @@
      "unit_multiplier": 1000,
      "raw_value": "(2,430,799)",
      "normalized_value": -2430799000.0,
-     "status": "quarantined",
+     "status": "audit_only",
      "reasons": [
-      "missing_or_nonconsolidated_basis"
+      "legacy_parser_revision_quarantine",
+      "missing_or_nonconsolidated_basis",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -86925,7 +87680,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -86943,9 +87698,12 @@
      "unit_multiplier": 1000,
      "raw_value": "3,595,840",
      "normalized_value": 3595840000.0,
-     "status": "quarantined",
+     "status": "audit_only",
      "reasons": [
-      "missing_or_nonconsolidated_basis"
+      "legacy_parser_revision_quarantine",
+      "missing_or_nonconsolidated_basis",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
      ],
      "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
@@ -86976,7 +87734,7 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "unknown",
+     "evidence_label": "stale_source",
      "confidence": "low"
     },
     {
@@ -86994,9 +87752,13 @@
      "unit_multiplier": 1000,
      "raw_value": "2,943,139",
      "normalized_value": 2943139000.0,
-     "status": "eligible",
-     "reasons": [],
-     "eligibility_scope": "annual_income_financial_truth_gate",
+     "status": "audit_only",
+     "reasons": [
+      "legacy_parser_revision_quarantine",
+      "readiness_is_audit_only",
+      "unqualified_financial_fact_source"
+     ],
+     "eligibility_scope": "not_eligible_financial_truth_gate",
      "source": {
       "document_id": "issuer:65e8a35ca116cd2bd32ec092",
       "fact_id": "fact_fd5bf9d8e7d650ed6cf540b7",
@@ -87025,8 +87787,8 @@
       "version": "financial_statement_v2",
       "revision": "block_geometry_v5"
      },
-     "evidence_label": "fact_source_reported",
-     "confidence": "high"
+     "evidence_label": "stale_source",
+     "confidence": "low"
     }
    ],
    "conflicts": [],
@@ -87191,9 +87953,9 @@
  },
  "_meta": {
   "generator_version": "ci_artifact_integrity_v1",
-  "source_commit_sha": "836c3cdf4f7f36994498ada2d957ca35b12496b4",
-  "build_cutoff_at": "2026-08-31T17:23:47Z",
-  "generated_at": "2026-08-31T17:23:47Z",
+  "source_commit_sha": "323537ed74c6242c094838bcf812ffa7ad032538",
+  "build_cutoff_at": "2026-09-19T18:50:06Z",
+  "generated_at": "2026-09-19T18:50:06Z",
   "artifact_path": "state/company_intel/financial_evidence_reconciliation.json",
   "timestamp_semantics": {
    "build_cutoff_at": "generation boundary only; not a source-effective or source-published time",

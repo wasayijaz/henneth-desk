@@ -306,7 +306,7 @@
   "do_not_touch_sales_expansion_receipt": true
  },
  "_meta": {
-  "generator_version": "pso_financial_truth_next_intake_receipt_v1",
+  "generator_version": "ci_artifact_integrity_v1",
   "inputs_sha256": {
    "company_documents": "ddd7c22b4e2333f0e6698558f79aa978e3c9b3e84a53837e79ae0405621ead1a",
    "company_financial_series": "dd48bc16c8c669e75567629f8577e04db6ac6d0ac88699986cd57e98fb759d5f",
@@ -320,7 +320,11 @@
   },
   "artifact_path": "state/company_intel/pso_financial_truth_next_intake_receipt.json",
   "timestamp_semantics": {
-   "audit_date": "local audit date only; not a source-effective or source-published date"
-  }
+   "build_cutoff_at": "generation boundary only; not a source-effective or source-published time",
+   "generated_at": "artifact generation time only; not a source-effective or source-published time"
+  },
+  "source_commit_sha": "323537ed74c6242c094838bcf812ffa7ad032538",
+  "build_cutoff_at": "2026-09-19T18:50:06Z",
+  "generated_at": "2026-09-19T18:50:06Z"
  }
 }

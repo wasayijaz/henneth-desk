@@ -47,7 +47,7 @@
  "companies": {
   "MLCF": {
    "symbol": "MLCF",
-   "status": "blocked",
+   "status": "blocked_financial_truth_not_qualified",
    "truth_status": "not_qualified",
    "reason": "missing_source_gated_inputs",
    "missing_requirements": [
@@ -66,7 +66,7 @@
   },
   "OGDC": {
    "symbol": "OGDC",
-   "status": "blocked",
+   "status": "blocked_financial_truth_not_qualified",
    "truth_status": "not_qualified",
    "reason": "missing_source_gated_inputs",
    "missing_requirements": [
@@ -90,7 +90,7 @@
   },
   "PPL": {
    "symbol": "PPL",
-   "status": "blocked",
+   "status": "blocked_financial_truth_not_qualified",
    "truth_status": "not_qualified",
    "reason": "missing_source_gated_inputs",
    "missing_requirements": [
@@ -114,13 +114,17 @@
   },
   "DGKC": {
    "symbol": "DGKC",
-   "status": "blocked",
+   "status": "blocked_financial_truth_not_qualified",
    "truth_status": "not_qualified",
    "reason": "missing_source_gated_inputs",
    "missing_requirements": [
+    "actual_basic_eps",
+    "actual_profit_after_tax_attributable",
+    "actual_revenue",
     "approved_exit_pe",
     "approved_net_margin_pct",
     "approved_revenue_growth_pct",
+    "financial_model_inputs_ready",
     "financial_truth_qualified"
    ],
    "formula_id": "formal_market_expectations.reverse_growth.v1",
@@ -133,7 +137,7 @@
   },
   "PSO": {
    "symbol": "PSO",
-   "status": "blocked",
+   "status": "blocked_financial_truth_not_qualified",
    "truth_status": "not_qualified",
    "reason": "missing_source_gated_inputs",
    "missing_requirements": [
@@ -157,7 +161,7 @@
   },
   "UBL": {
    "symbol": "UBL",
-   "status": "blocked",
+   "status": "blocked_financial_truth_not_qualified",
    "truth_status": "not_qualified",
    "reason": "missing_source_gated_inputs",
    "missing_requirements": [
@@ -181,7 +185,7 @@
   },
   "FFC": {
    "symbol": "FFC",
-   "status": "blocked",
+   "status": "blocked_financial_truth_not_qualified",
    "truth_status": "not_qualified",
    "reason": "missing_source_gated_inputs",
    "missing_requirements": [
@@ -205,7 +209,7 @@
   },
   "LUCK": {
    "symbol": "LUCK",
-   "status": "blocked",
+   "status": "blocked_financial_truth_not_qualified",
    "truth_status": "not_qualified",
    "reason": "missing_source_gated_inputs",
    "missing_requirements": [
@@ -229,7 +233,7 @@
   },
   "HUBC": {
    "symbol": "HUBC",
-   "status": "blocked",
+   "status": "blocked_financial_truth_not_qualified",
    "truth_status": "not_qualified",
    "reason": "missing_source_gated_inputs",
    "missing_requirements": [
@@ -253,7 +257,7 @@
   },
   "PRL": {
    "symbol": "PRL",
-   "status": "blocked",
+   "status": "blocked_financial_truth_not_qualified",
    "truth_status": "not_qualified",
    "reason": "missing_source_gated_inputs",
    "missing_requirements": [
@@ -277,7 +281,7 @@
   },
   "BOP": {
    "symbol": "BOP",
-   "status": "blocked",
+   "status": "blocked_financial_truth_not_qualified",
    "truth_status": "not_qualified",
    "reason": "missing_source_gated_inputs",
    "missing_requirements": [
@@ -301,7 +305,7 @@
   },
   "NBP": {
    "symbol": "NBP",
-   "status": "blocked",
+   "status": "blocked_financial_truth_not_qualified",
    "truth_status": "not_qualified",
    "reason": "missing_source_gated_inputs",
    "missing_requirements": [
@@ -325,7 +329,7 @@
   },
   "MEBL": {
    "symbol": "MEBL",
-   "status": "blocked",
+   "status": "blocked_financial_truth_not_qualified",
    "truth_status": "not_qualified",
    "reason": "missing_source_gated_inputs",
    "missing_requirements": [
@@ -349,7 +353,7 @@
   },
   "ATRL": {
    "symbol": "ATRL",
-   "status": "blocked",
+   "status": "blocked_financial_truth_not_qualified",
    "truth_status": "not_qualified",
    "reason": "missing_source_gated_inputs",
    "missing_requirements": [
@@ -373,7 +377,7 @@
   },
   "HBL": {
    "symbol": "HBL",
-   "status": "blocked",
+   "status": "blocked_financial_truth_not_qualified",
    "truth_status": "not_qualified",
    "reason": "missing_source_gated_inputs",
    "missing_requirements": [
@@ -397,7 +401,7 @@
   },
   "MARI": {
    "symbol": "MARI",
-   "status": "blocked",
+   "status": "blocked_financial_truth_not_qualified",
    "truth_status": "not_qualified",
    "reason": "missing_source_gated_inputs",
    "missing_requirements": [
@@ -421,7 +425,7 @@
   },
   "ENGROH": {
    "symbol": "ENGROH",
-   "status": "blocked",
+   "status": "blocked_financial_truth_not_qualified",
    "truth_status": "not_qualified",
    "reason": "missing_source_gated_inputs",
    "missing_requirements": [
@@ -445,7 +449,7 @@
   },
   "GAL": {
    "symbol": "GAL",
-   "status": "blocked",
+   "status": "blocked_financial_truth_not_qualified",
    "truth_status": "not_qualified",
    "reason": "missing_source_gated_inputs",
    "missing_requirements": [
@@ -469,7 +473,7 @@
   },
   "NRL": {
    "symbol": "NRL",
-   "status": "blocked",
+   "status": "blocked_financial_truth_not_qualified",
    "truth_status": "not_qualified",
    "reason": "missing_source_gated_inputs",
    "missing_requirements": [
@@ -493,7 +497,7 @@
   },
   "CNERGY": {
    "symbol": "CNERGY",
-   "status": "blocked",
+   "status": "blocked_financial_truth_not_qualified",
    "truth_status": "not_qualified",
    "reason": "missing_source_gated_inputs",
    "missing_requirements": [
@@ -518,9 +522,9 @@
  },
  "_meta": {
   "generator_version": "ci_artifact_integrity_v1",
-  "source_commit_sha": "836c3cdf4f7f36994498ada2d957ca35b12496b4",
-  "build_cutoff_at": "2026-08-31T17:23:47Z",
-  "generated_at": "2026-08-31T17:23:47Z",
+  "source_commit_sha": "323537ed74c6242c094838bcf812ffa7ad032538",
+  "build_cutoff_at": "2026-09-19T18:50:06Z",
+  "generated_at": "2026-09-19T18:50:06Z",
   "artifact_path": "state/company_intel/market_expectations.json",
   "timestamp_semantics": {
    "build_cutoff_at": "generation boundary only; not a source-effective or source-published time",

@@ -283,13 +283,13 @@
   }
  ],
  "_meta": {
-  "generator_version": "mari_financial_truth_hash_bound_rerun_v1",
+  "generator_version": "ci_artifact_integrity_v1",
   "artifact_path": "state/company_intel/mari_financial_truth_hash_bound_rerun_receipt.json",
   "inputs_sha256": {
    "company_documents": "ddd7c22b4e2333f0e6698558f79aa978e3c9b3e84a53837e79ae0405621ead1a",
    "company_financial_series": "dd48bc16c8c669e75567629f8577e04db6ac6d0ac88699986cd57e98fb759d5f",
-   "financial_truth_qualification": "7aa49faffb3b9f1da6fa1c164155f78dfa541d394b9f30f17bc8d36305c2ba77",
-   "next_intake_receipt": "11c7698798afbcb79c978272b50ed18c907880bbf5c7a6271fc1dd6035e17f08"
+   "financial_truth_qualification": "12df8019a78ba473f8926ef20b090991d3b7e2561ee3c54ebb35557e4bcb2746",
+   "next_intake_receipt": "dcfd6a54c9803eee783efe99ae70c299c45e2c6296bef85aac3160cc8dd11588"
   },
   "target_content_sha256": {
    "psx:275583": "b2d9a7ce564306b3fccfb301801f774c90accb69ceffa8e3c0c1c9e69137c02b",
@@ -297,7 +297,11 @@
    "psx:264550": "7f4cf3461439d968407a7cb06d446dc02876f13e923893c165d36a9e0e7f88f5"
   },
   "timestamp_semantics": {
-   "audit_date": "local audit date only; not a source-effective or source-published date"
-  }
+   "build_cutoff_at": "generation boundary only; not a source-effective or source-published time",
+   "generated_at": "artifact generation time only; not a source-effective or source-published time"
+  },
+  "source_commit_sha": "323537ed74c6242c094838bcf812ffa7ad032538",
+  "build_cutoff_at": "2026-09-19T18:50:06Z",
+  "generated_at": "2026-09-19T18:50:06Z"
  }
 }

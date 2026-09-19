@@ -95,9 +95,9 @@
    "reason": "financial_truth_not_qualified_or_outputs_not_computed",
    "source": "state/company_intel/financial_forecasts.json; state/company_intel/formal_valuations.json; state/company_intel/market_expectations.json",
    "statuses": {
-    "forecast": "blocked",
-    "valuation": "blocked",
-    "market_expectations": "blocked"
+    "forecast": "blocked_financial_truth_not_qualified",
+    "valuation": "blocked_financial_truth_not_qualified",
+    "market_expectations": "blocked_financial_truth_not_qualified"
    }
   },
   "monitoring": {
@@ -128,5 +128,16 @@
   "no_promotion": true,
   "performance_not_expansion": true,
   "formal_outputs_require_financial_truth": true
+ },
+ "_meta": {
+  "generator_version": "ci_artifact_integrity_v1",
+  "source_commit_sha": "323537ed74c6242c094838bcf812ffa7ad032538",
+  "build_cutoff_at": "2026-09-19T18:50:06Z",
+  "generated_at": "2026-09-19T18:50:06Z",
+  "artifact_path": "state/company_intel/cnergy_sales_vertical_slice.json",
+  "timestamp_semantics": {
+   "build_cutoff_at": "generation boundary only; not a source-effective or source-published time",
+   "generated_at": "artifact generation time only; not a source-effective or source-published time"
+  }
  }
 }
