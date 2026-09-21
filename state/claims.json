@@ -7161,7 +7161,10 @@
     "text": "Within 60 sessions, PRL will trade within roughly the 38-55 band (no sustained daily close below 38 nor above 55) as the technical overextension and the underlying valuation gap offset each other, rather than a clean break in either direction."
    },
    "made_at_price": 50.86,
-   "status": "pending"
+   "status": "miss",
+   "resolved_on": "2026-09-21",
+   "resolved_price": 82.5,
+   "score_detail": "up vs claimed range_bound"
   },
   {
    "source_type": "persona",
@@ -16066,7 +16069,9 @@
    "source": "sector-desk",
    "sector": "Modarabas",
    "ticker": null,
-   "tickers": ["SECTOR:Modarabas"],
+   "tickers": [
+    "SECTOR:Modarabas"
+   ],
    "made_on": "2026-09-19",
    "horizon_days": 30,
    "resolve_by": "2026-10-19",
@@ -16077,7 +16082,11 @@
     "text": "Modarabas underperform the KSE-100 over the 30-day window from 2026-09-19 through 2026-10-19 unless the sector's breadth remains above 9 of 19 and its median 20-day return turns positive."
    },
    "market_relative": true,
-   "benchmark": {"index":"KSE100","level":170884.58,"as_of":"2026-09-18"},
+   "benchmark": {
+    "index": "KSE100",
+    "level": 170884.58,
+    "as_of": "2026-09-18"
+   },
    "made_at_price": null,
    "status": "pending",
    "resolved_on": null,

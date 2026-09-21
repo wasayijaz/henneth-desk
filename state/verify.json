@@ -44,13 +44,7 @@
   {
    "sev": "low",
    "field": "fairvalue.spread",
-   "msg": "methods disagree 5.1x — treat composite as a rough screen"
-  },
-  {
-   "sev": "medium",
-   "field": "fundamentals.div_yield",
-   "msg": "stated div_yield 1.15% vs 0.96% implied by trailing-365d dividends (Rs 4.00/share at close Rs 416.0) — 16% off",
-   "escalate": true
+   "msg": "methods disagree 5.5x — treat composite as a rough screen"
   }
  ],
  "HBL": [
@@ -117,18 +111,18 @@
    "escalate": true
   }
  ],
- "PSO": [
-  {
-   "sev": "low",
-   "field": "fairvalue.spread",
-   "msg": "methods disagree 7.6x — treat composite as a rough screen"
-  }
- ],
  "BAFL": [
   {
    "sev": "low",
    "field": "fairvalue.spread",
    "msg": "methods disagree 3.5x — treat composite as a rough screen"
+  }
+ ],
+ "PSO": [
+  {
+   "sev": "low",
+   "field": "fairvalue.spread",
+   "msg": "methods disagree 7.6x — treat composite as a rough screen"
   }
  ],
  "MTL": [
@@ -143,7 +137,7 @@
   {
    "sev": "low",
    "field": "fairvalue.spread",
-   "msg": "methods disagree 3.7x — treat composite as a rough screen"
+   "msg": "methods disagree 3.8x — treat composite as a rough screen"
   }
  ],
  "ATRL": [
@@ -156,19 +150,6 @@
    "sev": "medium",
    "field": "fundamentals.div_yield",
    "msg": "stated div_yield 1.53% vs 0.46% implied by trailing-365d dividends (Rs 5.00/share at close Rs 1095.15) — 70% off",
-   "escalate": true
-  }
- ],
- "FCCL": [
-  {
-   "sev": "low",
-   "field": "fairvalue.spread",
-   "msg": "methods disagree 3.3x — treat composite as a rough screen"
-  },
-  {
-   "sev": "medium",
-   "field": "fundamentals.div_yield",
-   "msg": "stated div_yield 2.84% vs 5.06% implied by trailing-365d dividends (Rs 2.75/share at close Rs 54.35) — 78% off",
    "escalate": true
   }
  ],
@@ -188,18 +169,19 @@
    "escalate": true
   }
  ],
+ "FCCL": [
+  {
+   "sev": "medium",
+   "field": "fundamentals.div_yield",
+   "msg": "stated div_yield 2.84% vs 5.06% implied by trailing-365d dividends (Rs 2.75/share at close Rs 54.35) — 78% off",
+   "escalate": true
+  }
+ ],
  "MLCF": [
   {
    "sev": "low",
    "field": "fairvalue.spread",
    "msg": "methods disagree 3.9x — treat composite as a rough screen"
-  }
- ],
- "BOP": [
-  {
-   "sev": "low",
-   "field": "fairvalue.spread",
-   "msg": "methods disagree 4.0x — treat composite as a rough screen"
   }
  ],
  "DGKC": [
@@ -213,6 +195,13 @@
    "field": "fundamentals.div_yield",
    "msg": "stated div_yield 0.49% vs 1.02% implied by trailing-365d dividends (Rs 2.00/share at close Rs 196.08) — 108% off",
    "escalate": true
+  }
+ ],
+ "BOP": [
+  {
+   "sev": "low",
+   "field": "fairvalue.spread",
+   "msg": "methods disagree 4.0x — treat composite as a rough screen"
   }
  ],
  "SRVI": [
@@ -234,13 +223,19 @@
    "sev": "low",
    "field": "fairvalue.spread",
    "msg": "methods disagree 6.8x — treat composite as a rough screen"
+  },
+  {
+   "sev": "medium",
+   "field": "fundamentals.div_yield",
+   "msg": "stated div_yield 3.78% vs 2.87% implied by trailing-365d dividends (Rs 50.00/share at close Rs 1745.2) — 24% off",
+   "escalate": true
   }
  ],
  "CHCC": [
   {
    "sev": "low",
    "field": "fairvalue.spread",
-   "msg": "methods disagree 4.2x — treat composite as a rough screen"
+   "msg": "methods disagree 4.3x — treat composite as a rough screen"
   }
  ],
  "COLG": [
@@ -291,7 +286,7 @@
   {
    "sev": "low",
    "field": "fairvalue.spread",
-   "msg": "methods disagree 17.6x — treat composite as a rough screen"
+   "msg": "methods disagree 17.7x — treat composite as a rough screen"
   }
  ],
  "AICL": [
@@ -302,18 +297,11 @@
    "escalate": true
   }
  ],
- "GLAXO": [
-  {
-   "sev": "low",
-   "field": "fairvalue.spread",
-   "msg": "methods disagree 3.1x — treat composite as a rough screen"
-  }
- ],
  "NATF": [
   {
    "sev": "low",
    "field": "fairvalue.spread",
-   "msg": "methods disagree 10.1x — treat composite as a rough screen"
+   "msg": "methods disagree 10.0x — treat composite as a rough screen"
   },
   {
    "sev": "medium",
@@ -331,7 +319,7 @@
   {
    "sev": "medium",
    "field": "fundamentals.div_yield",
-   "msg": "stated div_yield 4.7% vs 5.43% implied by trailing-365d dividends (Rs 11.45/share at close Rs 210.82) — 16% off",
+   "msg": "stated div_yield 4.7% vs 2.49% implied by trailing-365d dividends (Rs 5.25/share at close Rs 210.82) — 47% off",
    "escalate": true
   }
  ],
@@ -364,14 +352,6 @@
    "msg": "1 old (pre-decade) price glitch(es) — affects only long-run stats"
   }
  ],
- "PAKT": [
-  {
-   "sev": "medium",
-   "field": "fundamentals.div_yield",
-   "msg": "stated div_yield 10.77% vs 8.82% implied by trailing-365d dividends (Rs 120.00/share at close Rs 1359.93) — 18% off",
-   "escalate": true
-  }
- ],
  "THALL": [
   {
    "sev": "low",
@@ -385,11 +365,19 @@
    "escalate": true
   }
  ],
+ "PAKT": [
+  {
+   "sev": "medium",
+   "field": "fundamentals.div_yield",
+   "msg": "stated div_yield 10.77% vs 8.82% implied by trailing-365d dividends (Rs 120.00/share at close Rs 1359.93) — 18% off",
+   "escalate": true
+  }
+ ],
  "GHNI": [
   {
    "sev": "low",
    "field": "fairvalue.spread",
-   "msg": "methods disagree 21.5x — treat composite as a rough screen"
+   "msg": "methods disagree 21.8x — treat composite as a rough screen"
   },
   {
    "sev": "medium",
@@ -427,19 +415,6 @@
    "escalate": true
   }
  ],
- "GAL": [
-  {
-   "sev": "low",
-   "field": "fairvalue.spread",
-   "msg": "methods disagree 10.8x — treat composite as a rough screen"
-  },
-  {
-   "sev": "medium",
-   "field": "fundamentals.div_yield",
-   "msg": "stated div_yield 1.57% vs 1.84% implied by trailing-365d dividends (Rs 10.00/share at close Rs 543.38) — 17% off",
-   "escalate": true
-  }
- ],
  "ISL": [
   {
    "sev": "low",
@@ -457,7 +432,20 @@
   {
    "sev": "low",
    "field": "fairvalue.spread",
-   "msg": "methods disagree 7.9x — treat composite as a rough screen"
+   "msg": "methods disagree 8.0x — treat composite as a rough screen"
+  }
+ ],
+ "GAL": [
+  {
+   "sev": "low",
+   "field": "fairvalue.spread",
+   "msg": "methods disagree 10.8x — treat composite as a rough screen"
+  },
+  {
+   "sev": "medium",
+   "field": "fundamentals.div_yield",
+   "msg": "stated div_yield 1.57% vs 1.84% implied by trailing-365d dividends (Rs 10.00/share at close Rs 543.38) — 17% off",
+   "escalate": true
   }
  ],
  "KAPCO": [
@@ -477,7 +465,7 @@
   {
    "sev": "low",
    "field": "fairvalue.spread",
-   "msg": "methods disagree 36.0x — treat composite as a rough screen"
+   "msg": "methods disagree 36.2x — treat composite as a rough screen"
   },
   {
    "sev": "medium",
@@ -497,7 +485,7 @@
   {
    "sev": "low",
    "field": "fairvalue.spread",
-   "msg": "methods disagree 3.6x — treat composite as a rough screen"
+   "msg": "methods disagree 3.4x — treat composite as a rough screen"
   },
   {
    "sev": "medium",
@@ -523,7 +511,7 @@
   {
    "sev": "low",
    "field": "fairvalue.spread",
-   "msg": "methods disagree 5.3x — treat composite as a rough screen"
+   "msg": "methods disagree 5.2x — treat composite as a rough screen"
   }
  ],
  "INIL": [
@@ -627,7 +615,7 @@
   {
    "sev": "low",
    "field": "fairvalue.spread",
-   "msg": "methods disagree 3.4x — treat composite as a rough screen"
+   "msg": "methods disagree 3.3x — treat composite as a rough screen"
   }
  ],
  "IGIHL": [
@@ -691,11 +679,18 @@
    "msg": "methods disagree 12.1x — treat composite as a rough screen"
   }
  ],
+ "AKDSL": [
+  {
+   "sev": "low",
+   "field": "fairvalue.spread",
+   "msg": "methods disagree 5.0x — treat composite as a rough screen"
+  }
+ ],
  "GWLC": [
   {
    "sev": "low",
    "field": "fairvalue.spread",
-   "msg": "methods disagree 6.0x — treat composite as a rough screen"
+   "msg": "methods disagree 5.9x — treat composite as a rough screen"
   },
   {
    "sev": "medium",
@@ -715,13 +710,6 @@
    "field": "fundamentals.div_yield",
    "msg": "stated div_yield 5.26% vs 2.55% implied by trailing-365d dividends (Rs 1.50/share at close Rs 58.84) — 52% off",
    "escalate": true
-  }
- ],
- "AKDSL": [
-  {
-   "sev": "low",
-   "field": "fairvalue.spread",
-   "msg": "methods disagree 5.0x — treat composite as a rough screen"
   }
  ],
  "FCL": [
@@ -756,7 +744,7 @@
   {
    "sev": "low",
    "field": "fairvalue.spread",
-   "msg": "methods disagree 14.9x — treat composite as a rough screen"
+   "msg": "methods disagree 14.8x — treat composite as a rough screen"
   }
  ],
  "NCL": [
@@ -765,6 +753,13 @@
    "field": "fundamentals.div_yield",
    "msg": "stated div_yield 5.54% vs 2.53% implied by trailing-365d dividends (Rs 1.00/share at close Rs 39.52) — 54% off",
    "escalate": true
+  }
+ ],
+ "TATM": [
+  {
+   "sev": "low",
+   "field": "fairvalue.spread",
+   "msg": "methods disagree 10.9x — treat composite as a rough screen"
   }
  ],
  "CSAP": [
@@ -810,13 +805,6 @@
    "escalate": true
   }
  ],
- "TATM": [
-  {
-   "sev": "low",
-   "field": "fairvalue.spread",
-   "msg": "methods disagree 10.9x — treat composite as a rough screen"
-  }
- ],
  "BIFO": [
   {
    "sev": "medium",
@@ -842,7 +830,7 @@
   {
    "sev": "low",
    "field": "fairvalue.spread",
-   "msg": "methods disagree 3.6x — treat composite as a rough screen"
+   "msg": "methods disagree 3.5x — treat composite as a rough screen"
   },
   {
    "sev": "medium",
@@ -891,21 +879,21 @@
   {
    "sev": "low",
    "field": "fairvalue.spread",
-   "msg": "methods disagree 18.5x — treat composite as a rough screen"
+   "msg": "methods disagree 18.3x — treat composite as a rough screen"
   }
  ],
  "AWTX": [
   {
    "sev": "medium",
    "field": "quant.date",
-   "msg": "quant is 26 days stale (2026-08-24)"
+   "msg": "quant is 28 days stale (2026-08-24)"
   }
  ],
  "ECOP": [
   {
    "sev": "low",
    "field": "fairvalue.spread",
-   "msg": "methods disagree 4.0x — treat composite as a rough screen"
+   "msg": "methods disagree 4.8x — treat composite as a rough screen"
   }
  ],
  "KOHTM": [
@@ -942,42 +930,42 @@
   {
    "sev": "medium",
    "field": "quant.date",
-   "msg": "quant is 309 days stale (2025-11-14)"
+   "msg": "quant is 311 days stale (2025-11-14)"
   }
  ],
  "GEMNETS": [
   {
    "sev": "medium",
    "field": "quant.date",
-   "msg": "quant is 8 days stale (2026-09-11)"
+   "msg": "quant is 10 days stale (2026-09-11)"
   }
  ],
  "HSPI": [
   {
    "sev": "medium",
    "field": "quant.date",
-   "msg": "quant is 673 days stale (2024-11-15)"
+   "msg": "quant is 675 days stale (2024-11-15)"
   }
  ],
  "PHDL": [
   {
    "sev": "medium",
    "field": "quant.date",
-   "msg": "quant is 607 days stale (2025-01-20)"
+   "msg": "quant is 609 days stale (2025-01-20)"
   }
  ],
  "SANE": [
   {
    "sev": "medium",
    "field": "quant.date",
-   "msg": "quant is 715 days stale (2024-10-04)"
+   "msg": "quant is 717 days stale (2024-10-04)"
   }
  ],
  "SLL": [
   {
    "sev": "medium",
    "field": "quant.date",
-   "msg": "quant is 688 days stale (2024-10-31)"
+   "msg": "quant is 690 days stale (2024-10-31)"
   }
  ],
  "USVIX": [
@@ -989,8 +977,8 @@
   }
  ],
  "_meta": {
-  "built": "2026-09-19 16:39",
-  "tickers_with_issues": 111,
+  "built": "2026-09-21 09:05",
+  "tickers_with_issues": 110,
   "high_severity": 4,
   "escalate_to_agent": [
    "ACPL",
@@ -1028,7 +1016,6 @@
    "LCI",
    "LOTCHEM",
    "LSEVL",
-   "LUCK",
    "MARI",
    "MCB",
    "MDTL",
@@ -1045,6 +1032,7 @@
    "PSX",
    "PTL",
    "RMPL",
+   "SAZEW",
    "SPEL",
    "THALL",
    "UPFL",

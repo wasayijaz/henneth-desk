@@ -1,5 +1,5 @@
 {
- "updated": "2026-09-19 11:32",
+ "updated": "2026-09-21 09:05",
  "note": "Deterministic evidence pack per PSX sector. Every figure is computed from the desk's own state files - agents debating a sector must cite THIS, never memory. macro_drivers lists only correction-survived relationships; an empty list means no global factor has a demonstrated effect on the sector, which is a finding.",
  "min_members": 3,
  "n_sectors": 32,
@@ -966,7 +966,7 @@
      "payout_pct": 2.01,
      "fair_gap_pct": -21.7,
      "fair_verdict": "overvalued",
-     "ttm_dividend_rs": 8.5
+     "ttm_dividend_rs": 0.5
     },
     {
      "sym": "SMCPL",
@@ -1848,16 +1848,6 @@
    "macro_joint_r2_pct": 0.6,
    "recent_news": [
     {
-     "ts": "2026-09-07",
-     "impact": 4,
-     "tickers": [
-      "NBP",
-      "MEBL",
-      "UBL"
-     ],
-     "headline": "PSX: KSE-100 sheds nearly 1% amid selling pressure"
-    },
-    {
      "ts": "2026-09-10",
      "impact": 4,
      "tickers": [
@@ -1926,6 +1916,14 @@
       "NBP"
      ],
      "headline": "National Bank appeal on pension increases dismissed by Federal Constitutional Court"
+    },
+    {
+     "ts": "2026-09-10",
+     "impact": 2,
+     "tickers": [
+      "HBL"
+     ],
+     "headline": "HBL celebrates 50 years in Bangladesh"
     }
    ],
    "upcoming_events": [
@@ -2707,14 +2705,6 @@
    ],
    "macro_joint_r2_pct": 0.25,
    "recent_news": [
-    {
-     "ts": "2026-09-07",
-     "impact": 4,
-     "tickers": [
-      "FFC"
-     ],
-     "headline": "PSX: KSE-100 sheds nearly 1% amid selling pressure"
-    },
     {
      "ts": "2026-09-14",
      "impact": 4,
@@ -5110,14 +5100,14 @@
    ]
   },
   "Modarabas": {
-   "n_members": 19,
+   "n_members": 18,
    "breadth": {
-    "above_sma50": 9,
+    "above_sma50": 8,
     "advancing_1d": 16
    },
    "returns": {
-    "median_1d_pct": 2.47,
-    "median_20d_pct": -2.98,
+    "median_1d_pct": 2.52,
+    "median_20d_pct": -3.48,
     "best_20d": {
      "sym": "FPJM",
      "pct": 68.76
@@ -5301,22 +5291,6 @@
      "fair_gap_pct": null,
      "fair_verdict": null,
      "ttm_dividend_rs": null
-    },
-    {
-     "sym": "FIMM",
-     "name": "First Imrooz Modaraba",
-     "close": 215.99,
-     "ret_1d": 0.0,
-     "ret_20d": 1.89,
-     "rsi14": 53.8,
-     "above_sma50": true,
-     "liquidity_rs_m": 0.0,
-     "pe": null,
-     "div_yield_pct": null,
-     "payout_pct": null,
-     "fair_gap_pct": null,
-     "fair_verdict": null,
-     "ttm_dividend_rs": 15.0
     },
     {
      "sym": "ORM",
@@ -5539,15 +5513,6 @@
    "macro_joint_r2_pct": 2.54,
    "recent_news": [
     {
-     "ts": "2026-09-07",
-     "impact": 4,
-     "tickers": [
-      "OGDC",
-      "PPL"
-     ],
-     "headline": "PSX: KSE-100 sheds nearly 1% amid selling pressure"
-    },
-    {
      "ts": "2026-09-10",
      "impact": 4,
      "tickers": [
@@ -5616,6 +5581,15 @@
       "POL"
      ],
      "headline": "PSX: KSE-100 sheds nearly 1,000 points amid geopolitical uncertainty (afternoon rolling update)"
+    },
+    {
+     "ts": "2026-09-09",
+     "impact": 3,
+     "tickers": [
+      "OGDC",
+      "MARI"
+     ],
+     "headline": "OGDCL, MARI-backed Lundali-1 well starts gas production in Sindh"
     }
    ],
    "upcoming_events": [
@@ -5786,15 +5760,6 @@
    "macro_joint_r2_pct": 0.88,
    "recent_news": [
     {
-     "ts": "2026-09-07",
-     "impact": 4,
-     "tickers": [
-      "SSGC",
-      "PSO"
-     ],
-     "headline": "PSX: KSE-100 sheds nearly 1% amid selling pressure"
-    },
-    {
      "ts": "2026-09-11",
      "impact": 4,
      "tickers": [
@@ -5849,6 +5814,14 @@
       "PSO"
      ],
      "headline": "HSD price rises Rs3.47/litre, petrol falls Rs0.43"
+    },
+    {
+     "ts": "2026-09-08",
+     "impact": 3,
+     "tickers": [
+      "PSO"
+     ],
+     "headline": "PSX: KSE-100 sheds nearly 1,000 points amid geopolitical uncertainty"
     }
    ],
    "upcoming_events": [
@@ -6621,14 +6594,6 @@
    "macro_joint_r2_pct": 0.47,
    "recent_news": [
     {
-     "ts": "2026-09-07",
-     "impact": 4,
-     "tickers": [
-      "HUBC"
-     ],
-     "headline": "PSX: KSE-100 sheds nearly 1% amid selling pressure"
-    },
-    {
      "ts": "2026-09-10",
      "impact": 4,
      "tickers": [
@@ -6969,14 +6934,14 @@
    ]
   },
   "Property": {
-   "n_members": 5,
+   "n_members": 6,
    "breadth": {
     "above_sma50": 0,
     "advancing_1d": 4
    },
    "returns": {
-    "median_1d_pct": 1.22,
-    "median_20d_pct": -4.16,
+    "median_1d_pct": 0.89,
+    "median_20d_pct": -5.51,
     "best_20d": {
      "sym": "JVDC",
      "pct": -0.2
@@ -7075,6 +7040,22 @@
      "fair_gap_pct": null,
      "fair_verdict": null,
      "ttm_dividend_rs": null
+    },
+    {
+     "sym": "JVDCPS",
+     "name": "Javedan Corporation (Pref)",
+     "close": 52.28,
+     "ret_1d": 0.0,
+     "ret_20d": -6.86,
+     "rsi14": 20.1,
+     "above_sma50": false,
+     "liquidity_rs_m": 0.0,
+     "pe": null,
+     "div_yield_pct": null,
+     "payout_pct": null,
+     "fair_gap_pct": null,
+     "fair_verdict": null,
+     "ttm_dividend_rs": 1.2
     },
     {
      "sym": "HUSI",
@@ -7302,15 +7283,6 @@
    "macro_joint_r2_pct": 0.38,
    "recent_news": [
     {
-     "ts": "2026-09-07",
-     "impact": 4,
-     "tickers": [
-      "PRL",
-      "ATRL"
-     ],
-     "headline": "PSX: KSE-100 sheds nearly 1% amid selling pressure"
-    },
-    {
      "ts": "2026-09-10",
      "impact": 4,
      "tickers": [
@@ -7367,6 +7339,14 @@
       "ATRL"
      ],
      "headline": "PSX: Buying returns, KSE-100 gains 1% on hopes of easing Middle East tensions"
+    },
+    {
+     "ts": "2026-09-16",
+     "impact": 3,
+     "tickers": [
+      "PRL"
+     ],
+     "headline": "Oil slips on US stock build, Middle East disruptions limit losses"
     }
    ],
    "upcoming_events": [
@@ -8515,14 +8495,14 @@
    ]
   },
   "Textile Composite": {
-   "n_members": 38,
+   "n_members": 37,
    "breadth": {
     "above_sma50": 5,
     "advancing_1d": 22
    },
    "returns": {
-    "median_1d_pct": 0.4,
-    "median_20d_pct": -4.71,
+    "median_1d_pct": 0.48,
+    "median_20d_pct": -4.29,
     "best_20d": {
      "sym": "JUBS",
      "pct": 17.29
@@ -9149,22 +9129,6 @@
      "ttm_dividend_rs": 0.75
     },
     {
-     "sym": "ANLNV",
-     "name": "Azgard Nine Non-Voting Ordinary Shares",
-     "close": 7.55,
-     "ret_1d": 0.0,
-     "ret_20d": -14.2,
-     "rsi14": 41.8,
-     "above_sma50": false,
-     "liquidity_rs_m": 0.0,
-     "pe": null,
-     "div_yield_pct": null,
-     "payout_pct": null,
-     "fair_gap_pct": null,
-     "fair_verdict": null,
-     "ttm_dividend_rs": null
-    },
-    {
      "sym": "ZAHID",
      "name": "Zahidjee Textile Mills Limited",
      "close": 60.17,
@@ -9231,14 +9195,14 @@
    ]
   },
   "Textile Spinning": {
-   "n_members": 41,
+   "n_members": 39,
    "breadth": {
-    "above_sma50": 10,
-    "advancing_1d": 27
+    "above_sma50": 9,
+    "advancing_1d": 26
    },
    "returns": {
     "median_1d_pct": 0.91,
-    "median_20d_pct": -9.54,
+    "median_20d_pct": -11.01,
     "best_20d": {
      "sym": "ELCM",
      "pct": 49.06
@@ -9337,22 +9301,6 @@
      "fair_gap_pct": null,
      "fair_verdict": null,
      "ttm_dividend_rs": 2.0
-    },
-    {
-     "sym": "ELSM",
-     "name": "Ellcot Spinning Mills Limited",
-     "close": 148.25,
-     "ret_1d": 0.0,
-     "ret_20d": 7.09,
-     "rsi14": 51.5,
-     "above_sma50": true,
-     "liquidity_rs_m": 0.1,
-     "pe": null,
-     "div_yield_pct": null,
-     "payout_pct": null,
-     "fair_gap_pct": null,
-     "fair_verdict": null,
-     "ttm_dividend_rs": 4.0
     },
     {
      "sym": "GSPM",
@@ -9513,22 +9461,6 @@
      "fair_gap_pct": null,
      "fair_verdict": null,
      "ttm_dividend_rs": null
-    },
-    {
-     "sym": "NAGC",
-     "name": "Nagina Cotton Mills Limited",
-     "close": 78.91,
-     "ret_1d": 2.48,
-     "ret_20d": -3.15,
-     "rsi14": 52.6,
-     "above_sma50": false,
-     "liquidity_rs_m": 0.1,
-     "pe": null,
-     "div_yield_pct": null,
-     "payout_pct": null,
-     "fair_gap_pct": null,
-     "fair_verdict": null,
-     "ttm_dividend_rs": 1.0
     },
     {
      "sym": "DINT",

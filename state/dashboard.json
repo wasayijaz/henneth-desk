@@ -1,84 +1,11 @@
 {
- "updated": "2026-09-19 16:39",
+ "updated": "2026-09-21 09:05",
  "regime": "risk-off",
  "geo_risk": {
-  "score": 54,
+  "score": 50,
   "band": "moderate"
  },
- "signals": [
-  {
-   "id": "20260919-DFSM-triple_screen_long",
-   "ticker": "DFSM",
-   "strategy": "triple_screen_long",
-   "template": "Triple screen alignment",
-   "category": "trend",
-   "sector": "Textile Spinning",
-   "hold_sessions": 18,
-   "backtest": {
-    "hit_rate": 0.75,
-    "net_expectancy_pct": 3.78,
-    "n": 8,
-    "oos_hit": 0.6
-   },
-   "confidence": "low",
-   "basis": "backtest-proven, unaudited",
-   "thesis": "Triple screen alignment is triggering now; on DFSM's own history it won 75% over 8 trades (+3.8% net/trade), still profitable out-of-sample."
-  },
-  {
-   "id": "20260919-MDTL-donch55_trend_break",
-   "ticker": "MDTL",
-   "strategy": "donch55_trend_break",
-   "template": "Donchian 55 breakout",
-   "category": "breakout",
-   "sector": "Technology & Communication",
-   "hold_sessions": 30,
-   "backtest": {
-    "hit_rate": 0.625,
-    "net_expectancy_pct": 3.78,
-    "n": 8,
-    "oos_hit": 0.667
-   },
-   "confidence": "low",
-   "basis": "backtest-proven, unaudited",
-   "thesis": "Donchian 55 breakout is triggering now; on MDTL's own history it won 62% over 8 trades (+3.8% net/trade), still profitable out-of-sample."
-  },
-  {
-   "id": "20260919-SGPL-vol_dryup_surge",
-   "ticker": "SGPL",
-   "strategy": "vol_dryup_surge",
-   "template": "Dry-up then surge",
-   "category": "volume",
-   "sector": "Power Generation & Distribution",
-   "hold_sessions": 9,
-   "backtest": {
-    "hit_rate": 0.643,
-    "net_expectancy_pct": 2.19,
-    "n": 14,
-    "oos_hit": 0.5
-   },
-   "confidence": "low",
-   "basis": "backtest-proven, unaudited",
-   "thesis": "Dry-up then surge is triggering now; on SGPL's own history it won 64% over 14 trades (+2.2% net/trade), still profitable out-of-sample."
-  },
-  {
-   "id": "20260919-BML-oversold_bounce",
-   "ticker": "BML",
-   "strategy": "oversold_bounce",
-   "template": "RSI oversold bounce",
-   "category": "mean_reversion",
-   "sector": "Commercial Banks",
-   "hold_sessions": 8,
-   "backtest": {
-    "hit_rate": 0.636,
-    "net_expectancy_pct": 1.67,
-    "n": 11,
-    "oos_hit": 0.6
-   },
-   "confidence": "low",
-   "basis": "backtest-proven, unaudited",
-   "thesis": "RSI oversold bounce is triggering now; on BML's own history it won 64% over 11 trades (+1.7% net/trade), still profitable out-of-sample."
-  }
- ],
+ "signals": [],
  "positions": [],
  "top_predictable": [
   {
@@ -87,39 +14,39 @@
   },
   {
    "ticker": "XLI",
-   "score": 71.0
+   "score": 70.7
   },
   {
    "ticker": "GLD",
-   "score": 67.2
+   "score": 66.8
   },
   {
    "ticker": "XLV",
    "score": 65.6
   },
   {
-   "ticker": "EFA",
+   "ticker": "FFC",
    "score": 65.2
   },
   {
-   "ticker": "INDU",
-   "score": 65.1
-  },
-  {
    "ticker": "USRUT",
-   "score": 65.1
-  },
-  {
-   "ticker": "FFC",
-   "score": 65.0
+   "score": 64.8
   },
   {
    "ticker": "FHAM",
    "score": 64.5
   },
   {
+   "ticker": "INDU",
+   "score": 64.5
+  },
+  {
+   "ticker": "EFA",
+   "score": 63.8
+  },
+  {
    "ticker": "USDJI",
-   "score": 63.6
+   "score": 63.1
   }
  ],
  "movers_up": [
@@ -355,14 +282,6 @@
  "agent_wire": [],
  "runlog_tail": [
   {
-   "started": "2026-09-16T19:01:00+05:00",
-   "mode": "full",
-   "ended": "2026-09-16T19:26:48+05:00",
-   "outcome": "risk-off daily read; geo-risk moderate at 62; headline: KSE-100 selling returned as oil and regional risk kept the desk defensive",
-   "routine": "daily",
-   "research_sha": "35907cf4cde429356a853065d410e911aeca818e"
-  },
-  {
    "started": "2026-09-16T20:01:05+05:00",
    "mode": "room",
    "ended": "2026-09-16T20:34:57+05:00",
@@ -393,6 +312,14 @@
    "outcome": "Desk Room completed: ILP and ATRL full reviews; 0 delta; LUCK, MARI, CNERGY, and FCL reaffirmed; QA and preflight passed",
    "routine": "room",
    "research_sha": "f688931344fb77f4ba8dca3082a55b0d827428a0"
+  },
+  {
+   "started": "2026-09-19T16:27:51+05:00",
+   "mode": "harvest",
+   "ended": "2026-09-19T16:41:50+05:00",
+   "outcome": "Weekly broker harvest completed: 12 dated broker calls verified from AKD and JS Global; 1 unlisted IPO candidate excluded; Modarabas debate and Chair completed with cautious, low-conviction stance and substantial dissent; room QA, dashboard build, Rule 4, provenance, and preflight passed; translation was unavailable and non-blocking; 102 backfilling universe symbols and 4 high-severity legacy price-series flags remain.",
+   "routine": "harvest",
+   "research_sha": "cdb21085db5c9b29da05dd46283ec6beb33a30bf"
   }
  ]
 }
