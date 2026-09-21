@@ -39,6 +39,7 @@ _local = threading.local()
 # job's DEADLINE_S (1200s) and the workflow cap. Slot reservation is done under the lock; the
 # sleep is not, so threads don't queue on a held lock.
 _MIN_INTERVAL = 0.8
+_EMPTY_DATA_RETRIES = 3
 _rate_lock = threading.Lock()
 _next_slot = [0.0]
 
@@ -115,8 +116,14 @@ def _get(path: str, retries: int = 6, timeout: int = 20, deadline=None) -> reque
 
 def eod_history(symbol: str, deadline=None) -> list[dict]:
     """Daily history, oldest first: [{date, close, volume, open}]. No high/low in this feed."""
-    payload = _get(f"/timeseries/eod/{symbol}", deadline=deadline).json()
-    rows = payload.get("data") or []
+    rows = []
+    for attempt in range(_EMPTY_DATA_RETRIES):
+        payload = _get(f"/timeseries/eod/{symbol}", deadline=deadline).json()
+        rows = payload.get("data") or []
+        if rows:
+            break
+    if not rows:
+        raise RuntimeError(f"empty history data after {_EMPTY_DATA_RETRIES} attempts")
     out = []
     for row in reversed(rows):  # API is newest-first
         ts, close, volume, opn = row[0], row[1], row[2], row[3]

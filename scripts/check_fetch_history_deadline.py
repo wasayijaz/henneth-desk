@@ -152,6 +152,39 @@ def check_throttle_and_backoff_are_shared():
             f"shared throttle was not applied: {sleeps}")
 
 
+def check_empty_history_payload_is_retried():
+    calls = []
+
+    class EmptyThenValidSession:
+        def get(self, _url, timeout):
+            calls.append(timeout)
+            if len(calls) < 3:
+                return type("Response", (), {
+                    "status_code": 200,
+                    "json": lambda self: {"data": []},
+                })()
+            return type("Response", (), {
+                "status_code": 200,
+                "json": lambda self: {"data": [[172800, 12, 3, 11]]},
+            })()
+
+    original_session = psx_data._sess
+    original_slot = psx_data._next_slot[0]
+    original_interval = psx_data._MIN_INTERVAL
+    psx_data._sess = lambda: EmptyThenValidSession()
+    psx_data._next_slot[0] = 0
+    psx_data._MIN_INTERVAL = 0
+    try:
+        rows = psx_data.eod_history("EMPTY_THEN_VALID", deadline=time.monotonic() + 10)
+    finally:
+        psx_data._sess = original_session
+        psx_data._next_slot[0] = original_slot
+        psx_data._MIN_INTERVAL = original_interval
+
+    _assert(len(calls) == 3, f"empty provider payload was not retried: {calls}")
+    _assert(len(rows) == 1, f"valid response after empty payloads was not accepted: {rows}")
+
+
 def check_unfinished_future_is_not_accepted():
     deadline = time.monotonic() + 0.2
 
@@ -176,5 +209,6 @@ if __name__ == "__main__":
     check_default_and_long_deadline_keep_20_second_cap()
     check_near_deadline_passes_remaining_budget()
     check_throttle_and_backoff_are_shared()
+    check_empty_history_payload_is_retried()
     check_unfinished_future_is_not_accepted()
-    print("fetch_history deadline checks passed (cap, deadline, throttle/backoff, intake, failure)")
+    print("fetch_history deadline checks passed (cap, deadline, throttle/backoff, empty-payload retry, intake, failure)")
