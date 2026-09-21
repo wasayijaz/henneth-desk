@@ -1,6 +1,6 @@
 {
  "schema_version": 1,
- "generated": "2026-09-21T14:05:49+05:00",
+ "generated": "2026-09-21T18:05:21+05:00",
  "checkpoint_required": true,
  "summary": "3 material item(s) and 1 standing condition(s)",
  "acked_at": "2026-09-18T18:15:30+05:00",
@@ -19,6 +19,14 @@
  ],
  "pending": [
   {
+   "id": "health_598334e3ced5b939",
+   "kind": "health",
+   "symbol": "",
+   "title": "data health is degraded",
+   "detail": "history refresh failed for DCR, GATM, IMS, SIBL",
+   "first_seen": "2026-09-21T18:05:21+05:00"
+  },
+  {
    "id": "news_2209bd5473dd40c1",
    "kind": "news",
    "symbol": "MACRO",
@@ -32,14 +40,6 @@
    "symbol": "MACRO, PSO, PRL",
    "title": "HSD price rises Rs3.47/litre, petrol falls Rs0.43",
    "detail": "impact 4 - Mettis Global",
-   "first_seen": "2026-09-21T14:05:49+05:00"
-  },
-  {
-   "id": "health_703dac6cd62495dc",
-   "kind": "health",
-   "symbol": "",
-   "title": "data health is degraded",
-   "detail": "history refresh failed for BTL",
    "first_seen": "2026-09-21T14:05:49+05:00"
   }
  ],
@@ -57,7 +57,7 @@
   "news_45a9904711f4acfc": "2026-09-18T00:33:41+05:00",
   "news_2209bd5473dd40c1": "2026-09-21T14:05:49+05:00",
   "news_5f8a0d8c5e50bba3": "2026-09-21T14:05:49+05:00",
-  "health_703dac6cd62495dc": "2026-09-21T14:05:49+05:00"
+  "health_598334e3ced5b939": "2026-09-21T18:05:21+05:00"
  },
  "degraded": [],
  "note": "Deterministic checkpoint gate. Research infrastructure, not advice."
