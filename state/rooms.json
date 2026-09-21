@@ -90,7 +90,7 @@
   "built": "2026-08-02 15:48",
   "sessions": 44,
   "note": "Desk Room sessions per ticker; rendered on the ticker page.",
-  "updated": "2026-09-18 20:13",
+  "updated": "2026-09-21 20:08",
   "covered": 51
  },
  "UBL": {
@@ -618,7 +618,7 @@
    "attack_on_bull_ur": "مثبت مؤقف کا مستقبل کے منظرنامے والا ستون سب سے کمزور ہے: P/E میں بہتری صرف 0.06 ٹرنز ہے اور نامعلوم EPS کی بنیاد کے ساتھ موجود ہے، اس لیے یہ مجموعی منصفانہ قدر پر 45.5% پریمیم کی وضاحت میں بہت کم مدد دیتی ہے۔",
    "attack_on_bull_ur_hash": "10116b1c7d46"
   },
-  "reaffirmed": "2026-09-18 20:05",
+  "reaffirmed": "2026-09-21 20:04",
   "qa": {
    "ticker": "MARI",
    "verdict": "clean",
@@ -1569,7 +1569,7 @@
    "worst_case_ur": "اگر سست حاشیہ Refinery سیاسی، تیل کی قیمت، یا جیو سیاسی Volatility میں معاہدے کے درمیان خراب ہو، اور غائب قرض یا نقد بہاؤ کے حقائق نقصان دہ ثابت ہوں تو تقدیری حمایت کمزور ہو سکتی ہے جبکہ قیمت SMA20 سے نیچے رہتی ہے۔",
    "worst_case_ur_hash": "1c7b41d882e1"
   },
-  "reaffirmed": false,
+  "reaffirmed": "2026-09-21 20:04",
   "qa": {
    "ticker": "ATRL",
    "verdict": "flags",
@@ -1982,66 +1982,100 @@
   }
  },
  "PRL": {
-  "built": "2026-07-30 23:20",
-  "dossier_asof": "2026-07-30",
-  "price_at_session": 56.63,
-  "material_hash": "273df55b746a",
+  "built": "2026-09-21 20:08",
+  "dossier_asof": "2026-09-21",
+  "price_at_session": 86.92,
+  "material_hash": "9b7d62c4084b",
   "ta_memo": {
-   "read": "PRL is in an extended uptrend, up 56.96% over 20 sessions and now trading above both its SMA20 (46.41) and SMA50 (39.68). RSI14 at 80.5 is deep into overbought territory, and price sits only 4.45% below its 20-day high despite yesterday's -1.29% pullback. Volume surge reads 0.43, below-average turnover on the latest session even as the trend has been strong.",
-   "structure": "uptrend",
-   "momentum": "strong_up",
-   "liquidity_note": "Average daily traded value of PKR 1,272.1m is substantial, supporting clean entry/exit sizing.",
+   "read": "PRL is at 86.92, below SMA20 at 90.9 but above SMA50 at 72.98. Returns are mixed: 4.76% over 1 day and 1.78% over 5 days, versus -4.45% over 20 days. RSI14 is 54.5, while volatility rank is 97.7 and price is 21.25% below the 20-day high, indicating a transitional structure with elevated volatility.",
+   "structure": "transition",
+   "momentum": "flat",
+   "liquidity_note": "Average daily traded value is Rs3175.1m; the supplied data does not include order-book depth or execution quality.",
    "proven_now": [],
    "levels": {
-    "support": 46.41,
-    "resistance": 59.27
+    "support": null,
+    "resistance": null
    },
-   "technical_stance": "cautious"
+   "technical_stance": "cautious",
+   "read_ur": "PRL 86.92 پر ہے، SMA20 90.9 سے نیچے لیکن SMA50 72.98 سے اوپر۔ منافع میں اتار چڑھاؤ ہے: 1 دن میں 4.76% اور 5 دن میں 1.78%، جبکہ 20 دن میں -4.45% ہے۔ RSI14 54.5 ہے، volatility rank 97.7 ہے، اور قیمت 20 روزہ بلند ترین سطح سے 21.25% نیچے ہے، جو بلند volatility کے ساتھ عبوری ساخت کی نشاندہی کرتا ہے۔",
+   "read_ur_hash": "c3b63ac4313c",
+   "liquidity_note_ur": "اوسط یومیہ کاروباری مالیت Rs3175.1m ہے؛ فراہم کردہ ڈیٹا میں order-book depth یا execution quality شامل نہیں۔",
+   "liquidity_note_ur_hash": "2192a18f1eb0"
   },
   "fa_memo": {
-   "read": "Pakistan Refinery is profitable with EPS of 19.07 on revenue of 308.79B and net income of 12.01B, but the 3.9% net margin leaves thin cushion if input costs move. At a P/E of 3.01 the stock trades well below the model's composite fair value of 121.54 (mispricing +114.6%, verdict undervalued), with relative-PE, earnings-power, and Graham methods all pointing higher than the current 56.63 price. The company pays no meaningful dividend, so any return depends entirely on price re-rating rather than income. Small-cap size (36.14B market cap) and thin margins temper the cheapness signal.",
-   "valuation_stance": "cheap_vs_fair",
-   "earnings_quality": "Net margin ~3.9% (12.01B net income on 308.79B revenue) is thin per the scorecard; EPS is positive at 19.07 with no loss flag.",
-   "dividend_safety": "Payout ratio 0.01% and no recent dividends recorded, div yield not in the data — effectively no dividend.",
+   "read": "Pakistan Refinery reports revenue of Rs350.84B and net income of Rs15.78B; the supplied scorecard describes the 4% net margin as thin. The trailing P/E is 3.47 and is placed in the cheap segment of PSX names, while forward P/E is n/a. The valuation block labels the composite view undervalued, but its methods range from Rs13.95 to Rs165.78 and EPS basis is unknown, so the valuation conclusion is highly method-sensitive. The payout ratio is 7.98% and the stated dividend yield is 1.91%, while recent dividends are not in the data; debt and cash-flow coverage are also not in the data.",
+   "valuation_stance": "unclear",
+   "earnings_quality": "Net income is Rs15.78B on revenue of Rs350.84B; the supplied scorecard describes a 4% net margin as thin, and EPS is Rs25.05 with EPS basis unknown.",
+   "dividend_safety": "Payout ratio is 7.98%; recent dividends are not in the data, so distribution history and coverage cannot be assessed from the supplied fields.",
    "balance_sheet_flags": [
-    "debt/leverage not in the data",
-    "forward P/E not in the data (n/a)",
-    "no dividend history recorded",
-    "small-cap size flagged by scorecard — thinner liquidity, higher risk"
+    "debt not in the data",
+    "cash-flow coverage not in the data",
+    "EPS basis unknown",
+    "forward P/E is n/a",
+    "recent dividends are not in the data",
+    "valuation methods range from Rs13.95 to Rs165.78"
    ],
    "broker_view": null,
-   "fundamental_stance": "constructive"
+   "fundamental_stance": "cautious",
+   "read_ur": "Pakistan Refinery کی آمدنی Rs350.84B اور خالص آمدنی Rs15.78B ہے؛ فراہم کردہ scorecard 4% خالص مارجن کو کمزور قرار دیتا ہے۔ trailing P/E 3.47 ہے اور اسے PSX کے ناموں کے سستے حصے میں رکھا گیا ہے، جبکہ forward P/E n/a ہے۔ valuation block مجموعی جائزے کو کم قدر والا قرار دیتا ہے، لیکن اس کے طریقوں کی حد Rs13.95 سے Rs165.78 تک ہے اور EPS basis نامعلوم ہے، اس لیے قدر پیمائی کا نتیجہ طریقہ کار پر بہت منحصر ہے۔ payout ratio 7.98% اور بیان کردہ dividend yield 1.91% ہے، جبکہ حالیہ dividends ڈیٹا میں موجود نہیں؛ debt اور cash-flow coverage بھی ڈیٹا میں موجود نہیں۔",
+   "read_ur_hash": "8629cd277c99",
+   "earnings_quality_ur": "خالص آمدنی Rs15.78B، آمدنی Rs350.84B پر ہے؛ فراہم کردہ scorecard 4% خالص مارجن کو کمزور قرار دیتا ہے، اور EPS Rs25.05 ہے، جس کی بنیاد نامعلوم ہے۔",
+   "earnings_quality_ur_hash": "d722b879fbcb",
+   "dividend_safety_ur": "payout ratio 7.98% ہے؛ حالیہ dividends ڈیٹا میں موجود نہیں، اس لیے فراہم کردہ fields سے تقسیم کی تاریخ اور coverage کا جائزہ نہیں لیا جا سکتا۔",
+   "dividend_safety_ur_hash": "e96fc40a696b"
   },
   "bull_case": {
-   "thesis": "PRL is a refiner trading at a fraction of its earnings power just as crude and policy tailwinds turn in the sector's favor. The stock is in a confirmed uptrend with room versus the desk's composite fair value even after a strong run.",
+   "thesis": "The constructive case rests on a petroleum-products business reporting Rs350.84B revenue and Rs15.78B net income, with a trailing P/E of 3.47. The valuation block places composite fair value at Rs135.9 versus Rs86.92, although the valuation methods are widely dispersed and forward P/E is n/a.",
    "pillars": [
-    "Valuation gap: price 56.63 vs composite fair value 121.54 (+114.6% mispricing, verdict 'undervalued'), with earnings-power (121.54) and Graham (132.79) methods both well above current price.",
-    "Cheap earnings multiple: P/E of 3.01 sits in the cheapest third of PSX names on EPS of 19.07.",
-    "Sector tailwind: Brent crude ran from ~$90 to over $100/bbl through late July (impact-4 headlines 7/20-7/24), and on 7/28 the Cabinet Committee on Energy approved changes to the Oil Refining Policy 2023 alongside orders to raise strategic petroleum reserves.",
-    "Confirmed trend and liquidity: price is up 56.96% over 20 sessions, above both SMA20 (46.41) and SMA50 (39.68), with avg daily traded value of PKR 1,272.1m supporting clean sizing.",
-    "Low beta (0.54) versus the wider risk-off tape (KSE-100 fell 1,703.64 points on 7/22 amid oil-driven risk-off) suggests relative resilience."
+    "Net income is Rs15.78B on revenue of Rs350.84B, with EPS of Rs25.05 in the supplied data.",
+    "Trailing P/E is 3.47, and the supplied scorecard places it in the cheap segment of PSX names.",
+    "Composite fair value is Rs135.9 versus Rs86.92, a stated 56.4% gap, while the valuation block labels the result undervalued.",
+    "Payout ratio is 7.98%, and beta is 0.47 in the supplied fundamental data.",
+    "Price is above SMA50 at 72.98, while 1-day and 5-day returns are positive at 4.76% and 1.78%; average daily traded value is Rs3175.1m."
    ],
-   "best_evidence": "Composite fair value of 121.54 versus a 56.63 price, with two of three valuation methods (earnings-power, Graham) independently landing in the 121-133 range.",
-   "what_would_break_it": "A reversal or blow-off top confirming the RSI-80.5 overbought reading, refining-margin compression if product prices lag the crude spike, or the thin 3.9% net margin getting squeezed by higher feedstock costs."
+   "best_evidence": "The strongest support is the combination of Rs15.78B net income, a 3.47 trailing P/E, and the supplied Rs135.9 composite fair value against Rs86.92.",
+   "what_would_break_it": "The case would weaken if the thin 4% margin deteriorates, if the earnings basis behind EPS proves unreliable, or if the wide valuation range shows that the composite gap is not dependable.",
+   "thesis_ur": "تعمیری مؤقف کی بنیاد petroleum-products business کی Rs350.84B آمدنی اور Rs15.78B خالص آمدنی، اور 3.47 کے trailing P/E پر ہے۔ valuation block مجموعی fair value Rs135.9 کو Rs86.92 کے مقابل رکھتا ہے، اگرچہ valuation کے طریقے وسیع پیمانے پر مختلف ہیں اور forward P/E n/a ہے۔",
+   "thesis_ur_hash": "d8b49cfeadc8",
+   "best_evidence_ur": "سب سے مضبوط تائید Rs15.78B خالص آمدنی، 3.47 کے trailing P/E، اور Rs86.92 کے مقابل فراہم کردہ Rs135.9 مجموعی fair value کا امتزاج ہے۔",
+   "best_evidence_ur_hash": "d7dd3412fc40",
+   "what_would_break_it_ur": "اگر کمزور 4% مارجن مزید گرے، EPS کے پیچھے earnings basis ناقابل اعتماد ثابت ہو، یا valuation کی وسیع حد یہ ظاہر کرے کہ مجموعی فرق قابل بھروسا نہیں، تو یہ مؤقف کمزور ہو جائے گا۔",
+   "what_would_break_it_ur_hash": "fe51eb24f6ca"
   },
   "bear_case": {
-   "thesis": "PRL has already run 56.96% in 20 sessions into deeply overbought territory, and the same crude spike framed as a tailwind is a two-edged sword for a thin-margin refiner. The TA read itself is 'cautious' despite the uptrend, and the valuation case rests on model estimates that disagree with each other by a wide margin.",
+   "thesis": "The skeptical case is that the valuation support is assumption-sensitive while the technical structure remains transitional and highly volatile. Price is below SMA20, the 20-day return is negative, volatility rank is 97.7, and the valuation methods range from Rs13.95 to Rs165.78.",
    "pillars": [
-    "RSI14 at 80.5 with price only 4.45% below its 20-day high and a -1.29% session already printed signals an extended, overbought move, not a fresh entry point.",
-    "Thin profitability: net margin ~3.9% (12.01B net income on 308.79B revenue) leaves little cushion if crude costs outrun product pricing.",
-    "No income support: payout ratio 0.01%, no dividends recorded — return depends entirely on price continuing to re-rate.",
-    "Weak conviction on the latest leg: vol_surge reads only 0.43 (below-average turnover) even as the trend has been strong, and TA's own stance is 'cautious.'",
-    "Small-cap risk flagged directly by the scorecard: 36.14B market cap, thinner liquidity, higher risk despite the low beta reading."
+    "Price Rs86.92 is below SMA20 at 90.9 despite being above SMA50 at 72.98; the technical memo classifies the structure as transition and stance as cautious.",
+    "The 20-day return is -4.45%, price is 21.25% below the 20-day high, and volatility rank is 97.7.",
+    "Valuation methods range from Rs13.95 to Rs165.78, while EPS basis is unknown and forward P/E is n/a.",
+    "The scorecard describes the 4% net margin as thin, and debt and cash-flow coverage are not in the data.",
+    "Recent dividends are not in the data, while the documents include an announcement concerning unusual movement in PRL's share price."
    ],
-   "attack_on_bull": "The bull's valuation pillar is the weakest: the three fair-value methods disagree sharply (relative-PE 74.56 vs earnings-power 121.54 vs Graham 132.79, a near 78% spread among methods), meaning the 'undervalued' verdict is model-dependent, not a settled number. And a 56.96% 20-day run means much of that gap has already started closing before the bull thesis is even acted on.",
+   "attack_on_bull": "The weakest bull pillar is the Rs135.9 composite fair value: it depends on methods ranging from Rs13.95 to Rs165.78 and an unknown EPS basis, so the stated 56.4% gap does not establish a dependable valuation margin.",
    "broker_challenge": null,
-   "worst_case": "A pullback toward the SMA20 support at 46.41 (roughly -18% from the 56.63 print) if the overbought RSI-80.5 setup mean-reverts, compounded by margin compression if the Brent rally to $100+/bbl (documented 7/20-7/24) raises feedstock costs faster than refined product prices adjust, against a 3.9% net margin base that offers little absorption capacity."
+   "worst_case": "If the thin margin contracts amid oil and fuel-price volatility, and the missing debt, cash-flow, and dividend-history facts prove adverse, the valuation counterweight could weaken while the negative 20-day return and 97.7 volatility rank persist.",
+   "thesis_ur": "شکوک پر مبنی مؤقف یہ ہے کہ valuation support مفروضوں پر حساس ہے، جبکہ technical structure اب بھی عبوری اور بہت volatile ہے۔ قیمت SMA20 سے نیچے ہے، 20-day return منفی ہے، volatility rank 97.7 ہے، اور valuation کے طریقے Rs13.95 سے Rs165.78 تک ہیں۔",
+   "thesis_ur_hash": "8512a00dd023",
+   "attack_on_bull_ur": "bull کا کمزور ترین ستون Rs135.9 کی مجموعی fair value ہے: یہ Rs13.95 سے Rs165.78 تک کے طریقوں اور نامعلوم EPS basis پر منحصر ہے، اس لیے بیان کردہ 56.4% gap قابل اعتماد valuation margin ثابت نہیں کرتا۔",
+   "attack_on_bull_ur_hash": "1e16111cf1fd",
+   "worst_case_ur": "اگر oil اور fuel-price volatility کے دوران کمزور margin مزید سکڑے، اور debt، cash-flow اور dividend-history سے متعلق غائب معلومات منفی ثابت ہوں، تو valuation counterweight کمزور ہو سکتا ہے جبکہ منفی 20-day return اور 97.7 volatility rank برقرار رہیں۔",
+   "worst_case_ur_hash": "686d33946fd2"
   },
   "reaffirmed": false,
   "qa": {
+   "ticker": "PRL",
    "verdict": "flags",
-   "checked": "2026-07-30",
-   "note": "Composite fair value (121.54) confirmed as exact median of the 3 methods; mispricing +114.6% recomputes correctly. Extreme +56.96% 20d move independently web-corroborated as a real, Brent-crude-driven rally (not stale/glitch), price/material_hash match dossier. One numeric slip found and fixed: bear_case cited relative-PE as 75.14, dossier value is 74.56 (corrected; method spread recalculated to ~78%, conclusion unchanged). No broker claims in play, none fabricated. No advice-language leaks."
+   "findings": [
+    {
+     "severity": "low",
+     "claim": "The session presents composite fair value of Rs135.9 as a 56.4% gap from the Rs86.92 price.",
+     "issue": "The four valuation methods range from Rs13.95 to Rs165.78, an 11.9x spread, so the composite is highly method-sensitive.",
+     "evidence": "state/verify.json[PRL]: fairvalue.spread — methods disagree 11.9x; state/dossiers.json[PRL].valuation.methods",
+     "fix": "Retain the composite only with an explicit caveat that it is a rough screen because the methods disagree materially."
+    }
+   ],
+   "summary": "The PRL room is internally consistent on the supplied price, moving-average relationships, returns, and composite fair-value arithmetic. Publication carries one low-severity caveat: the 11.9x valuation-method spread requires the composite to remain explicitly qualified as a rough screen.",
+   "checked": "2026-09-21 20:09"
   }
  },
  "FFL": {
@@ -2671,59 +2705,96 @@
   }
  },
  "PTC": {
-  "built": "2026-08-02 15:48",
-  "dossier_asof": "2026-07-31",
-  "price_at_session": 72.01,
-  "material_hash": "735e742d0ae1",
+  "built": "2026-09-21 20:08",
+  "dossier_asof": "2026-09-21",
+  "price_at_session": 62.89,
+  "material_hash": "39dc3b44af0d",
   "ta_memo": {
-   "read": "PTC last printed 72.01, sitting above both its 20-day (70.38) and 50-day (66.78) averages, with the shorter average above the longer — a constructive structural alignment. The 5-day return of 5.8% shows a recent bounce, even as the 20-day return remains slightly negative (-2.7%), and price is only 2.78% below its 20-day high. RSI14 at 59.4 reflects firm but non-stretched momentum.",
-   "structure": "uptrend",
-   "momentum": "up",
-   "liquidity_note": "Average daily traded value of ~Rs374.0m points to ample liquidity for clean entry/exit sizing.",
-   "proven_now": [],
+   "read": "As of 2026-09-21, PTC is at 62.89, below SMA20 at 66.31 and SMA50 at 69.0. It is 12.96% below the 20d high. Returns are mixed only over 1d at 0.14%, versus -2.09% over 5d and -11.47% over 20d, with RSI14 at 31.4.",
+   "structure": "downtrend",
+   "momentum": "strong_down",
+   "liquidity_note": "Average daily traded value is 116.1m; volume surge is 0.17 and volatility rank is 0.6.",
+   "proven_now": [
+    "2-ATR stretch below 20MA"
+   ],
    "levels": {
-    "support": 70.38,
+    "support": null,
     "resistance": null
    },
-   "technical_stance": "constructive"
+   "technical_stance": "cautious",
+   "read_ur": "2026-09-21 تک PTC 62.89 پر ہے، SMA20 66.31 اور SMA50 69.0 سے نیچے۔ یہ 20d high سے 12.96% نیچے ہے۔ Returns میں صرف 1d کی قدر 0.14% مثبت ہے، جبکہ 5d کی -2.09% اور 20d کی -11.47% ہے، RSI14 31.4 ہے۔",
+   "read_ur_hash": "e47994ca7ca0",
+   "liquidity_note_ur": "اوسط یومیہ کاروباری مالیت 116.1m ہے؛ volume surge 0.17 اور volatility rank 0.6 ہے۔",
+   "liquidity_note_ur_hash": "5b07d1b82e3e"
   },
   "fa_memo": {
-   "read": "PTC (PTCL) trades at a trailing P/E near 75x on a thin 1% net margin and EPS of just Rs0.95 — every valuation method in the model (relative P/E, earnings power, Graham) lands far below the market price, putting composite fair value roughly 91% under where it trades. The one filing digest on record shows the business swinging from a large H1CY25 net loss to a modest H1CY26 profit, which reads as an early-stage turnaround rather than an established earnings run-rate. There is no dividend to assess for safety. A separate news item (not in the documents/fundamental fields) flags a board-approved binding offer for a majority-stake acquisition — a capital-structure event the valuation numbers here don't yet reflect.",
+   "read": "The fundamental feed shows revenue of 328.80B, net income of 4.82B, and EPS of 0.95, with profitability described as thin. Trailing P/E is 66.2 versus forward P/E of 24.52. Composite fair value is 11.59, with mispricing of -81.6% and a verdict of overvalued. Recent dividends are empty and payout ratio is not in the data.",
    "valuation_stance": "rich_vs_fair",
-   "earnings_quality": "Net margin ~1%, trailing EPS Rs0.95; scorecard flags 'thin' profitability, and the one filing shows a loss-to-profit swing rather than sustained earnings.",
-   "dividend_safety": "no dividend (div_yield null, payout_ratio 0.01%, recent_dividends empty)",
+   "earnings_quality": "Net income is 4.82B on revenue of 328.80B; the feed flags thin profitability, with EPS at 0.95.",
+   "dividend_safety": "No dividend; payout ratio not in the data.",
    "balance_sheet_flags": [
-    "debt/leverage not in the data layer",
-    "forward P/E not available (n/a)",
-    "the announced majority-stake acquisition (in recent_news) isn't reflected in the fundamental/valuation fields — capital-structure impact unclear from what's given"
+    "Debt not in the data",
+    "Payout ratio not in the data"
    ],
-   "broker_view": "Only document present is a filing digest (source: filing), not a broker call — it's the company's own reported 62% topline growth and loss-to-profit swing, a claim about a turnaround rather than independently verified earnings quality.",
-   "fundamental_stance": "cautious"
+   "broker_view": null,
+   "fundamental_stance": "cautious",
+   "read_ur": "بنیادی feed میں revenue 328.80B، net income 4.82B، اور EPS 0.95 ہے، جبکہ profitability کو کمزور قرار دیا گیا ہے۔ trailing P/E 66.2 ہے جبکہ forward P/E 24.52 ہے۔ مجموعی fair value 11.59 ہے، mispricing -81.6% ہے اور نتیجہ زیادہ قدر والا ہے۔ حالیہ dividends خالی ہیں اور payout ratio ڈیٹا میں موجود نہیں۔",
+   "read_ur_hash": "0a982dcc6112",
+   "earnings_quality_ur": "خالص آمدنی 4.82B، آمدنی 328.80B پر ہے؛ feed کمزور profitability کی نشاندہی کرتا ہے، اور EPS 0.95 ہے۔",
+   "earnings_quality_ur_hash": "addec58c8428",
+   "dividend_safety_ur": "کوئی منافعِ نقدی نہیں؛ payout ratio ڈیٹا میں موجود نہیں۔",
+   "dividend_safety_ur_hash": "0cdaa797c2b7"
   },
   "bull_case": {
-   "thesis": "PTC is showing real price momentum on top of a dated, concrete corporate turnaround and a fresh M&A catalyst — the setup for continuation into the coming weeks rests on trend confirmation plus two impact-4 headlines, not sentiment alone.",
+   "thesis": "The constructive case rests on improving forward earnings expectations combined with large-cap scale and a lower forward P/E than the trailing multiple. The dossier also records a technical strategy with a 0.68 hit rate across 22 observations, providing a data-backed counterpoint to the current weak chart structure.",
    "pillars": [
-    "Price (72.01) sits above both SMA20 (70.38) and SMA50 (66.78) with RSI14 at 59.4 — trending, not yet overbought — and is only 2.78% off its 20-day high after a +5.8% 5-day run.",
-    "PTCL Group 1HCY26 net profit of Rs4.7bn versus a Rs9.90bn net loss in H1CY25, on 62% topline growth YoY (filed 2026-07-28, impact 4) — a documented swing from loss to profit.",
-    "PTCL board approved a binding offer for a majority stake acquisition (2026-07-31, impact 4) — a live corporate-action catalyst still being digested by the tape.",
-    "The dossier's own predictability engine shows a proven pattern on this name: '2-ATR stretch below 20MA' hit rate 0.71 over n=21 signals.",
-    "Large-cap, liquid name (market cap 364.04B, avg daily traded value Rs374.0m) — size that supports position sizing without illiquidity risk."
+    "Forward P/E is 24.52 versus trailing P/E of 66.2, while the growth estimate is 30.0%.",
+    "Revenue is 328.80B and net income is 4.82B, giving the company an established operating base.",
+    "Market capitalization is 327.57B and beta is 0.88; the scorecard classifies it as large-cap and generally steadier.",
+    "The 2-ATR stretch below 20MA strategy shows a 0.68 hit rate and 0.52% net result across n=22."
    ],
-   "best_evidence": "The dated Jul 28 filing showing a loss-to-profit swing (Rs4.7bn vs -Rs9.90bn) landing days before the Jul 31 binding-offer headline — two independent, impact-4, dossier-sourced events in the same week.",
-   "what_would_break_it": "If the market reprices PTC toward the dossier's own fair-value methods rather than the M&A/turnaround narrative, the technical setup offers little cushion — the proven pattern's average edge (net_pct 0.76%) is small next to the valuation gap discussed below."
+   "best_evidence": "The strongest constructive evidence is the forward P/E of 24.52 alongside the 30.0% growth estimate.",
+   "what_would_break_it": "The constructive case would weaken if the expected earnings improvement did not translate into stronger profitability, especially given EPS of 0.95 and the scorecard's thin-profitability flag.",
+   "thesis_ur": "تعمیری مؤقف کی بنیاد بہتر ہوتی ہوئی forward earnings expectations، large-cap scale، اور trailing multiple سے کم forward P/E پر ہے۔ ڈوزیئر میں ایک تکنیکی حکمت عملی بھی درج ہے جس کی hit rate 0.68 ہے اور مشاہدات 22 ہیں، جو موجودہ کمزور chart structure کے مقابل ڈیٹا پر مبنی ایک نقطۂ نظر فراہم کرتی ہے۔",
+   "thesis_ur_hash": "b287c8b61f5d",
+   "best_evidence_ur": "سب سے مضبوط تائید forward P/E 24.52 اور 30.0% growth estimate کا ساتھ ہے۔",
+   "best_evidence_ur_hash": "4a3aa1b04430",
+   "what_would_break_it_ur": "اگر متوقع earnings improvement مضبوط profitability میں تبدیل نہ ہوئی، خاص طور پر EPS 0.95 اور scorecard کے کمزور profitability flag کے پیش نظر، تو تعمیری مؤقف کمزور ہو جائے گا۔",
+   "what_would_break_it_ur_hash": "b2f9b1cbd399"
   },
   "bear_case": {
-   "thesis": "The technical and news momentum sits on top of one of the most stretched valuations in the dossier — PTC trades at 72.01 against a composite fair value of 6.62 (-90.8%, verdict 'overvalued'), and the underlying business fundamentals (thin margin, no dividend) don't support the P/E being paid.",
+   "thesis": "The counterargument is that the current valuation leaves little room for weak execution while the technical structure is decisively soft. The model valuation marks the share as overvalued, and the fundamental feed flags thin profitability and no dividend support.",
    "pillars": [
-    "P/E 75.32 — dossier flags this as 'priciest third' of PSX; forward P/E is not even available (n/a).",
-    "Composite fair value 6.62 versus 72.01 price (mispricing -90.8%), with Graham (6.62), earnings power (6.05), and relative-PE (12.38) methods all far below market price.",
-    "Net margin is thin: Rs4.82B net income on Rs328.80B revenue (~1%), and the scorecard rating is explicitly 'caution.'",
-    "No income cushion: dividend yield null, payout ratio 0.01% — return depends entirely on price, with EPS of only Rs0.95.",
-    "The 'binding offer for majority stake acquisition' headline (2026-07-31) carries no price or counterparty terms in the dossier one-liner — an unpriced catalyst that can fail to close or disappoint on terms."
+    "Composite fair value is 11.59 against a valuation price of 62.89, with mispricing of -81.6% and an overvalued verdict.",
+    "Price is below SMA20 at 66.31 and SMA50 at 69.0, with a 20d return of -11.47% and RSI14 of 31.4.",
+    "The scorecard reports a 1% net margin and describes profitability as thin; net income is 4.82B on revenue of 328.80B.",
+    "Recent dividends are empty, while payout ratio and debt are not in the data."
    ],
-   "attack_on_bull": "The bull's weakest pillar is leaning on the PTCL Group loss-to-profit headline and the M&A catalyst as if they resolve the valuation problem — they don't. The same dossier that reports the Rs4.7bn turnaround also computes this ticker's own fair value at 6.62-6.05 via Graham and earnings-power methods, i.e. group-level topline growth doesn't change that PTC-the-ticker trades near 75x thin, EPS-0.95 earnings. The cited technical edge (0.71 hit rate, n=21) only nets 0.76% on average — nowhere near enough to offset a repricing of the scale the dossier's own valuation section implies.",
+   "attack_on_bull": "The bull's forward-P/E and growth-estimate pillar depends on expected improvement, but EPS basis is unknown and the current feed still records a caution rating, thin profitability, and a large valuation gap.",
    "broker_challenge": null,
-   "worst_case": "No broker target is on file for PTC in this dossier, so the check here is on the desk's own valuation methods: composite fair value of 6.62 versus a 72.01 price implies the dossier itself is flagging a stretch of roughly -90.8%; a more moderate unwind would be the M&A offer failing to close or disappointing on terms, giving back the +5.8% 5-day move and retesting the 50-day SMA near 66.78, with the 20-day return (-2.7%) already showing the recent trend was negative before this week's pop."
+   "worst_case": "Thin profitability combined with the 81.6% negative model mispricing and the current position below both moving averages could leave the expected earnings improvement unconfirmed.",
+   "thesis_ur": "جوابی مؤقف یہ ہے کہ موجودہ valuation کمزور execution کے لیے بہت کم گنجائش چھوڑتی ہے، جبکہ technical structure واضح طور پر کمزور ہے۔ model valuation share کو overvalued قرار دیتی ہے، اور بنیادی feed کمزور profitability اور dividend support نہ ہونے کی نشاندہی کرتا ہے۔",
+   "thesis_ur_hash": "4393a7033651",
+   "attack_on_bull_ur": "bull کا forward-P/E اور growth-estimate والا ستون متوقع بہتری پر منحصر ہے، لیکن EPS basis نامعلوم ہے اور موجودہ feed اب بھی caution rating، کمزور profitability، اور بڑے valuation gap کو درج کرتا ہے۔",
+   "attack_on_bull_ur_hash": "80a24ba1ce9a",
+   "worst_case_ur": "کمزور profitability، 81.6% کی منفی model mispricing، اور دونوں moving averages سے نیچے موجودہ پوزیشن مل کر متوقع earnings improvement کو غیرمصدقہ چھوڑ سکتی ہے۔",
+   "worst_case_ur_hash": "b0871d2795cb"
+  },
+  "reaffirmed": false,
+  "qa": {
+   "ticker": "PTC",
+   "verdict": "flags",
+   "findings": [
+    {
+     "severity": "low",
+     "claim": "The fundamental memo states that composite fair value is 11.59 and reports mispricing of -81.6%.",
+     "issue": "The deterministic verifier flags a 4.0x disagreement among the valuation methods, so the composite is a rough screen rather than a precise fair-value measure.",
+     "evidence": "state/verify.json flags fairvalue.spread: methods disagree 4.0x; state/dossiers.json gives methods of relative_pe 11.59, earnings_power 5.83, and graham 23.28.",
+     "fix": "Add an explicit rough-screen caveat wherever the composite fair value or mispricing is displayed, including the fundamental memo."
+    }
+   ],
+   "summary": "PTC's price, as-of date, material hash, and Room memo figures reconcile with the dossier, and no unsupported advice language was found. One low-severity valuation caveat remains: the composite fair value should be presented as a rough screen because the component methods disagree by 4.0x.",
+   "checked": "2026-09-21 20:09"
   }
  },
  "GAL": {
@@ -3801,7 +3872,7 @@
    "broker_challenge": "The Rs2.11bn profit-jump claim comes from a single filing digest with no track-record annotation in this dossier and no stated period basis; it conflicts with the fundamental block's own 1.40B net_income figure. A broker/news digest citing a bigger, more exciting number than the desk's own reconciled data is exactly the kind of gap that needs auditing, not repeating, before it drives a thesis.",
    "worst_case": "If the 66% profit claim does not reconcile and the composite fair-value read of 13.84 proves closer to reality than the 23.97 market price, the stock is sitting on a valuation gap of roughly 42%, with a thin 4% net margin offering no offsetting earnings cushion."
   },
-  "reaffirmed": "2026-09-18 20:05",
+  "reaffirmed": "2026-09-21 20:04",
   "qa": {
    "verdict": "blocked",
    "checked": "2026-08-24",
@@ -4051,7 +4122,7 @@
    "worst_case_ur": "SMA20 اور SMA50 سے نیچے جاری حرکت منفی 5 دن اور 20 دن کے منافع کو بڑھا سکتی ہے؛ اگر سست حاشیہ، غائب قرض یا نقد بہاؤ کی معلومات، اور نرم کاری کی کمزور برآمد کا سیاق و سباق نقصان دہ ثابت ہو تو تقدیری حمایت نمایاں طور پر کمزور ہو سکتی ہے۔",
    "worst_case_ur_hash": "70b14ecc92cd"
   },
-  "reaffirmed": false,
+  "reaffirmed": "2026-09-21 20:04",
   "qa": {
    "ticker": "ILP",
    "verdict": "flags",
