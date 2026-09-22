@@ -1,5 +1,5 @@
 {
- "checked": "2026-09-22 09:40",
+ "checked": "2026-09-22 13:49",
  "status": "ok",
  "problems": [],
  "advisories": [
@@ -10,26 +10,29 @@
  "history_coverage_fraction": 1.0,
  "foreign_symbols": 23,
  "foreign_with_history": 23,
- "latest_eod": "2026-09-21",
+ "latest_eod": "2026-09-22",
  "oldest_eod": "2024-09-26",
  "stale_fleet": 64,
  "stale_fleet_fraction": 0.1143,
  "stale_fleet_cutoff": "2026-09-10",
  "spot_check": {
   "symbol": "HUBC",
-  "live": 204.1,
-  "cached_close": 203.52,
-  "deviation_pct": 0.28
+  "live": 204.51,
+  "cached_close": 204.51,
+  "deviation_pct": 0.0
  },
  "post_close_integrity": {
-  "required": false,
+  "required": true,
   "session_date": "2026-09-22",
-  "checked_at": "2026-09-22T09:40:28.304893Z",
-  "status": "not_required",
+  "checked_at": "2026-09-22T13:49:54.186364Z",
+  "status": "ok",
   "problems": [],
-  "traded_symbols": 0,
-  "same_day_symbols": 0,
-  "same_day_fraction": null,
-  "missing_symbols": []
+  "traded_symbols": 485,
+  "same_day_symbols": 485,
+  "same_day_fraction": 1.0,
+  "missing_symbols": [],
+  "snapshot_declared_symbols": 485,
+  "snapshot_matched_symbols": 485,
+  "ignored_non_psx_symbols": []
  }
 }
