@@ -1,5 +1,5 @@
 {
- "updated": "2026-09-21 16:07",
+ "updated": "2026-09-22 08:42",
  "note": "Deterministic evidence pack per PSX sector. Every figure is computed from the desk's own state files - agents debating a sector must cite THIS, never memory. macro_drivers lists only correction-survived relationships; an empty list means no global factor has a demonstrated effect on the sector, which is a finding.",
  "min_members": 3,
  "n_sectors": 32,
@@ -180,11 +180,6 @@
     }
    ],
    "upcoming_events": [
-    {
-     "ticker": "INDU",
-     "date": "2026-09-21",
-     "type": "ex_dividend"
-    },
     {
      "ticker": "INDU",
      "date": "2026-09-22",
@@ -887,16 +882,6 @@
    ],
    "upcoming_events": [
     {
-     "ticker": "FCCL",
-     "date": "2026-09-21",
-     "type": "ex_dividend"
-    },
-    {
-     "ticker": "MLCF",
-     "date": "2026-09-21",
-     "type": "results"
-    },
-    {
      "ticker": "PIOC",
      "date": "2026-09-25",
      "type": "results"
@@ -925,6 +910,16 @@
      "ticker": "DBCI",
      "date": "2026-10-07",
      "type": "results"
+    },
+    {
+     "ticker": "BWCL",
+     "date": "2026-10-15",
+     "type": "results"
+    },
+    {
+     "ticker": "FECTC",
+     "date": "2026-10-15",
+     "type": "ex_dividend"
     }
    ],
    "members": [
@@ -1903,26 +1898,6 @@
      "headline": "PTC, BAFL, KEL, FATIMA enter KSE-30"
     },
     {
-     "ts": "2026-09-08",
-     "impact": 3,
-     "tickers": [
-      "MEBL",
-      "NBP",
-      "UBL"
-     ],
-     "headline": "PSX: KSE-100 sheds nearly 1,000 points amid geopolitical uncertainty"
-    },
-    {
-     "ts": "2026-09-08",
-     "impact": 3,
-     "tickers": [
-      "MEBL",
-      "NBP",
-      "UBL"
-     ],
-     "headline": "PSX: KSE-100 sheds nearly 1,000 points amid geopolitical uncertainty (afternoon rolling update)"
-    },
-    {
      "ts": "2026-09-11",
      "impact": 3,
      "tickers": [
@@ -1949,6 +1924,14 @@
       "NBP"
      ],
      "headline": "Stocks end volatile week marginally higher on value-hunting"
+    },
+    {
+     "ts": "2026-09-10",
+     "impact": 2,
+     "tickers": [
+      "HBL"
+     ],
+     "headline": "HBL celebrates 50 years in Bangladesh"
     }
    ],
    "upcoming_events": [
@@ -3403,11 +3386,6 @@
    ],
    "upcoming_events": [
     {
-     "ticker": "TGL",
-     "date": "2026-09-21",
-     "type": "results"
-    },
-    {
      "ticker": "GHGL",
      "date": "2026-10-21",
      "type": "ex_dividend"
@@ -4019,14 +3997,14 @@
    ]
   },
   "Inv. Banks / Inv. Cos. / Securities Cos.": {
-   "n_members": 33,
+   "n_members": 32,
    "breadth": {
     "above_sma50": 12,
-    "advancing_1d": 17
+    "advancing_1d": 16
    },
    "returns": {
-    "median_1d_pct": 0.12,
-    "median_20d_pct": -3.39,
+    "median_1d_pct": 0.06,
+    "median_20d_pct": -2.5,
     "best_20d": {
      "sym": "LSEFSL",
      "pct": 58.82
@@ -4582,22 +4560,6 @@
      "ttm_dividend_rs": null
     },
     {
-     "sym": "JSGCL",
-     "name": "JS Global Capital Limited",
-     "close": 142.25,
-     "ret_1d": 0.89,
-     "ret_20d": -18.15,
-     "rsi14": 29.1,
-     "above_sma50": false,
-     "liquidity_rs_m": 0.2,
-     "pe": null,
-     "div_yield_pct": null,
-     "payout_pct": null,
-     "fair_gap_pct": null,
-     "fair_verdict": null,
-     "ttm_dividend_rs": null
-    },
-    {
      "sym": "IMS",
      "name": "Intermarket Securities Limited",
      "close": 18.17,
@@ -4609,7 +4571,7 @@
      "pe": 51.12,
      "div_yield_pct": 0.96,
      "payout_pct": 57.14,
-     "fair_gap_pct": -88.0,
+     "fair_gap_pct": -87.7,
      "fair_verdict": "overvalued",
      "ttm_dividend_rs": null
     },
@@ -5141,14 +5103,14 @@
    ]
   },
   "Modarabas": {
-   "n_members": 18,
+   "n_members": 19,
    "breadth": {
-    "above_sma50": 10,
+    "above_sma50": 11,
     "advancing_1d": 10
    },
    "returns": {
-    "median_1d_pct": 0.2,
-    "median_20d_pct": -3.25,
+    "median_1d_pct": 0.18,
+    "median_20d_pct": -2.41,
     "best_20d": {
      "sym": "FPJM",
      "pct": 68.69
@@ -5316,6 +5278,22 @@
      "fair_gap_pct": null,
      "fair_verdict": null,
      "ttm_dividend_rs": null
+    },
+    {
+     "sym": "FIMM",
+     "name": "First Imrooz Modaraba",
+     "close": 215.99,
+     "ret_1d": 0.0,
+     "ret_20d": 1.89,
+     "rsi14": 53.8,
+     "above_sma50": true,
+     "liquidity_rs_m": 0.0,
+     "pe": null,
+     "div_yield_pct": null,
+     "payout_pct": null,
+     "fair_gap_pct": null,
+     "fair_verdict": null,
+     "ttm_dividend_rs": 15.0
     },
     {
      "sym": "FEM",
@@ -5616,30 +5594,26 @@
      "headline": "Oil prices slide on hopes of diplomacy in Iran war"
     },
     {
-     "ts": "2026-09-08",
+     "ts": "2026-09-09",
      "impact": 3,
      "tickers": [
-      "MARI",
-      "POL"
+      "OGDC",
+      "MARI"
      ],
-     "headline": "PSX: KSE-100 sheds nearly 1,000 points amid geopolitical uncertainty"
+     "headline": "OGDCL, MARI-backed Lundali-1 well starts gas production in Sindh"
     },
     {
-     "ts": "2026-09-08",
+     "ts": "2026-09-11",
      "impact": 3,
      "tickers": [
-      "MARI",
-      "POL"
+      "OGDC",
+      "PPL",
+      "MARI"
      ],
-     "headline": "PSX: KSE-100 sheds nearly 1,000 points amid geopolitical uncertainty (afternoon rolling update)"
+     "headline": "PSX: Buying returns, KSE-100 gains 1% on hopes of easing Middle East tensions"
     }
    ],
    "upcoming_events": [
-    {
-     "ticker": "MARI",
-     "date": "2026-09-21",
-     "type": "ex_dividend"
-    },
     {
      "ticker": "MARI",
      "date": "2026-09-22",
@@ -7158,7 +7132,7 @@
    },
    "valuation": {
     "median_pe": 11.33,
-    "median_fair_gap_pct": -10.75,
+    "median_fair_gap_pct": -10.7,
     "n_undervalued": 1,
     "n_overvalued": 1,
     "n_valued": 2
@@ -7207,7 +7181,7 @@
      "pe": 17.31,
      "div_yield_pct": 6.51,
      "payout_pct": 114.29,
-     "fair_gap_pct": -56.9,
+     "fair_gap_pct": -56.8,
      "fair_verdict": "overvalued",
      "ttm_dividend_rs": 2.58
     },
@@ -7476,14 +7450,14 @@
    ]
   },
   "Sugar & Allied Industries": {
-   "n_members": 29,
+   "n_members": 28,
    "breadth": {
     "above_sma50": 2,
     "advancing_1d": 16
    },
    "returns": {
     "median_1d_pct": 1.04,
-    "median_20d_pct": -3.5,
+    "median_20d_pct": -3.84,
     "best_20d": {
      "sym": "HWQS",
      "pct": 8.23
@@ -7648,22 +7622,6 @@
      "fair_gap_pct": null,
      "fair_verdict": null,
      "ttm_dividend_rs": 4.0
-    },
-    {
-     "sym": "SML",
-     "name": "Shakarganj Limited",
-     "close": 97.0,
-     "ret_1d": 0.0,
-     "ret_20d": -1.38,
-     "rsi14": 50.0,
-     "above_sma50": false,
-     "liquidity_rs_m": 0.0,
-     "pe": null,
-     "div_yield_pct": null,
-     "payout_pct": null,
-     "fair_gap_pct": null,
-     "fair_verdict": null,
-     "ttm_dividend_rs": null
     },
     {
      "sym": "MRNS",
@@ -7988,17 +7946,17 @@
    ]
   },
   "Synthetic & Rayon": {
-   "n_members": 5,
+   "n_members": 4,
    "breadth": {
-    "above_sma50": 2,
+    "above_sma50": 1,
     "advancing_1d": 2
    },
    "returns": {
-    "median_1d_pct": 0.0,
-    "median_20d_pct": -4.94,
+    "median_1d_pct": -0.47,
+    "median_20d_pct": -5.85,
     "best_20d": {
-     "sym": "PSYL",
-     "pct": 6.07
+     "sym": "IBFL",
+     "pct": 3.3
     },
     "worst_20d": {
      "sym": "NSRM",
@@ -8022,22 +7980,6 @@
    "recent_news": [],
    "upcoming_events": [],
    "members": [
-    {
-     "sym": "PSYL",
-     "name": "Pakistan Synthetics Limited",
-     "close": 143.03,
-     "ret_1d": 0.0,
-     "ret_20d": 6.07,
-     "rsi14": 55.5,
-     "above_sma50": true,
-     "liquidity_rs_m": 4.6,
-     "pe": null,
-     "div_yield_pct": null,
-     "payout_pct": null,
-     "fair_gap_pct": null,
-     "fair_verdict": null,
-     "ttm_dividend_rs": null
-    },
     {
      "sym": "IBFL",
      "name": "Ibrahim Fibres Limited",
@@ -8569,7 +8511,7 @@
    },
    "valuation": {
     "median_pe": 7.68,
-    "median_fair_gap_pct": -4.0,
+    "median_fair_gap_pct": -4.05,
     "n_undervalued": 3,
     "n_overvalued": 4,
     "n_valued": 8
@@ -8614,11 +8556,6 @@
    ],
    "upcoming_events": [
     {
-     "ticker": "KTML",
-     "date": "2026-09-21",
-     "type": "results"
-    },
-    {
      "ticker": "KML",
      "date": "2026-09-22",
      "type": "results"
@@ -8652,6 +8589,11 @@
      "ticker": "ILP",
      "date": "2026-10-07",
      "type": "book_closure"
+    },
+    {
+     "ticker": "MEHT",
+     "date": "2026-10-09",
+     "type": "results"
     }
    ],
    "members": [
@@ -9019,7 +8961,7 @@
      "pe": 7.86,
      "div_yield_pct": null,
      "payout_pct": null,
-     "fair_gap_pct": -21.3,
+     "fair_gap_pct": -21.4,
      "fair_verdict": "overvalued",
      "ttm_dividend_rs": null
     },
@@ -9252,7 +9194,7 @@
   "Textile Spinning": {
    "n_members": 40,
    "breadth": {
-    "above_sma50": 11,
+    "above_sma50": 12,
     "advancing_1d": 23
    },
    "returns": {
@@ -9284,16 +9226,6 @@
    "recent_news": [],
    "upcoming_events": [
     {
-     "ticker": "JDMT",
-     "date": "2026-09-21",
-     "type": "results"
-    },
-    {
-     "ticker": "GADT",
-     "date": "2026-09-21",
-     "type": "book_closure"
-    },
-    {
      "ticker": "DFSM",
      "date": "2026-09-29",
      "type": "results"
@@ -9322,6 +9254,16 @@
      "ticker": "ASTM",
      "date": "2026-10-08",
      "type": "results"
+    },
+    {
+     "ticker": "TATM",
+     "date": "2026-10-19",
+     "type": "ex_dividend"
+    },
+    {
+     "ticker": "TATM",
+     "date": "2026-10-22",
+     "type": "book_closure"
     }
    ],
    "members": [
@@ -9406,6 +9348,22 @@
      "ttm_dividend_rs": null
     },
     {
+     "sym": "ELSM",
+     "name": "Ellcot Spinning Mills Limited",
+     "close": 148.25,
+     "ret_1d": 0.0,
+     "ret_20d": 7.09,
+     "rsi14": 51.5,
+     "above_sma50": true,
+     "liquidity_rs_m": 0.1,
+     "pe": null,
+     "div_yield_pct": null,
+     "payout_pct": null,
+     "fair_gap_pct": null,
+     "fair_verdict": null,
+     "ttm_dividend_rs": 4.0
+    },
+    {
      "sym": "DINT",
      "name": "Din Textile Mills Limited",
      "close": 65.56,
@@ -9446,22 +9404,6 @@
      "rsi14": 52.4,
      "above_sma50": false,
      "liquidity_rs_m": 1.7,
-     "pe": null,
-     "div_yield_pct": null,
-     "payout_pct": null,
-     "fair_gap_pct": null,
-     "fair_verdict": null,
-     "ttm_dividend_rs": null
-    },
-    {
-     "sym": "CFL",
-     "name": "Crescent Fibres Limited",
-     "close": 59.4,
-     "ret_1d": 0.0,
-     "ret_20d": 1.8,
-     "rsi14": 43.1,
-     "above_sma50": false,
-     "liquidity_rs_m": 0.0,
      "pe": null,
      "div_yield_pct": null,
      "payout_pct": null,
@@ -10140,11 +10082,6 @@
    "macro_joint_r2_pct": null,
    "recent_news": [],
    "upcoming_events": [
-    {
-     "ticker": "PIBTL",
-     "date": "2026-09-21",
-     "type": "results"
-    },
     {
      "ticker": "PNSC",
      "date": "2026-10-05",

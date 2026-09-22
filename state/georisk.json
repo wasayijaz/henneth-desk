@@ -1,20 +1,15 @@
 {
- "updated": "2026-09-21 16:05",
- "score": 49,
+ "updated": "2026-09-22 08:41",
+ "score": 57,
  "band": "moderate",
  "read": "Risk gauge is moderate — a mixed external backdrop; normal caution, favour quality.",
  "factors": [
   {
    "factor": "Conflict / escalation",
-   "value": "15 high-impact macro shocks (10d)",
+   "value": "12 high-impact macro shocks (10d)",
    "stress": 100,
    "read": "geopolitical shocks (oil, conflict, policy) are what hit PSX hardest and fastest",
    "recent": [
-    {
-     "ts": "2026-09-11",
-     "headline": "Oil jumps 6pc to USD107 on supply concerns",
-     "url": "https://www.brecorder.com/latest-news"
-    },
     {
      "ts": "2026-09-12T04:56:00+05:00",
      "headline": "Stocks stage mild recovery on value-hunting",
@@ -26,44 +21,50 @@
      "url": "https://www.brecorder.com/news/40439382/psx-kse-100-sheds-over-2500-points-as-situation-remains-tense-in-me"
     },
     {
-     "ts": "2026-09-11T08:39:00+05:00",
-     "headline": "IPAK reports sevenfold surge in FY26 profit",
-     "url": "https://www.brecorder.com/news/40438990/ipak-reports-sevenfold-surge-in-fy26-profit"
+     "ts": "2026-09-15T17:14:00+05:00",
+     "headline": "Oil prices edge higher as attacks, pipeline outage deepen supply concerns",
+     "url": "https://www.brecorder.com/news/40439536/oil-prices-edge-higher-as-attacks-pipeline-outage-deepen-saudi-supply-concerns"
+    },
+    {
+     "ts": "2026-09-14T23:02:00+05:00",
+     "headline": "Govt raises petrol price by Rs4.42, diesel by Rs6.10",
+     "url": "https://www.brecorder.com/news/40439446/govt-raises-petrol-price-by-rs442-diesel-by-rs610"
     }
    ]
   },
   {
+   "factor": "Energy shock (Brent)",
+   "value": "$101.65 (+1.3% 1d, +10.3% 1mo)",
+   "stress": 75,
+   "read": "rising crude widens the import bill, pressures PKR & inflation; helps E&P/refiners only"
+  },
+  {
    "factor": "USD strength (DXY)",
-   "value": "100.4 (+1.6% 1mo)",
-   "stress": 57,
+   "value": "100.65 (+1.7% 1mo)",
+   "stress": 58,
    "read": "a strong dollar drains capital from frontier markets and pressures the rupee"
   },
   {
    "factor": "Rupee stress (USD/PKR)",
-   "value": "276.94 (-0.1% 1mo)",
-   "stress": 44,
+   "value": "276.76 (+0.1% 1mo)",
+   "stress": 46,
    "read": "a weakening rupee imports inflation and keeps SBP hawkish — an equity headwind"
   },
   {
    "factor": "Safe-haven (Gold)",
-   "value": "$4386 (-6.3% 1mo)",
-   "stress": 32,
+   "value": "$4331.1 (-7.8% 1mo)",
+   "stress": 29,
    "read": "gold bid = flight to safety; risk sentiment defensive"
   },
   {
-   "factor": "Energy shock (Brent)",
-   "value": "$96.11 (-7.5% 1d, +1.8% 1mo)",
-   "stress": 31,
-   "read": "rising crude widens the import bill, pressures PKR & inflation; helps E&P/refiners only"
-  },
-  {
    "factor": "Global fear (VIX)",
-   "value": "14.94 (+0.9% 1d)",
-   "stress": 16,
+   "value": "14.89 (+0.1% 1d)",
+   "stress": 15,
    "read": "high VIX = global risk-off = foreign outflows from PSX"
   }
  ],
  "sector_pressure": [
+  "OMCs & cement (fuel/energy cost)",
   "E&P benefits (OGDC/PPL/MARI)"
  ],
  "source": "desk composite from free signals (VIX/oil/gold/DXY/PKR/news)",

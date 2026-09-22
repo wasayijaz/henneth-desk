@@ -146,19 +146,19 @@
    "escalate": true
   }
  ],
- "AKBL": [
-  {
-   "sev": "low",
-   "field": "fairvalue.spread",
-   "msg": "methods disagree 3.7x — treat composite as a rough screen"
-  }
- ],
  "FATIMA": [
   {
    "sev": "medium",
    "field": "fundamentals.div_yield",
    "msg": "stated div_yield 3.93% vs 1.68% implied by trailing-365d dividends (Rs 2.50/share at close Rs 148.76) — 57% off",
    "escalate": true
+  }
+ ],
+ "AKBL": [
+  {
+   "sev": "low",
+   "field": "fairvalue.spread",
+   "msg": "methods disagree 3.6x — treat composite as a rough screen"
   }
  ],
  "HMB": [
@@ -184,13 +184,6 @@
    "msg": "methods disagree 3.9x — treat composite as a rough screen"
   }
  ],
- "BOP": [
-  {
-   "sev": "low",
-   "field": "fairvalue.spread",
-   "msg": "methods disagree 4.0x — treat composite as a rough screen"
-  }
- ],
  "DGKC": [
   {
    "sev": "low",
@@ -204,11 +197,18 @@
    "escalate": true
   }
  ],
+ "BOP": [
+  {
+   "sev": "low",
+   "field": "fairvalue.spread",
+   "msg": "methods disagree 4.0x — treat composite as a rough screen"
+  }
+ ],
  "SRVI": [
   {
    "sev": "low",
    "field": "fairvalue.spread",
-   "msg": "methods disagree 12.6x — treat composite as a rough screen"
+   "msg": "methods disagree 12.5x — treat composite as a rough screen"
   }
  ],
  "PTC": [
@@ -235,7 +235,7 @@
   {
    "sev": "low",
    "field": "fairvalue.spread",
-   "msg": "methods disagree 4.3x — treat composite as a rough screen"
+   "msg": "methods disagree 4.4x — treat composite as a rough screen"
   }
  ],
  "ILP": [
@@ -282,26 +282,19 @@
    "escalate": true
   }
  ],
+ "NML": [
+  {
+   "sev": "low",
+   "field": "fairvalue.spread",
+   "msg": "methods disagree 17.5x — treat composite as a rough screen"
+  }
+ ],
  "AICL": [
   {
    "sev": "medium",
    "field": "fundamentals.div_yield",
    "msg": "stated div_yield 6.5% vs 5.11% implied by trailing-365d dividends (Rs 5.00/share at close Rs 97.94) — 21% off",
    "escalate": true
-  }
- ],
- "GLAXO": [
-  {
-   "sev": "low",
-   "field": "fairvalue.spread",
-   "msg": "methods disagree 3.4x — treat composite as a rough screen"
-  }
- ],
- "NML": [
-  {
-   "sev": "low",
-   "field": "fairvalue.spread",
-   "msg": "methods disagree 17.6x — treat composite as a rough screen"
   }
  ],
  "NATF": [
@@ -337,18 +330,18 @@
    "msg": "1 old (pre-decade) price glitch(es) — affects only long-run stats"
   }
  ],
- "PAEL": [
-  {
-   "sev": "low",
-   "field": "fairvalue.spread",
-   "msg": "methods disagree 4.0x — treat composite as a rough screen"
-  }
- ],
  "CNERGY": [
   {
    "sev": "low",
    "field": "price_series",
    "msg": "1 old (pre-decade) price glitch(es) — affects only long-run stats"
+  }
+ ],
+ "PAEL": [
+  {
+   "sev": "low",
+   "field": "fairvalue.spread",
+   "msg": "methods disagree 4.0x — treat composite as a rough screen"
   }
  ],
  "APL": [
@@ -384,7 +377,7 @@
   {
    "sev": "low",
    "field": "fairvalue.spread",
-   "msg": "methods disagree 22.3x — treat composite as a rough screen"
+   "msg": "methods disagree 21.8x — treat composite as a rough screen"
   },
   {
    "sev": "medium",
@@ -472,7 +465,7 @@
   {
    "sev": "low",
    "field": "fairvalue.spread",
-   "msg": "methods disagree 36.0x — treat composite as a rough screen"
+   "msg": "methods disagree 35.7x — treat composite as a rough screen"
   },
   {
    "sev": "medium",
@@ -492,7 +485,7 @@
   {
    "sev": "low",
    "field": "fairvalue.spread",
-   "msg": "methods disagree 3.7x — treat composite as a rough screen"
+   "msg": "methods disagree 4.1x — treat composite as a rough screen"
   },
   {
    "sev": "medium",
@@ -518,14 +511,14 @@
   {
    "sev": "low",
    "field": "fairvalue.spread",
-   "msg": "methods disagree 5.3x — treat composite as a rough screen"
+   "msg": "methods disagree 5.2x — treat composite as a rough screen"
   }
  ],
  "INIL": [
   {
    "sev": "low",
    "field": "fairvalue.spread",
-   "msg": "methods disagree 4.0x — treat composite as a rough screen"
+   "msg": "methods disagree 4.1x — treat composite as a rough screen"
   },
   {
    "sev": "medium",
@@ -651,14 +644,6 @@
    "escalate": true
   }
  ],
- "BIPL": [
-  {
-   "sev": "medium",
-   "field": "fundamentals.div_yield",
-   "msg": "stated div_yield 11.24% vs 5.01% implied by trailing-365d dividends (Rs 1.25/share at close Rs 24.93) — 55% off",
-   "escalate": true
-  }
- ],
  "NICL": [
   {
    "sev": "low",
@@ -672,18 +657,33 @@
    "escalate": true
   }
  ],
+ "BIPL": [
+  {
+   "sev": "medium",
+   "field": "fundamentals.div_yield",
+   "msg": "stated div_yield 11.24% vs 5.01% implied by trailing-365d dividends (Rs 1.25/share at close Rs 24.93) — 55% off",
+   "escalate": true
+  }
+ ],
  "IPAK": [
   {
    "sev": "low",
    "field": "fairvalue.spread",
-   "msg": "methods disagree 11.7x — treat composite as a rough screen"
+   "msg": "methods disagree 11.6x — treat composite as a rough screen"
   }
  ],
  "SGF": [
   {
    "sev": "low",
    "field": "fairvalue.spread",
-   "msg": "methods disagree 12.4x — treat composite as a rough screen"
+   "msg": "methods disagree 12.3x — treat composite as a rough screen"
+  }
+ ],
+ "AKDSL": [
+  {
+   "sev": "low",
+   "field": "fairvalue.spread",
+   "msg": "methods disagree 4.9x — treat composite as a rough screen"
   }
  ],
  "GWLC": [
@@ -710,13 +710,6 @@
    "field": "fundamentals.div_yield",
    "msg": "stated div_yield 5.26% vs 2.55% implied by trailing-365d dividends (Rs 1.50/share at close Rs 58.81) — 52% off",
    "escalate": true
-  }
- ],
- "AKDSL": [
-  {
-   "sev": "low",
-   "field": "fairvalue.spread",
-   "msg": "methods disagree 4.9x — treat composite as a rough screen"
   }
  ],
  "FCL": [
@@ -751,7 +744,7 @@
   {
    "sev": "low",
    "field": "fairvalue.spread",
-   "msg": "methods disagree 14.6x — treat composite as a rough screen"
+   "msg": "methods disagree 14.8x — treat composite as a rough screen"
   }
  ],
  "NCL": [
@@ -796,7 +789,7 @@
   {
    "sev": "low",
    "field": "fairvalue.spread",
-   "msg": "methods disagree 5.7x — treat composite as a rough screen"
+   "msg": "methods disagree 5.6x — treat composite as a rough screen"
   },
   {
    "sev": "medium",
@@ -886,21 +879,21 @@
   {
    "sev": "low",
    "field": "fairvalue.spread",
-   "msg": "methods disagree 17.9x — treat composite as a rough screen"
+   "msg": "methods disagree 18.0x — treat composite as a rough screen"
   }
  ],
  "AWTX": [
   {
    "sev": "medium",
    "field": "quant.date",
-   "msg": "quant is 28 days stale (2026-08-24)"
+   "msg": "quant is 29 days stale (2026-08-24)"
   }
  ],
  "ECOP": [
   {
    "sev": "low",
    "field": "fairvalue.spread",
-   "msg": "methods disagree 5.6x — treat composite as a rough screen"
+   "msg": "methods disagree 5.0x — treat composite as a rough screen"
   }
  ],
  "KOHTM": [
@@ -937,42 +930,42 @@
   {
    "sev": "medium",
    "field": "quant.date",
-   "msg": "quant is 311 days stale (2025-11-14)"
+   "msg": "quant is 312 days stale (2025-11-14)"
   }
  ],
  "GEMNETS": [
   {
    "sev": "medium",
    "field": "quant.date",
-   "msg": "quant is 10 days stale (2026-09-11)"
+   "msg": "quant is 11 days stale (2026-09-11)"
   }
  ],
  "HSPI": [
   {
    "sev": "medium",
    "field": "quant.date",
-   "msg": "quant is 675 days stale (2024-11-15)"
+   "msg": "quant is 676 days stale (2024-11-15)"
   }
  ],
  "PHDL": [
   {
    "sev": "medium",
    "field": "quant.date",
-   "msg": "quant is 609 days stale (2025-01-20)"
+   "msg": "quant is 610 days stale (2025-01-20)"
   }
  ],
  "SANE": [
   {
    "sev": "medium",
    "field": "quant.date",
-   "msg": "quant is 717 days stale (2024-10-04)"
+   "msg": "quant is 718 days stale (2024-10-04)"
   }
  ],
  "SLL": [
   {
    "sev": "medium",
    "field": "quant.date",
-   "msg": "quant is 690 days stale (2024-10-31)"
+   "msg": "quant is 691 days stale (2024-10-31)"
   }
  ],
  "USVIX": [
@@ -984,8 +977,8 @@
   }
  ],
  "_meta": {
-  "built": "2026-09-21 16:07",
-  "tickers_with_issues": 111,
+  "built": "2026-09-22 08:42",
+  "tickers_with_issues": 110,
   "high_severity": 4,
   "escalate_to_agent": [
    "ACPL",
