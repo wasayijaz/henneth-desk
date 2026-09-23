@@ -77,10 +77,10 @@ const cell = (c: (typeof rows)[number][number]) => (typeof c === 'string' ? { v:
     .mx-t tr { display: block; border-bottom: var(--rule); padding: 4px 0; }
     .mx-t tr:last-child { border-bottom: 0; }
     .mx-t tbody th { display: block; padding: 10px 14px 4px; font-size: 13px; }
-    .mx-t tbody td { display: flex; justify-content: space-between; gap: 14px; border-bottom: 0; padding: 4px 14px; }
+    .mx-t tbody td { display: block; border-bottom: 0; padding: 4px 14px 8px; overflow-wrap: anywhere; }
     .mx-t tbody td::before {
       content: attr(data-l); font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.09em;
-      text-transform: uppercase; color: var(--ink-3); flex: none;
+      text-transform: uppercase; color: var(--ink-3); display: block; margin-bottom: 3px;
     }
   }
   /* Below 700px the header row is hidden and its text is re-drawn per cell as ::before — so on a

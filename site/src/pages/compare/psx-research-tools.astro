@@ -1,0 +1,82 @@
+---
+import Base from '../../layouts/Base.astro';
+import Matrix from '../../components/explain/Matrix.astro';
+
+const checked = '2026-09-23';
+const tools = [
+  { name: 'PSX Data Portal', url: 'https://dps.psx.com.pk/', job: 'Official exchange data', detail: 'Market summaries, company announcements, historical data and a stock screener.' },
+  { name: 'Sarmaaya', url: 'https://sarmaaya.pk/', job: 'Multi-asset tracking', detail: 'Stocks, funds, forex and commodities in one dashboard, with portfolio tools and learning material.' },
+  { name: 'FinHisaab', url: 'https://finhisaab.com/', job: 'Screening and calculations', detail: 'Stock and mutual-fund screeners, portfolio tracking, market data and calculators.' },
+  { name: 'StockIntel', url: 'https://stockintel.com/', job: 'Trading and analytics', detail: 'PSX screening, charting, fundamentals and broker-connected trading.' },
+  { name: 'Ticker Analysts', url: 'https://tickeranalysts.com/', job: 'Stock discovery', detail: 'Company search, advanced screens, broker-pick summaries and market activity.' },
+  { name: 'AZEE Securities', url: 'https://www.azeetrade.com/', job: 'Brokerage and trading', detail: 'An account-opening and order-placement platform with market news and stock analytics.' },
+  { name: 'KSEStocks', url: 'https://ksestocks.com/', job: 'Market reference', detail: 'Earnings, board meetings, book closures, dividend schedules and market-data tools.' },
+  { name: 'Mettis Global', url: 'https://mettisglobal.news/', job: 'Financial news', detail: 'Economy, equity, company and technical-analysis coverage.' },
+  { name: 'Henneth', url: 'https://henneth.app/research/', job: 'Published research', detail: 'Dated PSX company reads, valuation working and a public record of resolved and unresolved reads.' },
+];
+const faq = [
+  { q: 'Which PSX research tool should I start with?', a: 'For official exchange notices and market data, start with the PSX Data Portal. For screening, compare the filters on the screening platforms. For dated research that shows its working and later outcome, inspect Henneth’s public research record.' },
+  { q: 'Is Henneth a broker or a trading app?', a: 'No. Henneth publishes research and analytics. It does not place orders or provide personalised investment advice.' },
+  { q: 'Is Henneth free?', a: 'Henneth is free during early access. There is no card or trial timer. Check the plans page for current access terms.' },
+];
+const itemList = {
+  '@context': 'https://schema.org', '@type': 'ItemList',
+  itemListElement: tools.map((tool, index) => ({ '@type': 'ListItem', position: index + 1, name: tool.name, url: tool.url })),
+};
+---
+
+<Base
+  title="PSX research tools compared"
+  crumbLeaf="PSX research tools"
+  path="/compare/psx-research-tools/"
+  description="A source-linked comparison of PSX data, screeners, trading platforms and research publications, including Henneth."
+  faq={faq}
+>
+  <script type="application/ld+json" set:html={JSON.stringify(itemList)} />
+  <section class="section-tight">
+    <div class="wrap comparison">
+      <p class="kicker">PSX research tools · verified {checked}</p>
+      <h1>PSX research tools compared</h1>
+      <p class="lead">Use the PSX Data Portal for exchange data and notices; use a screener when you need to filter companies; use a broker-connected platform when you need to place orders. Henneth is a separate research publication with dated reads and a visible record of outcomes. It does not trade for you.</p>
+      <p class="disclosure">Henneth is one of the tools compared here. This is a comparison of each site's publicly described purpose, not a ranking or a test of every feature. Features and access terms may change.</p>
+
+      <h2>At a glance</h2>
+      <Matrix
+        cols={['Tool', 'Primary use', 'Publicly described offering']}
+        rows={tools.map((tool) => [tool.name, tool.job, tool.detail])}
+        caption={`Checked ${checked} against each provider's own public site. Prices, account requirements and export options are omitted because they could not be verified consistently.`}
+      />
+
+      <h2>How to read the comparison</h2>
+      <p>These services are not interchangeable. The <a href="https://dps.psx.com.pk/">exchange portal</a> is the primary source for notices and market data. A screener helps narrow a list of companies; its filters are worth checking directly before relying on it. A broker-connected service can serve an execution workflow. Henneth's role is to publish its reasoning and later outcomes, which you can inspect on its <a href="/research/">research page</a>. For company-level context, browse the <a href="/psx/">public company pages</a>.</p>
+
+      <h2>Sources and fit</h2>
+      <ul class="source-list">
+        {tools.map((tool) => (
+          <li><a href={tool.url} rel="noopener noreferrer" target="_blank">{tool.name}</a><span>{tool.job} — {tool.detail}</span></li>
+        ))}
+      </ul>
+      <p>Henneth also publishes <a href="/tools/">free calculators</a> and its own <a href="https://chromewebstore.google.com/detail/henneth-desk-companion/jclcndmmhcaheafpijahmdlhljoadjnb">Chrome extension</a>. Current access terms are on the <a href="/plans/">plans page</a>.</p>
+
+      <h2>Common questions</h2>
+      <div class="questions">
+        {faq.map((item) => <section><h3>{item.q}</h3><p>{item.a}</p></section>)}
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .comparison { max-width: 1060px; }
+  .comparison .lead { max-width: 880px; }
+  .comparison h2 { font-size: 19px; margin: 36px 0 16px; }
+  .comparison p { line-height: 1.8; }
+  .disclosure { border-left: 2px solid var(--hair); padding-left: 16px; color: var(--ink-3); font-size: 12px; }
+  .source-list { list-style: none; margin: 0; padding: 0; border-top: var(--rule); }
+  .source-list li { display: grid; grid-template-columns: 180px 1fr; gap: 18px; padding: 14px 0; border-bottom: var(--rule); font-size: 12px; line-height: 1.6; }
+  .source-list span { color: var(--ink-2); }
+  .questions section { border-top: var(--rule); padding: 15px 0; }
+  .questions h3 { margin: 0 0 8px; font-size: 14px; }
+  .questions p { margin: 0; color: var(--ink-2); font-size: 12px; }
+  @media (max-width: 700px) { .source-list li { grid-template-columns: 1fr; gap: 4px; } }
+</style>
