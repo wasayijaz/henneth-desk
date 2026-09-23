@@ -1,33 +1,32 @@
 {
- "updated": "2026-09-22 13:50",
+ "updated": "2026-09-23 08:49",
  "inputs": {
-  "market_median_pe": 8.26,
+  "market_median_pe": 8.39,
   "bond_yield_pct": 12.3,
   "required_return_pct": 17.5,
   "min_peers_for_sector_median": 3,
   "sector_median_pe": {
-   "Automobile Assembler": 6.58,
-   "Automobile Parts & Accessories": 6.36,
-   "Cable & Electrical Goods": 8.35,
-   "Cement": 8.28,
-   "Chemical": 9.86,
-   "Commercial Banks": 6.19,
-   "Engineering": 10.76,
-   "Fertilizer": 7.8,
+   "Automobile Assembler": 6.66,
+   "Automobile Parts & Accessories": 6.57,
+   "Cable & Electrical Goods": 8.4,
+   "Cement": 8.34,
+   "Chemical": 9.94,
+   "Commercial Banks": 6.22,
+   "Engineering": 11.81,
+   "Fertilizer": 7.88,
    "Food & Personal Care Products": 12.26,
    "Insurance": 4.72,
-   "Inv. Banks / Inv. Cos. / Securities Cos.": 7.44,
-   "Miscellaneous": 8.15,
-   "Oil & Gas Exploration Companies": 6.34,
-   "Oil & Gas Marketing Companies": 4.23,
-   "Paper, Board & Packaging": 7.68,
-   "Pharmaceuticals": 12.15,
-   "Power Generation & Distribution": 9.99,
-   "Refinery": 4.7,
-   "Technology & Communication": 12.29,
-   "Textile Composite": 8.29,
-   "Textile Spinning": 3.32,
-   "Transport": 8.72
+   "Inv. Banks / Inv. Cos. / Securities Cos.": 8.0,
+   "Oil & Gas Exploration Companies": 6.38,
+   "Oil & Gas Marketing Companies": 4.27,
+   "Paper, Board & Packaging": 7.65,
+   "Pharmaceuticals": 12.09,
+   "Power Generation & Distribution": 10.06,
+   "Refinery": 4.73,
+   "Technology & Communication": 12.41,
+   "Textile Composite": 6.0,
+   "Textile Spinning": 3.34,
+   "Transport": 8.54
   }
  },
  "note": "model estimates from public fundamentals; research, not a price target. relative_pe is the median P/E of the stock's own PSX sector x EPS — each ticker's relative_pe_basis says whether real peers or (for thin sectors) the market was used.",
@@ -36,49 +35,49 @@
    "price": 170.05,
    "eps": 29.97,
    "eps_basis": "unknown",
-   "pe": 5.67,
-   "growth_est_pct": 7.0,
+   "pe": 5.7,
+   "growth_est_pct": 6.9,
    "methods": {
-    "relative_pe": 185.51,
+    "relative_pe": 186.56,
     "earnings_power": 183.87,
-    "graham": 240.82,
-    "ddm": 163.61
+    "graham": 239.97,
+    "ddm": 162.08
    },
    "relative_pe_basis": {
     "basis": "sector",
     "sector": "Commercial Banks",
-    "median_pe": 6.19,
+    "median_pe": 6.22,
     "n_peers": 18
    },
    "sector": "Commercial Banks",
-   "composite_fair": 184.69,
-   "mispricing_pct": 8.6,
+   "composite_fair": 185.22,
+   "mispricing_pct": 8.9,
    "verdict": "fair",
-   "upside_pct": 8.6
+   "upside_pct": 8.9
   },
   "ABOT": {
    "price": 929.66,
    "eps": 87.47,
    "eps_basis": "unknown",
    "pe": 10.63,
-   "growth_est_pct": 17.5,
+   "growth_est_pct": 15.0,
    "methods": {
-    "relative_pe": 1063.2,
+    "relative_pe": 1057.51,
     "earnings_power": 536.63,
-    "graham": 1358.53,
+    "graham": 1207.38,
     "ddm": 1525.73
    },
    "relative_pe_basis": {
     "basis": "sector",
     "sector": "Pharmaceuticals",
-    "median_pe": 12.15,
-    "n_peers": 8
+    "median_pe": 12.09,
+    "n_peers": 7
    },
    "sector": "Pharmaceuticals",
-   "composite_fair": 1210.87,
-   "mispricing_pct": 30.2,
+   "composite_fair": 1132.45,
+   "mispricing_pct": 21.8,
    "verdict": "undervalued",
-   "upside_pct": 30.2
+   "upside_pct": 21.8
   },
   "ACPL": {
    "price": 229.0,
@@ -87,7 +86,7 @@
    "pe": 9.21,
    "growth_est_pct": 30.0,
    "methods": {
-    "relative_pe": 205.84,
+    "relative_pe": 207.33,
     "earnings_power": 152.52,
     "graham": 609.17,
     "ddm": 19.23
@@ -95,54 +94,54 @@
    "relative_pe_basis": {
     "basis": "sector",
     "sector": "Cement",
-    "median_pe": 8.28,
+    "median_pe": 8.34,
     "n_peers": 13
    },
    "sector": "Cement",
-   "composite_fair": 179.18,
-   "mispricing_pct": -21.8,
+   "composite_fair": 179.93,
+   "mispricing_pct": -21.4,
    "verdict": "overvalued",
-   "upside_pct": -21.8
+   "upside_pct": -21.4
   },
   "AGP": {
    "price": 152.97,
    "eps": 13.31,
    "eps_basis": "unknown",
-   "pe": 11.49,
-   "growth_est_pct": 10.9,
+   "pe": 11.68,
+   "growth_est_pct": 13.2,
    "methods": {
-    "relative_pe": 161.78,
+    "relative_pe": 160.92,
     "earnings_power": 81.66,
-    "graham": 144.34,
-    "ddm": 132.27
+    "graham": 165.96,
+    "ddm": 209.52
    },
    "relative_pe_basis": {
     "basis": "sector",
     "sector": "Pharmaceuticals",
-    "median_pe": 12.15,
-    "n_peers": 8
+    "median_pe": 12.09,
+    "n_peers": 7
    },
    "sector": "Pharmaceuticals",
-   "composite_fair": 138.31,
-   "mispricing_pct": -9.6,
+   "composite_fair": 163.44,
+   "mispricing_pct": 6.8,
    "verdict": "fair",
-   "upside_pct": -9.6
+   "upside_pct": 6.8
   },
   "AGTL": {
    "price": 344.81,
    "eps": 48.72,
    "eps_basis": "unknown",
-   "pe": 7.08,
+   "pe": 7.09,
    "growth_est_pct": 0.0,
    "methods": {
-    "relative_pe": 320.58,
+    "relative_pe": 324.23,
     "earnings_power": 298.9,
     "graham": 148.14
    },
    "relative_pe_basis": {
     "basis": "sector",
     "sector": "Automobile Assembler",
-    "median_pe": 6.58,
+    "median_pe": 6.66,
     "n_peers": 8
    },
    "sector": "Automobile Assembler",
@@ -155,18 +154,18 @@
    "price": 15.79,
    "eps": 2.89,
    "eps_basis": "unknown",
-   "pe": 5.46,
+   "pe": 5.45,
    "growth_est_pct": 5.0,
    "methods": {
-    "relative_pe": 22.54,
+    "relative_pe": 22.77,
     "earnings_power": 17.73,
     "graham": 19.13,
-    "ddm": 8.37
+    "ddm": 8.4
    },
    "relative_pe_basis": {
     "basis": "sector",
     "sector": "Fertilizer",
-    "median_pe": 7.8,
+    "median_pe": 7.88,
     "n_peers": 4
    },
    "sector": "Fertilizer",
@@ -179,19 +178,19 @@
    "price": 113.56,
    "eps": 18.06,
    "eps_basis": "unknown",
-   "pe": 6.29,
+   "pe": 6.28,
    "growth_est_pct": 5.0,
    "methods": {
-    "relative_pe": 134.37,
+    "relative_pe": 144.39,
     "earnings_power": 110.8,
     "graham": 119.52,
-    "ddm": 93.01
+    "ddm": 105.02
    },
    "relative_pe_basis": {
     "basis": "sector",
     "sector": "Inv. Banks / Inv. Cos. / Securities Cos.",
-    "median_pe": 7.44,
-    "n_peers": 7
+    "median_pe": 8.0,
+    "n_peers": 8
    },
    "sector": "Inv. Banks / Inv. Cos. / Securities Cos.",
    "composite_fair": 115.16,
@@ -203,13 +202,13 @@
    "price": 99.2,
    "eps": 16.52,
    "eps_basis": "unknown",
-   "pe": 6.0,
+   "pe": 5.99,
    "growth_est_pct": 5.0,
    "methods": {
     "relative_pe": 77.97,
     "earnings_power": 101.35,
     "graham": 109.33,
-    "ddm": 54.16
+    "ddm": 50.41
    },
    "relative_pe_basis": {
     "basis": "sector",
@@ -227,67 +226,67 @@
    "price": 127.74,
    "eps": 14.02,
    "eps_basis": "unknown",
-   "pe": 9.11,
-   "growth_est_pct": 23.6,
+   "pe": 9.18,
+   "growth_est_pct": 20.3,
    "methods": {
-    "relative_pe": 172.38,
+    "relative_pe": 173.92,
     "earnings_power": 86.01,
-    "graham": 279.44,
-    "ddm": 332.99
+    "graham": 246.4,
+    "ddm": 343.72
    },
    "relative_pe_basis": {
     "basis": "sector",
     "sector": "Technology & Communication",
-    "median_pe": 12.29,
+    "median_pe": 12.41,
     "n_peers": 8
    },
    "sector": "Technology & Communication",
-   "composite_fair": 225.91,
-   "mispricing_pct": 76.9,
+   "composite_fair": 210.16,
+   "mispricing_pct": 64.5,
    "verdict": "undervalued",
-   "upside_pct": 76.9
+   "upside_pct": 64.5
   },
   "AKBL": {
    "price": 106.04,
    "eps": 17.6,
    "eps_basis": "unknown",
-   "pe": 6.02,
-   "growth_est_pct": 25.7,
+   "pe": 6.09,
+   "growth_est_pct": 24.0,
    "methods": {
-    "relative_pe": 108.94,
+    "relative_pe": 109.56,
     "earnings_power": 107.98,
-    "graham": 376.86,
-    "ddm": 192.65
+    "graham": 356.13,
+    "ddm": 191.03
    },
    "relative_pe_basis": {
     "basis": "sector",
     "sector": "Commercial Banks",
-    "median_pe": 6.19,
+    "median_pe": 6.22,
     "n_peers": 18
    },
    "sector": "Commercial Banks",
-   "composite_fair": 150.8,
-   "mispricing_pct": 42.2,
+   "composite_fair": 150.3,
+   "mispricing_pct": 41.7,
    "verdict": "undervalued",
-   "upside_pct": 42.2
+   "upside_pct": 41.7
   },
   "AKDSL": {
    "price": 35.56,
    "eps": 5.73,
    "eps_basis": "unknown",
-   "pe": 6.21,
+   "pe": 6.2,
    "growth_est_pct": 5.0,
    "methods": {
-    "relative_pe": 42.63,
+    "relative_pe": 45.81,
     "earnings_power": 35.15,
     "graham": 37.92,
-    "ddm": 8.63
+    "ddm": 8.39
    },
    "relative_pe_basis": {
     "basis": "sector",
     "sector": "Inv. Banks / Inv. Cos. / Securities Cos.",
-    "median_pe": 7.44,
-    "n_peers": 7
+    "median_pe": 8.0,
+    "n_peers": 8
    },
    "sector": "Inv. Banks / Inv. Cos. / Securities Cos.",
    "composite_fair": 36.53,
@@ -299,41 +298,41 @@
    "price": 577.14,
    "eps": 136.31,
    "eps_basis": "unknown",
-   "pe": 4.23,
+   "pe": 4.27,
    "growth_est_pct": 0.0,
    "methods": {
-    "relative_pe": 576.59,
+    "relative_pe": 582.04,
     "earnings_power": 836.26,
     "graham": 414.47,
-    "ddm": 340.02
+    "ddm": 342.99
    },
    "relative_pe_basis": {
     "basis": "sector",
     "sector": "Oil & Gas Marketing Companies",
-    "median_pe": 4.23,
+    "median_pe": 4.27,
     "n_peers": 5
    },
    "sector": "Oil & Gas Marketing Companies",
-   "composite_fair": 495.53,
-   "mispricing_pct": -14.1,
+   "composite_fair": 498.25,
+   "mispricing_pct": -13.7,
    "verdict": "fair",
-   "upside_pct": -14.1
+   "upside_pct": -13.7
   },
   "ASL": {
    "price": 16.85,
    "eps": 0.97,
    "eps_basis": "unknown",
-   "pe": 17.37,
+   "pe": 17.3,
    "growth_est_pct": 5.0,
    "methods": {
-    "relative_pe": 10.44,
+    "relative_pe": 11.46,
     "earnings_power": 5.95,
     "graham": 6.42
    },
    "relative_pe_basis": {
     "basis": "sector",
     "sector": "Engineering",
-    "median_pe": 10.76,
+    "median_pe": 11.81,
     "n_peers": 8
    },
    "sector": "Engineering",
@@ -342,21 +341,44 @@
    "verdict": "overvalued",
    "upside_pct": -61.9
   },
+  "ASTL": {
+   "price": 19.32,
+   "eps": 1.69,
+   "eps_basis": "unknown",
+   "pe": 11.67,
+   "growth_est_pct": 5.0,
+   "methods": {
+    "relative_pe": 19.96,
+    "earnings_power": 10.37,
+    "graham": 11.18
+   },
+   "relative_pe_basis": {
+    "basis": "sector",
+    "sector": "Engineering",
+    "median_pe": 11.81,
+    "n_peers": 8
+   },
+   "sector": "Engineering",
+   "composite_fair": 11.18,
+   "mispricing_pct": -42.1,
+   "verdict": "overvalued",
+   "upside_pct": -42.1
+  },
   "ASTM": {
    "price": 117.67,
    "eps": 0.59,
    "eps_basis": "unknown",
-   "pe": 199.44,
+   "pe": 179.49,
    "growth_est_pct": 5.0,
    "methods": {
-    "relative_pe": 1.96,
+    "relative_pe": 1.97,
     "earnings_power": 3.62,
     "graham": 3.9
    },
    "relative_pe_basis": {
     "basis": "sector",
     "sector": "Textile Spinning",
-    "median_pe": 3.32,
+    "median_pe": 3.34,
     "n_peers": 4
    },
    "sector": "Textile Spinning",
@@ -369,10 +391,10 @@
    "price": 1582.26,
    "eps": 179.95,
    "eps_basis": "unknown",
-   "pe": 8.79,
+   "pe": 8.78,
    "growth_est_pct": 5.0,
    "methods": {
-    "relative_pe": 1184.07,
+    "relative_pe": 1197.57,
     "earnings_power": 1103.99,
     "graham": 1190.89,
     "ddm": 941.0
@@ -380,126 +402,126 @@
    "relative_pe_basis": {
     "basis": "sector",
     "sector": "Automobile Assembler",
-    "median_pe": 6.58,
+    "median_pe": 6.66,
     "n_peers": 8
    },
    "sector": "Automobile Assembler",
-   "composite_fair": 1144.03,
-   "mispricing_pct": -27.7,
+   "composite_fair": 1147.44,
+   "mispricing_pct": -27.5,
    "verdict": "overvalued",
-   "upside_pct": -27.7
+   "upside_pct": -27.5
   },
   "ATRL": {
    "price": 1122.99,
    "eps": 244.45,
    "eps_basis": "unknown",
-   "pe": 4.59,
+   "pe": 4.61,
    "growth_est_pct": 30.0,
    "methods": {
-    "relative_pe": 1147.69,
+    "relative_pe": 1156.25,
     "earnings_power": 1499.69,
     "graham": 5990.02,
-    "ddm": 655.77
+    "ddm": 668.63
    },
    "relative_pe_basis": {
     "basis": "sector",
     "sector": "Refinery",
-    "median_pe": 4.7,
+    "median_pe": 4.73,
     "n_peers": 4
    },
    "sector": "Refinery",
-   "composite_fair": 1323.69,
-   "mispricing_pct": 17.9,
+   "composite_fair": 1327.97,
+   "mispricing_pct": 18.3,
    "verdict": "undervalued",
-   "upside_pct": 17.9
+   "upside_pct": 18.3
   },
   "AVN": {
    "price": 28.14,
    "eps": 0.52,
    "eps_basis": "unknown",
-   "pe": 54.12,
+   "pe": 54.62,
    "growth_est_pct": 5.0,
    "methods": {
-    "relative_pe": 6.39,
+    "relative_pe": 6.45,
     "earnings_power": 3.19,
     "graham": 3.44,
-    "ddm": 8.11
+    "ddm": 8.39
    },
    "relative_pe_basis": {
     "basis": "sector",
     "sector": "Technology & Communication",
-    "median_pe": 12.29,
+    "median_pe": 12.41,
     "n_peers": 8
    },
    "sector": "Technology & Communication",
-   "composite_fair": 4.92,
-   "mispricing_pct": -82.5,
+   "composite_fair": 4.95,
+   "mispricing_pct": -82.4,
    "verdict": "overvalued",
-   "upside_pct": -82.5
+   "upside_pct": -82.4
   },
   "BAFL": {
    "price": 56.98,
    "eps": 10.74,
    "eps_basis": "unknown",
-   "pe": 5.31,
-   "growth_est_pct": 18.0,
+   "pe": 5.3,
+   "growth_est_pct": 12.3,
    "methods": {
-    "relative_pe": 66.48,
+    "relative_pe": 66.86,
     "earnings_power": 65.89,
-    "graham": 170.97,
-    "ddm": 231.39
+    "graham": 127.08,
+    "ddm": 129.27
    },
    "relative_pe_basis": {
     "basis": "sector",
     "sector": "Commercial Banks",
-    "median_pe": 6.19,
+    "median_pe": 6.22,
     "n_peers": 18
    },
    "sector": "Commercial Banks",
-   "composite_fair": 118.72,
-   "mispricing_pct": 108.4,
+   "composite_fair": 96.97,
+   "mispricing_pct": 70.2,
    "verdict": "undervalued",
-   "upside_pct": 108.4
+   "upside_pct": 70.2
   },
   "BAHL": {
    "price": 152.04,
    "eps": 25.24,
    "eps_basis": "unknown",
-   "pe": 6.02,
-   "growth_est_pct": 21.1,
+   "pe": 6.08,
+   "growth_est_pct": 23.1,
    "methods": {
-    "relative_pe": 156.24,
+    "relative_pe": 157.12,
     "earnings_power": 154.85,
-    "graham": 458.25,
-    "ddm": 569.26
+    "graham": 493.47,
+    "ddm": 572.74
    },
    "relative_pe_basis": {
     "basis": "sector",
     "sector": "Commercial Banks",
-    "median_pe": 6.19,
+    "median_pe": 6.22,
     "n_peers": 18
    },
    "sector": "Commercial Banks",
-   "composite_fair": 307.25,
-   "mispricing_pct": 102.1,
+   "composite_fair": 325.3,
+   "mispricing_pct": 114.0,
    "verdict": "undervalued",
-   "upside_pct": 102.1
+   "upside_pct": 114.0
   },
   "BECO": {
    "price": 4.4,
    "eps": 0.17,
    "eps_basis": "unknown",
-   "pe": 25.88,
+   "pe": 27.0,
    "growth_est_pct": 5.0,
    "methods": {
-    "relative_pe": 1.83,
+    "relative_pe": 2.01,
     "earnings_power": 1.04,
     "graham": 1.13
    },
    "relative_pe_basis": {
     "basis": "sector",
     "sector": "Engineering",
-    "median_pe": 10.76,
+    "median_pe": 11.81,
     "n_peers": 8
    },
    "sector": "Engineering",
@@ -512,19 +534,19 @@
    "price": 122.06,
    "eps": 12.44,
    "eps_basis": "unknown",
-   "pe": 9.81,
+   "pe": 9.73,
    "growth_est_pct": 5.0,
    "methods": {
-    "relative_pe": 122.6,
+    "relative_pe": 123.65,
     "earnings_power": 76.32,
     "graham": 82.33,
-    "ddm": 36.4
+    "ddm": 42.04
    },
    "relative_pe_basis": {
     "basis": "sector",
     "sector": "Chemical",
-    "median_pe": 9.86,
-    "n_peers": 8
+    "median_pe": 9.94,
+    "n_peers": 9
    },
    "sector": "Chemical",
    "composite_fair": 79.32,
@@ -536,19 +558,19 @@
    "price": 113.9,
    "eps": 9.41,
    "eps_basis": "unknown",
-   "pe": 12.1,
+   "pe": 12.27,
    "growth_est_pct": 5.0,
    "methods": {
-    "relative_pe": 92.74,
+    "relative_pe": 93.54,
     "earnings_power": 57.73,
     "graham": 62.27,
-    "ddm": 39.51
+    "ddm": 42.0
    },
    "relative_pe_basis": {
     "basis": "sector",
     "sector": "Chemical",
-    "median_pe": 9.86,
-    "n_peers": 8
+    "median_pe": 9.94,
+    "n_peers": 9
    },
    "sector": "Chemical",
    "composite_fair": 60.0,
@@ -560,54 +582,54 @@
    "price": 24.9,
    "eps": 3.27,
    "eps_basis": "unknown",
-   "pe": 7.61,
+   "pe": 7.63,
    "growth_est_pct": 5.0,
    "methods": {
-    "relative_pe": 20.24,
+    "relative_pe": 20.36,
     "earnings_power": 20.06,
     "graham": 21.64,
-    "ddm": 23.51
+    "ddm": 23.09
    },
    "relative_pe_basis": {
     "basis": "sector",
     "sector": "Commercial Banks",
-    "median_pe": 6.19,
+    "median_pe": 6.22,
     "n_peers": 18
    },
    "sector": "Commercial Banks",
-   "composite_fair": 20.94,
-   "mispricing_pct": -15.9,
+   "composite_fair": 21.0,
+   "mispricing_pct": -15.7,
    "verdict": "overvalued",
-   "upside_pct": -15.9
+   "upside_pct": -15.7
   },
   "BML": {
    "price": 56.99,
    "eps": 3.42,
    "eps_basis": "unknown",
-   "pe": 16.66,
+   "pe": 16.02,
    "growth_est_pct": 5.0,
    "methods": {
-    "relative_pe": 21.17,
+    "relative_pe": 21.29,
     "earnings_power": 20.98,
     "graham": 22.63
    },
    "relative_pe_basis": {
     "basis": "sector",
     "sector": "Commercial Banks",
-    "median_pe": 6.19,
+    "median_pe": 6.22,
     "n_peers": 18
    },
    "sector": "Commercial Banks",
-   "composite_fair": 21.17,
-   "mispricing_pct": -62.9,
+   "composite_fair": 21.29,
+   "mispricing_pct": -62.6,
    "verdict": "overvalued",
-   "upside_pct": -62.9
+   "upside_pct": -62.6
   },
   "BNL": {
    "price": 5.83,
    "eps": 0.67,
    "eps_basis": "unknown",
-   "pe": 8.7,
+   "pe": 8.85,
    "growth_est_pct": 5.0,
    "methods": {
     "relative_pe": 8.21,
@@ -630,73 +652,73 @@
    "price": 30.77,
    "eps": 5.59,
    "eps_basis": "unknown",
-   "pe": 5.5,
+   "pe": 5.54,
    "growth_est_pct": 30.0,
    "methods": {
-    "relative_pe": 34.6,
+    "relative_pe": 34.8,
     "earnings_power": 34.29,
     "graham": 136.98,
-    "ddm": 109.34
+    "ddm": 122.14
    },
    "relative_pe_basis": {
     "basis": "sector",
     "sector": "Commercial Banks",
-    "median_pe": 6.19,
+    "median_pe": 6.22,
     "n_peers": 18
    },
    "sector": "Commercial Banks",
-   "composite_fair": 71.97,
-   "mispricing_pct": 133.9,
+   "composite_fair": 78.47,
+   "mispricing_pct": 155.0,
    "verdict": "undervalued",
-   "upside_pct": 133.9
+   "upside_pct": 155.0
   },
   "BWCL": {
    "price": 445.97,
    "eps": 42.88,
    "eps_basis": "unknown",
-   "pe": 10.4,
+   "pe": 10.43,
    "growth_est_pct": 5.0,
    "methods": {
-    "relative_pe": 355.05,
+    "relative_pe": 357.62,
     "earnings_power": 263.07,
     "graham": 283.77,
-    "ddm": 341.27
+    "ddm": 336.03
    },
    "relative_pe_basis": {
     "basis": "sector",
     "sector": "Cement",
-    "median_pe": 8.28,
+    "median_pe": 8.34,
     "n_peers": 13
    },
    "sector": "Cement",
-   "composite_fair": 312.52,
-   "mispricing_pct": -29.9,
+   "composite_fair": 309.9,
+   "mispricing_pct": -30.5,
    "verdict": "overvalued",
-   "upside_pct": -29.9
+   "upside_pct": -30.5
   },
   "CHCC": {
    "price": 279.7,
    "eps": 37.34,
    "eps_basis": "unknown",
-   "pe": 7.49,
-   "growth_est_pct": 28.5,
+   "pe": 7.55,
+   "growth_est_pct": 20.2,
    "methods": {
-    "relative_pe": 309.18,
+    "relative_pe": 311.42,
     "earnings_power": 229.08,
-    "graham": 874.2,
-    "ddm": 196.42
+    "graham": 653.79,
+    "ddm": 210.3
    },
    "relative_pe_basis": {
     "basis": "sector",
     "sector": "Cement",
-    "median_pe": 8.28,
+    "median_pe": 8.34,
     "n_peers": 13
    },
    "sector": "Cement",
-   "composite_fair": 269.13,
-   "mispricing_pct": -3.8,
+   "composite_fair": 270.25,
+   "mispricing_pct": -3.4,
    "verdict": "fair",
-   "upside_pct": -3.8
+   "upside_pct": -3.4
   },
   "CLOV": {
    "price": 6.35,
@@ -721,21 +743,44 @@
    "verdict": "overvalued",
    "upside_pct": -36.4
   },
+  "CLVL": {
+   "price": 38.0,
+   "eps": 2.26,
+   "eps_basis": "unknown",
+   "pe": 15.13,
+   "growth_est_pct": 5.0,
+   "methods": {
+    "relative_pe": 19.31,
+    "earnings_power": 13.87,
+    "graham": 14.96
+   },
+   "relative_pe_basis": {
+    "basis": "sector",
+    "sector": "Transport",
+    "median_pe": 8.54,
+    "n_peers": 4
+   },
+   "sector": "Transport",
+   "composite_fair": 14.96,
+   "mispricing_pct": -60.6,
+   "verdict": "overvalued",
+   "upside_pct": -60.6
+  },
   "CNERGY": {
    "price": 13.2,
    "eps": 2.75,
    "eps_basis": "unknown",
-   "pe": 4.8,
+   "pe": 4.85,
    "growth_est_pct": 5.0,
    "methods": {
-    "relative_pe": 12.91,
+    "relative_pe": 13.01,
     "earnings_power": 16.87,
     "graham": 18.2
    },
    "relative_pe_basis": {
     "basis": "sector",
     "sector": "Refinery",
-    "median_pe": 4.7,
+    "median_pe": 4.73,
     "n_peers": 4
    },
    "sector": "Refinery",
@@ -748,13 +793,13 @@
    "price": 1134.79,
    "eps": 76.74,
    "eps_basis": "unknown",
-   "pe": 14.79,
+   "pe": 14.83,
    "growth_est_pct": 5.0,
    "methods": {
     "relative_pe": 940.83,
     "earnings_power": 470.8,
     "graham": 507.86,
-    "ddm": 520.46
+    "ddm": 537.62
    },
    "relative_pe_basis": {
     "basis": "sector",
@@ -763,10 +808,10 @@
     "n_peers": 15
    },
    "sector": "Food & Personal Care Products",
-   "composite_fair": 514.16,
-   "mispricing_pct": -54.7,
+   "composite_fair": 522.74,
+   "mispricing_pct": -53.9,
    "verdict": "overvalued",
-   "upside_pct": -54.7
+   "upside_pct": -53.9
   },
   "CPHL": {
    "price": 75.34,
@@ -775,39 +820,39 @@
    "pe": 15.7,
    "growth_est_pct": 5.0,
    "methods": {
-    "relative_pe": 58.34,
+    "relative_pe": 58.03,
     "earnings_power": 29.45,
     "graham": 31.77,
-    "ddm": 29.81
+    "ddm": 29.43
    },
    "relative_pe_basis": {
     "basis": "sector",
     "sector": "Pharmaceuticals",
-    "median_pe": 12.15,
-    "n_peers": 8
+    "median_pe": 12.09,
+    "n_peers": 7
    },
    "sector": "Pharmaceuticals",
-   "composite_fair": 30.79,
-   "mispricing_pct": -59.1,
+   "composite_fair": 30.61,
+   "mispricing_pct": -59.4,
    "verdict": "overvalued",
-   "upside_pct": -59.1
+   "upside_pct": -59.4
   },
   "CPPL": {
    "price": 101.89,
    "eps": 13.26,
    "eps_basis": "unknown",
-   "pe": 7.68,
+   "pe": 7.65,
    "growth_est_pct": 5.0,
    "methods": {
-    "relative_pe": 101.84,
+    "relative_pe": 101.44,
     "earnings_power": 81.35,
     "graham": 87.75,
-    "ddm": 32.01
+    "ddm": 33.64
    },
    "relative_pe_basis": {
     "basis": "sector",
     "sector": "Paper, Board & Packaging",
-    "median_pe": 7.68,
+    "median_pe": 7.65,
     "n_peers": 5
    },
    "sector": "Paper, Board & Packaging",
@@ -820,18 +865,18 @@
    "price": 93.85,
    "eps": 19.74,
    "eps_basis": "unknown",
-   "pe": 4.75,
+   "pe": 4.8,
    "growth_est_pct": 5.0,
    "methods": {
-    "relative_pe": 212.4,
+    "relative_pe": 233.13,
     "earnings_power": 121.1,
     "graham": 130.64,
-    "ddm": 43.75
+    "ddm": 46.2
    },
    "relative_pe_basis": {
     "basis": "sector",
     "sector": "Engineering",
-    "median_pe": 10.76,
+    "median_pe": 11.81,
     "n_peers": 8
    },
    "sector": "Engineering",
@@ -844,161 +889,114 @@
    "price": 39.59,
    "eps": 2.31,
    "eps_basis": "unknown",
-   "pe": 17.14,
+   "pe": 17.1,
    "growth_est_pct": 5.0,
    "methods": {
-    "relative_pe": 19.08,
+    "relative_pe": 19.38,
     "earnings_power": 14.17,
     "graham": 15.29,
-    "ddm": 21.65
+    "ddm": 22.18
    },
    "relative_pe_basis": {
     "basis": "market",
     "sector": "Real Estate Investment Trust",
-    "median_pe": 8.26,
+    "median_pe": 8.39,
     "n_peers": 163,
     "why": "fewer than 3 peers with a usable P/E in this sector"
    },
    "sector": "Real Estate Investment Trust",
-   "composite_fair": 17.18,
-   "mispricing_pct": -56.6,
+   "composite_fair": 17.34,
+   "mispricing_pct": -56.2,
    "verdict": "overvalued",
-   "upside_pct": -56.6
+   "upside_pct": -56.2
   },
   "DGKC": {
    "price": 200.22,
    "eps": 26.98,
    "eps_basis": "unknown",
-   "pe": 7.42,
-   "growth_est_pct": 30.0,
+   "pe": 7.43,
+   "growth_est_pct": 25.5,
    "methods": {
-    "relative_pe": 223.39,
+    "relative_pe": 225.01,
     "earnings_power": 165.52,
-    "graham": 661.12,
-    "ddm": 37.44
+    "graham": 574.39,
+    "ddm": 38.21
    },
    "relative_pe_basis": {
     "basis": "sector",
     "sector": "Cement",
-    "median_pe": 8.28,
+    "median_pe": 8.34,
     "n_peers": 13
    },
    "sector": "Cement",
-   "composite_fair": 194.45,
-   "mispricing_pct": -2.9,
+   "composite_fair": 195.26,
+   "mispricing_pct": -2.5,
    "verdict": "fair",
-   "upside_pct": -2.9
-  },
-  "DSL": {
-   "price": 4.45,
-   "eps": 0.58,
-   "eps_basis": "unknown",
-   "pe": 7.67,
-   "growth_est_pct": 5.0,
-   "methods": {
-    "relative_pe": 6.24,
-    "earnings_power": 3.56,
-    "graham": 3.84
-   },
-   "relative_pe_basis": {
-    "basis": "sector",
-    "sector": "Engineering",
-    "median_pe": 10.76,
-    "n_peers": 8
-   },
-   "sector": "Engineering",
-   "composite_fair": 3.84,
-   "mispricing_pct": -13.7,
-   "verdict": "fair",
-   "upside_pct": -13.7
-  },
-  "ECOP": {
-   "price": 50.26,
-   "eps": 7.67,
-   "eps_basis": "unknown",
-   "pe": 6.55,
-   "growth_est_pct": 2.3,
-   "methods": {
-    "relative_pe": 62.51,
-    "earnings_power": 47.06,
-    "graham": 36.18,
-    "ddm": 13.27
-   },
-   "relative_pe_basis": {
-    "basis": "sector",
-    "sector": "Miscellaneous",
-    "median_pe": 8.15,
-    "n_peers": 3
-   },
-   "sector": "Miscellaneous",
-   "composite_fair": 41.62,
-   "mispricing_pct": -17.2,
-   "verdict": "overvalued",
-   "upside_pct": -17.2
+   "upside_pct": -2.5
   },
   "EFERT": {
    "price": 191.01,
    "eps": 15.94,
    "eps_basis": "unknown",
-   "pe": 11.98,
+   "pe": 12.11,
    "growth_est_pct": 30.0,
    "methods": {
-    "relative_pe": 124.33,
+    "relative_pe": 125.61,
     "earnings_power": 97.79,
     "graham": 390.59,
-    "ddm": 574.47
+    "ddm": 572.28
    },
    "relative_pe_basis": {
     "basis": "sector",
     "sector": "Fertilizer",
-    "median_pe": 7.8,
+    "median_pe": 7.88,
     "n_peers": 4
    },
    "sector": "Fertilizer",
-   "composite_fair": 257.46,
-   "mispricing_pct": 34.8,
+   "composite_fair": 258.1,
+   "mispricing_pct": 35.1,
    "verdict": "undervalued",
-   "upside_pct": 34.8
+   "upside_pct": 35.1
   },
   "ENGROH": {
    "price": 263.79,
    "eps": 35.45,
    "eps_basis": "unknown",
-   "pe": 7.44,
-   "growth_est_pct": 16.8,
+   "pe": 7.49,
+   "growth_est_pct": 16.5,
    "methods": {
-    "relative_pe": 263.75,
+    "relative_pe": 283.42,
     "earnings_power": 217.48,
-    "graham": 533.82
+    "graham": 525.9
    },
    "relative_pe_basis": {
     "basis": "sector",
     "sector": "Inv. Banks / Inv. Cos. / Securities Cos.",
-    "median_pe": 7.44,
-    "n_peers": 7
+    "median_pe": 8.0,
+    "n_peers": 8
    },
    "sector": "Inv. Banks / Inv. Cos. / Securities Cos.",
-   "composite_fair": 263.75,
-   "mispricing_pct": -0.0,
+   "composite_fair": 283.42,
+   "mispricing_pct": 7.4,
    "verdict": "fair",
-   "upside_pct": -0.0
+   "upside_pct": 7.4
   },
   "EPCL": {
    "price": 33.89,
    "eps": 0.91,
    "eps_basis": "unknown",
-   "pe": 37.24,
+   "pe": 37.37,
    "growth_est_pct": 5.0,
    "methods": {
-    "relative_pe": 8.97,
+    "relative_pe": 9.05,
     "earnings_power": 5.58,
     "graham": 6.02
    },
    "relative_pe_basis": {
     "basis": "sector",
     "sector": "Chemical",
-    "median_pe": 9.86,
-    "n_peers": 8
+    "median_pe": 9.94,
+    "n_peers": 9
    },
    "sector": "Chemical",
    "composite_fair": 6.02,
@@ -1010,109 +1008,109 @@
    "price": 23.87,
    "eps": 2.23,
    "eps_basis": "unknown",
-   "pe": 10.7,
-   "growth_est_pct": 6.3,
+   "pe": 10.78,
+   "growth_est_pct": 4.1,
    "methods": {
-    "relative_pe": 22.29,
+    "relative_pe": 22.43,
     "earnings_power": 13.68,
-    "graham": 16.76,
-    "ddm": 37.13
+    "graham": 13.25,
+    "ddm": 30.96
    },
    "relative_pe_basis": {
     "basis": "sector",
     "sector": "Power Generation & Distribution",
-    "median_pe": 9.99,
+    "median_pe": 10.06,
     "n_peers": 6
    },
    "sector": "Power Generation & Distribution",
-   "composite_fair": 19.52,
-   "mispricing_pct": -18.2,
+   "composite_fair": 18.05,
+   "mispricing_pct": -24.4,
    "verdict": "overvalued",
-   "upside_pct": -18.2
+   "upside_pct": -24.4
   },
   "FABL": {
    "price": 93.88,
    "eps": 14.76,
    "eps_basis": "unknown",
    "pe": 6.36,
-   "growth_est_pct": 14.6,
+   "growth_est_pct": 11.2,
    "methods": {
-    "relative_pe": 91.36,
+    "relative_pe": 91.88,
     "earnings_power": 90.55,
-    "graham": 199.0,
-    "ddm": 247.23
+    "graham": 163.03,
+    "ddm": 114.45
    },
    "relative_pe_basis": {
     "basis": "sector",
     "sector": "Commercial Banks",
-    "median_pe": 6.19,
+    "median_pe": 6.22,
     "n_peers": 18
    },
    "sector": "Commercial Banks",
-   "composite_fair": 145.18,
-   "mispricing_pct": 54.6,
-   "verdict": "undervalued",
-   "upside_pct": 54.6
+   "composite_fair": 103.16,
+   "mispricing_pct": 9.9,
+   "verdict": "fair",
+   "upside_pct": 9.9
   },
   "FATIMA": {
    "price": 148.46,
    "eps": 21.7,
    "eps_basis": "unknown",
-   "pe": 6.84,
-   "growth_est_pct": 10.9,
+   "pe": 6.9,
+   "growth_est_pct": 7.8,
    "methods": {
-    "relative_pe": 169.26,
+    "relative_pe": 171.0,
     "earnings_power": 133.13,
-    "graham": 234.57,
-    "ddm": 97.4
+    "graham": 187.27,
+    "ddm": 66.75
    },
    "relative_pe_basis": {
     "basis": "sector",
     "sector": "Fertilizer",
-    "median_pe": 7.8,
+    "median_pe": 7.88,
     "n_peers": 4
    },
    "sector": "Fertilizer",
-   "composite_fair": 151.19,
-   "mispricing_pct": 1.8,
+   "composite_fair": 152.06,
+   "mispricing_pct": 2.4,
    "verdict": "fair",
-   "upside_pct": 1.8
+   "upside_pct": 2.4
   },
   "FCCL": {
    "price": 54.06,
    "eps": 6.6,
    "eps_basis": "unknown",
-   "pe": 8.19,
-   "growth_est_pct": 23.2,
+   "pe": 8.27,
+   "growth_est_pct": 18.1,
    "methods": {
-    "relative_pe": 54.65,
+    "relative_pe": 55.04,
     "earnings_power": 40.49,
-    "graham": 129.42,
-    "ddm": 58.6
+    "graham": 105.74,
+    "ddm": 57.36
    },
    "relative_pe_basis": {
     "basis": "sector",
     "sector": "Cement",
-    "median_pe": 8.28,
+    "median_pe": 8.34,
     "n_peers": 13
    },
    "sector": "Cement",
-   "composite_fair": 56.62,
-   "mispricing_pct": 4.7,
+   "composite_fair": 56.2,
+   "mispricing_pct": 4.0,
    "verdict": "fair",
-   "upside_pct": 4.7
+   "upside_pct": 4.0
   },
   "FCEPL": {
    "price": 136.22,
    "eps": 7.53,
    "eps_basis": "unknown",
-   "pe": 18.09,
+   "pe": 18.39,
    "growth_est_pct": 5.0,
    "methods": {
     "relative_pe": 92.32,
     "earnings_power": 46.2,
     "graham": 49.83,
-    "ddm": 26.89
+    "ddm": 29.41
    },
    "relative_pe_basis": {
     "basis": "sector",
@@ -1130,18 +1128,18 @@
    "price": 27.47,
    "eps": 3.28,
    "eps_basis": "unknown",
-   "pe": 8.38,
+   "pe": 8.41,
    "growth_est_pct": 5.0,
    "methods": {
-    "relative_pe": 27.37,
+    "relative_pe": 27.55,
     "earnings_power": 20.12,
     "graham": 21.71,
-    "ddm": 12.9
+    "ddm": 12.6
    },
    "relative_pe_basis": {
     "basis": "sector",
     "sector": "Cable & Electrical Goods",
-    "median_pe": 8.35,
+    "median_pe": 8.4,
     "n_peers": 4
    },
    "sector": "Cable & Electrical Goods",
@@ -1154,18 +1152,18 @@
    "price": 96.08,
    "eps": 13.22,
    "eps_basis": "unknown",
-   "pe": 7.27,
+   "pe": 7.33,
    "growth_est_pct": 5.0,
    "methods": {
-    "relative_pe": 109.46,
+    "relative_pe": 110.25,
     "earnings_power": 81.1,
     "graham": 87.49,
-    "ddm": 31.07
+    "ddm": 33.57
    },
    "relative_pe_basis": {
     "basis": "sector",
     "sector": "Cement",
-    "median_pe": 8.28,
+    "median_pe": 8.34,
     "n_peers": 13
    },
    "sector": "Cement",
@@ -1178,31 +1176,31 @@
    "price": 538.2,
    "eps": 61.41,
    "eps_basis": "unknown",
-   "pe": 8.76,
+   "pe": 8.86,
    "growth_est_pct": 30.0,
    "methods": {
-    "relative_pe": 479.0,
+    "relative_pe": 483.91,
     "earnings_power": 376.75,
     "graham": 1504.79,
-    "ddm": 1384.48
+    "ddm": 1413.24
    },
    "relative_pe_basis": {
     "basis": "sector",
     "sector": "Fertilizer",
-    "median_pe": 7.8,
+    "median_pe": 7.88,
     "n_peers": 4
    },
    "sector": "Fertilizer",
-   "composite_fair": 931.74,
-   "mispricing_pct": 73.1,
+   "composite_fair": 948.58,
+   "mispricing_pct": 76.3,
    "verdict": "undervalued",
-   "upside_pct": 73.1
+   "upside_pct": 76.3
   },
   "FFL": {
    "price": 14.67,
    "eps": 0.39,
    "eps_basis": "unknown",
-   "pe": 37.62,
+   "pe": 38.36,
    "growth_est_pct": 5.0,
    "methods": {
     "relative_pe": 4.78,
@@ -1225,18 +1223,18 @@
    "price": 31.0,
    "eps": 6.75,
    "eps_basis": "unknown",
-   "pe": 4.59,
+   "pe": 4.61,
    "growth_est_pct": 5.0,
    "methods": {
-    "relative_pe": 55.75,
+    "relative_pe": 56.63,
     "earnings_power": 41.41,
     "graham": 44.67,
-    "ddm": 17.94
+    "ddm": 18.91
    },
    "relative_pe_basis": {
     "basis": "market",
     "sector": "Modarabas",
-    "median_pe": 8.26,
+    "median_pe": 8.39,
     "n_peers": 163,
     "why": "fewer than 3 peers with a usable P/E in this sector"
    },
@@ -1250,18 +1248,18 @@
    "price": 1.2,
    "eps": 0.14,
    "eps_basis": "unknown",
-   "pe": 8.57,
+   "pe": 8.5,
    "growth_est_pct": 5.0,
    "methods": {
-    "relative_pe": 1.04,
+    "relative_pe": 1.12,
     "earnings_power": 0.86,
     "graham": 0.93
    },
    "relative_pe_basis": {
     "basis": "sector",
     "sector": "Inv. Banks / Inv. Cos. / Securities Cos.",
-    "median_pe": 7.44,
-    "n_peers": 7
+    "median_pe": 8.0,
+    "n_peers": 8
    },
    "sector": "Inv. Banks / Inv. Cos. / Securities Cos.",
    "composite_fair": 0.93,
@@ -1273,89 +1271,89 @@
    "price": 292.86,
    "eps": 93.78,
    "eps_basis": "unknown",
-   "pe": 3.12,
+   "pe": 3.17,
    "growth_est_pct": 5.0,
    "methods": {
-    "relative_pe": 311.35,
+    "relative_pe": 313.69,
     "earnings_power": 575.34,
     "graham": 620.63,
-    "ddm": 40.34
+    "ddm": 42.07
    },
    "relative_pe_basis": {
     "basis": "sector",
     "sector": "Textile Spinning",
-    "median_pe": 3.32,
+    "median_pe": 3.34,
     "n_peers": 4
    },
    "sector": "Textile Spinning",
-   "composite_fair": 443.35,
-   "mispricing_pct": 51.4,
+   "composite_fair": 444.51,
+   "mispricing_pct": 51.8,
    "verdict": "undervalued",
-   "upside_pct": 51.4
+   "upside_pct": 51.8
   },
   "GAL": {
    "price": 537.88,
-   "eps": 117.25,
+   "eps": 112.58,
    "eps_basis": "unknown",
-   "pe": 4.59,
+   "pe": 4.78,
    "growth_est_pct": 5.0,
    "methods": {
-    "relative_pe": 771.5,
-    "earnings_power": 719.33,
-    "graham": 775.95,
-    "ddm": 70.94
+    "relative_pe": 749.22,
+    "earnings_power": 690.67,
+    "graham": 745.04,
+    "ddm": 100.76
    },
    "relative_pe_basis": {
     "basis": "sector",
     "sector": "Automobile Assembler",
-    "median_pe": 6.58,
+    "median_pe": 6.66,
     "n_peers": 8
    },
    "sector": "Automobile Assembler",
-   "composite_fair": 745.41,
-   "mispricing_pct": 38.6,
+   "composite_fair": 717.86,
+   "mispricing_pct": 33.5,
    "verdict": "undervalued",
-   "upside_pct": 38.6
+   "upside_pct": 33.5
   },
   "GATM": {
    "price": 22.77,
    "eps": 2.72,
    "eps_basis": "unknown",
-   "pe": 8.37,
+   "pe": 8.44,
    "growth_est_pct": 5.0,
    "methods": {
-    "relative_pe": 22.54,
+    "relative_pe": 16.32,
     "earnings_power": 16.69,
     "graham": 18.0
    },
    "relative_pe_basis": {
     "basis": "sector",
     "sector": "Textile Composite",
-    "median_pe": 8.29,
-    "n_peers": 8
+    "median_pe": 6.0,
+    "n_peers": 7
    },
    "sector": "Textile Composite",
-   "composite_fair": 18.0,
-   "mispricing_pct": -20.9,
+   "composite_fair": 16.69,
+   "mispricing_pct": -26.7,
    "verdict": "overvalued",
-   "upside_pct": -20.9
+   "upside_pct": -26.7
   },
   "GGL": {
    "price": 20.52,
    "eps": 9.79,
    "eps_basis": "unknown",
-   "pe": 2.1,
+   "pe": 2.16,
    "growth_est_pct": 5.0,
    "methods": {
-    "relative_pe": 96.48,
+    "relative_pe": 97.31,
     "earnings_power": 60.06,
     "graham": 64.79
    },
    "relative_pe_basis": {
     "basis": "sector",
     "sector": "Chemical",
-    "median_pe": 9.86,
-    "n_peers": 8
+    "median_pe": 9.94,
+    "n_peers": 9
    },
    "sector": "Chemical",
    "composite_fair": 64.79,
@@ -1367,18 +1365,18 @@
    "price": 40.29,
    "eps": 7.23,
    "eps_basis": "unknown",
-   "pe": 5.57,
+   "pe": 5.58,
    "growth_est_pct": 5.0,
    "methods": {
-    "relative_pe": 59.72,
+    "relative_pe": 60.66,
     "earnings_power": 44.36,
     "graham": 47.85,
-    "ddm": 28.5
+    "ddm": 29.41
    },
    "relative_pe_basis": {
     "basis": "market",
     "sector": "Glass & Ceramics",
-    "median_pe": 8.26,
+    "median_pe": 8.39,
     "n_peers": 163,
     "why": "fewer than 3 peers with a usable P/E in this sector"
    },
@@ -1390,93 +1388,93 @@
   },
   "GHNI": {
    "price": 1077.34,
-   "eps": 162.32,
+   "eps": 162.57,
    "eps_basis": "unknown",
-   "pe": 6.64,
-   "growth_est_pct": 0.2,
+   "pe": 6.73,
+   "growth_est_pct": 15.6,
    "methods": {
-    "relative_pe": 1068.07,
-    "earnings_power": 995.83,
-    "graham": 511.07,
-    "ddm": 48.51
+    "relative_pe": 1081.9,
+    "earnings_power": 997.36,
+    "graham": 2312.92,
+    "ddm": 456.42
    },
    "relative_pe_basis": {
     "basis": "sector",
     "sector": "Automobile Assembler",
-    "median_pe": 6.58,
+    "median_pe": 6.66,
     "n_peers": 8
    },
    "sector": "Automobile Assembler",
-   "composite_fair": 753.45,
-   "mispricing_pct": -30.1,
-   "verdict": "overvalued",
-   "upside_pct": -30.1
+   "composite_fair": 1039.63,
+   "mispricing_pct": -3.5,
+   "verdict": "fair",
+   "upside_pct": -3.5
   },
   "GLAXO": {
    "price": 322.57,
    "eps": 32.69,
    "eps_basis": "unknown",
-   "pe": 9.87,
-   "growth_est_pct": 14.8,
+   "pe": 9.9,
+   "growth_est_pct": 7.1,
    "methods": {
-    "relative_pe": 397.35,
+    "relative_pe": 395.22,
     "earnings_power": 200.55,
-    "graham": 444.78,
-    "ddm": 684.52
+    "graham": 266.46,
+    "ddm": 175.86
    },
    "relative_pe_basis": {
     "basis": "sector",
     "sector": "Pharmaceuticals",
-    "median_pe": 12.15,
-    "n_peers": 8
+    "median_pe": 12.09,
+    "n_peers": 7
    },
    "sector": "Pharmaceuticals",
-   "composite_fair": 421.06,
-   "mispricing_pct": 30.5,
-   "verdict": "undervalued",
-   "upside_pct": 30.5
+   "composite_fair": 233.5,
+   "mispricing_pct": -27.6,
+   "verdict": "overvalued",
+   "upside_pct": -27.6
   },
   "GRR": {
    "price": 22.79,
    "eps": 4.13,
    "eps_basis": "unknown",
-   "pe": 5.52,
+   "pe": 5.57,
    "growth_est_pct": 5.0,
    "methods": {
-    "relative_pe": 34.11,
+    "relative_pe": 34.65,
     "earnings_power": 25.34,
     "graham": 27.33,
-    "ddm": 34.15
+    "ddm": 33.6
    },
    "relative_pe_basis": {
     "basis": "market",
     "sector": "Real Estate Investment Trust",
-    "median_pe": 8.26,
+    "median_pe": 8.39,
     "n_peers": 163,
     "why": "fewer than 3 peers with a usable P/E in this sector"
    },
    "sector": "Real Estate Investment Trust",
-   "composite_fair": 30.72,
-   "mispricing_pct": 34.8,
+   "composite_fair": 30.46,
+   "mispricing_pct": 33.7,
    "verdict": "undervalued",
-   "upside_pct": 34.8
+   "upside_pct": 33.7
   },
   "GWLC": {
    "price": 50.58,
    "eps": 5.86,
    "eps_basis": "unknown",
-   "pe": 8.63,
+   "pe": 8.7,
    "growth_est_pct": 5.0,
    "methods": {
-    "relative_pe": 48.52,
+    "relative_pe": 48.87,
     "earnings_power": 35.95,
     "graham": 38.78,
-    "ddm": 8.12
+    "ddm": 8.41
    },
    "relative_pe_basis": {
     "basis": "sector",
     "sector": "Cement",
-    "median_pe": 8.28,
+    "median_pe": 8.34,
     "n_peers": 13
    },
    "sector": "Cement",
@@ -1489,144 +1487,145 @@
    "price": 692.6,
    "eps": 56.41,
    "eps_basis": "unknown",
-   "pe": 12.28,
-   "growth_est_pct": 7.1,
+   "pe": 12.29,
+   "growth_est_pct": 7.4,
    "methods": {
-    "relative_pe": 685.66,
+    "relative_pe": 682.0,
     "earnings_power": 346.07,
-    "graham": 456.53,
-    "ddm": 296.94
+    "graham": 471.39,
+    "ddm": 319.94
    },
    "relative_pe_basis": {
     "basis": "sector",
     "sector": "Pharmaceuticals",
-    "median_pe": 12.15,
-    "n_peers": 8
+    "median_pe": 12.09,
+    "n_peers": 7
    },
    "sector": "Pharmaceuticals",
-   "composite_fair": 401.3,
-   "mispricing_pct": -42.1,
+   "composite_fair": 408.73,
+   "mispricing_pct": -41.0,
    "verdict": "overvalued",
-   "upside_pct": -42.1
+   "upside_pct": -41.0
   },
   "HBL": {
    "price": 303.16,
    "eps": 45.55,
    "eps_basis": "unknown",
-   "pe": 6.66,
-   "growth_est_pct": 20.4,
+   "pe": 6.67,
+   "growth_est_pct": 18.7,
    "methods": {
-    "relative_pe": 281.95,
+    "relative_pe": 283.55,
     "earnings_power": 279.45,
-    "graham": 804.42,
-    "ddm": 888.62
+    "graham": 747.36,
+    "ddm": 916.39
    },
    "relative_pe_basis": {
     "basis": "sector",
     "sector": "Commercial Banks",
-    "median_pe": 6.19,
+    "median_pe": 6.22,
     "n_peers": 18
    },
    "sector": "Commercial Banks",
-   "composite_fair": 543.18,
-   "mispricing_pct": 79.2,
+   "composite_fair": 515.46,
+   "mispricing_pct": 70.0,
    "verdict": "undervalued",
-   "upside_pct": 79.2
+   "upside_pct": 70.0
   },
   "HCAR": {
    "price": 223.36,
    "eps": 34.25,
    "eps_basis": "unknown",
-   "pe": 6.52,
-   "growth_est_pct": 16.0,
+   "pe": 6.58,
+   "growth_est_pct": 11.9,
    "methods": {
-    "relative_pe": 225.37,
+    "relative_pe": 227.93,
     "earnings_power": 210.12,
-    "graham": 496.56,
-    "ddm": 329.91
+    "graham": 395.86,
+    "ddm": 180.03
    },
    "relative_pe_basis": {
     "basis": "sector",
     "sector": "Automobile Assembler",
-    "median_pe": 6.58,
+    "median_pe": 6.66,
     "n_peers": 8
    },
    "sector": "Automobile Assembler",
-   "composite_fair": 277.64,
-   "mispricing_pct": 24.3,
-   "verdict": "undervalued",
-   "upside_pct": 24.3
+   "composite_fair": 219.03,
+   "mispricing_pct": -1.9,
+   "verdict": "fair",
+   "upside_pct": -1.9
   },
   "HINOON": {
    "price": 947.96,
    "eps": 78.82,
    "eps_basis": "unknown",
-   "pe": 12.03,
-   "growth_est_pct": 7.8,
+   "pe": 12.09,
+   "growth_est_pct": 5.3,
    "methods": {
-    "relative_pe": 958.06,
+    "relative_pe": 952.93,
     "earnings_power": 483.56,
-    "graham": 679.28,
-    "ddm": 568.62
+    "graham": 539.31,
+    "ddm": 431.73
    },
    "relative_pe_basis": {
     "basis": "sector",
     "sector": "Pharmaceuticals",
-    "median_pe": 12.15,
-    "n_peers": 8
+    "median_pe": 12.09,
+    "n_peers": 7
    },
    "sector": "Pharmaceuticals",
-   "composite_fair": 623.95,
-   "mispricing_pct": -34.2,
+   "composite_fair": 511.43,
+   "mispricing_pct": -46.0,
    "verdict": "overvalued",
-   "upside_pct": -34.2
+   "upside_pct": -46.0
   },
   "HMB": {
    "price": 98.29,
    "eps": 19.35,
    "eps_basis": "unknown",
-   "pe": 5.08,
+   "pe": 5.12,
    "growth_est_pct": 0.0,
    "methods": {
-    "relative_pe": 119.78,
+    "relative_pe": 120.45,
     "earnings_power": 118.71,
     "graham": 58.84,
-    "ddm": 67.4
+    "ddm": 68.58
    },
    "relative_pe_basis": {
     "basis": "sector",
     "sector": "Commercial Banks",
-    "median_pe": 6.19,
+    "median_pe": 6.22,
     "n_peers": 18
    },
    "sector": "Commercial Banks",
-   "composite_fair": 93.06,
-   "mispricing_pct": -5.3,
+   "composite_fair": 93.64,
+   "mispricing_pct": -4.7,
    "verdict": "fair",
-   "upside_pct": -5.3
+   "upside_pct": -4.7
   },
   "HTL": {
    "price": 38.9,
-   "eps": 3.87,
+   "eps": 3.4,
    "eps_basis": "unknown",
-   "pe": 10.05,
+   "pe": 11.54,
    "growth_est_pct": 5.0,
    "methods": {
-    "relative_pe": 16.37,
-    "earnings_power": 23.74,
-    "graham": 25.61
+    "relative_pe": 14.52,
+    "earnings_power": 20.86,
+    "graham": 22.5,
+    "ddm": 12.61
    },
    "relative_pe_basis": {
     "basis": "sector",
     "sector": "Oil & Gas Marketing Companies",
-    "median_pe": 4.23,
+    "median_pe": 4.27,
     "n_peers": 5
    },
    "sector": "Oil & Gas Marketing Companies",
-   "composite_fair": 23.74,
-   "mispricing_pct": -39.0,
+   "composite_fair": 17.69,
+   "mispricing_pct": -54.5,
    "verdict": "overvalued",
-   "upside_pct": -39.0
+   "upside_pct": -54.5
   },
   "HUBC": {
    "price": 204.51,
@@ -1635,15 +1634,15 @@
    "pe": 5.35,
    "growth_est_pct": 0.0,
    "methods": {
-    "relative_pe": 382.41,
+    "relative_pe": 384.9,
     "earnings_power": 234.72,
     "graham": 116.34,
-    "ddm": 112.66
+    "ddm": 114.29
    },
    "relative_pe_basis": {
     "basis": "sector",
     "sector": "Power Generation & Distribution",
-    "median_pe": 9.99,
+    "median_pe": 10.06,
     "n_peers": 6
    },
    "sector": "Power Generation & Distribution",
@@ -1656,18 +1655,18 @@
    "price": 10.1,
    "eps": 0.1,
    "eps_basis": "unknown",
-   "pe": 101.0,
+   "pe": 100.0,
    "growth_est_pct": 5.0,
    "methods": {
-    "relative_pe": 1.23,
+    "relative_pe": 1.24,
     "earnings_power": 0.61,
     "graham": 0.66,
-    "ddm": 4.24
+    "ddm": 4.2
    },
    "relative_pe_basis": {
     "basis": "sector",
     "sector": "Technology & Communication",
-    "median_pe": 12.29,
+    "median_pe": 12.41,
     "n_peers": 8
    },
    "sector": "Technology & Communication",
@@ -1676,52 +1675,29 @@
    "verdict": "overvalued",
    "upside_pct": -90.6
   },
-  "IBLHL": {
-   "price": 45.23,
-   "eps": 2.45,
-   "eps_basis": "unknown",
-   "pe": 18.46,
-   "growth_est_pct": 5.0,
-   "methods": {
-    "relative_pe": 29.78,
-    "earnings_power": 15.03,
-    "graham": 16.21
-   },
-   "relative_pe_basis": {
-    "basis": "sector",
-    "sector": "Pharmaceuticals",
-    "median_pe": 12.15,
-    "n_peers": 8
-   },
-   "sector": "Pharmaceuticals",
-   "composite_fair": 16.21,
-   "mispricing_pct": -64.2,
-   "verdict": "overvalued",
-   "upside_pct": -64.2
-  },
   "ICL": {
    "price": 129.81,
-   "eps": 13.82,
+   "eps": 15.01,
    "eps_basis": "unknown",
-   "pe": 9.39,
+   "pe": 8.73,
    "growth_est_pct": 5.0,
    "methods": {
-    "relative_pe": 136.2,
-    "earnings_power": 84.79,
-    "graham": 91.46,
-    "ddm": 32.82
+    "relative_pe": 149.2,
+    "earnings_power": 92.09,
+    "graham": 99.33,
+    "ddm": 33.58
    },
    "relative_pe_basis": {
     "basis": "sector",
     "sector": "Chemical",
-    "median_pe": 9.86,
-    "n_peers": 8
+    "median_pe": 9.94,
+    "n_peers": 9
    },
    "sector": "Chemical",
-   "composite_fair": 88.12,
-   "mispricing_pct": -32.1,
+   "composite_fair": 95.71,
+   "mispricing_pct": -26.3,
    "verdict": "overvalued",
-   "upside_pct": -32.1
+   "upside_pct": -26.3
   },
   "IGIHL": {
    "price": 249.85,
@@ -1733,7 +1709,7 @@
     "relative_pe": 250.11,
     "earnings_power": 325.09,
     "graham": 350.68,
-    "ddm": 65.69
+    "ddm": 67.16
    },
    "relative_pe_basis": {
     "basis": "sector",
@@ -1751,42 +1727,42 @@
    "price": 100.49,
    "eps": 9.06,
    "eps_basis": "unknown",
-   "pe": 11.09,
+   "pe": 11.2,
    "growth_est_pct": 30.0,
    "methods": {
-    "relative_pe": 75.06,
+    "relative_pe": 54.36,
     "earnings_power": 55.58,
     "graham": 222.01,
-    "ddm": 151.88
+    "ddm": 152.65
    },
    "relative_pe_basis": {
     "basis": "sector",
     "sector": "Textile Composite",
-    "median_pe": 8.29,
-    "n_peers": 8
+    "median_pe": 6.0,
+    "n_peers": 7
    },
    "sector": "Textile Composite",
-   "composite_fair": 113.47,
-   "mispricing_pct": 12.9,
+   "composite_fair": 104.12,
+   "mispricing_pct": 3.6,
    "verdict": "fair",
-   "upside_pct": 12.9
+   "upside_pct": 3.6
   },
   "IMAGE": {
    "price": 25.39,
    "eps": 3.49,
    "eps_basis": "unknown",
-   "pe": 7.28,
+   "pe": 7.38,
    "growth_est_pct": 5.0,
    "methods": {
-    "relative_pe": 28.83,
+    "relative_pe": 29.28,
     "earnings_power": 21.41,
     "graham": 23.1,
-    "ddm": 16.23
+    "ddm": 16.81
    },
    "relative_pe_basis": {
     "basis": "market",
     "sector": "Apparel",
-    "median_pe": 8.26,
+    "median_pe": 8.39,
     "n_peers": 163,
     "why": "fewer than 3 peers with a usable P/E in this sector"
    },
@@ -1800,19 +1776,19 @@
    "price": 18.1,
    "eps": 0.35,
    "eps_basis": "unknown",
-   "pe": 51.71,
+   "pe": 52.0,
    "growth_est_pct": 5.0,
    "methods": {
-    "relative_pe": 2.6,
+    "relative_pe": 2.8,
     "earnings_power": 2.15,
     "graham": 2.32,
-    "ddm": 1.46
+    "ddm": 1.69
    },
    "relative_pe_basis": {
     "basis": "sector",
     "sector": "Inv. Banks / Inv. Cos. / Securities Cos.",
-    "median_pe": 7.44,
-    "n_peers": 7
+    "median_pe": 8.0,
+    "n_peers": 8
    },
    "sector": "Inv. Banks / Inv. Cos. / Securities Cos.",
    "composite_fair": 2.23,
@@ -1824,42 +1800,42 @@
    "price": 1788.18,
    "eps": 324.5,
    "eps_basis": "unknown",
-   "pe": 5.51,
-   "growth_est_pct": 5.6,
+   "pe": 5.5,
+   "growth_est_pct": 6.4,
    "methods": {
-    "relative_pe": 2135.21,
+    "relative_pe": 2159.55,
     "earnings_power": 1990.8,
-    "graham": 2276.48,
-    "ddm": 1681.39
+    "graham": 2468.58,
+    "ddm": 1866.89
    },
    "relative_pe_basis": {
     "basis": "sector",
     "sector": "Automobile Assembler",
-    "median_pe": 6.58,
+    "median_pe": 6.66,
     "n_peers": 8
    },
    "sector": "Automobile Assembler",
-   "composite_fair": 2063.01,
-   "mispricing_pct": 15.4,
+   "composite_fair": 2075.18,
+   "mispricing_pct": 16.0,
    "verdict": "undervalued",
-   "upside_pct": 15.4
+   "upside_pct": 16.0
   },
   "INIL": {
    "price": 167.7,
    "eps": 21.92,
    "eps_basis": "unknown",
-   "pe": 7.65,
+   "pe": 7.64,
    "growth_est_pct": 5.0,
    "methods": {
-    "relative_pe": 235.86,
+    "relative_pe": 258.88,
     "earnings_power": 134.48,
     "graham": 145.06,
-    "ddm": 59.02
+    "ddm": 58.74
    },
    "relative_pe_basis": {
     "basis": "sector",
     "sector": "Engineering",
-    "median_pe": 10.76,
+    "median_pe": 11.81,
     "n_peers": 8
    },
    "sector": "Engineering",
@@ -1872,18 +1848,18 @@
    "price": 36.58,
    "eps": 6.73,
    "eps_basis": "unknown",
-   "pe": 5.44,
+   "pe": 5.5,
    "growth_est_pct": 5.0,
    "methods": {
-    "relative_pe": 51.69,
+    "relative_pe": 51.48,
     "earnings_power": 41.29,
     "graham": 44.54,
-    "ddm": 4.58
+    "ddm": 16.81
    },
    "relative_pe_basis": {
     "basis": "sector",
     "sector": "Paper, Board & Packaging",
-    "median_pe": 7.68,
+    "median_pe": 7.65,
     "n_peers": 5
    },
    "sector": "Paper, Board & Packaging",
@@ -1896,42 +1872,42 @@
    "price": 82.4,
    "eps": 8.44,
    "eps_basis": "unknown",
-   "pe": 9.76,
-   "growth_est_pct": 20.6,
+   "pe": 9.92,
+   "growth_est_pct": 15.6,
    "methods": {
-    "relative_pe": 90.81,
+    "relative_pe": 99.68,
     "earnings_power": 51.78,
-    "graham": 150.31,
-    "ddm": 205.36
+    "graham": 119.97,
+    "ddm": 228.95
    },
    "relative_pe_basis": {
     "basis": "sector",
     "sector": "Engineering",
-    "median_pe": 10.76,
+    "median_pe": 11.81,
     "n_peers": 8
    },
    "sector": "Engineering",
-   "composite_fair": 120.56,
-   "mispricing_pct": 46.3,
+   "composite_fair": 109.83,
+   "mispricing_pct": 33.3,
    "verdict": "undervalued",
-   "upside_pct": 46.3
+   "upside_pct": 33.3
   },
   "JDWS": {
    "price": 906.59,
    "eps": 162.29,
    "eps_basis": "unknown",
-   "pe": 5.59,
+   "pe": 5.54,
    "growth_est_pct": 5.0,
    "methods": {
-    "relative_pe": 1340.52,
+    "relative_pe": 1361.61,
     "earnings_power": 995.64,
     "graham": 1074.02,
-    "ddm": 380.77
+    "ddm": 377.72
    },
    "relative_pe_basis": {
     "basis": "market",
     "sector": "Sugar & Allied Industries",
-    "median_pe": 8.26,
+    "median_pe": 8.39,
     "n_peers": 163,
     "why": "fewer than 3 peers with a usable P/E in this sector"
    },
@@ -1945,41 +1921,41 @@
    "price": 12.08,
    "eps": 2.88,
    "eps_basis": "unknown",
-   "pe": 4.19,
+   "pe": 4.23,
    "growth_est_pct": 5.0,
    "methods": {
-    "relative_pe": 17.83,
+    "relative_pe": 17.93,
     "earnings_power": 17.67,
     "graham": 19.06
    },
    "relative_pe_basis": {
     "basis": "sector",
     "sector": "Commercial Banks",
-    "median_pe": 6.19,
+    "median_pe": 6.22,
     "n_peers": 18
    },
    "sector": "Commercial Banks",
-   "composite_fair": 17.83,
-   "mispricing_pct": 47.6,
+   "composite_fair": 17.93,
+   "mispricing_pct": 48.4,
    "verdict": "undervalued",
-   "upside_pct": 47.6
+   "upside_pct": 48.4
   },
   "JSCL": {
    "price": 20.75,
    "eps": 7.01,
    "eps_basis": "unknown",
-   "pe": 2.96,
+   "pe": 2.99,
    "growth_est_pct": 5.0,
    "methods": {
-    "relative_pe": 52.15,
+    "relative_pe": 56.04,
     "earnings_power": 43.01,
     "graham": 46.39
    },
    "relative_pe_basis": {
     "basis": "sector",
     "sector": "Inv. Banks / Inv. Cos. / Securities Cos.",
-    "median_pe": 7.44,
-    "n_peers": 7
+    "median_pe": 8.0,
+    "n_peers": 8
    },
    "sector": "Inv. Banks / Inv. Cos. / Securities Cos.",
    "composite_fair": 46.39,
@@ -1989,68 +1965,68 @@
   },
   "JVDC": {
    "price": 145.28,
-   "eps": 10.67,
+   "eps": 10.27,
    "eps_basis": "unknown",
-   "pe": 13.62,
+   "pe": 14.14,
    "growth_est_pct": 5.0,
    "methods": {
-    "relative_pe": 88.13,
-    "earnings_power": 65.46,
-    "graham": 70.61,
-    "ddm": 43.08
+    "relative_pe": 86.17,
+    "earnings_power": 63.01,
+    "graham": 67.97,
+    "ddm": 50.4
    },
    "relative_pe_basis": {
     "basis": "market",
     "sector": "Property",
-    "median_pe": 8.26,
+    "median_pe": 8.39,
     "n_peers": 163,
     "why": "fewer than 3 peers with a usable P/E in this sector"
    },
    "sector": "Property",
-   "composite_fair": 68.03,
-   "mispricing_pct": -53.2,
+   "composite_fair": 65.49,
+   "mispricing_pct": -54.9,
    "verdict": "overvalued",
-   "upside_pct": -53.2
+   "upside_pct": -54.9
   },
   "KAPCO": {
    "price": 26.58,
    "eps": 2.86,
    "eps_basis": "unknown",
-   "pe": 9.29,
+   "pe": 9.34,
    "growth_est_pct": 30.0,
    "methods": {
-    "relative_pe": 28.59,
+    "relative_pe": 28.77,
     "earnings_power": 17.55,
     "graham": 70.08,
-    "ddm": 273.1
+    "ddm": 267.21
    },
    "relative_pe_basis": {
     "basis": "sector",
     "sector": "Power Generation & Distribution",
-    "median_pe": 9.99,
+    "median_pe": 10.06,
     "n_peers": 6
    },
    "sector": "Power Generation & Distribution",
-   "composite_fair": 49.34,
-   "mispricing_pct": 85.6,
+   "composite_fair": 49.42,
+   "mispricing_pct": 85.9,
    "verdict": "undervalued",
-   "upside_pct": 85.6
+   "upside_pct": 85.9
   },
   "KEL": {
    "price": 6.72,
    "eps": 0.15,
    "eps_basis": "unknown",
-   "pe": 44.8,
+   "pe": 43.73,
    "growth_est_pct": 5.0,
    "methods": {
-    "relative_pe": 1.5,
+    "relative_pe": 1.51,
     "earnings_power": 0.92,
     "graham": 0.99
    },
    "relative_pe_basis": {
     "basis": "sector",
     "sector": "Power Generation & Distribution",
-    "median_pe": 9.99,
+    "median_pe": 10.06,
     "n_peers": 6
    },
    "sector": "Power Generation & Distribution",
@@ -2059,140 +2035,93 @@
    "verdict": "overvalued",
    "upside_pct": -85.3
   },
-  "KML": {
-   "price": 8.48,
-   "eps": 0.36,
-   "eps_basis": "unknown",
-   "pe": 23.56,
-   "growth_est_pct": 5.0,
-   "methods": {
-    "relative_pe": 2.98,
-    "earnings_power": 2.21,
-    "graham": 2.38
-   },
-   "relative_pe_basis": {
-    "basis": "sector",
-    "sector": "Textile Composite",
-    "median_pe": 8.29,
-    "n_peers": 8
-   },
-   "sector": "Textile Composite",
-   "composite_fair": 2.38,
-   "mispricing_pct": -71.9,
-   "verdict": "overvalued",
-   "upside_pct": -71.9
-  },
   "KOHC": {
    "price": 91.1,
    "eps": 11.64,
    "eps_basis": "unknown",
-   "pe": 7.83,
-   "growth_est_pct": 18.1,
+   "pe": 7.9,
+   "growth_est_pct": 15.2,
    "methods": {
-    "relative_pe": 96.38,
+    "relative_pe": 97.08,
     "earnings_power": 71.41,
-    "graham": 186.12
+    "graham": 161.65
    },
    "relative_pe_basis": {
     "basis": "sector",
     "sector": "Cement",
-    "median_pe": 8.28,
+    "median_pe": 8.34,
     "n_peers": 13
    },
    "sector": "Cement",
-   "composite_fair": 96.38,
-   "mispricing_pct": 5.8,
+   "composite_fair": 97.08,
+   "mispricing_pct": 6.6,
    "verdict": "fair",
-   "upside_pct": 5.8
+   "upside_pct": 6.6
   },
   "KOHTM": {
    "price": 100.63,
    "eps": 14.85,
    "eps_basis": "unknown",
-   "pe": 6.78,
+   "pe": 6.76,
    "growth_est_pct": 5.0,
    "methods": {
-    "relative_pe": 49.3,
+    "relative_pe": 49.67,
     "earnings_power": 91.1,
     "graham": 98.28,
-    "ddm": 14.2
+    "ddm": 16.82
    },
    "relative_pe_basis": {
     "basis": "sector",
     "sector": "Textile Spinning",
-    "median_pe": 3.32,
+    "median_pe": 3.34,
     "n_peers": 4
    },
    "sector": "Textile Spinning",
-   "composite_fair": 70.2,
-   "mispricing_pct": -30.2,
+   "composite_fair": 70.38,
+   "mispricing_pct": -30.1,
    "verdict": "overvalued",
-   "upside_pct": -30.2
+   "upside_pct": -30.1
   },
   "KOIL": {
    "price": 35.2,
    "eps": 1.58,
    "eps_basis": "unknown",
-   "pe": 22.28,
+   "pe": 22.66,
    "growth_est_pct": 5.0,
    "methods": {
-    "relative_pe": 13.09,
+    "relative_pe": 9.48,
     "earnings_power": 9.69,
     "graham": 10.46,
-    "ddm": 5.71
+    "ddm": 6.3
    },
    "relative_pe_basis": {
     "basis": "sector",
     "sector": "Textile Composite",
-    "median_pe": 8.29,
-    "n_peers": 8
+    "median_pe": 6.0,
+    "n_peers": 7
    },
    "sector": "Textile Composite",
-   "composite_fair": 10.07,
-   "mispricing_pct": -71.4,
+   "composite_fair": 9.59,
+   "mispricing_pct": -72.8,
    "verdict": "overvalued",
-   "upside_pct": -71.4
-  },
-  "KPUS": {
-   "price": 820.33,
-   "eps": 6.52,
-   "eps_basis": "unknown",
-   "pe": 125.82,
-   "growth_est_pct": 5.0,
-   "methods": {
-    "relative_pe": 53.86,
-    "earnings_power": 40.0,
-    "graham": 43.15
-   },
-   "relative_pe_basis": {
-    "basis": "market",
-    "sector": "Sugar & Allied Industries",
-    "median_pe": 8.26,
-    "n_peers": 163,
-    "why": "fewer than 3 peers with a usable P/E in this sector"
-   },
-   "sector": "Sugar & Allied Industries",
-   "composite_fair": 43.15,
-   "mispricing_pct": -94.7,
-   "verdict": "overvalued",
-   "upside_pct": -94.7
+   "upside_pct": -72.8
   },
   "KSBP": {
    "price": 215.19,
    "eps": 7.38,
    "eps_basis": "unknown",
-   "pe": 29.16,
+   "pe": 29.39,
    "growth_est_pct": 5.0,
    "methods": {
-    "relative_pe": 79.41,
+    "relative_pe": 87.16,
     "earnings_power": 45.28,
     "graham": 48.84,
-    "ddm": 7.95
+    "ddm": 8.31
    },
    "relative_pe_basis": {
     "basis": "sector",
     "sector": "Engineering",
-    "median_pe": 10.76,
+    "median_pe": 11.81,
     "n_peers": 8
    },
    "sector": "Engineering",
@@ -2205,137 +2134,137 @@
    "price": 42.67,
    "eps": 14.77,
    "eps_basis": "unknown",
-   "pe": 2.89,
+   "pe": 2.9,
    "growth_est_pct": 5.0,
    "methods": {
-    "relative_pe": 122.37,
+    "relative_pe": 88.62,
     "earnings_power": 90.61,
     "graham": 97.75,
-    "ddm": 3.41
+    "ddm": 3.37
    },
    "relative_pe_basis": {
     "basis": "sector",
     "sector": "Textile Composite",
-    "median_pe": 8.29,
-    "n_peers": 8
+    "median_pe": 6.0,
+    "n_peers": 7
    },
    "sector": "Textile Composite",
-   "composite_fair": 94.18,
-   "mispricing_pct": 120.7,
+   "composite_fair": 89.62,
+   "mispricing_pct": 110.0,
    "verdict": "undervalued",
-   "upside_pct": 120.7
+   "upside_pct": 110.0
   },
   "LCI": {
    "price": 209.08,
    "eps": 21.11,
    "eps_basis": "unknown",
-   "pe": 9.9,
+   "pe": 9.94,
    "growth_est_pct": 30.0,
    "methods": {
-    "relative_pe": 208.04,
+    "relative_pe": 209.83,
     "earnings_power": 129.51,
     "graham": 517.28,
-    "ddm": 375.05
+    "ddm": 400.59
    },
    "relative_pe_basis": {
     "basis": "sector",
     "sector": "Chemical",
-    "median_pe": 9.86,
-    "n_peers": 8
+    "median_pe": 9.94,
+    "n_peers": 9
    },
    "sector": "Chemical",
-   "composite_fair": 291.55,
-   "mispricing_pct": 39.4,
+   "composite_fair": 305.21,
+   "mispricing_pct": 46.0,
    "verdict": "undervalued",
-   "upside_pct": 39.4
+   "upside_pct": 46.0
   },
   "LOADS": {
    "price": 12.64,
-   "eps": 1.18,
+   "eps": 1.4,
    "eps_basis": "unknown",
-   "pe": 10.71,
+   "pe": 9.11,
    "growth_est_pct": 5.0,
    "methods": {
-    "relative_pe": 7.5,
-    "earnings_power": 7.24,
-    "graham": 7.81
+    "relative_pe": 9.2,
+    "earnings_power": 8.59,
+    "graham": 9.27
    },
    "relative_pe_basis": {
     "basis": "sector",
     "sector": "Automobile Parts & Accessories",
-    "median_pe": 6.36,
+    "median_pe": 6.57,
     "n_peers": 3
    },
    "sector": "Automobile Parts & Accessories",
-   "composite_fair": 7.5,
-   "mispricing_pct": -40.7,
+   "composite_fair": 9.2,
+   "mispricing_pct": -27.2,
    "verdict": "overvalued",
-   "upside_pct": -40.7
+   "upside_pct": -27.2
   },
   "LOTCHEM": {
    "price": 25.61,
    "eps": 3.1,
    "eps_basis": "unknown",
-   "pe": 8.26,
-   "growth_est_pct": 7.1,
+   "pe": 8.29,
+   "growth_est_pct": 3.8,
    "methods": {
-    "relative_pe": 30.55,
+    "relative_pe": 30.81,
     "earnings_power": 19.02,
-    "graham": 25.25,
-    "ddm": 49.57
+    "graham": 17.75,
+    "ddm": 37.73
    },
    "relative_pe_basis": {
     "basis": "sector",
     "sector": "Chemical",
-    "median_pe": 9.86,
-    "n_peers": 8
+    "median_pe": 9.94,
+    "n_peers": 9
    },
    "sector": "Chemical",
-   "composite_fair": 27.9,
-   "mispricing_pct": 8.9,
+   "composite_fair": 24.91,
+   "mispricing_pct": -2.7,
    "verdict": "fair",
-   "upside_pct": 8.9
+   "upside_pct": -2.7
   },
   "LUCK": {
    "price": 423.79,
    "eps": 60.78,
    "eps_basis": "unknown",
-   "pe": 6.97,
-   "growth_est_pct": 19.3,
+   "pe": 7.0,
+   "growth_est_pct": 14.9,
    "methods": {
-    "relative_pe": 503.26,
+    "relative_pe": 506.91,
     "earnings_power": 372.88,
-    "graham": 1026.21,
-    "ddm": 186.01
+    "graham": 834.58,
+    "ddm": 190.86
    },
    "relative_pe_basis": {
     "basis": "sector",
     "sector": "Cement",
-    "median_pe": 8.28,
+    "median_pe": 8.34,
     "n_peers": 13
    },
    "sector": "Cement",
-   "composite_fair": 438.07,
-   "mispricing_pct": 3.4,
+   "composite_fair": 439.89,
+   "mispricing_pct": 3.8,
    "verdict": "fair",
-   "upside_pct": 3.4
+   "upside_pct": 3.8
   },
   "MACFL": {
    "price": 70.55,
    "eps": 2.2,
    "eps_basis": "unknown",
-   "pe": 32.07,
+   "pe": 31.93,
    "growth_est_pct": 5.0,
    "methods": {
-    "relative_pe": 16.9,
+    "relative_pe": 16.83,
     "earnings_power": 13.5,
     "graham": 14.56,
-    "ddm": 4.5
+    "ddm": 4.21
    },
    "relative_pe_basis": {
     "basis": "sector",
     "sector": "Paper, Board & Packaging",
-    "median_pe": 7.68,
+    "median_pe": 7.65,
     "n_peers": 5
    },
    "sector": "Paper, Board & Packaging",
@@ -2348,65 +2277,65 @@
    "price": 645.57,
    "eps": 72.36,
    "eps_basis": "unknown",
-   "pe": 8.92,
-   "growth_est_pct": 4.1,
+   "pe": 8.99,
+   "growth_est_pct": 4.7,
    "methods": {
-    "relative_pe": 459.12,
+    "relative_pe": 461.3,
     "earnings_power": 443.93,
-    "graham": 431.45,
-    "ddm": 281.98
+    "graham": 461.09,
+    "ddm": 304.58
    },
    "relative_pe_basis": {
     "basis": "sector",
     "sector": "Oil & Gas Exploration Companies",
-    "median_pe": 6.34,
+    "median_pe": 6.38,
     "n_peers": 4
    },
    "sector": "Oil & Gas Exploration Companies",
-   "composite_fair": 437.69,
-   "mispricing_pct": -32.2,
+   "composite_fair": 452.51,
+   "mispricing_pct": -29.9,
    "verdict": "overvalued",
-   "upside_pct": -32.2
+   "upside_pct": -29.9
   },
   "MCB": {
    "price": 396.34,
    "eps": 48.23,
    "eps_basis": "unknown",
-   "pe": 8.22,
+   "pe": 8.16,
    "growth_est_pct": 0.0,
    "methods": {
-    "relative_pe": 298.54,
+    "relative_pe": 300.23,
     "earnings_power": 295.89,
     "graham": 146.65,
-    "ddm": 211.76
+    "ddm": 205.64
    },
    "relative_pe_basis": {
     "basis": "sector",
     "sector": "Commercial Banks",
-    "median_pe": 6.19,
+    "median_pe": 6.22,
     "n_peers": 18
    },
    "sector": "Commercial Banks",
-   "composite_fair": 253.82,
-   "mispricing_pct": -36.0,
+   "composite_fair": 250.76,
+   "mispricing_pct": -36.7,
    "verdict": "overvalued",
-   "upside_pct": -36.0
+   "upside_pct": -36.7
   },
   "MDTL": {
    "price": 8.67,
    "eps": 3.98,
    "eps_basis": "unknown",
-   "pe": 2.18,
+   "pe": 2.16,
    "growth_est_pct": 5.0,
    "methods": {
-    "relative_pe": 48.93,
+    "relative_pe": 49.37,
     "earnings_power": 24.42,
     "graham": 26.34
    },
    "relative_pe_basis": {
     "basis": "sector",
     "sector": "Technology & Communication",
-    "median_pe": 12.29,
+    "median_pe": 12.41,
     "n_peers": 8
    },
    "sector": "Technology & Communication",
@@ -2419,54 +2348,54 @@
    "price": 550.41,
    "eps": 50.88,
    "eps_basis": "unknown",
-   "pe": 10.82,
-   "growth_est_pct": 17.9,
+   "pe": 10.93,
+   "growth_est_pct": 17.4,
    "methods": {
-    "relative_pe": 314.95,
+    "relative_pe": 316.73,
     "earnings_power": 312.15,
-    "graham": 805.03,
-    "ddm": 1237.33
+    "graham": 788.13,
+    "ddm": 1220.53
    },
    "relative_pe_basis": {
     "basis": "sector",
     "sector": "Commercial Banks",
-    "median_pe": 6.19,
+    "median_pe": 6.22,
     "n_peers": 18
    },
    "sector": "Commercial Banks",
-   "composite_fair": 559.99,
-   "mispricing_pct": 1.7,
+   "composite_fair": 552.43,
+   "mispricing_pct": 0.4,
    "verdict": "fair",
-   "upside_pct": 1.7
+   "upside_pct": 0.4
   },
   "MEHT": {
    "price": 141.86,
    "eps": 39.74,
    "eps_basis": "unknown",
-   "pe": 3.57,
+   "pe": 3.53,
    "growth_est_pct": 5.0,
    "methods": {
-    "relative_pe": 329.25,
+    "relative_pe": 238.44,
     "earnings_power": 243.8,
     "graham": 262.99
    },
    "relative_pe_basis": {
     "basis": "sector",
     "sector": "Textile Composite",
-    "median_pe": 8.29,
-    "n_peers": 8
+    "median_pe": 6.0,
+    "n_peers": 7
    },
    "sector": "Textile Composite",
-   "composite_fair": 262.99,
-   "mispricing_pct": 85.4,
+   "composite_fair": 243.8,
+   "mispricing_pct": 71.9,
    "verdict": "undervalued",
-   "upside_pct": 85.4
+   "upside_pct": 71.9
   },
   "MFL": {
    "price": 45.07,
    "eps": 4.61,
    "eps_basis": "unknown",
-   "pe": 9.78,
+   "pe": 9.91,
    "growth_est_pct": 5.0,
    "methods": {
     "relative_pe": 56.52,
@@ -2489,40 +2418,40 @@
    "price": 96.19,
    "eps": 11.34,
    "eps_basis": "unknown",
-   "pe": 8.48,
-   "growth_est_pct": 30.0,
+   "pe": 8.5,
+   "growth_est_pct": 25.4,
    "methods": {
-    "relative_pe": 93.9,
+    "relative_pe": 94.58,
     "earnings_power": 69.57,
-    "graham": 277.88
+    "graham": 240.3
    },
    "relative_pe_basis": {
     "basis": "sector",
     "sector": "Cement",
-    "median_pe": 8.28,
+    "median_pe": 8.34,
     "n_peers": 13
    },
    "sector": "Cement",
-   "composite_fair": 93.9,
-   "mispricing_pct": -2.4,
+   "composite_fair": 94.58,
+   "mispricing_pct": -1.7,
    "verdict": "fair",
-   "upside_pct": -2.4
+   "upside_pct": -1.7
   },
   "MSOT": {
    "price": 185.35,
    "eps": 11.66,
    "eps_basis": "unknown",
-   "pe": 15.9,
+   "pe": 15.87,
    "growth_est_pct": 5.0,
    "methods": {
-    "relative_pe": 96.31,
+    "relative_pe": 97.83,
     "earnings_power": 71.53,
     "graham": 77.16
    },
    "relative_pe_basis": {
     "basis": "market",
     "sector": "Apparel",
-    "median_pe": 8.26,
+    "median_pe": 8.39,
     "n_peers": 163,
     "why": "fewer than 3 peers with a usable P/E in this sector"
    },
@@ -2534,62 +2463,63 @@
   },
   "MTL": {
    "price": 297.99,
-   "eps": 18.64,
+   "eps": 20.23,
    "eps_basis": "unknown",
-   "pe": 15.99,
+   "pe": 14.83,
    "growth_est_pct": 5.0,
    "methods": {
-    "relative_pe": 122.65,
-    "earnings_power": 114.36,
-    "graham": 123.36,
-    "ddm": 248.81
+    "relative_pe": 134.63,
+    "earnings_power": 124.11,
+    "graham": 133.88,
+    "ddm": 176.47
    },
    "relative_pe_basis": {
     "basis": "sector",
     "sector": "Automobile Assembler",
-    "median_pe": 6.58,
+    "median_pe": 6.66,
     "n_peers": 8
    },
    "sector": "Automobile Assembler",
-   "composite_fair": 123.0,
-   "mispricing_pct": -58.7,
+   "composite_fair": 134.25,
+   "mispricing_pct": -54.9,
    "verdict": "overvalued",
-   "upside_pct": -58.7
+   "upside_pct": -54.9
   },
   "MUGHAL": {
    "price": 69.98,
    "eps": 5.95,
    "eps_basis": "unknown",
-   "pe": 11.76,
+   "pe": 11.95,
    "growth_est_pct": 5.0,
    "methods": {
-    "relative_pe": 64.02,
+    "relative_pe": 70.27,
     "earnings_power": 36.5,
-    "graham": 39.38
+    "graham": 39.38,
+    "ddm": 16.81
    },
    "relative_pe_basis": {
     "basis": "sector",
     "sector": "Engineering",
-    "median_pe": 10.76,
+    "median_pe": 11.81,
     "n_peers": 8
    },
    "sector": "Engineering",
-   "composite_fair": 39.38,
-   "mispricing_pct": -43.7,
+   "composite_fair": 37.94,
+   "mispricing_pct": -45.8,
    "verdict": "overvalued",
-   "upside_pct": -43.7
+   "upside_pct": -45.8
   },
   "MUREB": {
    "price": 934.81,
-   "eps": 126.09,
+   "eps": 137.02,
    "eps_basis": "unknown",
-   "pe": 7.41,
+   "pe": 6.83,
    "growth_est_pct": 5.0,
    "methods": {
-    "relative_pe": 1545.86,
-    "earnings_power": 773.56,
-    "graham": 834.45,
-    "ddm": 352.57
+    "relative_pe": 1679.87,
+    "earnings_power": 840.61,
+    "graham": 906.78,
+    "ddm": 348.65
    },
    "relative_pe_basis": {
     "basis": "sector",
@@ -2598,22 +2528,22 @@
     "n_peers": 15
    },
    "sector": "Food & Personal Care Products",
-   "composite_fair": 804.0,
-   "mispricing_pct": -14.0,
+   "composite_fair": 873.69,
+   "mispricing_pct": -6.5,
    "verdict": "fair",
-   "upside_pct": -14.0
+   "upside_pct": -6.5
   },
   "NATF": {
    "price": 349.49,
-   "eps": 110.99,
+   "eps": 111.42,
    "eps_basis": "unknown",
    "pe": 3.15,
    "growth_est_pct": 0.0,
    "methods": {
-    "relative_pe": 1360.74,
-    "earnings_power": 680.92,
-    "graham": 337.48,
-    "ddm": 135.2
+    "relative_pe": 1366.01,
+    "earnings_power": 683.56,
+    "graham": 338.79,
+    "ddm": 171.35
    },
    "relative_pe_basis": {
     "basis": "sector",
@@ -2622,94 +2552,94 @@
     "n_peers": 15
    },
    "sector": "Food & Personal Care Products",
-   "composite_fair": 509.2,
-   "mispricing_pct": 45.7,
+   "composite_fair": 511.17,
+   "mispricing_pct": 46.3,
    "verdict": "undervalued",
-   "upside_pct": 45.7
+   "upside_pct": 46.3
   },
   "NBP": {
    "price": 171.08,
    "eps": 35.18,
    "eps_basis": "unknown",
-   "pe": 4.86,
-   "growth_est_pct": 3.4,
+   "pe": 4.87,
+   "growth_est_pct": 7.3,
    "methods": {
-    "relative_pe": 217.76,
+    "relative_pe": 219.0,
     "earnings_power": 215.83,
-    "graham": 192.65,
-    "ddm": 235.69
+    "graham": 289.92,
+    "ddm": 366.98
    },
    "relative_pe_basis": {
     "basis": "sector",
     "sector": "Commercial Banks",
-    "median_pe": 6.19,
+    "median_pe": 6.22,
     "n_peers": 18
    },
    "sector": "Commercial Banks",
-   "composite_fair": 216.8,
-   "mispricing_pct": 26.7,
+   "composite_fair": 254.46,
+   "mispricing_pct": 48.7,
    "verdict": "undervalued",
-   "upside_pct": 26.7
+   "upside_pct": 48.7
   },
   "NCL": {
    "price": 38.95,
-   "eps": 4.75,
+   "eps": 6.5,
    "eps_basis": "unknown",
-   "pe": 8.2,
+   "pe": 6.0,
    "growth_est_pct": 5.0,
    "methods": {
-    "relative_pe": 39.35,
-    "earnings_power": 29.14,
-    "graham": 31.43,
-    "ddm": 18.13
+    "relative_pe": 39.0,
+    "earnings_power": 39.88,
+    "graham": 43.02,
+    "ddm": 33.6
    },
    "relative_pe_basis": {
     "basis": "sector",
     "sector": "Textile Composite",
-    "median_pe": 8.29,
-    "n_peers": 8
+    "median_pe": 6.0,
+    "n_peers": 7
    },
    "sector": "Textile Composite",
-   "composite_fair": 30.29,
-   "mispricing_pct": -22.2,
-   "verdict": "overvalued",
-   "upside_pct": -22.2
+   "composite_fair": 39.44,
+   "mispricing_pct": 1.3,
+   "verdict": "fair",
+   "upside_pct": 1.3
   },
   "NCPL": {
    "price": 57.5,
    "eps": 4.04,
    "eps_basis": "unknown",
-   "pe": 14.23,
+   "pe": 14.38,
    "growth_est_pct": 30.0,
    "methods": {
-    "relative_pe": 40.38,
+    "relative_pe": 40.64,
     "earnings_power": 24.79,
     "graham": 99.0,
-    "ddm": 115.44
+    "ddm": 114.56
    },
    "relative_pe_basis": {
     "basis": "sector",
     "sector": "Power Generation & Distribution",
-    "median_pe": 9.99,
+    "median_pe": 10.06,
     "n_peers": 6
    },
    "sector": "Power Generation & Distribution",
-   "composite_fair": 69.69,
-   "mispricing_pct": 21.2,
+   "composite_fair": 69.82,
+   "mispricing_pct": 21.4,
    "verdict": "undervalued",
-   "upside_pct": 21.2
+   "upside_pct": 21.4
   },
   "NESTLE": {
    "price": 7420.0,
    "eps": 370.4,
    "eps_basis": "unknown",
-   "pe": 20.03,
+   "pe": 19.98,
    "growth_est_pct": 5.0,
    "methods": {
     "relative_pe": 4541.1,
     "earnings_power": 2272.39,
     "graham": 2451.27,
-    "ddm": 4618.5
+    "ddm": 4680.83
    },
    "relative_pe_basis": {
     "basis": "sector",
@@ -2727,18 +2657,18 @@
    "price": 124.5,
    "eps": 31.95,
    "eps_basis": "unknown",
-   "pe": 3.9,
+   "pe": 3.94,
    "growth_est_pct": 5.0,
    "methods": {
-    "relative_pe": 392.83,
+    "relative_pe": 396.34,
     "earnings_power": 196.01,
     "graham": 211.44,
-    "ddm": 26.15
+    "ddm": 25.2
    },
    "relative_pe_basis": {
     "basis": "sector",
     "sector": "Technology & Communication",
-    "median_pe": 12.29,
+    "median_pe": 12.41,
     "n_peers": 8
    },
    "sector": "Technology & Communication",
@@ -2751,19 +2681,19 @@
    "price": 267.0,
    "eps": 21.64,
    "eps_basis": "unknown",
-   "pe": 12.34,
+   "pe": 12.3,
    "growth_est_pct": 5.0,
    "methods": {
-    "relative_pe": 213.26,
+    "relative_pe": 215.1,
     "earnings_power": 132.76,
     "graham": 143.21,
-    "ddm": 69.08
+    "ddm": 67.28
    },
    "relative_pe_basis": {
     "basis": "sector",
     "sector": "Chemical",
-    "median_pe": 9.86,
-    "n_peers": 8
+    "median_pe": 9.94,
+    "n_peers": 9
    },
    "sector": "Chemical",
    "composite_fair": 137.99,
@@ -2775,65 +2705,65 @@
    "price": 133.82,
    "eps": 33.41,
    "eps_basis": "unknown",
-   "pe": 4.01,
+   "pe": 4.03,
    "growth_est_pct": 5.0,
    "methods": {
-    "relative_pe": 276.8,
+    "relative_pe": 200.46,
     "earnings_power": 204.97,
     "graham": 221.1,
-    "ddm": 15.96
+    "ddm": 16.86
    },
    "relative_pe_basis": {
     "basis": "sector",
     "sector": "Textile Composite",
-    "median_pe": 8.29,
-    "n_peers": 8
+    "median_pe": 6.0,
+    "n_peers": 7
    },
    "sector": "Textile Composite",
-   "composite_fair": 213.03,
-   "mispricing_pct": 59.2,
+   "composite_fair": 202.72,
+   "mispricing_pct": 51.5,
    "verdict": "undervalued",
-   "upside_pct": 59.2
+   "upside_pct": 51.5
   },
   "NPL": {
    "price": 63.28,
    "eps": 8.55,
    "eps_basis": "unknown",
-   "pe": 7.4,
-   "growth_est_pct": 2.8,
+   "pe": 7.41,
+   "growth_est_pct": 0.7,
    "methods": {
-    "relative_pe": 85.46,
+    "relative_pe": 86.01,
     "earnings_power": 52.45,
-    "graham": 42.99,
-    "ddm": 20.1
+    "graham": 30.15,
+    "ddm": 17.95
    },
    "relative_pe_basis": {
     "basis": "sector",
     "sector": "Power Generation & Distribution",
-    "median_pe": 9.99,
+    "median_pe": 10.06,
     "n_peers": 6
    },
    "sector": "Power Generation & Distribution",
-   "composite_fair": 47.72,
-   "mispricing_pct": -24.6,
+   "composite_fair": 41.3,
+   "mispricing_pct": -34.7,
    "verdict": "overvalued",
-   "upside_pct": -24.6
+   "upside_pct": -34.7
   },
   "NRL": {
    "price": 525.16,
    "eps": 77.09,
    "eps_basis": "unknown",
-   "pe": 6.81,
+   "pe": 6.93,
    "growth_est_pct": 5.0,
    "methods": {
-    "relative_pe": 361.94,
+    "relative_pe": 364.64,
     "earnings_power": 472.94,
     "graham": 510.17
    },
    "relative_pe_basis": {
     "basis": "sector",
     "sector": "Refinery",
-    "median_pe": 4.7,
+    "median_pe": 4.73,
     "n_peers": 4
    },
    "sector": "Refinery",
@@ -2842,45 +2772,46 @@
    "verdict": "fair",
    "upside_pct": -9.9
   },
-  "OCTOPUS": {
-   "price": 28.61,
-   "eps": 0.14,
+  "NRSL": {
+   "price": 38.02,
+   "eps": 3.56,
    "eps_basis": "unknown",
-   "pe": 204.36,
+   "pe": 10.51,
    "growth_est_pct": 5.0,
    "methods": {
-    "relative_pe": 1.72,
-    "earnings_power": 0.86,
-    "graham": 0.93
+    "relative_pe": 35.39,
+    "earnings_power": 21.84,
+    "graham": 23.56,
+    "ddm": 12.62
    },
    "relative_pe_basis": {
     "basis": "sector",
-    "sector": "Technology & Communication",
-    "median_pe": 12.29,
-    "n_peers": 8
+    "sector": "Chemical",
+    "median_pe": 9.94,
+    "n_peers": 9
    },
-   "sector": "Technology & Communication",
-   "composite_fair": 0.93,
-   "mispricing_pct": -96.7,
+   "sector": "Chemical",
+   "composite_fair": 22.7,
+   "mispricing_pct": -40.3,
    "verdict": "overvalued",
-   "upside_pct": -96.7
+   "upside_pct": -40.3
   },
   "OGDC": {
    "price": 318.41,
    "eps": 56.35,
    "eps_basis": "unknown",
-   "pe": 5.65,
+   "pe": 5.67,
    "growth_est_pct": 0.0,
    "methods": {
-    "relative_pe": 357.54,
+    "relative_pe": 359.23,
     "earnings_power": 345.71,
     "graham": 171.34,
-    "ddm": 96.43
+    "ddm": 95.7
    },
    "relative_pe_basis": {
     "basis": "sector",
     "sector": "Oil & Gas Exploration Companies",
-    "median_pe": 6.34,
+    "median_pe": 6.38,
     "n_peers": 4
    },
    "sector": "Oil & Gas Exploration Companies",
@@ -2893,40 +2824,41 @@
    "price": 94.38,
    "eps": 11.58,
    "eps_basis": "unknown",
-   "pe": 8.15,
-   "growth_est_pct": 1.7,
+   "pe": 8.32,
+   "growth_est_pct": 6.8,
    "methods": {
-    "relative_pe": 94.38,
+    "relative_pe": 97.16,
     "earnings_power": 71.04,
-    "graham": 49.69
+    "graham": 91.58
    },
    "relative_pe_basis": {
-    "basis": "sector",
+    "basis": "market",
     "sector": "Miscellaneous",
-    "median_pe": 8.15,
-    "n_peers": 3
+    "median_pe": 8.39,
+    "n_peers": 163,
+    "why": "fewer than 3 peers with a usable P/E in this sector"
    },
    "sector": "Miscellaneous",
-   "composite_fair": 71.04,
-   "mispricing_pct": -24.7,
-   "verdict": "overvalued",
-   "upside_pct": -24.7
+   "composite_fair": 91.58,
+   "mispricing_pct": -3.0,
+   "verdict": "fair",
+   "upside_pct": -3.0
   },
   "PACE": {
    "price": 10.22,
    "eps": 0.59,
    "eps_basis": "unknown",
-   "pe": 17.32,
+   "pe": 17.34,
    "growth_est_pct": 5.0,
    "methods": {
-    "relative_pe": 4.87,
+    "relative_pe": 4.95,
     "earnings_power": 3.62,
     "graham": 3.9
    },
    "relative_pe_basis": {
     "basis": "market",
     "sector": "Property",
-    "median_pe": 8.26,
+    "median_pe": 8.39,
     "n_peers": 163,
     "why": "fewer than 3 peers with a usable P/E in this sector"
    },
@@ -2940,36 +2872,36 @@
    "price": 36.83,
    "eps": 4.43,
    "eps_basis": "unknown",
-   "pe": 8.31,
+   "pe": 8.39,
    "growth_est_pct": 30.0,
    "methods": {
-    "relative_pe": 36.97,
+    "relative_pe": 37.21,
     "earnings_power": 27.18,
     "graham": 108.55
    },
    "relative_pe_basis": {
     "basis": "sector",
     "sector": "Cable & Electrical Goods",
-    "median_pe": 8.35,
+    "median_pe": 8.4,
     "n_peers": 4
    },
    "sector": "Cable & Electrical Goods",
-   "composite_fair": 36.97,
-   "mispricing_pct": 0.4,
+   "composite_fair": 37.21,
+   "mispricing_pct": 1.0,
    "verdict": "fair",
-   "upside_pct": 0.4
+   "upside_pct": 1.0
   },
   "PAKRI": {
    "price": 15.9,
    "eps": 3.78,
    "eps_basis": "unknown",
-   "pe": 4.21,
+   "pe": 4.19,
    "growth_est_pct": 5.0,
    "methods": {
     "relative_pe": 17.84,
     "earnings_power": 23.19,
     "graham": 25.02,
-    "ddm": 8.21
+    "ddm": 8.4
    },
    "relative_pe_basis": {
     "basis": "sector",
@@ -2987,116 +2919,116 @@
    "price": 1405.47,
    "eps": 133.56,
    "eps_basis": "unknown",
-   "pe": 10.52,
+   "pe": 10.51,
    "growth_est_pct": 5.0,
    "methods": {
-    "relative_pe": 1103.21,
+    "relative_pe": 1120.57,
     "earnings_power": 819.39,
     "graham": 883.88,
-    "ddm": 1271.5
+    "ddm": 1259.69
    },
    "relative_pe_basis": {
     "basis": "market",
     "sector": "Tobacco",
-    "median_pe": 8.26,
+    "median_pe": 8.39,
     "n_peers": 163,
     "why": "fewer than 3 peers with a usable P/E in this sector"
    },
    "sector": "Tobacco",
-   "composite_fair": 993.55,
-   "mispricing_pct": -29.3,
+   "composite_fair": 1002.22,
+   "mispricing_pct": -28.7,
    "verdict": "overvalued",
-   "upside_pct": -29.3
+   "upside_pct": -28.7
   },
   "PGLC": {
    "price": 16.57,
    "eps": 1.35,
    "eps_basis": "unknown",
-   "pe": 12.27,
+   "pe": 12.25,
    "growth_est_pct": 5.0,
    "methods": {
-    "relative_pe": 11.15,
+    "relative_pe": 11.33,
     "earnings_power": 8.28,
     "graham": 8.93,
-    "ddm": 27.03
+    "ddm": 29.4
    },
    "relative_pe_basis": {
     "basis": "market",
     "sector": "Leasing Companies",
-    "median_pe": 8.26,
+    "median_pe": 8.39,
     "n_peers": 163,
     "why": "fewer than 3 peers with a usable P/E in this sector"
    },
    "sector": "Leasing Companies",
-   "composite_fair": 10.04,
-   "mispricing_pct": -39.4,
+   "composite_fair": 10.13,
+   "mispricing_pct": -38.9,
    "verdict": "overvalued",
-   "upside_pct": -39.4
+   "upside_pct": -38.9
   },
   "PIBTL": {
    "price": 16.03,
-   "eps": 1.05,
+   "eps": 1.89,
    "eps_basis": "unknown",
-   "pe": 15.27,
+   "pe": 8.4,
    "growth_est_pct": 0.0,
    "methods": {
-    "relative_pe": 9.16,
-    "earnings_power": 6.44,
-    "graham": 3.19
+    "relative_pe": 16.15,
+    "earnings_power": 11.6,
+    "graham": 5.75
    },
    "relative_pe_basis": {
     "basis": "sector",
     "sector": "Transport",
-    "median_pe": 8.72,
-    "n_peers": 3
+    "median_pe": 8.54,
+    "n_peers": 4
    },
    "sector": "Transport",
-   "composite_fair": 6.44,
-   "mispricing_pct": -59.8,
+   "composite_fair": 11.6,
+   "mispricing_pct": -27.6,
    "verdict": "overvalued",
-   "upside_pct": -59.8
+   "upside_pct": -27.6
   },
   "PIOC": {
    "price": 249.98,
    "eps": 29.03,
    "eps_basis": "unknown",
-   "pe": 8.61,
+   "pe": 8.65,
    "growth_est_pct": 30.0,
    "methods": {
-    "relative_pe": 240.37,
+    "relative_pe": 242.11,
     "earnings_power": 178.1,
     "graham": 711.35,
-    "ddm": 198.45
+    "ddm": 190.82
    },
    "relative_pe_basis": {
     "basis": "sector",
     "sector": "Cement",
-    "median_pe": 8.28,
+    "median_pe": 8.34,
     "n_peers": 13
    },
    "sector": "Cement",
-   "composite_fair": 219.41,
-   "mispricing_pct": -12.2,
+   "composite_fair": 216.47,
+   "mispricing_pct": -13.4,
    "verdict": "fair",
-   "upside_pct": -12.2
+   "upside_pct": -13.4
   },
   "PNSC": {
    "price": 550.84,
    "eps": 63.17,
    "eps_basis": "unknown",
-   "pe": 8.72,
+   "pe": 8.69,
    "growth_est_pct": 5.0,
    "methods": {
-    "relative_pe": 550.84,
+    "relative_pe": 539.79,
     "earnings_power": 387.55,
     "graham": 418.05,
-    "ddm": 298.45
+    "ddm": 277.16
    },
    "relative_pe_basis": {
     "basis": "sector",
     "sector": "Transport",
-    "median_pe": 8.72,
-    "n_peers": 3
+    "median_pe": 8.54,
+    "n_peers": 4
    },
    "sector": "Transport",
    "composite_fair": 402.8,
@@ -3108,42 +3040,42 @@
    "price": 746.65,
    "eps": 119.08,
    "eps_basis": "unknown",
-   "pe": 6.27,
+   "pe": 6.29,
    "growth_est_pct": 0.0,
    "methods": {
-    "relative_pe": 755.56,
+    "relative_pe": 759.13,
     "earnings_power": 730.55,
     "graham": 362.08,
-    "ddm": 583.24
+    "ddm": 571.29
    },
    "relative_pe_basis": {
     "basis": "sector",
     "sector": "Oil & Gas Exploration Companies",
-    "median_pe": 6.34,
+    "median_pe": 6.38,
     "n_peers": 4
    },
    "sector": "Oil & Gas Exploration Companies",
-   "composite_fair": 656.89,
-   "mispricing_pct": -12.0,
+   "composite_fair": 650.92,
+   "mispricing_pct": -12.8,
    "verdict": "fair",
-   "upside_pct": -12.0
+   "upside_pct": -12.8
   },
   "POWER": {
    "price": 22.53,
    "eps": 2.72,
    "eps_basis": "unknown",
-   "pe": 8.28,
+   "pe": 8.34,
    "growth_est_pct": 5.0,
    "methods": {
-    "relative_pe": 22.52,
+    "relative_pe": 22.68,
     "earnings_power": 16.69,
     "graham": 18.0,
-    "ddm": 4.28
+    "ddm": 4.2
    },
    "relative_pe_basis": {
     "basis": "sector",
     "sector": "Cement",
-    "median_pe": 8.28,
+    "median_pe": 8.34,
     "n_peers": 13
    },
    "sector": "Cement",
@@ -3156,31 +3088,31 @@
    "price": 230.51,
    "eps": 35.9,
    "eps_basis": "unknown",
-   "pe": 6.42,
-   "growth_est_pct": 16.5,
+   "pe": 6.46,
+   "growth_est_pct": 12.0,
    "methods": {
-    "relative_pe": 227.79,
+    "relative_pe": 228.86,
     "earnings_power": 220.25,
-    "graham": 533.35,
-    "ddm": 300.0
+    "graham": 416.31,
+    "ddm": 242.63
    },
    "relative_pe_basis": {
     "basis": "sector",
     "sector": "Oil & Gas Exploration Companies",
-    "median_pe": 6.34,
+    "median_pe": 6.38,
     "n_peers": 4
    },
    "sector": "Oil & Gas Exploration Companies",
-   "composite_fair": 263.89,
-   "mispricing_pct": 14.5,
+   "composite_fair": 235.75,
+   "mispricing_pct": 2.3,
    "verdict": "fair",
-   "upside_pct": 14.5
+   "upside_pct": 2.3
   },
   "PREMA": {
    "price": 32.36,
    "eps": 2.74,
    "eps_basis": "unknown",
-   "pe": 11.81,
+   "pe": 11.96,
    "growth_est_pct": 5.0,
    "methods": {
     "relative_pe": 33.59,
@@ -3203,42 +3135,42 @@
    "price": 87.33,
    "eps": 25.05,
    "eps_basis": "unknown",
-   "pe": 3.49,
+   "pe": 3.55,
    "growth_est_pct": 5.0,
    "methods": {
-    "relative_pe": 117.61,
+    "relative_pe": 118.49,
     "earnings_power": 153.68,
-    "graham": 165.78,
-    "ddm": 14.01
+    "graham": 165.78
    },
    "relative_pe_basis": {
     "basis": "sector",
     "sector": "Refinery",
-    "median_pe": 4.7,
+    "median_pe": 4.73,
     "n_peers": 4
    },
    "sector": "Refinery",
-   "composite_fair": 135.65,
-   "mispricing_pct": 55.3,
+   "composite_fair": 153.68,
+   "mispricing_pct": 76.0,
    "verdict": "undervalued",
-   "upside_pct": 55.3
+   "upside_pct": 76.0
   },
   "PSEL": {
    "price": 1222.24,
    "eps": 5.58,
    "eps_basis": "unknown",
-   "pe": 219.04,
+   "pe": 211.47,
    "growth_est_pct": 5.0,
    "methods": {
-    "relative_pe": 45.48,
+    "relative_pe": 46.82,
     "earnings_power": 34.23,
     "graham": 36.93
    },
    "relative_pe_basis": {
-    "basis": "sector",
+    "basis": "market",
     "sector": "Miscellaneous",
-    "median_pe": 8.15,
-    "n_peers": 3
+    "median_pe": 8.39,
+    "n_peers": 163,
+    "why": "fewer than 3 peers with a usable P/E in this sector"
    },
    "sector": "Miscellaneous",
    "composite_fair": 36.93,
@@ -3250,43 +3182,43 @@
    "price": 348.83,
    "eps": 92.73,
    "eps_basis": "unknown",
-   "pe": 3.76,
+   "pe": 3.78,
    "growth_est_pct": 5.0,
    "methods": {
-    "relative_pe": 392.25,
+    "relative_pe": 395.96,
     "earnings_power": 568.9,
     "graham": 613.68,
-    "ddm": 81.46
+    "ddm": 84.1
    },
    "relative_pe_basis": {
     "basis": "sector",
     "sector": "Oil & Gas Marketing Companies",
-    "median_pe": 4.23,
+    "median_pe": 4.27,
     "n_peers": 5
    },
    "sector": "Oil & Gas Marketing Companies",
-   "composite_fair": 480.57,
-   "mispricing_pct": 37.8,
+   "composite_fair": 482.43,
+   "mispricing_pct": 38.3,
    "verdict": "undervalued",
-   "upside_pct": 37.8
+   "upside_pct": 38.3
   },
   "PSX": {
    "price": 46.38,
    "eps": 2.8,
    "eps_basis": "unknown",
-   "pe": 16.56,
+   "pe": 16.91,
    "growth_est_pct": 5.0,
    "methods": {
-    "relative_pe": 20.83,
+    "relative_pe": 22.39,
     "earnings_power": 17.18,
     "graham": 18.53,
-    "ddm": 7.95
+    "ddm": 8.42
    },
    "relative_pe_basis": {
     "basis": "sector",
     "sector": "Inv. Banks / Inv. Cos. / Securities Cos.",
-    "median_pe": 7.44,
-    "n_peers": 7
+    "median_pe": 8.0,
+    "n_peers": 8
    },
    "sector": "Inv. Banks / Inv. Cos. / Securities Cos.",
    "composite_fair": 17.86,
@@ -3298,48 +3230,48 @@
    "price": 63.25,
    "eps": 0.95,
    "eps_basis": "unknown",
-   "pe": 66.58,
+   "pe": 66.95,
    "growth_est_pct": 30.0,
    "methods": {
-    "relative_pe": 11.68,
+    "relative_pe": 11.78,
     "earnings_power": 5.83,
     "graham": 23.28
    },
    "relative_pe_basis": {
     "basis": "sector",
     "sector": "Technology & Communication",
-    "median_pe": 12.29,
+    "median_pe": 12.41,
     "n_peers": 8
    },
    "sector": "Technology & Communication",
-   "composite_fair": 11.68,
-   "mispricing_pct": -81.5,
+   "composite_fair": 11.78,
+   "mispricing_pct": -81.4,
    "verdict": "overvalued",
-   "upside_pct": -81.5
+   "upside_pct": -81.4
   },
   "PTL": {
    "price": 49.74,
    "eps": 7.82,
    "eps_basis": "unknown",
-   "pe": 6.36,
+   "pe": 6.57,
    "growth_est_pct": 5.0,
    "methods": {
-    "relative_pe": 49.74,
+    "relative_pe": 51.38,
     "earnings_power": 47.98,
     "graham": 51.75,
-    "ddm": 33.68
+    "ddm": 33.59
    },
    "relative_pe_basis": {
     "basis": "sector",
     "sector": "Automobile Parts & Accessories",
-    "median_pe": 6.36,
+    "median_pe": 6.57,
     "n_peers": 3
    },
    "sector": "Automobile Parts & Accessories",
-   "composite_fair": 48.86,
-   "mispricing_pct": -1.8,
+   "composite_fair": 49.68,
+   "mispricing_pct": -0.1,
    "verdict": "fair",
-   "upside_pct": -1.8
+   "upside_pct": -0.1
   },
   "RMPL": {
    "price": 9000.0,
@@ -3351,7 +3283,7 @@
     "relative_pe": 9003.38,
     "earnings_power": 4505.34,
     "graham": 4859.98,
-    "ddm": 4883.76
+    "ddm": 5042.52
    },
    "relative_pe_basis": {
     "basis": "sector",
@@ -3360,50 +3292,27 @@
     "n_peers": 15
    },
    "sector": "Food & Personal Care Products",
-   "composite_fair": 4871.87,
-   "mispricing_pct": -45.9,
+   "composite_fair": 4951.25,
+   "mispricing_pct": -45.0,
    "verdict": "overvalued",
-   "upside_pct": -45.9
-  },
-  "RPL": {
-   "price": 15.77,
-   "eps": 0.12,
-   "eps_basis": "unknown",
-   "pe": 131.42,
-   "growth_est_pct": 5.0,
-   "methods": {
-    "relative_pe": 0.92,
-    "earnings_power": 0.74,
-    "graham": 0.79
-   },
-   "relative_pe_basis": {
-    "basis": "sector",
-    "sector": "Paper, Board & Packaging",
-    "median_pe": 7.68,
-    "n_peers": 5
-   },
-   "sector": "Paper, Board & Packaging",
-   "composite_fair": 0.79,
-   "mispricing_pct": -95.0,
-   "verdict": "overvalued",
-   "upside_pct": -95.0
+   "upside_pct": -45.0
   },
   "SAZEW": {
    "price": 1740.82,
    "eps": 390.51,
    "eps_basis": "unknown",
-   "pe": 4.46,
+   "pe": 4.47,
    "growth_est_pct": 0.0,
    "methods": {
-    "relative_pe": 2569.56,
+    "relative_pe": 2598.84,
     "earnings_power": 2395.77,
     "graham": 1187.4,
-    "ddm": 376.02
+    "ddm": 399.89
    },
    "relative_pe_basis": {
     "basis": "sector",
     "sector": "Automobile Assembler",
-    "median_pe": 6.58,
+    "median_pe": 6.66,
     "n_peers": 8
    },
    "sector": "Automobile Assembler",
@@ -3419,62 +3328,62 @@
    "pe": 16.05,
    "growth_est_pct": 5.0,
    "methods": {
-    "relative_pe": 5.01,
+    "relative_pe": 5.04,
     "earnings_power": 4.97,
     "graham": 5.36
    },
    "relative_pe_basis": {
     "basis": "sector",
     "sector": "Commercial Banks",
-    "median_pe": 6.19,
+    "median_pe": 6.22,
     "n_peers": 18
    },
    "sector": "Commercial Banks",
-   "composite_fair": 5.01,
-   "mispricing_pct": -61.5,
+   "composite_fair": 5.04,
+   "mispricing_pct": -61.2,
    "verdict": "overvalued",
-   "upside_pct": -61.5
+   "upside_pct": -61.2
   },
   "SCBPL": {
    "price": 60.1,
    "eps": 6.2,
    "eps_basis": "unknown",
-   "pe": 9.69,
+   "pe": 9.88,
    "growth_est_pct": 5.0,
    "methods": {
-    "relative_pe": 38.38,
+    "relative_pe": 38.59,
     "earnings_power": 38.04,
     "graham": 41.03,
-    "ddm": 50.99
+    "ddm": 54.62
    },
    "relative_pe_basis": {
     "basis": "sector",
     "sector": "Commercial Banks",
-    "median_pe": 6.19,
+    "median_pe": 6.22,
     "n_peers": 18
    },
    "sector": "Commercial Banks",
-   "composite_fair": 39.7,
-   "mispricing_pct": -33.9,
+   "composite_fair": 39.81,
+   "mispricing_pct": -33.8,
    "verdict": "overvalued",
-   "upside_pct": -33.9
+   "upside_pct": -33.8
   },
   "SEARL": {
    "price": 82.65,
    "eps": 2.06,
    "eps_basis": "unknown",
-   "pe": 40.12,
+   "pe": 41.0,
    "growth_est_pct": 5.0,
    "methods": {
-    "relative_pe": 25.04,
+    "relative_pe": 24.91,
     "earnings_power": 12.64,
     "graham": 13.63
    },
    "relative_pe_basis": {
     "basis": "sector",
     "sector": "Pharmaceuticals",
-    "median_pe": 12.15,
-    "n_peers": 8
+    "median_pe": 12.09,
+    "n_peers": 7
    },
    "sector": "Pharmaceuticals",
    "composite_fair": 13.63,
@@ -3486,18 +3395,18 @@
    "price": 106.62,
    "eps": 15.7,
    "eps_basis": "unknown",
-   "pe": 6.79,
+   "pe": 6.75,
    "growth_est_pct": 0.0,
    "methods": {
-    "relative_pe": 129.68,
+    "relative_pe": 131.72,
     "earnings_power": 96.32,
     "graham": 47.74,
-    "ddm": 10.48
+    "ddm": 11.45
    },
    "relative_pe_basis": {
     "basis": "market",
     "sector": "Leather & Tanneries",
-    "median_pe": 8.26,
+    "median_pe": 8.39,
     "n_peers": 163,
     "why": "fewer than 3 peers with a usable P/E in this sector"
    },
@@ -3514,40 +3423,41 @@
    "pe": 3.52,
    "growth_est_pct": 5.0,
    "methods": {
-    "relative_pe": 52.79,
+    "relative_pe": 53.19,
     "earnings_power": 97.55,
     "graham": 105.22,
-    "ddm": 10.68
+    "ddm": 10.49
    },
    "relative_pe_basis": {
     "basis": "sector",
     "sector": "Textile Spinning",
-    "median_pe": 3.32,
+    "median_pe": 3.34,
     "n_peers": 4
    },
    "sector": "Textile Spinning",
-   "composite_fair": 75.17,
-   "mispricing_pct": 34.3,
+   "composite_fair": 75.37,
+   "mispricing_pct": 34.6,
    "verdict": "undervalued",
-   "upside_pct": 34.3
+   "upside_pct": 34.6
   },
   "SHFA": {
    "price": 444.0,
    "eps": 41.06,
    "eps_basis": "unknown",
-   "pe": 10.81,
+   "pe": 10.96,
    "growth_est_pct": 5.0,
    "methods": {
-    "relative_pe": 334.64,
+    "relative_pe": 344.49,
     "earnings_power": 251.9,
     "graham": 271.73,
     "ddm": 42.14
    },
    "relative_pe_basis": {
-    "basis": "sector",
+    "basis": "market",
     "sector": "Miscellaneous",
-    "median_pe": 8.15,
-    "n_peers": 3
+    "median_pe": 8.39,
+    "n_peers": 163,
+    "why": "fewer than 3 peers with a usable P/E in this sector"
    },
    "sector": "Miscellaneous",
    "composite_fair": 261.81,
@@ -3559,18 +3469,18 @@
    "price": 14.42,
    "eps": 2.34,
    "eps_basis": "unknown",
-   "pe": 6.16,
+   "pe": 6.21,
    "growth_est_pct": 5.0,
    "methods": {
-    "relative_pe": 20.4,
+    "relative_pe": 20.0,
     "earnings_power": 14.36,
     "graham": 15.49
    },
    "relative_pe_basis": {
     "basis": "sector",
     "sector": "Transport",
-    "median_pe": 8.72,
-    "n_peers": 3
+    "median_pe": 8.54,
+    "n_peers": 4
    },
    "sector": "Transport",
    "composite_fair": 15.49,
@@ -3585,63 +3495,63 @@
    "pe": 4.93,
    "growth_est_pct": 5.0,
    "methods": {
-    "relative_pe": 25.01,
+    "relative_pe": 25.15,
     "earnings_power": 24.79,
     "graham": 26.74,
-    "ddm": 12.23
+    "ddm": 12.6
    },
    "relative_pe_basis": {
     "basis": "sector",
     "sector": "Commercial Banks",
-    "median_pe": 6.19,
+    "median_pe": 6.22,
     "n_peers": 18
    },
    "sector": "Commercial Banks",
-   "composite_fair": 24.9,
-   "mispricing_pct": 25.0,
+   "composite_fair": 24.97,
+   "mispricing_pct": 25.4,
    "verdict": "undervalued",
-   "upside_pct": 25.0
+   "upside_pct": 25.4
   },
   "SNGP": {
    "price": 90.96,
    "eps": 22.95,
    "eps_basis": "unknown",
-   "pe": 3.96,
+   "pe": 4.08,
    "growth_est_pct": 5.0,
    "methods": {
-    "relative_pe": 97.08,
+    "relative_pe": 98.0,
     "earnings_power": 140.8,
     "graham": 151.88,
-    "ddm": 23.0
+    "ddm": 25.21
    },
    "relative_pe_basis": {
     "basis": "sector",
     "sector": "Oil & Gas Marketing Companies",
-    "median_pe": 4.23,
+    "median_pe": 4.27,
     "n_peers": 5
    },
    "sector": "Oil & Gas Marketing Companies",
-   "composite_fair": 118.94,
-   "mispricing_pct": 30.8,
+   "composite_fair": 119.4,
+   "mispricing_pct": 31.3,
    "verdict": "undervalued",
-   "upside_pct": 30.8
+   "upside_pct": 31.3
   },
   "SPEL": {
    "price": 42.65,
    "eps": 5.99,
    "eps_basis": "unknown",
-   "pe": 7.12,
+   "pe": 7.16,
    "growth_est_pct": 5.0,
    "methods": {
-    "relative_pe": 46.0,
+    "relative_pe": 45.82,
     "earnings_power": 36.75,
     "graham": 39.64,
-    "ddm": 8.13
+    "ddm": 8.42
    },
    "relative_pe_basis": {
     "basis": "sector",
     "sector": "Paper, Board & Packaging",
-    "median_pe": 7.68,
+    "median_pe": 7.65,
     "n_peers": 5
    },
    "sector": "Paper, Board & Packaging",
@@ -3654,18 +3564,18 @@
    "price": 179.93,
    "eps": 21.26,
    "eps_basis": "unknown",
-   "pe": 8.46,
+   "pe": 8.64,
    "growth_est_pct": 5.0,
    "methods": {
-    "relative_pe": 175.61,
+    "relative_pe": 178.37,
     "earnings_power": 130.43,
     "graham": 140.7,
-    "ddm": 14.21
+    "ddm": 14.66
    },
    "relative_pe_basis": {
     "basis": "market",
     "sector": "Leather & Tanneries",
-    "median_pe": 8.26,
+    "median_pe": 8.39,
     "n_peers": 163,
     "why": "fewer than 3 peers with a usable P/E in this sector"
    },
@@ -3679,17 +3589,17 @@
    "price": 25.06,
    "eps": 46.35,
    "eps_basis": "unknown",
-   "pe": 0.54,
+   "pe": 0.55,
    "growth_est_pct": 5.0,
    "methods": {
-    "relative_pe": 569.87,
+    "relative_pe": 574.97,
     "earnings_power": 284.36,
     "graham": 306.74
    },
    "relative_pe_basis": {
     "basis": "sector",
     "sector": "Technology & Communication",
-    "median_pe": 12.29,
+    "median_pe": 12.41,
     "n_peers": 8
    },
    "sector": "Technology & Communication",
@@ -3702,18 +3612,18 @@
    "price": 12.99,
    "eps": 0.63,
    "eps_basis": "unknown",
-   "pe": 20.62,
+   "pe": 20.51,
    "growth_est_pct": 5.0,
    "methods": {
-    "relative_pe": 7.75,
+    "relative_pe": 7.82,
     "earnings_power": 3.87,
     "graham": 4.17,
-    "ddm": 0.43
+    "ddm": 0.41
    },
    "relative_pe_basis": {
     "basis": "sector",
     "sector": "Technology & Communication",
-    "median_pe": 12.29,
+    "median_pe": 12.41,
     "n_peers": 8
    },
    "sector": "Technology & Communication",
@@ -3726,25 +3636,25 @@
    "price": 121.2,
    "eps": 7.83,
    "eps_basis": "unknown",
-   "pe": 15.48,
+   "pe": 15.63,
    "growth_est_pct": 30.0,
    "methods": {
-    "relative_pe": 96.27,
+    "relative_pe": 97.13,
     "earnings_power": 48.04,
     "graham": 191.87,
-    "ddm": 73.09
+    "ddm": 76.33
    },
    "relative_pe_basis": {
     "basis": "sector",
     "sector": "Technology & Communication",
-    "median_pe": 12.29,
+    "median_pe": 12.41,
     "n_peers": 8
    },
    "sector": "Technology & Communication",
-   "composite_fair": 84.68,
-   "mispricing_pct": -30.1,
+   "composite_fair": 86.73,
+   "mispricing_pct": -28.4,
    "verdict": "overvalued",
-   "upside_pct": -30.1
+   "upside_pct": -28.4
   },
   "TATM": {
    "price": 156.61,
@@ -3753,38 +3663,38 @@
    "pe": 2.42,
    "growth_est_pct": 5.0,
    "methods": {
-    "relative_pe": 214.57,
+    "relative_pe": 216.19,
     "earnings_power": 396.5,
     "graham": 427.71,
-    "ddm": 40.52
+    "ddm": 41.97
    },
    "relative_pe_basis": {
     "basis": "sector",
     "sector": "Textile Spinning",
-    "median_pe": 3.32,
+    "median_pe": 3.34,
     "n_peers": 4
    },
    "sector": "Textile Spinning",
-   "composite_fair": 305.53,
-   "mispricing_pct": 95.1,
+   "composite_fair": 306.35,
+   "mispricing_pct": 95.6,
    "verdict": "undervalued",
-   "upside_pct": 95.1
+   "upside_pct": 95.6
   },
   "TELE": {
    "price": 7.79,
    "eps": 0.5,
    "eps_basis": "unknown",
-   "pe": 15.58,
+   "pe": 16.02,
    "growth_est_pct": 5.0,
    "methods": {
-    "relative_pe": 6.15,
+    "relative_pe": 6.2,
     "earnings_power": 3.07,
     "graham": 3.31
    },
    "relative_pe_basis": {
     "basis": "sector",
     "sector": "Technology & Communication",
-    "median_pe": 12.29,
+    "median_pe": 12.41,
     "n_peers": 8
    },
    "sector": "Technology & Communication",
@@ -3797,18 +3707,18 @@
    "price": 165.62,
    "eps": 24.48,
    "eps_basis": "unknown",
-   "pe": 6.77,
+   "pe": 6.87,
    "growth_est_pct": 5.0,
    "methods": {
-    "relative_pe": 202.2,
+    "relative_pe": 205.39,
     "earnings_power": 150.18,
     "graham": 162.01,
-    "ddm": 39.09
+    "ddm": 42.01
    },
    "relative_pe_basis": {
     "basis": "market",
     "sector": "Glass & Ceramics",
-    "median_pe": 8.26,
+    "median_pe": 8.39,
     "n_peers": 163,
     "why": "fewer than 3 peers with a usable P/E in this sector"
    },
@@ -3822,41 +3732,41 @@
    "price": 533.08,
    "eps": 129.04,
    "eps_basis": "unknown",
-   "pe": 4.13,
+   "pe": 4.11,
    "growth_est_pct": 5.0,
    "methods": {
-    "relative_pe": 820.69,
+    "relative_pe": 847.79,
     "earnings_power": 791.66,
     "graham": 853.97,
-    "ddm": 255.69
+    "ddm": 252.1
    },
    "relative_pe_basis": {
     "basis": "sector",
     "sector": "Automobile Parts & Accessories",
-    "median_pe": 6.36,
+    "median_pe": 6.57,
     "n_peers": 3
    },
    "sector": "Automobile Parts & Accessories",
-   "composite_fair": 806.17,
-   "mispricing_pct": 51.2,
+   "composite_fair": 819.72,
+   "mispricing_pct": 53.8,
    "verdict": "undervalued",
-   "upside_pct": 51.2
+   "upside_pct": 53.8
   },
   "THCCL": {
    "price": 78.42,
    "eps": 7.24,
    "eps_basis": "unknown",
-   "pe": 10.83,
+   "pe": 10.82,
    "growth_est_pct": 5.0,
    "methods": {
-    "relative_pe": 59.95,
+    "relative_pe": 60.38,
     "earnings_power": 44.42,
     "graham": 47.91
    },
    "relative_pe_basis": {
     "basis": "sector",
     "sector": "Cement",
-    "median_pe": 8.28,
+    "median_pe": 8.34,
     "n_peers": 13
    },
    "sector": "Cement",
@@ -3869,7 +3779,7 @@
    "price": 32.72,
    "eps": 2.08,
    "eps_basis": "unknown",
-   "pe": 15.74,
+   "pe": 16.4,
    "growth_est_pct": 5.0,
    "methods": {
     "relative_pe": 25.5,
@@ -3892,7 +3802,7 @@
    "price": 22.55,
    "eps": 1.13,
    "eps_basis": "unknown",
-   "pe": 19.96,
+   "pe": 20.49,
    "growth_est_pct": 30.0,
    "methods": {
     "relative_pe": 13.85,
@@ -3915,17 +3825,17 @@
    "price": 13.87,
    "eps": 0.22,
    "eps_basis": "unknown",
-   "pe": 63.05,
+   "pe": 63.77,
    "growth_est_pct": 5.0,
    "methods": {
-    "relative_pe": 1.82,
+    "relative_pe": 1.85,
     "earnings_power": 1.35,
     "graham": 1.46
    },
    "relative_pe_basis": {
     "basis": "market",
     "sector": "Modarabas",
-    "median_pe": 8.26,
+    "median_pe": 8.39,
     "n_peers": 163,
     "why": "fewer than 3 peers with a usable P/E in this sector"
    },
@@ -3935,35 +3845,58 @@
    "verdict": "overvalued",
    "upside_pct": -89.5
   },
+  "TSBL": {
+   "price": 2.35,
+   "eps": 0.08,
+   "eps_basis": "unknown",
+   "pe": 29.12,
+   "growth_est_pct": 5.0,
+   "methods": {
+    "relative_pe": 0.64,
+    "earnings_power": 0.49,
+    "graham": 0.53
+   },
+   "relative_pe_basis": {
+    "basis": "sector",
+    "sector": "Inv. Banks / Inv. Cos. / Securities Cos.",
+    "median_pe": 8.0,
+    "n_peers": 8
+   },
+   "sector": "Inv. Banks / Inv. Cos. / Securities Cos.",
+   "composite_fair": 0.53,
+   "mispricing_pct": -77.4,
+   "verdict": "overvalued",
+   "upside_pct": -77.4
+  },
   "UBL": {
    "price": 429.07,
    "eps": 60.37,
    "eps_basis": "unknown",
-   "pe": 7.11,
-   "growth_est_pct": 15.4,
+   "pe": 7.15,
+   "growth_est_pct": 12.1,
    "methods": {
-    "relative_pe": 373.69,
+    "relative_pe": 375.8,
     "earnings_power": 370.37,
-    "graham": 849.67,
-    "ddm": 1182.36
+    "graham": 704.84,
+    "ddm": 660.5
    },
    "relative_pe_basis": {
     "basis": "sector",
     "sector": "Commercial Banks",
-    "median_pe": 6.19,
+    "median_pe": 6.22,
     "n_peers": 18
    },
    "sector": "Commercial Banks",
-   "composite_fair": 611.68,
-   "mispricing_pct": 42.6,
+   "composite_fair": 518.15,
+   "mispricing_pct": 20.8,
    "verdict": "undervalued",
-   "upside_pct": 42.6
+   "upside_pct": 20.8
   },
   "UNITY": {
    "price": 8.21,
    "eps": 1.56,
    "eps_basis": "unknown",
-   "pe": 5.26,
+   "pe": 5.24,
    "growth_est_pct": 5.0,
    "methods": {
     "relative_pe": 19.13,
@@ -3986,13 +3919,13 @@
    "price": 25250.0,
    "eps": 1129.54,
    "eps_basis": "unknown",
-   "pe": 22.35,
+   "pe": 22.27,
    "growth_est_pct": 5.0,
    "methods": {
     "relative_pe": 13848.16,
     "earnings_power": 6929.69,
     "graham": 7475.17,
-    "ddm": 13680.45
+    "ddm": 13871.34
    },
    "relative_pe_basis": {
     "basis": "sector",
@@ -4001,50 +3934,50 @@
     "n_peers": 15
    },
    "sector": "Food & Personal Care Products",
-   "composite_fair": 10577.81,
-   "mispricing_pct": -58.1,
+   "composite_fair": 10661.67,
+   "mispricing_pct": -57.8,
    "verdict": "overvalued",
-   "upside_pct": -58.1
+   "upside_pct": -57.8
   },
   "WAFI": {
    "price": 169.71,
    "eps": 17.71,
    "eps_basis": "unknown",
-   "pe": 9.58,
+   "pe": 9.54,
    "growth_est_pct": 5.0,
    "methods": {
-    "relative_pe": 74.91,
+    "relative_pe": 75.62,
     "earnings_power": 108.65,
     "graham": 117.2,
-    "ddm": 67.71
+    "ddm": 67.14
    },
    "relative_pe_basis": {
     "basis": "sector",
     "sector": "Oil & Gas Marketing Companies",
-    "median_pe": 4.23,
+    "median_pe": 4.27,
     "n_peers": 5
    },
    "sector": "Oil & Gas Marketing Companies",
-   "composite_fair": 91.78,
-   "mispricing_pct": -45.9,
+   "composite_fair": 92.14,
+   "mispricing_pct": -45.7,
    "verdict": "overvalued",
-   "upside_pct": -45.9
+   "upside_pct": -45.7
   },
   "WASL": {
    "price": 5.84,
    "eps": 0.08,
    "eps_basis": "unknown",
-   "pe": 73.0,
+   "pe": 72.5,
    "growth_est_pct": 5.0,
    "methods": {
-    "relative_pe": 0.66,
+    "relative_pe": 0.67,
     "earnings_power": 0.49,
     "graham": 0.53
    },
    "relative_pe_basis": {
     "basis": "market",
     "sector": "Modarabas",
-    "median_pe": 8.26,
+    "median_pe": 8.39,
     "n_peers": 163,
     "why": "fewer than 3 peers with a usable P/E in this sector"
    },
@@ -4058,17 +3991,17 @@
    "price": 8.9,
    "eps": 2.08,
    "eps_basis": "unknown",
-   "pe": 4.28,
+   "pe": 4.41,
    "growth_est_pct": 5.0,
    "methods": {
-    "relative_pe": 17.36,
+    "relative_pe": 17.47,
     "earnings_power": 12.76,
     "graham": 13.77
    },
    "relative_pe_basis": {
     "basis": "sector",
     "sector": "Cable & Electrical Goods",
-    "median_pe": 8.35,
+    "median_pe": 8.4,
     "n_peers": 4
    },
    "sector": "Cable & Electrical Goods",
@@ -4081,17 +4014,17 @@
    "price": 8.22,
    "eps": 0.73,
    "eps_basis": "unknown",
-   "pe": 11.26,
+   "pe": 11.38,
    "growth_est_pct": 5.0,
    "methods": {
-    "relative_pe": 6.09,
+    "relative_pe": 6.13,
     "earnings_power": 4.48,
     "graham": 4.83
    },
    "relative_pe_basis": {
     "basis": "sector",
     "sector": "Cable & Electrical Goods",
-    "median_pe": 8.35,
+    "median_pe": 8.4,
     "n_peers": 4
    },
    "sector": "Cable & Electrical Goods",
@@ -4107,21 +4040,21 @@
   "MDTL",
   "BOP",
   "JSCL",
-  "KTML",
-  "BAFL",
   "BAHL",
+  "KTML",
   "TATM",
-  "KAPCO"
+  "KAPCO",
+  "FFC"
  ],
  "most_overvalued": [
+  "AVN",
+  "FFL",
+  "SEARL",
   "KEL",
   "IMS",
   "TRSM",
   "HUMNL",
   "WASL",
-  "KPUS",
-  "RPL",
-  "OCTOPUS",
   "ASTM",
   "PSEL"
  ]

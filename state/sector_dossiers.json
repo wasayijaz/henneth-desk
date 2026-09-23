@@ -1,5 +1,5 @@
 {
- "updated": "2026-09-22 13:49",
+ "updated": "2026-09-23 08:49",
  "note": "Deterministic evidence pack per PSX sector. Every figure is computed from the desk's own state files - agents debating a sector must cite THIS, never memory. macro_drivers lists only correction-survived relationships; an empty list means no global factor has a demonstrated effect on the sector, which is a finding.",
  "min_members": 3,
  "n_sectors": 32,
@@ -23,14 +23,14 @@
     }
    },
    "valuation": {
-    "median_pe": 11.96,
-    "median_fair_gap_pct": -35.3,
+    "median_pe": 11.59,
+    "median_fair_gap_pct": -35.35,
     "n_undervalued": 0,
     "n_overvalued": 1,
     "n_valued": 2
    },
    "income": {
-    "median_yield_pct": 7.61,
+    "median_yield_pct": 7.88,
     "median_payout_pct": 57.31,
     "n_payers": 1
    },
@@ -59,10 +59,10 @@
      "rsi14": 58.0,
      "above_sma50": true,
      "liquidity_rs_m": 41.2,
-     "pe": 16.86,
+     "pe": 15.9,
      "div_yield_pct": null,
      "payout_pct": null,
-     "fair_gap_pct": -57.3,
+     "fair_gap_pct": -58.4,
      "fair_verdict": "overvalued",
      "ttm_dividend_rs": null
     },
@@ -91,10 +91,10 @@
      "rsi14": 45.3,
      "above_sma50": false,
      "liquidity_rs_m": 5.9,
-     "pe": 7.05,
-     "div_yield_pct": 7.61,
+     "pe": 7.28,
+     "div_yield_pct": 7.88,
      "payout_pct": 57.31,
-     "fair_gap_pct": -13.3,
+     "fair_gap_pct": -12.3,
      "fair_verdict": "fair",
      "ttm_dividend_rs": 1.0
     },
@@ -135,14 +135,14 @@
     }
    },
    "valuation": {
-    "median_pe": 6.62,
-    "median_fair_gap_pct": -5.25,
-    "n_undervalued": 2,
+    "median_pe": 6.57,
+    "median_fair_gap_pct": -5.2,
+    "n_undervalued": 3,
     "n_overvalued": 3,
     "n_valued": 8
    },
    "income": {
-    "median_yield_pct": 3.87,
+    "median_yield_pct": 4.03,
     "median_payout_pct": 26.28,
     "n_payers": 7
    },
@@ -150,17 +150,17 @@
     {
      "factor": "sp500",
      "corr": 0.0536,
-     "beta": 0.0625,
-     "p_value": 0.0002
+     "beta": 0.0624,
+     "p_value": 2e-05
     },
     {
      "factor": "em_equity",
-     "corr": 0.0469,
-     "beta": 0.0391,
-     "p_value": 0.0007
+     "corr": 0.0466,
+     "beta": 0.0388,
+     "p_value": 0.0012
     }
    ],
-   "macro_joint_r2_pct": 0.33,
+   "macro_joint_r2_pct": 0.32,
    "recent_news": [
     {
      "ts": "2026-09-15",
@@ -181,9 +181,14 @@
    ],
    "upcoming_events": [
     {
-     "ticker": "INDU",
-     "date": "2026-09-22",
-     "type": "book_closure"
+     "ticker": "GAL",
+     "date": "2026-10-05",
+     "type": "ex_dividend"
+    },
+    {
+     "ticker": "GHNI",
+     "date": "2026-10-05",
+     "type": "ex_dividend"
     },
     {
      "ticker": "GHNI",
@@ -197,22 +202,22 @@
     },
     {
      "ticker": "MTL",
+     "date": "2026-10-19",
+     "type": "ex_dividend"
+    },
+    {
+     "ticker": "MTL",
      "date": "2026-10-20",
      "type": "book_closure"
     },
     {
-     "ticker": "DFML",
+     "ticker": "AGTL",
      "date": "2026-10-23",
      "type": "results"
     },
     {
-     "ticker": "ATLH",
-     "date": "2026-10-28",
-     "type": "results"
-    },
-    {
-     "ticker": "HCAR",
-     "date": "2026-11-20",
+     "ticker": "DFML",
+     "date": "2026-10-23",
      "type": "results"
     }
    ],
@@ -226,10 +231,10 @@
      "rsi14": 44.5,
      "above_sma50": false,
      "liquidity_rs_m": 69.4,
-     "pe": 16.22,
-     "div_yield_pct": 9.94,
-     "payout_pct": 160.94,
-     "fair_gap_pct": -58.8,
+     "pe": 14.73,
+     "div_yield_pct": 7.05,
+     "payout_pct": 103.81,
+     "fair_gap_pct": -58.7,
      "fair_verdict": "overvalued",
      "ttm_dividend_rs": 17.5
     },
@@ -242,10 +247,10 @@
      "rsi14": 39.3,
      "above_sma50": false,
      "liquidity_rs_m": 5.9,
-     "pe": 8.78,
+     "pe": 8.79,
      "div_yield_pct": 7.08,
      "payout_pct": 62.24,
-     "fair_gap_pct": -27.6,
+     "fair_gap_pct": -27.7,
      "fair_verdict": "overvalued",
      "ttm_dividend_rs": 102.0
     },
@@ -258,10 +263,10 @@
      "rsi14": 44.7,
      "above_sma50": false,
      "liquidity_rs_m": 109.0,
-     "pe": 6.23,
-     "div_yield_pct": 3.87,
+     "pe": 6.52,
+     "div_yield_pct": 4.03,
      "payout_pct": 26.28,
-     "fair_gap_pct": 24.2,
+     "fair_gap_pct": 24.3,
      "fair_verdict": "undervalued",
      "ttm_dividend_rs": 9.0
     },
@@ -274,10 +279,10 @@
      "rsi14": 41.4,
      "above_sma50": false,
      "liquidity_rs_m": 9.9,
-     "pe": 7.0,
+     "pe": 7.08,
      "div_yield_pct": null,
      "payout_pct": null,
-     "fair_gap_pct": -13.0,
+     "fair_gap_pct": -13.3,
      "fair_verdict": "fair",
      "ttm_dividend_rs": null
     },
@@ -290,10 +295,10 @@
      "rsi14": 33.9,
      "above_sma50": false,
      "liquidity_rs_m": 212.3,
-     "pe": 4.56,
-     "div_yield_pct": 3.78,
+     "pe": 4.46,
+     "div_yield_pct": 4.02,
      "payout_pct": 17.93,
-     "fair_gap_pct": 2.5,
+     "fair_gap_pct": 2.9,
      "fair_verdict": "fair",
      "ttm_dividend_rs": 50.0
     },
@@ -306,11 +311,11 @@
      "rsi14": 27.2,
      "above_sma50": false,
      "liquidity_rs_m": 60.8,
-     "pe": 5.57,
-     "div_yield_pct": 10.64,
+     "pe": 5.51,
+     "div_yield_pct": 10.91,
      "payout_pct": 60.09,
-     "fair_gap_pct": 14.9,
-     "fair_verdict": "fair",
+     "fair_gap_pct": 15.4,
+     "fair_verdict": "undervalued",
      "ttm_dividend_rs": 198.0
     },
     {
@@ -338,10 +343,10 @@
      "rsi14": 30.8,
      "above_sma50": false,
      "liquidity_rs_m": 315.5,
-     "pe": 4.83,
-     "div_yield_pct": 1.57,
-     "payout_pct": 8.53,
-     "fair_gap_pct": 38.7,
+     "pe": 4.78,
+     "div_yield_pct": 2.23,
+     "payout_pct": 10.66,
+     "fair_gap_pct": 38.6,
      "fair_verdict": "undervalued",
      "ttm_dividend_rs": null
     },
@@ -370,10 +375,10 @@
      "rsi14": 28.1,
      "above_sma50": false,
      "liquidity_rs_m": 166.8,
-     "pe": 7.14,
-     "div_yield_pct": 0.78,
-     "payout_pct": 6.16,
-     "fair_gap_pct": -29.1,
+     "pe": 6.63,
+     "div_yield_pct": 1.11,
+     "payout_pct": 7.38,
+     "fair_gap_pct": -30.1,
      "fair_verdict": "overvalued",
      "ttm_dividend_rs": 10.0
     }
@@ -398,14 +403,14 @@
     }
    },
    "valuation": {
-    "median_pe": 6.18,
-    "median_fair_gap_pct": -2.9,
+    "median_pe": 6.36,
+    "median_fair_gap_pct": -1.8,
     "n_undervalued": 1,
     "n_overvalued": 1,
     "n_valued": 3
    },
    "income": {
-    "median_yield_pct": 6.88,
+    "median_yield_pct": 6.83,
     "median_payout_pct": 37.2,
     "n_payers": 2
    },
@@ -413,6 +418,11 @@
    "macro_joint_r2_pct": null,
    "recent_news": [],
    "upcoming_events": [
+    {
+     "ticker": "TBL",
+     "date": "2026-09-24",
+     "type": "results"
+    },
     {
      "ticker": "PTL",
      "date": "2026-10-13",
@@ -422,11 +432,6 @@
      "ticker": "THALL",
      "date": "2026-10-15",
      "type": "ex_dividend"
-    },
-    {
-     "ticker": "TBL",
-     "date": "2026-10-28",
-     "type": "results"
     }
    ],
    "members": [
@@ -455,10 +460,10 @@
      "rsi14": 39.9,
      "above_sma50": false,
      "liquidity_rs_m": 9.1,
-     "pe": 4.07,
-     "div_yield_pct": 5.71,
+     "pe": 4.13,
+     "div_yield_pct": 5.63,
      "payout_pct": 23.25,
-     "fair_gap_pct": 50.5,
+     "fair_gap_pct": 51.2,
      "fair_verdict": "undervalued",
      "ttm_dividend_rs": 21.0
     },
@@ -503,10 +508,10 @@
      "rsi14": 40.6,
      "above_sma50": false,
      "liquidity_rs_m": 19.7,
-     "pe": 10.78,
+     "pe": 9.03,
      "div_yield_pct": null,
      "payout_pct": null,
-     "fair_gap_pct": -40.5,
+     "fair_gap_pct": -40.7,
      "fair_verdict": "overvalued",
      "ttm_dividend_rs": null
     },
@@ -519,10 +524,10 @@
      "rsi14": 41.1,
      "above_sma50": false,
      "liquidity_rs_m": 18.3,
-     "pe": 6.18,
-     "div_yield_pct": 8.06,
+     "pe": 6.36,
+     "div_yield_pct": 8.04,
      "payout_pct": 51.15,
-     "fair_gap_pct": -2.9,
+     "fair_gap_pct": -1.8,
      "fair_verdict": "fair",
      "ttm_dividend_rs": 4.0
     },
@@ -643,14 +648,14 @@
     }
    },
    "valuation": {
-    "median_pe": 7.99,
-    "median_fair_gap_pct": -11.35,
+    "median_pe": 8.35,
+    "median_fair_gap_pct": -11.75,
     "n_undervalued": 1,
     "n_overvalued": 2,
     "n_valued": 4
    },
    "income": {
-    "median_yield_pct": 5.59,
+    "median_yield_pct": 5.46,
     "median_payout_pct": 45.73,
     "n_payers": 1
    },
@@ -662,6 +667,11 @@
      "ticker": "FCL",
      "date": "2026-10-15",
      "type": "ex_dividend"
+    },
+    {
+     "ticker": "FCL",
+     "date": "2026-10-27",
+     "type": "results"
     }
    ],
    "members": [
@@ -690,10 +700,10 @@
      "rsi14": 58.0,
      "above_sma50": true,
      "liquidity_rs_m": 77.0,
-     "pe": 8.08,
-     "div_yield_pct": 5.59,
+     "pe": 8.38,
+     "div_yield_pct": 5.46,
      "payout_pct": 45.73,
-     "fair_gap_pct": -23.8,
+     "fair_gap_pct": -23.9,
      "fair_verdict": "overvalued",
      "ttm_dividend_rs": null
     },
@@ -706,10 +716,10 @@
      "rsi14": 40.9,
      "above_sma50": false,
      "liquidity_rs_m": 162.1,
-     "pe": 7.9,
+     "pe": 8.31,
      "div_yield_pct": null,
      "payout_pct": null,
-     "fair_gap_pct": 1.1,
+     "fair_gap_pct": 0.4,
      "fair_verdict": "fair",
      "ttm_dividend_rs": null
     },
@@ -722,10 +732,10 @@
      "rsi14": 31.3,
      "above_sma50": false,
      "liquidity_rs_m": 20.6,
-     "pe": 4.3,
+     "pe": 4.27,
      "div_yield_pct": null,
      "payout_pct": null,
-     "fair_gap_pct": 54.5,
+     "fair_gap_pct": 54.7,
      "fair_verdict": "undervalued",
      "ttm_dividend_rs": null
     },
@@ -738,10 +748,10 @@
      "rsi14": 38.4,
      "above_sma50": false,
      "liquidity_rs_m": 24.3,
-     "pe": 11.44,
+     "pe": 11.33,
      "div_yield_pct": null,
      "payout_pct": null,
-     "fair_gap_pct": -41.8,
+     "fair_gap_pct": -41.2,
      "fair_verdict": "overvalued",
      "ttm_dividend_rs": null
     },
@@ -780,14 +790,14 @@
    ]
   },
   "Cement": {
-   "n_members": 19,
+   "n_members": 18,
    "breadth": {
     "above_sma50": 2,
     "advancing_1d": 16
    },
    "returns": {
     "median_1d_pct": 0.88,
-    "median_20d_pct": -5.42,
+    "median_20d_pct": -6.0,
     "best_20d": {
      "sym": "THCCL",
      "pct": 3.68
@@ -798,35 +808,35 @@
     }
    },
    "valuation": {
-    "median_pe": 7.79,
-    "median_fair_gap_pct": -11.8,
+    "median_pe": 8.28,
+    "median_fair_gap_pct": -12.2,
     "n_undervalued": 0,
     "n_overvalued": 5,
     "n_valued": 13
    },
    "income": {
-    "median_yield_pct": 2.0,
+    "median_yield_pct": 1.99,
     "median_payout_pct": 17.14,
     "n_payers": 10
    },
    "macro_drivers": [
     {
      "factor": "sp500",
-     "corr": 0.0555,
-     "beta": 0.0828,
-     "p_value": 0.00022
+     "corr": 0.0556,
+     "beta": 0.0829,
+     "p_value": 0.00028
     },
     {
      "factor": "oil",
-     "corr": -0.0528,
+     "corr": -0.053,
      "beta": -0.0178,
-     "p_value": 0.0056
+     "p_value": 0.0062
     },
     {
      "factor": "em_equity",
-     "corr": 0.0478,
-     "beta": 0.051,
-     "p_value": 0.00082
+     "corr": 0.0476,
+     "beta": 0.0508,
+     "p_value": 0.00182
     }
    ],
    "macro_joint_r2_pct": 0.76,
@@ -882,13 +892,23 @@
    ],
    "upcoming_events": [
     {
+     "ticker": "FECTC",
+     "date": "2026-09-25",
+     "type": "results"
+    },
+    {
      "ticker": "PIOC",
      "date": "2026-09-25",
      "type": "results"
     },
     {
      "ticker": "DCL",
-     "date": "2026-09-30",
+     "date": "2026-09-28",
+     "type": "results"
+    },
+    {
+     "ticker": "MLCF",
+     "date": "2026-09-28",
      "type": "results"
     },
     {
@@ -910,16 +930,6 @@
      "ticker": "DBCI",
      "date": "2026-10-07",
      "type": "results"
-    },
-    {
-     "ticker": "BWCL",
-     "date": "2026-10-15",
-     "type": "results"
-    },
-    {
-     "ticker": "FECTC",
-     "date": "2026-10-15",
-     "type": "ex_dividend"
     }
    ],
    "members": [
@@ -932,27 +942,11 @@
      "rsi14": 56.3,
      "above_sma50": true,
      "liquidity_rs_m": 577.2,
-     "pe": 10.42,
+     "pe": 10.83,
      "div_yield_pct": null,
      "payout_pct": null,
-     "fair_gap_pct": -37.5,
+     "fair_gap_pct": -38.9,
      "fair_verdict": "overvalued",
-     "ttm_dividend_rs": null
-    },
-    {
-     "sym": "POWERPS",
-     "name": "Power Cement (Pref)",
-     "close": 26.39,
-     "ret_1d": 0.0,
-     "ret_20d": 0.08,
-     "rsi14": 46.1,
-     "above_sma50": false,
-     "liquidity_rs_m": 0.0,
-     "pe": null,
-     "div_yield_pct": null,
-     "payout_pct": null,
-     "fair_gap_pct": null,
-     "fair_verdict": null,
      "ttm_dividend_rs": null
     },
     {
@@ -980,10 +974,10 @@
      "rsi14": 44.3,
      "above_sma50": false,
      "liquidity_rs_m": 14.8,
-     "pe": 9.25,
+     "pe": 9.21,
      "div_yield_pct": 0.22,
      "payout_pct": 2.01,
-     "fair_gap_pct": -21.7,
+     "fair_gap_pct": -21.8,
      "fair_verdict": "overvalued",
      "ttm_dividend_rs": 0.5
     },
@@ -996,10 +990,10 @@
      "rsi14": 52.7,
      "above_sma50": true,
      "liquidity_rs_m": 27.4,
-     "pe": 7.78,
-     "div_yield_pct": 2.26,
+     "pe": 8.28,
+     "div_yield_pct": 2.22,
      "payout_pct": 18.38,
-     "fair_gap_pct": -22.9,
+     "fair_gap_pct": -23.0,
      "fair_verdict": "overvalued",
      "ttm_dividend_rs": null
     },
@@ -1028,10 +1022,10 @@
      "rsi14": 48.3,
      "above_sma50": false,
      "liquidity_rs_m": 445.3,
-     "pe": 6.68,
-     "div_yield_pct": 1.15,
+     "pe": 6.97,
+     "div_yield_pct": 1.18,
      "payout_pct": 8.23,
-     "fair_gap_pct": 3.5,
+     "fair_gap_pct": 3.4,
      "fair_verdict": "fair",
      "ttm_dividend_rs": null
     },
@@ -1060,12 +1054,12 @@
      "rsi14": 50.1,
      "above_sma50": false,
      "liquidity_rs_m": 207.7,
-     "pe": 7.79,
-     "div_yield_pct": 2.84,
+     "pe": 8.19,
+     "div_yield_pct": 2.78,
      "payout_pct": 22.73,
-     "fair_gap_pct": 5.5,
+     "fair_gap_pct": 4.7,
      "fair_verdict": "fair",
-     "ttm_dividend_rs": 1.25
+     "ttm_dividend_rs": null
     },
     {
      "sym": "MLCF",
@@ -1076,10 +1070,10 @@
      "rsi14": 48.9,
      "above_sma50": false,
      "liquidity_rs_m": 893.5,
-     "pe": 8.08,
+     "pe": 8.48,
      "div_yield_pct": null,
      "payout_pct": null,
-     "fair_gap_pct": -1.5,
+     "fair_gap_pct": -2.4,
      "fair_verdict": "fair",
      "ttm_dividend_rs": null
     },
@@ -1092,10 +1086,10 @@
      "rsi14": 42.8,
      "above_sma50": false,
      "liquidity_rs_m": 23.8,
-     "pe": 7.56,
+     "pe": 7.83,
      "div_yield_pct": null,
      "payout_pct": null,
-     "fair_gap_pct": 5.4,
+     "fair_gap_pct": 5.8,
      "fair_verdict": "fair",
      "ttm_dividend_rs": null
     },
@@ -1108,10 +1102,10 @@
      "rsi14": 44.0,
      "above_sma50": false,
      "liquidity_rs_m": 27.8,
-     "pe": 8.29,
-     "div_yield_pct": 2.08,
+     "pe": 8.61,
+     "div_yield_pct": 2.0,
      "payout_pct": 17.22,
-     "fair_gap_pct": -11.9,
+     "fair_gap_pct": -12.2,
      "fair_verdict": "fair",
      "ttm_dividend_rs": 5.0
     },
@@ -1124,10 +1118,10 @@
      "rsi14": 46.8,
      "above_sma50": false,
      "liquidity_rs_m": 13.3,
-     "pe": 8.55,
-     "div_yield_pct": 1.91,
+     "pe": 8.63,
+     "div_yield_pct": 1.98,
      "payout_pct": 17.06,
-     "fair_gap_pct": -25.5,
+     "fair_gap_pct": -26.1,
      "fair_verdict": "overvalued",
      "ttm_dividend_rs": 1.0
     },
@@ -1140,10 +1134,10 @@
      "rsi14": 48.1,
      "above_sma50": false,
      "liquidity_rs_m": 645.0,
-     "pe": 7.01,
-     "div_yield_pct": 0.49,
+     "pe": 7.42,
+     "div_yield_pct": 0.5,
      "payout_pct": 3.71,
-     "fair_gap_pct": -1.3,
+     "fair_gap_pct": -2.9,
      "fair_verdict": "fair",
      "ttm_dividend_rs": 2.0
     },
@@ -1156,8 +1150,8 @@
      "rsi14": 29.9,
      "above_sma50": false,
      "liquidity_rs_m": 7.6,
-     "pe": 10.2,
-     "div_yield_pct": 9.11,
+     "pe": 10.4,
+     "div_yield_pct": 8.97,
      "payout_pct": 93.28,
      "fair_gap_pct": -29.9,
      "fair_verdict": "overvalued",
@@ -1172,10 +1166,10 @@
      "rsi14": 41.9,
      "above_sma50": false,
      "liquidity_rs_m": 64.5,
-     "pe": 6.96,
-     "div_yield_pct": 1.84,
+     "pe": 7.49,
+     "div_yield_pct": 1.97,
      "payout_pct": 14.73,
-     "fair_gap_pct": -3.3,
+     "fair_gap_pct": -3.8,
      "fair_verdict": "fair",
      "ttm_dividend_rs": 5.5
     },
@@ -1188,10 +1182,10 @@
      "rsi14": 36.6,
      "above_sma50": false,
      "liquidity_rs_m": 10.6,
-     "pe": 7.09,
-     "div_yield_pct": 3.85,
+     "pe": 7.27,
+     "div_yield_pct": 4.16,
      "payout_pct": 30.26,
-     "fair_gap_pct": -11.8,
+     "fair_gap_pct": -12.3,
      "fair_verdict": "fair",
      "ttm_dividend_rs": 2.0
     },
@@ -1248,29 +1242,29 @@
     }
    },
    "valuation": {
-    "median_pe": 9.82,
-    "median_fair_gap_pct": -33.85,
+    "median_pe": 9.9,
+    "median_fair_gap_pct": -33.55,
     "n_undervalued": 2,
     "n_overvalued": 5,
     "n_valued": 8
    },
    "income": {
-    "median_yield_pct": 3.84,
-    "median_payout_pct": 44.97,
-    "n_payers": 6
+    "median_yield_pct": 4.1,
+    "median_payout_pct": 42.13,
+    "n_payers": 7
    },
    "macro_drivers": [
     {
      "factor": "sp500",
-     "corr": 0.049,
-     "beta": 0.0684,
-     "p_value": 0.00054
+     "corr": 0.0491,
+     "beta": 0.0685,
+     "p_value": 0.0008
     },
     {
      "factor": "em_equity",
      "corr": 0.0457,
      "beta": 0.0456,
-     "p_value": 0.00156
+     "p_value": 0.00326
     }
    ],
    "macro_joint_r2_pct": 0.52,
@@ -1287,7 +1281,7 @@
    "upcoming_events": [
     {
      "ticker": "BERG",
-     "date": "2026-09-22",
+     "date": "2026-09-23",
      "type": "results"
     },
     {
@@ -1301,9 +1295,19 @@
      "type": "results"
     },
     {
-     "ticker": "GGL",
-     "date": "2026-10-02",
+     "ticker": "GCIL",
+     "date": "2026-09-26",
      "type": "results"
+    },
+    {
+     "ticker": "GGL",
+     "date": "2026-09-29",
+     "type": "results"
+    },
+    {
+     "ticker": "NRSL",
+     "date": "2026-10-06",
+     "type": "ex_dividend"
     },
     {
      "ticker": "NICL",
@@ -1314,16 +1318,6 @@
      "ticker": "NRSL",
      "date": "2026-10-07",
      "type": "book_closure"
-    },
-    {
-     "ticker": "EPCL",
-     "date": "2026-10-20",
-     "type": "results"
-    },
-    {
-     "ticker": "LCI",
-     "date": "2026-10-23",
-     "type": "results"
     }
    ],
    "members": [
@@ -1384,10 +1378,10 @@
      "rsi14": 58.8,
      "above_sma50": true,
      "liquidity_rs_m": 141.2,
-     "pe": 12.02,
-     "div_yield_pct": 3.08,
+     "pe": 12.34,
+     "div_yield_pct": 3.0,
      "payout_pct": 36.97,
-     "fair_gap_pct": -48.2,
+     "fair_gap_pct": -48.3,
      "fair_verdict": "overvalued",
      "ttm_dividend_rs": 6.0
     },
@@ -1464,10 +1458,10 @@
      "rsi14": 49.5,
      "above_sma50": false,
      "liquidity_rs_m": 28.5,
-     "pe": 35.75,
+     "pe": 37.36,
      "div_yield_pct": null,
      "payout_pct": null,
-     "fair_gap_pct": -82.6,
+     "fair_gap_pct": -82.2,
      "fair_verdict": "overvalued",
      "ttm_dividend_rs": null
     },
@@ -1496,9 +1490,9 @@
      "rsi14": 51.8,
      "above_sma50": true,
      "liquidity_rs_m": 69.7,
-     "pe": null,
-     "div_yield_pct": null,
-     "payout_pct": null,
+     "pe": 10.68,
+     "div_yield_pct": 3.95,
+     "payout_pct": 42.13,
      "fair_gap_pct": null,
      "fair_verdict": null,
      "ttm_dividend_rs": null
@@ -1528,10 +1522,10 @@
      "rsi14": 37.3,
      "above_sma50": false,
      "liquidity_rs_m": 7.4,
-     "pe": 9.39,
-     "div_yield_pct": 3.01,
-     "payout_pct": 28.94,
-     "fair_gap_pct": -31.6,
+     "pe": 8.65,
+     "div_yield_pct": 3.08,
+     "payout_pct": 26.65,
+     "fair_gap_pct": -32.1,
      "fair_verdict": "overvalued",
      "ttm_dividend_rs": 3.0
     },
@@ -1576,8 +1570,8 @@
      "rsi14": 29.3,
      "above_sma50": false,
      "liquidity_rs_m": 26.4,
-     "pe": 10.24,
-     "div_yield_pct": 4.7,
+     "pe": 9.9,
+     "div_yield_pct": 5.02,
      "payout_pct": 49.74,
      "fair_gap_pct": 39.4,
      "fair_verdict": "undervalued",
@@ -1592,10 +1586,10 @@
      "rsi14": 42.7,
      "above_sma50": false,
      "liquidity_rs_m": 120.3,
-     "pe": 7.98,
-     "div_yield_pct": 18.73,
+     "pe": 8.27,
+     "div_yield_pct": 19.52,
      "payout_pct": 161.29,
-     "fair_gap_pct": 6.2,
+     "fair_gap_pct": 8.9,
      "fair_verdict": "fair",
      "ttm_dividend_rs": 6.5
     },
@@ -1608,10 +1602,10 @@
      "rsi14": 43.4,
      "above_sma50": false,
      "liquidity_rs_m": 20.8,
-     "pe": 1.99,
+     "pe": 2.1,
      "div_yield_pct": null,
      "payout_pct": null,
-     "fair_gap_pct": 224.3,
+     "fair_gap_pct": 215.7,
      "fair_verdict": "undervalued",
      "ttm_dividend_rs": null
     },
@@ -1656,10 +1650,10 @@
      "rsi14": 35.8,
      "above_sma50": false,
      "liquidity_rs_m": 10.3,
-     "pe": 12.11,
-     "div_yield_pct": 4.13,
+     "pe": 12.1,
+     "div_yield_pct": 4.39,
      "payout_pct": 53.13,
-     "fair_gap_pct": -47.7,
+     "fair_gap_pct": -47.3,
      "fair_verdict": "overvalued",
      "ttm_dividend_rs": 6.0
     },
@@ -1704,10 +1698,10 @@
      "rsi14": 45.3,
      "above_sma50": false,
      "liquidity_rs_m": 154.5,
-     "pe": 8.94,
-     "div_yield_pct": 3.55,
+     "pe": 9.81,
+     "div_yield_pct": 4.1,
      "payout_pct": 40.19,
-     "fair_gap_pct": -36.1,
+     "fair_gap_pct": -35.0,
      "fair_verdict": "overvalued",
      "ttm_dividend_rs": 5.0
     },
@@ -1755,7 +1749,7 @@
     "n_valued": 0
    },
    "income": {
-    "median_yield_pct": 4.61,
+    "median_yield_pct": 4.83,
     "median_payout_pct": null,
     "n_payers": 1
    },
@@ -1806,7 +1800,7 @@
      "above_sma50": false,
      "liquidity_rs_m": 0.6,
      "pe": null,
-     "div_yield_pct": 4.61,
+     "div_yield_pct": 4.83,
      "payout_pct": null,
      "fair_gap_pct": null,
      "fair_verdict": null,
@@ -1833,14 +1827,14 @@
     }
    },
    "valuation": {
-    "median_pe": 6.11,
-    "median_fair_gap_pct": 26.65,
+    "median_pe": 6.2,
+    "median_fair_gap_pct": 25.85,
     "n_undervalued": 10,
     "n_overvalued": 5,
     "n_valued": 18
    },
    "income": {
-    "median_yield_pct": 9.35,
+    "median_yield_pct": 9.41,
     "median_payout_pct": 57.25,
     "n_payers": 15
    },
@@ -1853,18 +1847,18 @@
     },
     {
      "factor": "em_equity",
-     "corr": 0.054,
-     "beta": 0.0411,
-     "p_value": 0.0007
+     "corr": 0.0539,
+     "beta": 0.041,
+     "p_value": 0.00114
     },
     {
      "factor": "us10y",
-     "corr": 0.0378,
-     "beta": 0.087,
-     "p_value": 0.00986
+     "corr": 0.0375,
+     "beta": 0.0864,
+     "p_value": 0.00922
     }
    ],
-   "macro_joint_r2_pct": 0.6,
+   "macro_joint_r2_pct": 0.59,
    "recent_news": [
     {
      "ts": "2026-09-10",
@@ -1946,6 +1940,11 @@
      "type": "results"
     },
     {
+     "ticker": "SNBL",
+     "date": "2026-10-19",
+     "type": "results"
+    },
+    {
      "ticker": "HBL",
      "date": "2026-10-21",
      "type": "results"
@@ -1956,23 +1955,18 @@
      "type": "results"
     },
     {
-     "ticker": "FABL",
+     "ticker": "ABL",
      "date": "2026-10-23",
      "type": "results"
     },
     {
-     "ticker": "HMB",
+     "ticker": "BAHL",
      "date": "2026-10-23",
      "type": "results"
     },
     {
-     "ticker": "MCB",
+     "ticker": "BIPL",
      "date": "2026-10-23",
-     "type": "results"
-    },
-    {
-     "ticker": "AKBL",
-     "date": "2026-10-29",
      "type": "results"
     }
    ],
@@ -1986,10 +1980,10 @@
      "rsi14": 49.4,
      "above_sma50": true,
      "liquidity_rs_m": 214.4,
-     "pe": 5.87,
-     "div_yield_pct": 4.76,
+     "pe": 6.03,
+     "div_yield_pct": 4.72,
      "payout_pct": 28.41,
-     "fair_gap_pct": 41.8,
+     "fair_gap_pct": 42.2,
      "fair_verdict": "undervalued",
      "ttm_dividend_rs": 7.0
     },
@@ -2002,10 +1996,10 @@
      "rsi14": 58.4,
      "above_sma50": true,
      "liquidity_rs_m": 34.2,
-     "pe": 13.39,
+     "pe": 16.67,
      "div_yield_pct": null,
      "payout_pct": null,
-     "fair_gap_pct": -61.1,
+     "fair_gap_pct": -62.9,
      "fair_verdict": "overvalued",
      "ttm_dividend_rs": null
     },
@@ -2018,10 +2012,10 @@
      "rsi14": 51.3,
      "above_sma50": false,
      "liquidity_rs_m": 144.3,
-     "pe": 5.05,
-     "div_yield_pct": 10.64,
+     "pe": 5.31,
+     "div_yield_pct": 10.53,
      "payout_pct": 55.87,
-     "fair_gap_pct": 111.5,
+     "fair_gap_pct": 108.4,
      "fair_verdict": "undervalued",
      "ttm_dividend_rs": 5.75
     },
@@ -2034,10 +2028,10 @@
      "rsi14": 47.4,
      "above_sma50": false,
      "liquidity_rs_m": 108.2,
-     "pe": 7.99,
-     "div_yield_pct": 9.35,
+     "pe": 8.22,
+     "div_yield_pct": 9.08,
      "payout_pct": 74.64,
-     "fair_gap_pct": -36.2,
+     "fair_gap_pct": -36.0,
      "fair_verdict": "overvalued",
      "ttm_dividend_rs": 36.0
     },
@@ -2050,10 +2044,10 @@
      "rsi14": 45.5,
      "above_sma50": false,
      "liquidity_rs_m": 387.2,
-     "pe": 10.67,
-     "div_yield_pct": 5.89,
+     "pe": 10.82,
+     "div_yield_pct": 5.81,
      "payout_pct": 62.89,
-     "fair_gap_pct": 2.2,
+     "fair_gap_pct": 1.7,
      "fair_verdict": "fair",
      "ttm_dividend_rs": 29.5
     },
@@ -2066,10 +2060,10 @@
      "rsi14": 45.6,
      "above_sma50": false,
      "liquidity_rs_m": 41.3,
-     "pe": 6.16,
-     "div_yield_pct": 6.9,
+     "pe": 6.36,
+     "div_yield_pct": 6.92,
      "payout_pct": 44.04,
-     "fair_gap_pct": 54.2,
+     "fair_gap_pct": 54.6,
      "fair_verdict": "undervalued",
      "ttm_dividend_rs": 6.5
     },
@@ -2082,8 +2076,8 @@
      "rsi14": 41.7,
      "above_sma50": false,
      "liquidity_rs_m": 30.3,
-     "pe": 5.64,
-     "div_yield_pct": 9.46,
+     "pe": 5.67,
+     "div_yield_pct": 9.41,
      "payout_pct": 53.39,
      "fair_gap_pct": 8.6,
      "fair_verdict": "fair",
@@ -2098,10 +2092,10 @@
      "rsi14": 36.0,
      "above_sma50": false,
      "liquidity_rs_m": 9.9,
-     "pe": 4.88,
-     "div_yield_pct": 7.31,
+     "pe": 4.93,
+     "div_yield_pct": 7.53,
      "payout_pct": 37.13,
-     "fair_gap_pct": 25.5,
+     "fair_gap_pct": 25.0,
      "fair_verdict": "undervalued",
      "ttm_dividend_rs": 1.5
     },
@@ -2114,10 +2108,10 @@
      "rsi14": 42.7,
      "above_sma50": false,
      "liquidity_rs_m": 538.3,
-     "pe": 6.86,
-     "div_yield_pct": 7.22,
+     "pe": 7.11,
+     "div_yield_pct": 7.46,
      "payout_pct": 53.01,
-     "fair_gap_pct": 43.0,
+     "fair_gap_pct": 42.6,
      "fair_verdict": "undervalued",
      "ttm_dividend_rs": 32.0
     },
@@ -2130,10 +2124,10 @@
      "rsi14": 43.3,
      "above_sma50": false,
      "liquidity_rs_m": 392.4,
-     "pe": 6.56,
-     "div_yield_pct": 7.68,
+     "pe": 6.66,
+     "div_yield_pct": 7.92,
      "payout_pct": 52.69,
-     "fair_gap_pct": 78.0,
+     "fair_gap_pct": 79.2,
      "fair_verdict": "undervalued",
      "ttm_dividend_rs": 23.0
     },
@@ -2146,10 +2140,10 @@
      "rsi14": 29.5,
      "above_sma50": false,
      "liquidity_rs_m": 34.9,
-     "pe": 5.05,
-     "div_yield_pct": 12.0,
+     "pe": 5.08,
+     "div_yield_pct": 12.21,
      "payout_pct": 62.02,
-     "fair_gap_pct": -5.8,
+     "fair_gap_pct": -5.3,
      "fair_verdict": "fair",
      "ttm_dividend_rs": 12.0
     },
@@ -2162,10 +2156,10 @@
      "rsi14": 39.4,
      "above_sma50": false,
      "liquidity_rs_m": 4.1,
-     "pe": 16.09,
+     "pe": 16.07,
      "div_yield_pct": null,
      "payout_pct": null,
-     "fair_gap_pct": -61.2,
+     "fair_gap_pct": -61.5,
      "fair_verdict": "overvalued",
      "ttm_dividend_rs": null
     },
@@ -2178,10 +2172,10 @@
      "rsi14": 35.9,
      "above_sma50": false,
      "liquidity_rs_m": 644.7,
-     "pe": 5.52,
-     "div_yield_pct": 9.31,
+     "pe": 5.51,
+     "div_yield_pct": 10.4,
      "payout_pct": 57.25,
-     "fair_gap_pct": 133.8,
+     "fair_gap_pct": 133.9,
      "fair_verdict": "undervalued",
      "ttm_dividend_rs": 3.1
     },
@@ -2194,10 +2188,10 @@
      "rsi14": 32.8,
      "above_sma50": false,
      "liquidity_rs_m": 1.4,
-     "pe": 9.67,
-     "div_yield_pct": 10.1,
+     "pe": 9.7,
+     "div_yield_pct": 10.82,
      "payout_pct": 104.84,
-     "fair_gap_pct": -33.6,
+     "fair_gap_pct": -33.9,
      "fair_verdict": "overvalued",
      "ttm_dividend_rs": 6.0
     },
@@ -2210,10 +2204,10 @@
      "rsi14": 34.7,
      "above_sma50": false,
      "liquidity_rs_m": 4.8,
-     "pe": 4.18,
+     "pe": 4.19,
      "div_yield_pct": null,
      "payout_pct": null,
-     "fair_gap_pct": 49.7,
+     "fair_gap_pct": 47.6,
      "fair_verdict": "undervalued",
      "ttm_dividend_rs": null
     },
@@ -2226,10 +2220,10 @@
      "rsi14": 31.3,
      "above_sma50": false,
      "liquidity_rs_m": 99.0,
-     "pe": 6.06,
-     "div_yield_pct": 9.81,
+     "pe": 6.02,
+     "div_yield_pct": 9.87,
      "payout_pct": 59.43,
-     "fair_gap_pct": 107.2,
+     "fair_gap_pct": 102.1,
      "fair_verdict": "undervalued",
      "ttm_dividend_rs": 15.0
     },
@@ -2242,10 +2236,10 @@
      "rsi14": 35.3,
      "above_sma50": false,
      "liquidity_rs_m": 11.6,
-     "pe": 7.48,
-     "div_yield_pct": 11.24,
+     "pe": 7.62,
+     "div_yield_pct": 11.04,
      "payout_pct": 84.1,
-     "fair_gap_pct": -15.8,
+     "fair_gap_pct": -15.9,
      "fair_verdict": "overvalued",
      "ttm_dividend_rs": 2.75
     },
@@ -2274,10 +2268,10 @@
      "rsi14": 29.8,
      "above_sma50": false,
      "liquidity_rs_m": 666.3,
-     "pe": 5.04,
-     "div_yield_pct": 18.78,
+     "pe": 4.86,
+     "div_yield_pct": 20.46,
      "payout_pct": 99.49,
-     "fair_gap_pct": 27.8,
+     "fair_gap_pct": 26.7,
      "fair_verdict": "undervalued",
      "ttm_dividend_rs": 35.0
     }
@@ -2302,23 +2296,23 @@
     }
    },
    "valuation": {
-    "median_pe": 10.47,
-    "median_fair_gap_pct": -28.7,
+    "median_pe": 11.59,
+    "median_fair_gap_pct": -30.2,
     "n_undervalued": 2,
-    "n_overvalued": 4,
+    "n_overvalued": 5,
     "n_valued": 8
    },
    "income": {
-    "median_yield_pct": 4.87,
-    "median_payout_pct": 29.89,
-    "n_payers": 4
+    "median_yield_pct": 4.17,
+    "median_payout_pct": 31.93,
+    "n_payers": 5
    },
    "macro_drivers": [
     {
      "factor": "sp500",
-     "corr": 0.0409,
-     "beta": 0.0863,
-     "p_value": 0.011
+     "corr": 0.0408,
+     "beta": 0.0861,
+     "p_value": 0.00832
     }
    ],
    "macro_joint_r2_pct": 0.35,
@@ -2342,43 +2336,43 @@
    ],
    "upcoming_events": [
     {
-     "ticker": "INIL",
-     "date": "2026-09-28",
-     "type": "ex_dividend"
-    },
-    {
-     "ticker": "ISL",
-     "date": "2026-09-28",
-     "type": "ex_dividend"
-    },
-    {
-     "ticker": "ISL",
-     "date": "2026-09-29",
-     "type": "book_closure"
-    },
-    {
-     "ticker": "INIL",
-     "date": "2026-09-29",
-     "type": "book_closure"
-    },
-    {
      "ticker": "AGHA",
-     "date": "2026-09-30",
+     "date": "2026-09-23",
      "type": "results"
     },
     {
-     "ticker": "ITTEFAQ",
-     "date": "2026-09-30",
+     "ticker": "ASL",
+     "date": "2026-09-24",
      "type": "results"
     },
     {
-     "ticker": "DSL",
-     "date": "2026-10-02",
-     "type": "results"
+     "ticker": "INIL",
+     "date": "2026-09-28",
+     "type": "ex_dividend"
+    },
+    {
+     "ticker": "ISL",
+     "date": "2026-09-28",
+     "type": "ex_dividend"
+    },
+    {
+     "ticker": "ISL",
+     "date": "2026-09-29",
+     "type": "book_closure"
+    },
+    {
+     "ticker": "INIL",
+     "date": "2026-09-29",
+     "type": "book_closure"
     },
     {
      "ticker": "BECO",
      "date": "2026-10-06",
+     "type": "results"
+    },
+    {
+     "ticker": "KSBP",
+     "date": "2026-10-19",
      "type": "results"
     }
    ],
@@ -2392,7 +2386,7 @@
      "rsi14": 82.3,
      "above_sma50": true,
      "liquidity_rs_m": 47.0,
-     "pe": null,
+     "pe": 11.43,
      "div_yield_pct": null,
      "payout_pct": null,
      "fair_gap_pct": null,
@@ -2408,7 +2402,7 @@
      "rsi14": 60.5,
      "above_sma50": true,
      "liquidity_rs_m": 170.5,
-     "pe": 17.07,
+     "pe": 17.37,
      "div_yield_pct": null,
      "payout_pct": null,
      "fair_gap_pct": -61.9,
@@ -2504,11 +2498,11 @@
      "rsi14": 55.1,
      "above_sma50": true,
      "liquidity_rs_m": 28.2,
-     "pe": 7.12,
-     "div_yield_pct": 4.19,
+     "pe": 7.65,
+     "div_yield_pct": 4.17,
      "payout_pct": 31.93,
-     "fair_gap_pct": -14.4,
-     "fair_verdict": "fair",
+     "fair_gap_pct": -16.7,
+     "fair_verdict": "overvalued",
      "ttm_dividend_rs": 2.0
     },
     {
@@ -2552,10 +2546,10 @@
      "rsi14": 42.8,
      "above_sma50": false,
      "liquidity_rs_m": 25.5,
-     "pe": 5.0,
-     "div_yield_pct": 5.55,
+     "pe": 5.22,
+     "div_yield_pct": 5.86,
      "payout_pct": 27.86,
-     "fair_gap_pct": 37.4,
+     "fair_gap_pct": 34.1,
      "fair_verdict": "undervalued",
      "ttm_dividend_rs": 4.5
     },
@@ -2568,10 +2562,10 @@
      "rsi14": 38.7,
      "above_sma50": false,
      "liquidity_rs_m": 5.3,
-     "pe": 7.32,
+     "pe": null,
      "div_yield_pct": null,
      "payout_pct": null,
-     "fair_gap_pct": -13.3,
+     "fair_gap_pct": -13.7,
      "fair_verdict": "fair",
      "ttm_dividend_rs": null
     },
@@ -2584,10 +2578,10 @@
      "rsi14": 43.4,
      "above_sma50": false,
      "liquidity_rs_m": 30.8,
-     "pe": 9.2,
-     "div_yield_pct": 6.53,
+     "pe": 9.76,
+     "div_yield_pct": 7.28,
      "payout_pct": 71.09,
-     "fair_gap_pct": 52.3,
+     "fair_gap_pct": 46.3,
      "fair_verdict": "undervalued",
      "ttm_dividend_rs": 2.0
     },
@@ -2600,7 +2594,7 @@
      "rsi14": 31.8,
      "above_sma50": false,
      "liquidity_rs_m": 17.8,
-     "pe": 25.02,
+     "pe": 25.19,
      "div_yield_pct": null,
      "payout_pct": null,
      "fair_gap_pct": -74.3,
@@ -2616,10 +2610,10 @@
      "rsi14": 33.7,
      "above_sma50": false,
      "liquidity_rs_m": 48.0,
-     "pe": 11.74,
-     "div_yield_pct": null,
-     "payout_pct": null,
-     "fair_gap_pct": -43.0,
+     "pe": 11.76,
+     "div_yield_pct": 2.86,
+     "payout_pct": 33.61,
+     "fair_gap_pct": -43.7,
      "fair_verdict": "overvalued",
      "ttm_dividend_rs": null
     },
@@ -2648,8 +2642,8 @@
      "rsi14": 33.7,
      "above_sma50": false,
      "liquidity_rs_m": 9.2,
-     "pe": 29.7,
-     "div_yield_pct": 0.44,
+     "pe": 29.15,
+     "div_yield_pct": 0.46,
      "payout_pct": 13.55,
      "fair_gap_pct": -78.1,
      "fair_verdict": "overvalued",
@@ -2692,23 +2686,23 @@
     }
    },
    "valuation": {
-    "median_pe": 7.7,
-    "median_fair_gap_pct": 28.85,
+    "median_pe": 7.8,
+    "median_fair_gap_pct": 25.75,
     "n_undervalued": 3,
     "n_overvalued": 0,
     "n_valued": 4
    },
    "income": {
-    "median_yield_pct": 6.53,
+    "median_yield_pct": 6.61,
     "median_payout_pct": 47.42,
     "n_payers": 4
    },
    "macro_drivers": [
     {
      "factor": "sp500",
-     "corr": 0.0402,
-     "beta": 0.0455,
-     "p_value": 0.00638
+     "corr": 0.0401,
+     "beta": 0.0453,
+     "p_value": 0.00576
     }
    ],
    "macro_joint_r2_pct": 0.25,
@@ -2741,12 +2735,17 @@
    "upcoming_events": [
     {
      "ticker": "AHCL",
-     "date": "2026-09-22",
+     "date": "2026-09-30",
      "type": "results"
     },
     {
      "ticker": "EFERT",
      "date": "2026-10-15",
+     "type": "results"
+    },
+    {
+     "ticker": "FATIMA",
+     "date": "2026-10-27",
      "type": "results"
     },
     {
@@ -2765,10 +2764,10 @@
      "rsi14": 56.5,
      "above_sma50": true,
      "liquidity_rs_m": 148.5,
-     "pe": 11.74,
-     "div_yield_pct": 7.88,
+     "pe": 11.99,
+     "div_yield_pct": 7.85,
      "payout_pct": 94.1,
-     "fair_gap_pct": 35.6,
+     "fair_gap_pct": 34.8,
      "fair_verdict": "undervalued",
      "ttm_dividend_rs": 12.25
     },
@@ -2781,10 +2780,10 @@
      "rsi14": 44.5,
      "above_sma50": false,
      "liquidity_rs_m": 300.9,
-     "pe": 8.8,
-     "div_yield_pct": 6.74,
+     "pe": 8.76,
+     "div_yield_pct": 6.88,
      "payout_pct": 60.25,
-     "fair_gap_pct": 72.9,
+     "fair_gap_pct": 73.1,
      "fair_verdict": "undervalued",
      "ttm_dividend_rs": 41.0
     },
@@ -2813,10 +2812,10 @@
      "rsi14": 55.4,
      "above_sma50": true,
      "liquidity_rs_m": 18.8,
-     "pe": 5.18,
-     "div_yield_pct": 6.31,
+     "pe": 5.47,
+     "div_yield_pct": 6.33,
      "payout_pct": 34.6,
-     "fair_gap_pct": 22.1,
+     "fair_gap_pct": 16.7,
      "fair_verdict": "undervalued",
      "ttm_dividend_rs": 1.0
     },
@@ -2829,10 +2828,10 @@
      "rsi14": 41.7,
      "above_sma50": false,
      "liquidity_rs_m": 92.6,
-     "pe": 6.6,
-     "div_yield_pct": 3.93,
+     "pe": 6.84,
+     "div_yield_pct": 4.04,
      "payout_pct": 27.65,
-     "fair_gap_pct": 1.6,
+     "fair_gap_pct": 1.8,
      "fair_verdict": "fair",
      "ttm_dividend_rs": 2.5
     }
@@ -2857,14 +2856,14 @@
     }
    },
    "valuation": {
-    "median_pe": 12.39,
-    "median_fair_gap_pct": -44.3,
+    "median_pe": 14.79,
+    "median_fair_gap_pct": -44.0,
     "n_undervalued": 2,
     "n_overvalued": 12,
     "n_valued": 15
    },
    "income": {
-    "median_yield_pct": 6.45,
+    "median_yield_pct": 6.54,
     "median_payout_pct": 81.7,
     "n_payers": 7
    },
@@ -2872,14 +2871,14 @@
     {
      "factor": "sp500",
      "corr": 0.0667,
-     "beta": 0.0549,
+     "beta": 0.055,
      "p_value": 2e-05
     },
     {
      "factor": "em_equity",
-     "corr": 0.0487,
+     "corr": 0.0488,
      "beta": 0.0287,
-     "p_value": 0.00054
+     "p_value": 0.00044
     }
    ],
    "macro_joint_r2_pct": 0.58,
@@ -2887,12 +2886,12 @@
    "upcoming_events": [
     {
      "ticker": "BBFL",
-     "date": "2026-09-25",
+     "date": "2026-09-24",
      "type": "results"
     },
     {
      "ticker": "PREMA",
-     "date": "2026-09-28",
+     "date": "2026-09-29",
      "type": "results"
     },
     {
@@ -2921,9 +2920,9 @@
      "type": "results"
     },
     {
-     "ticker": "NESTLE",
-     "date": "2026-10-16",
-     "type": "results"
+     "ticker": "MUREB",
+     "date": "2026-10-15",
+     "type": "ex_dividend"
     }
    ],
    "members": [
@@ -2968,10 +2967,10 @@
      "rsi14": 61.1,
      "above_sma50": true,
      "liquidity_rs_m": 39.8,
-     "pe": 8.28,
+     "pe": 9.78,
      "div_yield_pct": null,
      "payout_pct": null,
-     "fair_gap_pct": -31.8,
+     "fair_gap_pct": -32.3,
      "fair_verdict": "overvalued",
      "ttm_dividend_rs": null
     },
@@ -3000,10 +2999,10 @@
      "rsi14": 54.0,
      "above_sma50": true,
      "liquidity_rs_m": 2.7,
-     "pe": 21.34,
-     "div_yield_pct": 6.45,
+     "pe": 22.35,
+     "div_yield_pct": 6.54,
      "payout_pct": 146.17,
-     "fair_gap_pct": -58.0,
+     "fair_gap_pct": -58.1,
      "fair_verdict": "overvalued",
      "ttm_dividend_rs": 1363.0
     },
@@ -3016,10 +3015,10 @@
      "rsi14": 58.8,
      "above_sma50": true,
      "liquidity_rs_m": 10.3,
-     "pe": 7.16,
-     "div_yield_pct": 4.49,
-     "payout_pct": 32.91,
-     "fair_gap_pct": -13.9,
+     "pe": 6.82,
+     "div_yield_pct": 4.44,
+     "payout_pct": 30.29,
+     "fair_gap_pct": -14.0,
      "fair_verdict": "fair",
      "ttm_dividend_rs": 41.5
     },
@@ -3032,10 +3031,10 @@
      "rsi14": 39.0,
      "above_sma50": false,
      "liquidity_rs_m": 1.6,
-     "pe": 20.27,
-     "div_yield_pct": 7.41,
+     "pe": 20.03,
+     "div_yield_pct": 7.51,
      "payout_pct": 150.38,
-     "fair_gap_pct": -52.8,
+     "fair_gap_pct": -52.9,
      "fair_verdict": "overvalued",
      "ttm_dividend_rs": 547.0
     },
@@ -3064,8 +3063,8 @@
      "rsi14": 30.0,
      "above_sma50": false,
      "liquidity_rs_m": 0.3,
-     "pe": 12.39,
-     "div_yield_pct": 6.46,
+     "pe": 12.26,
+     "div_yield_pct": 6.67,
      "payout_pct": 81.7,
      "fair_gap_pct": -45.9,
      "fair_verdict": "overvalued",
@@ -3096,10 +3095,10 @@
      "rsi14": 50.5,
      "above_sma50": true,
      "liquidity_rs_m": 226.9,
-     "pe": 17.69,
-     "div_yield_pct": 2.35,
+     "pe": 18.09,
+     "div_yield_pct": 2.57,
      "payout_pct": 46.48,
-     "fair_gap_pct": -64.9,
+     "fair_gap_pct": -64.7,
      "fair_verdict": "overvalued",
      "ttm_dividend_rs": 3.5
     },
@@ -3112,10 +3111,10 @@
      "rsi14": 49.6,
      "above_sma50": false,
      "liquidity_rs_m": 31.0,
-     "pe": 18.71,
+     "pe": 20.03,
      "div_yield_pct": null,
      "payout_pct": null,
-     "fair_gap_pct": -38.3,
+     "fair_gap_pct": -38.6,
      "fair_verdict": "overvalued",
      "ttm_dividend_rs": null
     },
@@ -3128,10 +3127,10 @@
      "rsi14": 31.1,
      "above_sma50": false,
      "liquidity_rs_m": 44.7,
-     "pe": 11.25,
-     "div_yield_pct": 6.77,
-     "payout_pct": 22.52,
-     "fair_gap_pct": 45.4,
+     "pe": 14.8,
+     "div_yield_pct": 8.58,
+     "payout_pct": 26.93,
+     "fair_gap_pct": 45.7,
      "fair_verdict": "undervalued",
      "ttm_dividend_rs": 30.0
     },
@@ -3144,10 +3143,10 @@
      "rsi14": 33.0,
      "above_sma50": false,
      "liquidity_rs_m": 8.5,
-     "pe": 10.21,
+     "pe": 10.4,
      "div_yield_pct": null,
      "payout_pct": null,
-     "fair_gap_pct": -36.3,
+     "fair_gap_pct": -36.4,
      "fair_verdict": "overvalued",
      "ttm_dividend_rs": null
     },
@@ -3160,8 +3159,8 @@
      "rsi14": 25.7,
      "above_sma50": false,
      "liquidity_rs_m": 12.0,
-     "pe": 15.34,
-     "div_yield_pct": 5.46,
+     "pe": 14.79,
+     "div_yield_pct": 5.64,
      "payout_pct": 83.4,
      "fair_gap_pct": -54.7,
      "fair_verdict": "overvalued",
@@ -3176,10 +3175,10 @@
      "rsi14": 38.8,
      "above_sma50": false,
      "liquidity_rs_m": 5.8,
-     "pe": 8.51,
+     "pe": 8.74,
      "div_yield_pct": null,
      "payout_pct": null,
-     "fair_gap_pct": -24.1,
+     "fair_gap_pct": -24.0,
      "fair_verdict": "overvalued",
      "ttm_dividend_rs": null
     },
@@ -3240,10 +3239,10 @@
      "rsi14": 36.2,
      "above_sma50": false,
      "liquidity_rs_m": 29.5,
-     "pe": 37.22,
+     "pe": 37.74,
      "div_yield_pct": null,
      "payout_pct": null,
-     "fair_gap_pct": -82.5,
+     "fair_gap_pct": -82.4,
      "fair_verdict": "overvalued",
      "ttm_dividend_rs": null
     },
@@ -3272,10 +3271,10 @@
      "rsi14": 36.8,
      "above_sma50": false,
      "liquidity_rs_m": 32.2,
-     "pe": 15.16,
+     "pe": 15.72,
      "div_yield_pct": null,
      "payout_pct": null,
-     "fair_gap_pct": -57.6,
+     "fair_gap_pct": -57.9,
      "fair_verdict": "overvalued",
      "ttm_dividend_rs": null
     },
@@ -3288,10 +3287,10 @@
      "rsi14": 41.5,
      "above_sma50": false,
      "liquidity_rs_m": 77.1,
-     "pe": 11.5,
+     "pe": 11.83,
      "div_yield_pct": null,
      "payout_pct": null,
-     "fair_gap_pct": -44.3,
+     "fair_gap_pct": -44.0,
      "fair_verdict": "overvalued",
      "ttm_dividend_rs": null
     },
@@ -3304,10 +3303,10 @@
      "rsi14": 29.9,
      "above_sma50": false,
      "liquidity_rs_m": 62.8,
-     "pe": 5.74,
+     "pe": 5.87,
      "div_yield_pct": null,
      "payout_pct": null,
-     "fair_gap_pct": 24.6,
+     "fair_gap_pct": 25.7,
      "fair_verdict": "undervalued",
      "ttm_dividend_rs": null
     },
@@ -3348,28 +3347,28 @@
     }
    },
    "valuation": {
-    "median_pe": 6.04,
-    "median_fair_gap_pct": 4.6,
+    "median_pe": 6.17,
+    "median_fair_gap_pct": 4.3,
     "n_undervalued": 0,
     "n_overvalued": 0,
     "n_valued": 2
    },
    "income": {
-    "median_yield_pct": 5.62,
+    "median_yield_pct": 5.85,
     "median_payout_pct": 34.41,
     "n_payers": 2
    },
    "macro_drivers": [
     {
      "factor": "sp500",
-     "corr": 0.0557,
-     "beta": 0.0861,
+     "corr": 0.0554,
+     "beta": 0.0856,
      "p_value": 2e-05
     },
     {
      "factor": "em_equity",
-     "corr": 0.0453,
-     "beta": 0.05,
+     "corr": 0.0448,
+     "beta": 0.0495,
      "p_value": 0.0016
     }
    ],
@@ -3385,6 +3384,11 @@
     }
    ],
    "upcoming_events": [
+    {
+     "ticker": "TGL",
+     "date": "2026-09-24",
+     "type": "results"
+    },
     {
      "ticker": "GHGL",
      "date": "2026-10-21",
@@ -3438,10 +3442,10 @@
      "rsi14": 47.2,
      "above_sma50": false,
      "liquidity_rs_m": 21.6,
-     "pe": 5.4,
-     "div_yield_pct": 8.42,
+     "pe": 5.57,
+     "div_yield_pct": 8.69,
      "payout_pct": 48.41,
-     "fair_gap_pct": 14.8,
+     "fair_gap_pct": 14.4,
      "fair_verdict": "fair",
      "ttm_dividend_rs": 4.0
     },
@@ -3454,10 +3458,10 @@
      "rsi14": 34.1,
      "above_sma50": false,
      "liquidity_rs_m": 19.1,
-     "pe": 6.68,
-     "div_yield_pct": 2.81,
+     "pe": 6.77,
+     "div_yield_pct": 3.02,
      "payout_pct": 20.42,
-     "fair_gap_pct": -5.6,
+     "fair_gap_pct": -5.8,
      "fair_verdict": "fair",
      "ttm_dividend_rs": 5.0
     },
@@ -3528,14 +3532,14 @@
    ]
   },
   "Insurance": {
-   "n_members": 28,
+   "n_members": 26,
    "breadth": {
     "above_sma50": 6,
     "advancing_1d": 14
    },
    "returns": {
-    "median_1d_pct": 0.05,
-    "median_20d_pct": -5.97,
+    "median_1d_pct": 0.1,
+    "median_20d_pct": -6.18,
     "best_20d": {
      "sym": "PKGI",
      "pct": 63.66
@@ -3547,20 +3551,26 @@
    },
    "valuation": {
     "median_pe": 4.72,
-    "median_fair_gap_pct": 17.9,
+    "median_fair_gap_pct": 15.1,
     "n_undervalued": 2,
     "n_overvalued": 0,
     "n_valued": 3
    },
    "income": {
-    "median_yield_pct": 6.15,
+    "median_yield_pct": 6.05,
     "median_payout_pct": 26.46,
     "n_payers": 3
    },
    "macro_drivers": [],
    "macro_joint_r2_pct": null,
    "recent_news": [],
-   "upcoming_events": [],
+   "upcoming_events": [
+    {
+     "ticker": "CSIL",
+     "date": "2026-10-26",
+     "type": "results"
+    }
+   ],
    "members": [
     {
      "sym": "PKGI",
@@ -3603,10 +3613,10 @@
      "rsi14": 60.7,
      "above_sma50": true,
      "liquidity_rs_m": 144.1,
-     "pe": 5.56,
-     "div_yield_pct": 6.5,
+     "pe": 6.0,
+     "div_yield_pct": 6.05,
      "payout_pct": 36.32,
-     "fair_gap_pct": -9.0,
+     "fair_gap_pct": -9.6,
      "fair_verdict": "fair",
      "ttm_dividend_rs": 5.0
     },
@@ -3739,22 +3749,6 @@
      "ttm_dividend_rs": 11.0
     },
     {
-     "sym": "IGIL",
-     "name": "IGI Life Insurance Limited",
-     "close": 19.01,
-     "ret_1d": -4.85,
-     "ret_20d": -4.66,
-     "rsi14": 41.2,
-     "above_sma50": false,
-     "liquidity_rs_m": 0.1,
-     "pe": null,
-     "div_yield_pct": null,
-     "payout_pct": null,
-     "fair_gap_pct": null,
-     "fair_verdict": null,
-     "ttm_dividend_rs": null
-    },
-    {
      "sym": "RICL",
      "name": "Reliance Insurance Company Limited",
      "close": 11.78,
@@ -3785,22 +3779,6 @@
      "fair_gap_pct": null,
      "fair_verdict": null,
      "ttm_dividend_rs": 2.5
-    },
-    {
-     "sym": "UVIC",
-     "name": "The Universal Insurance Company Limited",
-     "close": 18.79,
-     "ret_1d": -1.11,
-     "ret_20d": -6.24,
-     "rsi14": 33.5,
-     "above_sma50": false,
-     "liquidity_rs_m": 0.1,
-     "pe": null,
-     "div_yield_pct": null,
-     "payout_pct": null,
-     "fair_gap_pct": null,
-     "fair_verdict": null,
-     "ttm_dividend_rs": null
     },
     {
      "sym": "CENI",
@@ -3876,9 +3854,9 @@
      "above_sma50": false,
      "liquidity_rs_m": 7.4,
      "pe": 4.72,
-     "div_yield_pct": 3.13,
+     "div_yield_pct": 3.2,
      "payout_pct": 15.1,
-     "fair_gap_pct": 17.9,
+     "fair_gap_pct": 15.1,
      "fair_verdict": "undervalued",
      "ttm_dividend_rs": 8.0
     },
@@ -3923,10 +3901,10 @@
      "rsi14": 43.2,
      "above_sma50": false,
      "liquidity_rs_m": 12.4,
-     "pe": 4.08,
-     "div_yield_pct": 6.15,
+     "pe": 4.21,
+     "div_yield_pct": 6.29,
      "payout_pct": 26.46,
-     "fair_gap_pct": 30.5,
+     "fair_gap_pct": 29.1,
      "fair_verdict": "undervalued",
      "ttm_dividend_rs": 1.0
     },
@@ -4013,14 +3991,14 @@
    ]
   },
   "Inv. Banks / Inv. Cos. / Securities Cos.": {
-   "n_members": 32,
+   "n_members": 31,
    "breadth": {
-    "above_sma50": 11,
+    "above_sma50": 10,
     "advancing_1d": 10
    },
    "returns": {
-    "median_1d_pct": -0.23,
-    "median_20d_pct": -2.55,
+    "median_1d_pct": -0.25,
+    "median_20d_pct": -2.19,
     "best_20d": {
      "sym": "LSEFSL",
      "pct": 39.69
@@ -4031,14 +4009,14 @@
     }
    },
    "valuation": {
-    "median_pe": 7.37,
-    "median_fair_gap_pct": 0.2,
+    "median_pe": 7.9,
+    "median_fair_gap_pct": -0.0,
     "n_undervalued": 1,
     "n_overvalued": 3,
     "n_valued": 7
    },
    "income": {
-    "median_yield_pct": 2.46,
+    "median_yield_pct": 2.59,
     "median_payout_pct": 46.42,
     "n_payers": 6
    },
@@ -4065,6 +4043,31 @@
    "upcoming_events": [
     {
      "ticker": "PSX",
+     "date": "2026-09-23",
+     "type": "results"
+    },
+    {
+     "ticker": "FNEL",
+     "date": "2026-09-24",
+     "type": "results"
+    },
+    {
+     "ticker": "LSEVL",
+     "date": "2026-09-25",
+     "type": "results"
+    },
+    {
+     "ticker": "PIAHCLA",
+     "date": "2026-09-25",
+     "type": "results"
+    },
+    {
+     "ticker": "TSBL",
+     "date": "2026-09-25",
+     "type": "results"
+    },
+    {
+     "ticker": "PSX",
      "date": "2026-09-29",
      "type": "ex_dividend"
     },
@@ -4077,21 +4080,6 @@
      "ticker": "PSX",
      "date": "2026-09-30",
      "type": "book_closure"
-    },
-    {
-     "ticker": "FNEL",
-     "date": "2026-10-06",
-     "type": "results"
-    },
-    {
-     "ticker": "LSECL",
-     "date": "2026-10-30",
-     "type": "results"
-    },
-    {
-     "ticker": "LSEVL",
-     "date": "2026-10-30",
-     "type": "results"
     }
    ],
    "members": [
@@ -4153,7 +4141,7 @@
      "above_sma50": true,
      "liquidity_rs_m": 11.6,
      "pe": null,
-     "div_yield_pct": 4.14,
+     "div_yield_pct": 3.42,
      "payout_pct": null,
      "fair_gap_pct": null,
      "fair_verdict": null,
@@ -4184,7 +4172,7 @@
      "rsi14": 47.3,
      "above_sma50": true,
      "liquidity_rs_m": 28.7,
-     "pe": null,
+     "pe": 28.77,
      "div_yield_pct": null,
      "payout_pct": null,
      "fair_gap_pct": null,
@@ -4216,10 +4204,10 @@
      "rsi14": 54.4,
      "above_sma50": true,
      "liquidity_rs_m": 29.3,
-     "pe": 7.6,
+     "pe": 8.36,
      "div_yield_pct": null,
      "payout_pct": null,
-     "fair_gap_pct": -26.2,
+     "fair_gap_pct": -22.5,
      "fair_verdict": "overvalued",
      "ttm_dividend_rs": null
     },
@@ -4264,10 +4252,10 @@
      "rsi14": 44.8,
      "above_sma50": false,
      "liquidity_rs_m": 342.7,
-     "pe": 7.37,
+     "pe": 7.44,
      "div_yield_pct": null,
      "payout_pct": null,
-     "fair_gap_pct": 0.3,
+     "fair_gap_pct": -0.0,
      "fair_verdict": "fair",
      "ttm_dividend_rs": null
     },
@@ -4368,22 +4356,6 @@
      "ttm_dividend_rs": null
     },
     {
-     "sym": "IML",
-     "name": "Imperial  Limited",
-     "close": 24.22,
-     "ret_1d": 0.0,
-     "ret_20d": -3.66,
-     "rsi14": 51.7,
-     "above_sma50": true,
-     "liquidity_rs_m": 0.5,
-     "pe": null,
-     "div_yield_pct": null,
-     "payout_pct": null,
-     "fair_gap_pct": null,
-     "fair_verdict": null,
-     "ttm_dividend_rs": null
-    },
-    {
      "sym": "NEXT",
      "name": "Next Capital Limited",
      "close": 14.05,
@@ -4408,10 +4380,10 @@
      "rsi14": 47.0,
      "above_sma50": false,
      "liquidity_rs_m": 4.5,
-     "pe": 5.87,
-     "div_yield_pct": 2.89,
+     "pe": 6.21,
+     "div_yield_pct": 2.81,
      "payout_pct": 17.45,
-     "fair_gap_pct": 2.5,
+     "fair_gap_pct": 2.7,
      "fair_verdict": "fair",
      "ttm_dividend_rs": 1.0
     },
@@ -4456,10 +4428,10 @@
      "rsi14": 40.3,
      "above_sma50": false,
      "liquidity_rs_m": 1.7,
-     "pe": 2.87,
+     "pe": 2.96,
      "div_yield_pct": null,
      "payout_pct": null,
-     "fair_gap_pct": 126.3,
+     "fair_gap_pct": 123.6,
      "fair_verdict": "undervalued",
      "ttm_dividend_rs": null
     },
@@ -4472,8 +4444,8 @@
      "rsi14": 41.1,
      "above_sma50": false,
      "liquidity_rs_m": 63.4,
-     "pe": 16.41,
-     "div_yield_pct": 2.04,
+     "pe": 16.59,
+     "div_yield_pct": 2.16,
      "payout_pct": 35.71,
      "fair_gap_pct": -61.5,
      "fair_verdict": "overvalued",
@@ -4568,10 +4540,10 @@
      "rsi14": 24.3,
      "above_sma50": false,
      "liquidity_rs_m": 16.5,
-     "pe": 7.23,
-     "div_yield_pct": 9.75,
+     "pe": 6.29,
+     "div_yield_pct": 11.01,
      "payout_pct": 69.21,
-     "fair_gap_pct": 0.2,
+     "fair_gap_pct": 1.4,
      "fair_verdict": "fair",
      "ttm_dividend_rs": 10.0
     },
@@ -4584,8 +4556,8 @@
      "rsi14": 36.3,
      "above_sma50": false,
      "liquidity_rs_m": 3.5,
-     "pe": 51.12,
-     "div_yield_pct": 0.96,
+     "pe": 51.63,
+     "div_yield_pct": 1.11,
      "payout_pct": 57.14,
      "fair_gap_pct": -87.7,
      "fair_verdict": "overvalued",
@@ -4601,7 +4573,7 @@
      "above_sma50": false,
      "liquidity_rs_m": 58.5,
      "pe": null,
-     "div_yield_pct": 2.01,
+     "div_yield_pct": 2.38,
      "payout_pct": null,
      "fair_gap_pct": null,
      "fair_verdict": null,
@@ -4628,14 +4600,14 @@
     }
    },
    "valuation": {
-    "median_pe": 7.78,
-    "median_fair_gap_pct": -27.85,
+    "median_pe": 7.85,
+    "median_fair_gap_pct": -28.55,
     "n_undervalued": 0,
     "n_overvalued": 2,
     "n_valued": 2
    },
    "income": {
-    "median_yield_pct": 1.33,
+    "median_yield_pct": 1.42,
     "median_payout_pct": 10.48,
     "n_payers": 2
    },
@@ -4717,8 +4689,8 @@
      "rsi14": 42.9,
      "above_sma50": false,
      "liquidity_rs_m": 37.8,
-     "pe": 6.84,
-     "div_yield_pct": 1.72,
+     "pe": 6.79,
+     "div_yield_pct": 1.88,
      "payout_pct": 12.74,
      "fair_gap_pct": -32.4,
      "fair_verdict": "overvalued",
@@ -4733,44 +4705,44 @@
      "rsi14": 38.4,
      "above_sma50": false,
      "liquidity_rs_m": 29.4,
-     "pe": 8.72,
-     "div_yield_pct": 0.94,
+     "pe": 8.9,
+     "div_yield_pct": 0.97,
      "payout_pct": 8.23,
-     "fair_gap_pct": -23.3,
+     "fair_gap_pct": -24.7,
      "fair_verdict": "overvalued",
      "ttm_dividend_rs": 1.75
     }
    ]
   },
   "Miscellaneous": {
-   "n_members": 18,
+   "n_members": 17,
    "breadth": {
     "above_sma50": 5,
-    "advancing_1d": 7
+    "advancing_1d": 6
    },
    "returns": {
-    "median_1d_pct": -0.29,
-    "median_20d_pct": -7.48,
+    "median_1d_pct": -0.37,
+    "median_20d_pct": -7.34,
     "best_20d": {
      "sym": "MWMP",
      "pct": 76.27
     },
     "worst_20d": {
-     "sym": "ARPAK",
-     "pct": -31.42
+     "sym": "GAMON",
+     "pct": -23.65
     }
    },
    "valuation": {
-    "median_pe": 9.6,
-    "median_fair_gap_pct": -33.3,
+    "median_pe": 10.81,
+    "median_fair_gap_pct": -32.85,
     "n_undervalued": 0,
-    "n_overvalued": 3,
+    "n_overvalued": 4,
     "n_valued": 4
    },
    "income": {
-    "median_yield_pct": 2.52,
-    "median_payout_pct": 19.13,
-    "n_payers": 2
+    "median_yield_pct": 1.13,
+    "median_payout_pct": 12.18,
+    "n_payers": 1
    },
    "macro_drivers": [],
    "macro_joint_r2_pct": 0.12,
@@ -4807,11 +4779,6 @@
      "type": "results"
     },
     {
-     "ticker": "ECOP",
-     "date": "2026-10-14",
-     "type": "ex_dividend"
-    },
-    {
      "ticker": "SHFA",
      "date": "2026-10-15",
      "type": "ex_dividend"
@@ -4820,6 +4787,11 @@
      "ticker": "SHFA",
      "date": "2026-10-16",
      "type": "book_closure"
+    },
+    {
+     "ticker": "PABC",
+     "date": "2026-10-28",
+     "type": "results"
     },
     {
      "ticker": "STPL",
@@ -4853,7 +4825,7 @@
      "rsi14": 67.6,
      "above_sma50": true,
      "liquidity_rs_m": 6.0,
-     "pe": 176.09,
+     "pe": 179.92,
      "div_yield_pct": null,
      "payout_pct": null,
      "fair_gap_pct": -97.0,
@@ -4901,11 +4873,11 @@
      "rsi14": 48.8,
      "above_sma50": true,
      "liquidity_rs_m": 14.5,
-     "pe": 6.67,
-     "div_yield_pct": 3.91,
-     "payout_pct": 26.08,
-     "fair_gap_pct": -14.5,
-     "fair_verdict": "fair",
+     "pe": null,
+     "div_yield_pct": null,
+     "payout_pct": null,
+     "fair_gap_pct": -17.2,
+     "fair_verdict": "overvalued",
      "ttm_dividend_rs": 2.0
     },
     {
@@ -4981,10 +4953,10 @@
      "rsi14": 41.6,
      "above_sma50": false,
      "liquidity_rs_m": 2.6,
-     "pe": 8.39,
+     "pe": 8.15,
      "div_yield_pct": null,
      "payout_pct": null,
-     "fair_gap_pct": -25.3,
+     "fair_gap_pct": -24.7,
      "fair_verdict": "overvalued",
      "ttm_dividend_rs": null
     },
@@ -5029,10 +5001,10 @@
      "rsi14": 33.3,
      "above_sma50": false,
      "liquidity_rs_m": 7.4,
-     "pe": 10.8,
+     "pe": 10.81,
      "div_yield_pct": 1.13,
      "payout_pct": 12.18,
-     "fair_gap_pct": -41.3,
+     "fair_gap_pct": -41.0,
      "fair_verdict": "overvalued",
      "ttm_dividend_rs": 5.0
     },
@@ -5099,34 +5071,18 @@
      "fair_gap_pct": null,
      "fair_verdict": null,
      "ttm_dividend_rs": null
-    },
-    {
-     "sym": "ARPAK",
-     "name": "Arpak International Investments Ltd.",
-     "close": 143.68,
-     "ret_1d": 0.5,
-     "ret_20d": -31.42,
-     "rsi14": 49.1,
-     "above_sma50": false,
-     "liquidity_rs_m": 3.0,
-     "pe": null,
-     "div_yield_pct": null,
-     "payout_pct": null,
-     "fair_gap_pct": null,
-     "fair_verdict": null,
-     "ttm_dividend_rs": null
     }
    ]
   },
   "Modarabas": {
    "n_members": 19,
    "breadth": {
-    "above_sma50": 10,
+    "above_sma50": 9,
     "advancing_1d": 7
    },
    "returns": {
     "median_1d_pct": 0.0,
-    "median_20d_pct": -5.78,
+    "median_20d_pct": -9.43,
     "best_20d": {
      "sym": "FPJM",
      "pct": 68.81
@@ -5137,14 +5093,14 @@
     }
    },
    "valuation": {
-    "median_pe": 60.86,
-    "median_fair_gap_pct": -89.4,
+    "median_pe": 62.53,
+    "median_fair_gap_pct": -89.5,
     "n_undervalued": 1,
     "n_overvalued": 2,
     "n_valued": 3
    },
    "income": {
-    "median_yield_pct": 6.89,
+    "median_yield_pct": 7.26,
     "median_payout_pct": 33.33,
     "n_payers": 1
    },
@@ -5161,6 +5117,11 @@
     }
    ],
    "upcoming_events": [
+    {
+     "ticker": "TRSM",
+     "date": "2026-09-24",
+     "type": "results"
+    },
     {
      "ticker": "WASL",
      "date": "2026-09-29",
@@ -5296,22 +5257,6 @@
      "ttm_dividend_rs": null
     },
     {
-     "sym": "FIMM",
-     "name": "First Imrooz Modaraba",
-     "close": 215.99,
-     "ret_1d": 0.0,
-     "ret_20d": -1.44,
-     "rsi14": 53.8,
-     "above_sma50": true,
-     "liquidity_rs_m": 0.0,
-     "pe": null,
-     "div_yield_pct": null,
-     "payout_pct": null,
-     "fair_gap_pct": null,
-     "fair_verdict": null,
-     "ttm_dividend_rs": 15.0
-    },
-    {
      "sym": "ORM",
      "name": "Orient Rental Mod",
      "close": 11.13,
@@ -5336,8 +5281,8 @@
      "rsi14": 35.9,
      "above_sma50": false,
      "liquidity_rs_m": 0.9,
-     "pe": 4.55,
-     "div_yield_pct": 6.89,
+     "pe": 4.59,
+     "div_yield_pct": 7.26,
      "payout_pct": 33.33,
      "fair_gap_pct": 38.8,
      "fair_verdict": "undervalued",
@@ -5384,10 +5329,10 @@
      "rsi14": 40.7,
      "above_sma50": false,
      "liquidity_rs_m": 7.8,
-     "pe": 76.36,
+     "pe": 76.23,
      "div_yield_pct": null,
      "payout_pct": null,
-     "fair_gap_pct": -91.0,
+     "fair_gap_pct": -90.9,
      "fair_verdict": "overvalued",
      "ttm_dividend_rs": null
     },
@@ -5440,6 +5385,22 @@
      "ttm_dividend_rs": null
     },
     {
+     "sym": "GEMBCEM",
+     "name": "Burj Clean Energy Modaraba(GEM)",
+     "close": 11.3,
+     "ret_1d": 0.0,
+     "ret_20d": -18.65,
+     "rsi14": 46.7,
+     "above_sma50": false,
+     "liquidity_rs_m": 0.0,
+     "pe": null,
+     "div_yield_pct": null,
+     "payout_pct": null,
+     "fair_gap_pct": null,
+     "fair_verdict": null,
+     "ttm_dividend_rs": null
+    },
+    {
      "sym": "TRSM",
      "name": "Trust Modaraba",
      "close": 13.87,
@@ -5448,10 +5409,10 @@
      "rsi14": 37.9,
      "above_sma50": false,
      "liquidity_rs_m": 11.9,
-     "pe": 60.86,
+     "pe": 62.53,
      "div_yield_pct": null,
      "payout_pct": null,
-     "fair_gap_pct": -89.4,
+     "fair_gap_pct": -89.5,
      "fair_verdict": "overvalued",
      "ttm_dividend_rs": null
     },
@@ -5508,40 +5469,40 @@
     }
    },
    "valuation": {
-    "median_pe": 6.08,
-    "median_fair_gap_pct": -15.3,
+    "median_pe": 6.34,
+    "median_fair_gap_pct": -15.4,
     "n_undervalued": 0,
     "n_overvalued": 2,
     "n_valued": 4
    },
    "income": {
-    "median_yield_pct": 5.46,
-    "median_payout_pct": 40.7,
+    "median_yield_pct": 5.53,
+    "median_payout_pct": 42.56,
     "n_payers": 4
    },
    "macro_drivers": [
     {
      "factor": "oil",
-     "corr": 0.134,
+     "corr": 0.1338,
      "beta": 0.0364,
      "p_value": 2e-05
     },
     {
      "factor": "sp500",
-     "corr": 0.0937,
-     "beta": 0.1128,
+     "corr": 0.0936,
+     "beta": 0.1127,
      "p_value": 2e-05
     },
     {
      "factor": "em_equity",
-     "corr": 0.082,
-     "beta": 0.0707,
+     "corr": 0.0819,
+     "beta": 0.0705,
      "p_value": 2e-05
     },
     {
      "factor": "us10y",
-     "corr": 0.0671,
-     "beta": 0.1748,
+     "corr": 0.0669,
+     "beta": 0.1743,
      "p_value": 2e-05
     }
    ],
@@ -5610,15 +5571,6 @@
      "headline": "Oil prices slide on hopes of diplomacy in Iran war"
     },
     {
-     "ts": "2026-09-09",
-     "impact": 3,
-     "tickers": [
-      "OGDC",
-      "MARI"
-     ],
-     "headline": "OGDCL, MARI-backed Lundali-1 well starts gas production in Sindh"
-    },
-    {
      "ts": "2026-09-11",
      "impact": 3,
      "tickers": [
@@ -5627,14 +5579,17 @@
       "MARI"
      ],
      "headline": "PSX: Buying returns, KSE-100 gains 1% on hopes of easing Middle East tensions"
+    },
+    {
+     "ts": "2026-09-14",
+     "impact": 3,
+     "tickers": [
+      "PPL"
+     ],
+     "headline": "Pakistan Petroleum announces financial results for the year ended 30 June 2026"
     }
    ],
    "upcoming_events": [
-    {
-     "ticker": "MARI",
-     "date": "2026-09-22",
-     "type": "book_closure"
-    },
     {
      "ticker": "OGDC",
      "date": "2026-10-08",
@@ -5676,8 +5631,8 @@
      "rsi14": 66.5,
      "above_sma50": true,
      "liquidity_rs_m": 191.0,
-     "pe": 6.04,
-     "div_yield_pct": 13.67,
+     "pe": 6.27,
+     "div_yield_pct": 13.39,
      "payout_pct": 83.98,
      "fair_gap_pct": -12.0,
      "fair_verdict": "fair",
@@ -5692,10 +5647,10 @@
      "rsi14": 47.3,
      "above_sma50": false,
      "liquidity_rs_m": 938.3,
-     "pe": 5.59,
-     "div_yield_pct": 5.3,
+     "pe": 5.65,
+     "div_yield_pct": 5.26,
      "payout_pct": 29.72,
-     "fair_gap_pct": -18.6,
+     "fair_gap_pct": -18.8,
      "fair_verdict": "overvalued",
      "ttm_dividend_rs": 16.0
     },
@@ -5708,10 +5663,10 @@
      "rsi14": 44.3,
      "above_sma50": false,
      "liquidity_rs_m": 248.5,
-     "pe": 8.91,
-     "div_yield_pct": 5.63,
+     "pe": 8.92,
+     "div_yield_pct": 5.79,
      "payout_pct": 51.69,
-     "fair_gap_pct": -29.3,
+     "fair_gap_pct": -32.2,
      "fair_verdict": "overvalued",
      "ttm_dividend_rs": 8.3
     },
@@ -5724,10 +5679,10 @@
      "rsi14": 55.1,
      "above_sma50": true,
      "liquidity_rs_m": 1026.7,
-     "pe": 6.13,
-     "div_yield_pct": 3.41,
-     "payout_pct": 20.89,
-     "fair_gap_pct": 14.7,
+     "pe": 6.42,
+     "div_yield_pct": 5.21,
+     "payout_pct": 33.43,
+     "fair_gap_pct": 14.5,
      "fair_verdict": "fair",
      "ttm_dividend_rs": 8.5
     }
@@ -5753,39 +5708,39 @@
    },
    "valuation": {
     "median_pe": 4.23,
-    "median_fair_gap_pct": -14.0,
+    "median_fair_gap_pct": -14.1,
     "n_undervalued": 2,
     "n_overvalued": 2,
     "n_valued": 5
    },
    "income": {
-    "median_yield_pct": 3.01,
-    "median_payout_pct": 28.55,
-    "n_payers": 5
+    "median_yield_pct": 3.58,
+    "median_payout_pct": 44.02,
+    "n_payers": 6
    },
    "macro_drivers": [
     {
      "factor": "oil",
-     "corr": 0.0615,
-     "beta": 0.0191,
+     "corr": 0.0614,
+     "beta": 0.019,
      "p_value": 0.0023
     },
     {
      "factor": "sp500",
-     "corr": 0.0589,
-     "beta": 0.0809,
+     "corr": 0.0591,
+     "beta": 0.0813,
      "p_value": 2e-05
     },
     {
      "factor": "em_equity",
-     "corr": 0.0575,
-     "beta": 0.0565,
-     "p_value": 0.00012
+     "corr": 0.0577,
+     "beta": 0.0567,
+     "p_value": 2e-05
     },
     {
      "factor": "us10y",
-     "corr": 0.0474,
-     "beta": 0.1411,
+     "corr": 0.0472,
+     "beta": 0.1402,
      "p_value": 0.00102
     }
    ],
@@ -5858,6 +5813,11 @@
    ],
    "upcoming_events": [
     {
+     "ticker": "PSO",
+     "date": "2026-09-25",
+     "type": "results"
+    },
+    {
      "ticker": "APL",
      "date": "2026-10-12",
      "type": "ex_dividend"
@@ -5869,13 +5829,13 @@
     },
     {
      "ticker": "HTL",
-     "date": "2026-10-21",
-     "type": "book_closure"
+     "date": "2026-10-20",
+     "type": "ex_dividend"
     },
     {
-     "ticker": "PSO",
-     "date": "2026-10-27",
-     "type": "results"
+     "ticker": "HTL",
+     "date": "2026-10-21",
+     "type": "book_closure"
     },
     {
      "ticker": "SNGP",
@@ -5920,9 +5880,9 @@
      "above_sma50": true,
      "liquidity_rs_m": 46.0,
      "pe": 4.23,
-     "div_yield_pct": 10.31,
+     "div_yield_pct": 10.4,
      "payout_pct": 44.02,
-     "fair_gap_pct": -14.0,
+     "fair_gap_pct": -14.1,
      "fair_verdict": "fair",
      "ttm_dividend_rs": 33.0
     },
@@ -5967,10 +5927,10 @@
      "rsi14": 48.1,
      "above_sma50": false,
      "liquidity_rs_m": 6.9,
-     "pe": 9.45,
-     "div_yield_pct": null,
-     "payout_pct": null,
-     "fair_gap_pct": -39.8,
+     "pe": 11.44,
+     "div_yield_pct": 3.86,
+     "payout_pct": 44.12,
+     "fair_gap_pct": -39.0,
      "fair_verdict": "overvalued",
      "ttm_dividend_rs": null
     },
@@ -5983,10 +5943,10 @@
      "rsi14": 46.4,
      "above_sma50": false,
      "liquidity_rs_m": 503.9,
-     "pe": 3.67,
-     "div_yield_pct": 2.78,
+     "pe": 3.76,
+     "div_yield_pct": 2.87,
      "payout_pct": 10.78,
-     "fair_gap_pct": 37.7,
+     "fair_gap_pct": 37.8,
      "fair_verdict": "undervalued",
      "ttm_dividend_rs": 10.0
     },
@@ -5999,10 +5959,10 @@
      "rsi14": 51.8,
      "above_sma50": false,
      "liquidity_rs_m": 20.9,
-     "pe": 8.81,
-     "div_yield_pct": 4.75,
+     "pe": 9.58,
+     "div_yield_pct": 4.71,
      "payout_pct": 45.17,
-     "fair_gap_pct": -44.2,
+     "fair_gap_pct": -45.9,
      "fair_verdict": "overvalued",
      "ttm_dividend_rs": null
     },
@@ -6031,10 +5991,10 @@
      "rsi14": 33.8,
      "above_sma50": false,
      "liquidity_rs_m": 134.2,
-     "pe": 3.88,
-     "div_yield_pct": 3.01,
+     "pe": 3.96,
+     "div_yield_pct": 3.3,
      "payout_pct": 13.07,
-     "fair_gap_pct": 31.1,
+     "fair_gap_pct": 30.8,
      "fair_verdict": "undervalued",
      "ttm_dividend_rs": 3.0
     },
@@ -6048,7 +6008,7 @@
      "above_sma50": false,
      "liquidity_rs_m": 145.7,
      "pe": null,
-     "div_yield_pct": 1.85,
+     "div_yield_pct": 2.12,
      "payout_pct": null,
      "fair_gap_pct": null,
      "fair_verdict": null,
@@ -6057,14 +6017,14 @@
    ]
   },
   "Paper, Board & Packaging": {
-   "n_members": 10,
+   "n_members": 11,
    "breadth": {
-    "above_sma50": 2,
+    "above_sma50": 3,
     "advancing_1d": 9
    },
    "returns": {
-    "median_1d_pct": 1.08,
-    "median_20d_pct": -5.78,
+    "median_1d_pct": 0.24,
+    "median_20d_pct": -5.5,
     "best_20d": {
      "sym": "PPP",
      "pct": 5.62
@@ -6075,15 +6035,15 @@
     }
    },
    "valuation": {
-    "median_pe": 13.57,
-    "median_fair_gap_pct": -17.4,
+    "median_pe": 7.68,
+    "median_fair_gap_pct": -17.0,
     "n_undervalued": 1,
     "n_overvalued": 3,
     "n_valued": 5
    },
    "income": {
-    "median_yield_pct": 2.07,
-    "median_payout_pct": 19.71,
+    "median_yield_pct": 2.35,
+    "median_payout_pct": 26.23,
     "n_payers": 5
    },
    "macro_drivers": [],
@@ -6110,18 +6070,23 @@
      "type": "ex_dividend"
     },
     {
-     "ticker": "RPL",
-     "date": "2026-10-07",
-     "type": "results"
-    },
-    {
      "ticker": "IPAK",
      "date": "2026-10-16",
      "type": "ex_dividend"
     },
     {
+     "ticker": "SPEL",
+     "date": "2026-10-21",
+     "type": "results"
+    },
+    {
      "ticker": "CEPB",
      "date": "2026-10-26",
+     "type": "results"
+    },
+    {
+     "ticker": "CPPL",
+     "date": "2026-10-29",
      "type": "results"
     }
    ],
@@ -6141,6 +6106,22 @@
      "fair_gap_pct": null,
      "fair_verdict": null,
      "ttm_dividend_rs": 5.0
+    },
+    {
+     "sym": "GEMPAPL",
+     "name": "Pak Agro Packaging Limited(GEM)",
+     "close": 11.0,
+     "ret_1d": 0.0,
+     "ret_20d": 4.56,
+     "rsi14": 51.9,
+     "above_sma50": true,
+     "liquidity_rs_m": 0.2,
+     "pe": null,
+     "div_yield_pct": null,
+     "payout_pct": null,
+     "fair_gap_pct": null,
+     "fair_verdict": null,
+     "ttm_dividend_rs": 0.5
     },
     {
      "sym": "MERIT",
@@ -6167,10 +6148,10 @@
      "rsi14": 49.2,
      "above_sma50": false,
      "liquidity_rs_m": 5.4,
-     "pe": 120.51,
+     "pe": null,
      "div_yield_pct": null,
      "payout_pct": null,
-     "fair_gap_pct": -94.8,
+     "fair_gap_pct": -95.0,
      "fair_verdict": "overvalued",
      "ttm_dividend_rs": null
     },
@@ -6183,10 +6164,10 @@
      "rsi14": 44.2,
      "above_sma50": false,
      "liquidity_rs_m": 67.5,
-     "pe": 5.66,
-     "div_yield_pct": 1.49,
-     "payout_pct": 8.47,
-     "fair_gap_pct": 21.0,
+     "pe": 5.44,
+     "div_yield_pct": 5.47,
+     "payout_pct": 29.72,
+     "fair_gap_pct": 17.3,
      "fair_verdict": "undervalued",
      "ttm_dividend_rs": null
     },
@@ -6199,12 +6180,12 @@
      "rsi14": 42.2,
      "above_sma50": false,
      "liquidity_rs_m": 8.6,
-     "pe": 6.89,
-     "div_yield_pct": 2.27,
+     "pe": 7.12,
+     "div_yield_pct": 2.35,
      "payout_pct": 16.69,
-     "fair_gap_pct": -10.2,
+     "fair_gap_pct": -10.4,
      "fair_verdict": "fair",
-     "ttm_dividend_rs": 0.9
+     "ttm_dividend_rs": 0.5
     },
     {
      "sym": "CEPB",
@@ -6231,10 +6212,10 @@
      "rsi14": 48.9,
      "above_sma50": false,
      "liquidity_rs_m": 16.8,
-     "pe": 7.15,
-     "div_yield_pct": 3.74,
+     "pe": 7.68,
+     "div_yield_pct": 3.93,
      "payout_pct": 30.17,
-     "fair_gap_pct": -17.4,
+     "fair_gap_pct": -17.0,
      "fair_verdict": "overvalued",
      "ttm_dividend_rs": 3.0
     },
@@ -6247,10 +6228,10 @@
      "rsi14": 54.6,
      "above_sma50": true,
      "liquidity_rs_m": 159.1,
-     "pe": 30.01,
-     "div_yield_pct": 0.76,
+     "pe": 32.07,
+     "div_yield_pct": 0.71,
      "payout_pct": 22.73,
-     "fair_gap_pct": -79.7,
+     "fair_gap_pct": -80.1,
      "fair_verdict": "overvalued",
      "ttm_dividend_rs": 0.5
     },
@@ -6263,8 +6244,8 @@
      "rsi14": 32.6,
      "above_sma50": false,
      "liquidity_rs_m": 5.9,
-     "pe": 20.0,
-     "div_yield_pct": 2.07,
+     "pe": 19.82,
+     "div_yield_pct": 2.22,
      "payout_pct": null,
      "fair_gap_pct": null,
      "fair_verdict": null,
@@ -6307,14 +6288,14 @@
     }
    },
    "valuation": {
-    "median_pe": 12.0,
-    "median_fair_gap_pct": -38.8,
+    "median_pe": 12.03,
+    "median_fair_gap_pct": -38.15,
     "n_undervalued": 2,
     "n_overvalued": 5,
     "n_valued": 8
    },
    "income": {
-    "median_yield_pct": 4.92,
+    "median_yield_pct": 4.94,
     "median_payout_pct": 56.64,
     "n_payers": 6
    },
@@ -6322,19 +6303,19 @@
     {
      "factor": "sp500",
      "corr": 0.0518,
-     "beta": 0.0648,
-     "p_value": 0.00032
+     "beta": 0.0649,
+     "p_value": 2e-05
     },
     {
      "factor": "em_equity",
-     "corr": 0.047,
-     "beta": 0.0421,
-     "p_value": 0.00064
+     "corr": 0.0471,
+     "beta": 0.0422,
+     "p_value": 0.00144
     },
     {
      "factor": "us10y",
-     "corr": 0.0391,
-     "beta": 0.1061,
+     "corr": 0.0389,
+     "beta": 0.1053,
      "p_value": 0.00618
     }
    ],
@@ -6342,8 +6323,8 @@
    "recent_news": [],
    "upcoming_events": [
     {
-     "ticker": "IBLHL",
-     "date": "2026-10-01",
+     "ticker": "SEARL",
+     "date": "2026-09-25",
      "type": "results"
     },
     {
@@ -6352,8 +6333,8 @@
      "type": "results"
     },
     {
-     "ticker": "SEARL",
-     "date": "2026-10-02",
+     "ticker": "AGP",
+     "date": "2026-10-23",
      "type": "results"
     }
    ],
@@ -6367,10 +6348,10 @@
      "rsi14": 52.7,
      "above_sma50": true,
      "liquidity_rs_m": 45.7,
-     "pe": 10.4,
+     "pe": 10.63,
      "div_yield_pct": 4.3,
      "payout_pct": 45.73,
-     "fair_gap_pct": 28.5,
+     "fair_gap_pct": 30.2,
      "fair_verdict": "undervalued",
      "ttm_dividend_rs": 40.0
     },
@@ -6383,10 +6364,10 @@
      "rsi14": 57.1,
      "above_sma50": true,
      "liquidity_rs_m": 94.0,
-     "pe": 14.96,
-     "div_yield_pct": 4.71,
+     "pe": 15.7,
+     "div_yield_pct": 4.65,
      "payout_pct": 72.92,
-     "fair_gap_pct": -59.3,
+     "fair_gap_pct": -59.1,
      "fair_verdict": "overvalued",
      "ttm_dividend_rs": 3.5
     },
@@ -6415,10 +6396,10 @@
      "rsi14": 52.9,
      "above_sma50": false,
      "liquidity_rs_m": 14.2,
-     "pe": 11.69,
-     "div_yield_pct": 5.4,
+     "pe": 12.03,
+     "div_yield_pct": 5.27,
      "payout_pct": 63.44,
-     "fair_gap_pct": -35.5,
+     "fair_gap_pct": -34.2,
      "fair_verdict": "overvalued",
      "ttm_dividend_rs": 50.0
     },
@@ -6447,8 +6428,8 @@
      "rsi14": 35.3,
      "above_sma50": false,
      "liquidity_rs_m": 27.4,
-     "pe": 12.31,
-     "div_yield_pct": 4.18,
+     "pe": 12.28,
+     "div_yield_pct": 4.33,
      "payout_pct": 53.18,
      "fair_gap_pct": -42.1,
      "fair_verdict": "overvalued",
@@ -6463,10 +6444,10 @@
      "rsi14": 47.1,
      "above_sma50": false,
      "liquidity_rs_m": 79.3,
-     "pe": 9.18,
-     "div_yield_pct": 5.56,
+     "pe": 9.87,
+     "div_yield_pct": 5.27,
      "payout_pct": 52.0,
-     "fair_gap_pct": 28.8,
+     "fair_gap_pct": 30.5,
      "fair_verdict": "undervalued",
      "ttm_dividend_rs": 19.0
     },
@@ -6479,10 +6460,10 @@
      "rsi14": 49.2,
      "above_sma50": false,
      "liquidity_rs_m": 3.4,
-     "pe": 17.08,
+     "pe": null,
      "div_yield_pct": null,
      "payout_pct": null,
-     "fair_gap_pct": -62.9,
+     "fair_gap_pct": -64.2,
      "fair_verdict": "overvalued",
      "ttm_dividend_rs": null
     },
@@ -6495,10 +6476,10 @@
      "rsi14": 47.2,
      "above_sma50": false,
      "liquidity_rs_m": 144.9,
-     "pe": 21.3,
+     "pe": 22.55,
      "div_yield_pct": null,
      "payout_pct": null,
-     "fair_gap_pct": -83.0,
+     "fair_gap_pct": -83.5,
      "fair_verdict": "overvalued",
      "ttm_dividend_rs": null
     },
@@ -6543,10 +6524,10 @@
      "rsi14": 24.7,
      "above_sma50": false,
      "liquidity_rs_m": 50.0,
-     "pe": 11.54,
-     "div_yield_pct": 5.14,
+     "pe": 11.5,
+     "div_yield_pct": 5.23,
      "payout_pct": 60.11,
-     "fair_gap_pct": -2.3,
+     "fair_gap_pct": -9.6,
      "fair_verdict": "fair",
      "ttm_dividend_rs": 8.0
     },
@@ -6603,14 +6584,14 @@
     }
    },
    "valuation": {
-    "median_pe": 9.7,
-    "median_fair_gap_pct": -16.4,
+    "median_pe": 9.99,
+    "median_fair_gap_pct": -16.2,
     "n_undervalued": 2,
     "n_overvalued": 3,
     "n_valued": 6
    },
    "income": {
-    "median_yield_pct": 7.45,
+    "median_yield_pct": 7.5,
     "median_payout_pct": 74.26,
     "n_payers": 6
    },
@@ -6623,9 +6604,9 @@
     },
     {
      "factor": "em_equity",
-     "corr": 0.0444,
-     "beta": 0.0409,
-     "p_value": 0.0049
+     "corr": 0.0443,
+     "beta": 0.0408,
+     "p_value": 0.00274
     }
    ],
    "macro_joint_r2_pct": 0.47,
@@ -6680,6 +6661,16 @@
     }
    ],
    "upcoming_events": [
+    {
+     "ticker": "NCPL",
+     "date": "2026-09-28",
+     "type": "results"
+    },
+    {
+     "ticker": "NPL",
+     "date": "2026-09-28",
+     "type": "results"
+    },
     {
      "ticker": "SGPL",
      "date": "2026-10-02",
@@ -6737,10 +6728,10 @@
      "rsi14": 42.6,
      "above_sma50": false,
      "liquidity_rs_m": 410.5,
-     "pe": 5.28,
-     "div_yield_pct": 9.64,
+     "pe": 5.35,
+     "div_yield_pct": 9.78,
      "payout_pct": 52.27,
-     "fair_gap_pct": -13.8,
+     "fair_gap_pct": -14.2,
      "fair_verdict": "fair",
      "ttm_dividend_rs": 25.0
     },
@@ -6769,10 +6760,10 @@
      "rsi14": 42.9,
      "above_sma50": false,
      "liquidity_rs_m": 4.5,
-     "pe": 10.39,
-     "div_yield_pct": 16.46,
+     "pe": 10.69,
+     "div_yield_pct": 16.76,
      "payout_pct": 179.37,
-     "fair_gap_pct": -19.0,
+     "fair_gap_pct": -18.2,
      "fair_verdict": "overvalued",
      "ttm_dividend_rs": 2.75
     },
@@ -6785,10 +6776,10 @@
      "rsi14": 50.3,
      "above_sma50": false,
      "liquidity_rs_m": 206.1,
-     "pe": 13.45,
-     "div_yield_pct": 5.26,
+     "pe": 14.22,
+     "div_yield_pct": 5.22,
      "payout_pct": 74.26,
-     "fair_gap_pct": 18.5,
+     "fair_gap_pct": 21.2,
      "fair_verdict": "undervalued",
      "ttm_dividend_rs": 1.5
     },
@@ -6801,10 +6792,10 @@
      "rsi14": 42.1,
      "above_sma50": false,
      "liquidity_rs_m": 19.4,
-     "pe": 9.01,
-     "div_yield_pct": 26.92,
+     "pe": 9.29,
+     "div_yield_pct": 26.34,
      "payout_pct": 244.76,
-     "fair_gap_pct": 85.3,
+     "fair_gap_pct": 85.6,
      "fair_verdict": "undervalued",
      "ttm_dividend_rs": 4.0
     },
@@ -6817,7 +6808,7 @@
      "rsi14": 38.5,
      "above_sma50": false,
      "liquidity_rs_m": 80.6,
-     "pe": 44.13,
+     "pe": 44.8,
      "div_yield_pct": null,
      "payout_pct": null,
      "fair_gap_pct": -85.3,
@@ -6833,10 +6824,10 @@
      "rsi14": 43.1,
      "above_sma50": false,
      "liquidity_rs_m": 120.0,
-     "pe": 7.24,
-     "div_yield_pct": 4.55,
+     "pe": 7.4,
+     "div_yield_pct": 4.74,
      "payout_pct": 35.09,
-     "fair_gap_pct": -25.8,
+     "fair_gap_pct": -24.6,
      "fair_verdict": "overvalued",
      "ttm_dividend_rs": 7.5
     },
@@ -6866,7 +6857,7 @@
      "above_sma50": false,
      "liquidity_rs_m": 107.1,
      "pe": null,
-     "div_yield_pct": 5.09,
+     "div_yield_pct": 4.73,
      "payout_pct": null,
      "fair_gap_pct": null,
      "fair_verdict": null,
@@ -6971,14 +6962,14 @@
    ]
   },
   "Property": {
-   "n_members": 6,
+   "n_members": 5,
    "breadth": {
     "above_sma50": 1,
-    "advancing_1d": 2
+    "advancing_1d": 1
    },
    "returns": {
-    "median_1d_pct": -1.02,
-    "median_20d_pct": -4.47,
+    "median_1d_pct": -1.26,
+    "median_20d_pct": -4.79,
     "best_20d": {
      "sym": "JVDC",
      "pct": 0.51
@@ -6989,15 +6980,15 @@
     }
    },
    "valuation": {
-    "median_pe": 57.18,
-    "median_fair_gap_pct": -57.55,
+    "median_pe": 59.3,
+    "median_fair_gap_pct": -57.5,
     "n_undervalued": 0,
     "n_overvalued": 2,
     "n_valued": 2
    },
    "income": {
-    "median_yield_pct": 3.53,
-    "median_payout_pct": 46.86,
+    "median_yield_pct": 4.13,
+    "median_payout_pct": 58.42,
     "n_payers": 1
    },
    "macro_drivers": [],
@@ -7014,14 +7005,19 @@
    ],
    "upcoming_events": [
     {
+     "ticker": "PACE",
+     "date": "2026-09-24",
+     "type": "results"
+    },
+    {
+     "ticker": "JVDC",
+     "date": "2026-09-29",
+     "type": "ex_dividend"
+    },
+    {
      "ticker": "JVDC",
      "date": "2026-09-30",
      "type": "book_closure"
-    },
-    {
-     "ticker": "PACE",
-     "date": "2026-10-05",
-     "type": "results"
     },
     {
      "ticker": "TPLP",
@@ -7039,10 +7035,10 @@
      "rsi14": 54.9,
      "above_sma50": true,
      "liquidity_rs_m": 70.2,
-     "pe": 12.98,
-     "div_yield_pct": 3.53,
-     "payout_pct": 46.86,
-     "fair_gap_pct": -53.0,
+     "pe": 14.15,
+     "div_yield_pct": 4.13,
+     "payout_pct": 58.42,
+     "fair_gap_pct": -53.2,
      "fair_verdict": "overvalued",
      "ttm_dividend_rs": 5.0
     },
@@ -7055,28 +7051,12 @@
      "rsi14": 47.0,
      "above_sma50": false,
      "liquidity_rs_m": 55.1,
-     "pe": 101.37,
+     "pe": 104.44,
      "div_yield_pct": null,
      "payout_pct": null,
-     "fair_gap_pct": -62.1,
+     "fair_gap_pct": -61.8,
      "fair_verdict": "overvalued",
      "ttm_dividend_rs": null
-    },
-    {
-     "sym": "JVDCPS",
-     "name": "Javedan Corporation (Pref)",
-     "close": 53.8,
-     "ret_1d": 1.28,
-     "ret_20d": -4.15,
-     "rsi14": 35.1,
-     "above_sma50": false,
-     "liquidity_rs_m": 0.0,
-     "pe": null,
-     "div_yield_pct": null,
-     "payout_pct": null,
-     "fair_gap_pct": null,
-     "fair_verdict": null,
-     "ttm_dividend_rs": 1.2
     },
     {
      "sym": "HUSI",
@@ -7147,14 +7127,14 @@
     }
    },
    "valuation": {
-    "median_pe": 11.33,
-    "median_fair_gap_pct": -10.7,
+    "median_pe": 11.32,
+    "median_fair_gap_pct": -10.9,
     "n_undervalued": 1,
     "n_overvalued": 1,
     "n_valued": 2
    },
    "income": {
-    "median_yield_pct": 12.18,
+    "median_yield_pct": 12.11,
     "median_payout_pct": 105.57,
     "n_payers": 2
    },
@@ -7210,10 +7190,10 @@
      "rsi14": 60.2,
      "above_sma50": true,
      "liquidity_rs_m": 14.8,
-     "pe": 5.36,
-     "div_yield_pct": 17.84,
+     "pe": 5.52,
+     "div_yield_pct": 17.55,
      "payout_pct": 96.85,
-     "fair_gap_pct": 35.4,
+     "fair_gap_pct": 34.8,
      "fair_verdict": "undervalued",
      "ttm_dividend_rs": null
     },
@@ -7226,10 +7206,10 @@
      "rsi14": 46.4,
      "above_sma50": true,
      "liquidity_rs_m": 18.8,
-     "pe": 17.31,
-     "div_yield_pct": 6.51,
+     "pe": 17.13,
+     "div_yield_pct": 6.67,
      "payout_pct": 114.29,
-     "fair_gap_pct": -56.8,
+     "fair_gap_pct": -56.6,
      "fair_verdict": "overvalued",
      "ttm_dividend_rs": 2.58
     },
@@ -7286,35 +7266,29 @@
     }
    },
    "valuation": {
-    "median_pe": 4.61,
-    "median_fair_gap_pct": 22.4,
+    "median_pe": 4.69,
+    "median_fair_gap_pct": 22.85,
     "n_undervalued": 3,
     "n_overvalued": 0,
     "n_valued": 4
    },
    "income": {
-    "median_yield_pct": 1.72,
-    "median_payout_pct": 7.57,
-    "n_payers": 2
+    "median_yield_pct": 1.56,
+    "median_payout_pct": 7.16,
+    "n_payers": 1
    },
    "macro_drivers": [
     {
      "factor": "em_equity",
-     "corr": 0.0479,
-     "beta": 0.0613,
-     "p_value": 0.00086
+     "corr": 0.0481,
+     "beta": 0.0616,
+     "p_value": 0.0011
     },
     {
      "factor": "sp500",
-     "corr": 0.0417,
-     "beta": 0.0747,
-     "p_value": 0.00384
-    },
-    {
-     "factor": "oil",
-     "corr": 0.039,
-     "beta": 0.0157,
-     "p_value": 0.0155
+     "corr": 0.0418,
+     "beta": 0.0748,
+     "p_value": 0.0038
     }
    ],
    "macro_joint_r2_pct": 0.38,
@@ -7388,6 +7362,11 @@
    ],
    "upcoming_events": [
     {
+     "ticker": "CNERGY",
+     "date": "2026-09-24",
+     "type": "results"
+    },
+    {
      "ticker": "ATRL",
      "date": "2026-10-12",
      "type": "ex_dividend"
@@ -7396,6 +7375,11 @@
      "ticker": "ATRL",
      "date": "2026-10-13",
      "type": "book_closure"
+    },
+    {
+     "ticker": "PRL",
+     "date": "2026-10-20",
+     "type": "results"
     }
    ],
    "members": [
@@ -7408,10 +7392,10 @@
      "rsi14": 55.6,
      "above_sma50": true,
      "liquidity_rs_m": 1694.4,
-     "pe": 6.91,
+     "pe": 6.81,
      "div_yield_pct": null,
      "payout_pct": null,
-     "fair_gap_pct": -10.4,
+     "fair_gap_pct": -9.9,
      "fair_verdict": "fair",
      "ttm_dividend_rs": null
     },
@@ -7424,10 +7408,10 @@
      "rsi14": 57.0,
      "above_sma50": true,
      "liquidity_rs_m": 925.7,
-     "pe": 4.57,
-     "div_yield_pct": 1.53,
+     "pe": 4.59,
+     "div_yield_pct": 1.56,
      "payout_pct": 7.16,
-     "fair_gap_pct": 17.1,
+     "fair_gap_pct": 17.9,
      "fair_verdict": "undervalued",
      "ttm_dividend_rs": 7.5
     },
@@ -7440,10 +7424,10 @@
      "rsi14": 55.0,
      "above_sma50": true,
      "liquidity_rs_m": 3050.0,
-     "pe": 3.41,
-     "div_yield_pct": 1.91,
-     "payout_pct": 7.98,
-     "fair_gap_pct": 56.1,
+     "pe": 3.49,
+     "div_yield_pct": null,
+     "payout_pct": null,
+     "fair_gap_pct": 55.3,
      "fair_verdict": "undervalued",
      "ttm_dividend_rs": null
     },
@@ -7456,10 +7440,10 @@
      "rsi14": 51.7,
      "above_sma50": true,
      "liquidity_rs_m": 1310.8,
-     "pe": 4.65,
+     "pe": 4.79,
      "div_yield_pct": null,
      "payout_pct": null,
-     "fair_gap_pct": 27.7,
+     "fair_gap_pct": 27.8,
      "fair_verdict": "undervalued",
      "ttm_dividend_rs": null
     }
@@ -7484,14 +7468,14 @@
     }
    },
    "valuation": {
-    "median_pe": 62.02,
-    "median_fair_gap_pct": -40.1,
+    "median_pe": 5.59,
+    "median_fair_gap_pct": -40.3,
     "n_undervalued": 0,
     "n_overvalued": 1,
     "n_valued": 2
    },
    "income": {
-    "median_yield_pct": 5.0,
+    "median_yield_pct": 4.96,
     "median_payout_pct": 27.73,
     "n_payers": 1
    },
@@ -7502,11 +7486,6 @@
     {
      "ticker": "JDWS",
      "date": "2026-12-23",
-     "type": "results"
-    },
-    {
-     "ticker": "KPUS",
-     "date": "2026-12-31",
      "type": "results"
     }
    ],
@@ -7584,10 +7563,10 @@
      "rsi14": 55.7,
      "above_sma50": false,
      "liquidity_rs_m": 0.1,
-     "pe": 5.44,
-     "div_yield_pct": 5.0,
+     "pe": 5.59,
+     "div_yield_pct": 4.96,
      "payout_pct": 27.73,
-     "fair_gap_pct": 14.5,
+     "fair_gap_pct": 14.1,
      "fair_verdict": "fair",
      "ttm_dividend_rs": 50.0
     },
@@ -7872,7 +7851,7 @@
      "rsi14": 33.9,
      "above_sma50": false,
      "liquidity_rs_m": 1.4,
-     "pe": 118.59,
+     "pe": null,
      "div_yield_pct": null,
      "payout_pct": null,
      "fair_gap_pct": -94.7,
@@ -7994,7 +7973,13 @@
    "macro_drivers": [],
    "macro_joint_r2_pct": null,
    "recent_news": [],
-   "upcoming_events": [],
+   "upcoming_events": [
+    {
+     "ticker": "IBFL",
+     "date": "2026-10-23",
+     "type": "results"
+    }
+   ],
    "members": [
     {
      "sym": "PSYL",
@@ -8097,29 +8082,29 @@
     }
    },
    "valuation": {
-    "median_pe": 15.5,
-    "median_fair_gap_pct": -56.9,
+    "median_pe": 15.48,
+    "median_fair_gap_pct": -57.5,
     "n_undervalued": 4,
     "n_overvalued": 7,
     "n_valued": 11
    },
    "income": {
-    "median_yield_pct": 2.96,
+    "median_yield_pct": 2.98,
     "median_payout_pct": 44.86,
     "n_payers": 6
    },
    "macro_drivers": [
     {
      "factor": "sp500",
-     "corr": 0.0602,
-     "beta": 0.0959,
+     "corr": 0.0601,
+     "beta": 0.0958,
      "p_value": 2e-05
     },
     {
      "factor": "em_equity",
-     "corr": 0.0399,
-     "beta": 0.0455,
-     "p_value": 0.00644
+     "corr": 0.0397,
+     "beta": 0.0453,
+     "p_value": 0.00808
     }
    ],
    "macro_joint_r2_pct": 0.42,
@@ -8160,8 +8145,18 @@
    ],
    "upcoming_events": [
     {
+     "ticker": "STL",
+     "date": "2026-09-23",
+     "type": "results"
+    },
+    {
+     "ticker": "MDTL",
+     "date": "2026-09-24",
+     "type": "results"
+    },
+    {
      "ticker": "NETSOL",
-     "date": "2026-09-22",
+     "date": "2026-09-28",
      "type": "results"
     },
     {
@@ -8180,17 +8175,7 @@
      "type": "results"
     },
     {
-     "ticker": "MDTL",
-     "date": "2026-10-02",
-     "type": "results"
-    },
-    {
      "ticker": "QTECH",
-     "date": "2026-10-06",
-     "type": "results"
-    },
-    {
-     "ticker": "STL",
      "date": "2026-10-06",
      "type": "results"
     },
@@ -8210,10 +8195,10 @@
      "rsi14": 66.8,
      "above_sma50": true,
      "liquidity_rs_m": 234.1,
-     "pe": 1.92,
+     "pe": 2.18,
      "div_yield_pct": null,
      "payout_pct": null,
-     "fair_gap_pct": 174.4,
+     "fair_gap_pct": 203.8,
      "fair_verdict": "undervalued",
      "ttm_dividend_rs": null
     },
@@ -8242,10 +8227,10 @@
      "rsi14": 53.2,
      "above_sma50": true,
      "liquidity_rs_m": 130.2,
-     "pe": 3.7,
-     "div_yield_pct": 2.5,
+     "pe": 3.9,
+     "div_yield_pct": 2.41,
      "payout_pct": 9.39,
-     "fair_gap_pct": 60.7,
+     "fair_gap_pct": 63.6,
      "fair_verdict": "undervalued",
      "ttm_dividend_rs": null
     },
@@ -8274,8 +8259,8 @@
      "rsi14": 61.4,
      "above_sma50": true,
      "liquidity_rs_m": 10.4,
-     "pe": 19.99,
-     "div_yield_pct": 0.39,
+     "pe": 20.49,
+     "div_yield_pct": 0.38,
      "payout_pct": 7.94,
      "fair_gap_pct": -69.1,
      "fair_verdict": "overvalued",
@@ -8306,10 +8291,10 @@
      "rsi14": 39.6,
      "above_sma50": false,
      "liquidity_rs_m": 45.7,
-     "pe": 0.51,
+     "pe": 0.54,
      "div_yield_pct": null,
      "payout_pct": null,
-     "fair_gap_pct": 1187.2,
+     "fair_gap_pct": 1124.0,
      "fair_verdict": "undervalued",
      "ttm_dividend_rs": null
     },
@@ -8322,10 +8307,10 @@
      "rsi14": 48.3,
      "above_sma50": false,
      "liquidity_rs_m": 20.3,
-     "pe": 102.02,
-     "div_yield_pct": 5.0,
+     "pe": 102.43,
+     "div_yield_pct": 4.95,
      "payout_pct": 500.0,
-     "fair_gap_pct": -90.4,
+     "fair_gap_pct": -90.6,
      "fair_verdict": "overvalued",
      "ttm_dividend_rs": 0.5
     },
@@ -8338,10 +8323,10 @@
      "rsi14": 46.2,
      "above_sma50": false,
      "liquidity_rs_m": 24.1,
-     "pe": 14.9,
+     "pe": 15.47,
      "div_yield_pct": null,
      "payout_pct": null,
-     "fair_gap_pct": -56.9,
+     "fair_gap_pct": -57.5,
      "fair_verdict": "overvalued",
      "ttm_dividend_rs": null
     },
@@ -8354,10 +8339,10 @@
      "rsi14": 44.9,
      "above_sma50": false,
      "liquidity_rs_m": 75.5,
-     "pe": 8.8,
-     "div_yield_pct": 6.83,
+     "pe": 9.11,
+     "div_yield_pct": 7.05,
      "payout_pct": 64.19,
-     "fair_gap_pct": 78.0,
+     "fair_gap_pct": 76.9,
      "fair_verdict": "undervalued",
      "ttm_dividend_rs": 6.5
     },
@@ -8386,8 +8371,8 @@
      "rsi14": 36.0,
      "above_sma50": false,
      "liquidity_rs_m": 216.0,
-     "pe": 15.5,
-     "div_yield_pct": 1.58,
+     "pe": 15.49,
+     "div_yield_pct": 1.65,
      "payout_pct": 25.54,
      "fair_gap_pct": -30.1,
      "fair_verdict": "overvalued",
@@ -8402,7 +8387,7 @@
      "rsi14": 42.5,
      "above_sma50": false,
      "liquidity_rs_m": 9.6,
-     "pe": 201.58,
+     "pe": null,
      "div_yield_pct": null,
      "payout_pct": null,
      "fair_gap_pct": -96.7,
@@ -8434,10 +8419,10 @@
      "rsi14": 33.8,
      "above_sma50": false,
      "liquidity_rs_m": 108.2,
-     "pe": 67.78,
+     "pe": 66.74,
      "div_yield_pct": null,
      "payout_pct": null,
-     "fair_gap_pct": -81.4,
+     "fair_gap_pct": -81.5,
      "fair_verdict": "overvalued",
      "ttm_dividend_rs": null
     },
@@ -8450,10 +8435,10 @@
      "rsi14": 34.6,
      "above_sma50": false,
      "liquidity_rs_m": 15.2,
-     "pe": 53.47,
-     "div_yield_pct": 3.43,
+     "pe": 53.79,
+     "div_yield_pct": 3.55,
      "payout_pct": 192.31,
-     "fair_gap_pct": -82.7,
+     "fair_gap_pct": -82.5,
      "fair_verdict": "overvalued",
      "ttm_dividend_rs": 1.0
     },
@@ -8524,10 +8509,10 @@
    ]
   },
   "Textile Composite": {
-   "n_members": 37,
+   "n_members": 36,
    "breadth": {
     "above_sma50": 8,
-    "advancing_1d": 16
+    "advancing_1d": 15
    },
    "returns": {
     "median_1d_pct": 0.0,
@@ -8542,29 +8527,29 @@
     }
    },
    "valuation": {
-    "median_pe": 7.68,
-    "median_fair_gap_pct": -4.15,
+    "median_pe": 5.99,
+    "median_fair_gap_pct": -4.0,
     "n_undervalued": 3,
     "n_overvalued": 4,
     "n_valued": 8
    },
    "income": {
-    "median_yield_pct": 1.93,
-    "median_payout_pct": 42.11,
+    "median_yield_pct": 2.13,
+    "median_payout_pct": 44.15,
     "n_payers": 5
    },
    "macro_drivers": [
     {
      "factor": "sp500",
-     "corr": 0.0811,
-     "beta": 0.1109,
+     "corr": 0.0809,
+     "beta": 0.1106,
      "p_value": 2e-05
     },
     {
      "factor": "em_equity",
-     "corr": 0.0559,
-     "beta": 0.0547,
-     "p_value": 0.00052
+     "corr": 0.0551,
+     "beta": 0.0539,
+     "p_value": 0.00084
     }
    ],
    "macro_joint_r2_pct": 0.76,
@@ -8588,23 +8573,13 @@
    ],
    "upcoming_events": [
     {
-     "ticker": "KML",
-     "date": "2026-09-22",
-     "type": "results"
-    },
-    {
      "ticker": "GATM",
-     "date": "2026-09-28",
+     "date": "2026-09-26",
      "type": "results"
     },
     {
      "ticker": "KOIL",
      "date": "2026-09-28",
-     "type": "results"
-    },
-    {
-     "ticker": "ADMM",
-     "date": "2026-09-30",
      "type": "results"
     },
     {
@@ -8625,6 +8600,16 @@
     {
      "ticker": "MEHT",
      "date": "2026-10-09",
+     "type": "results"
+    },
+    {
+     "ticker": "NCL",
+     "date": "2026-10-15",
+     "type": "ex_dividend"
+    },
+    {
+     "ticker": "KTML",
+     "date": "2026-10-23",
      "type": "results"
     }
    ],
@@ -8718,10 +8703,10 @@
      "rsi14": 65.3,
      "above_sma50": true,
      "liquidity_rs_m": 12.6,
-     "pe": 7.5,
-     "div_yield_pct": 5.54,
-     "payout_pct": 42.11,
-     "fair_gap_pct": -22.7,
+     "pe": 5.99,
+     "div_yield_pct": 10.27,
+     "payout_pct": 61.54,
+     "fair_gap_pct": -22.2,
      "fair_verdict": "overvalued",
      "ttm_dividend_rs": 2.0
     },
@@ -8734,10 +8719,10 @@
      "rsi14": 48.9,
      "above_sma50": false,
      "liquidity_rs_m": 20.3,
-     "pe": 2.86,
-     "div_yield_pct": 0.95,
+     "pe": 2.89,
+     "div_yield_pct": 0.94,
      "payout_pct": 2.71,
-     "fair_gap_pct": 120.0,
+     "fair_gap_pct": 120.7,
      "fair_verdict": "undervalued",
      "ttm_dividend_rs": 2.0
     },
@@ -8798,10 +8783,10 @@
      "rsi14": 48.1,
      "above_sma50": false,
      "liquidity_rs_m": 86.9,
-     "pe": 10.77,
-     "div_yield_pct": 3.96,
+     "pe": 11.09,
+     "div_yield_pct": 3.98,
      "payout_pct": 44.15,
-     "fair_gap_pct": 13.1,
+     "fair_gap_pct": 12.9,
      "fair_verdict": "fair",
      "ttm_dividend_rs": 3.0
     },
@@ -8830,10 +8815,10 @@
      "rsi14": 45.0,
      "above_sma50": false,
      "liquidity_rs_m": 9.4,
-     "pe": 3.38,
+     "pe": 3.57,
      "div_yield_pct": null,
      "payout_pct": null,
-     "fair_gap_pct": 88.4,
+     "fair_gap_pct": 85.4,
      "fair_verdict": "undervalued",
      "ttm_dividend_rs": null
     },
@@ -8852,22 +8837,6 @@
      "fair_gap_pct": null,
      "fair_verdict": null,
      "ttm_dividend_rs": 10.0
-    },
-    {
-     "sym": "REWM",
-     "name": "Reliance Weaving Mills Limited",
-     "close": 169.18,
-     "ret_1d": 1.52,
-     "ret_20d": -1.94,
-     "rsi14": 50.7,
-     "above_sma50": false,
-     "liquidity_rs_m": 0.0,
-     "pe": null,
-     "div_yield_pct": null,
-     "payout_pct": null,
-     "fair_gap_pct": null,
-     "fair_verdict": null,
-     "ttm_dividend_rs": null
     },
     {
      "sym": "FZCM",
@@ -8918,12 +8887,12 @@
      "ttm_dividend_rs": 1.5
     },
     {
-     "sym": "QUET",
-     "name": "Quetta Textile Mills Limited",
-     "close": 14.82,
-     "ret_1d": -2.11,
+     "sym": "REDCO",
+     "name": "Redco Textiles Limited",
+     "close": 28.06,
+     "ret_1d": -2.5,
      "ret_20d": -6.5,
-     "rsi14": 43.1,
+     "rsi14": 42.9,
      "above_sma50": false,
      "liquidity_rs_m": 0.1,
      "pe": null,
@@ -8934,12 +8903,12 @@
      "ttm_dividend_rs": null
     },
     {
-     "sym": "REDCO",
-     "name": "Redco Textiles Limited",
-     "close": 28.06,
-     "ret_1d": -2.5,
+     "sym": "QUET",
+     "name": "Quetta Textile Mills Limited",
+     "close": 14.82,
+     "ret_1d": -2.11,
      "ret_20d": -6.5,
-     "rsi14": 42.9,
+     "rsi14": 43.1,
      "above_sma50": false,
      "liquidity_rs_m": 0.1,
      "pe": null,
@@ -8974,10 +8943,10 @@
      "rsi14": 39.5,
      "above_sma50": false,
      "liquidity_rs_m": 2.2,
-     "pe": 23.23,
+     "pe": null,
      "div_yield_pct": null,
      "payout_pct": null,
-     "fair_gap_pct": -72.2,
+     "fair_gap_pct": -71.9,
      "fair_verdict": "overvalued",
      "ttm_dividend_rs": null
     },
@@ -8990,10 +8959,10 @@
      "rsi14": 42.2,
      "above_sma50": false,
      "liquidity_rs_m": 118.9,
-     "pe": 3.83,
-     "div_yield_pct": 1.42,
+     "pe": 4.01,
+     "div_yield_pct": 1.5,
      "payout_pct": 5.99,
-     "fair_gap_pct": 61.0,
+     "fair_gap_pct": 59.2,
      "fair_verdict": "undervalued",
      "ttm_dividend_rs": 2.0
     },
@@ -9006,10 +8975,10 @@
      "rsi14": 42.3,
      "above_sma50": false,
      "liquidity_rs_m": 13.8,
-     "pe": 7.86,
+     "pe": 8.37,
      "div_yield_pct": null,
      "payout_pct": null,
-     "fair_gap_pct": -21.4,
+     "fair_gap_pct": -20.9,
      "fair_verdict": "overvalued",
      "ttm_dividend_rs": null
     },
@@ -9198,10 +9167,10 @@
      "rsi14": 33.5,
      "above_sma50": false,
      "liquidity_rs_m": 5.5,
-     "pe": 22.04,
-     "div_yield_pct": 1.93,
+     "pe": 22.29,
+     "div_yield_pct": 2.13,
      "payout_pct": 47.47,
-     "fair_gap_pct": -71.7,
+     "fair_gap_pct": -71.4,
      "fair_verdict": "overvalued",
      "ttm_dividend_rs": 0.75
     },
@@ -9224,14 +9193,14 @@
    ]
   },
   "Textile Spinning": {
-   "n_members": 40,
+   "n_members": 42,
    "breadth": {
     "above_sma50": 14,
-    "advancing_1d": 15
+    "advancing_1d": 16
    },
    "returns": {
-    "median_1d_pct": -0.21,
-    "median_20d_pct": -4.73,
+    "median_1d_pct": -0.1,
+    "median_20d_pct": -4.48,
     "best_20d": {
      "sym": "ELCM",
      "pct": 52.44
@@ -9242,14 +9211,14 @@
     }
    },
    "valuation": {
-    "median_pe": 3.32,
-    "median_fair_gap_pct": 35.3,
+    "median_pe": 3.52,
+    "median_fair_gap_pct": 34.3,
     "n_undervalued": 3,
     "n_overvalued": 2,
     "n_valued": 5
    },
    "income": {
-    "median_yield_pct": 1.98,
+    "median_yield_pct": 2.11,
     "median_payout_pct": 7.8,
     "n_payers": 4
    },
@@ -9258,18 +9227,18 @@
    "recent_news": [],
    "upcoming_events": [
     {
+     "ticker": "SHDT",
+     "date": "2026-09-25",
+     "type": "results"
+    },
+    {
      "ticker": "DFSM",
-     "date": "2026-09-29",
+     "date": "2026-09-28",
      "type": "results"
     },
     {
      "ticker": "KOHTM",
      "date": "2026-09-30",
-     "type": "results"
-    },
-    {
-     "ticker": "SHDT",
-     "date": "2026-10-01",
      "type": "results"
     },
     {
@@ -9444,6 +9413,22 @@
      "ttm_dividend_rs": null
     },
     {
+     "sym": "CFL",
+     "name": "Crescent Fibres Limited",
+     "close": 59.4,
+     "ret_1d": 0.0,
+     "ret_20d": 1.8,
+     "rsi14": 43.1,
+     "above_sma50": false,
+     "liquidity_rs_m": 0.0,
+     "pe": null,
+     "div_yield_pct": null,
+     "payout_pct": null,
+     "fair_gap_pct": null,
+     "fair_verdict": null,
+     "ttm_dividend_rs": null
+    },
+    {
      "sym": "JKSM",
      "name": "J.K. Spinning Mills Limited",
      "close": 312.33,
@@ -9532,12 +9517,28 @@
      "rsi14": 52.6,
      "above_sma50": true,
      "liquidity_rs_m": 4.8,
-     "pe": 3.32,
-     "div_yield_pct": 2.27,
+     "pe": 3.52,
+     "div_yield_pct": 2.23,
      "payout_pct": 7.86,
-     "fair_gap_pct": 35.3,
+     "fair_gap_pct": 34.3,
      "fair_verdict": "undervalued",
      "ttm_dividend_rs": 1.24
+    },
+    {
+     "sym": "NAGC",
+     "name": "Nagina Cotton Mills Limited",
+     "close": 78.91,
+     "ret_1d": 2.48,
+     "ret_20d": -3.15,
+     "rsi14": 52.6,
+     "above_sma50": false,
+     "liquidity_rs_m": 0.1,
+     "pe": null,
+     "div_yield_pct": null,
+     "payout_pct": null,
+     "fair_gap_pct": null,
+     "fair_verdict": null,
+     "ttm_dividend_rs": 1.0
     },
     {
      "sym": "KOSM",
@@ -9708,10 +9709,10 @@
      "rsi14": 50.2,
      "above_sma50": true,
      "liquidity_rs_m": 19.2,
-     "pe": 2.19,
-     "div_yield_pct": 3.08,
+     "pe": 2.42,
+     "div_yield_pct": 3.19,
      "payout_pct": 7.74,
-     "fair_gap_pct": 89.8,
+     "fair_gap_pct": 95.1,
      "fair_verdict": "undervalued",
      "ttm_dividend_rs": null
     },
@@ -9740,10 +9741,10 @@
      "rsi14": 35.7,
      "above_sma50": false,
      "liquidity_rs_m": 3.2,
-     "pe": 3.17,
-     "div_yield_pct": 1.64,
+     "pe": 3.12,
+     "div_yield_pct": 1.71,
      "payout_pct": 5.33,
-     "fair_gap_pct": 50.3,
+     "fair_gap_pct": 51.4,
      "fair_verdict": "undervalued",
      "ttm_dividend_rs": null
     },
@@ -9884,10 +9885,10 @@
      "rsi14": 43.3,
      "above_sma50": false,
      "liquidity_rs_m": 12.3,
-     "pe": 6.46,
-     "div_yield_pct": 1.68,
+     "pe": 6.78,
+     "div_yield_pct": 1.99,
      "payout_pct": 13.47,
-     "fair_gap_pct": -30.8,
+     "fair_gap_pct": -30.2,
      "fair_verdict": "overvalued",
      "ttm_dividend_rs": 1.0
     },
@@ -9916,10 +9917,10 @@
      "rsi14": 52.8,
      "above_sma50": true,
      "liquidity_rs_m": 45.8,
-     "pe": 167.73,
+     "pe": 200.93,
      "div_yield_pct": null,
      "payout_pct": null,
-     "fair_gap_pct": -97.2,
+     "fair_gap_pct": -96.9,
      "fair_verdict": "overvalued",
      "ttm_dividend_rs": null
     },
@@ -10099,14 +10100,14 @@
     }
    },
    "valuation": {
-    "median_pe": 7.91,
-    "median_fair_gap_pct": -24.7,
+    "median_pe": 8.6,
+    "median_fair_gap_pct": -26.9,
     "n_undervalued": 0,
     "n_overvalued": 2,
     "n_valued": 3
    },
    "income": {
-    "median_yield_pct": 6.45,
+    "median_yield_pct": 5.99,
     "median_payout_pct": 52.24,
     "n_payers": 1
    },
@@ -10116,7 +10117,17 @@
    "upcoming_events": [
     {
      "ticker": "PNSC",
-     "date": "2026-10-05",
+     "date": "2026-09-28",
+     "type": "results"
+    },
+    {
+     "ticker": "CLVL",
+     "date": "2026-10-02",
+     "type": "results"
+    },
+    {
+     "ticker": "PICT",
+     "date": "2026-10-23",
      "type": "results"
     },
     {
@@ -10135,7 +10146,7 @@
      "rsi14": 54.5,
      "above_sma50": true,
      "liquidity_rs_m": 110.9,
-     "pe": null,
+     "pe": 16.84,
      "div_yield_pct": null,
      "payout_pct": null,
      "fair_gap_pct": null,
@@ -10151,10 +10162,10 @@
      "rsi14": 67.2,
      "above_sma50": true,
      "liquidity_rs_m": 11.2,
-     "pe": 7.91,
-     "div_yield_pct": 6.45,
+     "pe": 8.72,
+     "div_yield_pct": 5.99,
      "payout_pct": 52.24,
-     "fair_gap_pct": -24.7,
+     "fair_gap_pct": -26.9,
      "fair_verdict": "overvalued",
      "ttm_dividend_rs": 33.0
     },
@@ -10167,10 +10178,10 @@
      "rsi14": 51.7,
      "above_sma50": false,
      "liquidity_rs_m": 152.4,
-     "pe": 14.11,
+     "pe": 8.48,
      "div_yield_pct": null,
      "payout_pct": null,
-     "fair_gap_pct": -59.6,
+     "fair_gap_pct": -59.8,
      "fair_verdict": "overvalued",
      "ttm_dividend_rs": null
     },
@@ -10183,10 +10194,10 @@
      "rsi14": 45.4,
      "above_sma50": false,
      "liquidity_rs_m": 23.4,
-     "pe": 5.72,
+     "pe": 6.17,
      "div_yield_pct": null,
      "payout_pct": null,
-     "fair_gap_pct": 7.9,
+     "fair_gap_pct": 7.4,
      "fair_verdict": "fair",
      "ttm_dividend_rs": null
     },
