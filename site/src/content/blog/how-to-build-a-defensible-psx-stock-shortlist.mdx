@@ -1,0 +1,126 @@
+---
+title: How to build a defensible PSX stock shortlist
+description: A practical way to test a PSX stock shortlist for concentration, business quality, valuation and missing evidence — without treating any stock as safe.
+pubDate: 2026-09-23
+cluster: Method
+draft: false
+---
+
+import Snapshot from '../../components/explain/Snapshot.astro';
+import Matrix from '../../components/explain/Matrix.astro';
+
+Having money available does not answer the first investing question. **When will you need it, and
+what loss could you absorb without changing that plan?** Those two answers affect whether shares
+belong in the plan at all. A shortlist comes later. There is no “safe” PSX stock, and owning several
+tickers does not automatically mean the risk is spread.
+
+<Snapshot
+  title="The order of decisions"
+  items={[
+    { k: 'First', v: 'Money and time', note: 'Identify the goal, access needs and capacity for loss' },
+    { k: 'Then', v: 'Vehicle', note: 'Decide whether direct shares, a fund or an ETF fits the task' },
+    { k: 'Then', v: 'Businesses', note: 'Read filings and check what each name actually depends on' },
+    { k: 'Last', v: 'Whole set', note: 'Look for overlap, concentration and gaps in the evidence' },
+  ]}
+/>
+
+## Start with the money, not a ticker
+
+Write down the purpose of the money, when it may be needed, and whether a market fall would force a
+sale at the wrong time. Risk **capacity** is the financial ability to absorb a loss; risk
+**tolerance** is how much fluctuation you can live with. They are not always the same. Both the
+[PSX investor guide](https://www.psx.com.pk/psx/resources-and-tools/investors/open-an-account-invest)
+and [SECP's risk-tolerance explainer](https://www.secp.gov.pk/for-knowledgebase/risk-tolerance/)
+put these questions ahead of stock selection.
+
+This is a boundary, not a score from an online quiz. If the money has a near-term purpose or a fall
+would disrupt essential spending, do not relabel a volatile share as “relatively safe” to make the
+plan work. Compare the available vehicles and, where the choice is consequential, seek qualified
+personal advice. This article cannot determine a suitable allocation for an individual.
+
+## Decide whether picking individual shares is the task
+
+A brokerage account gives access to individual PSX shares and exchange-traded funds (ETFs). A fund
+can hold a basket of securities, but its label alone does not tell you the risk: an equity fund is
+still exposed to equities, while another category may hold a different mix. An ETF may track a broad
+index or a narrow industry. Check its underlying holdings, benchmark, fees and trading terms before
+calling it diversified. [PSX's ETF guide](https://www.psx.com.pk/psx/product-and-services/products/exchange-traded-funds-etfs)
+explains the structure and the distinction from an open-ended mutual fund.
+
+<Matrix
+  cols={['Route', 'What you need to inspect', 'Common mistake']}
+  rows={[
+    ['Individual shares', 'Company filings, business drivers, valuation and the whole portfolio', 'Treating a familiar name as a low-risk name'],
+    ['Equity ETF', 'Holdings, index or strategy, sector weights, fees and trading spread', 'Assuming every basket is broad or low-risk'],
+    ['Open-ended fund', 'Fund category, holdings, risk label, fees and redemption terms', 'Assuming every fund behaves like cash'],
+  ]}
+  caption="This is a research comparison, not a recommendation of one route. Read the current product documents before deciding."
+/>
+
+If you want to understand how a brokerage account works before comparing products, use the
+[account-opening guide](/blog/how-to-start-investing-psx/). The distinction between a broker-run
+CDC Sub Account and a direct CDC Investor Account is explained [separately](/blog/cdc-sub-account-vs-investor-account/).
+
+## Write a reason for every company
+
+For each possible name, record five short answers. If one cannot be supported, mark it **unknown**;
+do not fill the gap with a confident story.
+
+1. **What does the company sell, and to whom?** Check the business description and segment notes
+   in its latest annual report.
+2. **What changed in revenue, profit and cash?** Compare more than one reporting period and read
+   the notes, not only the headline EPS. The guide to [reading PSX accounts](/blog/reading-a-psx-companys-accounts/)
+   shows where those statements live.
+3. **What could impair the business?** Look for financing needs, customer concentration,
+   imported inputs, currency exposure, regulation or a weak balance sheet. The relevant risks
+   differ by company.
+4. **What does the price already assume?** Compare valuation with the firm's own history and
+   business model; a low P/E is not proof of a bargain. See [how to value a PSX company](/blog/how-to-value-a-psx-company/).
+5. **Which dated document supports the view?** Use the company's filing or announcement in the
+   [PSX Data Portal](https://dps.psx.com.pk/announcements/companies), and note when you checked it.
+
+The output is a research note, not a buy signal. A company can be understandable and still be too
+uncertain to put on a shortlist.
+
+## Test the set, not just the names
+
+The PSX's [investor guidance](https://www.psx.com.pk/psx/resources-and-tools/investors/open-an-account-invest)
+describes diversification across companies, sectors and products. That is a starting principle, not
+a guarantee against loss. For a proposed set, make one row per holding and add its sector, main
+source of earnings, major exposure and reason for inclusion. Then ask:
+
+- How much of the proposed set depends on the same sector or economic event?
+- Do apparently different companies share a financing, fuel, currency or policy risk?
+- Would one company or one assumption dominate the outcome?
+- Is there a reason for each name beyond “it has been rising” or “someone recommended it”?
+- If new results contradict the original case, what fact would cause a re-read?
+
+Two banks can be different tickers yet share exposure to interest rates and credit conditions. Two
+manufacturers can share imported energy costs. That does not make either pair unsuitable by itself;
+it means the number of tickers understates the overlap. The [sector comparison method](/blog/how-to-compare-psx-sectors/)
+helps identify these common drivers. For the macro channels behind a headline market move, read
+[what moves the PSX market](/blog/what-moves-the-psx-market/).
+
+## A record you can revise
+
+Keep the shortlist as a dated worksheet: name, primary document, investment question, main
+uncertainty, and what would change your view. Revisit it after company results or a material notice.
+Do not add a name merely to reach a target count. A smaller list of understood candidates is more
+honest than a long list held together by slogans; it is still only a research list, not a portfolio
+recommendation.
+
+You can test your understanding in a [practice portfolio](/solutions/psx-research-for-new-investors/)
+before committing money. If you are at the beginning of the process, the [PSX starting path](/start/)
+puts the broker, vehicle, company and market questions in order.
+
+## Primary sources
+
+- [PSX — Open an Account & Invest](https://www.psx.com.pk/psx/resources-and-tools/investors/open-an-account-invest) — objectives, risk and diversification.
+- [SECP — Risk Tolerance](https://www.secp.gov.pk/for-knowledgebase/risk-tolerance/) — ability versus willingness to take risk.
+- [PSX — Exchange-Traded Funds](https://www.psx.com.pk/psx/product-and-services/products/exchange-traded-funds-etfs) — ETF structure, holdings and trading.
+- [PSX Data Portal — Company Announcements](https://dps.psx.com.pk/announcements/companies) — dated disclosures to check individual claims.
+
+---
+
+*Research, not advice. No stock, fund or allocation is recommended here. Investment products can
+lose value; suitability depends on circumstances this article does not know.*

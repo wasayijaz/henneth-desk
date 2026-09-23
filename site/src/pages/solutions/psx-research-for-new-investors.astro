@@ -48,6 +48,12 @@ import SolutionPage from '../../components/SolutionPage.astro';
     },
   ]}
 >
+  <div class="start-path">
+    <p class="kicker">Not sure where to begin?</p>
+    <h2>Start with the decision, not a ticker.</h2>
+    <p>Work through money and risk, choosing a broker or fund, spreading exposure, reading a company, and understanding market moves.</p>
+    <a href="/start/">Follow the PSX starting path →</a>
+  </div>
   <h2 class="mid-h">Start with the free calculators</h2>
   <p class="mid-p">
     You do not need an account to use these, and they answer the questions most new investors
@@ -68,6 +74,11 @@ import SolutionPage from '../../components/SolutionPage.astro';
 </SolutionPage>
 
 <style>
+  .start-path { max-width: 68ch; border: var(--rule); background: var(--panel-2); padding: 22px; margin: 0 0 30px; }
+  .start-path .kicker { margin-bottom: 8px; }
+  .start-path h2 { font-size: 17px; margin: 0 0 10px; }
+  .start-path p:not(.kicker) { font-size: 12px; color: var(--ink-2); line-height: 1.7; margin: 0 0 12px; }
+  .start-path a { font-size: 11px; font-weight: 700; text-decoration: underline; text-underline-offset: 3px; }
   .mid-h { font-size: 16px; margin: 0 0 12px; }
   .mid-p { font-size: 13px; line-height: 1.75; color: var(--ink-2); max-width: 68ch; margin: 0 0 14px; }
   .mid-l { max-width: 68ch; padding-left: 20px; font-size: 13px; line-height: 1.75; color: var(--ink-2); margin: 0 0 16px; }

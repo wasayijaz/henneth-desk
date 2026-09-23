@@ -1,0 +1,155 @@
+---
+import Base from '../../layouts/Base.astro';
+import Icon from '../../components/Icon.astro';
+
+const steps = [
+  {
+    number: '01', icon: 'method', eyebrow: 'Money and risk',
+    question: 'I have money. Where do I begin?',
+    answer: 'Start with the goal, when you may need the money, and what loss you could absorb. A market investment is not a substitute for money you must be able to access at a known date.',
+    links: [{ href: '/blog/how-to-build-a-defensible-psx-stock-shortlist/', label: 'Set your research boundaries' }],
+  },
+  {
+    number: '02', icon: 'board', eyebrow: 'Access and vehicle',
+    question: 'Do I need a broker? Shares or a fund?',
+    answer: 'A licensed broker provides access to PSX shares and ETFs. A fund can spread holdings, but an equity fund still carries equity risk. Compare what it owns, its fees and its terms before choosing a route.',
+    links: [
+      { href: '/blog/how-to-start-investing-psx/', label: 'How a PSX account works' },
+      { href: '/blog/what-you-need-to-open-a-brokerage-account/', label: 'Account documents' },
+    ],
+  },
+  {
+    number: '03', icon: 'sectors', eyebrow: 'The whole set',
+    question: 'How do I avoid putting everything in one stock?',
+    answer: 'Count shared risks, not just ticker symbols. Different companies can depend on the same sector, fuel price, interest-rate move or regulation. Write down what each candidate adds and what could go wrong together.',
+    links: [{ href: '/blog/how-to-build-a-defensible-psx-stock-shortlist/', label: 'Build a defensible shortlist' }],
+  },
+  {
+    number: '04', icon: 'value', eyebrow: 'Company evidence',
+    question: 'How do I tell what a company is worth?',
+    answer: 'Read what the business sells, what it owes, whether profit becomes cash, and what the current price assumes. Start from a dated filing rather than a tip or a single P/E number.',
+    links: [
+      { href: '/blog/reading-a-psx-companys-accounts/', label: 'Read the financial statements' },
+      { href: '/blog/how-to-value-a-psx-company/', label: 'Understand valuation' },
+    ],
+  },
+  {
+    number: '05', icon: 'macro', eyebrow: 'Outside forces',
+    question: 'Why did a PSX stock or sector move?',
+    answer: 'Test the possible channel: company results, rates, currency, imported inputs, fuel or regulation. The existence of a global headline does not prove it caused a particular PSX move.',
+    links: [
+      { href: '/blog/what-moves-the-psx-market/', label: 'Trace market drivers' },
+      { href: '/blog/how-to-compare-psx-sectors/', label: 'Compare sector exposure' },
+    ],
+  },
+];
+
+const faq = [
+  { q: 'What is the safest PSX stock for a beginner?', a: 'There is no stock that is safe from loss. Start with when you need the money and how much loss you can absorb, then compare vehicles and inspect the business and the risks before considering any individual share.' },
+  { q: 'Is buying several PSX stocks enough to diversify?', a: 'Not necessarily. Several companies can share the same sector, financing, currency or commodity exposure. Look for overlapping drivers across the whole set, not only the number of tickers.' },
+  { q: 'Can Henneth pick a portfolio for my risk profile?', a: 'No. Henneth publishes research and educational tools, not personalised investment advice or a portfolio selected for an individual. Its guides can help you frame questions and inspect evidence.' },
+];
+---
+
+<Base
+  title="How to start investing in PSX"
+  crumbLeaf="Start investing in PSX"
+  path="/start/"
+  description="New to the Pakistan Stock Exchange? Work through money and risk, brokers, shares versus funds, diversification, company accounts and market drivers in a clear order."
+  faq={faq}
+>
+  <section class="section-tight">
+    <div class="wrap start">
+      <div class="intro">
+        <div>
+          <p class="kicker">New to PSX · Start here</p>
+          <h1>Know what to ask before choosing a stock.</h1>
+          <p class="lead">If you have money to invest but no clear starting point, take these five decisions in order. Each one leads to a detailed, source-linked guide. No stock picks and no claim that any share is safe.</p>
+          <a class="btn btn-solid" href="#path">Follow the path <Icon name="arrow" size={14} /></a>
+        </div>
+        <aside class="orientation" aria-label="How to use this path">
+          <span class="orientation-label">The short version</span>
+          <p>Money and time <span>→</span> vehicle <span>→</span> businesses <span>→</span> the whole set <span>→</span> what changes it.</p>
+          <small>Research first. Execution is always your decision through a broker.</small>
+        </aside>
+      </div>
+
+      <div class="path-heading" id="path">
+        <p class="kicker">A beginner's decision path</p>
+        <p>Read in sequence, or open the question you need now.</p>
+      </div>
+      <div class="step-list">
+        {steps.map((step) => (
+          <section class="step" aria-labelledby={`step-${step.number}`}>
+            <div class="step-index"><span>{step.number}</span><Icon name={step.icon} size={21} /></div>
+            <div class="step-copy">
+              <p class="step-eyebrow">{step.eyebrow}</p>
+              <h2 id={`step-${step.number}`}>{step.question}</h2>
+              <p>{step.answer}</p>
+              <div class="step-links">{step.links.map((link) => <a href={link.href}>{link.label} <Icon name="arrow" size={12} /></a>)}</div>
+            </div>
+          </section>
+        ))}
+      </div>
+
+      <section class="source-note">
+        <div><p class="kicker">Check the source</p><h2>The exchange is the starting authority.</h2></div>
+        <p>The <a href="https://www.psx.com.pk/psx/resources-and-tools/investors/open-an-account-invest">PSX investor guide</a> puts objectives, risk capacity and diversification ahead of stock selection. Its <a href="https://www.psx.com.pk/psx/resources-and-tools/investors/investor-awareness-guide">investor awareness guide</a> explains how to check broker registration. For an individual company, use its dated filing and announcement in the <a href="https://dps.psx.com.pk/announcements/companies">PSX Data Portal</a>.</p>
+      </section>
+
+      <section class="faqs" aria-labelledby="faq-heading">
+        <p class="kicker">Plain answers</p>
+        <h2 id="faq-heading">Questions worth settling first</h2>
+        <div class="faq-grid">{faq.map((item) => <div class="faq"><h3>{item.q}</h3><p>{item.a}</p></div>)}</div>
+      </section>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .start { max-width: 1060px; }
+  .intro { display: grid; grid-template-columns: minmax(0, 1.45fr) minmax(250px, .8fr); gap: clamp(28px, 6vw, 88px); align-items: end; padding-bottom: 50px; }
+  .intro h1 { max-width: 18ch; }
+  .intro .lead { max-width: 67ch; margin: 0 0 24px; }
+  .orientation { background: var(--ink-1); color: var(--bg); padding: 24px; min-height: 200px; display: flex; flex-direction: column; justify-content: space-between; }
+  .orientation-label, .step-eyebrow { text-transform: uppercase; font-size: 10px; letter-spacing: .12em; font-weight: 700; }
+  .orientation-label { color: #aaa9a1; }
+  .orientation p { font-size: 18px; line-height: 1.55; font-weight: 700; margin: 20px 0; }
+  .orientation p span { color: #91bba1; }
+  .orientation small { color: #aaa9a1; font-size: 10px; line-height: 1.6; }
+  .path-heading { border-top: var(--rule); padding: 24px 0 18px; scroll-margin-top: 90px; }
+  .path-heading .kicker { margin-bottom: 3px; }
+  .path-heading p:last-child { color: var(--ink-2); font-size: 12px; margin: 0; }
+  .step-list { border-top: var(--rule); }
+  .step { display: grid; grid-template-columns: 110px 1fr; border-bottom: var(--rule); background: var(--panel); transition: background .18s ease; }
+  .step-index { border-right: var(--rule); padding: 23px 20px; display: flex; flex-direction: column; justify-content: space-between; align-items: flex-start; color: var(--ink-3); min-height: 180px; }
+  .step-index span { font-size: 23px; color: var(--ink-1); font-weight: 700; }
+  .step-copy { padding: 22px 28px 24px; }
+  .step-eyebrow { color: var(--up); margin: 0 0 8px; }
+  .step h2 { font-size: clamp(16px, 2vw, 21px); margin: 0 0 10px; line-height: 1.3; }
+  .step-copy > p:not(.step-eyebrow) { max-width: 75ch; font-size: 12px; line-height: 1.8; color: var(--ink-2); margin: 0 0 15px; }
+  .step-links { display: flex; flex-wrap: wrap; gap: 8px 20px; }
+  .step-links a { display: inline-flex; align-items: center; gap: 6px; text-decoration: none; border-bottom: 1px solid var(--ink-1); padding-bottom: 2px; font-size: 11px; font-weight: 700; }
+  .step-links a :global(.icn) { transition: transform .18s ease; }
+  @media (hover: hover) { .step:hover { background: var(--panel-2); } .step-links a:hover :global(.icn) { transform: translateX(3px); } }
+  .source-note { display: grid; grid-template-columns: 1fr 1.35fr; gap: 32px; padding: 38px 0; border-bottom: var(--rule); }
+  .source-note h2 { font-size: 19px; max-width: 27ch; }
+  .source-note > p { font-size: 12px; line-height: 1.85; color: var(--ink-2); margin: 0; }
+  .source-note a { color: var(--ink-1); text-underline-offset: 3px; }
+  .faqs { padding: 38px 0 0; }
+  .faqs > h2 { font-size: 20px; margin-bottom: 20px; }
+  .faq-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border: var(--rule); background: var(--line); gap: 1.5px; }
+  .faq { background: var(--panel); padding: 20px; }
+  .faq h3 { font-size: 12px; line-height: 1.45; margin: 0 0 10px; }
+  .faq p { font-size: 11px; color: var(--ink-2); line-height: 1.75; margin: 0; }
+  @media (max-width: 720px) {
+    .intro, .source-note { grid-template-columns: 1fr; gap: 24px; }
+    .intro { padding-bottom: 32px; }
+    .orientation { min-height: 145px; }
+    .step { grid-template-columns: 56px 1fr; }
+    .step-index { padding: 19px 10px; min-height: 0; }
+    .step-index span { font-size: 16px; }
+    .step-copy { padding: 18px 16px 22px; }
+    .faq-grid { grid-template-columns: 1fr; }
+  }
+</style>

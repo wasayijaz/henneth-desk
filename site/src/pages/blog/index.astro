@@ -58,6 +58,11 @@ const [featured, ...rest] = posts;
   </section>
 
   <section class="wrap">
+    <a class="beginner-path" href="/start/">
+      <span class="beginner-mark"><Icon name="method" size={20} /></span>
+      <span class="beginner-copy"><strong>New to PSX? Start with the questions.</strong><small>Risk, brokers, diversification, company accounts and what moves the market — in a useful order.</small></span>
+      <Icon name="arrow" size={16} />
+    </a>
     <div class="chips">
       {cats.map((c, i) => <button class:list={['chip', { on: i === 0 }]} data-cat={c}>{c}</button>)}
     </div>
@@ -153,6 +158,12 @@ const [featured, ...rest] = posts;
 
 <style>
   .ph-lead { max-width: 560px; }
+  .beginner-path { display: flex; align-items: center; gap: 14px; padding: 16px 18px; background: var(--panel); border: var(--rule); text-decoration: none; margin-bottom: 24px; transition: background .18s ease, border-color .18s ease; }
+  .beginner-mark { color: var(--up); }
+  .beginner-copy { display: grid; gap: 3px; flex: 1; }
+  .beginner-copy strong { font-size: 12px; }
+  .beginner-copy small { font-size: 10px; color: var(--ink-2); line-height: 1.55; }
+  @media (hover: hover) { .beginner-path:hover { background: var(--panel-2); border-color: var(--ink-1); } }
   .chips { display: flex; gap: 1.5px; background: var(--line); border: var(--rule); width: fit-content; flex-wrap: wrap; }
   .chip {
     font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase;
