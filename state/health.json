@@ -1,5 +1,5 @@
 {
- "checked": "2026-09-23 08:49",
+ "checked": "2026-09-23 13:04",
  "status": "degraded",
  "problems": [
   "history refresh failed for ACWI, EEM, EFA, GLD, HYG, TLT, US500, USDJI, USNDX, USO, USVIX, XLB, XLC, XLE, XLF, XLI, XLK, XLP, XLRE, XLU, XLV, XLY"
@@ -12,26 +12,29 @@
  "history_coverage_fraction": 1.0,
  "foreign_symbols": 23,
  "foreign_with_history": 23,
- "latest_eod": "2026-09-22",
+ "latest_eod": "2026-09-23",
  "oldest_eod": "2024-09-26",
  "stale_fleet": 64,
  "stale_fleet_fraction": 0.1143,
  "stale_fleet_cutoff": "2026-09-11",
  "spot_check": {
   "symbol": "HUBC",
-  "live": 204.89,
-  "cached_close": 204.51,
-  "deviation_pct": 0.19
+  "live": 205.56,
+  "cached_close": 205.56,
+  "deviation_pct": 0.0
  },
  "post_close_integrity": {
-  "required": false,
+  "required": true,
   "session_date": "2026-09-23",
-  "checked_at": "2026-09-23T08:49:36.266239Z",
-  "status": "not_required",
+  "checked_at": "2026-09-23T13:04:28.464010Z",
+  "status": "ok",
   "problems": [],
-  "traded_symbols": 0,
-  "same_day_symbols": 0,
-  "same_day_fraction": null,
-  "missing_symbols": []
+  "traded_symbols": 486,
+  "same_day_symbols": 486,
+  "same_day_fraction": 1.0,
+  "missing_symbols": [],
+  "snapshot_declared_symbols": 486,
+  "snapshot_matched_symbols": 486,
+  "ignored_non_psx_symbols": []
  }
 }

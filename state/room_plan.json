@@ -1,11 +1,15 @@
 {
  "reaffirm": [
   "MARI",
-  "ATRL",
   "PTC",
   "ILP"
  ],
- "delta": [],
+ "delta": [
+  {
+   "symbol": "ATRL",
+   "why": "price moved 7.2% since last Room"
+  }
+ ],
  "full": [
   {
    "symbol": "PSO",
@@ -244,11 +248,11 @@
    "why": "never covered"
   },
   {
-   "symbol": "KOHC",
+   "symbol": "NML",
    "why": "never covered"
   },
   {
-   "symbol": "NML",
+   "symbol": "KOHC",
    "why": "never covered"
   },
   {
@@ -349,7 +353,7 @@
   }
  ],
  "_meta": {
-  "built": "2026-09-23 08:49",
+  "built": "2026-09-23 13:04",
   "full_budget": 2,
   "run_full_now": [
    "PSO",
@@ -413,8 +417,8 @@
    "FABL",
    "CHCC",
    "INDU",
-   "KOHC",
    "NML",
+   "KOHC",
    "NATF",
    "TRG",
    "AGP",
@@ -443,10 +447,10 @@
   "counts": {
    "full_due": 85,
    "full_now": 2,
-   "delta": 0,
-   "reaffirm": 4
+   "delta": 1,
+   "reaffirm": 3
   },
-  "est_tokens_today": 44000,
+  "est_tokens_today": 49000,
   "note": "Tiered plan. Only run_full_now get the 5-persona debate; delta get a cheap TA refresh; reaffirm cost nothing. Full universe stays current at a fraction of naive cost (naive = every ticker debated every run)."
  }
 }
