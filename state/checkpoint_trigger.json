@@ -1,17 +1,32 @@
 {
  "schema_version": 1,
- "generated": "2026-09-23T19:03:59+05:00",
- "checkpoint_required": false,
- "summary": "nothing material since the last checkpoint",
+ "generated": "2026-09-24T13:36:50+05:00",
+ "checkpoint_required": true,
+ "summary": "1 material item(s) and 1 standing condition(s)",
  "acked_at": "2026-09-23T18:32:57+05:00",
  "counts": {
-  "pending": 0,
+  "pending": 1,
   "pending_dropped": 0,
-  "standing": 0,
+  "standing": 1,
   "tracked": 12
  },
- "standing": [],
- "pending": [],
+ "standing": [
+  {
+   "kind": "first_of_day",
+   "title": "no checkpoint has run yet today",
+   "detail": "the day's first checkpoint always runs - it is the desk's only news scan"
+  }
+ ],
+ "pending": [
+  {
+   "id": "health_95a87febcac7c3fd",
+   "kind": "health",
+   "symbol": "",
+   "title": "data health is degraded",
+   "detail": "history refresh failed for ACWI, EEM, EFA, HYG, US500, USDJI, USNDX, USVIX, XLB, XLC, XLI, XLK, XLP, XLRE, XLU, XLV, XLY",
+   "first_seen": "2026-09-24T13:36:50+05:00"
+  }
+ ],
  "tracked": {
   "news_39c9105cc5845790": "2026-09-14T21:06:45+05:00",
   "news_aeebf2dd2a4586f5": "2026-09-16T13:45:10+05:00",
@@ -24,7 +39,7 @@
   "news_5f8a0d8c5e50bba3": "2026-09-21T14:05:49+05:00",
   "news_46525e32155c6f03": "2026-09-21T21:07:27+05:00",
   "news_08c9a1eb5020944a": "2026-09-21T21:07:27+05:00",
-  "health_34b88a412cee8c03": "2026-09-23T13:49:39+05:00"
+  "health_95a87febcac7c3fd": "2026-09-24T13:36:50+05:00"
  },
  "degraded": [],
  "note": "Deterministic checkpoint gate. Research infrastructure, not advice."

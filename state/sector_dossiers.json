@@ -1,5 +1,5 @@
 {
- "updated": "2026-09-23 14:03",
+ "updated": "2026-09-24 08:36",
  "note": "Deterministic evidence pack per PSX sector. Every figure is computed from the desk's own state files - agents debating a sector must cite THIS, never memory. macro_drivers lists only correction-survived relationships; an empty list means no global factor has a demonstrated effect on the sector, which is a finding.",
  "min_members": 3,
  "n_sectors": 32,
@@ -790,14 +790,14 @@
    ]
   },
   "Cement": {
-   "n_members": 18,
+   "n_members": 19,
    "breadth": {
     "above_sma50": 4,
     "advancing_1d": 12
    },
    "returns": {
-    "median_1d_pct": 0.43,
-    "median_20d_pct": -6.07,
+    "median_1d_pct": 0.42,
+    "median_20d_pct": -5.97,
     "best_20d": {
      "sym": "THCCL",
      "pct": 3.71
@@ -856,22 +856,6 @@
       "LUCK"
      ],
      "headline": "PSX: KSE-100 sheds over 2,500 points as situation remains tense in ME"
-    },
-    {
-     "ts": "2026-09-10",
-     "impact": 3,
-     "tickers": [
-      "THCCL"
-     ],
-     "headline": "Thatta Cement moves towards restructuring of Pakistan Services Limited"
-    },
-    {
-     "ts": "2026-09-10",
-     "impact": 3,
-     "tickers": [
-      "CHCC"
-     ],
-     "headline": "Cherat Cement announces intention to acquire at least 30% of Nimir Industrial Chemicals"
     },
     {
      "ts": "2026-09-14",
@@ -964,6 +948,22 @@
      "fair_gap_pct": null,
      "fair_verdict": null,
      "ttm_dividend_rs": 2.5
+    },
+    {
+     "sym": "POWERPS",
+     "name": "Power Cement (Pref)",
+     "close": 26.39,
+     "ret_1d": 0.0,
+     "ret_20d": 0.08,
+     "rsi14": 46.1,
+     "above_sma50": false,
+     "liquidity_rs_m": 0.0,
+     "pe": null,
+     "div_yield_pct": null,
+     "payout_pct": null,
+     "fair_gap_pct": null,
+     "fair_verdict": null,
+     "ttm_dividend_rs": null
     },
     {
      "sym": "ACPL",
@@ -1268,22 +1268,8 @@
     }
    ],
    "macro_joint_r2_pct": 0.52,
-   "recent_news": [
-    {
-     "ts": "2026-09-10",
-     "impact": 3,
-     "tickers": [
-      "NICL"
-     ],
-     "headline": "Cherat Cement announces intention to acquire at least 30% of Nimir Industrial Chemicals"
-    }
-   ],
+   "recent_news": [],
    "upcoming_events": [
-    {
-     "ticker": "BERG",
-     "date": "2026-09-23",
-     "type": "results"
-    },
     {
      "ticker": "BIFO",
      "date": "2026-09-24",
@@ -1318,6 +1304,11 @@
      "ticker": "NRSL",
      "date": "2026-10-07",
      "type": "book_closure"
+    },
+    {
+     "ticker": "EPCL",
+     "date": "2026-10-20",
+     "type": "results"
     }
    ],
    "members": [
@@ -1861,17 +1852,6 @@
    "macro_joint_r2_pct": 0.59,
    "recent_news": [
     {
-     "ts": "2026-09-10",
-     "impact": 4,
-     "tickers": [
-      "NBP",
-      "UBL",
-      "MCB",
-      "MEBL"
-     ],
-     "headline": "PSX: KSE-100 sheds over 3,000 points on Middle East conflict, oil surge"
-    },
-    {
      "ts": "2026-09-14",
      "impact": 4,
      "tickers": [
@@ -2336,11 +2316,6 @@
    ],
    "upcoming_events": [
     {
-     "ticker": "AGHA",
-     "date": "2026-09-23",
-     "type": "results"
-    },
-    {
      "ticker": "ASL",
      "date": "2026-09-24",
      "type": "results"
@@ -2374,6 +2349,11 @@
      "ticker": "KSBP",
      "date": "2026-10-19",
      "type": "results"
+    },
+    {
+     "ticker": "MUGHAL",
+     "date": "2026-10-19",
+     "type": "ex_dividend"
     }
    ],
    "members": [
@@ -3532,14 +3512,14 @@
    ]
   },
   "Insurance": {
-   "n_members": 28,
+   "n_members": 27,
    "breadth": {
-    "above_sma50": 6,
+    "above_sma50": 5,
     "advancing_1d": 12
    },
    "returns": {
     "median_1d_pct": 0.0,
-    "median_20d_pct": -5.77,
+    "median_20d_pct": -6.53,
     "best_20d": {
      "sym": "PKGI",
      "pct": 49.38
@@ -3677,22 +3657,6 @@
      "rsi14": 47.6,
      "above_sma50": false,
      "liquidity_rs_m": 20.7,
-     "pe": null,
-     "div_yield_pct": null,
-     "payout_pct": null,
-     "fair_gap_pct": null,
-     "fair_verdict": null,
-     "ttm_dividend_rs": null
-    },
-    {
-     "sym": "EWIC",
-     "name": "East West Insurance Company Limited",
-     "close": 65.62,
-     "ret_1d": 0.0,
-     "ret_20d": -1.81,
-     "rsi14": 64.8,
-     "above_sma50": true,
-     "liquidity_rs_m": 0.0,
      "pe": null,
      "div_yield_pct": null,
      "payout_pct": null,
@@ -4023,10 +3987,10 @@
    ]
   },
   "Inv. Banks / Inv. Cos. / Securities Cos.": {
-   "n_members": 32,
+   "n_members": 30,
    "breadth": {
-    "above_sma50": 12,
-    "advancing_1d": 17
+    "above_sma50": 11,
+    "advancing_1d": 16
    },
    "returns": {
     "median_1d_pct": 0.05,
@@ -4074,11 +4038,6 @@
    ],
    "upcoming_events": [
     {
-     "ticker": "PSX",
-     "date": "2026-09-23",
-     "type": "results"
-    },
-    {
      "ticker": "FNEL",
      "date": "2026-09-24",
      "type": "results"
@@ -4112,6 +4071,11 @@
      "ticker": "PSX",
      "date": "2026-09-30",
      "type": "book_closure"
+    },
+    {
+     "ticker": "AHL",
+     "date": "2026-10-16",
+     "type": "results"
     }
    ],
    "members": [
@@ -4306,22 +4270,6 @@
      "fair_gap_pct": null,
      "fair_verdict": null,
      "ttm_dividend_rs": null
-    },
-    {
-     "sym": "MCBIM",
-     "name": "MCB Investment Management Limited.",
-     "close": 161.0,
-     "ret_1d": 0.0,
-     "ret_20d": -1.22,
-     "rsi14": 48.7,
-     "above_sma50": true,
-     "liquidity_rs_m": 0.8,
-     "pe": null,
-     "div_yield_pct": null,
-     "payout_pct": null,
-     "fair_gap_pct": null,
-     "fair_verdict": null,
-     "ttm_dividend_rs": 6.5
     },
     {
      "sym": "LSECL",
@@ -4596,22 +4544,6 @@
      "ttm_dividend_rs": 10.0
     },
     {
-     "sym": "JSGCL",
-     "name": "JS Global Capital Limited",
-     "close": 143.0,
-     "ret_1d": 0.53,
-     "ret_20d": -17.2,
-     "rsi14": 30.6,
-     "above_sma50": false,
-     "liquidity_rs_m": 0.2,
-     "pe": null,
-     "div_yield_pct": null,
-     "payout_pct": null,
-     "fair_gap_pct": null,
-     "fair_verdict": null,
-     "ttm_dividend_rs": null
-    },
-    {
      "sym": "JSIL",
      "name": "JS Investments Limited",
      "close": 36.79,
@@ -4763,14 +4695,14 @@
    ]
   },
   "Miscellaneous": {
-   "n_members": 18,
+   "n_members": 17,
    "breadth": {
     "above_sma50": 5,
     "advancing_1d": 8
    },
    "returns": {
-    "median_1d_pct": -0.12,
-    "median_20d_pct": -7.35,
+    "median_1d_pct": -0.24,
+    "median_20d_pct": -7.77,
     "best_20d": {
      "sym": "MWMP",
      "pct": 65.49
@@ -4795,14 +4727,6 @@
    "macro_drivers": [],
    "macro_joint_r2_pct": 0.12,
    "recent_news": [
-    {
-     "ts": "2026-09-10",
-     "impact": 3,
-     "tickers": [
-      "PSEL"
-     ],
-     "headline": "Thatta Cement moves towards restructuring of Pakistan Services Limited"
-    },
     {
      "ts": "2026-09-14",
      "impact": 3,
@@ -4943,22 +4867,6 @@
      "fair_gap_pct": null,
      "fair_verdict": null,
      "ttm_dividend_rs": 2.0
-    },
-    {
-     "sym": "AKDHL",
-     "name": "AKD Hospitality Limited",
-     "close": 151.13,
-     "ret_1d": 0.0,
-     "ret_20d": -3.04,
-     "rsi14": 49.4,
-     "above_sma50": false,
-     "liquidity_rs_m": 0.2,
-     "pe": null,
-     "div_yield_pct": null,
-     "payout_pct": null,
-     "fair_gap_pct": null,
-     "fair_verdict": null,
-     "ttm_dividend_rs": null
     },
     {
      "sym": "TRIPF",
@@ -5141,12 +5049,12 @@
   "Modarabas": {
    "n_members": 19,
    "breadth": {
-    "above_sma50": 8,
+    "above_sma50": 9,
     "advancing_1d": 7
    },
    "returns": {
     "median_1d_pct": -0.07,
-    "median_20d_pct": -8.62,
+    "median_20d_pct": -7.44,
     "best_20d": {
      "sym": "FPJM",
      "pct": 68.73
@@ -5289,6 +5197,22 @@
      "ttm_dividend_rs": null
     },
     {
+     "sym": "FIMM",
+     "name": "First Imrooz Modaraba",
+     "close": 215.99,
+     "ret_1d": 0.0,
+     "ret_20d": -1.44,
+     "rsi14": 53.8,
+     "above_sma50": true,
+     "liquidity_rs_m": 0.0,
+     "pe": null,
+     "div_yield_pct": null,
+     "payout_pct": null,
+     "fair_gap_pct": null,
+     "fair_verdict": null,
+     "ttm_dividend_rs": 15.0
+    },
+    {
      "sym": "FHAM",
      "name": "First Habib Modaraba",
      "close": 31.15,
@@ -5414,22 +5338,6 @@
      "payout_pct": null,
      "fair_gap_pct": -90.9,
      "fair_verdict": "overvalued",
-     "ttm_dividend_rs": null
-    },
-    {
-     "sym": "GEMBCEM",
-     "name": "Burj Clean Energy Modaraba(GEM)",
-     "close": 11.3,
-     "ret_1d": 0.0,
-     "ret_20d": -14.65,
-     "rsi14": 46.7,
-     "above_sma50": false,
-     "liquidity_rs_m": 0.0,
-     "pe": null,
-     "div_yield_pct": null,
-     "payout_pct": null,
-     "fair_gap_pct": null,
-     "fair_verdict": null,
      "ttm_dividend_rs": null
     },
     {
@@ -5573,17 +5481,6 @@
    "macro_joint_r2_pct": 2.54,
    "recent_news": [
     {
-     "ts": "2026-09-10",
-     "impact": 4,
-     "tickers": [
-      "OGDC",
-      "PPL",
-      "POL",
-      "MARI"
-     ],
-     "headline": "PSX: KSE-100 sheds over 3,000 points on Middle East conflict, oil surge"
-    },
-    {
      "ts": "2026-09-11",
      "impact": 4,
      "tickers": [
@@ -5593,16 +5490,6 @@
       "POL"
      ],
      "headline": "Oil jumps 6pc to USD107 on supply concerns"
-    },
-    {
-     "ts": "2026-09-10",
-     "impact": 4,
-     "tickers": [
-      "OGDC",
-      "PPL",
-      "POL"
-     ],
-     "headline": "Oil surges 6%; Brent and US crude both surpass $100 on more tanker attacks"
     },
     {
      "ts": "2026-09-14",
@@ -5651,6 +5538,24 @@
       "PPL"
      ],
      "headline": "Pakistan Petroleum announces financial results for the year ended 30 June 2026"
+    },
+    {
+     "ts": "2026-09-15",
+     "impact": 3,
+     "tickers": [
+      "PPL"
+     ],
+     "headline": "Names of Directors Elected at the Election of Directors held at EGM 2026"
+    },
+    {
+     "ts": "2026-09-16",
+     "impact": 3,
+     "tickers": [
+      "OGDC",
+      "PPL",
+      "POL"
+     ],
+     "headline": "Oil slips on US stock build, Middle East disruptions limit losses"
     }
    ],
    "upcoming_events": [
@@ -5819,14 +5724,6 @@
      "headline": "Oil jumps 6pc to USD107 on supply concerns"
     },
     {
-     "ts": "2026-09-10",
-     "impact": 4,
-     "tickers": [
-      "PSO"
-     ],
-     "headline": "Oil surges 6%; Brent and US crude both surpass $100 on more tanker attacks"
-    },
-    {
      "ts": "2026-09-15",
      "impact": 4,
      "tickers": [
@@ -5873,6 +5770,14 @@
       "PSO"
      ],
      "headline": "Oil prices slide on hopes of diplomacy in Iran war"
+    },
+    {
+     "ts": "2026-09-16",
+     "impact": 3,
+     "tickers": [
+      "PSO"
+     ],
+     "headline": "Oil slips on US stock build, Middle East disruptions limit losses"
     }
    ],
    "upcoming_events": [
@@ -6081,14 +5986,14 @@
    ]
   },
   "Paper, Board & Packaging": {
-   "n_members": 11,
+   "n_members": 10,
    "breadth": {
-    "above_sma50": 3,
+    "above_sma50": 2,
     "advancing_1d": 5
    },
    "returns": {
-    "median_1d_pct": 0.0,
-    "median_20d_pct": -5.53,
+    "median_1d_pct": -0.17,
+    "median_20d_pct": -5.6,
     "best_20d": {
      "sym": "PPP",
      "pct": 8.26
@@ -6170,22 +6075,6 @@
      "fair_gap_pct": null,
      "fair_verdict": null,
      "ttm_dividend_rs": 5.0
-    },
-    {
-     "sym": "GEMPAPL",
-     "name": "Pak Agro Packaging Limited(GEM)",
-     "close": 11.0,
-     "ret_1d": 0.0,
-     "ret_20d": 4.76,
-     "rsi14": 51.9,
-     "above_sma50": true,
-     "liquidity_rs_m": 0.2,
-     "pe": null,
-     "div_yield_pct": null,
-     "payout_pct": null,
-     "fair_gap_pct": null,
-     "fair_verdict": null,
-     "ttm_dividend_rs": 0.5
     },
     {
      "sym": "MACFL",
@@ -6676,14 +6565,6 @@
    "macro_joint_r2_pct": 0.47,
    "recent_news": [
     {
-     "ts": "2026-09-10",
-     "impact": 4,
-     "tickers": [
-      "HUBC"
-     ],
-     "headline": "PSX: KSE-100 sheds over 3,000 points on Middle East conflict, oil surge"
-    },
-    {
      "ts": "2026-09-12",
      "impact": 4,
      "tickers": [
@@ -7026,14 +6907,14 @@
    ]
   },
   "Property": {
-   "n_members": 5,
+   "n_members": 6,
    "breadth": {
     "above_sma50": 1,
-    "advancing_1d": 4
+    "advancing_1d": 5
    },
    "returns": {
-    "median_1d_pct": 0.84,
-    "median_20d_pct": -5.4,
+    "median_1d_pct": 0.89,
+    "median_20d_pct": -4.78,
     "best_20d": {
      "sym": "JVDC",
      "pct": 0.58
@@ -7121,6 +7002,22 @@
      "fair_gap_pct": null,
      "fair_verdict": null,
      "ttm_dividend_rs": null
+    },
+    {
+     "sym": "JVDCPS",
+     "name": "Javedan Corporation (Pref)",
+     "close": 53.8,
+     "ret_1d": 1.28,
+     "ret_20d": -4.15,
+     "rsi14": 35.1,
+     "above_sma50": false,
+     "liquidity_rs_m": 0.0,
+     "pe": null,
+     "div_yield_pct": null,
+     "payout_pct": null,
+     "fair_gap_pct": null,
+     "fair_verdict": null,
+     "ttm_dividend_rs": 1.2
     },
     {
      "sym": "PACE",
@@ -7358,14 +7255,6 @@
    "macro_joint_r2_pct": 0.38,
    "recent_news": [
     {
-     "ts": "2026-09-10",
-     "impact": 4,
-     "tickers": [
-      "ATRL"
-     ],
-     "headline": "PSX: KSE-100 sheds over 3,000 points on Middle East conflict, oil surge"
-    },
-    {
      "ts": "2026-09-11",
      "impact": 4,
      "tickers": [
@@ -7422,6 +7311,14 @@
       "ATRL"
      ],
      "headline": "PSX: Buying returns, KSE-100 gains 1% on hopes of easing Middle East tensions"
+    },
+    {
+     "ts": "2026-09-16",
+     "impact": 3,
+     "tickers": [
+      "PRL"
+     ],
+     "headline": "Oil slips on US stock build, Middle East disruptions limit losses"
     }
    ],
    "upcoming_events": [
@@ -7514,14 +7411,14 @@
    ]
   },
   "Sugar & Allied Industries": {
-   "n_members": 29,
+   "n_members": 27,
    "breadth": {
     "above_sma50": 3,
     "advancing_1d": 11
    },
    "returns": {
     "median_1d_pct": 0.0,
-    "median_20d_pct": -4.43,
+    "median_20d_pct": -4.72,
     "best_20d": {
      "sym": "HWQS",
      "pct": 6.32
@@ -7635,22 +7532,6 @@
      "ttm_dividend_rs": null
     },
     {
-     "sym": "FRSM",
-     "name": "Faran Sugar Mills Limited",
-     "close": 42.01,
-     "ret_1d": 0.0,
-     "ret_20d": -0.26,
-     "rsi14": 49.2,
-     "above_sma50": false,
-     "liquidity_rs_m": 0.2,
-     "pe": null,
-     "div_yield_pct": null,
-     "payout_pct": null,
-     "fair_gap_pct": null,
-     "fair_verdict": null,
-     "ttm_dividend_rs": null
-    },
-    {
      "sym": "HABSM",
      "name": "Habib Sugar Mills Limited",
      "close": 79.01,
@@ -7681,22 +7562,6 @@
      "fair_gap_pct": null,
      "fair_verdict": null,
      "ttm_dividend_rs": 5.0
-    },
-    {
-     "sym": "SASML",
-     "name": "Sindh Abadgars Sugar Mills Limited",
-     "close": 353.07,
-     "ret_1d": 0.0,
-     "ret_20d": -1.34,
-     "rsi14": 51.7,
-     "above_sma50": false,
-     "liquidity_rs_m": 0.8,
-     "pe": null,
-     "div_yield_pct": null,
-     "payout_pct": null,
-     "fair_gap_pct": null,
-     "fair_verdict": null,
-     "ttm_dividend_rs": 2.0
     },
     {
      "sym": "CHAS",
@@ -8225,11 +8090,6 @@
    ],
    "upcoming_events": [
     {
-     "ticker": "STL",
-     "date": "2026-09-23",
-     "type": "results"
-    },
-    {
      "ticker": "MDTL",
      "date": "2026-09-24",
      "type": "results"
@@ -8262,6 +8122,11 @@
     {
      "ticker": "TELE",
      "date": "2026-10-07",
+     "type": "results"
+    },
+    {
+     "ticker": "PTC",
+     "date": "2026-10-16",
      "type": "results"
     }
    ],
@@ -8589,14 +8454,14 @@
    ]
   },
   "Textile Composite": {
-   "n_members": 36,
+   "n_members": 37,
    "breadth": {
     "above_sma50": 8,
-    "advancing_1d": 17
+    "advancing_1d": 18
    },
    "returns": {
     "median_1d_pct": 0.0,
-    "median_20d_pct": -4.72,
+    "median_20d_pct": -4.73,
     "best_20d": {
      "sym": "ANTM",
      "pct": 24.15
@@ -8871,12 +8736,12 @@
      "ttm_dividend_rs": null
     },
     {
-     "sym": "BHAT",
-     "name": "Bhanero Textile Mills Limited",
-     "close": 819.53,
-     "ret_1d": 0.0,
-     "ret_20d": -0.3,
-     "rsi14": 48.4,
+     "sym": "REWM",
+     "name": "Reliance Weaving Mills Limited",
+     "close": 169.18,
+     "ret_1d": 1.52,
+     "ret_20d": -1.94,
+     "rsi14": 50.7,
      "above_sma50": false,
      "liquidity_rs_m": 0.0,
      "pe": null,
@@ -9255,6 +9120,22 @@
      "ttm_dividend_rs": 0.75
     },
     {
+     "sym": "ANLNV",
+     "name": "Azgard Nine Non-Voting Ordinary Shares",
+     "close": 7.55,
+     "ret_1d": 0.0,
+     "ret_20d": -14.2,
+     "rsi14": 41.8,
+     "above_sma50": false,
+     "liquidity_rs_m": 0.0,
+     "pe": null,
+     "div_yield_pct": null,
+     "payout_pct": null,
+     "fair_gap_pct": null,
+     "fair_verdict": null,
+     "ttm_dividend_rs": null
+    },
+    {
      "sym": "ARUJ",
      "name": "Aruj Industries Limited",
      "close": 9.88,
@@ -9273,14 +9154,14 @@
    ]
   },
   "Textile Spinning": {
-   "n_members": 42,
+   "n_members": 41,
    "breadth": {
     "above_sma50": 13,
     "advancing_1d": 15
    },
    "returns": {
-    "median_1d_pct": -0.1,
-    "median_20d_pct": -5.45,
+    "median_1d_pct": -0.19,
+    "median_20d_pct": -5.7,
     "best_20d": {
      "sym": "ELCM",
      "pct": 40.13
@@ -9411,22 +9292,6 @@
      "fair_gap_pct": null,
      "fair_verdict": null,
      "ttm_dividend_rs": 2.0
-    },
-    {
-     "sym": "CFL",
-     "name": "Crescent Fibres Limited",
-     "close": 59.4,
-     "ret_1d": 0.0,
-     "ret_20d": 6.2,
-     "rsi14": 43.1,
-     "above_sma50": false,
-     "liquidity_rs_m": 0.0,
-     "pe": null,
-     "div_yield_pct": null,
-     "payout_pct": null,
-     "fair_gap_pct": null,
-     "fair_verdict": null,
-     "ttm_dividend_rs": null
     },
     {
      "sym": "IDEAL",

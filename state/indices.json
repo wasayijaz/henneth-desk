@@ -545,178 +545,198 @@
    "JSGBKTI": 72042.76,
    "HBLTTI": 19097.18,
    "MII30": 22302.22
+  },
+  "2026-09-24": {
+   "KSE100": 171428.51,
+   "KSE100PR": 51683.7,
+   "ALLSHR": 103782.48,
+   "KSE30": 51049.61,
+   "KMI30": 245803.09,
+   "BKTI": 47325.97,
+   "OGTI": 35356.63,
+   "KMIALLSHR": 67357.27,
+   "PSXDIV20": 78117.94,
+   "UPP9": 61106.26,
+   "NITPGI": 45558.27,
+   "NBPPGI": 48987.44,
+   "MZNPI": 30710.12,
+   "JSMFI": 44089.43,
+   "ACI": 22126.1,
+   "JSGBKTI": 71599.58,
+   "HBLTTI": 19097.18,
+   "MII30": 22199.7
   }
  },
  "live": {
-  "KSE100": 172232.51,
-  "KSE100PR": 51926.09,
-  "ALLSHR": 104231.79,
-  "KSE30": 51283.8,
-  "KMI30": 246825.53,
-  "BKTI": 47595.92,
-  "OGTI": 35380.89,
-  "KMIALLSHR": 67683.63,
-  "PSXDIV20": 78579.89,
-  "UPP9": 61297.32,
-  "NITPGI": 45709.15,
-  "NBPPGI": 49198.47,
-  "MZNPI": 30855.94,
-  "JSMFI": 44497.17,
-  "ACI": 22310.46,
-  "JSGBKTI": 72042.76,
+  "KSE100": 171428.51,
+  "KSE100PR": 51683.7,
+  "ALLSHR": 103782.48,
+  "KSE30": 51049.61,
+  "KMI30": 245803.09,
+  "BKTI": 47325.97,
+  "OGTI": 35356.63,
+  "KMIALLSHR": 67357.27,
+  "PSXDIV20": 78117.94,
+  "UPP9": 61106.26,
+  "NITPGI": 45558.27,
+  "NBPPGI": 48987.44,
+  "MZNPI": 30710.12,
+  "JSMFI": 44089.43,
+  "ACI": 22126.1,
+  "JSGBKTI": 71599.58,
   "HBLTTI": 19097.18,
-  "MII30": 22302.22
+  "MII30": 22199.7
  },
- "live_at": "2026-09-23T19:01+05:00",
- "updated": "2026-09-23 14:01",
+ "live_at": "2026-09-24T13:34+05:00",
+ "updated": "2026-09-24 08:34",
  "source": "https://dps.psx.com.pk/indices (PSX's own board), captured once per trading day",
  "note": "Append-only index levels. The desk started keeping these on the first run of this script because no daily PSX index history is purchasable or scrapeable anywhere the desk can reach — Yahoo's ^KSE is monthly and dead since 2021. Everything before the earliest date here is unavailable, and the backtests say so by labelling their constituent-rebuilt indices as proxies.",
- "source_at": "2026-09-23T15:50:00+05:00",
- "live_session_date": "2026-09-23",
+ "source_at": "2026-09-24T13:31:00+05:00",
+ "live_session_date": "2026-09-24",
  "daily_change": {
   "KSE100": {
-   "current": 172232.51,
-   "change": 830.43,
-   "percent": 0.48,
-   "derived_previous_close": 171402.08000000002,
-   "source_at": "2026-09-23T15:50:00+05:00",
-   "session_date": "2026-09-23"
+   "current": 171428.51,
+   "change": -804.0,
+   "percent": -0.47,
+   "derived_previous_close": 172232.51,
+   "source_at": "2026-09-24T13:31:00+05:00",
+   "session_date": "2026-09-24"
   },
   "KSE100PR": {
-   "current": 51926.09,
-   "change": 250.36,
-   "percent": 0.48,
-   "derived_previous_close": 51675.729999999996,
-   "source_at": "2026-09-23T15:50:00+05:00",
-   "session_date": "2026-09-23"
+   "current": 51683.7,
+   "change": -242.39,
+   "percent": -0.47,
+   "derived_previous_close": 51926.09,
+   "source_at": "2026-09-24T13:31:00+05:00",
+   "session_date": "2026-09-24"
   },
   "ALLSHR": {
-   "current": 104231.79,
-   "change": 469.06,
-   "percent": 0.45,
-   "derived_previous_close": 103762.73,
-   "source_at": "2026-09-23T15:50:00+05:00",
-   "session_date": "2026-09-23"
+   "current": 103782.48,
+   "change": -449.31,
+   "percent": -0.43,
+   "derived_previous_close": 104231.79,
+   "source_at": "2026-09-24T13:31:00+05:00",
+   "session_date": "2026-09-24"
   },
   "KSE30": {
-   "current": 51283.8,
-   "change": 285.23,
-   "percent": 0.56,
-   "derived_previous_close": 50998.57,
-   "source_at": "2026-09-23T15:50:00+05:00",
-   "session_date": "2026-09-23"
+   "current": 51049.61,
+   "change": -234.19,
+   "percent": -0.46,
+   "derived_previous_close": 51283.8,
+   "source_at": "2026-09-24T13:31:00+05:00",
+   "session_date": "2026-09-24"
   },
   "KMI30": {
-   "current": 246825.53,
-   "change": 2160.35,
-   "percent": 0.88,
-   "derived_previous_close": 244665.18,
-   "source_at": "2026-09-23T15:50:00+05:00",
-   "session_date": "2026-09-23"
+   "current": 245803.09,
+   "change": -1022.44,
+   "percent": -0.41,
+   "derived_previous_close": 246825.53,
+   "source_at": "2026-09-24T13:31:00+05:00",
+   "session_date": "2026-09-24"
   },
   "BKTI": {
-   "current": 47595.92,
-   "change": 116.71,
-   "percent": 0.25,
-   "derived_previous_close": 47479.21,
-   "source_at": "2026-09-23T15:50:00+05:00",
-   "session_date": "2026-09-23"
+   "current": 47325.97,
+   "change": -269.95,
+   "percent": -0.57,
+   "derived_previous_close": 47595.92,
+   "source_at": "2026-09-24T13:31:00+05:00",
+   "session_date": "2026-09-24"
   },
   "OGTI": {
-   "current": 35380.89,
-   "change": 231.8,
-   "percent": 0.66,
-   "derived_previous_close": 35149.09,
-   "source_at": "2026-09-23T15:50:00+05:00",
-   "session_date": "2026-09-23"
+   "current": 35356.63,
+   "change": -24.26,
+   "percent": -0.07,
+   "derived_previous_close": 35380.89,
+   "source_at": "2026-09-24T13:31:00+05:00",
+   "session_date": "2026-09-24"
   },
   "KMIALLSHR": {
-   "current": 67683.63,
-   "change": 392.7,
-   "percent": 0.58,
-   "derived_previous_close": 67290.93000000001,
-   "source_at": "2026-09-23T15:50:00+05:00",
-   "session_date": "2026-09-23"
+   "current": 67357.27,
+   "change": -326.36,
+   "percent": -0.48,
+   "derived_previous_close": 67683.63,
+   "source_at": "2026-09-24T13:31:00+05:00",
+   "session_date": "2026-09-24"
   },
   "PSXDIV20": {
-   "current": 78579.89,
-   "change": 254.85,
-   "percent": 0.33,
-   "derived_previous_close": 78325.04,
-   "source_at": "2026-09-23T15:50:00+05:00",
-   "session_date": "2026-09-23"
+   "current": 78117.94,
+   "change": -461.95,
+   "percent": -0.59,
+   "derived_previous_close": 78579.89,
+   "source_at": "2026-09-24T13:31:00+05:00",
+   "session_date": "2026-09-24"
   },
   "UPP9": {
-   "current": 61297.32,
-   "change": 409.27,
-   "percent": 0.67,
-   "derived_previous_close": 60888.05,
-   "source_at": "2026-09-23T15:50:00+05:00",
-   "session_date": "2026-09-23"
+   "current": 61106.26,
+   "change": -191.06,
+   "percent": -0.31,
+   "derived_previous_close": 61297.32,
+   "source_at": "2026-09-24T13:31:00+05:00",
+   "session_date": "2026-09-24"
   },
   "NITPGI": {
-   "current": 45709.15,
-   "change": 252.86,
-   "percent": 0.56,
-   "derived_previous_close": 45456.29,
-   "source_at": "2026-09-23T15:50:00+05:00",
-   "session_date": "2026-09-23"
+   "current": 45558.27,
+   "change": -150.88,
+   "percent": -0.33,
+   "derived_previous_close": 45709.149999999994,
+   "source_at": "2026-09-24T13:31:00+05:00",
+   "session_date": "2026-09-24"
   },
   "NBPPGI": {
-   "current": 49198.47,
-   "change": 253.39,
-   "percent": 0.52,
-   "derived_previous_close": 48945.08,
-   "source_at": "2026-09-23T15:50:00+05:00",
-   "session_date": "2026-09-23"
+   "current": 48987.44,
+   "change": -211.03,
+   "percent": -0.43,
+   "derived_previous_close": 49198.47,
+   "source_at": "2026-09-24T13:31:00+05:00",
+   "session_date": "2026-09-24"
   },
   "MZNPI": {
-   "current": 30855.94,
-   "change": 252.32,
-   "percent": 0.82,
-   "derived_previous_close": 30603.62,
-   "source_at": "2026-09-23T15:50:00+05:00",
-   "session_date": "2026-09-23"
+   "current": 30710.12,
+   "change": -145.82,
+   "percent": -0.47,
+   "derived_previous_close": 30855.94,
+   "source_at": "2026-09-24T13:31:00+05:00",
+   "session_date": "2026-09-24"
   },
   "JSMFI": {
-   "current": 44497.17,
-   "change": 1743.93,
-   "percent": 4.08,
-   "derived_previous_close": 42753.24,
-   "source_at": "2026-09-23T15:50:00+05:00",
-   "session_date": "2026-09-23"
+   "current": 44089.43,
+   "change": -407.74,
+   "percent": -0.92,
+   "derived_previous_close": 44497.17,
+   "source_at": "2026-09-24T13:31:00+05:00",
+   "session_date": "2026-09-24"
   },
   "ACI": {
-   "current": 22310.46,
-   "change": 106.75,
-   "percent": 0.48,
-   "derived_previous_close": 22203.71,
-   "source_at": "2026-09-23T15:50:00+05:00",
-   "session_date": "2026-09-23"
+   "current": 22126.1,
+   "change": -184.36,
+   "percent": -0.83,
+   "derived_previous_close": 22310.46,
+   "source_at": "2026-09-24T13:31:00+05:00",
+   "session_date": "2026-09-24"
   },
   "JSGBKTI": {
-   "current": 72042.76,
-   "change": 24.19,
-   "percent": 0.03,
-   "derived_previous_close": 72018.56999999999,
-   "source_at": "2026-09-23T15:50:00+05:00",
-   "session_date": "2026-09-23"
+   "current": 71599.58,
+   "change": -443.18,
+   "percent": -0.62,
+   "derived_previous_close": 72042.76,
+   "source_at": "2026-09-24T13:31:00+05:00",
+   "session_date": "2026-09-24"
   },
   "HBLTTI": {
    "current": 19097.18,
    "change": 5.95,
    "percent": 0.03,
    "derived_previous_close": 19091.23,
-   "source_at": "2026-09-23T15:50:00+05:00",
-   "session_date": "2026-09-23"
+   "source_at": "2026-09-24T13:31:00+05:00",
+   "session_date": "2026-09-24"
   },
   "MII30": {
-   "current": 22302.22,
-   "change": 158.05,
-   "percent": 0.71,
-   "derived_previous_close": 22144.170000000002,
-   "source_at": "2026-09-23T15:50:00+05:00",
-   "session_date": "2026-09-23"
+   "current": 22199.7,
+   "change": -102.52,
+   "percent": -0.46,
+   "derived_previous_close": 22302.22,
+   "source_at": "2026-09-24T13:31:00+05:00",
+   "session_date": "2026-09-24"
   }
  }
 }
