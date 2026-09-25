@@ -90,13 +90,13 @@
   {
    "sev": "info",
    "file": "app.js",
-   "line": 2481,
+   "line": 2414,
    "msg": "<input> has no enterkeyhint= — consider one (e.g. \"search\"/\"done\"/\"next\") so the mobile return key labels itself"
   },
   {
    "sev": "info",
    "file": "app.js",
-   "line": 4246,
+   "line": 4179,
    "msg": "<input> has no enterkeyhint= — consider one (e.g. \"search\"/\"done\"/\"next\") so the mobile return key labels itself"
   },
   {
@@ -143,6 +143,18 @@
   },
   {
    "sev": "low",
+   "file": "page-watchlist.js",
+   "line": 234,
+   "msg": "<input type=\"text\"> has no inputmode= — mobile shows the full alphabetic keyboard; probably wants inputmode=\"the matching semantic keypad (e.g. numeric/decimal/search)\""
+  },
+  {
+   "sev": "info",
+   "file": "page-watchlist.js",
+   "line": 234,
+   "msg": "<input> has no enterkeyhint= — consider one (e.g. \"search\"/\"done\"/\"next\") so the mobile return key labels itself"
+  },
+  {
+   "sev": "low",
    "file": "app.html",
    "line": 81,
    "msg": "<input type=\"text\"> has no inputmode= — mobile shows the full alphabetic keyboard; probably wants inputmode=\"the matching semantic keypad (e.g. numeric/decimal/search)\""
@@ -162,8 +174,50 @@
   {
    "sev": "medium",
    "file": "app.js",
-   "line": 4507,
+   "line": 4440,
    "msg": "JS toggles .ls-explain's `hidden` property but no CSS rule .ls-explain[hidden]{display:none!important} exists in dashboard/*.css — see docs/OPERATIONS.md #9"
+  },
+  {
+   "sev": "info",
+   "file": "page-value.css",
+   "line": 12,
+   "msg": "color:var(--up) — up/down conveyed by color only here; confirm a glyph or sign (▲/▼, +/-) also carries the meaning"
+  },
+  {
+   "sev": "info",
+   "file": "page-value.css",
+   "line": 13,
+   "msg": "color:var(--dn) — up/down conveyed by color only here; confirm a glyph or sign (▲/▼, +/-) also carries the meaning"
+  },
+  {
+   "sev": "info",
+   "file": "page-watchlist.css",
+   "line": 2,
+   "msg": "color:var(--up) — up/down conveyed by color only here; confirm a glyph or sign (▲/▼, +/-) also carries the meaning"
+  },
+  {
+   "sev": "info",
+   "file": "page-watchlist.css",
+   "line": 3,
+   "msg": "color:var(--dn) — up/down conveyed by color only here; confirm a glyph or sign (▲/▼, +/-) also carries the meaning"
+  },
+  {
+   "sev": "info",
+   "file": "page-watchlist.css",
+   "line": 24,
+   "msg": "color:var(--up) — up/down conveyed by color only here; confirm a glyph or sign (▲/▼, +/-) also carries the meaning"
+  },
+  {
+   "sev": "info",
+   "file": "page-watchlist.css",
+   "line": 25,
+   "msg": "color:var(--dn) — up/down conveyed by color only here; confirm a glyph or sign (▲/▼, +/-) also carries the meaning"
+  },
+  {
+   "sev": "info",
+   "file": "page-watchlist.css",
+   "line": 75,
+   "msg": "color:var(--dn) — up/down conveyed by color only here; confirm a glyph or sign (▲/▼, +/-) also carries the meaning"
   },
   {
    "sev": "info",
@@ -1061,8 +1115,8 @@
   }
  ],
  "_meta": {
-  "built": "2026-09-24 13:04",
-  "total": 177,
+  "built": "2026-09-25 09:14",
+  "total": 186,
   "high": 0,
   "escalate": false,
   "note": "Deterministic design-language lint. 'high' = a rule violation on screen. If escalate, run the design-reviewer agent (visual web+mobile pass)."

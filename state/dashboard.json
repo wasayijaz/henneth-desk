@@ -1,8 +1,8 @@
 {
- "updated": "2026-09-24 19:39",
+ "updated": "2026-09-25 09:14",
  "regime": "risk-off",
  "geo_risk": {
-  "score": 56,
+  "score": 52,
   "band": "moderate"
  },
  "signals": [],
@@ -299,14 +299,6 @@
  "agent_wire": [],
  "runlog_tail": [
   {
-   "started": "2026-09-19T16:27:51+05:00",
-   "mode": "harvest",
-   "ended": "2026-09-19T16:41:50+05:00",
-   "outcome": "Weekly broker harvest completed: 12 dated broker calls verified from AKD and JS Global; 1 unlisted IPO candidate excluded; Modarabas debate and Chair completed with cautious, low-conviction stance and substantial dissent; room QA, dashboard build, Rule 4, provenance, and preflight passed; translation was unavailable and non-blocking; 102 backfilling universe symbols and 4 high-severity legacy price-series flags remain.",
-   "routine": "harvest",
-   "research_sha": "cdb21085db5c9b29da05dd46283ec6beb33a30bf"
-  },
-  {
    "started": "2026-09-21T17:45:32+05:00",
    "mode": "light-escalated",
    "ended": "2026-09-21T18:11:33+05:00",
@@ -337,6 +329,14 @@
    "outcome": "checkpoint completed; one impact-3 market item recorded; two pending impact-4 items carried to Daily; no open positions",
    "routine": "pm",
    "research_sha": "cee91a714e1ad55a35a3d6c35be78e8e6847176b"
+  },
+  {
+   "started": "2026-09-24T17:48:00+05:00",
+   "mode": "light-escalated",
+   "ended": "2026-09-24T19:42:24+05:00",
+   "outcome": "checkpoint completed; two impact-4 items for Daily; no open positions; degraded health kept signals gated",
+   "routine": "pm",
+   "research_sha": "bec3619ea66de96490b946ba7d9ce245953b3c23"
   }
  ]
 }

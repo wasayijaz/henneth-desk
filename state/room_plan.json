@@ -1,13 +1,16 @@
 {
  "reaffirm": [
   "MARI",
-  "ATRL",
   "ILP"
  ],
  "delta": [],
  "full": [
   {
    "symbol": "PSO",
+   "why": "material change since last Room"
+  },
+  {
+   "symbol": "NRL",
    "why": "material change since last Room"
   },
   {
@@ -28,6 +31,10 @@
   },
   {
    "symbol": "UBL",
+   "why": "material change since last Room"
+  },
+  {
+   "symbol": "CNERGY",
    "why": "material change since last Room"
   },
   {
@@ -52,6 +59,10 @@
   },
   {
    "symbol": "MCB",
+   "why": "material change since last Room"
+  },
+  {
+   "symbol": "ATRL",
    "why": "material change since last Room"
   },
   {
@@ -91,10 +102,6 @@
    "why": "never covered"
   },
   {
-   "symbol": "CNERGY",
-   "why": "material change since last Room"
-  },
-  {
    "symbol": "PSX",
    "why": "material change since last Room"
   },
@@ -111,6 +118,10 @@
    "why": "never covered"
   },
   {
+   "symbol": "CPHL",
+   "why": "never covered"
+  },
+  {
    "symbol": "PIOC",
    "why": "material change since last Room"
   },
@@ -120,10 +131,6 @@
   },
   {
    "symbol": "PIAHCLA",
-   "why": "never covered"
-  },
-  {
-   "symbol": "ASL",
    "why": "never covered"
   },
   {
@@ -139,8 +146,12 @@
    "why": "never covered"
   },
   {
-   "symbol": "PACE",
+   "symbol": "SGPL",
    "why": "never covered"
+  },
+  {
+   "symbol": "UNITY",
+   "why": "material change since last Room"
   },
   {
    "symbol": "BAHL",
@@ -185,10 +196,6 @@
   {
    "symbol": "ITANZ",
    "why": "never covered"
-  },
-  {
-   "symbol": "NRL",
-   "why": "material change since last Room"
   },
   {
    "symbol": "HCAR",
@@ -275,10 +282,6 @@
    "why": "never covered"
   },
   {
-   "symbol": "CPHL",
-   "why": "never covered"
-  },
-  {
    "symbol": "SLM",
    "why": "never covered"
   },
@@ -299,6 +302,10 @@
    "why": "never covered"
   },
   {
+   "symbol": "ASL",
+   "why": "never covered"
+  },
+  {
    "symbol": "MSOT",
    "why": "never covered"
   },
@@ -311,15 +318,19 @@
    "why": "never covered"
   },
   {
+   "symbol": "BERG",
+   "why": "never covered"
+  },
+  {
    "symbol": "MACFL",
    "why": "never covered"
   },
   {
-   "symbol": "QTECH",
+   "symbol": "PACE",
    "why": "never covered"
   },
   {
-   "symbol": "BERG",
+   "symbol": "QTECH",
    "why": "never covered"
   },
   {
@@ -331,15 +342,7 @@
    "why": "never covered"
   },
   {
-   "symbol": "SGPL",
-   "why": "never covered"
-  },
-  {
    "symbol": "AICL",
-   "why": "material change since last Room"
-  },
-  {
-   "symbol": "UNITY",
    "why": "material change since last Room"
   },
   {
@@ -352,23 +355,26 @@
   }
  ],
  "_meta": {
-  "built": "2026-09-24 13:04",
+  "built": "2026-09-25 09:14",
   "full_budget": 2,
   "run_full_now": [
    "PSO",
-   "BAFL"
+   "NRL"
   ],
   "deferred_full": [
+   "BAFL",
    "MEBL",
    "HUBC",
    "NBP",
    "UBL",
+   "CNERGY",
    "PPL",
    "POL",
    "FFC",
    "OGDC",
    "HBL",
    "MCB",
+   "ATRL",
    "FATIMA",
    "KEL",
    "SSGC",
@@ -378,19 +384,19 @@
    "SEARL",
    "NCPL",
    "GCIL",
-   "CNERGY",
    "PSX",
    "NML",
    "TRG",
    "NPL",
+   "CPHL",
    "PIOC",
    "TREET",
    "PIAHCLA",
-   "ASL",
    "NETSOL",
    "PREMA",
    "TOMCL",
-   "PACE",
+   "SGPL",
+   "UNITY",
    "BAHL",
    "DGKC",
    "SAZEW",
@@ -402,7 +408,6 @@
    "MUGHAL",
    "HASCOL",
    "ITANZ",
-   "NRL",
    "HCAR",
    "EFERT",
    "AKBL",
@@ -424,31 +429,30 @@
    "AGP",
    "TPLRF1",
    "PIBTL",
-   "CPHL",
    "SLM",
    "FCEPL",
    "THCCL",
    "NICL",
    "SPSL",
+   "ASL",
    "MSOT",
    "TPLP",
    "TPL",
-   "MACFL",
-   "QTECH",
    "BERG",
+   "MACFL",
+   "PACE",
+   "QTECH",
    "ZUMA",
    "OBOY",
-   "SGPL",
    "AICL",
-   "UNITY",
    "GHNI",
    "AIRLINK"
   ],
   "counts": {
-   "full_due": 86,
+   "full_due": 87,
    "full_now": 2,
    "delta": 0,
-   "reaffirm": 3
+   "reaffirm": 2
   },
   "est_tokens_today": 44000,
   "note": "Tiered plan. Only run_full_now get the 5-persona debate; delta get a cheap TA refresh; reaffirm cost nothing. Full universe stays current at a fraction of naive cost (naive = every ticker debated every run)."

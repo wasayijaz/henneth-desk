@@ -147,14 +147,6 @@
    "msg": "methods disagree 3.3x — treat composite as a rough screen"
   }
  ],
- "FCCL": [
-  {
-   "sev": "medium",
-   "field": "fundamentals.div_yield",
-   "msg": "stated div_yield 2.78% vs 5.14% implied by trailing-365d dividends (Rs 2.75/share at close Rs 53.45) — 85% off",
-   "escalate": true
-  }
- ],
  "HMB": [
   {
    "sev": "medium",
@@ -230,19 +222,6 @@
    "escalate": true
   }
  ],
- "ILP": [
-  {
-   "sev": "low",
-   "field": "fairvalue.spread",
-   "msg": "methods disagree 4.1x — treat composite as a rough screen"
-  },
-  {
-   "sev": "medium",
-   "field": "fundamentals.div_yield",
-   "msg": "stated div_yield 3.98% vs 3.02% implied by trailing-365d dividends (Rs 3.00/share at close Rs 99.47) — 24% off",
-   "escalate": true
-  }
- ],
  "JVDC": [
   {
    "sev": "medium",
@@ -256,6 +235,19 @@
    "sev": "medium",
    "field": "fundamentals.div_yield",
    "msg": "stated div_yield 5.64% vs 2.56% implied by trailing-365d dividends (Rs 29.00/share at close Rs 1134.98) — 55% off",
+   "escalate": true
+  }
+ ],
+ "ILP": [
+  {
+   "sev": "low",
+   "field": "fairvalue.spread",
+   "msg": "methods disagree 4.1x — treat composite as a rough screen"
+  },
+  {
+   "sev": "medium",
+   "field": "fundamentals.div_yield",
+   "msg": "stated div_yield 3.98% vs 3.02% implied by trailing-365d dividends (Rs 3.00/share at close Rs 99.47) — 24% off",
    "escalate": true
   }
  ],
@@ -331,19 +323,19 @@
    "escalate": true
   }
  ],
- "CNERGY": [
-  {
-   "sev": "low",
-   "field": "price_series",
-   "msg": "1 old (pre-decade) price glitch(es) — affects only long-run stats"
-  }
- ],
  "APL": [
   {
    "sev": "medium",
    "field": "fundamentals.div_yield",
    "msg": "stated div_yield 10.4% vs 2.24% implied by trailing-365d dividends (Rs 13.00/share at close Rs 579.4) — 78% off",
    "escalate": true
+  }
+ ],
+ "CNERGY": [
+  {
+   "sev": "low",
+   "field": "price_series",
+   "msg": "1 old (pre-decade) price glitch(es) — affects only long-run stats"
   }
  ],
  "PAEL": [
@@ -680,31 +672,11 @@
    "msg": "methods disagree 4.1x — treat composite as a rough screen"
   }
  ],
- "NCPL": [
-  {
-   "sev": "low",
-   "field": "fairvalue.spread",
-   "msg": "methods disagree 4.6x — treat composite as a rough screen"
-  },
-  {
-   "sev": "medium",
-   "field": "fundamentals.div_yield",
-   "msg": "stated div_yield 5.22% vs 2.61% implied by trailing-365d dividends (Rs 1.50/share at close Rs 57.4) — 50% off",
-   "escalate": true
-  }
- ],
  "SGF": [
   {
    "sev": "low",
    "field": "fairvalue.spread",
    "msg": "methods disagree 11.4x — treat composite as a rough screen"
-  }
- ],
- "AKDSL": [
-  {
-   "sev": "low",
-   "field": "fairvalue.spread",
-   "msg": "methods disagree 5.6x — treat composite as a rough screen"
   }
  ],
  "GWLC": [
@@ -718,6 +690,26 @@
    "field": "fundamentals.div_yield",
    "msg": "stated div_yield 1.98% vs 1.01% implied by trailing-365d dividends (Rs 0.50/share at close Rs 49.61) — 49% off",
    "escalate": true
+  }
+ ],
+ "NCPL": [
+  {
+   "sev": "low",
+   "field": "fairvalue.spread",
+   "msg": "methods disagree 4.6x — treat composite as a rough screen"
+  },
+  {
+   "sev": "medium",
+   "field": "fundamentals.div_yield",
+   "msg": "stated div_yield 5.22% vs 2.61% implied by trailing-365d dividends (Rs 1.50/share at close Rs 57.4) — 50% off",
+   "escalate": true
+  }
+ ],
+ "AKDSL": [
+  {
+   "sev": "low",
+   "field": "fairvalue.spread",
+   "msg": "methods disagree 5.6x — treat composite as a rough screen"
   }
  ],
  "FCL": [
@@ -870,6 +862,13 @@
    "escalate": true
   }
  ],
+ "BERG": [
+  {
+   "sev": "low",
+   "field": "fairvalue.spread",
+   "msg": "methods disagree 3.1x — treat composite as a rough screen"
+  }
+ ],
  "FECTC": [
   {
    "sev": "low",
@@ -901,14 +900,7 @@
   {
    "sev": "medium",
    "field": "quant.date",
-   "msg": "quant is 31 days stale (2026-08-24)"
-  }
- ],
- "BERG": [
-  {
-   "sev": "low",
-   "field": "fairvalue.spread",
-   "msg": "methods disagree 3.1x — treat composite as a rough screen"
+   "msg": "quant is 32 days stale (2026-08-24)"
   }
  ],
  "KOHTM": [
@@ -937,7 +929,7 @@
   {
    "sev": "medium",
    "field": "quant.date",
-   "msg": "quant is 8 days stale (2026-09-16)"
+   "msg": "quant is 9 days stale (2026-09-16)"
   }
  ],
  "CLCPS": [
@@ -952,42 +944,42 @@
   {
    "sev": "medium",
    "field": "quant.date",
-   "msg": "quant is 314 days stale (2025-11-14)"
+   "msg": "quant is 315 days stale (2025-11-14)"
   }
  ],
  "GEMNETS": [
   {
    "sev": "medium",
    "field": "quant.date",
-   "msg": "quant is 13 days stale (2026-09-11)"
+   "msg": "quant is 14 days stale (2026-09-11)"
   }
  ],
  "HSPI": [
   {
    "sev": "medium",
    "field": "quant.date",
-   "msg": "quant is 678 days stale (2024-11-15)"
+   "msg": "quant is 679 days stale (2024-11-15)"
   }
  ],
  "PHDL": [
   {
    "sev": "medium",
    "field": "quant.date",
-   "msg": "quant is 612 days stale (2025-01-20)"
+   "msg": "quant is 613 days stale (2025-01-20)"
   }
  ],
  "SANE": [
   {
    "sev": "medium",
    "field": "quant.date",
-   "msg": "quant is 720 days stale (2024-10-04)"
+   "msg": "quant is 721 days stale (2024-10-04)"
   }
  ],
  "SLL": [
   {
    "sev": "medium",
    "field": "quant.date",
-   "msg": "quant is 693 days stale (2024-10-31)"
+   "msg": "quant is 694 days stale (2024-10-31)"
   }
  ],
  "USVIX": [
@@ -999,8 +991,8 @@
   }
  ],
  "_meta": {
-  "built": "2026-09-24 13:04",
-  "tickers_with_issues": 111,
+  "built": "2026-09-25 09:14",
+  "tickers_with_issues": 110,
   "high_severity": 4,
   "escalate_to_agent": [
    "AHL",
@@ -1019,7 +1011,6 @@
    "EFERT",
    "EPQL",
    "FATIMA",
-   "FCCL",
    "FCL",
    "FECTC",
    "GAL",
