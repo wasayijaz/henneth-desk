@@ -22,13 +22,23 @@ body[data-theme=gemini] #view .pf-page .pf-chips button:hover{background:var(--t
 body[data-theme=gemini] #view .pf-page .pf-chips button[aria-pressed=true]{background:var(--ink1);color:var(--paper)}
 body[data-theme=gemini] #view .pf-page .pf-chips button:focus-visible{outline:2px solid var(--today-focus);outline-offset:-2px}
 
-body[data-theme=gemini] #view .pf-page .pf-tree{position:relative;aspect-ratio:1080/300;border:1px solid var(--today-rule);margin-top:12px;background:var(--today-rule)}
-body[data-theme=gemini] #view .pf-page .pf-tree button{all:unset;box-sizing:border-box;position:absolute;cursor:pointer;padding:9px 10px;display:flex;flex-direction:column;gap:3px;font-size:10px;overflow:hidden;outline:1px solid var(--today-rule);outline-offset:-.5px;transition:box-shadow 120ms ease}
-body[data-theme=gemini] #view .pf-page .pf-tree button b{font-size:12px;font-weight:600;color:var(--ink1)}
-body[data-theme=gemini] #view .pf-page .pf-tree button em{font-style:normal;font-size:18px;letter-spacing:-.02em;color:var(--ink1)}
-body[data-theme=gemini] #view .pf-page .pf-tree button:hover{box-shadow:inset 0 -3px 0 var(--ink1)}
+body[data-theme=gemini] #view .pf-page .pf-tree{position:relative;aspect-ratio:1080/300;border:1px solid var(--today-rule);margin-top:14px;background:var(--paper)}
+body[data-theme=gemini] #view .pf-page .pf-tree-in{position:absolute;inset:0}
+body[data-theme=gemini] #view .pf-page .pf-tree button{all:unset;box-sizing:border-box;position:absolute;cursor:pointer;border:1px solid var(--paper);padding:10px 12px;display:flex;flex-direction:column;justify-content:space-between;gap:4px;overflow:hidden;container-type:size;color:var(--ink1);transition:box-shadow 120ms ease,filter 120ms ease}
+body[data-theme=gemini] #view .pf-page .pf-tree button b{display:block;max-width:100%;font-size:12px;font-weight:700;letter-spacing:.02em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+body[data-theme=gemini] #view .pf-page .pf-tree .pf-tw{display:flex;flex-direction:column;gap:3px;min-width:0}
+body[data-theme=gemini] #view .pf-page .pf-tree .pf-tw em{font-style:normal;font-weight:500;line-height:1;letter-spacing:-.03em;font-size:22px;font-size:clamp(16px,24cqmin,46px);font-variant-numeric:tabular-nums}
+body[data-theme=gemini] #view .pf-page .pf-tree .pf-tw span{font-size:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-variant-numeric:tabular-nums}
+body[data-theme=gemini] #view .pf-page .pf-tree button:hover{box-shadow:inset 0 0 0 2px var(--ink1);filter:saturate(1.25)}
+body[data-theme=gemini] #view .pf-page .pf-tree button:focus-visible{box-shadow:inset 0 0 0 2px var(--today-focus)}
 body[data-theme=gemini] #view .pf-page .pf-tree button.dbl{box-shadow:inset 0 0 0 2px var(--dn)}
-body[data-theme=gemini] #view .pf-page .pf-tree button.small em,body[data-theme=gemini] #view .pf-page .pf-tree button.small span{display:none}
+body[data-theme=gemini] #view .pf-page .pf-tree button.dbl:hover{box-shadow:inset 0 0 0 2px var(--dn),inset 0 0 0 4px var(--ink1)}
+body[data-theme=gemini] #view .pf-page .pf-tree button.small{padding:6px 8px}
+body[data-theme=gemini] #view .pf-page .pf-tree button.small .pf-tw em{font-size:14px}
+body[data-theme=gemini] #view .pf-page .pf-tree button.small .pf-tw span{display:none}
+body[data-theme=gemini] #view .pf-page .pf-tree button.tiny{padding:4px 6px}
+body[data-theme=gemini] #view .pf-page .pf-tree button.tiny b{font-size:10px}
+body[data-theme=gemini] #view .pf-page .pf-tree button.tiny .pf-tw{display:none}
 
 body[data-theme=gemini] #view .pf-page .pf-fall{border:1px solid var(--today-rule);margin-top:12px;overflow-x:auto}
 body[data-theme=gemini] #view .pf-page .pf-fall svg{display:block;width:100%;min-width:560px;height:auto}
@@ -93,7 +103,7 @@ body[data-theme=gemini] #view .pf-page .pf-divs .now{stroke:var(--up);stroke-wid
 body[data-theme=gemini] #view .pf-page .pf-legend{display:flex;flex-wrap:wrap;gap:6px 16px;padding:8px 0 0;font-size:9px;color:var(--ink2);align-items:center}
 body[data-theme=gemini] #view .pf-page .pf-legend span{display:inline-flex;gap:6px;align-items:center}
 
-body[data-theme=gemini] #view .pf-page .pf-tip{position:fixed;pointer-events:none;z-index:50;background:var(--paper-3);border:1px solid var(--rline);padding:7px 9px;font-size:10px;line-height:1.5;color:var(--ink1);box-shadow:var(--shadow);display:none;max-width:280px}
+body[data-theme=gemini] #view .pf-page .pf-tip{position:fixed;pointer-events:none;z-index:50;background:var(--paper);border:1px solid var(--ink1);padding:8px 10px;font-size:10px;line-height:1.55;color:var(--ink1);box-shadow:3px 3px 0 color-mix(in srgb,var(--ink1) 12%,transparent);display:none;max-width:280px}
 body[data-theme=gemini] #view .pf-page .pf-tip b{font-weight:600}
 body[data-theme=gemini] #view .pf-page .pf-tip span{color:var(--ink3)}
 body[data-theme=gemini] #view .pf-page .pf-toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);background:var(--ink1);color:var(--paper);font-size:10px;padding:8px 12px;display:none;gap:12px;align-items:center;z-index:60}
@@ -102,6 +112,30 @@ body[data-theme=gemini] #view .pf-page .up{color:var(--up)}
 body[data-theme=gemini] #view .pf-page .dn{color:var(--dn)}
 body[data-theme=gemini] #view .pf-page .mut{color:var(--ink3)}
 body[data-theme=gemini] #view .pf-page .pf-foot{font-size:9px;line-height:1.6;color:var(--ink3);margin:18px 0 0;max-width:110ch}
+
+body[data-theme=gemini] #view .pf-page{font-variant-numeric:tabular-nums}
+body[data-theme=gemini] #view .pf-page .today-section-head{margin-top:34px;flex-wrap:wrap;row-gap:8px}
+body[data-theme=gemini] #view .pf-page .today-section-head .today-kicker{min-width:0}
+body[data-theme=gemini] #view .pf-page .today-section-head + .card,body[data-theme=gemini] #view .pf-page .today-section-head + .pf-tree{margin-top:14px}
+
+body[data-theme=gemini] #view .pf-page .pf-bars{display:flex;flex-direction:column;gap:2px}
+body[data-theme=gemini] #view .pf-page .pf-bar{display:flex;flex-direction:column;gap:6px;padding:8px 10px;margin:0 -10px;min-width:0;transition:background-color 120ms ease}
+body[data-theme=gemini] #view .pf-page .pf-bar:hover{background:var(--today-hover)}
+body[data-theme=gemini] #view .pf-page .pf-bar[data-go]{cursor:pointer}
+body[data-theme=gemini] #view .pf-page .pf-bar-top{display:flex;align-items:baseline;justify-content:space-between;gap:12px;min-width:0;font-size:11px}
+body[data-theme=gemini] #view .pf-page .pf-bar-lbl{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--ink1)}
+body[data-theme=gemini] #view .pf-page .pf-bar-top b{flex:none;font-weight:600;font-variant-numeric:tabular-nums;color:var(--ink1)}
+body[data-theme=gemini] #view .pf-page .pf-bar-trk{display:block;height:6px;background:color-mix(in srgb,var(--ink1) 8%,transparent)}
+body[data-theme=gemini] #view .pf-page .pf-bar-trk i{display:block;height:100%;background:var(--ink1);opacity:.8;transition:opacity 120ms ease}
+body[data-theme=gemini] #view .pf-page .pf-bar:hover .pf-bar-trk i{opacity:1}
+
+body[data-theme=gemini] #view .pf-page .pf-divs g.bar{cursor:default}
+body[data-theme=gemini] #view .pf-page .pf-divs g.bar rect{transition:opacity 120ms ease}
+body[data-theme=gemini] #view .pf-page .pf-divs g.bar:hover rect{opacity:1}
+body[data-theme=gemini] #view .pf-page .pf-fall g[data-go]:hover .lbl{text-decoration:underline}
+body[data-theme=gemini] #view .pf-page .pf-hold tbody tr{transition:background-color 120ms ease}
+body[data-theme=gemini] #view .pf-page .pf-hold tbody tr:hover{background:var(--today-hover)}
+body[data-theme=gemini] #view .pf-page .pf-rule:hover{background:var(--today-hover)}
 
 @media (max-width:900px){
   body[data-theme=gemini] #view .pf-page .pf-tree{aspect-ratio:4/3}
@@ -122,4 +156,7 @@ body[data-theme=gemini] #view .pf-page .pf-foot{font-size:9px;line-height:1.6;co
   body[data-theme=gemini] #view .pf-page .pf-hold table{min-width:0;width:100%}
   body[data-theme=gemini] #view .pf-page .pf-hold :is(th,td){padding-inline:6px}
   body[data-theme=gemini] #view .pf-page .pf-hold + .pf-legend{display:none}
+  body[data-theme=gemini] #view .pf-page .today-section-head{margin-top:26px}
+  body[data-theme=gemini] #view .pf-page .pf-bar{padding:8px 6px;margin:0 -6px}
+  body[data-theme=gemini] #view .pf-page .pf-tree button{padding:7px 8px}
 }

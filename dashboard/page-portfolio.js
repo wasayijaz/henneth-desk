@@ -178,18 +178,26 @@ async function pagePortfolio() {
     <div class="today-section-head"><p class="today-kicker">CONCENTRATION <span>· fact, not advice</span></p></div>
     <div class="card">
       <p class="sub" style="line-height:1.6;margin-bottom:12px">${concFlag} Concentration means your portfolio rises and falls with fewer bets; diversification spreads that risk across more names. Whether that's right for you depends on your own goals and risk tolerance — the desk states the fact and the general principle, and never tells you to buy or sell.</p>
-      <div class="ph-bars">${withW.map(r => `<div class="ph-bar-row"><span class="ph-bar-lbl">${esc(r.ticker)}</span><span class="ph-bar-track"><span class="ph-bar-fill" style="width:${Math.max(2, r.w).toFixed(0)}%"></span></span><span class="ph-bar-val num">${r.w.toFixed(0)}%</span></div>`).join("")}</div>
+      <div class="pf-bars">${withW.map(r => pfBarRow(r.ticker, r.w, `${r.ticker} · ${r.w.toFixed(1)}% of value · ${pfRs(r.mv, 0)}`, r.ticker)).join("")}</div>
     </div>
     <div class="today-section-head"><p class="today-kicker">SECTOR CONCENTRATION <span>· ${secRows.length} sector${secRows.length === 1 ? "" : "s"}</span></p></div>
     <div class="card">
       <p class="sub" style="line-height:1.6;margin-bottom:12px">${secFlag} This is the exposure position weights hide: two banks are one bet on interest rates, and two cement names are one bet on construction — however different the tickers look. Sectors are PSX's own classification. Stated as a fact about your holdings, not as advice.</p>
-      <div class="ph-bars">${secRows.map(([s, p]) => `<div class="ph-bar-row"><span class="ph-bar-lbl" title="${esc(s)}">${esc(s.length > 22 ? s.slice(0, 21) + "…" : s)}</span><span class="ph-bar-track"><span class="ph-bar-fill" style="width:${Math.max(2, p).toFixed(0)}%"></span></span><span class="ph-bar-val num">${p.toFixed(0)}%</span></div>`).join("")}</div>
+      <div class="pf-bars">${secRows.map(([s, p]) => pfBarRow(s, p, `${s} · ${p.toFixed(1)}% of value · ${withW.filter(r => (r.sector || "Unclassified") === s).map(r => r.ticker).join(", ")}`)).join("")}</div>
     </div>
     <p class="pf-foot">A private, read-only tracker of what you own — the desk never places orders and holds no money. Every figure is arithmetic over your holdings at desk prices; none of it is advice or a recommendation to buy or sell. Estimated dividend income is each holding's most recent declared dividend applied to your shares — an estimate from past payouts, not a promise; companies can cut or skip dividends. Prices are desk end-of-day/live figures and may differ from your broker.</p>
     <div class="pf-tip" id="pf-tip"></div>
   </div>`;
 
   pfWire(document.getElementById("view").querySelector(".pf-page"), withW, totMv, totPl, totPlPct, dupSecSet, secW, fsAll, fvAll, deepDiv, top, dHist, today);
+}
+
+/* ---------- concentration bar row: name + % on one line, full-width bar below ---------- */
+function pfBarRow(label, pct, tip, go) {
+  return `<div class="pf-bar"${go ? ` data-go="${esc(go)}"` : ""} data-tip="${esc(tip)}">
+    <span class="pf-bar-top"><span class="pf-bar-lbl" title="${esc(label)}">${esc(label)}</span><b class="num">${pct.toFixed(0)}%</b></span>
+    <span class="pf-bar-trk"><i style="width:${Math.max(1, Math.min(100, pct)).toFixed(1)}%"></i></span>
+  </div>`;
 }
 
 /* ---------- value-over-time history chart ---------- */
@@ -260,26 +268,43 @@ function pfSquarify(items, x, y, w, h) {
   }
   return out;
 }
+// Tile tint: today's % move graded into --up/--dn over paper. Display only — no calculation changes.
+function pfTint(dayPct) {
+  if (dayPct == null || !isFinite(dayPct)) return "color-mix(in srgb,var(--ink1) 5%,var(--paper))";
+  const s = Math.round(10 + Math.min(1, Math.abs(dayPct) / 4) * 34);
+  return `color-mix(in srgb,var(${dayPct >= 0 ? "--up" : "--dn"}) ${s}%,var(--paper))`;
+}
 function pfTreeHtml(rows, dupSecSet) {
-  const W = 1080, H = 300;
+  // Lay out in the container's own aspect (matches the CSS breakpoints) so tiles are not stretched.
+  const [W, H] = matchMedia("(max-width:620px)").matches ? [300, 400] : matchMedia("(max-width:900px)").matches ? [400, 300] : [1080, 300];
   let items;
   if (PF_TREE_MODE === "sec") {
     const bySec = {};
     rows.forEach(r => { const k = r.sector || "Unclassified"; (bySec[k] = bySec[k] || []).push(r); });
     items = Object.entries(bySec).map(([k, rs]) => ({
       k, v: rs.reduce((a, r) => a + (r.mv || 0), 0),
-      day: rs.reduce((a, r) => a + (r.day || 0), 0),
+      day: rs.some(r => r.day != null) ? rs.reduce((a, r) => a + (r.day || 0), 0) : null,
+      pl: rs.some(r => r.pl != null) ? rs.reduce((a, r) => a + (r.pl || 0), 0) : null,
       pct: rs.reduce((a, r) => a + r.w, 0),
       dbl: dupSecSet.has(k), tick: rs.map(r => r.ticker).join(", ")
     }));
   } else {
-    items = rows.map(r => ({ k: r.ticker, v: r.mv || 0, day: r.day, pct: r.w, dbl: r.sector && dupSecSet.has(r.sector), tick: r.ticker }));
+    items = rows.map(r => ({ k: r.ticker, v: r.mv || 0, day: r.day, pl: r.pl, pct: r.w, dbl: r.sector && dupSecSet.has(r.sector), tick: r.ticker }));
   }
   const placed = pfSquarify(items, 0, 0, W, H);
-  return `<div style="position:relative;width:100%;height:100%">${placed.map(it => {
-    const small = it.w * it.h < 5200;
-    return `<button style="left:${(it.x / W * 100).toFixed(3)}%;top:${(it.y / H * 100).toFixed(3)}%;width:${(it.w / W * 100).toFixed(3)}%;height:${(it.h / H * 100).toFixed(3)}%" class="${it.dbl ? "dbl" : ""}${small ? " small" : ""}" data-tip="${esc(`${it.k} · ${it.pct.toFixed(1)}% of value · ${pfRs(it.v, 0)}${it.day != null ? " · today " + pfPct(it.v ? it.day / (it.v - it.day) * 100 : 0) : ""}`)}" data-go="${esc(it.tick.split(",")[0].trim())}">
-      <b>${esc(it.k)}</b><em class="${pfCls(it.day)}">${it.pct.toFixed(0)}%</em><span class="sub">${it.day != null ? pfRs(it.day, 0) : ""}</span>
+  return `<div class="pf-tree-in">${placed.map(it => {
+    const area = (it.w / W) * (it.h / H);
+    const size = area < 0.02 ? " tiny" : area < 0.06 ? " small" : "";
+    const dayPct = it.day != null && it.v - it.day ? it.day / (it.v - it.day) * 100 : null;
+    const tip = `${it.k}${PF_TREE_MODE === "sec" ? ` (${it.tick})` : ""} · ${it.pct.toFixed(1)}% of value · ${pfRs(it.v, 0)}`
+      + (it.day != null ? ` · today ${pfRs(it.day, 0)} (${pfPct(dayPct)})` : " · today unknown")
+      + (it.pl != null ? ` · since cost ${pfRs(it.pl, 0)}` : "");
+    return `<button style="left:${(it.x / W * 100).toFixed(3)}%;top:${(it.y / H * 100).toFixed(3)}%;width:${(it.w / W * 100).toFixed(3)}%;height:${(it.h / H * 100).toFixed(3)}%;background:${pfTint(dayPct)}" class="${it.dbl ? "dbl" : ""}${size}" data-tip="${esc(tip)}" data-go="${esc(it.tick.split(",")[0].trim())}" aria-label="${esc(tip)}">
+      <b title="${esc(it.k)}">${esc(it.k)}</b>
+      <span class="pf-tw">
+        <em>${it.pct.toFixed(0)}%</em>
+        <span class="${pfCls(it.day)}">${it.day != null ? pfRs(it.day, 0) + " · " + pfPct(dayPct) : "today —"}</span>
+      </span>
     </button>`;
   }).join("")}</div>`;
 }
@@ -303,7 +328,8 @@ function pfWaterfallHtml(rows, totCost, totMv) {
       <text class="lbl" x="${(x + w / 2).toFixed(1)}" y="${H - P.b + 14}" text-anchor="middle">${esc(s.k.length > 6 ? s.k.slice(0, 6) : s.k)}</text>
     </g>`;
   });
-  return `<div class="pf-fall"><svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Waterfall from total cost to current value, one step per holding">${g}</svg></div>`;
+  // Each step needs ~52px on screen for a 6-char label; below that the chart scrolls sideways instead of overlapping.
+  return `<div class="pf-fall"><svg viewBox="0 0 ${W} ${H}" style="min-width:${Math.max(560, steps.length * 52)}px" role="img" aria-label="Waterfall from total cost to current value, one step per holding">${g}</svg></div>`;
 }
 
 /* ---------- per-holding 90-session range sparkline ---------- */
@@ -426,8 +452,13 @@ function pfDividendsHtml(rows, deepDiv, dHist, today) {
   if (!vals.some(v => v > 0)) return `<div class="today-chart-source">No dividend history or declared dividends on file for these holdings.</div>`;
   const W = 720, H = 180, P = { l: 44, r: 10, t: 10, b: 26 }, bw = (W - P.l - P.r) / months.length;
   const sy = v => H - P.b - Math.max(0, Math.min(1, v / hi)) * (H - P.t - P.b);
-  let g = "", ys = hi > 4000 ? 1000 : 200;
-  for (let v = 0; v <= hi; v += ys) g += `<line class="grid" x1="${P.l}" x2="${W - P.r}" y1="${sy(v).toFixed(1)}" y2="${sy(v).toFixed(1)}"/><text x="${P.l - 6}" y="${(sy(v) + 3).toFixed(1)}" text-anchor="end">${(v / 1000).toFixed(0)}k</text>`;
+  // Y ticks: a "nice" 1/2/5 step giving at most ~4 gridlines, whatever the income scale.
+  // (The old fixed 1,000 step drew one label per Rs 1k — dozens of stacked labels on a large book.)
+  const raw = hi / 4, mag = Math.pow(10, Math.floor(Math.log10(raw)));
+  const ys = [1, 2, 5, 10].map(m => m * mag).find(s => s >= raw);
+  const tick = v => v >= 1e6 ? +(v / 1e6).toFixed(1) + "M" : v >= 1000 ? +(v / 1000).toFixed(1) + "k" : String(Math.round(v));
+  let g = "";
+  for (let v = 0; v <= hi + 1e-9; v += ys) g += `<line class="grid" x1="${P.l}" x2="${W - P.r}" y1="${sy(v).toFixed(1)}" y2="${sy(v).toFixed(1)}"/><text x="${P.l - 6}" y="${(sy(v) + 3).toFixed(1)}" text-anchor="end">${tick(v)}</text>`;
   const nowX = P.l + 12 * bw;
   months.forEach((m, i) => {
     const x = P.l + i * bw + bw * 0.15, w = bw * 0.7;
@@ -435,7 +466,8 @@ function pfDividendsHtml(rows, deepDiv, dHist, today) {
     const v = (paid[m] || 0) + (declared[m] || 0);
     if (v > 0) {
       const y = sy(v);
-      g += `<rect x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${w.toFixed(1)}" height="${(H - P.b - y).toFixed(1)}" style="fill:var(--up)" opacity="${isPaid ? 0.85 : 0.35}" stroke="${isDecl && !isPaid ? "var(--up)" : "none"}" stroke-dasharray="${isDecl && !isPaid ? "3 2" : "none"}"/>`;
+      const tip = `${m} · ${isPaid ? "paid " + pfRs(paid[m], 0) : ""}${isPaid && isDecl ? " · " : ""}${isDecl ? "declared " + pfRs(declared[m], 0) : ""}`;
+      g += `<g class="bar" data-tip="${esc(tip)}"><rect x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${w.toFixed(1)}" height="${(H - P.b - y).toFixed(1)}" style="fill:var(--up)" opacity="${isPaid ? 0.85 : 0.35}" stroke="${isDecl && !isPaid ? "var(--up)" : "none"}" stroke-dasharray="${isDecl && !isPaid ? "3 2" : "none"}"/></g>`;
     }
     g += `<text x="${(x + w / 2).toFixed(1)}" y="${H - P.b + 14}" text-anchor="middle">${m.slice(5)}</text>`;
   });
@@ -462,6 +494,16 @@ function pfWire(root, withW, totMv, totPl, totPlPct, dupSecSet, secW, fsAll, fvA
     if (el) showTip(el, e.clientX, e.clientY); else hideTip();
   });
   root.addEventListener("pointerleave", hideTip);
+
+  // Treemap geometry is computed for the container's aspect; recompute when a breakpoint flips.
+  ["(max-width:620px)", "(max-width:900px)"].forEach(q => {
+    const mq = matchMedia(q);
+    const relayout = () => {
+      if (!root.isConnected) { mq.removeEventListener("change", relayout); return; }
+      const t = root.querySelector("#pf-tree"); if (t) t.innerHTML = pfTreeHtml(withW, dupSecSet);
+    };
+    mq.addEventListener("change", relayout);
+  });
 
   root.addEventListener("click", e => {
     const del = e.target.closest("[data-del]");
