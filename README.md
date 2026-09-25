@@ -384,6 +384,10 @@ static site + committed `state/` data). The refresh loops push fresh data → Ve
   into a committed binary table for the browser. Chosen over `pyswisseph` (won't build on 3.14) and
   `skyfield` (needs a 17 MB kernel).
 - **Cross-check:** `tradingview-ta` (screener=pakistan) verifies the quant layer; a mismatch blocks signals.
+- **Ask the desk:** `api/ask.js` (Vercel Edge, members only) answers questions from one small slice of
+  `state/` (a ticker, a sector, or the market) through Groq `openai/gpt-oss-120b`, with `gpt-oss-20b` as
+  the fallback when rate-limited. A strict fact-check rejects any answer citing a figure or date that is
+  not in the slice, so the assistant cannot quote a price from memory.
 - **Stack:** Python 3.14 (requests/pandas/numpy) · vanilla JS SPA (History API path router, canvas charts, no framework)
   · JetBrains Mono + Pixelify Sans · **Supabase** (auth + per-user profiles/watchlist/plan) · **Vercel** hosting.
 
@@ -460,6 +464,9 @@ the product says so on `/plans` rather than showing a dead checkout.
 - **The Broker plan is defined, not built.** No leaderboard API, white-label, or broker-side scoring exists.
 - **The astrology layer has no demonstrated edge** (see above). It is excluded from signal confluence and
   never feeds a setup.
+- **Ask the desk runs on Groq's free tier by choice** (8K tokens per minute, 1K requests per day per
+  model). Under load it can answer "busy, try again in N seconds". The fix for that is smaller context,
+  not a paid plan.
 - The repo has **no test suite or linter**; correctness rests on `preflight.py`, `room_verify.py`,
   `design_lint.py`, and the weekly `/code-review` pass.
 

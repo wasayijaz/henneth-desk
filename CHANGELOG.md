@@ -39,6 +39,55 @@ which file changed.
 
 ---
 
+## 2026-09-25 — v2026.09.25 — Ask the desk answers again
+
+<!--public
+Ask the desk answers everyday questions again, on its own page and in the side panel. Ask about the
+market, a sector, or a stock by ticker or company name. A simple "hi" gets an instant reply, and if
+the assistant is busy it tells you how many seconds to wait instead of failing.
+-->
+
+### What was wrong
+
+Ask-the-desk (`api/ask.js`) failed on most questions, in the `/ask` page and the context rail alike.
+Three causes, stacked:
+
+1. **Context too big for the budget.** Groq's free tier allows 8K tokens per minute per model,
+   shared org-wide. The context sent per question was large enough that one or two questions spent
+   the whole minute, so most requests came back 429.
+2. **The fact-check rejected correct answers.** `validateAnswer` rejects the whole answer on any
+   figure not present in the slice. It compared signed values, so "down 1.2%" against a stored
+   `-1.2` failed, and it treated label numbers (KSE-100, KMI-30, RSI14) as figures to verify.
+3. **Greetings went to the model.** "Hi" spent a data fetch and a model call, then usually failed
+   the gate because there was nothing to ground.
+
+### What changed
+
+- `buildContext` builds one small slice per question, a **ticker** slice (matched by ticker or
+  company name), a **sector** slice, or a **market** slice, roughly 0.2–1.8K tokens. It fetches 17
+  light state files with the caller's token (adds `indices`, `macro`, `daily_read`, `health`).
+- Model `openai/gpt-oss-120b` at low reasoning effort, 1,200-token completion budget. On a 429 it
+  retries once on `openai/gpt-oss-20b` (a separate per-model limit). If both are limited it returns
+  429 `provider_busy` with Groq's `retry_after`, and `askFriendlyError` in `dashboard/app.js` shows
+  the wait in seconds.
+- Greetings and "what can you do" get a fixed local reply. No fetch, no model call.
+- `validateAnswer` compares figures as magnitudes (the sign is prose), accepts million/billion
+  renderings, and exempts label numbers. It still rejects any ungrounded figure or date, advice
+  phrase, URL or prompt leak. Rule 2 stays enforced by the gate, not only by the prompt.
+
+### Decision
+
+The owner has chosen to stay on Groq's free tier. A 429 problem is fixed by shrinking context, not
+by upgrading the plan. Recorded in `docs/GOTCHAS.md`.
+
+### Prevention
+
+`scripts/check_root_ask_hardening.mjs` (38 assertions, Groq mocked) covers the slice routing, the
+fallback model, the busy response and the magnitude/label rules. `check_root_ask_ui.mjs` covers the
+thread's busy state and retry control.
+
+---
+
 ## 2026-09-07 — v2026.09.07 — Prices stay current: whole-universe refresh
 
 <!--public
