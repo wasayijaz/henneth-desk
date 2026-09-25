@@ -7952,49 +7952,7 @@ async function pagePortfolio() {
     : `<div class="card"><div class="empty">No holdings yet. Add one above — enter a ticker, how many shares, and your average cost, and the desk tracks your live value, profit/loss and position weights here.</div></div>`}`;
 }
 
-async function pageWatchlist() {
-  const [quant, uni, fvAll, fscore, live, newsAll, calAll, claimsAll, sigAll] = await Promise.all([
-    j("quant.json"), j("universe.json"), j("fairvalue.json"), j("fundamental_scores.json"), j("live.json"),
-    j("newslog.json"), j("earnings_calendar.json"), j("claims.json"), j("signals.json")]);
-  if (!me) {
-    $("view").innerHTML = `<div class="seg" style="margin-top:4px"><h2>Your watchlist</h2><div class="ln"></div></div>
-      <div class="card"><div class="empty">Sign in to build a watchlist — star any stock and it follows you here with its price, valuation and health at a glance.<br><br>
-      <button class="auth-go" style="max-width:220px" onclick="openAuth('signup')">Create a free account</button></div></div>`;
-    return;
-  }
-  const wl = watchlist();
-  const q = quant?.tickers || {}, fv = fvAll?.tickers || {}, fs = fscore?.tickers || {}, lv = live?.tickers || {};
-  const rows = wl.map(s => ({ s, name: uni?.symbols?.[s]?.name || "", q: q[s], fv: fv[s], fs: fs[s], px: lv[s]?.current ?? q[s]?.close }))
-    .filter(r => r.q);
-  const verdictLabel = { undervalued: "below fair", overvalued: "above fair", fair: "near fair" };
-  // "something important changed" — deterministic change detection across the watched names
-  let intelHtml = "";
-  if (wl.length) {
-    if (!hasFeature("watch_intel")) {
-      intelHtml = planWall("Watchlist intelligence",
-        "The desk watches your names between visits: strategies firing, 4%+ moves, volume surges, fair-value crossings, impact-4 news, results and buy-by dates inside a week, fresh broker calls — surfaced as 'what changed', not another table to scan.");
-    } else {
-      const ev = watchIntel(wl, { q, fvt: fv, news: newsAll, cal: calAll, claims: claimsAll, signals: sigAll });
-      intelHtml = `<div class="seg"><h2>What changed</h2><div class="ln"></div><span class="pill">${ev.length ? ev.length + " item" + (ev.length > 1 ? "s" : "") : "quiet"}</span></div>
-      <div class="card wl-intel">${ev.length ? ev.map(e => `<div class="wi-row clickable" onclick="navigate('/ticker/${esc(e.s)}')">
-        <span class="tag ${e.w >= 5 ? "hot" : ""}">${esc(e.tag)}</span><b>${esc(e.s)}</b><span class="sub">${esc(e.msg)}</span></div>`).join("")
-        : '<div class="empty">Nothing important changed on your names — a quiet watchlist is a feature, not a bug.</div>'}</div>`;
-    }
-  }
-  $("view").innerHTML = `
-  <div class="seg" style="margin-top:4px"><h2>Your watchlist</h2><div class="ln"></div><span class="pill">${rows.length}</span></div>
-  <p class="sub" style="margin-bottom:14px">The stocks you follow, with the four things that matter at a glance. Star toggles on any stock page. Research, not advice.</p>
-  ${intelHtml}
-  ${rows.length ? `<div class="card"><table><thead><tr><th>Ticker</th><th class="r">Price</th><th class="r">Day</th><th class="r">Valuation</th><th>Health</th><th></th></tr></thead><tbody>${
-    rows.map(r => `<tr class="clickable" onclick="navigate('/ticker/${r.s}')">
-      <td><b>${r.s}</b> <span class="sub">${esc((r.name || "").slice(0, 20))}</span></td>
-      <td class="r num">${fmt(r.px)}</td>
-      <td class="r num ${cls(r.q.ret_1d)}">${sgn(r.q.ret_1d)}%</td>
-      <td class="r">${r.fv ? `<span class="pill ${r.fv.verdict === "undervalued" ? "ok" : r.fv.verdict === "overvalued" ? "bad" : ""}">${verdictLabel[r.fv.verdict] || r.fv.verdict}</span>` : "—"}</td>
-      <td>${r.fs ? `<span class="tag">${esc(r.fs.rating === "attractive" ? "stronger" : r.fs.rating === "caution" ? "weaker" : "mixed")}</span>` : "—"}</td>
-      <td class="r">${starBtn(r.s)}</td></tr>`).join("")}</tbody></table></div>`
-    : `<div class="card"><div class="empty">No stocks yet. Open any stock and tap the ★ to add it — try <a href="/board">the Board</a> or search (top right).</div></div>`}`;
-}
+// pageWatchlist lives in its own page file (redesign 2026-09).
 
 /* ---------- plan intent, carried in from the marketing site ----------------------------
    plans.astro links to `${appUrl}/?plan=investor|pro`. Persist it immediately: the visitor is
