@@ -853,74 +853,7 @@ async function pageBoard() {
   ${scannerHtml(scanCats)}`;
 }
 
-async function pageValue() {
-  const [fv, uni] = await Promise.all([j("fairvalue.json"), j("universe.json")]);
-  const t = fv?.tickers || {};
-  const rows = Object.entries(t).map(([s, v]) => ({ s, ...v, name: uni?.symbols?.[s]?.name || "" }))
-    .sort((a, b) => b.mispricing_pct - a.mispricing_pct);
-  const under = rows.filter(r => r.verdict === "undervalued");
-  const over = rows.filter(r => r.verdict === "overvalued").reverse();
-  const METHODS = { relative_pe: "Peer P/E", earnings_power: "Earnings power", graham: "Graham (revised)", ddm: "Dividend discount" };
-  const fvDetail = (r) => {
-    const m = r.methods || {};
-    const used = Object.entries(METHODS).filter(([k]) => m[k] != null);
-    const cells = used.map(([k, lbl]) => {
-      const val = m[k], pct = r.price ? Math.round((val / r.price - 1) * 1000) / 10 : 0;
-      return `<div class="fvm"><span>${lbl}</span><b class="num">${fmt(val)}</b><i class="num ${cls(pct)}">${sgn(pct)}%</i></div>`;
-    }).join("");
-    const vals = used.map(([k]) => fmt(m[k])).join(", ");
-    const dir = r.verdict === "undervalued" ? "below" : "above";
-    const mag = Math.abs(r.mispricing_pct);
-    return `<div class="fvwork">
-      <div class="fvhdr">How the fair value was built — four independent models, price vs each:</div>
-      <div class="fvmethods">${cells}</div>
-      <div class="fvline"><span>composite fair</span> median(${vals}) = <b class="num">Rs ${fmt(r.composite_fair)}</b></div>
-      <div class="fvline"><span>inputs</span> EPS Rs ${fmt(r.eps)} · trailing P/E ${r.pe}× · growth est ${r.growth_est_pct}%</div>
-      <p class="fvnote">${r.s} trades at <b class="num">Rs ${fmt(r.price)}</b> against a composite fair of <b class="num">Rs ${fmt(r.composite_fair)}</b> — about <b>${mag}% ${dir}</b> the model's blended fair value. The composite is the <b>median</b> of the four models above (median resists any single model blowing out). Model estimate on public fundamentals — research, not a price target or recommendation. <a href="/ticker/${r.s}">full page →</a></p>
-    </div>`;
-  };
-  /* Both tables are sorted by mispricing, so the interesting names are at the top and the tail is
-     reference. Show 7 and park the rest behind one control — but RENDER the tail anyway and only
-     hide it, so "show all" is a class removal: no re-render, no lost scroll position, no refetch.
-     Two extra rows is not worth a control, hence the `> CAP + 2` guard. */
-  const CAP = 7;
-  const tbl = (list, cheap) => {
-    const cap = list.length > CAP + 2 ? CAP : list.length;
-    return `<table><thead><tr><th>Ticker</th><th class="r">Price</th><th class="r">Fair value</th><th class="r">${cheap ? "Upside" : "Downside"}</th><th>Verdict</th></tr></thead><tbody>${
-      list.map((r, i) => { const x = i >= cap ? " xmore" : "";
-        const mvals = Object.values(r.methods || {}).filter(v => v != null);
-        const spread = mvals.length > 1 ? `<br><span class="sub" style="font-size:10px">models split ${fmt(Math.min(...mvals))}–${fmt(Math.max(...mvals))}</span>` : "";
-        return `<tr class="clickable fvrow${x}" onclick="this.classList.toggle('exp');this.nextElementSibling.classList.toggle('open')"><td><b>${r.s}</b> <span class="sub">${esc((r.name || "").slice(0, 22))}</span></td>
-      <td class="r num">${fmt(r.price)}</td><td class="r num">${fmt(r.composite_fair)}${spread}</td>
-      <td class="r num ${cls(r.mispricing_pct)}">${sgn(r.mispricing_pct)}%</td>
-      <td><span class="pill ${r.verdict === "undervalued" ? "ok" : "bad"}">${r.verdict === "undervalued" ? "below fair" : r.verdict === "overvalued" ? "above fair" : esc(r.verdict)}</span> <span class="fvcaret">▸</span></td></tr>
-      <tr class="fvdetail${x}"><td colspan="5"><div class="fvrow-body">${fvDetail(r)}</div></td></tr>`; }).join("")}</tbody></table>${
-      cap < list.length ? `<button class="morebar" onclick="this.closest('.card').querySelectorAll('.xmore').forEach(e=>e.classList.remove('xmore'));this.remove()">See all ${list.length} — ${list.length - cap} more</button>` : ""}`;
-  };
-  // glance row: the four numbers that answer "what does the screen say" before any prose
-  const sTile = (label, val, sub, k) => `<div class="sumtile"><span class="sk">${label}</span><b class="${k || ""}">${val}</b>${sub ? `<i>${sub}</i>` : ""}</div>`;
-  const fair = rows.filter(r => r.verdict === "fair");
-  const widest = under[0];
-  $("view").innerHTML = `
-  <div class="seg" style="margin-top:4px"><h2>Value screen — price vs model fair value</h2><div class="ln"></div><span class="pill">${rows.length} valued</span></div>
-  <div class="sumstrip s4">
-    ${sTile("Below fair value", under.length, `of ${rows.length} valued`, under.length ? "up" : "")}
-    ${sTile("Above fair value", over.length, `of ${rows.length} valued`, over.length ? "dn" : "")}
-    ${sTile("Near fair", fair.length, "within the model's band", "")}
-    ${sTile("Widest gap", widest ? widest.s : "—", widest ? `${sgn(widest.mispricing_pct)}% vs fair` : "—", widest ? "up" : "")}
-  </div>
-  <div class="disclaimer">Model estimates on public fundamentals for <b>research and education</b> — not price targets, not advice, not a signal to buy or sell. A price below model fair value is not a recommendation, and a low share price never means a company is cheap. Past performance does not guarantee future results.</div>
-  <details class="how"><summary><b>How the model works</b><span class="sub">four models, median wins</span><span class="dict-arrow">▾</span></summary>
-    <p>Each stock is valued four ways (peer P/E, earnings-power vs bond yield, Graham, dividend discount); the median is its <b>model fair value</b> — the median resists any single model blowing out. Market median P/E ${fv?.inputs?.market_median_pe ?? "—"}, bond yield ${fv?.inputs?.bond_yield_pct ?? "—"}%. Click any row below to expand its full four-model working.</p>
-  </details>
-  <div class="seg"><h2 style="color:var(--up)">Priced below model fair value</h2><div class="ln"></div><span class="pill ok">${under.length}</span></div>
-  <div class="card">${under.length ? tbl(isSubscribed() ? under : under.slice(0, 3), true) : '<div class="empty">none below model fair value right now</div>'}</div>
-  ${isSubscribed() ? `
-  <div class="seg"><h2 style="color:var(--dn)">Priced above model fair value</h2><div class="ln"></div><span class="pill bad">${over.length}</span></div>
-  <div class="card">${over.length ? tbl(over, false) : '<div class="empty">none above model fair value right now</div>'}</div>`
-    : planWall("The full value screen",
-      `${rows.length} names valued four independent ways — all ${under.length} priced below model fair value, the ${over.length} priced above it, and every stock's full four-model working.`)}`;
-}
+// pageValue lives in its own page file (redesign 2026-09).
 
 /* What actually moves each sector — measured, not assumed. Rendered from sector_macro.json, which
    regresses 19 years of sector returns on the global tape with the same permutation machinery the
