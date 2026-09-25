@@ -79,21 +79,52 @@ body[data-theme=gemini] #view .pf-page tr.flash td{animation:pfflash 1.2s ease}
 @keyframes pfflash{0%,40%{background:color-mix(in srgb,var(--today-focus) 16%,transparent)}100%{background:transparent}}
 body[data-theme=gemini] #view .pf-page tfoot td{border-top:1px solid var(--rline);font-weight:600}
 
-body[data-theme=gemini] #view .pf-page .pf-rules{border-top:1px solid var(--today-rule);margin-top:0}
-body[data-theme=gemini] #view .pf-page .pf-rule{display:grid;grid-template-columns:22px minmax(0,1.3fr) minmax(140px,1fr) 150px;gap:14px;align-items:center;padding:11px 7px;border-bottom:1px solid color-mix(in srgb,var(--today-rule) 70%,transparent);font-size:10px}
-body[data-theme=gemini] #view .pf-page .pf-rule .mk{width:16px;height:16px;display:grid;place-items:center;font-size:10px;font-weight:700;border:1px solid currentColor}
-body[data-theme=gemini] #view .pf-page .pf-rule b{font-size:11px;font-weight:600;display:block}
-body[data-theme=gemini] #view .pf-page .pf-rule p{margin:3px 0 0;color:var(--ink3);font-size:9px;line-height:1.5}
-body[data-theme=gemini] #view .pf-page .pf-rule .v{text-align:end;font-size:11px}
-body[data-theme=gemini] #view .pf-page .pf-meter{position:relative;height:8px;background:color-mix(in srgb,var(--rline) 45%,transparent)}
-body[data-theme=gemini] #view .pf-page .pf-meter i{position:absolute;left:0;top:0;bottom:0}
-body[data-theme=gemini] #view .pf-page .pf-meter s{position:absolute;top:-4px;bottom:-4px;width:0;border-inline-start:1.5px solid var(--ink1)}
-body[data-theme=gemini] #view .pf-page .pf-meter s::after{content:attr(data-l);position:absolute;top:-12px;left:3px;font-size:8px;color:var(--ink3);text-decoration:none;white-space:nowrap}
-body[data-theme=gemini] #view .pf-page .pf-secchips{display:flex;flex-wrap:wrap;gap:4px}
-body[data-theme=gemini] #view .pf-page .pf-secchips span{border:1px solid var(--today-rule);padding:2px 6px;font-size:9px;color:var(--ink2)}
-body[data-theme=gemini] #view .pf-page .pf-secchips span.x{border-color:var(--dn);color:var(--dn)}
-body[data-theme=gemini] #view .pf-page .pf-gauge{display:block;width:100%;height:22px;margin-top:6px;overflow:visible}
-body[data-theme=gemini] #view .pf-page .pf-gauge text{font-family:inherit;font-size:8px;fill:var(--ink3)}
+body[data-theme=gemini] #view .pf-page .pf-xr-intro{margin:16px 0 18px;max-width:70ch;line-height:1.6}
+body[data-theme=gemini] #view .pf-page .xr-foot{margin:16px 0 0;max-width:70ch;line-height:1.6}
+body[data-theme=gemini] #view .pf-page .pf-xstats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;background:var(--today-rule);border:1px solid var(--today-rule)}
+body[data-theme=gemini] #view .pf-page .pf-xstat{display:flex;flex-direction:column;gap:8px;min-width:0;padding:16px 18px 18px;background:var(--paper);transition:background-color 120ms ease}
+body[data-theme=gemini] #view .pf-page .pf-xstat:hover{background:var(--today-hover)}
+body[data-theme=gemini] #view .pf-page .pf-xl{font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink3)}
+body[data-theme=gemini] #view .pf-page .pf-xv{font-size:26px;font-weight:500;line-height:1.05;letter-spacing:-.03em;color:var(--ink1)}
+body[data-theme=gemini] #view .pf-page .pf-xv.up{color:var(--up)}
+body[data-theme=gemini] #view .pf-page .pf-xv.dn{color:var(--dn)}
+body[data-theme=gemini] #view .pf-page .pf-xn{font-size:9px;line-height:1.5;color:var(--ink3);margin-top:auto}
+body[data-theme=gemini] #view .pf-page .pf-xviz{display:flex;flex-direction:column;gap:4px;padding-top:2px}
+body[data-theme=gemini] #view .pf-page .pf-trk,body[data-theme=gemini] #view .pf-page .pf-lim-trk{position:relative;display:block;height:6px;background:color-mix(in srgb,var(--ink1) 8%,transparent)}
+body[data-theme=gemini] #view .pf-page .pf-trk i,body[data-theme=gemini] #view .pf-page .pf-lim-trk i{position:absolute;top:0;bottom:0;left:0;background:var(--ink1)}
+body[data-theme=gemini] #view .pf-page .pf-trk i.up{background:var(--up)}
+body[data-theme=gemini] #view .pf-page .pf-trk i.dn{background:var(--dn)}
+body[data-theme=gemini] #view .pf-page .pf-trk i.dot{width:10px;height:10px;top:-2px;margin-left:-5px;background:var(--ink1);box-shadow:0 0 0 2px var(--paper)}
+body[data-theme=gemini] #view .pf-page .pf-trk s,body[data-theme=gemini] #view .pf-page .pf-lim-trk s{position:absolute;top:-4px;bottom:-4px;width:0;border-inline-start:1.5px solid var(--ink1)}
+body[data-theme=gemini] #view .pf-page .pf-ax{position:relative;display:block;height:12px;font-size:8px;line-height:12px;color:var(--ink3);white-space:nowrap}
+body[data-theme=gemini] #view .pf-page .pf-ax em{position:absolute;top:0;font-style:normal;transform:translateX(-50%)}
+body[data-theme=gemini] #view .pf-page .pf-ax em.start{left:0;transform:none}
+body[data-theme=gemini] #view .pf-page .pf-ax em.end{right:0;left:auto;transform:none}
+
+body[data-theme=gemini] #view .pf-page .pf-rules{border-top:1px solid var(--today-rule);margin-top:22px}
+body[data-theme=gemini] #view .pf-page .pf-rule{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(150px,1fr) minmax(110px,.55fr);grid-template-areas:"h viz v";gap:24px;align-items:center;padding:18px 10px;border-bottom:1px solid var(--today-rule);transition:background-color 120ms ease}
+body[data-theme=gemini] #view .pf-page .pf-rule:hover{background:var(--today-hover)}
+body[data-theme=gemini] #view .pf-page .pf-rule-h{grid-area:h;display:flex;gap:12px;align-items:flex-start;min-width:0}
+body[data-theme=gemini] #view .pf-page .pf-rule .mk{flex:none;width:18px;height:18px;display:grid;place-items:center;font-size:10px;font-weight:700;border:1px solid currentColor;margin-top:1px}
+body[data-theme=gemini] #view .pf-page .pf-rule.ok .mk{color:var(--up)}
+body[data-theme=gemini] #view .pf-page .pf-rule.bad .mk{color:var(--dn)}
+body[data-theme=gemini] #view .pf-page .pf-rule b{font-size:12px;font-weight:600;display:block;color:var(--ink1)}
+body[data-theme=gemini] #view .pf-page .pf-rule p{margin:5px 0 0;color:var(--ink3);font-size:10px;line-height:1.55;max-width:60ch}
+body[data-theme=gemini] #view .pf-page .pf-rule-viz{grid-area:viz;min-width:0}
+body[data-theme=gemini] #view .pf-page .pf-rule .v{grid-area:v;text-align:end;font-size:11px;font-weight:600;color:var(--ink1)}
+body[data-theme=gemini] #view .pf-page .pf-rule.bad .v{color:var(--dn)}
+body[data-theme=gemini] #view .pf-page .pf-slots{display:flex;align-items:center;gap:4px}
+body[data-theme=gemini] #view .pf-page .pf-slots i{flex:none;width:22px;height:14px;border:1px solid var(--ink3);background:transparent}
+body[data-theme=gemini] #view .pf-page .pf-slots i.on{background:var(--ink1);border-color:var(--ink1)}
+body[data-theme=gemini] #view .pf-page .pf-slots i.over{background:var(--dn);border-color:var(--dn)}
+body[data-theme=gemini] #view .pf-page .pf-slots s{flex:none;width:0;height:22px;border-inline-start:1.5px solid var(--ink1);margin:0 3px}
+body[data-theme=gemini] #view .pf-page .pf-lim{display:flex;flex-direction:column;gap:5px}
+body[data-theme=gemini] #view .pf-page .pf-lim-trk{height:8px}
+body[data-theme=gemini] #view .pf-page .pf-lim-trk i.over{background:var(--dn)}
+body[data-theme=gemini] #view .pf-page .pf-secchips{display:flex;flex-wrap:wrap;gap:5px}
+body[data-theme=gemini] #view .pf-page .pf-secchips span{border:1px solid var(--today-rule);padding:3px 7px;font-size:9px;color:var(--ink2);white-space:nowrap;max-width:100%;overflow:hidden;text-overflow:ellipsis}
+body[data-theme=gemini] #view .pf-page .pf-secchips span.x{border-color:var(--dn);color:var(--dn);background:color-mix(in srgb,var(--dn) 8%,transparent)}
+body[data-theme=gemini] #view .pf-page .pf-secchips span b{font-weight:700}
 
 body[data-theme=gemini] #view .pf-page .pf-divs{border:1px solid var(--today-rule);margin-top:12px;overflow-x:auto}
 body[data-theme=gemini] #view .pf-page .pf-divs svg{display:block;width:100%;min-width:560px;height:auto}
@@ -135,20 +166,21 @@ body[data-theme=gemini] #view .pf-page .pf-divs g.bar:hover rect{opacity:1}
 body[data-theme=gemini] #view .pf-page .pf-fall g[data-go]:hover .lbl{text-decoration:underline}
 body[data-theme=gemini] #view .pf-page .pf-hold tbody tr{transition:background-color 120ms ease}
 body[data-theme=gemini] #view .pf-page .pf-hold tbody tr:hover{background:var(--today-hover)}
-body[data-theme=gemini] #view .pf-page .pf-rule:hover{background:var(--today-hover)}
 
 @media (max-width:900px){
   body[data-theme=gemini] #view .pf-page .pf-tree{aspect-ratio:4/3}
-  body[data-theme=gemini] #view .pf-page .pf-rule{grid-template-columns:22px 1fr 120px}
-  body[data-theme=gemini] #view .pf-page .pf-rule .v{grid-column:2/-1;text-align:start}
+  body[data-theme=gemini] #view .pf-page .pf-xstats{grid-template-columns:repeat(2,minmax(0,1fr))}
+  body[data-theme=gemini] #view .pf-page .pf-rule{grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"h h" "viz v";gap:12px 18px}
+  body[data-theme=gemini] #view .pf-page .pf-rule-viz{padding-inline-start:30px}
 }
 @media (max-width:620px){
   body[data-theme=gemini] #view .pf-page{padding:10px 16px 26px}
   body[data-theme=gemini] #view .pf-page .today-hero{grid-template-columns:1fr}
   body[data-theme=gemini] #view .pf-page .today-stance{border-inline-end:0;border-bottom:1px solid var(--today-rule)}
   body[data-theme=gemini] #view .pf-page .pf-tree{aspect-ratio:3/4}
-  body[data-theme=gemini] #view .pf-page .pf-rule{grid-template-columns:22px 1fr}
-  body[data-theme=gemini] #view .pf-page .pf-rule .pf-meter,body[data-theme=gemini] #view .pf-page .pf-rule .pf-secchips{grid-column:2}
+  body[data-theme=gemini] #view .pf-page .pf-xstat{padding:14px}
+  body[data-theme=gemini] #view .pf-page .pf-xv{font-size:22px}
+  body[data-theme=gemini] #view .pf-page .pf-rule{padding:16px 6px}
   body[data-theme=gemini] #view .pf-page .pf-add{grid-template-columns:minmax(0,1fr) minmax(0,1fr);padding:14px}
   body[data-theme=gemini] #view .pf-page .pf-add label:nth-of-type(3),body[data-theme=gemini] #view .pf-page .pf-add button{grid-column:1/-1}
   body[data-theme=gemini] #view .pf-page .pf-hold :is(th,td):is(:nth-child(2),:nth-child(3),:nth-child(4),:nth-child(5),:nth-child(8),:nth-child(9)){display:none}
@@ -159,4 +191,7 @@ body[data-theme=gemini] #view .pf-page .pf-rule:hover{background:var(--today-hov
   body[data-theme=gemini] #view .pf-page .today-section-head{margin-top:26px}
   body[data-theme=gemini] #view .pf-page .pf-bar{padding:8px 6px;margin:0 -6px}
   body[data-theme=gemini] #view .pf-page .pf-tree button{padding:7px 8px}
+}
+@media (max-width:420px){
+  body[data-theme=gemini] #view .pf-page .pf-xstats{grid-template-columns:1fr}
 }

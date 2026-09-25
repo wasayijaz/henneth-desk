@@ -375,13 +375,39 @@ function pfTableHtml(rows, totMv, totPl, totPlPct) {
 }
 
 /* ---------- X-ray: the desk's own rules, run over the user's actual mix ---------- */
-function pfMeter(v, max, lim, ok, l) {
-  const pv = Math.max(0, Math.min(1, v / max)) * 100, pl = Math.max(0, Math.min(1, lim / max)) * 100;
-  return `<div class="pf-meter"><i style="width:${pv.toFixed(1)}%;background:var(${ok ? "--up" : "--dn"})"></i><s style="left:${pl.toFixed(1)}%" data-l="${l}"></s></div>`;
+// X-ray mini-visuals. Pure presentation over numbers pfXrayHtml already computed.
+function pfSlots(n, cap) {
+  let h = "";
+  for (let i = 1; i <= Math.max(n, cap); i++) h += `${i === cap + 1 ? "<s></s>" : ""}<i class="${i > n ? "" : i > cap ? "over" : "on"}"></i>`;
+  return `<div class="pf-slots" role="img" aria-label="${n} of ${cap} position slots used">${h}</div>`;
+}
+function pfLimitBar(v, lim) {
+  const max = v > 50 ? 100 : 50, pc = x => Math.max(0, Math.min(100, x / max * 100)).toFixed(1);
+  return `<div class="pf-lim" role="img" aria-label="largest position ${v.toFixed(0)}% against a ${lim}% limit">
+    <span class="pf-lim-trk"><i style="width:${pc(Math.min(v, lim))}%"></i>${v > lim ? `<i class="over" style="left:${pc(lim)}%;width:${(pc(v) - pc(lim)).toFixed(1)}%"></i>` : ""}<s style="left:${pc(lim)}%"></s></span>
+    <span class="pf-ax"><em style="left:${pc(lim)}%">limit ${lim}%</em><em class="end">${max}%</em></span></div>`;
 }
 function pfRule(ok, k, why, viz, v) {
-  return `<div class="pf-rule"><span class="mk" style="color:var(${ok ? "--up" : "--dn"});border-color:var(${ok ? "--up" : "--dn"})">${ok ? "✓" : "!"}</span>
-    <div><b>${esc(k)}</b><p>${why}</p></div>${viz}<span class="v">${v}</span></div>`;
+  return `<div class="pf-rule ${ok ? "ok" : "bad"}"><div class="pf-rule-h"><span class="mk">${ok ? "✓" : "!"}</span>
+    <div><b>${esc(k)}</b><p>${why}</p></div></div><div class="pf-rule-viz">${viz}</div><span class="v">${v}</span></div>`;
+}
+function pfStat(label, value, cls, viz, note) {
+  return `<div class="pf-xstat"><span class="pf-xl">${label}</span><b class="pf-xv num ${cls}">${value}</b>${viz ? `<div class="pf-xviz">${viz}</div>` : ""}<span class="pf-xn">${note}</span></div>`;
+}
+function pfBetaGauge(beta) {
+  const x = Math.max(0, Math.min(100, beta / 2 * 100)).toFixed(1);
+  return `<span class="pf-trk"><s style="left:50%"></s><i class="dot" style="left:${x}%"></i></span>
+    <span class="pf-ax"><em class="start">0</em><em style="left:50%">1.0 = market</em><em class="end">2.0</em></span>`;
+}
+function pfYieldBar(y) {
+  const max = y > 15 ? Math.ceil(y / 5) * 5 : 15;
+  return `<span class="pf-trk"><i style="width:${Math.max(0, Math.min(100, y / max * 100)).toFixed(1)}%"></i></span>
+    <span class="pf-ax"><em class="start">0%</em><em class="end">${max}%</em></span>`;
+}
+function pfGapBar(g) {
+  const R = Math.max(20, Math.ceil(Math.abs(g) / 10) * 10), w = Math.min(50, Math.abs(g) / R * 50).toFixed(1);
+  return `<span class="pf-trk"><s style="left:50%"></s><i class="${g < 0 ? "dn" : "up"}" style="${g < 0 ? `right:50%` : `left:50%`};width:${w}%"></i></span>
+    <span class="pf-ax"><em class="start">−${R}%</em><em style="left:50%">0</em><em class="end">+${R}%</em></span>`;
 }
 function pfXrayHtml(withW, secW, fsAll, fvAll, deepDiv, top, dupSecSet) {
   const FS = fsAll?.tickers || {}, FV = fvAll?.tickers || {};
@@ -410,27 +436,25 @@ function pfXrayHtml(withW, secW, fsAll, fvAll, deepDiv, top, dupSecSet) {
   const checks = [
     { ok: withW.length <= 4, k: "Max 4 concurrent positions", v: `${withW.length} holding${withW.length === 1 ? "" : "s"}`,
       why: "The desk caps itself at 4 open positions so each one gets real attention.",
-      viz: pfMeter(withW.length, Math.max(withW.length, 4) + 1, 4, withW.length <= 4, "4") },
+      viz: pfSlots(withW.length, 4) },
     { ok: !dupList.length, k: "No two positions in one sector", v: dupList.length ? `${dupList.map(k => esc(k)).join(", ")} doubled` : "none doubled",
       why: "The desk allows itself one position per sector — two names in one sector is one bet wearing two tickers.",
-      viz: `<div class="pf-secchips">${Object.keys(secW).map(k => `<span class="${dupSecSet.has(k) ? "x" : ""}">${esc(k)}</span>`).join("")}</div>` },
+      viz: `<div class="pf-secchips">${Object.keys(secW).map(k => { const n = withW.filter(r => (r.sector || "Unclassified") === k).length; return `<span class="${dupSecSet.has(k) ? "x" : ""}" title="${esc(k)} · ${n} holding${n === 1 ? "" : "s"}">${esc(k)}${n > 1 ? ` <b>×${n}</b>` : ""}</span>`; }).join("")}</div>` },
     { ok: top ? top.w <= 20 : true, k: "Position ≤ 20% of capital", v: top ? `largest ${esc(top.ticker)} ${top.w.toFixed(0)}%` : "—",
       why: "The desk caps any single position at 20% of capital, so one company's bad quarter cannot set the whole result.",
-      viz: top ? pfMeter(top.w, 100, 20, top.w <= 20, "20%") : "" },
+      viz: top ? pfLimitBar(top.w, 20) : "" },
   ];
   const nPass = checks.filter(c => c.ok).length;
   return `<div class="today-section-head"><p class="today-kicker">PORTFOLIO X-RAY <span>· facts about these holdings</span></p><div><b>${nPass}/${checks.length} desk rules met</b></div></div>
-  <p class="sub" style="margin-bottom:12px">The desk's own risk rules, run over your actual holdings — the constraints the desk imposes on itself, shown so you can see how your mix reads against them. Not instructions, and not a suggestion to trade.</p>
-  <div class="today-radar-cards">
-    <div class="today-radar-card"><span class="today-kicker">WEIGHTED BETA</span><b>${beta != null ? beta.toFixed(2) : "unknown"}</b>
-      ${beta != null ? `<svg class="pf-gauge" viewBox="0 0 200 22"><line x1="4" x2="196" y1="11" y2="11" stroke="var(--rline)"/><line x1="100" x2="100" y1="4" y2="18" stroke="var(--ink3)"/><circle cx="${Math.max(4, Math.min(196, beta / 2 * 200)).toFixed(1)}" cy="11" r="4" style="fill:var(--ink1)"/><text x="100" y="21" text-anchor="middle">market = 1.0</text></svg>` : ""}
-      <span class="sub">${(bCov / wsum * 100).toFixed(0)}% of value covered</span></div>
-    <div class="today-radar-card"><span class="today-kicker">BLENDED YIELD</span><b>${yld != null ? yld.toFixed(2) + "%" : "unknown"}</b><span class="sub">${(yCov / wsum * 100).toFixed(0)}% of value covered</span></div>
-    <div class="today-radar-card"><span class="today-kicker">DIVIDENDS · LAST 12 MONTHS</span><b class="${divCov ? "up" : ""}">${divCov ? pfRs(expDiv, 0) : "unknown"}</b><span class="sub">from real trailing payouts, not a forecast</span></div>
-    <div class="today-radar-card"><span class="today-kicker">VS MODEL FAIR VALUE</span><b class="${gap > 0 ? "up" : gap < 0 ? "dn" : ""}">${gap != null ? sgn(+gap.toFixed(1)) + "%" : "unknown"}</b><span class="sub">value-weighted across holdings</span></div>
+  <p class="sub pf-xr-intro">The desk's own risk rules, run over your actual holdings — the constraints the desk imposes on itself, shown so you can see how your mix reads against them. Not instructions, and not a suggestion to trade.</p>
+  <div class="pf-xstats">
+    ${pfStat("WEIGHTED BETA", beta != null ? beta.toFixed(2) : "unknown", "", beta != null ? pfBetaGauge(beta) : "", `${(bCov / wsum * 100).toFixed(0)}% of value covered`)}
+    ${pfStat("BLENDED YIELD", yld != null ? yld.toFixed(2) + "%" : "unknown", "", yld != null ? pfYieldBar(yld) : "", `${(yCov / wsum * 100).toFixed(0)}% of value covered`)}
+    ${pfStat("DIVIDENDS · LAST 12M", divCov ? pfRs(expDiv, 0) : "unknown", divCov ? "up" : "", "", `${(divCov / wsum * 100).toFixed(0)}% of value with payouts · trailing, not a forecast`)}
+    ${pfStat("VS MODEL FAIR VALUE", gap != null ? sgn(+gap.toFixed(1)) + "%" : "unknown", gap > 0 ? "up" : gap < 0 ? "dn" : "", gap != null ? pfGapBar(gap) : "", `value-weighted · ${(gapCov / wsum * 100).toFixed(0)}% of value covered`)}
   </div>
   <div class="pf-rules">${checks.map(c => pfRule(c.ok, c.k, c.why, c.viz, esc(c.v))).join("")}</div>
-  <p class="sub xr-foot" style="margin-top:6px">Beta and yield are value-weighted over the holdings the desk has data for; coverage is stated so a partial figure is never mistaken for a complete one.</p>`;
+  <p class="sub xr-foot">Beta and yield are value-weighted over the holdings the desk has data for; coverage is stated so a partial figure is never mistaken for a complete one.</p>`;
 }
 
 /* ---------- dividend income by month ---------- */
