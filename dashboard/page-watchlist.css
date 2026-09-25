@@ -45,6 +45,13 @@ body[data-theme=gemini] #view .wl-page .wl-add button:hover{background:var(--tod
 body[data-theme=gemini] #view .wl-page .wl-add button:focus-visible{outline:2px solid var(--today-focus);outline-offset:-2px}
 body[data-theme=gemini] #view .wl-page .wl-cards.today-radar-cards{gap:0;margin-top:0;background:none;border:0;border-top:1px solid var(--today-rule);border-left:1px solid var(--today-rule)}
 body[data-theme=gemini] #view .wl-page .wl-cards .today-radar-card{position:relative;cursor:pointer;padding:14px 14px 12px;border:0;border-right:1px solid var(--today-rule);border-bottom:1px solid var(--today-rule)}
+body[data-theme=gemini] #view .wl-page .wl-cards .today-radar-card{container-type:inline-size}
+body[data-theme=gemini] #view .wl-page .today-radar-metrics{grid-template-columns:minmax(0,1fr) minmax(0,1fr) max-content}
+@container (max-width:240px){
+  body[data-theme=gemini] #view .wl-page .today-radar-metrics{grid-template-columns:1fr 1fr}
+  body[data-theme=gemini] #view .wl-page .today-radar-metrics>span:nth-child(2){border-inline-end:0}
+  body[data-theme=gemini] #view .wl-page .today-radar-metrics>span:last-child{grid-column:1/-1;padding-inline-start:0;border-top:1px solid var(--today-rule)}
+}
 body[data-theme=gemini] #view .wl-page .wl-cards .today-radar-card:hover{background:var(--today-hover);box-shadow:inset 3px 0 0 var(--up)}
 body[data-theme=gemini] #view .wl-page .wl-cards .today-radar-card:focus-visible{outline:2px solid var(--today-focus);outline-offset:-2px}
 body[data-theme=gemini] #view .wl-page .wl-cards .today-radar-card.flash{animation:wlflash 1.2s ease}
