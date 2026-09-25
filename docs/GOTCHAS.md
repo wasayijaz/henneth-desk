@@ -184,8 +184,13 @@ capital) and the Telegram bot token.
 
 ## Known open threads
 
-- `GROQ_API_KEY` is missing on the Vercel deployment — Ask-the-desk returns
-  "Chat isn't configured yet — GROQ_API_KEY is missing on the deployment."
+- Ask-the-desk runs on Groq's **free tier**: 8K tokens per minute and 1K requests per day per model,
+  shared across the whole org. Every token of context counts, so `buildContext` in `api/ask.js` must
+  stay small. Do not paste whole state files into it. A 429 there means the budget is spent, not
+  that the code is broken. The 20b fallback roughly doubles headroom. The owner has chosen to stay on
+  the free tier (2026-09-25), so fix a 429 problem by shrinking context, not by upgrading the plan.
+- `GROQ_API_KEY` is set on Vercel **production only**, so Ask-the-desk cannot be tested end to end
+  from a local or preview deploy. `node scripts/check_root_ask_hardening.mjs` mocks Groq.
 - `/cast` (cast a birth chart without an account) is the deliberate signed-out acquisition entry
   point. Do not add it to the members-only route list or remove the public ephemeris exception.
 - Proposed, not built: a `desk_profile` jsonb column on the Supabase `profiles` table for

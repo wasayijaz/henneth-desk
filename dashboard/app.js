@@ -5446,6 +5446,8 @@ function askHistoryPayload(history) {
 }
 function askFriendlyError(body, status) {
   const key = body && typeof (body.error_code || body.error) === "string" ? (body.error_code || body.error) : "";
+  const wait = Number(body && body.retry_after);
+  if (key === "provider_busy" && wait > 0 && wait <= 120) return `The desk's assistant is busy. Try again in ${Math.ceil(wait)} seconds.`;
   if (ASK_ERROR_TEXT[key]) return ASK_ERROR_TEXT[key];
   if (status === 401 || status === 403) return ASK_ERROR_TEXT.account_required;
   if (status === 429) return ASK_ERROR_TEXT.provider_busy;

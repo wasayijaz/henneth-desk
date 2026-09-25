@@ -136,6 +136,16 @@ it does not claim to classify every possible prose recommendation.
 | Groq | desk Ask | `api/ask.js` | 502/429, no fabricated answer |
 | Vercel | terminal/marketing hosting | `vercel.json`, `middleware.js`, `api/ask.js` | last-good deploy remains if blocked |
 
+**Ask-the-desk** (`api/ask.js`, Vercel Edge, auth required) serves `/ask` and the context rail.
+Greetings get a fixed local reply with no model call. Otherwise it fetches 17 light state files with
+the caller's token and `buildContext` builds one small slice (ticker, sector or market, roughly
+0.2–1.8K tokens) sized for Groq's free-tier 8K tokens-per-minute budget. It calls
+`openai/gpt-oss-120b` at low reasoning effort; on a 429 it retries once on `openai/gpt-oss-20b`,
+and if both are limited it returns 429 `provider_busy` with Groq's `retry_after`. `validateAnswer`
+rejects the whole answer on any figure or date absent from the slice, any advice phrase, URL or
+prompt leak — Rule 2 is enforced by this gate, not only by the prompt. Contract:
+`scripts/check_root_ask_hardening.mjs`.
+
 Git is the research database. Committed `state/` makes the terminal self-contained. `config/desk.json`
 and `.env` are private and never enter a served directory. The marketing site receives only the
 allow-listed output under `site/src/data/public/`.
