@@ -36,17 +36,19 @@ function strRows(D) {
       return {
         id, name: all[0]?.name || id, cat: all[0]?.category || "", tested: all.length,
         proven: elig.length, avgNet, provenOn: Object.entries(per).filter(([, t]) => t.eligible).map(([s]) => s),
+        pairs: Object.entries(per).map(([s, t]) => ({ s, net: t.net_expectancy_pct, hit: t.hit_rate, n: t.n, oos: t.oos?.hit_rate, ok: !!t.eligible })),
       };
     });
   }
   const agg = {};
   Object.entries(D.smap?.tickers || {}).forEach(([sym, list]) => list.forEach(p => {
-    const a = agg[p.id] || (agg[p.id] = { id: p.id, name: p.name, cat: p.category, nets: [], provenOn: [] });
+    const a = agg[p.id] || (agg[p.id] = { id: p.id, name: p.name, cat: p.category, nets: [], provenOn: [], pairs: [] });
     a.nets.push(p.net_expectancy_pct); a.provenOn.push(sym);
+    a.pairs.push({ s: sym, net: p.net_expectancy_pct, hit: p.hit_rate, n: p.n, oos: p.oos?.hit_rate, ok: true });
   }));
   return Object.values(agg).map(a => ({
     id: a.id, name: a.name, cat: a.cat, tested: null,
-    proven: a.provenOn.length, avgNet: a.nets.reduce((x, y) => x + y, 0) / a.nets.length, provenOn: a.provenOn,
+    proven: a.provenOn.length, avgNet: a.nets.reduce((x, y) => x + y, 0) / a.nets.length, provenOn: a.provenOn, pairs: a.pairs,
   }));
 }
 
@@ -175,25 +177,70 @@ function strScatter(bins) {
   </svg><p class="st-cap">Every tested stock x strategy pair, binned. Bubble size = how many pairs land there; fill = share that proved out. Hover a bubble for the exact range.</p>`;
 }
 
-function strCards(rows, descs) {
+// Where one rule lands across every stock it was tested on: net expectancy per trade, binned
+// in 0.5% steps (clamped to ±6%), the proven share of each bin drawn on top.
+function strDist(pairs, bar) {
+  const lo = -6, hi = 6, step = .5, nb = (hi - lo) / step;
+  const bins = Array.from({ length: nb }, () => ({ n: 0, ok: 0 }));
+  pairs.forEach(p => {
+    if (p.net == null || !isFinite(p.net)) return;
+    const b = bins[Math.min(nb - 1, Math.max(0, Math.floor((p.net - lo) / step)))];
+    b.n++; if (p.ok) b.ok++;
+  });
+  const max = Math.max(1, ...bins.map(b => b.n));
+  const W = 240, H = 44, bw = W / nb, x = v => (v - lo) / (hi - lo) * W;
+  return `<svg class="st-dist" viewBox="0 0 ${W} ${H + 12}" preserveAspectRatio="none" aria-hidden="true">
+    ${bins.map((b, i) => { if (!b.n) return ""; const h = Math.max(2, b.n / max * H), ho = b.ok / max * H;
+      return `<rect class="all" x="${(i * bw + .5).toFixed(1)}" y="${(H - h).toFixed(1)}" width="${(bw - 1).toFixed(1)}" height="${h.toFixed(1)}"/>${b.ok
+        ? `<rect class="ok" x="${(i * bw + .5).toFixed(1)}" y="${(H - ho).toFixed(1)}" width="${(bw - 1).toFixed(1)}" height="${ho.toFixed(1)}"/>` : ""}`; }).join("")}
+    <line class="zero" x1="${x(0)}" y1="0" x2="${x(0)}" y2="${H}"/>
+    ${bar != null ? `<line class="bar" x1="${x(bar)}" y1="0" x2="${x(bar)}" y2="${H}"/>` : ""}
+    <line class="ax" x1="0" y1="${H}" x2="${W}" y2="${H}"/>
+    <text x="0" y="${H + 10}">−6%</text><text x="${x(0)}" y="${H + 10}" text-anchor="middle">0</text><text x="${W}" y="${H + 10}" text-anchor="end">+6%</text>
+  </svg>`;
+}
+
+// The rule's exit geometry: target above the entry line, stop below, drawn to the same scale.
+function strPayoff(d) {
+  if (d.target_pct == null || d.stop_pct == null) return "";
+  const H = 40, mid = H * d.target_pct / (d.target_pct + d.stop_pct);
+  const rr = d.stop_pct ? (d.target_pct / d.stop_pct).toFixed(1) : "unknown";
+  return `<div class="st-pay">
+    <svg viewBox="0 0 14 ${H}" aria-hidden="true"><rect class="tg" x="0" y="0" width="14" height="${mid.toFixed(1)}"/><rect class="sp" x="0" y="${mid.toFixed(1)}" width="14" height="${(H - mid).toFixed(1)}"/><line x1="0" y1="${mid.toFixed(1)}" x2="14" y2="${mid.toFixed(1)}"/></svg>
+    <span class="st-pay-t"><b class="up">+${d.target_pct}%</b> target<br><b class="dn">−${d.stop_pct}%</b> stop<br><i>${d.hold ?? "unknown"} sessions max · ${rr} : 1</i></span>
+  </div>`;
+}
+
+function strCards(rows, descs, bars) {
   const filtered = STR_S.fam === null ? rows : rows.filter(r => r.cat === STR_S.fam);
   if (!filtered.length) return `<div class="card st-empty">No strategy in this family yet. unknown.</div>`;
-  return `<div class="st-cards today-radar-cards">${filtered.map(r => {
+  const netBar = bars?.min_net_expectancy_pct ?? null;
+  return `<div class="st-cards">${filtered.map(r => {
     const d = descs[r.id] || {};
     const open = STR_S.openId === r.id;
-    return `<div class="st-card ${open ? "open" : ""}" data-strcard="${esc(r.id)}">
+    const pairs = r.pairs || [];
+    const proven = pairs.filter(p => p.ok).sort((a, b) => b.net - a.net);
+    const share = r.tested ? r.proven / r.tested : null;
+    return `<div class="st-card ${open ? "open" : ""} ${r.proven ? "" : "none"}" data-strcard="${esc(r.id)}">
       <div class="st-card-h"><b>${esc(r.name)}</b><span class="tag">${esc((r.cat || "other").replace(/_/g, " "))}</span></div>
       <p class="st-card-p">${esc(d.description || "")}</p>
-      <div class="st-mini">
-        <span><i>tested</i><b>${r.tested ?? "unknown"}</b></span>
-        <span><i>proven</i><b class="${r.proven ? "up" : ""}">${r.proven}</b></span>
-        <span><i>avg net/trade</i><b class="${r.avgNet > 0 ? "up" : ""}">${r.avgNet != null ? sgn(+r.avgNet.toFixed(2)) + "%" : "unknown"}</b></span>
+      <div class="st-hero">
+        <span><b class="${r.avgNet > 0 ? "up" : ""}">${r.avgNet != null ? sgn(+r.avgNet.toFixed(2)) + "%" : "unknown"}</b><i>avg net / trade where proven</i></span>
+        <span class="r"><b>${r.proven}<small> / ${r.tested ?? "unknown"}</small></b><i>stocks proven</i></span>
       </div>
-      ${d.target_pct != null ? `<span class="dict-meta">target +${d.target_pct}% · stop −${d.stop_pct}% · max ${d.hold} sessions</span>` : ""}
-      ${open ? `<div class="st-detail">${r.provenOn.length
-        ? `<table class="st-tbl"><thead><tr><th>Stock</th><th class="r">Net/trade</th></tr></thead><tbody>${
-            r.provenOn.slice(0, 12).map(s => `<tr><td class="clickable" onclick="navigate('/ticker/${esc(s)}')">${esc(s)}</td><td class="r num up">proven</td></tr>`).join("")}</tbody></table>${r.provenOn.length > 12 ? `<p class="st-cap">+ ${r.provenOn.length - 12} more.</p>` : ""}`
-        : `<p class="st-cap">Hasn't cleared the bar on any stock in the universe yet.</p>`}</div>` : ""}
+      <span class="st-share" title="${share != null ? Math.round(share * 100) + "% of tested stocks cleared the bar" : "unknown"}"><i style="width:${share != null ? Math.max(r.proven ? 2 : 0, Math.round(share * 100)) : 0}%"></i></span>
+      ${pairs.length && r.tested ? `<div class="st-dist-w"><span class="st-lab">Net / trade on each of ${pairs.length} stocks tested<em><i class="k-ok"></i>proven</em></span>${strDist(pairs, netBar)}</div>` : ""}
+      <div class="st-foot">
+        ${strPayoff(d)}
+        ${proven.length ? `<div class="st-best"><span class="st-lab">Strongest record</span>${proven.slice(0, 3).map(p =>
+          `<span class="st-chip clickable" onclick="navigate('/ticker/${esc(p.s)}')"><b>${esc(p.s)}</b><i class="up">${sgn(+p.net.toFixed(2))}%</i></span>`).join("")}</div>`
+        : `<div class="st-best"><span class="st-lab">Strongest record</span><span class="st-none">Hasn't cleared the bar on any stock yet.</span></div>`}
+      </div>
+      ${open ? `<div class="st-detail">${proven.length
+        ? `<table class="st-tbl"><thead><tr><th>Stock</th><th class="r">Trades</th><th class="r">Win</th><th class="r">Win OOS</th><th class="r">Net/trade</th></tr></thead><tbody>${
+            proven.slice(0, 15).map(p => `<tr><td class="clickable" onclick="navigate('/ticker/${esc(p.s)}')">${esc(p.s)}</td><td class="r num">${strNum(p.n)}</td><td class="r num">${strPct(p.hit)}</td><td class="r num">${strPct(p.oos)}</td><td class="r num up">${sgn(+p.net.toFixed(2))}%</td></tr>`).join("")}</tbody></table>${proven.length > 15 ? `<p class="st-cap">+ ${proven.length - 15} more.</p>` : ""}`
+        : `<p class="st-cap">Hasn't cleared the bar on any stock in the universe yet.</p>`}</div>`
+        : `<span class="st-more">${proven.length ? `All ${proven.length} proven stocks ›` : ""}</span>`}
     </div>`;
   }).join("")}</div>`;
 }
@@ -313,7 +360,7 @@ async function pageStrategies() {
         "Pick your stocks above to read every strategy's results on each — ~19 years of that stock's own history per rule, with win rate, expectancy after costs and out-of-sample honesty.")}
 
     <div class="seg"><h2>The library</h2><div class="ln"></div></div>
-    ${strCards(rows, descs)}
+    ${strCards(rows, descs, D.bt?.bars)}
     ${dict}
     ${reqForm}
   </div>`;
