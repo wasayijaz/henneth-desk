@@ -279,8 +279,8 @@
   }
 
   // ============================================================
-  // Watch tab â€” watchlist symbols with price / day change, from
-  // state/live.json only. SECP: symbol, price, % change â€” nothing else.
+  // Watch tab — watchlist symbols with price / day change, from
+  // state/live.json only. SECP: symbol, price, % change — nothing else.
   // ============================================================
   var watchPane = rail.querySelector('[data-rail-pane="watch"]');
   var WATCH_CAP = 12;
