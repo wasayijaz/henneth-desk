@@ -1,0 +1,283 @@
+/* page-compare.css — Compare page (redesign 2026-09). Ported from
+   docs/redesign-mockups/compare-mockup.html. Scoped under .cmp-page (added
+   alongside .today-page on the root, matching .pf-page/.wl-page convention).
+   Real-data page — see page-compare.js for data sourcing. */
+
+/* ===== shared pieces (local copies, matching page-value.css/page-watchlist.css/page-portfolio.css) ===== */
+body[data-theme=gemini] #view .wl-chips{display:flex;flex-wrap:wrap;gap:0;border:1px solid var(--today-rule)}
+body[data-theme=gemini] #view .wl-chips button{all:unset;cursor:pointer;padding:5px 12px;font-size:10px;color:var(--ink2);border-inline-end:1px solid var(--today-rule);transition:background-color 120ms ease}
+body[data-theme=gemini] #view .wl-chips button:last-child{border-inline-end:0}
+body[data-theme=gemini] #view .wl-chips button:hover{background:var(--today-hover)}
+body[data-theme=gemini] #view .wl-chips button[aria-pressed=true]{background:var(--ink1);color:var(--paper)}
+body[data-theme=gemini] #view .wl-chips button:focus-visible{outline:2px solid var(--today-focus);outline-offset:-2px}
+body[data-theme=gemini] #view .wl-tip{position:fixed;pointer-events:none;z-index:50;background:var(--paper-3);border:1px solid var(--rline);padding:7px 9px;font-size:10px;line-height:1.5;color:var(--ink1);box-shadow:var(--shadow);display:none;max-width:280px}
+body[data-theme=gemini] #view .wl-tip b{font-weight:600}
+body[data-theme=gemini] #view .wl-tip span{color:var(--ink3)}
+body[data-theme=gemini] #view .up{color:var(--up)} body[data-theme=gemini] #view .dn{color:var(--dn)} body[data-theme=gemini] #view .mut{color:var(--ink3)}
+body[data-theme=gemini] #view .pf-foot{font-size:9px;line-height:1.6;color:var(--ink3);margin:56px 0 0;max-width:90ch}
+body[data-theme=gemini] #view .pf-foot a{color:var(--ink2)}
+body[data-theme=gemini] #view .mc-ic{display:inline-grid;place-items:center;width:auto;height:auto;color:var(--ink2);vertical-align:-2px}
+body[data-theme=gemini] #view .mc-ic svg{width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round}
+
+/* ===== cx-* : compare page ===== */
+/* layers: page (--paper) -> card (--today-paper) -> inset well (--paper) / lifted slip (--paper-3); hairlines, hard corners, no shadow */
+body[data-theme=gemini] #view .cmp-page{--cx-card:var(--today-paper);--cx-inset:var(--paper);--cx-lift:var(--paper-3);--cx-edge:var(--today-rule);
+  --s0:var(--ink1);--s1:var(--accent);--s2:var(--ink2);--s3:var(--ink3)}
+body[data-theme=gemini] #view .cmp-page .cx-card{background:var(--cx-card);border:1px solid var(--cx-edge);padding:14px 18px 16px}
+body[data-theme=gemini] #view .cmp-page .cx-inset{background:var(--cx-inset);border:1px solid var(--cx-edge)}
+body[data-theme=gemini] #view .cmp-page .cx-ch{margin-top:48px}
+body[data-theme=gemini] #view .cmp-page .cx-ch.first{margin-top:14px}
+body[data-theme=gemini] #view .cmp-page .cx-cap{margin:8px 0 0;font-size:9px;line-height:1.5;color:var(--ink3)}
+body[data-theme=gemini] #view .cmp-page .cx-btn{all:unset;cursor:pointer;font-size:10px;color:var(--ink2);border:1px solid var(--today-rule);padding:5px 10px;background:var(--cx-lift)}
+body[data-theme=gemini] #view .cmp-page .cx-btn:hover{color:var(--ink1);background:var(--today-hover)}
+body[data-theme=gemini] #view .cmp-page .cx-btn:focus-visible{outline:2px solid var(--today-focus);outline-offset:2px}
+body[data-theme=gemini] #view .cmp-page .cx-more{margin-top:20px;font-size:10px}
+body[data-theme=gemini] #view .cmp-page .cx-more summary{cursor:pointer;color:var(--ink3);width:max-content;max-width:100%}
+body[data-theme=gemini] #view .cmp-page .cx-more summary:hover{color:var(--ink1)}
+body[data-theme=gemini] #view .cmp-page .cx-more summary:focus-visible{outline:2px solid var(--today-focus);outline-offset:2px}
+body[data-theme=gemini] #view .cmp-page .cx-more[open]{background:var(--cx-card);border:1px solid var(--cx-edge);padding:12px 16px 10px}
+body[data-theme=gemini] #view .cmp-page .cx-more[open] summary{margin-bottom:10px}
+/* series mark: colour + dash so four lines stay apart without new colours */
+body[data-theme=gemini] #view .cmp-page .sw{display:inline-block;width:16px;height:0;border-top:2px solid var(--sc);vertical-align:3px;margin-inline-end:7px}
+body[data-theme=gemini] #view .cmp-page .sw.d2{border-top-style:dashed} body[data-theme=gemini] #view .cmp-page .sw.d3{border-top-style:dotted}
+
+/* picker */
+body[data-theme=gemini] #view .cmp-page .cx-pick{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:14px 18px;align-items:start}
+body[data-theme=gemini] #view .cmp-page .cx-form{display:flex;gap:0;max-width:460px}
+body[data-theme=gemini] #view .cmp-page .cx-form input{flex:1;min-width:0;font:inherit;font-size:11px;color:var(--ink1);background:var(--cx-inset);border:1px solid var(--today-rule);border-inline-end:0;border-radius:0;padding:7px 10px}
+body[data-theme=gemini] #view .cmp-page .cx-form input:focus-visible{outline:2px solid var(--today-focus);outline-offset:-2px}
+body[data-theme=gemini] #view .cmp-page .cx-form .cx-btn{padding:7px 14px;color:var(--ink1)}
+body[data-theme=gemini] #view .cmp-page .cx-chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+body[data-theme=gemini] #view .cmp-page .cx-chip{display:inline-flex;align-items:center;gap:0;border:1px solid var(--today-rule);background:var(--cx-inset);font-size:10px}
+body[data-theme=gemini] #view .cmp-page .cx-chip span{padding:5px 4px 5px 9px;display:inline-flex;align-items:center}
+body[data-theme=gemini] #view .cmp-page .cx-chip button{all:unset;cursor:pointer;padding:5px 9px;color:var(--ink3);border-inline-start:1px solid var(--today-rule)}
+body[data-theme=gemini] #view .cmp-page .cx-chip button:hover{color:var(--dn);background:var(--today-hover)}
+body[data-theme=gemini] #view .cmp-page .cx-chip button:focus-visible{outline:2px solid var(--today-focus);outline-offset:-2px}
+body[data-theme=gemini] #view .cmp-page .cx-sugg{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:10px;font-size:9px;color:var(--ink3)}
+body[data-theme=gemini] #view .cmp-page .cx-sugg button{all:unset;cursor:pointer;font-size:9px;color:var(--ink2);border:1px dashed var(--today-rule);padding:3px 7px}
+body[data-theme=gemini] #view .cmp-page .cx-sugg button:hover{color:var(--ink1);border-style:solid}
+body[data-theme=gemini] #view .cmp-page .cx-sugg button:focus-visible{outline:2px solid var(--today-focus);outline-offset:1px}
+body[data-theme=gemini] #view .cmp-page .cx-count{text-align:end;font-size:9px;color:var(--ink3);letter-spacing:.08em}
+body[data-theme=gemini] #view .cmp-page .cx-count b{display:block;font-size:22px;font-weight:500;letter-spacing:-.02em;color:var(--ink1);margin-top:4px}
+body[data-theme=gemini] #view .cmp-page .cx-count .cx-slots{display:flex;gap:3px;justify-content:flex-end;margin-top:6px}
+body[data-theme=gemini] #view .cmp-page .cx-count .cx-slots i{width:14px;height:6px;background:color-mix(in srgb,var(--rline) 45%,transparent)}
+body[data-theme=gemini] #view .cmp-page .cx-count .cx-slots i.on{background:var(--ink1)}
+body[data-theme=gemini] #view .cmp-page .cx-warn{margin-top:10px;padding:8px 10px;border:1px solid var(--today-rule);border-inline-start:2px solid var(--dn);background:var(--cx-inset);font-size:10px;color:var(--ink2)}
+body[data-theme=gemini] #view .cmp-page .cx-empty{margin-top:20px;padding:28px 18px;text-align:center;font-size:11px;color:var(--ink2);border:1px dashed var(--today-rule)}
+
+/* 01 name cards */
+body[data-theme=gemini] #view .cmp-page .cx-names{display:grid;grid-template-columns:repeat(var(--n),minmax(0,1fr));gap:16px;margin-top:20px}
+body[data-theme=gemini] #view .cmp-page .cx-name{position:relative;background:var(--cx-card);border:1px solid var(--cx-edge);border-top:2px solid var(--sc);padding:14px 16px 14px;min-width:0}
+body[data-theme=gemini] #view .cmp-page .cx-name.d2{border-top-style:dashed} body[data-theme=gemini] #view .cmp-page .cx-name.d3{border-top-style:dotted}
+body[data-theme=gemini] #view .cmp-page .cx-name header{display:flex;align-items:baseline;gap:8px;min-width:0}
+body[data-theme=gemini] #view .cmp-page .cx-name header a{font-size:15px;font-weight:600;letter-spacing:.02em;color:var(--ink1);text-decoration:none}
+body[data-theme=gemini] #view .cmp-page .cx-name header a:hover{text-decoration:underline}
+body[data-theme=gemini] #view .cmp-page .cx-name header a:focus-visible{outline:2px solid var(--today-focus);outline-offset:2px}
+body[data-theme=gemini] #view .cmp-page .cx-name header small{font-size:9px;color:var(--ink3);margin-inline-start:auto;white-space:nowrap}
+body[data-theme=gemini] #view .cmp-page .cx-name .full{margin:3px 0 0;font-size:9px;color:var(--ink3);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+body[data-theme=gemini] #view .cmp-page .cx-name .px{margin:14px 0 2px;font-size:clamp(22px,2.6vw,30px);font-weight:500;letter-spacing:-.03em}
+body[data-theme=gemini] #view .cmp-page .cx-name .mv{display:flex;gap:12px;font-size:10px}
+body[data-theme=gemini] #view .cmp-page .cx-name .mv small{color:var(--ink3);font-size:9px}
+body[data-theme=gemini] #view .cmp-page .cx-tags{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0;margin-top:12px;border-top:1px solid var(--today-rule)}
+body[data-theme=gemini] #view .cmp-page .cx-tags span{padding:8px 0 0;font-size:10px;min-width:0;cursor:default}
+body[data-theme=gemini] #view .cmp-page .cx-tags span:nth-child(even){border-inline-start:1px solid var(--today-rule);padding-inline-start:10px}
+body[data-theme=gemini] #view .cmp-page .cx-tags small{display:block;font-size:9px;color:var(--ink3);letter-spacing:.06em;margin-bottom:2px}
+body[data-theme=gemini] #view .cmp-page .cx-idx{margin-top:10px;display:flex;flex-wrap:wrap;gap:4px}
+body[data-theme=gemini] #view .cmp-page .cx-idx i{font-style:normal;font-size:8px;letter-spacing:.06em;color:var(--ink3);border:1px solid var(--today-rule);padding:1px 4px}
+body[data-theme=gemini] #view .cmp-page .cx-nfoot{display:flex;align-items:flex-end;justify-content:space-between;gap:8px;margin-top:10px}
+body[data-theme=gemini] #view .cmp-page .cx-nfoot .cx-idx{margin-top:0}
+body[data-theme=gemini] #view .cmp-page .cx-nctl{display:inline-flex;margin-inline-start:auto;border:1px solid var(--today-rule);background:var(--cx-inset);transition:opacity 140ms ease}
+body[data-theme=gemini] #view .cmp-page .cx-nctl button{all:unset;cursor:pointer;font-size:10px;line-height:1;padding:5px 8px;color:var(--ink2)}
+body[data-theme=gemini] #view .cmp-page .cx-nctl button+button{border-inline-start:1px solid var(--today-rule)}
+body[data-theme=gemini] #view .cmp-page .cx-nctl button:hover{background:var(--today-hover);color:var(--ink1)}
+body[data-theme=gemini] #view .cmp-page .cx-nctl button[data-drop]:hover{color:var(--dn)}
+body[data-theme=gemini] #view .cmp-page .cx-nctl button:focus-visible{outline:2px solid var(--today-focus);outline-offset:-2px}
+body[data-theme=gemini] #view .cmp-page .cx-nctl button:disabled{opacity:.3;cursor:default;background:none}
+body[data-theme=gemini] #view .cmp-page .cx-tags span[data-tip]{transition:background-color 120ms ease}
+
+/* 02 price path */
+body[data-theme=gemini] #view .cmp-page .cx-ctrl{display:flex;flex-wrap:wrap;gap:10px 14px;align-items:center;justify-content:space-between;margin-bottom:12px}
+body[data-theme=gemini] #view .cmp-page .cx-legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:9px;color:var(--ink3)}
+body[data-theme=gemini] #view .cmp-page .cx-legend b{color:var(--ink1);font-weight:600}
+body[data-theme=gemini] #view svg.cx-svg{display:block;width:100%;height:auto;overflow:visible;touch-action:pan-y}
+body[data-theme=gemini] #view .cx-svg text{font-family:inherit;font-size:9px;fill:var(--ink3)}
+body[data-theme=gemini] #view .cx-svg .ax{stroke:var(--today-rule);stroke-width:1}
+body[data-theme=gemini] #view .cx-svg .base{stroke:var(--ink2);stroke-width:1;stroke-dasharray:2 3}
+body[data-theme=gemini] #view .cx-svg .ln{fill:none;stroke-width:1.6;stroke-linejoin:round}
+body[data-theme=gemini] #view .cx-svg .ln.d2{stroke-dasharray:5 3} body[data-theme=gemini] #view .cx-svg .ln.d3{stroke-dasharray:1.5 2.5}
+body[data-theme=gemini] #view .cx-svg text.end{font-size:10px;fill:var(--ink1);paint-order:stroke;stroke:var(--cx-card);stroke-width:3px;stroke-linejoin:round}
+body[data-theme=gemini] #view .cx-svg .xh{stroke:var(--ink2);stroke-width:1}
+body[data-theme=gemini] #view .cx-svg .pt{stroke:var(--cx-card);stroke-width:1.5}
+body[data-theme=gemini] #view .cmp-page .cx-rets{display:grid;grid-template-columns:repeat(var(--n),minmax(0,1fr));gap:0;margin-top:14px;border-top:1px solid var(--today-rule)}
+body[data-theme=gemini] #view .cmp-page .cx-rets span{padding:9px 0 0;font-size:10px;min-width:0}
+body[data-theme=gemini] #view .cmp-page .cx-rets span+span{border-inline-start:1px solid var(--today-rule);padding-inline-start:10px}
+body[data-theme=gemini] #view .cmp-page .cx-rets small{display:block;font-size:9px;color:var(--ink3);margin-bottom:3px}
+body[data-theme=gemini] #view .cmp-page .cx-rets b{font-size:15px;font-weight:500;letter-spacing:-.02em}
+/* chart key: hover isolates, click toggles */
+body[data-theme=gemini] #view .cmp-page .cx-lg{all:unset;cursor:pointer;display:inline-flex;align-items:center;padding:3px 6px;margin:-3px -6px;font-size:9px;color:var(--ink3)}
+body[data-theme=gemini] #view .cmp-page .cx-lg:hover{background:var(--today-hover);color:var(--ink1)}
+body[data-theme=gemini] #view .cmp-page .cx-lg:focus-visible{outline:2px solid var(--today-focus);outline-offset:0}
+body[data-theme=gemini] #view .cmp-page .cx-lg[aria-pressed=false] b{text-decoration:line-through;color:var(--ink3)}
+body[data-theme=gemini] #view .cmp-page .cx-lg[aria-pressed=false] .sw{opacity:.3}
+body[data-theme=gemini] #view .cx-svg:focus{outline:none}
+body[data-theme=gemini] #view .cx-svg:focus-visible{outline:2px solid var(--today-focus);outline-offset:4px}
+body[data-theme=gemini] #view .cx-svg text.xd{fill:var(--ink1);font-size:9px;paint-order:stroke;stroke:var(--cx-card);stroke-width:3px}
+body[data-theme=gemini] #view .cx-svg.anim .ln{animation:cx-draw 560ms cubic-bezier(.2,.7,.2,1) both}
+body[data-theme=gemini] #view .cx-svg.anim :is(text,.ax,.base){animation:cx-fade 320ms ease both}
+@keyframes cx-draw{from{clip-path:inset(0 100% 0 0)}to{clip-path:inset(0 0 0 0)}}
+@keyframes cx-fade{from{opacity:0}}
+
+/* 03 measure by measure */
+body[data-theme=gemini] #view .cmp-page .cx-sets{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-top:20px;align-items:start}
+body[data-theme=gemini] #view .cmp-page .cx-set{background:var(--cx-card);border:1px solid var(--cx-edge);padding:0 0 6px;min-width:0}
+body[data-theme=gemini] #view .cmp-page .cx-set>h3{display:flex;flex-wrap:wrap;gap:4px 12px;align-items:baseline;justify-content:space-between;margin:0;padding:12px 16px 10px;font-size:10px;font-weight:700;letter-spacing:.08em;background:var(--cx-lift);border-bottom:1px solid var(--cx-edge)}
+body[data-theme=gemini] #view .cmp-page .cx-set>h3 span{font-weight:400;color:var(--ink3);letter-spacing:.02em;font-size:9px}
+body[data-theme=gemini] #view .cmp-page .cx-set>h3 span b{color:var(--ink1);font-weight:600}
+body[data-theme=gemini] #view .cmp-page .cx-mrow,body[data-theme=gemini] #view .cmp-page .cx-mhd{display:grid;grid-template-columns:minmax(0,1.25fr) repeat(var(--n),minmax(0,1fr));gap:10px;align-items:end;padding:9px 16px}
+body[data-theme=gemini] #view .cmp-page .cx-mhd{padding-top:8px;padding-bottom:4px;font-size:9px;color:var(--ink3);font-weight:600;letter-spacing:.04em}
+body[data-theme=gemini] #view .cmp-page .cx-mhd>span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+body[data-theme=gemini] #view .cmp-page .cx-mrow{border-top:1px solid color-mix(in srgb,var(--today-rule) 70%,transparent);font-size:10px;cursor:pointer;transition:background-color 120ms ease}
+body[data-theme=gemini] #view .cmp-page .cx-mrow:focus-visible{outline:2px solid var(--today-focus);outline-offset:-2px}
+body[data-theme=gemini] #view .cmp-page .cx-mrow[aria-expanded=true]{background:var(--cx-lift)}
+body[data-theme=gemini] #view .cmp-page .cx-mrow .lb{min-width:0;align-self:center;cursor:pointer}
+body[data-theme=gemini] #view .cmp-page .cx-mrow .lb small{display:block;font-size:8.5px;color:var(--ink3);margin-top:2px;line-height:1.35}
+body[data-theme=gemini] #view .cmp-page .cx-cell{min-width:0;cursor:pointer}
+body[data-theme=gemini] #view .cmp-page .cx-cell .v{display:flex;align-items:baseline;gap:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+body[data-theme=gemini] #view .cmp-page .cx-cell .v em{font-style:normal;font-size:8px;color:var(--ink1);letter-spacing:.04em}
+body[data-theme=gemini] #view .cmp-page .cx-cell.lead .v{font-weight:700}
+body[data-theme=gemini] #view .cmp-page .cx-trk{position:relative;height:4px;margin-top:5px;background:color-mix(in srgb,var(--rline) 38%,transparent)}
+body[data-theme=gemini] #view .cmp-page .cx-trk i{position:absolute;left:0;top:0;bottom:0;background:var(--ink3)}
+body[data-theme=gemini] #view .cmp-page .cx-cell.lead .cx-trk i{background:var(--ink1)}
+body[data-theme=gemini] #view .cmp-page .cx-cell.na .v{color:var(--ink3)}
+body[data-theme=gemini] #view .cmp-page .cx-set .cx-cap{padding:2px 16px 6px}
+body[data-theme=gemini] #view .cmp-page .cx-chev{font-style:normal;display:inline-block;width:10px;color:var(--ink3);transition:transform 160ms ease}
+body[data-theme=gemini] #view .cmp-page .cx-mrow[aria-expanded=true] .cx-chev{transform:rotate(45deg);color:var(--ink1)}
+body[data-theme=gemini] #view .cmp-page .cx-mx{margin:0 16px 10px;padding:10px 12px;background:var(--cx-inset);border:1px solid var(--cx-edge);border-top:0;font-size:9.5px;line-height:1.5;color:var(--ink2);animation:cx-drop 180ms ease both}
+body[data-theme=gemini] #view .cmp-page .cx-mx[hidden]{display:none}
+@keyframes cx-drop{from{opacity:0;transform:translateY(-3px)}}
+body[data-theme=gemini] #view .cmp-page .cx-mx p{margin:0}
+body[data-theme=gemini] #view .cmp-page .cx-mx .rule{color:var(--ink1);margin-bottom:8px}
+body[data-theme=gemini] #view .cmp-page .cx-mx .rule small{color:var(--ink3);font-size:8.5px;letter-spacing:.06em;margin-inline-end:6px}
+body[data-theme=gemini] #view .cmp-page .cx-mx dl{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:3px 12px;margin:0;align-items:baseline}
+body[data-theme=gemini] #view .cmp-page .cx-mx dt{white-space:nowrap}
+body[data-theme=gemini] #view .cmp-page .cx-mx dd{margin:0;min-width:0;overflow-wrap:anywhere;color:var(--ink1);font-variant-numeric:tabular-nums}
+body[data-theme=gemini] #view .cmp-page .cx-mx dd.sh{color:var(--ink3);text-align:end;white-space:nowrap}
+body[data-theme=gemini] #view .cmp-page .cx-mx dd.nt{grid-column:2/-1;color:var(--ink3);font-size:8.5px;margin-top:-2px}
+body[data-theme=gemini] #view .cmp-page .cx-mx .src{margin-top:8px;padding-top:6px;border-top:1px solid color-mix(in srgb,var(--today-rule) 70%,transparent);font-size:8.5px;color:var(--ink3);overflow-wrap:anywhere}
+body[data-theme=gemini] #view .cmp-page .cx-mx .src code{font:inherit;color:var(--ink2)}
+
+/* 04 the desk's read */
+body[data-theme=gemini] #view .cmp-page .cx-read{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:16px;margin-top:20px;align-items:start}
+body[data-theme=gemini] #view .cmp-page .cx-read .today-stance{padding:18px 20px;border-inline-end:0}
+body[data-theme=gemini] #view .cmp-page .cx-lede{margin:10px 0 0;font-size:13px;line-height:1.65;color:var(--ink1);max-width:62ch}
+body[data-theme=gemini] #view .cmp-page .cx-lines{margin:14px 0 0;padding:0;list-style:none}
+body[data-theme=gemini] #view .cmp-page .cx-lines li{padding:8px 0;border-top:1px solid color-mix(in srgb,var(--today-rule) 70%,transparent);font-size:10.5px;line-height:1.55;color:var(--ink2)}
+body[data-theme=gemini] #view .cmp-page .cx-lines li b{color:var(--ink1);font-weight:600}
+body[data-theme=gemini] #view .cmp-page .cx-tally .cx-card{padding:14px 16px}
+body[data-theme=gemini] #view .cmp-page .cx-tally h3{margin:0 0 10px;font-size:10px;font-weight:700;letter-spacing:.08em}
+body[data-theme=gemini] #view .cmp-page .cx-tally h3 span{font-weight:400;color:var(--ink3)}
+body[data-theme=gemini] #view .cmp-page .cx-trow{display:grid;grid-template-columns:64px minmax(0,1fr) 28px;gap:10px;align-items:center;padding:6px 0;font-size:10px}
+body[data-theme=gemini] #view .cmp-page .cx-trow .bar{display:flex;gap:2px;height:8px}
+body[data-theme=gemini] #view .cmp-page .cx-trow .bar i{flex:1;background:color-mix(in srgb,var(--rline) 45%,transparent)}
+body[data-theme=gemini] #view .cmp-page .cx-trow .bar i.on{background:var(--ink1)}
+body[data-theme=gemini] #view .cmp-page .cx-trow .r{text-align:end}
+
+/* 05 table */
+body[data-theme=gemini] #view .cmp-page .cx-tbl{overflow-x:auto}
+body[data-theme=gemini] #view .cmp-page .cx-tbl .today-table{min-width:0;width:100%}
+body[data-theme=gemini] #view .cmp-page .cx-tbl th a{color:var(--ink1)}
+body[data-theme=gemini] #view .cmp-page .cx-tbl td:not(:first-child),body[data-theme=gemini] #view .cmp-page .cx-tbl th:not(:first-child){text-align:end}
+body[data-theme=gemini] #view .cmp-page .cx-sort{all:unset;cursor:pointer;display:inline-flex;gap:5px;align-items:center;color:var(--ink1);font-weight:inherit}
+body[data-theme=gemini] #view .cmp-page .cx-sort i{font-style:normal;font-size:8px;color:var(--ink3);opacity:.45;transition:opacity 120ms ease}
+body[data-theme=gemini] #view .cmp-page .cx-sort:hover i,body[data-theme=gemini] #view .cmp-page th[aria-sort]:not([aria-sort=none]) .cx-sort i{opacity:1;color:var(--ink1)}
+body[data-theme=gemini] #view .cmp-page .cx-sort:hover{text-decoration:underline;text-underline-offset:3px}
+body[data-theme=gemini] #view .cmp-page .cx-sort:focus-visible{outline:2px solid var(--today-focus);outline-offset:2px}
+body[data-theme=gemini] #view .cmp-page .cx-tbl tbody tr{transition:background-color 100ms ease}
+body[data-theme=gemini] #view .cmp-page .cx-tbl td.best{font-weight:700}
+
+/* ===== interaction layer: linked highlight, hover/focus, expand, sort ===== */
+body[data-theme=gemini] #view .cmp-page [data-sym]{transition:opacity 140ms ease,background-color 120ms ease,border-color 120ms ease}
+body[data-theme=gemini] #view .cmp-page.has-hl [data-sym]:not(.is-hl):not(td):not(th){opacity:.36}
+body[data-theme=gemini] #view .cmp-page.has-hl .cx-svg [data-sym]:not(.is-hl){opacity:.16}
+body[data-theme=gemini] #view .cx-svg .ln{transition:opacity 140ms ease,stroke-width 140ms ease}
+body[data-theme=gemini] #view .cx-svg .ln.is-hl{stroke-width:2.6}
+body[data-theme=gemini] #view .cmp-page.has-hl .cx-tbl .is-hl{background:var(--today-hover)}
+body[data-theme=gemini] #view .cmp-page.has-hl .cx-tbl th.is-hl{box-shadow:inset 0 -2px 0 var(--ink1)}
+body[data-theme=gemini] #view .cmp-page .cx-chip.is-pin,body[data-theme=gemini] #view .cmp-page .cx-name.is-pin{outline:1px solid var(--ink1);outline-offset:2px}
+/* picker */
+body[data-theme=gemini] #view .cmp-page .cx-form input:hover{border-color:var(--ink3)}
+body[data-theme=gemini] #view .cmp-page .cx-form input:focus-visible+.cx-btn{border-color:var(--ink2)}
+body[data-theme=gemini] #view .cmp-page .cx-btn{transition:background-color 120ms ease,color 120ms ease}
+body[data-theme=gemini] #view .cmp-page .cx-btn:active{background:var(--ink1);color:var(--paper)}
+body[data-theme=gemini] #view .cmp-page .cx-chip>span{cursor:pointer}
+body[data-theme=gemini] #view .cmp-page .cx-chip>span:focus-visible{outline:2px solid var(--today-focus);outline-offset:-2px}
+body[data-theme=gemini] #view .cmp-page .cx-chip button:hover{color:var(--dn);background:var(--today-hover)}
+body[data-theme=gemini] #view .cmp-page .cx-chip button:focus-visible{outline:2px solid var(--today-focus);outline-offset:-2px}
+body[data-theme=gemini] #view .cmp-page .cx-name{cursor:pointer;transition:background-color 140ms ease,border-color 140ms ease,opacity 140ms ease}
+body[data-theme=gemini] #view .cmp-page .cx-sort.on i{opacity:1;color:var(--ink1)}
+body[data-theme=gemini] #view .cmp-page .cx-tbl tbody tr:hover td.is-hl{background:color-mix(in srgb,var(--ink1) 12%,transparent)}
+body[data-theme=gemini] #view .cmp-page .cx-sugg button{transition:border-color 120ms ease,color 120ms ease}
+body[data-theme=gemini] #view .cmp-page .cx-cap a,body[data-theme=gemini] #view .cmp-page .pf-foot a{text-underline-offset:2px}
+body[data-theme=gemini] #view .cmp-page :is(.cx-cap,.pf-foot) a:hover{color:var(--ink1)!important;text-decoration-thickness:2px}
+body[data-theme=gemini] #view .cmp-page :is(.cx-cap,.pf-foot) a:focus-visible{outline:2px solid var(--today-focus);outline-offset:2px}
+
+@media (hover:hover){
+  body[data-theme=gemini] #view .cmp-page .cx-name:hover,body[data-theme=gemini] #view .cmp-page .cx-name:focus-within{background:var(--cx-lift);border-inline-color:var(--ink3);border-bottom-color:var(--ink3)}
+  body[data-theme=gemini] #view .cmp-page .cx-nctl{opacity:0}
+  body[data-theme=gemini] #view .cmp-page .cx-name:hover .cx-nctl,body[data-theme=gemini] #view .cmp-page .cx-name:focus-within .cx-nctl{opacity:1}
+  body[data-theme=gemini] #view .cmp-page .cx-tags span[data-tip]:hover{background:var(--today-hover)}
+  body[data-theme=gemini] #view .cmp-page .cx-chip:hover{border-color:var(--ink2)}
+  body[data-theme=gemini] #view .cmp-page .cx-rets span[data-sym]:hover,body[data-theme=gemini] #view .cmp-page .cx-trow:hover{background:var(--today-hover)}
+  body[data-theme=gemini] #view .cmp-page .cx-mrow:hover{background:var(--today-hover)}
+  body[data-theme=gemini] #view .cmp-page .cx-mrow:hover .cx-chev{color:var(--ink1)}
+  body[data-theme=gemini] #view .cmp-page .cx-tbl tbody tr:hover{background:var(--today-hover)}
+  body[data-theme=gemini] #view .cmp-page .cx-tbl tbody tr:hover td:first-child{color:var(--ink1)}
+}
+
+@media (prefers-reduced-motion:reduce){
+  body[data-theme=gemini] #view .cmp-page *,body[data-theme=gemini] #view .cmp-page *::before{transition:none!important;animation:none!important}
+}
+
+@media (max-width:900px){
+  body[data-theme=gemini] #view .cmp-page .cx-sets{grid-template-columns:1fr}
+  body[data-theme=gemini] #view .cmp-page .cx-read{grid-template-columns:1fr}
+  body[data-theme=gemini] #view .cmp-page .cx-names{grid-template-columns:repeat(min(var(--n),2),minmax(0,1fr))}
+}
+@media (max-width:620px){
+  body[data-theme=gemini] #view .cmp-page.today-page{padding:10px 16px 26px}
+  body[data-theme=gemini] #view .cmp-page .cx-ch{margin-top:36px}
+  body[data-theme=gemini] #view .cmp-page .wl-chips{flex-wrap:nowrap;flex-shrink:0}
+  body[data-theme=gemini] #view .cmp-page .wl-chips button{padding:5px 9px}
+  body[data-theme=gemini] #view .cmp-page .cx-ch.first{margin-top:10px}
+  body[data-theme=gemini] #view .cmp-page .cx-card{padding:12px}
+  body[data-theme=gemini] #view .cmp-page .cx-pick{grid-template-columns:1fr}
+  body[data-theme=gemini] #view .cmp-page .cx-count{text-align:start;display:flex;align-items:center;gap:10px}
+  body[data-theme=gemini] #view .cmp-page .cx-count b{display:inline;font-size:15px;margin:0}
+  body[data-theme=gemini] #view .cmp-page .cx-count .cx-slots{margin:0}
+  body[data-theme=gemini] #view .cmp-page .cx-names{gap:10px;margin-top:16px}
+  body[data-theme=gemini] #view .cmp-page .cx-name{padding:10px 10px 12px}
+  body[data-theme=gemini] #view .cmp-page .cx-name header small{display:none}
+  body[data-theme=gemini] #view .cmp-page .cx-name .px{font-size:19px;margin-top:10px}
+  body[data-theme=gemini] #view .cmp-page .cx-name .mv{flex-wrap:wrap;gap:2px 10px}
+  body[data-theme=gemini] #view .cmp-page .cx-tags{grid-template-columns:1fr}
+  body[data-theme=gemini] #view .cmp-page .cx-tags span:nth-child(even){border-inline-start:0;padding-inline-start:0}
+  body[data-theme=gemini] #view .cmp-page .cx-idx{display:none}
+  body[data-theme=gemini] #view .cmp-page .cx-rets{grid-template-columns:repeat(2,minmax(0,1fr));row-gap:10px}
+  body[data-theme=gemini] #view .cmp-page .cx-rets span:nth-child(3){border-inline-start:0;padding-inline-start:0}
+  body[data-theme=gemini] #view .cmp-page .cx-mrow,body[data-theme=gemini] #view .cmp-page .cx-mhd{grid-template-columns:repeat(var(--n),minmax(0,1fr));gap:4px 8px;padding-inline:12px}
+  body[data-theme=gemini] #view .cmp-page .cx-mhd>span:first-child{display:none}
+  body[data-theme=gemini] #view .cmp-page .cx-mrow .lb{grid-column:1/-1}
+  body[data-theme=gemini] #view .cmp-page .cx-set>h3{padding:10px 12px 8px}
+  body[data-theme=gemini] #view .cmp-page .cx-set .cx-cap{padding-inline:12px}
+  body[data-theme=gemini] #view .cmp-page .cx-read .today-stance{padding:14px}
+  body[data-theme=gemini] #view .cmp-page .cx-lede{font-size:12px}
+  body[data-theme=gemini] #view .cmp-page .cx-more[open]{padding:10px 8px 8px}
+  body[data-theme=gemini] #view .cmp-page .cx-tbl :is(th,td){padding-inline:5px;white-space:nowrap}
+  body[data-theme=gemini] #view .cmp-page .cx-tbl :is(th,td):first-child{position:sticky;left:0;z-index:1;background:var(--cx-card);box-shadow:inset -1px 0 0 var(--today-rule)}
+  body[data-theme=gemini] #view .cmp-page .cx-tbl tbody tr:hover td:first-child,body[data-theme=gemini] #view .cmp-page.has-hl .cx-tbl td.is-hl:first-child{background:linear-gradient(var(--today-hover),var(--today-hover)),var(--cx-card)}
+  body[data-theme=gemini] #view .cmp-page .cx-mx{margin-inline:12px}
+}
+@media (max-width:420px){
+  body[data-theme=gemini] #view .cmp-page .cx-names{grid-template-columns:1fr}
+  body[data-theme=gemini] #view .cmp-page .cx-read{grid-template-columns:1fr}
+}
