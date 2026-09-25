@@ -414,6 +414,7 @@ function cmpWire(root, T, hist, nstrat) {
   function hideTip() { if (tip) tip.style.display = "none"; }
 
   root.querySelector("#cmp-form")?.addEventListener("submit", e => { e.preventDefault(); const i = $("cmp-in"); cmpAdd2(i.value); if (i) i.value = ""; });
+  root.querySelector("#cmp-in")?.addEventListener("combopick", e => { cmpAdd2(e.detail); e.target.value = ""; });
 
   root.addEventListener("click", e => {
     const t = e.target;

@@ -1,0 +1,90 @@
+/* page-strategies.css — Strategies page (redesign 2026-09). Ported from
+   docs/redesign-mockups/strategies-mockup.html. Scoped under .st-page (added
+   alongside .today-page on the root, matching .cmp-page/.px-page convention).
+   Real-data page — see page-strategies.js for data sourcing; board/paywall/
+   request-form logic lives in app.js (stratBoard/stratRunOn/playBoardRun/
+   addBoardTicker/submitStratRequest/isSubscribed/planWall) and is called, not
+   duplicated. .today-*/.sumtile/.sb-*/.dict-*/.pill/.card/.seg classes below
+   are global — used as-is, not redeclared. */
+
+/* ===== shared pieces (local copies, matching page-compare.css/page-practice.css) ===== */
+body[data-theme=gemini] #view .up{color:var(--up)}
+body[data-theme=gemini] #view .dn{color:var(--dn)}
+body[data-theme=gemini] #view .mut{color:var(--ink3)}
+
+/* ===== st-* : strategies page ===== */
+body[data-theme=gemini] #view .st-page{--st-card:var(--today-paper);--st-inset:var(--paper);--st-lift:var(--paper-3);--st-edge:var(--today-rule)}
+body[data-theme=gemini] #view .st-page .card{background:var(--st-card);border:1px solid var(--st-edge);padding:14px 18px 16px}
+body[data-theme=gemini] #view .st-page .st-empty{color:var(--ink3);font-size:11px}
+body[data-theme=gemini] #view .st-page .st-cap{margin:8px 0 0;font-size:10px;color:var(--ink3);line-height:1.5}
+
+/* family bars */
+body[data-theme=gemini] #view .st-page .st-fams{display:flex;flex-direction:column;gap:0;border-top:1px solid var(--st-edge);margin-bottom:14px}
+body[data-theme=gemini] #view .st-page .st-fam{display:flex;flex-direction:column;gap:6px;width:100%;text-align:start;background:transparent;border:0;border-bottom:1px solid var(--st-edge);padding:10px 4px;cursor:pointer;font:inherit;color:inherit}
+body[data-theme=gemini] #view .st-page .st-fam.on{background:var(--today-hover)}
+body[data-theme=gemini] #view .st-page .st-fam-h{display:flex;justify-content:space-between;align-items:baseline;gap:10px;font-size:11px}
+body[data-theme=gemini] #view .st-page .st-fam-h b{font-weight:600;color:var(--ink1)}
+body[data-theme=gemini] #view .st-page .st-fam-h i{font-style:normal;color:var(--ink3);font-size:10px;white-space:nowrap}
+body[data-theme=gemini] #view .st-page .st-fam-bar{display:block;height:4px;background:var(--st-inset);border:1px solid var(--st-edge)}
+body[data-theme=gemini] #view .st-page .st-fam-bar i{display:block;height:100%;background:var(--ink1)}
+
+/* funnel */
+body[data-theme=gemini] #view .st-page .st-funnel{display:flex;flex-direction:column;gap:10px}
+body[data-theme=gemini] #view .st-page .st-step{display:grid;grid-template-columns:16px minmax(0,1fr) minmax(80px,1fr) 64px;align-items:center;gap:10px}
+body[data-theme=gemini] #view .st-page .st-step-n{font-size:10px;color:var(--ink3)}
+body[data-theme=gemini] #view .st-page .st-step-lab{font-size:11px;color:var(--ink2)}
+body[data-theme=gemini] #view .st-page .st-step-bar{display:block;height:8px;background:var(--st-inset);border:1px solid var(--st-edge)}
+body[data-theme=gemini] #view .st-page .st-step-bar i{display:block;height:100%;background:var(--up)}
+body[data-theme=gemini] #view .st-page .st-step-v{text-align:end;font-size:12px;font-weight:600;color:var(--ink1)}
+
+/* heatmap */
+body[data-theme=gemini] #view .st-page .st-heat-wrap{overflow-x:auto}
+body[data-theme=gemini] #view .st-page table.st-heat{border-collapse:collapse;font-size:10px;white-space:nowrap}
+body[data-theme=gemini] #view .st-page table.st-heat th{font-weight:600;color:var(--ink3);text-align:start;padding:4px 8px;border-bottom:1px solid var(--st-edge)}
+body[data-theme=gemini] #view .st-page table.st-heat td{text-align:center;padding:6px 8px;border:1px solid var(--st-edge);color:var(--ink3)}
+body[data-theme=gemini] #view .st-page table.st-heat td.on{background:color-mix(in srgb, var(--up) calc(var(--t, .3) * 100%), var(--st-inset));color:var(--ink1);font-weight:600}
+
+/* scatter */
+body[data-theme=gemini] #view .st-page .st-svg{display:block;width:100%;height:auto;overflow:visible}
+body[data-theme=gemini] #view .st-page .st-svg .ax{stroke:var(--st-edge);stroke-width:1}
+body[data-theme=gemini] #view .st-page .st-svg .lab{fill:var(--ink3);font-size:9px}
+body[data-theme=gemini] #view .st-page .st-svg circle{fill:color-mix(in srgb, var(--up) calc(var(--p, 0) * 100%), var(--ink3));fill-opacity:.55;stroke:var(--st-edge);stroke-width:.5}
+
+/* library cards */
+body[data-theme=gemini] #view .st-page .st-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:0;border-top:1px solid var(--st-edge);border-inline-start:1px solid var(--st-edge)}
+body[data-theme=gemini] #view .st-page .st-card{background:var(--st-card);border-bottom:1px solid var(--st-edge);border-inline-end:1px solid var(--st-edge);padding:14px;cursor:pointer}
+body[data-theme=gemini] #view .st-page .st-card.open{background:var(--today-hover)}
+body[data-theme=gemini] #view .st-page .st-card-h{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+body[data-theme=gemini] #view .st-page .st-card-h b{font-size:12px;font-weight:600;color:var(--ink1)}
+body[data-theme=gemini] #view .st-page .st-card-p{margin:6px 0 0;font-size:10px;color:var(--ink3);line-height:1.5}
+body[data-theme=gemini] #view .st-page .st-mini{display:flex;gap:14px;margin-top:10px}
+body[data-theme=gemini] #view .st-page .st-mini span{display:flex;flex-direction:column;gap:2px;font-size:9px;color:var(--ink3)}
+body[data-theme=gemini] #view .st-page .st-mini b{font-size:12px;font-weight:600;color:var(--ink1)}
+body[data-theme=gemini] #view .st-page .st-detail{margin-top:12px;padding-top:12px;border-top:1px solid var(--st-edge)}
+body[data-theme=gemini] #view .st-page .st-tbl{width:100%;font-size:10px}
+body[data-theme=gemini] #view .st-page .st-kv{display:flex;justify-content:space-between;font-size:10px;color:var(--ink3);padding:3px 0}
+
+@media (hover:hover){
+  body[data-theme=gemini] #view .st-page .st-fam:hover{background:var(--today-hover)}
+  body[data-theme=gemini] #view .st-page .st-card:hover{background:var(--today-hover)}
+  body[data-theme=gemini] #view .st-page .sb-tile:hover{background:var(--today-hover)}
+}
+
+@media (prefers-reduced-motion:reduce){
+  body[data-theme=gemini] #view .st-page *,body[data-theme=gemini] #view .st-page *::before{transition:none!important;animation:none!important}
+}
+
+@media (max-width:820px){
+  body[data-theme=gemini] #view .st-page .st-cards{grid-template-columns:1fr 1fr}
+}
+
+@media (max-width:620px){
+  body[data-theme=gemini] #view .st-page.today-page{padding:10px 16px 26px}
+  body[data-theme=gemini] #view .st-page .card{padding:12px}
+  body[data-theme=gemini] #view .st-page .st-cards{grid-template-columns:1fr}
+  body[data-theme=gemini] #view .st-page .st-step{grid-template-columns:14px minmax(0,1fr) 48px;grid-template-areas:"n lab v" "n bar bar"}
+  body[data-theme=gemini] #view .st-page .st-step-n{grid-area:n}
+  body[data-theme=gemini] #view .st-page .st-step-lab{grid-area:lab}
+  body[data-theme=gemini] #view .st-page .st-step-v{grid-area:v}
+  body[data-theme=gemini] #view .st-page .st-step-bar{grid-area:bar}
+}

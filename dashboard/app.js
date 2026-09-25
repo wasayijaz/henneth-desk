@@ -1105,134 +1105,7 @@ async function pageToday() {
   showGlobalStrip(gl);
 }
 
-async function pageStrategies() {
-  const [bt, smap, lib, uni] = await Promise.all([
-    j("backtests.json"), j("strategy_map.json"), j("strategy_library.json"), j("universe.json")]);
-  const tpls = bt?.templates || {};
-  let rows;
-  if (Object.keys(tpls).length) {
-    // full roll-up from backtests: proven count + tested count + stocks
-    rows = Object.entries(tpls).map(([id, per]) => {
-      const all = Object.values(per);
-      const elig = all.filter(t => t.eligible);
-      const avgNet = elig.length ? elig.reduce((a, t) => a + t.net_expectancy_pct, 0) / elig.length : null;
-      return { id, name: all[0]?.name || id, cat: all[0]?.category || "", tested: all.length,
-        proven: elig.length, avgNet, provenOn: Object.entries(per).filter(([, t]) => t.eligible).map(([s]) => s) };
-    });
-  } else {
-    // bundled/snapshot fallback: derive from strategy_map (per-ticker proven lists)
-    const agg = {};
-    Object.entries(smap?.tickers || {}).forEach(([sym, list]) => list.forEach(p => {
-      const a = agg[p.id] || (agg[p.id] = { id: p.id, name: p.name, cat: p.category, nets: [], provenOn: [] });
-      a.nets.push(p.net_expectancy_pct); a.provenOn.push(sym);
-    }));
-    rows = Object.values(agg).map(a => ({ id: a.id, name: a.name, cat: a.cat, tested: null,
-      proven: a.provenOn.length, avgNet: a.nets.reduce((x, y) => x + y, 0) / a.nets.length, provenOn: a.provenOn }));
-  }
-  rows.sort((a, b) => b.proven - a.proven);
-  const byCat = {};
-  rows.forEach(r => (byCat[r.cat] = byCat[r.cat] || []).push(r));
-  const descs = {};
-  (lib?.strategies || []).forEach(s => { descs[s.id] = s; });
-
-  const names = uni?.symbols || {};
-  const nStrat = bt?.n_strategies || rows.length || 52;
-  const provenPairs = Object.values(smap?.tickers || {}).reduce((a, l) => a + l.length, 0);
-  const nCovered = Object.keys(smap?.tickers || {}).length;
-  const sTile = (label, val, sub, k) => `<div class="sumtile"><span class="sk">${label}</span><b class="${k || ""}">${val}</b>${sub ? `<i>${sub}</i>` : ""}</div>`;
-
-  // ---- your board: pick stocks, run the whole library across them ----
-  // Nothing is revealed on adding — a stock sits "waiting for a run" until the library
-  // actually runs on it. The work has to be seen to be worth anything.
-  const board = stratBoard();
-  const pending = board.filter(s => !stratRunOn(s));
-  const anyRan = board.some(stratRunOn);
-  const provenCount = s => (smap?.tickers?.[s] || []).length;
-  const tiles = board.map(s => { const ranS = stratRunOn(s);
-    return `<div class="sb-tile clickable" onclick="if(!event.target.closest('.sb-x'))navigate('/ticker/${esc(s)}')">
-      <button class="sb-x" data-sbdel="${esc(s)}" title="Remove ${esc(s)} from the board" aria-label="remove ${esc(s)}">✕</button>
-      <b>${esc(s)}</b><span class="sb-nm">${esc((names[s]?.name || "").slice(0, 24))}</span>
-      <span class="pill ${ranS && provenCount(s) ? "ok" : ranS ? "" : "wait"}">${ranS ? provenCount(s) + " of " + nStrat + " proven" : "waiting for a run"}</span>
-    </div>`; }).join("");
-  const addTile = `<div class="sb-tile sb-add">
-      <span class="sk">Add a stock</span>
-      <input id="sb-tkr" class="ph-in combo" type="search" enterkeyhint="search" placeholder="e.g. FFC" autocomplete="off" onkeydown="if(event.key==='Enter'&&!document.querySelector('.combo-opt.on'))addBoardTicker()">
-      <button class="note-save" onclick="addBoardTicker()">Add to board</button>
-    </div>`;
-
-  /* Publication frame (§4). These read the backtests already computed by backtest.py in the
-     deterministic cycle — no user action starts a backtest, and the numbers are identical for
-     every subscriber. The copy says "read", not "run", because "run" described work being done
-     for this reader on request, which is not what happens. */
-  const runBar = pending.length ? `<button class="run-desk run-strat" onclick="playBoardRun()">
-    <span class="run-ico">▶</span>
-    <span class="run-txt"><b>The strategy library on ${anyRan ? `your ${pending.length} new stock${pending.length > 1 ? "s" : ""}` : `your ${board.length} stock${board.length > 1 ? "s" : ""}`}</b><i>All ${nStrat} of the desk's strategies, backtested across ${pending.length === 1 ? "its" : "each stock's"} ~19-year history — costs included, out-of-sample checked — with every stock–strategy pair that survived, ranked.</i></span>
-    <span class="run-meta">${bt?.updated ? `<span class="run-last">Library updated · ${esc(String(bt.updated).slice(0, 10))}</span>` : ""}<span class="run-go">Read ›</span></span>
-  </button>` : board.length ? `<button class="run-desk run-strat ran" onclick="playBoardRun()">
-    <span class="run-ico">▶</span>
-    <span class="run-txt"><b>The strategy library on your ${board.length} stock${board.length > 1 ? "s" : ""}</b><i>All ${nStrat} strategies across every stock on your board, re-ranked by what survives. Worth revisiting as the library and the price history move on.</i></span>
-    <span class="run-meta">${bt?.updated ? `<span class="run-last">Library updated · ${esc(String(bt.updated).slice(0, 10))}</span>` : ""}<span class="run-go">Replay ›</span></span>
-  </button>` : "";
-
-  // ---- results: per board stock. A stock shows NOTHING until the library has actually run on it. ----
-  const results = !board.length ? "" : board.map(s => {
-    const list = smap?.tickers?.[s] || [];
-    const head = `<div class="sb-res-head clickable" onclick="navigate('/ticker/${esc(s)}')"><b>${esc(s)}</b><span class="sub">${esc((names[s]?.name || "").slice(0, 30))}</span><span class="pill ${stratRunOn(s) ? (list.length ? "ok" : "") : "wait"}">${stratRunOn(s) ? list.length + " proven" : "not run yet"}</span></div>`;
-    if (!stratRunOn(s)) return `<div class="card" style="padding:0">${head}
-      <div class="empty" style="padding:14px 17px">The library's results for <b>${esc(s)}</b> aren't open yet — hit <b>Read ›</b> above for all ${nStrat} strategies backtested across ${esc(s)}'s own ~19 years of price history, and what actually held up.</div></div>`;
-    return `<div class="card" style="padding:0">${head}
-      ${list.length ? `<table><thead><tr><th>Strategy</th><th class="r">Win rate</th><th class="r">Avg net/trade</th><th class="r">Trades</th><th class="r">Out-of-sample</th></tr></thead><tbody>${
-        list.map(t => `<tr><td><b>${esc(t.name)}</b> <span class="tag">${esc((t.category || "").replace(/_/g, " "))}</span></td>
-          <td class="r num">${Math.round(t.hit_rate * 100)}%</td><td class="r num up">${sgn(t.net_expectancy_pct)}%</td>
-          <td class="r num">${t.n}</td><td class="r num">${t.oos_hit != null ? Math.round(t.oos_hit * 100) + "% · n" + t.oos_n : "—"}</td></tr>`).join("")}</tbody></table>`
-        : `<div class="empty" style="padding:14px 17px">No strategy cleared the bar on ${esc(s)} — none held win rate ≥55%, positive expectancy after costs, AND out-of-sample. The desk wouldn't signal it. That's a finding, not a gap.</div>`}</div>`;
-  }).join("");
-
-  // ---- the dictionary: every strategy the desk runs, in plain English ----
-  const dict = `<details class="dict"><summary><b>What's in the library</b><span class="sub">every strategy the desk runs, and how each one works</span><span class="dict-arrow">▾</span></summary>
-    ${Object.entries(byCat).map(([cat, list]) => `<div class="dict-cat">${esc((cat || "other").replace(/_/g, " "))}</div>
-      ${list.map(r => { const d = descs[r.id] || {};
-        return `<div class="dict-row"><div><b>${esc(r.name)}</b>${d.target_pct != null ? `<span class="dict-meta">target +${d.target_pct}% · stop −${d.stop_pct}% · max ${d.hold} sessions</span>` : ""}</div>
-        <p>${esc(d.description || "")}</p>
-        <span class="dict-proven ${r.proven ? "" : "none"}">${r.proven ? `proven on ${r.proven} stock${r.proven === 1 ? "" : "s"}` : "hasn't cleared the bar anywhere yet"}</span></div>`; }).join("")}`).join("")}
-  </details>`;
-
-  // ---- request a strategy (signed-in; stored in the desk's request queue) ----
-  const reqForm = `<div class="seg"><h2>Request a strategy</h2><div class="ln"></div><span class="pill">the desk tests it</span></div>
-  <div class="card">
-    <p class="sub" style="margin-bottom:12px">Trade by a rule that isn't in the library? Explain it below. The desk codes it, backtests it on ~19 years, and if it clears the bar it joins the library.</p>
-    ${me ? `<div class="rq-form">
-      <div class="ph-row"><input id="rq-title" class="ph-in" inputmode="text" enterkeyhint="next" aria-label="Strategy name" placeholder="Name it (e.g. Monday gap fade)" maxlength="80">
-      <input id="rq-tkr" class="ph-in combo" type="search" enterkeyhint="search" aria-label="Ticker (optional)" style="flex:0 1 150px" placeholder="Ticker (optional)" autocomplete="off"></div>
-      <textarea id="rq-desc" class="tknote" style="min-height:88px" placeholder="Explain the rules in plain English: when it buys, when it exits, any filters (volume, trend, day of week…)."></textarea>
-      <div class="tknote-bar"><button class="note-save" onclick="submitStratRequest()">Send to the desk</button><span id="rq-msg" class="sub"></span></div></div>`
-    : `<div class="empty">Sign in to send the desk a strategy to test.<br><br><button class="auth-go" style="max-width:220px" onclick="openAuth('signup')">Create a free account</button></div>`}
-  </div>`;
-
-  $("view").innerHTML = `
-  <div class="seg" style="margin-top:4px"><h2>Strategies</h2><div class="ln"></div><span class="pill">${nStrat} strategies</span></div>
-  <p class="sub" style="margin-bottom:14px">An open rule set, backtested on each stock's own ~19 years. It counts only where it cleared the bar — win rate ≥55%, positive expectancy after costs, profitable out-of-sample. Research, not advice.</p>
-  <div class="sumstrip s4">
-    ${sTile("Strategies", nStrat, "transparent rule sets", "")}
-    ${sTile("Proven pairs", provenPairs, "strategy × stock, after costs + OOS", provenPairs ? "up" : "")}
-    ${sTile("Stocks with a proven edge", nCovered, "across the universe", "")}
-    ${sTile("Library updated", bt?.updated ? String(bt.updated).slice(0, 10) : "—", "full re-backtest", "")}
-  </div>
-
-  <div class="seg"><h2>Your board</h2><div class="ln"></div><span class="pill">${board.length ? board.length + " stock" + (board.length > 1 ? "s" : "") : "empty"}</span></div>
-  <div class="card">
-    <div class="sb-grid">${tiles}${addTile}</div>
-    <span id="sb-msg" class="sub" style="display:block;margin-top:8px"></span>
-    ${!me && board.length ? `<span class="sub" style="display:block;margin-top:4px">Your board lives in this session only — <a style="color:var(--accent);cursor:pointer" onclick="openAuth('signup')">sign in</a> to keep it.</span>` : ""}
-  </div>
-  ${isSubscribed() ? runBar + results
-    : planWall("The strategy library on your board",
-      "Pick your stocks above to read every strategy's results on each — ~19 years of that stock's own history per rule, with win rate, expectancy after costs and out-of-sample honesty.")}
-
-  <div class="seg"><h2>The library</h2><div class="ln"></div></div>
-  ${dict}
-  ${reqForm}`;
-}
+// Strategies page lives in page-strategies.js (redesign 2026-09).
 
 /* ==========================================================================================
    PERSONAL ASTRO — a user casts their own birth chart in the browser, and the tradition reads it
@@ -6800,6 +6673,8 @@ let _comboEl = null, _comboInput = null, _comboIdx = -1;
 function _comboClose() { if (_comboEl) { _comboEl.remove(); _comboEl = null; _comboInput = null; _comboIdx = -1; } }
 async function _comboOpen(input) {
   const idx = await loadSearchIndex();
+  // the index loads async: if focus left the box meanwhile (a pick, a click away), stay shut
+  if (document.activeElement !== input) return;
   _comboInput = input;
   if (!_comboEl) { _comboEl = document.createElement("div"); _comboEl.className = "combo-pop"; document.body.appendChild(_comboEl); }
   _comboRender(idx, input.value);
@@ -6826,13 +6701,16 @@ function _comboPick(sym) {
   if (_comboInput) {
     _comboInput.value = sym;
     _comboInput.dispatchEvent(new Event("input", { bubbles: true }));
-    const btn = _comboInput.closest(".sb-add, .ph-form, .ph-row, .rq-form")?.querySelector(".note-save");
+    // Pages that act on a pick (Compare adds the name) listen for this.
+    _comboInput.dispatchEvent(new CustomEvent("combopick", { bubbles: true, detail: sym }));
     _comboInput.focus();
   }
   _comboClose();
 }
 document.addEventListener("focusin", e => { const el = e.target.closest("input.combo"); if (el) _comboOpen(el); });
-document.addEventListener("input", e => { if (e.target.closest("input.combo") && _comboEl) loadSearchIndex().then(idx => _comboRender(idx, e.target.value)); });
+document.addEventListener("input", e => { if (e.target.closest("input.combo") && _comboEl) loadSearchIndex().then(idx => { if (_comboEl) _comboRender(idx, e.target.value); }); });
+// keep focus in the box while pressing an option, so a pick never blurs and re-opens the list
+document.addEventListener("mousedown", e => { if (e.target.closest(".combo-pop")) e.preventDefault(); });
 document.addEventListener("click", e => {
   const opt = e.target.closest(".combo-opt");
   if (opt) { e.preventDefault(); _comboPick(opt.dataset.sym); return; }
