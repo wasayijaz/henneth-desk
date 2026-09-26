@@ -3830,7 +3830,7 @@ const FEATURE_LABEL = {
   dividends_full: "Every announced payout + buy-by dates",
   earnings_full: "The full earnings calendar",
   value_full: "Model fair value on every stock",
-  screener: "Plain-English screener on scored fields",
+  screener: "Faceted screener across every scored field",
   scenarios: "Scenario simulator on measured sector betas",
   scanner: "The daily opportunity scanner",
   watch_intel: "Watchlist intelligence — what changed",
@@ -4918,99 +4918,7 @@ async function pageScenarios() {
   <p class="sub" style="margin-top:10px">Domestic SBP-rate scenarios aren't offered because the desk has only measured <b>global</b> factors against sectors — US yields are the closest measured cousin, and pretending otherwise would be a guess dressed as data.</p>`}`;
 }
 
-/* ---- Smart Screener: plain English in, transparent parsed filters out. ---- */
-let _scr = { text: "dividend > 6% and below fair value", saved: null };
-let _insiderSymbols = new Set();  // populated by pageScreener from insider_activity.json
-function parseScreen(text, sectorNames) {
-  const f = [], warn = [], t = " " + text.toLowerCase() + " ";
-  const num = re => { const m = t.match(re); return m ? parseFloat(m[1]) : null; };
-  const dy = num(/(?:dividend|yield)[^0-9<>]*(?:>|above|over|at least)?\s*(\d+(?:\.\d+)?)\s*%/);
-  if (dy != null) f.push({ label: `yield ≥ ${dy}%`, fn: r => r.dy >= dy });
-  else if (/dividend|yield/.test(t)) f.push({ label: "pays a dividend", fn: r => r.dy > 0 });
-  const peLt = num(/p\/?e\s*(?:<|under|below|less than)\s*(\d+(?:\.\d+)?)/);
-  if (peLt != null) f.push({ label: `P/E < ${peLt}`, fn: r => r.pe != null && r.pe > 0 && r.pe < peLt });
-  if (/below graham|graham/.test(t)) f.push({ label: "below Graham value", fn: r => r.graham != null && r.price != null && r.graham > r.price });
-  if (/undervalued|below fair/.test(t)) f.push({ label: "below model fair value", fn: r => r.verdict === "undervalued" });
-  if (/overvalued|above fair/.test(t)) f.push({ label: "above model fair value", fn: r => r.verdict === "overvalued" });
-  if (/earnings growth|growing|growth/.test(t)) f.push({ label: "earnings expected to grow (fwd P/E < trailing)", fn: r => r.fpe != null && r.pe != null && r.fpe < r.pe });
-  if (/predictab/.test(t)) f.push({ label: "predictability ≥ 60", fn: r => (r.pred || 0) >= 60 });
-  if (/momentum|rising|uptrend/.test(t)) f.push({ label: "20-day momentum > +5%, above 50-day", fn: r => (r.ret_20d || 0) > 5 && r.above_sma50 });
-  if (/liquid/.test(t)) f.push({ label: "≥ Rs 25M traded/day", fn: r => (r.liq || 0) >= 25e6 });
-  if (/defensive|low beta|calm/.test(t)) f.push({ label: "beta < 0.8", fn: r => r.beta != null && r.beta < 0.8 });
-  if (/profitab|margin/.test(t)) f.push({ label: "net margin ≥ 10%", fn: r => (r.margin || 0) >= 10 });
-  if (/covered/.test(t)) f.push({ label: "payout < 90%", fn: r => r.payout != null && r.payout < 90 });
-  // sector match: any distinctive word of a sector name appearing in the query ("banks" →
-  // "Commercial Banks"). Longest matched token wins so "oil marketing" beats plain "oil".
-  let best = null;
-  for (const sec of sectorNames) {
-    for (const w of sec.toLowerCase().split(/[^a-z]+/)) {
-      if (w.length >= 4 && t.includes(w) && (!best || w.length > best.w.length)) best = { sec, w };
-    }
-  }
-  if (best) f.push({ label: `sector: ${best.sec}`, fn: r => r.sector === best.sec });
-  if (/low debt|debt/.test(t)) warn.push("debt — balance-sheet debt isn't in the desk's feed yet, so it can't be filtered. Check the balance sheet directly.");
-  if (/shariah|halal|islamic/.test(t)) warn.push("Shariah status — needs the verified KMI-30 constituent list, which the desk doesn't hold yet. It won't guess on a religious screen.");
-  if (/insider/.test(t)) f.push({ label: "insider/substantial-shareholder filing in the last 30 days", fn: r => _insiderSymbols.has(r.s) });
-  return { f, warn };
-}
-async function pageScreener() {
-  await Promise.resolve();
-  const locked = !hasFeature("screener");
-  const [q, fv, fnd, pred, fs, sec, uni, insider] = await Promise.all([
-    j("quant.json"), j("fairvalue.json"), j("fundamentals.json"), j("predictability.json"),
-    j("fundamental_scores.json"), j("sectors.json"), j("universe.json"), j("insider_activity.json")]);
-  // date-bounded to match the filter's own label and the 30d window used on the ticker page --
-  // the whole file goes back months, so an unbounded key list would return "has ever filed".
-  const insCutoff = new Date(Date.now() - 30 * 86400000).toISOString().slice(0, 10);
-  _insiderSymbols = new Set(Object.entries(insider?.symbols || {})
-    .filter(([, rows]) => (rows || []).some(r => r.date && r.date >= insCutoff)).map(([s]) => s));
-  const sectorNames = [...new Set(Object.values(sec?.tickers || {}).map(x => x.sector).filter(Boolean))];
-  const rows = Object.keys(q?.tickers || {}).map(s => {
-    const v = q.tickers[s], t = fv?.tickers?.[s] || {}, f = fnd?.tickers?.[s] || {}, m = fs?.tickers?.[s]?.metrics || {};
-    return { s, name: uni?.symbols?.[s]?.name || "", sector: sec?.tickers?.[s]?.sector || "",
-      price: v.close, ret_20d: v.ret_20d, above_sma50: v.above_sma50, liq: v.avg_daily_traded_value,
-      dy: parseFloat(f.div_yield) || 0, payout: parseFloat(f.payout_ratio), pe: m.pe, fpe: m.forward_pe,
-      margin: m.net_margin, beta: m.beta, verdict: t.verdict, gap: t.mispricing_pct,
-      graham: t.methods?.graham, pred: pred?.tickers?.[s]?.score };
-  });
-  const { f: filters, warn } = parseScreen(_scr.text, sectorNames);
-  const out = filters.length ? rows.filter(r => filters.every(x => x.fn(r))) : [];
-  const saved = (myProfile?.saved_screens || []);
-  const SAMPLES = ["dividend > 8% and covered", "below graham value with earnings growth", "undervalued banks",
-    "predictable with momentum", "defensive with dividend > 6%", "cement below fair value"];
-  $("view").innerHTML = `
-  <div class="seg" style="margin-top:4px"><h2>Screener</h2><div class="ln"></div><span class="pill">plain English in</span></div>
-  <p class="sub" style="margin-bottom:12px">No filter panels — say what you want. It shows how it read you, then screens the desk's <b>scored</b> fields: fair value, Graham value, predictability, covered yield. Nobody else screens these, because nobody else scores them.</p>
-  ${locked ? planWall("The plain-English screener",
-    `"Dividend above 8%, covered, below Graham value, with earnings growth" — one sentence, screened across all ${rows.length} names on the desk's scored fields.`) : `
-  <div class="card">
-    <div class="scr-row"><input id="scr-in" class="ph-in" type="search" inputmode="search" enterkeyhint="search" aria-label="Describe what you are screening for" style="flex:1" value="${esc(_scr.text)}" placeholder="e.g. dividend > 8% with earnings growth, below fair value"
-      onkeydown="if(event.key==='Enter'){_scr.text=this.value;pageScreener()}">
-      <button class="note-save" onclick="_scr.text=document.getElementById('scr-in').value;pageScreener()">Screen</button>
-      ${me && filters.length ? `<button class="note-save" onclick="saveScreen()">Save</button>` : ""}</div>
-    <div class="scr-chips">${filters.map(x => `<span class="scr-chip">${esc(x.label)}</span>`).join("")
-      || '<span class="sub">Nothing parsed yet — try one of the examples below.</span>'}</div>
-    ${warn.map(w => `<div class="tnote warn" style="margin-top:8px"><b>Can't screen on ${esc(w.split(" — ")[0])}</b> — ${esc(w.split(" — ")[1] || "")}</div>`).join("")}
-    <div class="scr-samples">${SAMPLES.map(x => `<button class="scr-sample" onclick="_scr.text='${esc(x)}';pageScreener()">${esc(x)}</button>`).join("")}
-    ${saved.map((x, i) => `<button class="scr-sample saved" onclick="_scr.text='${esc(x.text)}';pageScreener()" title="saved screen">★ ${esc(x.name)}</button>`).join("")}</div>
-  </div>
-  ${filters.length ? `<div class="seg"><h2>${out.length} match${out.length === 1 ? "" : "es"}</h2><div class="ln"></div>${out.length ? csvBtn("screen") : ""}</div>
-  <div class="card" style="padding:0">${out.length ? `<table><thead><tr><th>Stock</th><th>Sector</th><th class="r">Price</th><th class="r">P/E</th><th class="r">Yield</th><th class="r">vs fair</th><th class="r">Predict.</th></tr></thead><tbody>${
-      out.slice(0, 60).map(r => `<tr class="clickable" onclick="navigate('/ticker/${r.s}')"><td><b>${r.s}</b> <span class="sub">${esc((r.name || "").slice(0, 20))}</span></td>
-        <td class="sub">${esc((r.sector || "").slice(0, 16))}</td><td class="r num">${fmt(r.price)}</td><td class="r num">${r.pe ?? "—"}</td>
-        <td class="r num">${r.dy ? r.dy + "%" : "—"}</td><td class="r num ${r.gap > 0 ? "up" : r.gap < 0 ? "dn" : ""}">${r.gap != null ? sgn(r.gap) + "%" : "—"}</td>
-        <td class="r num">${r.pred ?? "—"}</td></tr>`).join("")}</tbody></table>`
-      : '<div class="empty">Nothing clears every condition — loosen one and try again. An empty screen is information too.</div>'}</div>
-  <p class="sub" style="margin-top:10px">A screen is a reading list, not a portfolio. Every match still deserves the checklist on its own page.</p>` : ""}`}`;
-}
-async function saveScreen() {
-  if (!me) { openAuth("signup"); return; }
-  const name = prompt("Name this screen:", _scr.text.slice(0, 30)); if (!name) return;
-  const list = [...(myProfile?.saved_screens || []), { name, text: _scr.text }].slice(-12);
-  myProfile = { ...(myProfile || {}), saved_screens: list };
-  await saveProfile({ saved_screens: list });
-  pageScreener();
-}
+/* ---- Screener: moved to dashboard/page-screener.js (page-module pattern). ---- */
 
 /* ---- Watchlist intelligence: "something important changed", computed per watched name. ---- */
 function watchIntel(syms, { q, fvt, news, cal, claims, signals }) {

@@ -1,0 +1,82 @@
+/* page-screener.css — Screener page (redesign 2026-09). Ported from
+   docs/redesign-mockups/screener-mockup.html. Scoped under .sc-page (added
+   alongside .today-page on the root, matching .st-page/.cmp-page convention).
+   Real-data page — see page-screener.js for data sourcing and all filter/sort
+   logic; hasFeature/planWall/navigate/j/esc/sgn are global (app.js) and are
+   called, not duplicated. .today-*/.sumtile/.sumstrip/.pill/.card/.seg/.empty
+   classes below are global — used as-is, not redeclared. Dropped from the
+   mockup: the SVG histogram/brush-drag range picker, sector dot-cloud,
+   sparkline detail panels and hover tooltips — see page-screener.js's header
+   comment for the full list and the reasoning. */
+
+/* ===== shared pieces (local copies, matching page-strategies.css/page-compare.css) ===== */
+body[data-theme=gemini] #view .sc-page .up{color:var(--up)}
+body[data-theme=gemini] #view .sc-page .dn{color:var(--dn)}
+body[data-theme=gemini] #view .sc-page .sub{color:var(--ink3)}
+
+/* ===== sc-* : screener page ===== */
+body[data-theme=gemini] #view .sc-page{--sc-card:var(--today-paper);--sc-inset:var(--paper);--sc-edge:var(--today-rule)}
+body[data-theme=gemini] #view .sc-page .card{background:var(--sc-card);border:1px solid var(--sc-edge);padding:14px 18px 16px;margin-bottom:14px}
+
+/* AND/OR + family tabs — local .wl-chips (page-compare.css/page-value.css/page-watchlist.css convention) */
+body[data-theme=gemini] #view .sc-page .wl-chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px}
+body[data-theme=gemini] #view .sc-page .wl-chips button{background:var(--sc-inset);border:1px solid var(--sc-edge);color:var(--ink2);font:inherit;font-size:10.5px;padding:5px 10px;cursor:pointer}
+body[data-theme=gemini] #view .sc-page .wl-chips button[aria-selected=true],
+body[data-theme=gemini] #view .sc-page .wl-chips button[aria-pressed=true]{background:var(--today-hover);color:var(--ink1);font-weight:600}
+
+/* presets */
+body[data-theme=gemini] #view .sc-page .sc-presets-head{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin-bottom:8px}
+body[data-theme=gemini] #view .sc-page .sc-presets{display:flex;flex-wrap:wrap;gap:6px}
+body[data-theme=gemini] #view .sc-page .sc-preset{background:var(--sc-inset);border:1px solid var(--sc-edge);color:var(--ink1);font:inherit;font-size:10.5px;padding:7px 11px;cursor:pointer;text-align:start}
+body[data-theme=gemini] #view .sc-page .sc-preset:hover{background:var(--today-hover)}
+
+/* field picker pool */
+body[data-theme=gemini] #view .sc-page .sc-pool-head{margin-bottom:8px}
+body[data-theme=gemini] #view .sc-page .sc-pool{display:flex;flex-wrap:wrap;gap:6px}
+body[data-theme=gemini] #view .sc-page .sc-chip{background:var(--sc-inset);border:1px solid var(--sc-edge);color:var(--ink2);font:inherit;font-size:10px;padding:5px 9px;cursor:pointer}
+body[data-theme=gemini] #view .sc-page .sc-chip.active{background:var(--today-hover);color:var(--ink1);font-weight:600;border-color:var(--ink3)}
+
+/* active condition stack */
+body[data-theme=gemini] #view .sc-page .sc-cond-stack-head{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-bottom:10px}
+body[data-theme=gemini] #view .sc-page .sc-cond-stack-head .wl-chips{margin:0}
+body[data-theme=gemini] #view .sc-page .sc-cond-stack{display:flex;flex-direction:column;gap:0;border-top:1px solid var(--sc-edge)}
+body[data-theme=gemini] #view .sc-page .sc-cond{padding:10px 2px;border-bottom:1px solid var(--sc-edge)}
+body[data-theme=gemini] #view .sc-page .sc-cond-head{display:flex;justify-content:space-between;align-items:baseline;gap:8px;font-size:11.5px;color:var(--ink1);margin-bottom:6px}
+body[data-theme=gemini] #view .sc-page .sc-x{background:transparent;border:0;color:var(--ink3);font-size:14px;line-height:1;cursor:pointer;padding:0 4px}
+body[data-theme=gemini] #view .sc-page .sc-x:hover{color:var(--dn)}
+body[data-theme=gemini] #view .sc-page .sc-range{display:flex;flex-wrap:wrap;align-items:center;gap:10px;font-size:10.5px;color:var(--ink3)}
+body[data-theme=gemini] #view .sc-page .sc-range label{display:flex;align-items:center;gap:6px}
+body[data-theme=gemini] #view .sc-page .sc-range input{width:90px;background:var(--sc-inset);border:1px solid var(--sc-edge);color:var(--ink1);font:inherit;font-size:11px;padding:4px 6px}
+body[data-theme=gemini] #view .sc-page .sc-cats{display:flex;flex-wrap:wrap;gap:10px;max-height:160px;overflow-y:auto}
+body[data-theme=gemini] #view .sc-page .sc-cat{display:flex;align-items:center;gap:6px;font-size:10.5px;color:var(--ink2);white-space:nowrap}
+body[data-theme=gemini] #view .sc-page .sc-chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+body[data-theme=gemini] #view .sc-page .scr-chip{background:var(--sc-inset);border:1px solid var(--sc-edge);font-size:9.5px;color:var(--ink3);padding:3px 8px}
+
+/* saved combinations */
+body[data-theme=gemini] #view .sc-page .sc-samples{display:flex;flex-wrap:wrap;gap:8px}
+body[data-theme=gemini] #view .sc-page .scr-sample{background:var(--sc-inset);border:1px solid var(--sc-edge);color:var(--ink1);font:inherit;font-size:10.5px;padding:6px 10px;cursor:pointer}
+
+/* results table */
+body[data-theme=gemini] #view .sc-page table{width:100%;border-collapse:collapse;font-size:11px}
+body[data-theme=gemini] #view .sc-page table th{font-weight:600;color:var(--ink3);text-align:start;padding:8px 10px;border-bottom:1px solid var(--sc-edge);white-space:nowrap;user-select:none}
+body[data-theme=gemini] #view .sc-page table td{padding:7px 10px;border-bottom:1px solid var(--sc-edge);color:var(--ink1)}
+body[data-theme=gemini] #view .sc-page table th.r,
+body[data-theme=gemini] #view .sc-page table td.r{text-align:end}
+body[data-theme=gemini] #view .sc-page table td.num{font-variant-numeric:tabular-nums}
+body[data-theme=gemini] #view .sc-page table tr.clickable{cursor:pointer}
+body[data-theme=gemini] #view .sc-page table tr.clickable:hover td{background:var(--today-hover)}
+body[data-theme=gemini] #view .sc-page .sc-more{display:flex;gap:8px;justify-content:center;margin:14px 0}
+
+/* glossary */
+body[data-theme=gemini] #view .sc-page .sc-glossary{margin-top:14px;font-size:11px;color:var(--ink2)}
+body[data-theme=gemini] #view .sc-page .sc-glossary summary{cursor:pointer;color:var(--ink1);font-weight:600;padding:8px 0}
+body[data-theme=gemini] #view .sc-page .sc-gloss-fam{padding:10px 0;border-top:1px solid var(--sc-edge)}
+body[data-theme=gemini] #view .sc-page .sc-gloss-fam ul{margin:6px 0 0;padding-inline-start:18px}
+body[data-theme=gemini] #view .sc-page .sc-gloss-fam li{margin-bottom:4px;color:var(--ink3)}
+
+@media (max-width: 640px){
+  body[data-theme=gemini] #view .sc-page .sc-range input{width:72px}
+  body[data-theme=gemini] #view .sc-page table{font-size:10px}
+  body[data-theme=gemini] #view .sc-page table th,
+  body[data-theme=gemini] #view .sc-page table td{padding:6px 6px}
+}

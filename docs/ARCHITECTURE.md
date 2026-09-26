@@ -54,6 +54,7 @@ scripts/ --writes--> state/*.json <--writes-- local agents
 | Company profiles | `fetch_company_profiles.py` -> `state/company_profiles.json` | Desk Room, explainer and ticker overview |
 | Astrology company charts | `astro_charts.py` -> `state/company_charts.json` | astrology dashboard surfaces |
 | Desk Room scaffolding | `room_*.py` | Room agents and terminal Room views |
+| Screener rollup | `build_screener.py` -> `state/screener.json` | dashboard Screener page (`page-screener.js`) |
 | Public marketing extract | `build_public_slice.py`, `build_astro_lite.py` | Astro pages under `site/` |
 
 `state/` is the seam between producers and consumers. Python writes it through `psx_data.save_json`;

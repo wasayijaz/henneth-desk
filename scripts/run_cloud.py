@@ -20,7 +20,7 @@ STEPS = [
     "astro_natal.py", "astro_context.py", "astro_claims.py",
     "fetch_macro_history.py", "sector_macro.py", "sector_dossier.py",
     "tv_crosscheck.py", "data_health.py", "compute_fairvalue.py", "build_signals.py",
-    "build_checkpoint_trigger.py", "fetch_research.py", "build_explainer.py",
+    "build_checkpoint_trigger.py", "fetch_research.py", "build_screener.py", "build_explainer.py",
     "room_dossier.py", "room_queue.py", "room_gate.py", "room_score.py",
     "room_verify.py", "design_lint.py", "build_astro_lite.py", "build_public_slice.py",
     "changelog_tickers.py", "build_changelog.py", "build_dashboard.py", "preflight.py",
