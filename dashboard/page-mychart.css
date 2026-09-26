@@ -1,0 +1,60 @@
+/* page-mychart.css — Your chart page (redesign 2026-09).
+   Behaviour/markup source: old pageMyChart (app.js, removed, kept in git history) — the real
+   page already renders through global, already-styled classes (.mychart-cta, .mc-hero,
+   .mc-chart-top, .mc-lock*, .syn-card, .goch-tile, .weather-grid/.wx-card, .comm-card, .orrery/
+   .orr-* incl. the pixel-icon 3D wheel) defined in pages.css/themes.css/pages-workspace.css/
+   motion.css — none of those are redeclared here. This file only adds what the mockup
+   (docs/redesign-mockups/mychart-mockup.html) asks for that did NOT already exist:
+   1) a coloured gradient hero treatment for the Moon-sign headline (.mc-sign),
+   2) the "IN <SIGN> AT BIRTH" chip strip and its two-way highlight state with the wheel
+      (.mc-chips/.mc-chip, and [data-g].hl on both the chips and the existing .orr-* wheel
+      elements — the data-g attributes themselves are added in natalOrrery(), app.js),
+   3) verdict-pill colour classes (s-harmonious/s-favourable/s-neutral/s-testing/s-discordant)
+      applied via x.verdict — confirmed (grep) these were never defined anywhere else, so this
+      is a genuine gap-fill, not a duplicate.
+   Scoped under .mc-page, added alongside .today-page on the root (matching .st-page/.cmp-page
+   convention). Hard corners throughout — no border-radius. JetBrains Mono inherited from body. */
+
+body[data-theme=gemini] #view .mc-page { --g-Sun:#c2620f; --g-Moon:#4f76a3; --g-Mars:#c0392b; --g-Mercury:#2c8653; --g-Jupiter:#a87f0c; --g-Venus:#b0507a; --g-Saturn:#3d4c9e; --g-Rahu:#6d4b94; --g-Ketu:#8a6545; --g-Asc:var(--ink1); }
+@media (prefers-color-scheme: dark) {
+  html:not([data-scheme="light"]) body[data-theme=gemini] #view .mc-page { --g-Sun:#f0954a; --g-Moon:#a9c4e2; --g-Mars:#e0685c; --g-Mercury:#5cbb87; --g-Jupiter:#e0b752; --g-Venus:#dd93b3; --g-Saturn:#8b98e0; --g-Rahu:#a992cf; --g-Ketu:#c2a084; --g-Asc:var(--ink1); }
+}
+html[data-scheme="dark"] body[data-theme=gemini] #view .mc-page { --g-Sun:#f0954a; --g-Moon:#a9c4e2; --g-Mars:#e0685c; --g-Mercury:#5cbb87; --g-Jupiter:#e0b752; --g-Venus:#dd93b3; --g-Saturn:#8b98e0; --g-Rahu:#a992cf; --g-Ketu:#c2a084; --g-Asc:var(--ink1); }
+
+/* ---- hero sign headline gradient (new; nothing else styles .mc-sign) ---- */
+body[data-theme=gemini] #view .mc-page .mc-sign {
+  background: linear-gradient(100deg, var(--g-Sun), var(--g-Venus) 35%, var(--g-Jupiter) 60%, var(--g-Saturn) 85%);
+  background-size: 220% 100%;
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  animation: mc-sheen 14s ease-in-out infinite alternate;
+}
+@keyframes mc-sheen { from { background-position: 0% 50%; } to { background-position: 100% 50%; } }
+
+/* ---- "IN <SIGN> AT BIRTH" chip strip ---- */
+body[data-theme=gemini] #view .mc-page .mc-chips { display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0 2px; }
+body[data-theme=gemini] #view .mc-page .mc-chip { display: inline-flex; align-items: center; gap: 5px; padding: 5px 9px; background: var(--panel); border: 1px solid var(--today-rule); font-size: 10px; color: var(--ink2); cursor: pointer; transition: border-color 120ms ease, background 120ms ease; }
+body[data-theme=gemini] #view .mc-page .mc-chip b { color: var(--g, var(--ink1)); font-weight: 500; }
+body[data-theme=gemini] #view .mc-page .mc-chip:hover, body[data-theme=gemini] #view .mc-page .mc-chip.hl { border-color: var(--g, var(--accent)); background: var(--panel2, var(--panel)); }
+
+/* ---- two-way wheel highlight (layers onto the existing .orrery/.orr-* classes) ---- */
+body[data-theme=gemini] #view .mc-page .orrery [data-g] { cursor: pointer; transition: opacity 120ms ease; }
+body[data-theme=gemini] #view .mc-page .orrery.mc-dim [data-g]:not(.hl) { opacity: .3; }
+body[data-theme=gemini] #view .mc-page .orrery [data-g].hl { filter: drop-shadow(0 0 3px var(--g, var(--accent))); }
+body[data-theme=gemini] #view .mc-page .orrery [data-g].hl .orr-asc { stroke-width: 2.5; }
+
+/* ---- verdict-pill colour (x.verdict -> s-<verdict>; not defined elsewhere) ---- */
+body[data-theme=gemini] #view .mc-page .s-harmonious { color: var(--up); }
+body[data-theme=gemini] #view .mc-page .s-favourable { color: var(--up); }
+body[data-theme=gemini] #view .mc-page .s-neutral { color: var(--ink2); }
+body[data-theme=gemini] #view .mc-page .s-testing { color: var(--dn); }
+body[data-theme=gemini] #view .mc-page .s-discordant { color: var(--dn); }
+
+/* ---- reduced motion: gate the new shimmer + the existing per-planet float (orrFloat in
+   themes.css has no reduced-motion gate anywhere else in the codebase — confirmed via grep —
+   so it is gated here, scoped to this page only) ---- */
+@media (prefers-reduced-motion: reduce) {
+  body[data-theme=gemini] #view .mc-page .mc-sign { animation: none; }
+  body[data-theme=gemini] #view .mc-page .orr-planet { animation: none; }
+  body[data-theme=gemini] #view .mc-page .mc-chip { transition: none; }
+  body[data-theme=gemini] #view .mc-page .orrery [data-g] { transition: none; }
+}

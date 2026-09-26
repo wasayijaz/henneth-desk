@@ -880,130 +880,7 @@ function sectorDriverLine(sm, sector) {
   return `<span class="sub"><b>${esc(sector)}</b> ${dir} <b>${esc(FACTOR_PLAIN[d.factor] || d.factor)}</b>${d.corr > 0 ? "" : " rises"}${demo.length > 1 ? `, and also tracks ${demo.slice(1, 3).map(x => esc(FACTOR_PLAIN[x.factor] || x.factor)).join(" and ")}` : ""} — measured over 19 years, correction-survived. Even so, the whole global tape explains only <b>${rec.joint_r2_pct ?? "—"}%</b> of this sector's daily moves.</span>`;
 }
 
-async function pageMacro() {
-  const [gl, macro, geo, sm] = await Promise.all([
-    j("global.json"), j("macro.json"), j("georisk.json"), j("sector_macro.json")]);
-  const inst = gl?.instruments || {};
-  const groups = {
-    energy: "Energy — oil drives Pakistan's import bill, PKR & inflation",
-    risk: "Global risk appetite — frontier flows follow",
-    safe_haven: "Safe haven",
-    crypto: "Crypto — global liquidity / retail risk barometer",
-    fx: "Currency — the biggest macro lever for PSX",
-  };
-  // the world tape as tiles, not tables: a price is read at a glance, a table row is read line by
-  // line. Each tile is one instrument — level, both changes, and why a PSX reader should care.
-  const GROUP_WHY = {
-    fx: "the biggest macro lever",
-    energy: "the import bill, PKR and inflation",
-    risk: "frontier flows follow",
-    crypto: "global liquidity / retail risk",
-    safe_haven: "the hedge bid",
-  };
-  const gTile = ([, v]) => `<div class="gtile">
-    <span class="gt-k">${esc(v.label)}${v.stale ? ' <span class="tag">stale</span>' : ""}</span>
-    <b class="gt-p">${fmt(v.price)}</b>
-    <span class="gt-ch"><em class="${cls(v.chg_1d_pct)}">${sgn(v.chg_1d_pct)}%<i>1d</i></em><em class="${cls(v.chg_1mo_pct)}">${sgn(v.chg_1mo_pct)}%<i>1mo</i></em></span>
-    <span class="gt-why" title="${esc(v.psx_read)}">${esc(v.psx_read)}</span></div>`;
-  const card = (gk, title) => {
-    const rows = Object.entries(inst).filter(([, v]) => v.group === gk);
-    if (!rows.length) return "";
-    return `<div class="gband">
-      <div class="gband-h"><b>${esc(String(title).split(" — ")[0])}</b><i>${esc(GROUP_WHY[gk] || String(title).split(" — ")[1] || "")}</i></div>
-      <div class="gtiles">${rows.map(gTile).join("")}</div></div>`;
-  };
-
-  const m = macro || {};
-  const dom = m.domestic || {};
-  const drivers = m.drivers || [];
-  const macroCard = `<div class="card"><h2>Pakistan macro</h2>
-    <div class="sub">regime <b>${esc(t(m.regime || "—").toUpperCase())}</b> · ${esc(tp(m, "global_read"))} · updated ${esc(m.updated || "—")} ${m.updated ? "" : "(run macro-agent to populate)"}</div>
-    ${(() => {
-      const facts = [
-        ["SBP policy rate", m.sbp_rate],
-        ["CPI YoY", m.cpi_yoy],
-        ["FX reserves", m.reserves_usd_bn ? "$" + m.reserves_usd_bn + "bn" : null],
-        ["6m T-bill", dom.tbill_6m],
-        ["10y PIB", dom.pib_10y],
-        ["Remittances", dom.remittances],
-        ["USD/PKR", m.pkr_usd],
-      ];
-      const have = facts.filter(([, v]) => v != null && v !== "");
-      const missing = facts.filter(([, v]) => v == null || v === "").map(([k]) => k);
-      return `<div class="facts">${have.map(([k, v]) => `<div class="fact"><span>${esc(k)}</span><b>${esc(v)}</b></div>`).join("")}</div>
-      ${missing.length ? `<p class="sub" style="margin-top:8px;font-size:10.5px">Pending this cycle: ${missing.join(", ")} — the macro-agent fills these from SBP/PBS primary sources on the next full run.</p>` : ""}`;
-    })()}
-    ${dom.debt_note ? `<p class="sub" style="margin-top:10px"><b>Debt/borrowing:</b> ${esc(tp(dom, "debt_note"))}</p>` : ""}
-    ${drivers.length ? `<div class="sub" style="margin-top:10px"><b>Drivers:</b><ul style="margin:6px 0 0 16px">${tpArr(m, "drivers").map(d => `<li>${esc(d)}</li>`).join("")}</ul></div>` : ""}
-    ${(m.next_events || []).length ? `<p class="sub" style="margin-top:8px"><b>Next:</b> ${m.next_events.map(e => `${esc(e.date)} ${esc(tp(e, "event"))}`).join(" · ")}</p>` : ""}
-    ${(m.sector_tilt) ? `<p class="sub" style="margin-top:8px"><b class="up">Favored:</b> ${(tpArr(m.sector_tilt, "favored")).join(", ") || "—"} · <b class="dn">Avoid:</b> ${(tpArr(m.sector_tilt, "avoid")).join(", ") || "—"}</p>` : ""}</div>`;
-
-  // geo-risk radar (worldmonitor-style, from free signals)
-  const geoCard = geo ? (() => {
-    const band = geo.band, col = band === "elevated" ? "var(--dn)" : band === "calm" ? "var(--up)" : "var(--accent)";
-    const bar = s => `<div style="height:6px;border-radius:0;background:var(--line2);overflow:hidden"><div style="height:100%;width:${s}%;background:${s >= 65 ? "var(--dn)" : s <= 40 ? "var(--up)" : "var(--accent)"};transform-origin:left"></div></div>`;
-    return `<div class="card"><div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:6px">
-      <h2>Geopolitical & risk radar</h2>
-      <span class="pill" style="background:color-mix(in srgb,${col} 15%,transparent);color:${col}">${geo.score}/100 · ${esc(band)}</span></div>
-      <div class="sub" style="color:var(--ink2);margin-bottom:14px">${esc(geo.read)} <span style="opacity:.7">· ${esc(geo.source)}</span></div>
-      <table><tbody>${geo.factors.map(f => `<tr>
-        <td style="width:150px"><b>${esc(f.factor)}</b></td>
-        <td class="num" style="width:150px">${esc(f.value)}</td>
-        <td style="width:90px" class="r num">${f.stress}</td>
-        <td style="min-width:110px">${bar(f.stress)}</td>
-        <td class="sub" style="color:var(--ink2)">${esc(f.read)}</td></tr>`).join("")}</tbody></table>
-      ${geo.sector_pressure?.length ? `<p class="sub" style="margin-top:12px"><b>Sector read-through:</b> ${geo.sector_pressure.map(esc).join(" · ")}</p>` : ""}
-      ${geo.upgrade_note ? `<p class="sub" style="margin-top:8px;opacity:.7">${esc(geo.upgrade_note)}</p>` : ""}</div>`;
-  })() : "";
-
-  // glance row: the regime and the three prices that actually move PSX, before any prose
-  const sTile = (label, val, sub, k) => `<div class="sumtile"><span class="sk">${label}</span><b class="${k || ""}">${val}</b>${sub ? `<i>${sub}</i>` : ""}</div>`;
-  const iTile = (label, code, why) => { const v = inst[code];
-    return sTile(label, v ? fmt(v.price) : "—", v ? `${sgn(v.chg_1d_pct)}% today · ${why}` : why, v ? cls(v.chg_1d_pct) : ""); };
-  // the feed writes "risk-off"; don't assume a separator — strip everything but letters
-  const regime = (m.regime || "").toLowerCase().replace(/[^a-z]/g, "");
-  const glanceRow = `<div class="sumstrip s4">
-    ${sTile("Macro regime", t(m.regime || "—").toUpperCase(), m.updated ? `desk read · ${esc(m.updated)}` : "run macro-agent to populate", regime === "riskon" ? "up" : regime === "riskoff" ? "dn" : "")}
-    ${iTile("USD/PKR", "PKR=X", "the biggest lever")}
-    ${iTile("Brent crude", "BZ=F", "the import bill")}
-    ${geo ? sTile("Geo risk", `${geo.score}/100`, esc(geo.band || ""), geo.band === "elevated" ? "dn" : geo.band === "calm" ? "up" : "") : iTile("Global risk", "^GSPC", "frontier flows follow")}
-  </div>`;
-
-  // ---- what ACTUALLY moves each sector, measured over 19 years
-  const smCard = (() => {
-    if (!sm?.by_sector) return "";
-    const h = sm.headline || {};
-    const rows = Object.entries(sm.by_sector)
-      .sort((a, b) => (b[1].joint_r2_pct ?? 0) - (a[1].joint_r2_pct ?? 0))
-      .map(([sec, rec]) => {
-        const demo = (rec.drivers || []).filter(d => d.demonstrated);
-        const chips = demo.length
-          ? demo.slice(0, 3).map(d => `<span class="mf-chip ${d.corr > 0 ? "up" : "dn"}" title="correlation ${d.corr}, p=${d.p_value}">${esc(FACTOR_LABEL[d.factor] || d.factor)} ${d.corr > 0 ? "↑" : "↓"}</span>`).join("")
-          : `<span class="sub" style="opacity:.7">nothing beat chance</span>`;
-        return `<tr><td><b>${esc(sec)}</b></td><td>${chips}</td>
-          <td class="r num">${rec.joint_r2_pct != null ? rec.joint_r2_pct + "%" : "—"}</td></tr>`;
-      }).join("");
-    return `<div class="seg"><h2>What actually moves each sector</h2><div class="ln"></div><span class="pill ok">${h.survivors_bonferroni} of ${h.hypotheses_tested} measured</span></div>
-    <div class="card" style="padding:0"><table><thead><tr><th>Sector</th><th>Demonstrated drivers</th><th class="r">Global tape explains</th></tr></thead><tbody>${rows}</tbody></table></div>
-    <p class="sub" style="margin-top:8px">Nineteen years of daily returns against the global tape — oil, gold, USD/PKR, the S&amp;P, EM flows, the US 10y — each lagged a day, since those markets close after Karachi. The same test found nothing in <a href="/astro" style="color:var(--accent)">astrology</a>. Here it finds <b>${h.survivors_bonferroni}</b>. That contrast is the point.</p>
-    <p class="sub" style="margin-top:6px"><b>Read the last column first.</b> Even at its strongest, the world tape explains a few percent of a day's move — PSX is made at home. A driver says what <i>has tended</i> to move a sector, never what will.</p>`;
-  })();
-
-  $("view").innerHTML = `
-    <div class="seg" style="margin-top:4px"><h2>What moves PSX</h2><div class="ln"></div></div>
-    ${glanceRow}
-    <p class="sub" style="margin-bottom:14px">Global markets refresh every cycle (Yahoo Finance); Pakistan numbers are verified from primary sources. Each tile says why that price matters to Karachi.</p>
-    <div class="gwrap">
-      ${card("fx", groups.fx)}
-      ${card("energy", groups.energy)}
-      ${card("risk", groups.risk)}
-      ${card("crypto", groups.crypto)}
-      ${card("safe_haven", groups.safe_haven)}
-    </div>
-    ${smCard}
-    ${geoCard}
-    ${macroCard}`;
-}
+// pageMacro lives in its own page file (redesign 2026-09).
 
 async function pageToday() {
   const [dr, quant, live, uni] = await Promise.all([j("daily_read.json"), j("quant.json"), j("live.json"), j("universe.json")]);
@@ -1251,8 +1128,8 @@ function natalOrrery(grahas, ascendant, transits) {
   let ascRay = "";
   if (ascendant) {
     const a = ascendant.lon * Math.PI / 180;
-    ascRay = `<line x1="${cx}" y1="${cy}" x2="${(cx + rxZ * Math.cos(a)).toFixed(1)}" y2="${(cy - ryZ * Math.sin(a)).toFixed(1)}" class="orr-asc"/>
-      <text x="${(cx + (rxZ + 6) * Math.cos(a)).toFixed(1)}" y="${(cy - (ryZ + 6) * Math.sin(a)).toFixed(1)}" class="orr-asc-lbl">ASC</text>`;
+    ascRay = `<g data-g="Asc"><line x1="${cx}" y1="${cy}" x2="${(cx + rxZ * Math.cos(a)).toFixed(1)}" y2="${(cy - ryZ * Math.sin(a)).toFixed(1)}" class="orr-asc"/>
+      <text x="${(cx + (rxZ + 6) * Math.cos(a)).toFixed(1)}" y="${(cy - (ryZ + 6) * Math.sin(a)).toFixed(1)}" class="orr-asc-lbl">ASC</text></g>`;
   }
   // planets — placed on their orbit at true longitude, drawn front-to-back so nearer ones overlap
   const placed = ORBIT_ORDER.map((b, i) => {
@@ -1262,7 +1139,7 @@ function natalOrrery(grahas, ascendant, transits) {
     const x = cx + rx * Math.cos(a), y = cy - ry * Math.sin(a);
     return { b, x, y, depth: y };
   }).filter(Boolean).sort((p, q) => p.depth - q.depth);
-  const planets = placed.map(p => `<g class="orr-planet">
+  const planets = placed.map(p => `<g class="orr-planet" data-g="${p.b}">
       <ellipse cx="${p.x.toFixed(1)}" cy="${(p.y + 11).toFixed(1)}" rx="9" ry="2.5" class="orr-shadow"/>
       <g class="orr-g">${pixelRects(p.b, 19, p.x, p.y)}</g></g>`).join("");
   // today's sky — the same nine grahas as they stand RIGHT NOW, faint on the outermost ring.
@@ -2384,173 +2261,7 @@ async function renderBirthCast(ov) {
   ov.remove();
 }
 
-async function pageMyChart() {
-  // yield one microtask: the initial route() runs before `let me` initializes further down the
-  // file, and unlike other pages this one reads `me` before its first data await. This defers that
-  // read past the synchronous module evaluation, avoiding a temporal-dead-zone error on cold load.
-  await Promise.resolve();
-  const bd = birthData(), nc = natalChart();
-  if (!bd || !nc || nc.error) {
-    $("view").innerHTML = `<div class="seg" style="margin-top:4px"><h2>Your chart</h2><div class="ln"></div><span class="pill">personal</span></div>
-      <div class="disclaimer">Astrological exploration, not investment advice. A lens to read your own chart against the market — never a reason to buy.</div>
-      <div class="card mychart-cta">
-        <div class="mc-hero">${["Sun", "Moon", "Jupiter", "Saturn"].map(b => pixelGlyph(b, 30)).join("")}</div>
-        <h2>Read the whole market against your birth chart</h2>
-        <p class="sub">Vedic astrology has always matched two charts for compatibility. The desk turns that on the market: give it your birth details and it reads every PSX name against your stars — which your chart runs harmonious with, which it finds testing, and the periods your own dasha lights up.</p>
-        <button class="bw-go" onclick="openBirthWizard()">Cast my birth chart →</button>
-        <p class="sub" style="margin-top:10px;opacity:.7">Takes a minute. Your birth details stay private to your account.</p>
-      </div>`;
-    return;
-  }
-  const [uni, sectors, amap, natalAll, astroNow] = await Promise.all([
-    j("universe.json"), j("sectors.json"), j("astro_map.json"), j("astro_natal.json"), j("astro.json")]);
-  const names = uni?.symbols || {};
-  const cur = nc.dasha?.current || {};
-  const locked = !isSubscribed();
-  // the daily layer: today's sky over this chart, and the dates it next re-deals
-  const sky = await skyOn(Date.now()).catch(() => null);
-  const goch = sky ? gocharaRead(nc, sky, amap) : null;
-  const shifts = (goch && !locked) ? await upcomingShifts(nc).catch(() => []) : [];
-  // score every ticker
-  const scored = Object.keys(names).map(sym => {
-    const stock = natalAll?.subjects?.[sym];
-    const sector = (sectors?.tickers?.[sym] || {}).sector;
-    const r = synastry(nc, stock, sector, amap, astroNow);
-    return { sym, name: names[sym]?.name || "", sector, hasChart: !!stock, timing: stockTiming(nc, stock, sector, amap), ...r };
-  }).filter(x => x.score != null).sort((a, b) => b.score - a.score);
-  // curated slices, not threshold dumps — the strongest handful each way, so "harmonious" stays meaningful
-  const harmon = scored.filter(x => x.score >= 58).slice(0, 8);
-  const testing = scored.filter(x => x.score <= 44).slice(-6).reverse();
-  const moon = nc.grahas.Moon, asc = nc.ascendant;
-  const gl = goalLens();
-  // commodities, scored against the chart the same way chartless stocks are
-  const comm = COMMODITIES.map(c => ({ ...c, ...resonanceWithGraha(nc, c.sig, c.name, amap) }))
-    .filter(c => c.score != null).sort((a, b) => b.score - a.score);
-
-  // The wall lands where desire peaks: a guest reads their real chart and their strongest few
-  // matches in full, then sees that a ranked map of the whole exchange exists behind it.
-  const lockCard = (kicker, what) => `<div class="card mc-lock">
-    <div class="mc-lock-blur" aria-hidden="true">${scored.slice(FREE_MATCHES, FREE_MATCHES + 4).map(x =>
-      `<div class="mc-lock-row"><b>${esc(x.sym)}</b><span class="sub">${esc((x.sector || "").slice(0, 18))}</span><span class="num">${x.score}</span></div>`).join("")}</div>
-    <div class="mc-lock-face">
-      <div class="mc-lock-kick">${esc(kicker)}</div>
-      <h3>${esc(what)}</h3>
-      <p class="sub">${me
-        ? "Your full reading — every name on the exchange ranked against your chart, your commodities, your timing windows, and the sky read against your chart each day."
-        : "Create a free account to keep the chart you just cast. Unlock the full reading to see every name on the exchange ranked against it, your commodities, your timing windows, and the sky read against your chart each day."}</p>
-      <button class="bw-go" style="max-width:260px" onclick="${me ? "navigate('/settings')" : "openAuth('signup')"}">${me ? "Unlock my full reading →" : "Create a free account →"}</button>
-      ${me ? "" : `<p class="sub" style="margin-top:8px;opacity:.7">Already have one? <a href="#" onclick="openAuth('signin');return false" style="color:var(--accent)">Sign in</a></p>`}
-    </div></div>`;
-
-  const rowCard = (x) => {
-    const tm = x.timing;
-    return `<div class="card syn-card"><div class="syn-head clickable" onclick="navigate('/ticker/${esc(x.sym)}')">
-      <span class="syn-score s-${x.verdict.replace(/\s/g, "")}">${x.score}</span>
-      <div><b>${esc(x.sym)}</b> <span class="sub">${esc((x.name || "").slice(0, 26))}</span><div class="sub">${esc(x.sector || "")}${x.hasChart ? "" : " · sector reading"}</div></div>
-      <span class="pill ${x.verdict === "harmonious" || x.verdict === "favourable" ? "ok" : x.verdict === "testing" || x.verdict === "discordant" ? "bad" : ""}">${esc(x.verdict)}</span></div>
-    <div class="syn-why">${x.reasons.slice(0, 3).map(r => `<div class="syn-r ${r.w > 0 ? "up" : r.w < 0 ? "dn" : ""}"><b>${esc(r.k)}</b> ${esc(r.why)}</div>`).join("")}
-    ${tm ? `<div class="syn-time"><span class="dt-glyph">${pixelGlyph(tm.windows[0].lord, 14)}</span> <b>The tradition's timing:</b> your ${esc(tm.windows[0].lord)} period (${tm.windows[0].from.slice(0, 4)}–${tm.windows[0].to.slice(0, 4)}) is when your chart most resonates with ${esc(x.sym)}${tm.windows[1] ? `, again under ${esc(tm.windows[1].lord)} from ${tm.windows[1].from.slice(0, 4)}` : ""}. A rhythm, not a date to act on.</div>` : ""}</div></div>`;
-  };
-
-  /* ---- Daily market weather: behavioural framing, NOT prediction. The tradition's read of the
-     day's sky against this chart, expressed as questions about the user's own temperament —
-     focus, patience, impulse — never as a claim about prices. Different daily because the sky is. ---- */
-  let weather = "";
-  if (goch) {
-    const HOUSE = ["", "1st", "2nd", "3rd", "4th", "5th", "6th", "7th", "8th", "9th", "10th", "11th", "12th"];
-    const g = n => goch.tiles.find(x => x.g === n);
-    const merc = g("Mercury"), mars = g("Mars"), sat = g("Saturn"), jup = g("Jupiter");
-    const fav = x => x && x.tag === "favourable";
-    const dims = [
-      { k: "Focus", v: fav(merc) ? "clear" : merc?.tag === "testing" ? "scattered" : "steady",
-        why: `Mercury — analysis, records, paperwork — sits in your ${HOUSE[merc?.house] || "—"} from the Moon. ${fav(merc) ? "Tradition associates this with reading carefully and finishing what you start." : "Tradition would say re-check what you read today rather than trusting the first pass."}` },
-      { k: "Patience", v: fav(sat) ? "long" : sat?.tag === "testing" ? "short" : "workable",
-        why: `Saturn governs endurance and delay, currently your ${HOUSE[sat?.house] || "—"} from the Moon. ${sat?.tag === "testing" ? "Read classically as a stretch where waiting feels harder than usual — worth noticing before acting on impatience." : "Placed where the tradition associates it with letting things mature."}` },
-      { k: "Impulse risk", v: fav(mars) ? "channelled" : mars?.tag === "testing" ? "elevated" : "ordinary",
-        why: `Mars is drive and haste, in your ${HOUSE[mars?.house] || "—"}. ${fav(mars) ? "Energy the tradition reads as directed rather than reactive." : "Classically a placement for acting faster than you have thought. If you feel an urge to do something decisive today, that urge is worth a second look."}` },
-      { k: "Good for", v: fav(jup) ? "learning" : fav(merc) ? "review" : "routine",
-        why: fav(jup) ? "Jupiter — teaching, perspective, expansion — is well placed from your Moon. Tradition calls this a day for study rather than action." : fav(merc) ? "A day the tradition associates with going back over your own records and reasoning." : "Nothing in the tradition marks this day out; ordinary maintenance is the honest read." },
-    ];
-    weather = `
-  <div class="seg"><h2>Your market weather</h2><div class="ln"></div><span class="pill">${new Date().toISOString().slice(0, 10)}</span></div>
-  <p class="sub" style="margin-bottom:12px">The moving sky read against your chart as a note on <b>your own temperament today</b> — focus, patience, impulse. It says nothing about prices and makes no prediction: it is a prompt to check <i>how</i> you are approaching decisions, which is the one place this tradition and sound investing practice genuinely overlap.</p>
-  <div class="weather-grid">${dims.map(d => `<div class="wx-card">
-    <div class="ark">${esc(d.k)}</div><b>${esc(d.v)}</b><span class="sub">${d.why}</span></div>`).join("")}</div>
-  <div class="tnote">Behavioural reflection drawn from Vedic gochara — <b>not a forecast, not a signal, and not a reason to trade or to avoid trading</b>. The desk tested astrology against PSX returns and found no predictive edge; this exists because reviewing your own state of mind before deciding is sound practice whatever prompts it.</div>`;
-  }
-
-  // ---- "Today, against your chart" — the section that is different every single day ----
-  const ord = n => n === 1 ? "1st" : n === 2 ? "2nd" : n === 3 ? "3rd" : n + "th";
-  let todaySection = "";
-  if (goch) {
-    const gTile = t => `<div class="goch-tile ${t.tag === "favourable" ? "up" : t.tag === "testing" ? "dn" : ""}">
-      <div class="goch-top"><span class="dt-glyph">${pixelGlyph(t.g, 16)}</span><b>${esc(t.g)}</b><span class="pill ${t.tag === "favourable" ? "ok" : t.tag === "testing" ? "bad" : ""}">${t.tag}</span></div>
-      <div class="sub">in ${esc(t.sign)} — your ${ord(t.house)} from the Moon${t.conj ? ` · <b>crossing your natal ${esc(t.conj)}</b>` : ""}${t.domains ? ` · ${esc(t.domains)}` : ""}</div></div>`;
-    const shiftLine = s => s.kind === "antar" ? `your sub-period turns to <b>${esc(s.body || "")}</b> — your readings and commodities re-rank`
-      : s.kind === "maha" ? `your <b>${esc(s.body || "")}</b> maha-dasha closes — a new long chapter opens`
-      : `<b>${esc(s.body)}</b> enters ${esc(s.sign)} — your ${ord(s.house)} from the Moon, traditionally ${s.fav ? "favourable" : "a quieter seat"}`;
-    const big = shifts.find(s => s.kind === "ingress" && ["Jupiter", "Saturn", "Rahu"].includes(s.body));
-    const list = shifts.slice(0, 4);
-    if (big && !list.includes(big)) list.push(big);
-    todaySection = `
-  <div class="seg"><h2>Today, against your chart</h2><div class="ln"></div><span class="pill">${new Date().toISOString().slice(0, 10)} · refreshes daily</span></div>
-  <p class="sub" style="margin-bottom:12px">Gochara — the tradition reads the moving sky from your natal Moon. The nine grahas that stood still the moment you were born have kept moving; this is where each stands over your chart <b>today</b>. A daily lens for exploration, never a signal.</p>
-  ${locked
-    ? `<div class="goch-grid">${goch.tiles.filter(t => t.g === "Moon").map(gTile).join("")}</div>
-       ${planWall("The daily sky, read against your chart",
-      "All nine grahas placed from your Moon and refreshed every day, the days they cross your natal points — and the dates the sky next re-deals your chart, so you know exactly when to look again.")}`
-    : `<div class="goch-grid">${goch.tiles.map(gTile).join("")}</div>
-       ${goch.sadeSati ? `<div class="disclaimer">Saturn is moving through the signs around your natal Moon — the stretch tradition calls <b>Sade Sati</b> and reads as slow-earned lessons. A weather report from the tradition, not a verdict.</div>` : ""}
-       ${list.length ? `<div class="card next-look"><div class="mc-lock-kick">worth another look</div>
-        ${list.map(s => `<div class="nl-row"><b class="num">${esc(s.date)}</b><span>${shiftLine(s)}</span></div>`).join("")}
-        <p class="sub" style="margin-top:8px">The sky re-deals a little every day — these are the dates it re-deals <b>your</b> chart meaningfully. Each is worth a fresh read.</p></div>` : ""}`}`;
-  }
-
-  $("view").innerHTML = `
-  <div class="seg" style="margin-top:4px"><h2>Your chart</h2><div class="ln"></div><span class="pill">${esc(bd.place || "")} · ${esc(bd.date || "")}</span></div>
-  <div class="disclaimer">Astrological exploration, <b>not investment advice</b>. A lens to read your chart against the market as the tradition would — never a recommendation to buy or a forecast of profit.</div>
-
-  <div class="card">
-    <div class="mc-chart-top"><div>
-      <div class="ark">Your Moon</div><b style="font-size:18px">${esc(moon.sign)} · ${esc(moon.nakshatra)}</b>
-      <div class="sub">${asc ? `Rising sign ${esc(asc.sign)}` : "Chandra lagna · a Moon-led chart"}</div>
-    </div>
-    <div><div class="ark">Your current period</div><b style="font-size:18px">${pixelGlyph(cur.lord, 18)} ${esc(cur.lord || "—")}${cur.antar ? ` / ${esc(cur.antar)}` : ""} dasha</b>
-      <div class="sub">${cur.antar ? `${esc(cur.antar)} sub-period to ~${esc(String(cur.antar_to || "").slice(0, 7))} · ` : ""}${esc(cur.lord || "")} maha to ~${esc(String(cur.to || "").slice(0, 7))}</div></div>
-    </div>
-    ${natalOrrery(nc.grahas, asc, sky)}
-    <p class="sub" style="margin-top:6px;text-align:center">Your birth sky — the nine grahas at the moment you were born${sky ? ", with <b>today's sky</b> faint on the outer ring. It drifts a little every day" : ""}. Sidereal, Lahiri.</p>
-    ${gl.line ? `<p class="sub goal-line" style="text-align:center;margin-top:4px">You're here for <b>${esc(gl.label)}</b>. ${esc(gl.line)}</p>` : ""}
-  </div>
-  ${weather}
-  ${todaySection}
-
-  <div class="seg"><h2>Your timing — the map of when</h2><div class="ln"></div><span class="pill">Vimshottari</span></div>
-  <p class="sub" style="margin-bottom:12px">Vedic astrology divides a life into planetary periods (dashas), and each into sub-periods (antardashas). Each, tradition says, colours the time it rules. This is your ribbon — the long arc above, the nearer sub-periods below. A rhythm to understand your chart by, <b>never</b> a schedule to trade on.</p>
-  <div class="card">${dashaTimeline(nc, amap)}${antardashaStrip(nc, amap)}</div>
-
-  <div class="seg"><h2>The market your chart favours</h2><div class="ln"></div><span class="pill ok">your strongest</span></div>
-  <p class="sub" style="margin-bottom:12px">The names the tradition reads as most in tune with your chart — by Moon-star compatibility (Tara), the friendship of your ruling planets, and your running dasha. High resonance means astrological harmony, <b>not</b> a prediction of gains.</p>
-  ${(locked ? harmon.slice(0, FREE_MATCHES) : harmon).map(rowCard).join("") || '<div class="card"><div class="empty">Nothing scores strongly harmonious — your chart sits neutral to most of the market.</div></div>'}
-  ${locked ? lockCard("the rest of your map", `${scored.length - FREE_MATCHES} more names, ranked against your chart`) : ""}
-
-  ${locked ? "" : `<div class="seg"><h2>The names that test your chart</h2><div class="ln"></div><span class="pill bad">most friction</span></div>
-  <p class="sub" style="margin-bottom:12px">Where the tradition reads friction between your chart and the stock's. Not "avoid" — friction, in astrology, is simply a harder resonance to work with.</p>
-  ${testing.map(rowCard).join("") || '<div class="card"><div class="empty">Nothing scores strongly discordant.</div></div>'}
-
-  <div class="seg"><h2>Commodities &amp; metals</h2><div class="ln"></div><span class="pill">${comm.length} read</span></div>
-  <p class="sub" style="margin-bottom:12px">Gold, silver, oil and the crops carry their own rulers in the tradition — read against your chart the same way. ${gl.grahas.length ? `For <b>${esc(gl.label)}</b>, the tradition would look first to ${gl.grahas.map(esc).join(", ")}.` : ""}</p>
-  <div class="comm-grid">${comm.map(c => `<div class="comm-card ${c.verdict === "harmonious" || c.verdict === "favourable" ? "up" : c.verdict === "testing" || c.verdict === "discordant" ? "dn" : ""}">
-    <div class="comm-top"><span class="comm-glyph">${pixelGlyph(c.glyph, 20)}</span><b>${esc(c.name)}</b><span class="comm-score">${c.score}</span></div>
-    <div class="sub comm-note">${esc(c.note)}. <b>${esc(c.verdict)}</b> with your chart — ${esc((c.reasons[0] || {}).why || "")}</div></div>`).join("")}</div>
-
-  <div class="seg"><h2>Your whole-market map</h2><div class="ln"></div><span class="pill">${scored.length} names ranked</span></div>
-  <div class="card" style="padding:0"><table><thead><tr><th>Stock</th><th>Sector</th><th class="r">Resonance</th><th>Tradition's read</th></tr></thead><tbody>${
-    scored.map(x => `<tr class="clickable" onclick="navigate('/ticker/${esc(x.sym)}')"><td><b>${esc(x.sym)}</b></td><td class="sub">${esc((x.sector || "").slice(0, 20))}</td>
-      <td class="r num ${x.score >= 60 ? "up" : x.score <= 40 ? "dn" : ""}">${x.score}</td><td class="sub">${esc(x.verdict)}</td></tr>`).join("")}</tbody></table></div>`}
-
-  <p class="sub" style="margin-top:14px"><button class="note-save" onclick="openBirthWizard()">Edit my birth details</button> · Your resonance map is astrological interpretation — a lens for exploration and your own decisions, never advice.</p>`;
-}
+// Your chart page lives in page-mychart.js (redesign 2026-09).
 
 /* ---------- Astro: the sky, computed — and the test that says it doesn't predict anything.
    The null result LEADS. The calendar is the secondary thing, offered as calendar, not signal.

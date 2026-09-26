@@ -1,0 +1,158 @@
+/* macro page — redesign 2026-09. Ported from docs/redesign-mockups/macro-mockup.html with every
+   `mc-` class renamed `mac-`: the bare `mc-` prefix is already load-bearing sitewide for an
+   unrelated paywall/tease widget (themes.css ~866-1133, pages-workspace.css) and must not be
+   touched. Scoped under body[data-theme=gemini] #view .mac-page, hard corners, JetBrains Mono via
+   the page's inherited font stack — no new font declared here. */
+
+body[data-theme=gemini] #view .mac-page{display:flex;flex-direction:column;gap:16px}
+
+body[data-theme=gemini] #view .mac-page .up{color:var(--up)}
+body[data-theme=gemini] #view .mac-page .dn{color:var(--dn)}
+body[data-theme=gemini] #view .mac-page .mut{color:var(--ink3)}
+body[data-theme=gemini] #view .mac-page .mac-mut{color:var(--ink3);font-size:11px}
+body[data-theme=gemini] #view .mac-page .mac-sub{color:var(--ink2);font-size:12px;line-height:1.5;margin:0}
+body[data-theme=gemini] #view .mac-page .mac-num{text-align:right;font-variant-numeric:tabular-nums}
+
+/* ---- verdict hero ---- */
+body[data-theme=gemini] #view .mac-page .mac-verdict{border:1px solid var(--today-rule);background:var(--today-paper);padding:16px 18px}
+body[data-theme=gemini] #view .mac-page .mac-verdict.up{border-left:3px solid var(--up)}
+body[data-theme=gemini] #view .mac-page .mac-verdict.dn{border-left:3px solid var(--dn)}
+body[data-theme=gemini] #view .mac-page .mac-vh{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+body[data-theme=gemini] #view .mac-page .mac-vh b{font-size:13px;color:var(--ink1)}
+body[data-theme=gemini] #view .mac-page .mac-vp{color:var(--ink1);font-size:14px;line-height:1.5;margin:0 0 8px}
+body[data-theme=gemini] #view .mac-page .mac-vmeta{color:var(--ink3);font-size:11px}
+
+body[data-theme=gemini] #view .mac-page .mac-badge{display:inline-block;padding:3px 8px;font-size:11px;letter-spacing:.03em;border:1px solid currentColor}
+body[data-theme=gemini] #view .mac-page .mac-badge.up{color:var(--up)}
+body[data-theme=gemini] #view .mac-page .mac-badge.dn{color:var(--dn)}
+body[data-theme=gemini] #view .mac-page .mac-badge.mut{color:var(--ink3)}
+
+/* ---- driver tile grid ---- */
+body[data-theme=gemini] #view .mac-page .mac-grid{display:flex;flex-direction:column;gap:12px}
+body[data-theme=gemini] #view .mac-page .mac-grp-h{display:flex;align-items:baseline;gap:8px;margin-bottom:6px}
+body[data-theme=gemini] #view .mac-page .mac-grp-h b{font-size:12.5px;color:var(--ink1)}
+body[data-theme=gemini] #view .mac-page .mac-grp-h i{font-style:normal;font-size:11px;color:var(--ink3)}
+body[data-theme=gemini] #view .mac-page .mac-tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:8px}
+body[data-theme=gemini] #view .mac-page .mac-tile{border:1px solid var(--today-rule);background:var(--paper);padding:10px 12px;display:flex;flex-direction:column;gap:2px}
+body[data-theme=gemini] #view .mac-page .mac-t-top{display:flex;justify-content:space-between}
+body[data-theme=gemini] #view .mac-page .mac-t-k{font-size:11px;color:var(--ink2)}
+body[data-theme=gemini] #view .mac-page .mac-tag{color:var(--dn);font-size:9.5px;border:1px solid var(--dn);padding:0 3px}
+body[data-theme=gemini] #view .mac-page .mac-t-p{font-size:16px;color:var(--ink1)}
+body[data-theme=gemini] #view .mac-page .mac-t-ch{display:flex;gap:10px}
+body[data-theme=gemini] #view .mac-page .mac-t-ch em{font-style:normal;font-size:11px;display:flex;flex-direction:column;line-height:1.2}
+body[data-theme=gemini] #view .mac-page .mac-t-ch em i{font-style:normal;font-size:9px;color:var(--ink3)}
+body[data-theme=gemini] #view .mac-page .mac-t-why{font-size:10.5px;color:var(--ink3);line-height:1.35;margin-top:2px}
+body[data-theme=gemini] #view .mac-page .mac-spark{width:100%;height:20px;margin:2px 0}
+body[data-theme=gemini] #view .mac-page .mac-spark polyline{fill:none;stroke-width:1.5;vector-effect:non-scaling-stroke}
+body[data-theme=gemini] #view .mac-page .mac-spark.up polyline{stroke:var(--up)}
+body[data-theme=gemini] #view .mac-page .mac-spark.dn polyline{stroke:var(--dn)}
+
+/* ---- cards ---- */
+body[data-theme=gemini] #view .mac-page .mac-card{border:1px solid var(--today-rule);background:var(--today-paper);padding:14px 16px}
+body[data-theme=gemini] #view .mac-page .mac-h2{font-size:13px;color:var(--ink1);margin:0 0 8px;font-weight:600}
+body[data-theme=gemini] #view .mac-page .mac-geo-h{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:6px}
+body[data-theme=gemini] #view .mac-page .mac-geo-h .mac-h2{margin:0}
+
+body[data-theme=gemini] #view .mac-page .mac-facts{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:8px;margin-bottom:8px}
+body[data-theme=gemini] #view .mac-page .mac-fact{border:1px solid var(--today-rule);padding:8px 10px;display:flex;flex-direction:column;gap:3px}
+body[data-theme=gemini] #view .mac-page .mac-fact span{font-size:10.5px;color:var(--ink3)}
+body[data-theme=gemini] #view .mac-page .mac-fact b{font-size:14px;color:var(--ink1)}
+
+body[data-theme=gemini] #view .mac-page .mac-drv-list{margin:6px 0 0 16px;padding:0;display:flex;flex-direction:column;gap:4px}
+body[data-theme=gemini] #view .mac-page .mac-drv-list li{color:var(--ink2);font-size:12px;line-height:1.5}
+body[data-theme=gemini] #view .mac-page .mac-src{font-size:10.5px}
+body[data-theme=gemini] #view .mac-page .mac-src a{color:var(--ink3);text-decoration:underline}
+
+body[data-theme=gemini] #view .mac-page .mac-bar{height:6px;background:var(--today-rule);overflow:hidden;min-width:100px}
+body[data-theme=gemini] #view .mac-page .mac-bar-f{height:100%}
+body[data-theme=gemini] #view .mac-page .mac-bar-f.up{background:var(--up)}
+body[data-theme=gemini] #view .mac-page .mac-bar-f.dn{background:var(--dn)}
+body[data-theme=gemini] #view .mac-page .mac-bar-f.mut{background:var(--ink3)}
+
+body[data-theme=gemini] #view .mac-page .mac-tbl{width:100%;border-collapse:collapse;margin-top:4px}
+body[data-theme=gemini] #view .mac-page .mac-tbl th{text-align:left;font-size:10.5px;color:var(--ink3);font-weight:500;padding:4px 8px;border-bottom:1px solid var(--today-rule)}
+body[data-theme=gemini] #view .mac-page .mac-tbl td{padding:6px 8px;font-size:12px;color:var(--ink2);border-bottom:1px solid var(--today-rule);vertical-align:middle}
+body[data-theme=gemini] #view .mac-page .mac-tbl tr:hover td{background:var(--today-hover)}
+
+body[data-theme=gemini] #view .mac-page .mac-chip{display:inline-block;padding:2px 6px;margin:0 4px 4px 0;font-size:10.5px;border:1px solid currentColor}
+body[data-theme=gemini] #view .mac-page .mac-chip.up{color:var(--up)}
+body[data-theme=gemini] #view .mac-page .mac-chip.dn{color:var(--dn)}
+
+/* ---- chapters (rebuild 2: 4 mockup chapters, numbered headers) ---- */
+body[data-theme=gemini] #view .mac-page .mac-ch{display:flex;flex-direction:column;gap:10px;padding-top:4px}
+body[data-theme=gemini] #view .mac-page .mac-ch + .mac-ch{border-top:1px solid var(--today-rule);padding-top:20px;margin-top:4px}
+body[data-theme=gemini] #view .mac-page .mac-chh{display:flex;align-items:baseline;gap:12px;margin-bottom:2px}
+body[data-theme=gemini] #view .mac-page .mac-chn{font-size:20px;color:var(--ink3);font-weight:600;min-width:26px}
+body[data-theme=gemini] #view .mac-page .mac-chh > div{flex:1}
+body[data-theme=gemini] #view .mac-page .mac-cht{font-size:15px;color:var(--ink1);margin:0;font-weight:600}
+body[data-theme=gemini] #view .mac-page .mac-chw{font-size:12px;color:var(--ink3);margin:2px 0 0;line-height:1.4}
+body[data-theme=gemini] #view .mac-page .mac-chtag{font-size:10.5px;color:var(--ink3);white-space:nowrap;align-self:flex-start;margin-top:3px}
+
+/* ---- regime scale widget ---- */
+body[data-theme=gemini] #view .mac-page .mac-scale{display:flex;gap:6px;margin:4px 0 10px}
+body[data-theme=gemini] #view .mac-page .mac-scale span{flex:1;text-align:center;padding:5px 4px;font-size:10.5px;letter-spacing:.03em;border:1px solid var(--today-rule);color:var(--ink3)}
+body[data-theme=gemini] #view .mac-page .mac-scale span.on{border-color:currentColor;font-weight:600}
+body[data-theme=gemini] #view .mac-page .mac-scale span.on.up{color:var(--up)}
+body[data-theme=gemini] #view .mac-page .mac-scale span.on.dn{color:var(--dn)}
+body[data-theme=gemini] #view .mac-page .mac-scale span.on.mut{color:var(--ink1)}
+
+/* ---- hero / stat strips (chapter 01 + 04) ---- */
+body[data-theme=gemini] #view .mac-page .mac-strip{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px}
+body[data-theme=gemini] #view .mac-page .mac-strip > div{border:1px solid var(--today-rule);background:var(--paper);padding:9px 11px;display:flex;flex-direction:column;gap:3px}
+body[data-theme=gemini] #view .mac-page .mac-strip small{font-size:10px;letter-spacing:.03em;color:var(--ink3)}
+body[data-theme=gemini] #view .mac-page .mac-strip b{font-size:15px;color:var(--ink1)}
+body[data-theme=gemini] #view .mac-page .mac-strip span{font-size:10.5px;color:var(--ink3)}
+body[data-theme=gemini] #view .mac-page .mac-strip em{font-style:normal}
+
+/* ---- disclosures (details/summary) ---- */
+body[data-theme=gemini] #view .mac-page .mac-quiet{display:flex;flex-direction:column;gap:6px}
+body[data-theme=gemini] #view .mac-page .mac-more{border:1px solid var(--today-rule);background:var(--today-paper);padding:8px 12px}
+body[data-theme=gemini] #view .mac-page .mac-more summary{cursor:pointer;font-size:12px;color:var(--ink2);list-style:none}
+body[data-theme=gemini] #view .mac-page .mac-more summary::-webkit-details-marker{display:none}
+body[data-theme=gemini] #view .mac-page .mac-more summary::before{content:"+ ";color:var(--ink3)}
+body[data-theme=gemini] #view .mac-page .mac-more[open] summary::before{content:"- "}
+body[data-theme=gemini] #view .mac-page .mac-more[open] summary{margin-bottom:8px}
+body[data-theme=gemini] #view .mac-page .mac-flip{padding-top:2px}
+body[data-theme=gemini] #view .mac-page .mac-unk{color:var(--ink3);font-size:12px;line-height:1.5;font-style:italic}
+
+/* ---- chapter 03: coming-up events ---- */
+body[data-theme=gemini] #view .mac-page .mac-coming{display:flex;flex-direction:column;gap:6px}
+body[data-theme=gemini] #view .mac-page .mac-ev{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:0}
+body[data-theme=gemini] #view .mac-page .mac-ev li{display:flex;gap:10px;padding:6px 0;border-bottom:1px solid var(--today-rule);font-size:12px}
+body[data-theme=gemini] #view .mac-page .mac-ev li:last-child{border-bottom:none}
+body[data-theme=gemini] #view .mac-page .mac-ev li b{color:var(--ink1);min-width:78px}
+body[data-theme=gemini] #view .mac-page .mac-ev li span{color:var(--ink2)}
+
+/* ---- filter chip buttons (interactive — distinct from informational .mac-chip) ---- */
+body[data-theme=gemini] #view .mac-page .mac-chips{display:flex;flex-wrap:wrap;gap:6px}
+body[data-theme=gemini] #view .mac-page .mac-chips button{font:inherit;font-size:11px;padding:4px 9px;border:1px solid var(--today-rule);background:var(--paper);color:var(--ink2);cursor:pointer}
+body[data-theme=gemini] #view .mac-page .mac-chips button:hover{background:var(--today-hover)}
+body[data-theme=gemini] #view .mac-page .mac-chips button[aria-pressed="true"]{border-color:var(--ink1);color:var(--ink1);font-weight:600}
+
+/* ---- chapter 02: tiered driver board ---- */
+body[data-theme=gemini] #view .mac-page .mac-tier{display:flex;flex-direction:column;gap:8px}
+body[data-theme=gemini] #view .mac-page .mac-lvl{font-size:11px;color:var(--ink3);margin:0}
+body[data-theme=gemini] #view .mac-page .mac-lvl b{color:var(--ink2)}
+body[data-theme=gemini] #view .mac-page .mac-pair,
+body[data-theme=gemini] #view .mac-page .mac-fams{display:flex;flex-direction:column;gap:10px}
+
+/* ---- chapter 04: tilt block + pinned market row ---- */
+body[data-theme=gemini] #view .mac-page .mac-tilt{border:1px solid var(--today-rule);background:var(--today-paper);padding:12px 14px;display:flex;flex-direction:column;gap:4px}
+body[data-theme=gemini] #view .mac-page .mac-mkt-row td{background:var(--today-hover);font-weight:600}
+
+/* ---- responsive: 620px, matches other ported pages' mobile breakpoint ---- */
+@media (max-width:620px){
+  body[data-theme=gemini] #view .mac-page{gap:12px}
+  body[data-theme=gemini] #view .mac-page .mac-chh{flex-wrap:wrap}
+  body[data-theme=gemini] #view .mac-page .mac-chh > div{flex:1 1 0;min-width:0}
+  body[data-theme=gemini] #view .mac-page .mac-chtag{flex-basis:100%;white-space:normal;margin-top:0}
+  body[data-theme=gemini] #view .mac-page .mac-tiles{grid-template-columns:repeat(auto-fill,minmax(135px,1fr))}
+  body[data-theme=gemini] #view .mac-page .mac-facts{grid-template-columns:repeat(auto-fill,minmax(110px,1fr))}
+  body[data-theme=gemini] #view .mac-page .mac-tbl{display:block;overflow-x:auto}
+  body[data-theme=gemini] #view .mac-page .mac-verdict,
+  body[data-theme=gemini] #view .mac-page .mac-card{padding:12px 12px}
+}
+
+@media (prefers-reduced-motion:reduce){
+  body[data-theme=gemini] #view .mac-page *{transition:none!important}
+}
