@@ -3203,46 +3203,7 @@ async function pageTicker(sym, _retry = 0) {
 function daysFromNow(d) { return d ? Math.ceil((new Date(d) - new Date()) / 86400000) : null; }
 function cdBadge(d) { const n = daysFromNow(d); return n == null ? "" : `<span class="cd ${n <= 3 ? "soon" : ""}">${n >= 0 ? n + "d" : "past"}</span>`; }
 
-async function pageDividends() {
-  const [cal, divs] = await Promise.all([j("earnings_calendar.json"), j("dividends.json")]);
-  const ev = cal?.events || [];
-  const divUp = ev.filter(e => e.type === "ex_dividend" || e.type === "book_closure");
-  const past = (divs?.history || []).filter(d => d.bc_start && !d.upcoming)
-    .sort((a, b) => b.bc_start.localeCompare(a.bc_start)).slice(0, 40);
-
-  const dvLocked = !isSubscribed();
-  const divShown = dvLocked ? divUp.slice(0, 3) : divUp;
-  const divHtml = divUp.length ? divShown.map(d => `
-    <tr class="clickable" onclick="navigate('/ticker/${d.ticker}')">
-      <td><b>${d.ticker}</b></td>
-      <td>${esc(d.announcement || d.type.replace("_", " "))}</td>
-      <td class="r num">${d.dividend_rs ?? "—"}</td>
-      <td class="r num">${d.yield_pct || (d.div_yield ? esc(d.div_yield) : "—")}</td>
-      <td class="r num up"><b>${d.buy_by || "—"}</b> ${cdBadge(d.buy_by)}</td>
-      <td class="r num">${d.sell_ok_from || d.date}</td>
-    </tr>`).join("")
-    : `<tr><td colspan="6" class="empty">No <b>announced</b> ex-dividend / book-closure dates yet — this is data, not a gap. PSX payouts cluster right after results (Jul–Aug); the desk lists a date only once a company files it, never a guess. The <b>${past.length} recent payouts below</b> show what these names actually pay and their yields.</td></tr>`;
-
-  $("view").innerHTML = `
-  <div class="timing">
-    <div><span>How to collect a dividend</span><b>Buy before → hold through → sell after</b></div>
-    <div><span>① Buy by</span><b>the last session before the ex-date</b></div>
-    <div><span>② Sell on / after</span><b>the ex-date — you keep the full payout</b></div>
-  </div>
-
-  <div class="seg"><h2>Upcoming dividends & book closures</h2><div class="ln"></div></div>
-  <div class="card"><div class="sub">own the share BEFORE the ex-dividend date to receive the cash · updated ${esc(cal?.updated || "—")}</div>
-    <table><thead><tr><th>Ticker</th><th>Payout</th><th class="r">Rs/sh</th><th class="r">Yield</th><th class="r">Buy by</th><th class="r">Ex / sell-after</th></tr></thead><tbody>${divHtml}</tbody></table></div>
-
-  ${dvLocked ? planWall("The full dividend desk",
-    `Every announced payout with its buy-by and sell-after dates${divUp.length > 3 ? ` (${divUp.length - 3} more upcoming)` : ""}, plus the last ${past.length} real payouts and the yields they actually delivered.`) : `
-  <div class="seg"><h2>Past payouts</h2><div class="ln"></div></div>
-  <div class="card"><div class="sub">last ${past.length} closures · cash dividends (D) as % of Rs 10 face value</div>
-    <table><thead><tr><th>Ticker</th><th>Payout</th><th class="r">Rs/sh</th><th class="r">Yield@now</th><th class="r">Announced</th><th class="r">Closure start</th></tr></thead><tbody>${
-    past.map(d => `<tr class="clickable" onclick="navigate('/ticker/${d.symbol}')"><td><b>${d.symbol}</b></td><td>${esc(d.announcement)}</td>
-      <td class="r num">${d.dividend_rs ?? "—"}</td><td class="r num">${d.yield_pct_at_close ? d.yield_pct_at_close + "%" : "—"}</td>
-      <td class="r num">${esc((d.announced || "").split(" ").slice(0, 3).join(" "))}</td><td class="r num">${d.bc_start}</td></tr>`).join("")}</tbody></table></div>`}`;
-}
+// pageDividends lives in page-dividends.js (redesign 2026-09).
 
 async function pageCalendar() {
   const cal = await j("earnings_calendar.json");

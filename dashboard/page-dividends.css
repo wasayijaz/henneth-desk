@@ -1,0 +1,176 @@
+/* page-dividends.css — redesign 2026-09
+   Mockup source: D:/PSX Trader X Claude/docs/redesign-mockups/dividends-mockup.html
+   Scoped under body[data-theme=gemini] #view .dv-page (root carries "today-page dv-page").
+   The mc-* class family (mc-lvl, mc-strip[+.c3], mc-flag, mc-unk, mc-cap) is renamed to
+   dv-lvl / dv-strip[+.c3] / dv-flag / dv-unk / dv-cap: bare "mc-" is load-bearing sitewide
+   for the unrelated paywall/tease widget in themes.css / pages-workspace.css (planWall()
+   emits .mc-lock-kick), so every mockup mc-* class is renamed here to avoid collision.
+   mc-card is dropped — confirmed unused in the mockup markup.
+   Everything else (px-ch, sx-*, pf-*, wl-*) keeps its mockup name: these are only ever
+   selected as descendants of .dv-page, so they do not collide with another page's own
+   same-named rules scoped under that other page's own root class.
+   No CSS comment sits directly before any @-rule below (desk CSS rule). */
+
+body[data-theme=gemini] #view .dv-page{--px-card:var(--today-paper);--px-inset:var(--paper-3);--px-lift:color-mix(in srgb,var(--paper-3) 92%,var(--ink1));--px-edge:var(--today-rule)}
+body[data-theme=gemini] #view .dv-page .up{color:var(--up)}
+body[data-theme=gemini] #view .dv-page .dn{color:var(--dn)}
+body[data-theme=gemini] #view .dv-page .mut{color:var(--ink3)}
+body[data-theme=gemini] #view .dv-page .px-ch{margin-top:76px}
+body[data-theme=gemini] #view .dv-page .px-ch.first{margin-top:22px}
+body[data-theme=gemini] #view .dv-page .dv-lvl{display:flex;align-items:baseline;gap:10px;margin:0 0 12px;font-size:9px;letter-spacing:.1em;color:var(--ink3);text-transform:uppercase}
+body[data-theme=gemini] #view .dv-page .dv-lvl::after{content:"";flex:1;border-top:1px solid var(--today-rule);transform:translateY(-3px)}
+body[data-theme=gemini] #view .dv-page .dv-lvl b{font-weight:700;color:var(--ink2)}
+body[data-theme=gemini] #view .dv-page .dv-strip{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;background:var(--px-edge);border:1px solid var(--px-edge)}
+body[data-theme=gemini] #view .dv-page .dv-strip.c3{grid-template-columns:repeat(3,minmax(0,1fr))}
+body[data-theme=gemini] #view .dv-page .dv-strip>div{background:var(--px-inset);padding:12px 14px 13px;min-width:0;cursor:default}
+body[data-theme=gemini] #view .dv-page .dv-strip small{display:block;font-size:9px;letter-spacing:.08em;color:var(--ink3)}
+body[data-theme=gemini] #view .dv-page .dv-strip b{display:block;margin:6px 0 4px;font-size:22px;font-weight:500;letter-spacing:-.02em;overflow-wrap:anywhere}
+body[data-theme=gemini] #view .dv-page .dv-strip b.sm{font-size:13px;font-weight:600;letter-spacing:0}
+body[data-theme=gemini] #view .dv-page .dv-strip span{font-size:9px;line-height:1.45;color:var(--ink2)}
+body[data-theme=gemini] #view .dv-page .wl-chips{display:flex;flex-wrap:wrap;gap:0;border:1px solid var(--today-rule)}
+body[data-theme=gemini] #view .dv-page .wl-chips button{all:unset;cursor:pointer;padding:5px 10px;font-size:10px;color:var(--ink2);border-inline-end:1px solid var(--today-rule);transition:background-color 120ms ease}
+body[data-theme=gemini] #view .dv-page .wl-chips button:last-child{border-inline-end:0}
+body[data-theme=gemini] #view .dv-page .wl-chips button:hover{background:var(--today-hover)}
+body[data-theme=gemini] #view .dv-page .wl-chips button[aria-pressed=true]{background:var(--ink1);color:var(--paper)}
+body[data-theme=gemini] #view .dv-page .wl-chips button:focus-visible{outline:2px solid var(--today-focus);outline-offset:-2px}
+body[data-theme=gemini] #view .dv-page .pf-meter{position:relative;height:8px;background:color-mix(in srgb,var(--rline) 45%,transparent)}
+body[data-theme=gemini] #view .dv-page .pf-meter i{position:absolute;left:0;top:0;bottom:0}
+body[data-theme=gemini] #view .dv-page .pf-hist{display:block;width:100%;height:auto;overflow:visible}
+body[data-theme=gemini] #view .dv-page .pf-hist text{font-family:inherit;font-size:9px;fill:var(--ink3)}
+body[data-theme=gemini] #view .dv-page .pf-hist .cross{stroke:var(--ink3);stroke-width:1}
+body[data-theme=gemini] #view .dv-page .pf-hist .grid{stroke:var(--rhair);stroke-width:1}
+body[data-theme=gemini] #view .dv-page .pf-hist:focus-visible{outline:2px solid var(--today-focus);outline-offset:2px}
+body[data-theme=gemini] #view .dv-page .px-more{margin-top:18px;font-size:10px}
+body[data-theme=gemini] #view .dv-page .px-more summary{cursor:pointer;color:var(--ink3);width:max-content;max-width:100%}
+body[data-theme=gemini] #view .dv-page .px-more summary:hover{color:var(--ink1)}
+body[data-theme=gemini] #view .dv-page .px-more summary b{color:var(--ink1);font-weight:600}
+body[data-theme=gemini] #view .dv-page .px-more summary:focus-visible{outline:2px solid var(--today-focus);outline-offset:2px}
+body[data-theme=gemini] #view .dv-page .px-more[open]{background:var(--px-card);border:1px solid var(--px-edge);padding:12px 16px 10px}
+body[data-theme=gemini] #view .dv-page .px-more[open] summary{margin-bottom:10px}
+body[data-theme=gemini] #view .dv-page .pf-foot{font-size:9px;line-height:1.6;color:var(--ink3);margin:56px 0 0;max-width:90ch}
+body[data-theme=gemini] #view .dv-page .pf-foot p{margin:0 0 6px}
+body[data-theme=gemini] #view .dv-page .wl-tip{position:fixed;pointer-events:none;z-index:50;background:var(--paper-3);border:1px solid var(--rline);padding:7px 9px;font-size:10px;line-height:1.5;color:var(--ink1);box-shadow:var(--shadow);display:none;max-width:280px}
+body[data-theme=gemini] #view .dv-page a{color:var(--ink1);text-underline-offset:3px}
+body[data-theme=gemini] #view .dv-page a:focus-visible{outline:2px solid var(--today-focus);outline-offset:2px}
+body[data-theme=gemini] #view .dv-page .dv-cap{font-size:11px;line-height:1.6;color:var(--ink2);max-width:86ch;margin:12px 0 0}
+body[data-theme=gemini] #view .dv-page .dv-flag{display:inline-block;border:1px solid color-mix(in srgb,var(--dn) 50%,var(--px-edge));color:var(--dn);font-size:9px;padding:1px 5px;letter-spacing:.04em;white-space:nowrap}
+body[data-theme=gemini] #view .dv-page .dv-unk{color:var(--ink3);font-style:italic}
+
+body[data-theme=gemini] #view .dv-page .sx-hd{display:flex;flex-wrap:wrap;gap:8px 18px;align-items:flex-end;justify-content:space-between;border-bottom:1px solid var(--today-rule);padding:0 0 12px}
+body[data-theme=gemini] #view .dv-page .sx-hd>div:first-child{flex:1 1 420px;min-width:0}
+body[data-theme=gemini] #view .dv-page .sx-k{margin:0 0 5px;font-size:10px;letter-spacing:.12em;text-transform:uppercase;font-weight:700;color:var(--ink3)}
+body[data-theme=gemini] #view .dv-page .sx-hd h2{margin:0;text-transform:none;font-size:16px;line-height:1.3;font-weight:700;letter-spacing:-.005em;color:var(--ink1)}
+body[data-theme=gemini] #view .dv-page .sx-hero .sx-hd h2{font-size:21px;line-height:1.28;letter-spacing:-.01em;max-width:52ch}
+body[data-theme=gemini] #view .dv-page .sx-ld{margin:6px 0 0;font-size:11px;line-height:1.55;color:var(--ink2);max-width:86ch}
+body[data-theme=gemini] #view .dv-page .sx-hr{font-size:9px;letter-spacing:.06em;color:var(--ink3);text-align:end}
+body[data-theme=gemini] #view .dv-page .sx-kp{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;background:var(--px-edge);border:1px solid var(--px-edge);margin-top:14px}
+body[data-theme=gemini] #view .dv-page .sx-kp>div{background:var(--px-inset);padding:8px 12px 9px;display:flex;flex-wrap:wrap;align-items:baseline;gap:2px 8px;min-width:0;cursor:default}
+body[data-theme=gemini] #view .dv-page .sx-kp small{flex:1 0 100%;font-size:9px;letter-spacing:.08em;color:var(--ink3)}
+body[data-theme=gemini] #view .dv-page .sx-kp b{font-size:15px;font-weight:600;font-variant-numeric:tabular-nums;white-space:nowrap}
+body[data-theme=gemini] #view .dv-page .sx-kp span{font-size:9px;line-height:1.4;color:var(--ink2);min-width:0}
+body[data-theme=gemini] #view .dv-page .sx-pick{font:inherit;font-size:10px;background:var(--px-card);color:var(--ink1);border:1px solid var(--today-rule);border-radius:0;padding:4px 6px;max-width:100%}
+body[data-theme=gemini] #view .dv-page .sx-pick:focus-visible{outline:2px solid var(--today-focus);outline-offset:1px}
+body[data-theme=gemini] #view .dv-page .sx-scroll{overflow-x:auto;max-width:100%}
+body[data-theme=gemini] #view .dv-page .sx-tbl{border-collapse:collapse;width:100%;font-size:10px;font-variant-numeric:tabular-nums}
+body[data-theme=gemini] #view .dv-page .sx-tbl th{font-weight:400;font-size:9px;letter-spacing:.06em;color:var(--ink3);text-align:end;padding:4px 8px;border-bottom:1px solid var(--today-rule);white-space:nowrap;vertical-align:bottom}
+body[data-theme=gemini] #view .dv-page .sx-tbl td{text-align:end;padding:5px 8px;border-bottom:1px solid var(--today-rule);white-space:nowrap;color:var(--ink2)}
+body[data-theme=gemini] #view .dv-page .sx-tbl th:first-child,body[data-theme=gemini] #view .dv-page .sx-tbl td:first-child{text-align:start;padding-inline-start:0}
+body[data-theme=gemini] #view .dv-page .sx-tbl td:first-child a{font-weight:600}
+body[data-theme=gemini] #view .dv-page .sx-tbl .l{text-align:start}
+body[data-theme=gemini] #view .dv-page .sx-sub{margin:22px 0 6px;font-size:9px;letter-spacing:.08em;color:var(--ink3);text-transform:uppercase}
+body[data-theme=gemini] #view .dv-page .sx-top{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;justify-content:space-between;margin-top:22px}
+body[data-theme=gemini] #view .dv-page .sx-top .dv-lvl{margin:0;flex:1 1 220px}
+
+body[data-theme=gemini] #view .dv-page .dv-hero{background:var(--px-card);border:1px solid var(--px-edge);padding:20px 22px 18px;margin-top:22px}
+body[data-theme=gemini] #view .dv-page .dv-stale{display:flex;flex-wrap:wrap;gap:6px 10px;align-items:baseline;margin:14px 0 0;font-size:10px;line-height:1.55;color:var(--ink2)}
+body[data-theme=gemini] #view .dv-page .dv-gt{margin-top:18px;--lab:150px}
+body[data-theme=gemini] #view .dv-page .dv-gr{display:grid;grid-template-columns:var(--lab) minmax(0,1fr);align-items:stretch}
+body[data-theme=gemini] #view .dv-page .dv-gl{display:flex;gap:8px;align-items:baseline;min-width:0;padding:5px 10px 5px 0;font-size:10px;border-top:1px solid var(--rhair)}
+body[data-theme=gemini] #view .dv-page .dv-gl a{font-weight:600;flex:none}
+body[data-theme=gemini] #view .dv-page .dv-gl small{font-size:9px;color:var(--ink3);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+body[data-theme=gemini] #view .dv-page .dv-trk{position:relative;min-height:26px;overflow:hidden;border-top:1px solid var(--rhair)}
+body[data-theme=gemini] #view .dv-page button.dv-trk{all:unset;box-sizing:border-box;display:block;position:relative;min-height:26px;overflow:hidden;border-top:1px solid var(--rhair);cursor:pointer;transition:background-color 120ms ease}
+body[data-theme=gemini] #view .dv-page button.dv-trk:hover{background:var(--today-hover)}
+body[data-theme=gemini] #view .dv-page button.dv-trk[aria-pressed=true]{background:var(--px-lift)}
+body[data-theme=gemini] #view .dv-page button.dv-trk:focus-visible{outline:2px solid var(--today-focus);outline-offset:-2px}
+body[data-theme=gemini] #view .dv-page .dv-gax .dv-gl,body[data-theme=gemini] #view .dv-page .dv-gax .dv-trk{border-top:0;min-height:32px}
+body[data-theme=gemini] #view .dv-page .dv-tk.now::before{top:-3px;height:3px;border-inline-start-color:var(--ink1)}
+body[data-theme=gemini] #view .dv-page .dv-gax .dv-gl{font-size:9px;color:var(--ink3);letter-spacing:.06em}
+body[data-theme=gemini] #view .dv-page .dv-tk{position:absolute;top:2px;font-size:9px;color:var(--ink3);white-space:nowrap;transform:translateX(-1px)}
+body[data-theme=gemini] #view .dv-page .dv-tk::before{content:"";position:absolute;left:0;top:13px;height:5px;border-inline-start:1px solid var(--rline)}
+body[data-theme=gemini] #view .dv-page .dv-tk.now{color:var(--ink1);font-weight:700}
+body[data-theme=gemini] #view .dv-page .dv-wk{position:absolute;top:0;bottom:0;background:color-mix(in srgb,var(--rline) 22%,transparent)}
+body[data-theme=gemini] #view .dv-page .dv-now{position:absolute;top:0;bottom:0;border-inline-start:1px dashed var(--ink2)}
+body[data-theme=gemini] #view .dv-page .dv-bc{position:absolute;top:8px;height:10px;background:var(--ink1)}
+body[data-theme=gemini] #view .dv-page .dv-ex{position:absolute;top:9px;width:7px;height:7px;margin-inline-start:-4px;border:1.5px solid var(--ink2);background:var(--px-card);transform:rotate(45deg)}
+body[data-theme=gemini] #view .dv-page .dv-cum{position:absolute;top:5px;bottom:5px;border-inline-start:2px solid var(--ink3)}
+body[data-theme=gemini] #view .dv-page .dv-cum.wk{border-inline-start-color:var(--dn)}
+body[data-theme=gemini] #view .dv-page .dv-rs{position:absolute;top:7px;font-size:9px;color:var(--ink2);white-space:nowrap;padding-inline-start:5px}
+body[data-theme=gemini] #view .dv-page .dv-lg{display:flex;flex-wrap:wrap;gap:6px 18px;margin-top:10px;font-size:9px;color:var(--ink3);line-height:1.5}
+body[data-theme=gemini] #view .dv-page .dv-lg span{display:inline-flex;gap:6px;align-items:center}
+body[data-theme=gemini] #view .dv-page .dv-lg i{display:inline-block;flex:none}
+body[data-theme=gemini] #view .dv-page .dv-lg i.bc{width:18px;height:8px;background:var(--ink1)}
+body[data-theme=gemini] #view .dv-page .dv-lg i.ex{width:6px;height:6px;border:1.5px solid var(--ink2);transform:rotate(45deg);margin:0 2px}
+body[data-theme=gemini] #view .dv-page .dv-lg i.cum{width:0;height:10px;border-inline-start:2px solid var(--ink3)}
+body[data-theme=gemini] #view .dv-page .dv-lg i.cum.wk{border-inline-start-color:var(--dn)}
+body[data-theme=gemini] #view .dv-page .dv-lg i.wkb{width:12px;height:10px;background:color-mix(in srgb,var(--rline) 22%,transparent)}
+body[data-theme=gemini] #view .dv-page .dv-tm{margin-top:18px}
+body[data-theme=gemini] #view .dv-page .dv-tm>div{background:var(--px-inset)}
+body[data-theme=gemini] #view .dv-page .dv-tm b{font-size:12px;font-weight:700;letter-spacing:.02em;margin:5px 0 5px}
+body[data-theme=gemini] #view .dv-page .dv-ann{display:block;font-size:8px;color:var(--ink3);margin-top:1px}
+body[data-theme=gemini] #view .dv-page .dv-2{display:block;font-size:8px;color:var(--ink3);margin-top:2px}
+body[data-theme=gemini] #view .dv-page .dv-wall td{white-space:normal;text-align:start;padding:14px 0;color:var(--ink1);font-size:11px;line-height:1.55}
+body[data-theme=gemini] #view .dv-page .dv-wall small{display:block;margin-top:4px;font-size:9px;color:var(--ink3)}
+body[data-theme=gemini] #view .dv-page .dv-past td{color:var(--ink3)}
+body[data-theme=gemini] #view .dv-page .dv-yp{margin-top:14px;background:var(--px-card);border:1px solid var(--px-edge);padding:14px 16px 12px}
+body[data-theme=gemini] #view .dv-page .dv-pt{cursor:pointer}
+body[data-theme=gemini] #view .dv-page .dv-rk{display:grid;gap:0}
+body[data-theme=gemini] #view .dv-page .dv-rr{all:unset;box-sizing:border-box;display:grid;grid-template-columns:72px minmax(0,1fr) 64px 90px;gap:12px;align-items:center;padding:5px 0;border-top:1px solid var(--rhair);font-size:10px;cursor:pointer;font-variant-numeric:tabular-nums}
+body[data-theme=gemini] #view .dv-page .dv-rr:hover{background:var(--today-hover)}
+body[data-theme=gemini] #view .dv-page .dv-rr:focus-visible{outline:2px solid var(--today-focus);outline-offset:-2px}
+body[data-theme=gemini] #view .dv-page .dv-rr b{font-weight:600}
+body[data-theme=gemini] #view .dv-page .dv-rr em{font-style:normal;text-align:end;color:var(--ink1)}
+body[data-theme=gemini] #view .dv-page .dv-rr small{text-align:end;font-size:9px;color:var(--ink3)}
+body[data-theme=gemini] #view .dv-page .dv-rr .pf-meter{height:6px}
+body[data-theme=gemini] #view .dv-page .dv-rr .pf-meter i{background:var(--ink2)}
+body[data-theme=gemini] #view .dv-page .dv-rr.on .pf-meter i{background:var(--ink1)}
+body[data-theme=gemini] #view .dv-page .dv-rr.over .pf-meter i{background:var(--dn)}
+body[data-theme=gemini] #view .dv-page .dv-notes{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;background:var(--px-edge);border:1px solid var(--px-edge);margin-top:12px}
+body[data-theme=gemini] #view .dv-page .dv-notes>div{background:var(--px-inset);padding:10px 12px;font-size:10px;line-height:1.6;color:var(--ink2)}
+body[data-theme=gemini] #view .dv-page .dv-notes small{display:block;font-size:9px;letter-spacing:.08em;color:var(--ink3);margin-bottom:4px}
+body[data-theme=gemini] #view .dv-page .dv-notes a{margin-inline-end:7px}
+body[data-theme=gemini] #view .dv-page .dv-ch{margin-top:14px;background:var(--px-card);border:1px solid var(--px-edge);padding:14px 16px 12px}
+body[data-theme=gemini] #view .dv-page .dv-chh{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:baseline;justify-content:space-between;margin-bottom:10px}
+body[data-theme=gemini] #view .dv-page .dv-chh b{font-size:13px;font-weight:700}
+body[data-theme=gemini] #view .dv-page .dv-chh b a{font-weight:700}
+body[data-theme=gemini] #view .dv-page .dv-chh span{font-size:9px;color:var(--ink3)}
+body[data-theme=gemini] #view .dv-page .dv-pay{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:9px;color:var(--ink2);font-variant-numeric:tabular-nums}
+body[data-theme=gemini] #view .dv-page .dv-pay span b{font-weight:600;color:var(--ink1)}
+
+@media (prefers-reduced-motion:reduce){
+  body[data-theme=gemini] #view .dv-page *{transition:none !important;animation:none !important}
+}
+
+@media (max-width:900px){
+  body[data-theme=gemini] #view .dv-page .dv-gt{--lab:112px}
+  body[data-theme=gemini] #view .dv-page .dv-gl small{display:none}
+}
+
+@media (max-width:620px){
+  body[data-theme=gemini] #view .dv-page{padding:10px 16px 26px}
+  body[data-theme=gemini] #view .dv-page .px-ch{margin-top:52px}
+  body[data-theme=gemini] #view .dv-page .sx-hero .sx-hd h2{font-size:17px}
+  body[data-theme=gemini] #view .dv-page .sx-hd>div:first-child{flex-basis:100%}
+  body[data-theme=gemini] #view .dv-page .sx-hr{text-align:start}
+  body[data-theme=gemini] #view .dv-page .sx-kp,body[data-theme=gemini] #view .dv-page .dv-strip,body[data-theme=gemini] #view .dv-page .dv-strip.c3{grid-template-columns:repeat(2,minmax(0,1fr))}
+  body[data-theme=gemini] #view .dv-page .dv-strip.c3>div:last-child{grid-column:1/-1}
+  body[data-theme=gemini] #view .dv-page .sx-kp>div{padding:7px 10px 8px}
+  body[data-theme=gemini] #view .dv-page .dv-strip>div{padding:10px 10px 11px}
+  body[data-theme=gemini] #view .dv-page .dv-hero{padding:14px 12px 14px}
+  body[data-theme=gemini] #view .dv-page .dv-gt{--lab:50px}
+  body[data-theme=gemini] #view .dv-page .dv-rs{display:none}
+  body[data-theme=gemini] #view .dv-page .dv-yp,body[data-theme=gemini] #view .dv-page .dv-ch{padding:12px 10px 10px}
+  body[data-theme=gemini] #view .dv-page .dv-rr{grid-template-columns:56px minmax(0,1fr) 54px;gap:8px}
+  body[data-theme=gemini] #view .dv-page .dv-rr small{display:none}
+  body[data-theme=gemini] #view .dv-page .dv-notes{grid-template-columns:minmax(0,1fr)}
+}
