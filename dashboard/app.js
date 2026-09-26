@@ -4789,75 +4789,7 @@ function scannerHtml(cats) {
   <p class="sub" style="margin-top:8px">Ranked from the desk's own data each cycle — screens, not recommendations. A list a stock qualifies for is a place to start reading, never a reason to buy. (Shariah-status screens await a verified data source — the desk won't fake it.)</p>`;
 }
 
-/* ---- Scenario Simulator: measured sector×macro betas, scaled to the user's what-if. ---- */
-const SCEN_FACTORS = {
-  oil: { label: "Oil (WTI)", unit: "$", presetTargets: [95, 70] },
-  usdpkr: { label: "USD/PKR", unit: "Rs", presetTargets: [340, 260] },
-  gold: { label: "Gold", unit: "$" },
-  sp500: { label: "S&P 500", unit: "" },
-  us10y: { label: "US 10-year yield", unit: "" },
-  dollar: { label: "Dollar index", unit: "" },
-  em_equity: { label: "EM equity flows", unit: "" },
-};
-let _scen = { factor: "oil", movePct: 10 };
-async function pageScenarios() {
-  await Promise.resolve();
-  const [sm, mh] = await Promise.all([j("sector_macro.json"), j("macro_history.json")]);
-  const spots = {};
-  for (const f of Object.keys(SCEN_FACTORS)) {
-    const ser = mh?.factors?.[f]?.series || {};
-    const days = Object.keys(ser).sort();
-    if (days.length) spots[f] = { v: ser[days[days.length - 1]], d: days[days.length - 1] };
-  }
-  const presets = [
-    ["oil", spots.oil ? (95 / spots.oil.v - 1) * 100 : 10, "Oil to $95"],
-    ["usdpkr", spots.usdpkr ? (340 / spots.usdpkr.v - 1) * 100 : 20, "Rupee to 340"],
-    ["gold", 10, "Gold +10%"],
-    ["sp500", -5, "Wall Street −5%"],
-    ["us10y", -10, "US yields fall 10%"],
-    ["dollar", 5, "Dollar +5%"],
-  ];
-  const run = () => {
-    const { factor, movePct } = _scen;
-    const hits = [], quiet = [];
-    for (const [sec, rec] of Object.entries(sm?.by_sector || {})) {
-      const d = (rec.drivers || []).find(x => x.factor === factor && x.demonstrated);
-      if (d) hits.push({ sec, est: d.beta * movePct, corr: d.corr, r2: rec.joint_r2_pct });
-      else quiet.push(sec);
-    }
-    hits.sort((a, b) => b.est - a.est);
-    const win = hits.filter(h => h.est > 0), lose = hits.filter(h => h.est < 0).reverse();
-    const spot = spots[factor];
-    const fl = SCEN_FACTORS[factor];
-    const tile = h => `<div class="sc-tile ${h.est > 0 ? "up" : "dn"} clickable" title="measured correlation ${h.corr} · sector joint R² ${h.r2}%">
-      <b>${esc(h.sec)}</b><span class="num">${h.est > 0 ? "+" : ""}${h.est.toFixed(2)}%</span>
-      <i>${Math.abs(h.corr) >= 0.15 ? "strong" : Math.abs(h.corr) >= 0.07 ? "clear" : "faint"} link</i></div>`;
-    return `
-    <div class="sc-verdict"><b>${esc(fl.label)} ${movePct > 0 ? "+" : ""}${movePct.toFixed(1)}%</b>
-      ${spot ? `<span class="sub">from ${fl.unit}${fmt(spot.v)} (${esc(spot.d)}) ${fl.unit ? `→ ~${fl.unit}${fmt(spot.v * (1 + movePct / 100))}` : ""}</span>` : ""}</div>
-    ${hits.length ? `<div class="sc-cols">
-      <div><div class="ark" style="color:var(--up)">historically leaned up</div>${win.length ? win.map(tile).join("") : '<div class="sub" style="padding:8px 0">none measurably</div>'}</div>
-      <div><div class="ark" style="color:var(--dn)">historically leaned down</div>${lose.length ? lose.map(tile).join("") : '<div class="sub" style="padding:8px 0">none measurably</div>'}</div>
-    </div>` : `<div class="empty">No sector shows a demonstrated link to this factor.</div>`}
-    ${quiet.length ? `<p class="sub" style="margin-top:10px"><b>${quiet.length} sectors show no measurable link</b> — over 19 years their days were made locally, not by this factor. That silence is a finding too.</p>` : ""}
-    <div class="tnote">Each estimate = the sector's <b>measured daily beta</b> to ${esc(fl.label)} (2007–2026, correction-survived) × your move — the typical <i>co-movement</i>, not a forecast. Even the strongest links explain only a few percent of a sector's daily variance, and a real ${esc(fl.label)} shock arrives tangled with everything else. History, not prophecy — and never advice.</div>`;
-  };
-  const locked = !hasFeature("scenarios");
-  $("view").innerHTML = `
-  <div class="seg" style="margin-top:4px"><h2>Scenarios</h2><div class="ln"></div><span class="pill">measured, not imagined</span></div>
-  <p class="sub" style="margin-bottom:12px">"What if oil hits $95?" — answered from what 19 years of data actually show, not from a story. Pick a question or set your own move.</p>
-  ${locked ? planWall("The scenario simulator",
-    "Oil to $95, rupee to 340, Wall Street −5% — which PSX sectors historically leaned up or down, from measured sector betas, with the honest R² attached.") : `
-  <div class="card">
-    <div class="sc-presets">${presets.map(([f, m, l]) => `<button class="seg-opt ${_scen.factor === f && Math.abs(_scen.movePct - m) < 0.01 ? "on" : ""}" onclick="_scen={factor:'${f}',movePct:${m.toFixed(2)}};pageScenarios()">${esc(l)}</button>`).join("")}</div>
-    <div class="sc-custom">
-      <label>Factor<select id="sc-f" class="ph-in" onchange="_scen.factor=this.value;pageScenarios()">${Object.entries(SCEN_FACTORS).map(([k, v]) => `<option value="${k}"${_scen.factor === k ? " selected" : ""}>${esc(v.label)}</option>`).join("")}</select></label>
-      <label>Move %<input id="sc-m" type="text" inputmode="decimal" enterkeyhint="done" class="ph-in" value="${_scen.movePct.toFixed(1)}" onchange="_scen.movePct=+this.value||0;pageScenarios()"></label>
-    </div>
-    <div id="sc-out">${run()}</div>
-  </div>
-  <p class="sub" style="margin-top:10px">Domestic SBP-rate scenarios aren't offered because the desk has only measured <b>global</b> factors against sectors — US yields are the closest measured cousin, and pretending otherwise would be a guess dressed as data.</p>`}`;
-}
+/* ---- Scenario Simulator: moved to dashboard/page-scenarios.js (page-module pattern). ---- */
 
 /* ---- Screener: moved to dashboard/page-screener.js (page-module pattern). ---- */
 

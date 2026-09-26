@@ -18,7 +18,7 @@ STEPS = [
     "fetch_indices.py", "fetch_sectors.py", "fetch_intraday.py", "fetch_global.py",
     "fetch_georisk.py", "astro_engine.py", "astro_history.py", "astro_charts.py",
     "astro_natal.py", "astro_context.py", "astro_claims.py",
-    "fetch_macro_history.py", "sector_macro.py", "sector_dossier.py",
+    "fetch_macro_history.py", "sector_macro.py", "build_scenario_stocks.py", "sector_dossier.py",
     "tv_crosscheck.py", "data_health.py", "compute_fairvalue.py", "build_signals.py",
     "build_checkpoint_trigger.py", "fetch_research.py", "build_screener.py", "build_explainer.py",
     "room_dossier.py", "room_queue.py", "room_gate.py", "room_score.py",

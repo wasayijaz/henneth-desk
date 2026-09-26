@@ -1,0 +1,6780 @@
+{
+ "updated": "2026-09-26 22:22",
+ "window": {
+  "from": "2007-09-27",
+  "to": "2026-09-24",
+  "psx_days": 4946,
+  "stocks": 100
+ },
+ "method": {
+  "lag": "every factor is lagged one PSX day, same as sector_macro.py — see that file's method note for why.",
+  "test": "circular-shift permutation (same machinery as sector_macro.py), Bonferroni + Benjamini-Hochberg both reported",
+  "split_guard": "a stock-day is dropped when the close moved >= 25%, or > 10.5% while priced >= Rs 10 (history_deep is not split-adjusted)",
+  "us10y_units": "beta is per PERCENTAGE-POINT change in the US 10y yield",
+  "hypotheses": 693,
+  "bonferroni_bar": 7.22e-05,
+  "fdr_cutoff": 0.00652,
+  "family": "separate Benjamini-Hochberg family from sector_macro.py's sector-level tests"
+ },
+ "headline": {
+  "hypotheses_tested": 693,
+  "survivors_bonferroni": 24,
+  "survivors_fdr": 91
+ },
+ "by_factor": {
+  "dollar": [
+   {
+    "stock": "NRL",
+    "beta": -0.2192,
+    "corr": -0.0413,
+    "p_value": 0.00568,
+    "days": 4859,
+    "survives_bonferroni": false,
+    "survives_fdr": true
+   },
+   {
+    "stock": "AHCL",
+    "beta": -0.1866,
+    "corr": -0.0391,
+    "p_value": 0.0061,
+    "days": 4854,
+    "survives_bonferroni": false,
+    "survives_fdr": true
+   },
+   {
+    "stock": "LUCK",
+    "beta": -0.1515,
+    "corr": -0.0364,
+    "p_value": 0.012,
+    "days": 4858,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "INIL",
+    "beta": -0.1737,
+    "corr": -0.0347,
+    "p_value": 0.0145,
+    "days": 4859,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "PIOC",
+    "beta": -0.2154,
+    "corr": -0.0355,
+    "p_value": 0.015,
+    "days": 4859,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "NPL",
+    "beta": -0.1803,
+    "corr": -0.0365,
+    "p_value": 0.018,
+    "days": 4301,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "FHAM",
+    "beta": -0.1275,
+    "corr": -0.0331,
+    "p_value": 0.023,
+    "days": 4858,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "PAEL",
+    "beta": -0.1915,
+    "corr": -0.031,
+    "p_value": 0.0315,
+    "days": 4859,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "SSGC",
+    "beta": 0.1666,
+    "corr": 0.0312,
+    "p_value": 0.034,
+    "days": 4858,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "ISL",
+    "beta": -0.1776,
+    "corr": -0.0305,
+    "p_value": 0.054,
+    "days": 3973,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "KTML",
+    "beta": -0.1678,
+    "corr": -0.0248,
+    "p_value": 0.0785,
+    "days": 4859,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "GADT",
+    "beta": -0.125,
+    "corr": -0.0243,
+    "p_value": 0.093,
+    "days": 4854,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "MLCF",
+    "beta": -0.1479,
+    "corr": -0.0235,
+    "p_value": 0.097,
+    "days": 4859,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "MCB",
+    "beta": -0.0903,
+    "corr": -0.0243,
+    "p_value": 0.098,
+    "days": 4859,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "ATRL",
+    "beta": -0.1234,
+    "corr": -0.0232,
+    "p_value": 0.103,
+    "days": 4857,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "TRG",
+    "beta": -0.1705,
+    "corr": -0.0224,
+    "p_value": 0.121,
+    "days": 4853,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "DCR",
+    "beta": -0.0723,
+    "corr": -0.0285,
+    "p_value": 0.129,
+    "days": 2888,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "HBL",
+    "beta": -0.0816,
+    "corr": -0.0209,
+    "p_value": 0.141,
+    "days": 4854,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "PPL",
+    "beta": 0.0834,
+    "corr": 0.0207,
+    "p_value": 0.155,
+    "days": 4858,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "MEBL",
+    "beta": -0.0808,
+    "corr": -0.0201,
+    "p_value": 0.161,
+    "days": 4860,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "FATIMA",
+    "beta": -0.0921,
+    "corr": -0.0213,
+    "p_value": 0.166,
+    "days": 4292,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "RMPL",
+    "beta": -0.0831,
+    "corr": -0.0196,
+    "p_value": 0.176,
+    "days": 4863,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "PRL",
+    "beta": -0.1075,
+    "corr": -0.0187,
+    "p_value": 0.187,
+    "days": 4863,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "SYS",
+    "beta": -0.1199,
+    "corr": -0.0231,
+    "p_value": 0.203,
+    "days": 3002,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "LOTCHEM",
+    "beta": 0.0939,
+    "corr": 0.0183,
+    "p_value": 0.206,
+    "days": 4854,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "SEARL",
+    "beta": -0.0874,
+    "corr": -0.0177,
+    "p_value": 0.221,
+    "days": 4861,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "SAZEW",
+    "beta": -0.0932,
+    "corr": -0.0165,
+    "p_value": 0.242,
+    "days": 4863,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "AICL",
+    "beta": -0.0764,
+    "corr": -0.0163,
+    "p_value": 0.247,
+    "days": 4854,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "NML",
+    "beta": -0.0743,
+    "corr": -0.0163,
+    "p_value": 0.248,
+    "days": 4859,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "KAPCO",
+    "beta": 0.0573,
+    "corr": 0.0164,
+    "p_value": 0.277,
+    "days": 4853,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "UBL",
+    "beta": -0.0601,
+    "corr": -0.0151,
+    "p_value": 0.278,
+    "days": 4856,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "PABC",
+    "beta": -0.1624,
+    "corr": -0.03,
+    "p_value": 0.28,
+    "days": 1330,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "KOHC",
+    "beta": -0.0854,
+    "corr": -0.0158,
+    "p_value": 0.285,
+    "days": 4859,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "AIRLINK",
+    "beta": -0.196,
+    "corr": -0.0297,
+    "p_value": 0.288,
+    "days": 1281,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "APL",
+    "beta": -0.0526,
+    "corr": -0.0147,
+    "p_value": 0.293,
+    "days": 4858,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "AGP",
+    "beta": -0.1333,
+    "corr": -0.0236,
+    "p_value": 0.295,
+    "days": 2159,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "GHGL",
+    "beta": -0.0625,
+    "corr": -0.0142,
+    "p_value": 0.313,
+    "days": 4860,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "HMB",
+    "beta": 0.0518,
+    "corr": 0.0138,
+    "p_value": 0.331,
+    "days": 4853,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "SRVI",
+    "beta": 0.0689,
+    "corr": 0.014,
+    "p_value": 0.336,
+    "days": 4856,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "TGL",
+    "beta": -0.0753,
+    "corr": -0.0136,
+    "p_value": 0.34,
+    "days": 4861,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "DGKC",
+    "beta": -0.0672,
+    "corr": -0.0135,
+    "p_value": 0.355,
+    "days": 4856,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "GHNI",
+    "beta": -0.0887,
+    "corr": -0.0134,
+    "p_value": 0.359,
+    "days": 4859,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "TREET",
+    "beta": -0.0717,
+    "corr": -0.0131,
+    "p_value": 0.36,
+    "days": 4858,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "HALEON",
+    "beta": 0.0973,
+    "corr": 0.0167,
+    "p_value": 0.383,
+    "days": 2441,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "BOP",
+    "beta": -0.077,
+    "corr": -0.0129,
+    "p_value": 0.386,
+    "days": 4857,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "CNERGY",
+    "beta": -0.0813,
+    "corr": -0.0127,
+    "p_value": 0.388,
+    "days": 4849,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "MUREB",
+    "beta": -0.0541,
+    "corr": -0.012,
+    "p_value": 0.389,
+    "days": 4855,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "IBFL",
+    "beta": -0.055,
+    "corr": -0.0119,
+    "p_value": 0.401,
+    "days": 4858,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "HINOON",
+    "beta": -0.05,
+    "corr": -0.0114,
+    "p_value": 0.407,
+    "days": 4859,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "ILP",
+    "beta": 0.1035,
+    "corr": 0.0193,
+    "p_value": 0.413,
+    "days": 1925,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "PTC",
+    "beta": -0.0556,
+    "corr": -0.0113,
+    "p_value": 0.415,
+    "days": 4860,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "UPFL",
+    "beta": -0.047,
+    "corr": -0.0117,
+    "p_value": 0.423,
+    "days": 4890,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "SNGP",
+    "beta": 0.0588,
+    "corr": 0.0115,
+    "p_value": 0.428,
+    "days": 4859,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "COLG",
+    "beta": -0.0484,
+    "corr": -0.0108,
+    "p_value": 0.437,
+    "days": 4854,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "FFL",
+    "beta": -0.0712,
+    "corr": -0.0115,
+    "p_value": 0.444,
+    "days": 4857,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "PSEL",
+    "beta": -0.0466,
+    "corr": -0.0108,
+    "p_value": 0.457,
+    "days": 4865,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "PIBTL",
+    "beta": -0.0851,
+    "corr": -0.0131,
+    "p_value": 0.458,
+    "days": 3302,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "ABL",
+    "beta": -0.0353,
+    "corr": -0.0098,
+    "p_value": 0.491,
+    "days": 4857,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "ATLH",
+    "beta": -0.0396,
+    "corr": -0.0097,
+    "p_value": 0.495,
+    "days": 4857,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "JDWS",
+    "beta": -0.0447,
+    "corr": -0.0096,
+    "p_value": 0.498,
+    "days": 4863,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "EFERT",
+    "beta": 0.0424,
+    "corr": 0.011,
+    "p_value": 0.511,
+    "days": 3283,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "SSOM",
+    "beta": -0.0669,
+    "corr": -0.0092,
+    "p_value": 0.516,
+    "days": 4854,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "BAFL",
+    "beta": -0.0383,
+    "corr": -0.0092,
+    "p_value": 0.537,
+    "days": 4853,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "POWER",
+    "beta": -0.0501,
+    "corr": -0.0082,
+    "p_value": 0.57,
+    "days": 4856,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "NESTLE",
+    "beta": -0.0299,
+    "corr": -0.0076,
+    "p_value": 0.587,
+    "days": 4867,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "CPHL",
+    "beta": -0.089,
+    "corr": -0.015,
+    "p_value": 0.591,
+    "days": 1332,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "BWCL",
+    "beta": 0.0317,
+    "corr": 0.0069,
+    "p_value": 0.61,
+    "days": 4849,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "INDU",
+    "beta": 0.0252,
+    "corr": 0.0067,
+    "p_value": 0.626,
+    "days": 4862,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "PSX",
+    "beta": -0.0648,
+    "corr": -0.0094,
+    "p_value": 0.651,
+    "days": 2386,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "PAKT",
+    "beta": -0.0307,
+    "corr": -0.0067,
+    "p_value": 0.654,
+    "days": 4865,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "MEHT",
+    "beta": 0.0251,
+    "corr": 0.0056,
+    "p_value": 0.708,
+    "days": 4850,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "JVDC",
+    "beta": -0.024,
+    "corr": -0.0052,
+    "p_value": 0.726,
+    "days": 4862,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "NATF",
+    "beta": 0.0226,
+    "corr": 0.005,
+    "p_value": 0.726,
+    "days": 4863,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "CHCC",
+    "beta": -0.0292,
+    "corr": -0.0051,
+    "p_value": 0.734,
+    "days": 4856,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "BAHL",
+    "beta": 0.0162,
+    "corr": 0.0047,
+    "p_value": 0.74,
+    "days": 4854,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "KEL",
+    "beta": 0.0296,
+    "corr": 0.0042,
+    "p_value": 0.758,
+    "days": 4858,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "THALL",
+    "beta": -0.0193,
+    "corr": -0.0043,
+    "p_value": 0.762,
+    "days": 4858,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "BNWM",
+    "beta": -0.0269,
+    "corr": -0.0047,
+    "p_value": 0.764,
+    "days": 4853,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "FABL",
+    "beta": -0.0223,
+    "corr": -0.0045,
+    "p_value": 0.765,
+    "days": 4859,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "HUBC",
+    "beta": 0.0154,
+    "corr": 0.0041,
+    "p_value": 0.782,
+    "days": 4856,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "YOUW",
+    "beta": -0.0485,
+    "corr": -0.0043,
+    "p_value": 0.783,
+    "days": 4811,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "PKGS",
+    "beta": 0.0183,
+    "corr": 0.0043,
+    "p_value": 0.789,
+    "days": 4856,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "NBP",
+    "beta": 0.0159,
+    "corr": 0.0037,
+    "p_value": 0.804,
+    "days": 4852,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "ABOT",
+    "beta": 0.0147,
+    "corr": 0.0037,
+    "p_value": 0.81,
+    "days": 4861,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "HCAR",
+    "beta": 0.0156,
+    "corr": 0.0028,
+    "p_value": 0.831,
+    "days": 4853,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "HUMNL",
+    "beta": -0.0192,
+    "corr": -0.003,
+    "p_value": 0.844,
+    "days": 4859,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "PSO",
+    "beta": 0.0103,
+    "corr": 0.0025,
+    "p_value": 0.857,
+    "days": 4859,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "PGLC",
+    "beta": -0.0141,
+    "corr": -0.0019,
+    "p_value": 0.884,
+    "days": 4930,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "GLAXO",
+    "beta": 0.0075,
+    "corr": 0.0018,
+    "p_value": 0.899,
+    "days": 4856,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "AKBL",
+    "beta": 0.0054,
+    "corr": 0.0012,
+    "p_value": 0.935,
+    "days": 4852,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "OGDC",
+    "beta": -0.0039,
+    "corr": -0.001,
+    "p_value": 0.94,
+    "days": 4861,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "FCCL",
+    "beta": -0.0039,
+    "corr": -0.0007,
+    "p_value": 0.952,
+    "days": 4860,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "MARI",
+    "beta": -0.0041,
+    "corr": -0.0009,
+    "p_value": 0.953,
+    "days": 4855,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "SHFA",
+    "beta": 0.0035,
+    "corr": 0.0007,
+    "p_value": 0.96,
+    "days": 4863,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "SCBPL",
+    "beta": 0.0036,
+    "corr": 0.0007,
+    "p_value": 0.966,
+    "days": 4861,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "LCI",
+    "beta": 0.0025,
+    "corr": 0.0007,
+    "p_value": 0.971,
+    "days": 4856,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "FFC",
+    "beta": -0.0007,
+    "corr": -0.0002,
+    "p_value": 0.986,
+    "days": 4859,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "POL",
+    "beta": -0.0008,
+    "corr": -0.0002,
+    "p_value": 0.988,
+    "days": 4859,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "MTL",
+    "beta": 0.0005,
+    "corr": 0.0001,
+    "p_value": 0.996,
+    "days": 4860,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   }
+  ],
+  "em_equity": [
+   {
+    "stock": "LUCK",
+    "beta": 0.0815,
+    "corr": 0.0713,
+    "p_value": 2e-05,
+    "days": 4858,
+    "survives_bonferroni": true,
+    "survives_fdr": true
+   },
+   {
+    "stock": "NPL",
+    "beta": 0.0927,
+    "corr": 0.0578,
+    "p_value": 2e-05,
+    "days": 4301,
+    "survives_bonferroni": true,
+    "survives_fdr": true
+   },
+   {
+    "stock": "OGDC",
+    "beta": 0.0775,
+    "corr": 0.074,
+    "p_value": 2e-05,
+    "days": 4861,
+    "survives_bonferroni": true,
+    "survives_fdr": true
+   },
+   {
+    "stock": "POL",
+    "beta": 0.0846,
+    "corr": 0.0892,
+    "p_value": 2e-05,
+    "days": 4859,
+    "survives_bonferroni": true,
+    "survives_fdr": true
+   },
+   {
+    "stock": "PPL",
+    "beta": 0.086,
+    "corr": 0.0779,
+    "p_value": 2e-05,
+    "days": 4858,
+    "survives_bonferroni": true,
+    "survives_fdr": true
+   },
+   {
+    "stock": "UBL",
+    "beta": 0.0777,
+    "corr": 0.0711,
+    "p_value": 2e-05,
+    "days": 4856,
+    "survives_bonferroni": true,
+    "survives_fdr": true
+   },
+   {
+    "stock": "HINOON",
+    "beta": 0.0662,
+    "corr": 0.0551,
+    "p_value": 0.00018,
+    "days": 4859,
+    "survives_bonferroni": false,
+    "survives_fdr": true
+   },
+   {
+    "stock": "APL",
+    "beta": 0.0536,
+    "corr": 0.0547,
+    "p_value": 0.0002,
+    "days": 4858,
+    "survives_bonferroni": false,
+    "survives_fdr": true
+   },
+   {
+    "stock": "HBL",
+    "beta": 0.0584,
+    "corr": 0.0545,
+    "p_value": 0.00048,
+    "days": 4854,
+    "survives_bonferroni": false,
+    "survives_fdr": true
+   },
+   {
+    "stock": "PAEL",
+    "beta": 0.0887,
+    "corr": 0.0524,
+    "p_value": 0.00054,
+    "days": 4859,
+    "survives_bonferroni": false,
+    "survives_fdr": true
+   },
+   {
+    "stock": "MEBL",
+    "beta": 0.0637,
+    "corr": 0.0577,
+    "p_value": 0.00058,
+    "days": 4860,
+    "survives_bonferroni": false,
+    "survives_fdr": true
+   },
+   {
+    "stock": "PRL",
+    "beta": 0.0746,
+    "corr": 0.0473,
+    "p_value": 0.00076,
+    "days": 4863,
+    "survives_bonferroni": false,
+    "survives_fdr": true
+   },
+   {
+    "stock": "ATLH",
+    "beta": 0.0555,
+    "corr": 0.0494,
+    "p_value": 0.00102,
+    "days": 4857,
+    "survives_bonferroni": false,
+    "survives_fdr": true
+   },
+   {
+    "stock": "TGL",
+    "beta": 0.0745,
+    "corr": 0.0489,
+    "p_value": 0.00118,
+    "days": 4861,
+    "survives_bonferroni": false,
+    "survives_fdr": true
+   },
+   {
+    "stock": "NML",
+    "beta": 0.0657,
+    "corr": 0.0525,
+    "p_value": 0.0012,
+    "days": 4859,
+    "survives_bonferroni": false,
+    "survives_fdr": true
+   },
+   {
+    "stock": "DGKC",
+    "beta": 0.0657,
+    "corr": 0.0481,
+    "p_value": 0.00126,
+    "days": 4856,
+    "survives_bonferroni": false,
+    "survives_fdr": true
+   },
+   {
+    "stock": "NRL",
+    "beta": 0.0687,
+    "corr": 0.0471,
+    "p_value": 0.00146,
+    "days": 4859,
+    "survives_bonferroni": false,
+    "survives_fdr": true
+   },
+   {
+    "stock": "AICL",
+    "beta": 0.063,
+    "corr": 0.0488,
+    "p_value": 0.00164,
+    "days": 4854,
+    "survives_bonferroni": false,
+    "survives_fdr": true
+   },
+   {
+    "stock": "KOHC",
+    "beta": 0.0674,
+    "corr": 0.0453,
+    "p_value": 0.00166,
+    "days": 4859,
+    "survives_bonferroni": false,
+    "survives_fdr": true
+   },
+   {
+    "stock": "KTML",
+    "beta": 0.0918,
+    "corr": 0.0495,
+    "p_value": 0.00192,
+    "days": 4859,
+    "survives_bonferroni": false,
+    "survives_fdr": true
+   },
+   {
+    "stock": "ILP",
+    "beta": 0.1264,
+    "corr": 0.0767,
+    "p_value": 0.00202,
+    "days": 1925,
+    "survives_bonferroni": false,
+    "survives_fdr": true
+   },
+   {
+    "stock": "PSO",
+    "beta": 0.0549,
+    "corr": 0.048,
+    "p_value": 0.00204,
+    "days": 4859,
+    "survives_bonferroni": false,
+    "survives_fdr": true
+   },
+   {
+    "stock": "SNGP",
+    "beta": 0.063,
+    "corr": 0.0449,
+    "p_value": 0.0024,
+    "days": 4859,
+    "survives_bonferroni": false,
+    "survives_fdr": true
+   },
+   {
+    "stock": "GHNI",
+    "beta": 0.0733,
+    "corr": 0.0404,
+    "p_value": 0.0032,
+    "days": 4859,
+    "survives_bonferroni": false,
+    "survives_fdr": true
+   },
+   {
+    "stock": "MCB",
+    "beta": 0.0473,
+    "corr": 0.0464,
+    "p_value": 0.00326,
+    "days": 4859,
+    "survives_bonferroni": false,
+    "survives_fdr": true
+   },
+   {
+    "stock": "PTC",
+    "beta": 0.0579,
+    "corr": 0.043,
+    "p_value": 0.00354,
+    "days": 4860,
+    "survives_bonferroni": false,
+    "survives_fdr": true
+   },
+   {
+    "stock": "NBP",
+    "beta": 0.0526,
+    "corr": 0.0441,
+    "p_value": 0.00384,
+    "days": 4852,
+    "survives_bonferroni": false,
+    "survives_fdr": true
+   },
+   {
+    "stock": "BOP",
+    "beta": 0.0712,
+    "corr": 0.0436,
+    "p_value": 0.00468,
+    "days": 4857,
+    "survives_bonferroni": false,
+    "survives_fdr": true
+   },
+   {
+    "stock": "PIBTL",
+    "beta": 0.1083,
+    "corr": 0.0507,
+    "p_value": 0.00484,
+    "days": 3302,
+    "survives_bonferroni": false,
+    "survives_fdr": true
+   },
+   {
+    "stock": "LOTCHEM",
+    "beta": 0.0565,
+    "corr": 0.0402,
+    "p_value": 0.00572,
+    "days": 4854,
+    "survives_bonferroni": false,
+    "survives_fdr": true
+   },
+   {
+    "stock": "HUBC",
+    "beta": 0.0411,
+    "corr": 0.0402,
+    "p_value": 0.00642,
+    "days": 4856,
+    "survives_bonferroni": false,
+    "survives_fdr": true
+   },
+   {
+    "stock": "AKBL",
+    "beta": 0.0487,
+    "corr": 0.0393,
+    "p_value": 0.00794,
+    "days": 4852,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "PABC",
+    "beta": 0.1439,
+    "corr": 0.0757,
+    "p_value": 0.00926,
+    "days": 1330,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "FATIMA",
+    "beta": 0.0566,
+    "corr": 0.0402,
+    "p_value": 0.01,
+    "days": 4292,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "ABL",
+    "beta": 0.0384,
+    "corr": 0.0388,
+    "p_value": 0.0105,
+    "days": 4857,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "BAFL",
+    "beta": 0.0429,
+    "corr": 0.0374,
+    "p_value": 0.0105,
+    "days": 4853,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "SRVI",
+    "beta": 0.0477,
+    "corr": 0.0354,
+    "p_value": 0.0115,
+    "days": 4856,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "AHCL",
+    "beta": 0.0502,
+    "corr": 0.0381,
+    "p_value": 0.012,
+    "days": 4854,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "SYS",
+    "beta": 0.0849,
+    "corr": 0.05,
+    "p_value": 0.012,
+    "days": 3002,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "CNERGY",
+    "beta": 0.0676,
+    "corr": 0.0386,
+    "p_value": 0.014,
+    "days": 4849,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "PIOC",
+    "beta": 0.0589,
+    "corr": 0.0351,
+    "p_value": 0.0165,
+    "days": 4859,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "CHCC",
+    "beta": 0.0533,
+    "corr": 0.0341,
+    "p_value": 0.0195,
+    "days": 4856,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "AGP",
+    "beta": 0.09,
+    "corr": 0.0522,
+    "p_value": 0.0215,
+    "days": 2159,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "GLAXO",
+    "beta": 0.0356,
+    "corr": 0.0305,
+    "p_value": 0.0265,
+    "days": 4856,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "INIL",
+    "beta": 0.0444,
+    "corr": 0.0323,
+    "p_value": 0.0265,
+    "days": 4859,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "TRG",
+    "beta": 0.0697,
+    "corr": 0.0334,
+    "p_value": 0.028,
+    "days": 4853,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "SCBPL",
+    "beta": 0.0446,
+    "corr": 0.0323,
+    "p_value": 0.03,
+    "days": 4861,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "TREET",
+    "beta": 0.0458,
+    "corr": 0.0304,
+    "p_value": 0.031,
+    "days": 4858,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "UPFL",
+    "beta": 0.0343,
+    "corr": 0.0312,
+    "p_value": 0.036,
+    "days": 4890,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "LCI",
+    "beta": 0.0317,
+    "corr": 0.0299,
+    "p_value": 0.0375,
+    "days": 4856,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "HCAR",
+    "beta": 0.0459,
+    "corr": 0.0296,
+    "p_value": 0.0405,
+    "days": 4853,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "AIRLINK",
+    "beta": 0.1349,
+    "corr": 0.0575,
+    "p_value": 0.0425,
+    "days": 1281,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "ABOT",
+    "beta": 0.0323,
+    "corr": 0.0296,
+    "p_value": 0.0455,
+    "days": 4861,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "NESTLE",
+    "beta": 0.0313,
+    "corr": 0.0292,
+    "p_value": 0.0455,
+    "days": 4867,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "SEARL",
+    "beta": 0.0379,
+    "corr": 0.0279,
+    "p_value": 0.053,
+    "days": 4861,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "PKGS",
+    "beta": 0.032,
+    "corr": 0.0274,
+    "p_value": 0.058,
+    "days": 4856,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "MTL",
+    "beta": 0.0257,
+    "corr": 0.0263,
+    "p_value": 0.059,
+    "days": 4860,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "FCCL",
+    "beta": 0.0388,
+    "corr": 0.0264,
+    "p_value": 0.06,
+    "days": 4860,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "ATRL",
+    "beta": 0.0407,
+    "corr": 0.0279,
+    "p_value": 0.0665,
+    "days": 4857,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "SSGC",
+    "beta": 0.0384,
+    "corr": 0.0263,
+    "p_value": 0.0665,
+    "days": 4858,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "GADT",
+    "beta": 0.0363,
+    "corr": 0.0257,
+    "p_value": 0.0705,
+    "days": 4854,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "PSX",
+    "beta": 0.0726,
+    "corr": 0.0343,
+    "p_value": 0.083,
+    "days": 2386,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "PAKT",
+    "beta": 0.0318,
+    "corr": 0.0251,
+    "p_value": 0.0835,
+    "days": 4865,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "PSEL",
+    "beta": 0.0296,
+    "corr": 0.0249,
+    "p_value": 0.0855,
+    "days": 4865,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "JDWS",
+    "beta": 0.0302,
+    "corr": 0.0236,
+    "p_value": 0.1,
+    "days": 4863,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "ISL",
+    "beta": 0.0474,
+    "corr": 0.0253,
+    "p_value": 0.103,
+    "days": 3973,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "NATF",
+    "beta": 0.0283,
+    "corr": 0.0229,
+    "p_value": 0.103,
+    "days": 4863,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "CPHL",
+    "beta": 0.0986,
+    "corr": 0.0471,
+    "p_value": 0.108,
+    "days": 1332,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "BWCL",
+    "beta": 0.0283,
+    "corr": 0.0226,
+    "p_value": 0.11,
+    "days": 4849,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "GHGL",
+    "beta": 0.0262,
+    "corr": 0.0216,
+    "p_value": 0.125,
+    "days": 4860,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "FABL",
+    "beta": 0.0287,
+    "corr": 0.0212,
+    "p_value": 0.128,
+    "days": 4859,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "SAZEW",
+    "beta": 0.0323,
+    "corr": 0.0208,
+    "p_value": 0.137,
+    "days": 4863,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "KAPCO",
+    "beta": 0.0199,
+    "corr": 0.0207,
+    "p_value": 0.145,
+    "days": 4853,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "BNWM",
+    "beta": 0.0317,
+    "corr": 0.0202,
+    "p_value": 0.155,
+    "days": 4853,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "POWER",
+    "beta": 0.0333,
+    "corr": 0.0197,
+    "p_value": 0.165,
+    "days": 4856,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "JVDC",
+    "beta": 0.024,
+    "corr": 0.0188,
+    "p_value": 0.19,
+    "days": 4862,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "EFERT",
+    "beta": 0.0284,
+    "corr": 0.0225,
+    "p_value": 0.192,
+    "days": 3283,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "KEL",
+    "beta": 0.036,
+    "corr": 0.0187,
+    "p_value": 0.195,
+    "days": 4858,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "RMPL",
+    "beta": 0.0217,
+    "corr": 0.0186,
+    "p_value": 0.208,
+    "days": 4863,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "HALEON",
+    "beta": 0.0449,
+    "corr": 0.0248,
+    "p_value": 0.214,
+    "days": 2441,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "MUREB",
+    "beta": 0.0208,
+    "corr": 0.0168,
+    "p_value": 0.222,
+    "days": 4855,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "MARI",
+    "beta": 0.0206,
+    "corr": 0.0169,
+    "p_value": 0.224,
+    "days": 4855,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "DCR",
+    "beta": 0.0175,
+    "corr": 0.0216,
+    "p_value": 0.259,
+    "days": 2888,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "FFC",
+    "beta": 0.0144,
+    "corr": 0.016,
+    "p_value": 0.274,
+    "days": 4859,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "FFL",
+    "beta": 0.023,
+    "corr": 0.0136,
+    "p_value": 0.322,
+    "days": 4857,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "SHFA",
+    "beta": 0.0168,
+    "corr": 0.0129,
+    "p_value": 0.381,
+    "days": 4863,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "COLG",
+    "beta": 0.0141,
+    "corr": 0.0115,
+    "p_value": 0.397,
+    "days": 4854,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "THALL",
+    "beta": 0.0136,
+    "corr": 0.0111,
+    "p_value": 0.455,
+    "days": 4858,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "IBFL",
+    "beta": 0.0128,
+    "corr": 0.0101,
+    "p_value": 0.475,
+    "days": 4858,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "INDU",
+    "beta": 0.0097,
+    "corr": 0.0094,
+    "p_value": 0.508,
+    "days": 4862,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "PGLC",
+    "beta": 0.0154,
+    "corr": 0.0075,
+    "p_value": 0.571,
+    "days": 4930,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "BAHL",
+    "beta": 0.0071,
+    "corr": 0.0075,
+    "p_value": 0.609,
+    "days": 4854,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "MLCF",
+    "beta": 0.0105,
+    "corr": 0.0061,
+    "p_value": 0.66,
+    "days": 4859,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "YOUW",
+    "beta": 0.0188,
+    "corr": 0.0061,
+    "p_value": 0.69,
+    "days": 4811,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "HMB",
+    "beta": 0.0061,
+    "corr": 0.0058,
+    "p_value": 0.693,
+    "days": 4853,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "MEHT",
+    "beta": -0.0051,
+    "corr": -0.0041,
+    "p_value": 0.759,
+    "days": 4850,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "FHAM",
+    "beta": 0.0035,
+    "corr": 0.0033,
+    "p_value": 0.832,
+    "days": 4858,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "HUMNL",
+    "beta": 0.005,
+    "corr": 0.0029,
+    "p_value": 0.845,
+    "days": 4859,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "SSOM",
+    "beta": 0.0003,
+    "corr": 0.0002,
+    "p_value": 0.992,
+    "days": 4854,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   }
+  ],
+  "gold": [
+   {
+    "stock": "EFERT",
+    "beta": -0.0699,
+    "corr": -0.0445,
+    "p_value": 0.0092,
+    "days": 3283,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "AIRLINK",
+    "beta": 0.1614,
+    "corr": 0.0656,
+    "p_value": 0.0165,
+    "days": 1281,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "SYS",
+    "beta": -0.0857,
+    "corr": -0.0402,
+    "p_value": 0.0265,
+    "days": 3002,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "HMB",
+    "beta": -0.0482,
+    "corr": -0.0311,
+    "p_value": 0.0305,
+    "days": 4853,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "ILP",
+    "beta": -0.0974,
+    "corr": -0.0503,
+    "p_value": 0.0385,
+    "days": 1925,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "SSGC",
+    "beta": -0.0611,
+    "corr": -0.0278,
+    "p_value": 0.042,
+    "days": 4858,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "HCAR",
+    "beta": -0.0689,
+    "corr": -0.0296,
+    "p_value": 0.045,
+    "days": 4853,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "BOP",
+    "beta": -0.0712,
+    "corr": -0.0291,
+    "p_value": 0.046,
+    "days": 4857,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "UBL",
+    "beta": -0.0459,
+    "corr": -0.028,
+    "p_value": 0.058,
+    "days": 4856,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "PSO",
+    "beta": -0.0459,
+    "corr": -0.0268,
+    "p_value": 0.0595,
+    "days": 4859,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "MUREB",
+    "beta": -0.0485,
+    "corr": -0.0262,
+    "p_value": 0.06,
+    "days": 4855,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "AKBL",
+    "beta": -0.0504,
+    "corr": -0.0272,
+    "p_value": 0.064,
+    "days": 4852,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "AICL",
+    "beta": -0.0505,
+    "corr": -0.0261,
+    "p_value": 0.07,
+    "days": 4854,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "LCI",
+    "beta": -0.041,
+    "corr": -0.0257,
+    "p_value": 0.071,
+    "days": 4856,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "NML",
+    "beta": -0.0479,
+    "corr": -0.0256,
+    "p_value": 0.0825,
+    "days": 4859,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "RMPL",
+    "beta": -0.0436,
+    "corr": -0.025,
+    "p_value": 0.0825,
+    "days": 4863,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "MCB",
+    "beta": -0.0389,
+    "corr": -0.0255,
+    "p_value": 0.0835,
+    "days": 4859,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "KOHC",
+    "beta": -0.0548,
+    "corr": -0.0246,
+    "p_value": 0.0965,
+    "days": 4859,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "MEBL",
+    "beta": -0.0383,
+    "corr": -0.0232,
+    "p_value": 0.097,
+    "days": 4860,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "THALL",
+    "beta": -0.0411,
+    "corr": -0.0223,
+    "p_value": 0.112,
+    "days": 4858,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "HUBC",
+    "beta": -0.0348,
+    "corr": -0.0227,
+    "p_value": 0.114,
+    "days": 4856,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "MARI",
+    "beta": -0.0419,
+    "corr": -0.0229,
+    "p_value": 0.119,
+    "days": 4855,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "UPFL",
+    "beta": 0.0351,
+    "corr": 0.0212,
+    "p_value": 0.145,
+    "days": 4890,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "POL",
+    "beta": -0.0282,
+    "corr": -0.0198,
+    "p_value": 0.16,
+    "days": 4859,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "LOTCHEM",
+    "beta": -0.0428,
+    "corr": -0.0201,
+    "p_value": 0.175,
+    "days": 4854,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "KEL",
+    "beta": 0.051,
+    "corr": 0.0178,
+    "p_value": 0.194,
+    "days": 4858,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "COLG",
+    "beta": -0.0344,
+    "corr": -0.0186,
+    "p_value": 0.2,
+    "days": 4854,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "CPHL",
+    "beta": 0.0749,
+    "corr": 0.034,
+    "p_value": 0.211,
+    "days": 1332,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "JDWS",
+    "beta": -0.0326,
+    "corr": -0.017,
+    "p_value": 0.229,
+    "days": 4863,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "KAPCO",
+    "beta": -0.0241,
+    "corr": -0.0168,
+    "p_value": 0.234,
+    "days": 4853,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "INDU",
+    "beta": -0.0241,
+    "corr": -0.0156,
+    "p_value": 0.258,
+    "days": 4862,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "SRVI",
+    "beta": -0.0328,
+    "corr": -0.0162,
+    "p_value": 0.259,
+    "days": 4856,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "PPL",
+    "beta": -0.027,
+    "corr": -0.0163,
+    "p_value": 0.264,
+    "days": 4858,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "ATLH",
+    "beta": -0.0261,
+    "corr": -0.0155,
+    "p_value": 0.277,
+    "days": 4857,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "BNWM",
+    "beta": 0.0376,
+    "corr": 0.016,
+    "p_value": 0.279,
+    "days": 4853,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "DCR",
+    "beta": 0.0205,
+    "corr": 0.0202,
+    "p_value": 0.285,
+    "days": 2888,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "NESTLE",
+    "beta": -0.0246,
+    "corr": -0.0153,
+    "p_value": 0.302,
+    "days": 4867,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "GHNI",
+    "beta": 0.0392,
+    "corr": 0.0144,
+    "p_value": 0.304,
+    "days": 4859,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "NBP",
+    "beta": -0.0257,
+    "corr": -0.0144,
+    "p_value": 0.311,
+    "days": 4852,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "PAKT",
+    "beta": -0.0257,
+    "corr": -0.0136,
+    "p_value": 0.332,
+    "days": 4865,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "GHGL",
+    "beta": 0.0255,
+    "corr": 0.014,
+    "p_value": 0.339,
+    "days": 4860,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "POWER",
+    "beta": -0.0353,
+    "corr": -0.014,
+    "p_value": 0.341,
+    "days": 4856,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "CNERGY",
+    "beta": 0.0349,
+    "corr": 0.0133,
+    "p_value": 0.345,
+    "days": 4849,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "PABC",
+    "beta": 0.0538,
+    "corr": 0.0267,
+    "p_value": 0.354,
+    "days": 1330,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "JVDC",
+    "beta": -0.024,
+    "corr": -0.0125,
+    "p_value": 0.373,
+    "days": 4862,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "SEARL",
+    "beta": -0.0262,
+    "corr": -0.0128,
+    "p_value": 0.377,
+    "days": 4861,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "PRL",
+    "beta": -0.0289,
+    "corr": -0.0123,
+    "p_value": 0.382,
+    "days": 4863,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "MTL",
+    "beta": -0.017,
+    "corr": -0.0116,
+    "p_value": 0.387,
+    "days": 4860,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "DGKC",
+    "beta": -0.0245,
+    "corr": -0.012,
+    "p_value": 0.392,
+    "days": 4856,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "BAFL",
+    "beta": -0.0194,
+    "corr": -0.0113,
+    "p_value": 0.429,
+    "days": 4853,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "MLCF",
+    "beta": 0.0303,
+    "corr": 0.0117,
+    "p_value": 0.429,
+    "days": 4859,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "PTC",
+    "beta": 0.0222,
+    "corr": 0.011,
+    "p_value": 0.439,
+    "days": 4860,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "SSOM",
+    "beta": -0.0319,
+    "corr": -0.0107,
+    "p_value": 0.471,
+    "days": 4854,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "NPL",
+    "beta": 0.0222,
+    "corr": 0.011,
+    "p_value": 0.483,
+    "days": 4301,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "SNGP",
+    "beta": -0.0213,
+    "corr": -0.0101,
+    "p_value": 0.484,
+    "days": 4859,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "PSEL",
+    "beta": 0.0173,
+    "corr": 0.0097,
+    "p_value": 0.503,
+    "days": 4865,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "HINOON",
+    "beta": 0.016,
+    "corr": 0.0089,
+    "p_value": 0.519,
+    "days": 4859,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "CHCC",
+    "beta": 0.0227,
+    "corr": 0.0097,
+    "p_value": 0.527,
+    "days": 4856,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "AGP",
+    "beta": -0.0281,
+    "corr": -0.0134,
+    "p_value": 0.53,
+    "days": 2159,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "FABL",
+    "beta": -0.018,
+    "corr": -0.0089,
+    "p_value": 0.532,
+    "days": 4859,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "PKGS",
+    "beta": -0.0157,
+    "corr": -0.009,
+    "p_value": 0.534,
+    "days": 4856,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "SCBPL",
+    "beta": -0.0174,
+    "corr": -0.0084,
+    "p_value": 0.535,
+    "days": 4861,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "IBFL",
+    "beta": 0.017,
+    "corr": 0.0089,
+    "p_value": 0.543,
+    "days": 4858,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "HUMNL",
+    "beta": 0.0201,
+    "corr": 0.0077,
+    "p_value": 0.568,
+    "days": 4859,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "ABOT",
+    "beta": -0.0125,
+    "corr": -0.0076,
+    "p_value": 0.577,
+    "days": 4861,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "NATF",
+    "beta": -0.0155,
+    "corr": -0.0083,
+    "p_value": 0.577,
+    "days": 4863,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "YOUW",
+    "beta": -0.0366,
+    "corr": -0.0079,
+    "p_value": 0.592,
+    "days": 4811,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "ATRL",
+    "beta": -0.0166,
+    "corr": -0.0076,
+    "p_value": 0.595,
+    "days": 4857,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "NRL",
+    "beta": 0.0168,
+    "corr": 0.0077,
+    "p_value": 0.597,
+    "days": 4859,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "BWCL",
+    "beta": -0.014,
+    "corr": -0.0074,
+    "p_value": 0.603,
+    "days": 4849,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "GADT",
+    "beta": -0.0144,
+    "corr": -0.0068,
+    "p_value": 0.638,
+    "days": 4854,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "PGLC",
+    "beta": 0.0188,
+    "corr": 0.0061,
+    "p_value": 0.649,
+    "days": 4930,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "FCCL",
+    "beta": -0.0138,
+    "corr": -0.0063,
+    "p_value": 0.676,
+    "days": 4860,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "BAHL",
+    "beta": 0.0084,
+    "corr": 0.006,
+    "p_value": 0.681,
+    "days": 4854,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "LUCK",
+    "beta": -0.0104,
+    "corr": -0.0061,
+    "p_value": 0.686,
+    "days": 4858,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "PAEL",
+    "beta": 0.0143,
+    "corr": 0.0056,
+    "p_value": 0.706,
+    "days": 4859,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "FFC",
+    "beta": -0.0073,
+    "corr": -0.0054,
+    "p_value": 0.707,
+    "days": 4859,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "HALEON",
+    "beta": -0.0166,
+    "corr": -0.0075,
+    "p_value": 0.709,
+    "days": 2441,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "OGDC",
+    "beta": -0.0081,
+    "corr": -0.0052,
+    "p_value": 0.711,
+    "days": 4861,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "GLAXO",
+    "beta": -0.0084,
+    "corr": -0.0048,
+    "p_value": 0.734,
+    "days": 4856,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "FHAM",
+    "beta": 0.0068,
+    "corr": 0.0043,
+    "p_value": 0.765,
+    "days": 4858,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "HBL",
+    "beta": -0.0068,
+    "corr": -0.0043,
+    "p_value": 0.773,
+    "days": 4854,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "PSX",
+    "beta": 0.0149,
+    "corr": 0.0057,
+    "p_value": 0.779,
+    "days": 2386,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "PIBTL",
+    "beta": 0.013,
+    "corr": 0.0049,
+    "p_value": 0.78,
+    "days": 3302,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "KTML",
+    "beta": 0.0105,
+    "corr": 0.0038,
+    "p_value": 0.785,
+    "days": 4859,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "FATIMA",
+    "beta": 0.0068,
+    "corr": 0.0038,
+    "p_value": 0.791,
+    "days": 4292,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "SAZEW",
+    "beta": 0.0076,
+    "corr": 0.0033,
+    "p_value": 0.803,
+    "days": 4863,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "ISL",
+    "beta": -0.0083,
+    "corr": -0.0036,
+    "p_value": 0.817,
+    "days": 3973,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "ABL",
+    "beta": -0.0046,
+    "corr": -0.0031,
+    "p_value": 0.82,
+    "days": 4857,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "APL",
+    "beta": -0.0037,
+    "corr": -0.0025,
+    "p_value": 0.836,
+    "days": 4858,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "FFL",
+    "beta": 0.007,
+    "corr": 0.0028,
+    "p_value": 0.851,
+    "days": 4857,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "SHFA",
+    "beta": -0.0054,
+    "corr": -0.0028,
+    "p_value": 0.853,
+    "days": 4863,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "TREET",
+    "beta": -0.006,
+    "corr": -0.0027,
+    "p_value": 0.872,
+    "days": 4858,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "INIL",
+    "beta": -0.0028,
+    "corr": -0.0014,
+    "p_value": 0.921,
+    "days": 4859,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "MEHT",
+    "beta": 0.0019,
+    "corr": 0.001,
+    "p_value": 0.938,
+    "days": 4850,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "TGL",
+    "beta": -0.0013,
+    "corr": -0.0006,
+    "p_value": 0.963,
+    "days": 4861,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "PIOC",
+    "beta": -0.0016,
+    "corr": -0.0006,
+    "p_value": 0.967,
+    "days": 4859,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "AHCL",
+    "beta": -0.001,
+    "corr": -0.0005,
+    "p_value": 0.971,
+    "days": 4854,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "TRG",
+    "beta": 0.0007,
+    "corr": 0.0002,
+    "p_value": 0.987,
+    "days": 4853,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   }
+  ],
+  "oil": [
+   {
+    "stock": "OGDC",
+    "beta": 0.0374,
+    "corr": 0.1131,
+    "p_value": 2e-05,
+    "days": 4861,
+    "survives_bonferroni": true,
+    "survives_fdr": true
+   },
+   {
+    "stock": "POL",
+    "beta": 0.0442,
+    "corr": 0.1475,
+    "p_value": 2e-05,
+    "days": 4859,
+    "survives_bonferroni": true,
+    "survives_fdr": true
+   },
+   {
+    "stock": "PPL",
+    "beta": 0.0396,
+    "corr": 0.1134,
+    "p_value": 2e-05,
+    "days": 4858,
+    "survives_bonferroni": true,
+    "survives_fdr": true
+   },
+   {
+    "stock": "CHCC",
+    "beta": -0.0327,
+    "corr": -0.0664,
+    "p_value": 0.00078,
+    "days": 4856,
+    "survives_bonferroni": false,
+    "survives_fdr": true
+   },
+   {
+    "stock": "APL",
+    "beta": 0.0232,
+    "corr": 0.075,
+    "p_value": 0.00098,
+    "days": 4858,
+    "survives_bonferroni": false,
+    "survives_fdr": true
+   },
+   {
+    "stock": "KOHC",
+    "beta": -0.0309,
+    "corr": -0.0659,
+    "p_value": 0.00144,
+    "days": 4859,
+    "survives_bonferroni": false,
+    "survives_fdr": true
+   },
+   {
+    "stock": "PIOC",
+    "beta": -0.0339,
+    "corr": -0.0642,
+    "p_value": 0.00152,
+    "days": 4859,
+    "survives_bonferroni": false,
+    "survives_fdr": true
+   },
+   {
+    "stock": "MARI",
+    "beta": 0.0241,
+    "corr": 0.0626,
+    "p_value": 0.00212,
+    "days": 4855,
+    "survives_bonferroni": false,
+    "survives_fdr": true
+   },
+   {
+    "stock": "UPFL",
+    "beta": 0.0205,
+    "corr": 0.0587,
+    "p_value": 0.00216,
+    "days": 4890,
+    "survives_bonferroni": false,
+    "survives_fdr": true
+   },
+   {
+    "stock": "PSO",
+    "beta": 0.0211,
+    "corr": 0.0585,
+    "p_value": 0.00288,
+    "days": 4859,
+    "survives_bonferroni": false,
+    "survives_fdr": true
+   },
+   {
+    "stock": "HUBC",
+    "beta": 0.0181,
+    "corr": 0.0561,
+    "p_value": 0.00374,
+    "days": 4856,
+    "survives_bonferroni": false,
+    "survives_fdr": true
+   },
+   {
+    "stock": "BWCL",
+    "beta": -0.0189,
+    "corr": -0.0479,
+    "p_value": 0.00782,
+    "days": 4849,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "HUMNL",
+    "beta": -0.0282,
+    "corr": -0.0516,
+    "p_value": 0.00816,
+    "days": 4859,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "SNGP",
+    "beta": 0.0165,
+    "corr": 0.0372,
+    "p_value": 0.014,
+    "days": 4859,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "CPHL",
+    "beta": -0.0761,
+    "corr": -0.0755,
+    "p_value": 0.0155,
+    "days": 1332,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "CNERGY",
+    "beta": 0.0228,
+    "corr": 0.0413,
+    "p_value": 0.0175,
+    "days": 4849,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "DGKC",
+    "beta": -0.0172,
+    "corr": -0.0399,
+    "p_value": 0.0185,
+    "days": 4856,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "AIRLINK",
+    "beta": -0.0713,
+    "corr": -0.0632,
+    "p_value": 0.0225,
+    "days": 1281,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "SAZEW",
+    "beta": 0.0176,
+    "corr": 0.0358,
+    "p_value": 0.0255,
+    "days": 4863,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "SSGC",
+    "beta": 0.0156,
+    "corr": 0.0337,
+    "p_value": 0.0325,
+    "days": 4858,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "MLCF",
+    "beta": -0.0175,
+    "corr": -0.0319,
+    "p_value": 0.033,
+    "days": 4859,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "SCBPL",
+    "beta": 0.014,
+    "corr": 0.0322,
+    "p_value": 0.035,
+    "days": 4861,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "ATRL",
+    "beta": 0.0158,
+    "corr": 0.0343,
+    "p_value": 0.0385,
+    "days": 4857,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "PRL",
+    "beta": 0.0171,
+    "corr": 0.0344,
+    "p_value": 0.0385,
+    "days": 4863,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "MTL",
+    "beta": 0.0102,
+    "corr": 0.0331,
+    "p_value": 0.0415,
+    "days": 4860,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "ABOT",
+    "beta": 0.0111,
+    "corr": 0.0323,
+    "p_value": 0.048,
+    "days": 4861,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "SYS",
+    "beta": 0.0134,
+    "corr": 0.0402,
+    "p_value": 0.048,
+    "days": 3002,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "GADT",
+    "beta": 0.0142,
+    "corr": 0.0318,
+    "p_value": 0.0485,
+    "days": 4854,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "MCB",
+    "beta": -0.0096,
+    "corr": -0.0298,
+    "p_value": 0.0505,
+    "days": 4859,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "EFERT",
+    "beta": -0.0081,
+    "corr": -0.0318,
+    "p_value": 0.0735,
+    "days": 3283,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "LCI",
+    "beta": 0.0084,
+    "corr": 0.0252,
+    "p_value": 0.0765,
+    "days": 4856,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "KAPCO",
+    "beta": 0.007,
+    "corr": 0.023,
+    "p_value": 0.0955,
+    "days": 4853,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "ISL",
+    "beta": -0.011,
+    "corr": -0.0259,
+    "p_value": 0.0995,
+    "days": 3973,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "NML",
+    "beta": 0.0092,
+    "corr": 0.0234,
+    "p_value": 0.0995,
+    "days": 4859,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "PABC",
+    "beta": -0.0391,
+    "corr": -0.0426,
+    "p_value": 0.103,
+    "days": 1330,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "UBL",
+    "beta": 0.0077,
+    "corr": 0.0224,
+    "p_value": 0.111,
+    "days": 4856,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "TGL",
+    "beta": -0.0108,
+    "corr": -0.0224,
+    "p_value": 0.112,
+    "days": 4861,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "RMPL",
+    "beta": 0.008,
+    "corr": 0.0217,
+    "p_value": 0.115,
+    "days": 4863,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "HBL",
+    "beta": 0.0076,
+    "corr": 0.0224,
+    "p_value": 0.117,
+    "days": 4854,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "NPL",
+    "beta": 0.0083,
+    "corr": 0.0216,
+    "p_value": 0.13,
+    "days": 4301,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "NESTLE",
+    "beta": 0.0069,
+    "corr": 0.0203,
+    "p_value": 0.132,
+    "days": 4867,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "AGP",
+    "beta": 0.0091,
+    "corr": 0.0303,
+    "p_value": 0.146,
+    "days": 2159,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "BNWM",
+    "beta": 0.0092,
+    "corr": 0.0186,
+    "p_value": 0.153,
+    "days": 4853,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "NRL",
+    "beta": 0.0089,
+    "corr": 0.0193,
+    "p_value": 0.164,
+    "days": 4859,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "TRG",
+    "beta": 0.0115,
+    "corr": 0.0174,
+    "p_value": 0.178,
+    "days": 4853,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "JDWS",
+    "beta": -0.0067,
+    "corr": -0.0166,
+    "p_value": 0.196,
+    "days": 4863,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "YOUW",
+    "beta": 0.0157,
+    "corr": 0.0162,
+    "p_value": 0.208,
+    "days": 4811,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "HMB",
+    "beta": -0.0053,
+    "corr": -0.0161,
+    "p_value": 0.215,
+    "days": 4853,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "PKGS",
+    "beta": 0.0059,
+    "corr": 0.0159,
+    "p_value": 0.229,
+    "days": 4856,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "HALEON",
+    "beta": 0.0072,
+    "corr": 0.022,
+    "p_value": 0.23,
+    "days": 2441,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "HCAR",
+    "beta": -0.0081,
+    "corr": -0.0166,
+    "p_value": 0.245,
+    "days": 4853,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "BAHL",
+    "beta": -0.0041,
+    "corr": -0.0137,
+    "p_value": 0.252,
+    "days": 4854,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "NBP",
+    "beta": 0.0053,
+    "corr": 0.0141,
+    "p_value": 0.267,
+    "days": 4852,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "BAFL",
+    "beta": 0.0049,
+    "corr": 0.0136,
+    "p_value": 0.269,
+    "days": 4853,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "BOP",
+    "beta": 0.0067,
+    "corr": 0.013,
+    "p_value": 0.275,
+    "days": 4857,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "AHCL",
+    "beta": 0.0055,
+    "corr": 0.0133,
+    "p_value": 0.279,
+    "days": 4854,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "FATIMA",
+    "beta": 0.0048,
+    "corr": 0.0144,
+    "p_value": 0.279,
+    "days": 4292,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "SHFA",
+    "beta": -0.0056,
+    "corr": -0.0138,
+    "p_value": 0.286,
+    "days": 4863,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "INDU",
+    "beta": -0.004,
+    "corr": -0.0122,
+    "p_value": 0.309,
+    "days": 4862,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "LOTCHEM",
+    "beta": 0.0051,
+    "corr": 0.0115,
+    "p_value": 0.329,
+    "days": 4854,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "HINOON",
+    "beta": 0.004,
+    "corr": 0.0105,
+    "p_value": 0.361,
+    "days": 4859,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "LUCK",
+    "beta": -0.0043,
+    "corr": -0.0119,
+    "p_value": 0.361,
+    "days": 4858,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "DCR",
+    "beta": 0.002,
+    "corr": 0.0128,
+    "p_value": 0.367,
+    "days": 2888,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "ILP",
+    "beta": 0.0044,
+    "corr": 0.0161,
+    "p_value": 0.375,
+    "days": 1925,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "FFC",
+    "beta": 0.0029,
+    "corr": 0.01,
+    "p_value": 0.383,
+    "days": 4859,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "PAKT",
+    "beta": -0.0041,
+    "corr": -0.0102,
+    "p_value": 0.388,
+    "days": 4865,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "FABL",
+    "beta": 0.0043,
+    "corr": 0.01,
+    "p_value": 0.404,
+    "days": 4859,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "SRVI",
+    "beta": 0.0042,
+    "corr": 0.0099,
+    "p_value": 0.432,
+    "days": 4856,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "PIBTL",
+    "beta": 0.0052,
+    "corr": 0.0122,
+    "p_value": 0.436,
+    "days": 3302,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "SEARL",
+    "beta": 0.004,
+    "corr": 0.0093,
+    "p_value": 0.438,
+    "days": 4861,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "AICL",
+    "beta": 0.0036,
+    "corr": 0.0089,
+    "p_value": 0.458,
+    "days": 4854,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "ABL",
+    "beta": 0.0025,
+    "corr": 0.0081,
+    "p_value": 0.471,
+    "days": 4857,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "PGLC",
+    "beta": -0.0039,
+    "corr": -0.0059,
+    "p_value": 0.507,
+    "days": 4930,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "FCCL",
+    "beta": -0.0034,
+    "corr": -0.0074,
+    "p_value": 0.515,
+    "days": 4860,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "AKBL",
+    "beta": 0.0029,
+    "corr": 0.0075,
+    "p_value": 0.526,
+    "days": 4852,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "GHGL",
+    "beta": 0.0029,
+    "corr": 0.0076,
+    "p_value": 0.527,
+    "days": 4860,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "PTC",
+    "beta": 0.0032,
+    "corr": 0.0074,
+    "p_value": 0.53,
+    "days": 4860,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "KTML",
+    "beta": -0.0039,
+    "corr": -0.0066,
+    "p_value": 0.557,
+    "days": 4859,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "NATF",
+    "beta": -0.0028,
+    "corr": -0.0073,
+    "p_value": 0.571,
+    "days": 4863,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "POWER",
+    "beta": -0.0029,
+    "corr": -0.0054,
+    "p_value": 0.572,
+    "days": 4856,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "MUREB",
+    "beta": -0.0026,
+    "corr": -0.0066,
+    "p_value": 0.581,
+    "days": 4855,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "ATLH",
+    "beta": 0.0021,
+    "corr": 0.0058,
+    "p_value": 0.605,
+    "days": 4857,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "KEL",
+    "beta": 0.0033,
+    "corr": 0.0055,
+    "p_value": 0.606,
+    "days": 4858,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "JVDC",
+    "beta": 0.0022,
+    "corr": 0.0056,
+    "p_value": 0.615,
+    "days": 4862,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "GHNI",
+    "beta": -0.0036,
+    "corr": -0.0063,
+    "p_value": 0.635,
+    "days": 4859,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "FFL",
+    "beta": 0.0031,
+    "corr": 0.0058,
+    "p_value": 0.647,
+    "days": 4857,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "THALL",
+    "beta": -0.0021,
+    "corr": -0.0053,
+    "p_value": 0.664,
+    "days": 4858,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "PSX",
+    "beta": -0.0027,
+    "corr": -0.007,
+    "p_value": 0.673,
+    "days": 2386,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "COLG",
+    "beta": -0.0018,
+    "corr": -0.0046,
+    "p_value": 0.679,
+    "days": 4854,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "MEBL",
+    "beta": -0.001,
+    "corr": -0.003,
+    "p_value": 0.791,
+    "days": 4860,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "PAEL",
+    "beta": 0.0015,
+    "corr": 0.0028,
+    "p_value": 0.818,
+    "days": 4859,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "IBFL",
+    "beta": 0.0009,
+    "corr": 0.0023,
+    "p_value": 0.82,
+    "days": 4858,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "INIL",
+    "beta": 0.001,
+    "corr": 0.0023,
+    "p_value": 0.858,
+    "days": 4859,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "SSOM",
+    "beta": -0.0005,
+    "corr": -0.0009,
+    "p_value": 0.934,
+    "days": 4854,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "FHAM",
+    "beta": -0.0003,
+    "corr": -0.0008,
+    "p_value": 0.936,
+    "days": 4858,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "MEHT",
+    "beta": -0.0002,
+    "corr": -0.0006,
+    "p_value": 0.953,
+    "days": 4850,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "PSEL",
+    "beta": 0.0001,
+    "corr": 0.0003,
+    "p_value": 0.974,
+    "days": 4865,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "TREET",
+    "beta": 0.0002,
+    "corr": 0.0004,
+    "p_value": 0.974,
+    "days": 4858,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "GLAXO",
+    "beta": -0.0001,
+    "corr": -0.0002,
+    "p_value": 0.986,
+    "days": 4856,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   }
+  ],
+  "sp500": [
+   {
+    "stock": "BOP",
+    "beta": 0.1278,
+    "corr": 0.0559,
+    "p_value": 2e-05,
+    "days": 4857,
+    "survives_bonferroni": true,
+    "survives_fdr": true
+   },
+   {
+    "stock": "HINOON",
+    "beta": 0.1038,
+    "corr": 0.0617,
+    "p_value": 2e-05,
+    "days": 4859,
+    "survives_bonferroni": true,
+    "survives_fdr": true
+   },
+   {
+    "stock": "HUBC",
+    "beta": 0.0828,
+    "corr": 0.058,
+    "p_value": 2e-05,
+    "days": 4856,
+    "survives_bonferroni": true,
+    "survives_fdr": true
+   },
+   {
+    "stock": "ILP",
+    "beta": 0.2122,
+    "corr": 0.1148,
+    "p_value": 2e-05,
+    "days": 1925,
+    "survives_bonferroni": true,
+    "survives_fdr": true
+   },
+   {
+    "stock": "LUCK",
+    "beta": 0.1222,
+    "corr": 0.0761,
+    "p_value": 2e-05,
+    "days": 4858,
+    "survives_bonferroni": true,
+    "survives_fdr": true
+   },
+   {
+    "stock": "MEBL",
+    "beta": 0.1147,
+    "corr": 0.0743,
+    "p_value": 2e-05,
+    "days": 4860,
+    "survives_bonferroni": true,
+    "survives_fdr": true
+   },
+   {
+    "stock": "NML",
+    "beta": 0.1467,
+    "corr": 0.0839,
+    "p_value": 2e-05,
+    "days": 4859,
+    "survives_bonferroni": true,
+    "survives_fdr": true
+   },
+   {
+    "stock": "OGDC",
+    "beta": 0.119,
+    "corr": 0.0812,
+    "p_value": 2e-05,
+    "days": 4861,
+    "survives_bonferroni": true,
+    "survives_fdr": true
+   },
+   {
+    "stock": "PAEL",
+    "beta": 0.1541,
+    "corr": 0.0651,
+    "p_value": 2e-05,
+    "days": 4859,
+    "survives_bonferroni": true,
+    "survives_fdr": true
+   },
+   {
+    "stock": "POL",
+    "beta": 0.1386,
+    "corr": 0.1044,
+    "p_value": 2e-05,
+    "days": 4859,
+    "survives_bonferroni": true,
+    "survives_fdr": true
+   },
+   {
+    "stock": "PPL",
+    "beta": 0.148,
+    "corr": 0.0958,
+    "p_value": 2e-05,
+    "days": 4858,
+    "survives_bonferroni": true,
+    "survives_fdr": true
+   },
+   {
+    "stock": "PSO",
+    "beta": 0.0932,
+    "corr": 0.0582,
+    "p_value": 2e-05,
+    "days": 4859,
+    "survives_bonferroni": true,
+    "survives_fdr": true
+   },
+   {
+    "stock": "TGL",
+    "beta": 0.1234,
+    "corr": 0.058,
+    "p_value": 2e-05,
+    "days": 4861,
+    "survives_bonferroni": true,
+    "survives_fdr": true
+   },
+   {
+    "stock": "UBL",
+    "beta": 0.1259,
+    "corr": 0.0823,
+    "p_value": 2e-05,
+    "days": 4856,
+    "survives_bonferroni": true,
+    "survives_fdr": true
+   },
+   {
+    "stock": "NPL",
+    "beta": 0.1377,
+    "corr": 0.068,
+    "p_value": 0.00026,
+    "days": 4301,
+    "survives_bonferroni": false,
+    "survives_fdr": true
+   },
+   {
+    "stock": "TRG",
+    "beta": 0.1831,
+    "corr": 0.0627,
+    "p_value": 0.00026,
+    "days": 4853,
+    "survives_bonferroni": false,
+    "survives_fdr": true
+   },
+   {
+    "stock": "KTML",
+    "beta": 0.154,
+    "corr": 0.0594,
+    "p_value": 0.00028,
+    "days": 4859,
+    "survives_bonferroni": false,
+    "survives_fdr": true
+   },
+   {
+    "stock": "DGKC",
+    "beta": 0.1059,
+    "corr": 0.0554,
+    "p_value": 0.0004,
+    "days": 4856,
+    "survives_bonferroni": false,
+    "survives_fdr": true
+   },
+   {
+    "stock": "AKBL",
+    "beta": 0.0997,
+    "corr": 0.0575,
+    "p_value": 0.00042,
+    "days": 4852,
+    "survives_bonferroni": false,
+    "survives_fdr": true
+   },
+   {
+    "stock": "HBL",
+    "beta": 0.0745,
+    "corr": 0.0497,
+    "p_value": 0.0005,
+    "days": 4854,
+    "survives_bonferroni": false,
+    "survives_fdr": true
+   },
+   {
+    "stock": "MCB",
+    "beta": 0.0757,
+    "corr": 0.0531,
+    "p_value": 0.00056,
+    "days": 4859,
+    "survives_bonferroni": false,
+    "survives_fdr": true
+   },
+   {
+    "stock": "ATLH",
+    "beta": 0.0764,
+    "corr": 0.0485,
+    "p_value": 0.0006,
+    "days": 4857,
+    "survives_bonferroni": false,
+    "survives_fdr": true
+   },
+   {
+    "stock": "PTC",
+    "beta": 0.0931,
+    "corr": 0.0494,
+    "p_value": 0.00072,
+    "days": 4860,
+    "survives_bonferroni": false,
+    "survives_fdr": true
+   },
+   {
+    "stock": "APL",
+    "beta": 0.0636,
+    "corr": 0.0463,
+    "p_value": 0.00106,
+    "days": 4858,
+    "survives_bonferroni": false,
+    "survives_fdr": true
+   },
+   {
+    "stock": "PRL",
+    "beta": 0.1044,
+    "corr": 0.0474,
+    "p_value": 0.00122,
+    "days": 4863,
+    "survives_bonferroni": false,
+    "survives_fdr": true
+   },
+   {
+    "stock": "BAFL",
+    "beta": 0.0784,
+    "corr": 0.0489,
+    "p_value": 0.00128,
+    "days": 4853,
+    "survives_bonferroni": false,
+    "survives_fdr": true
+   },
+   {
+    "stock": "AICL",
+    "beta": 0.0897,
+    "corr": 0.0497,
+    "p_value": 0.00136,
+    "days": 4854,
+    "survives_bonferroni": false,
+    "survives_fdr": true
+   },
+   {
+    "stock": "SNGP",
+    "beta": 0.0899,
+    "corr": 0.0458,
+    "p_value": 0.00154,
+    "days": 4859,
+    "survives_bonferroni": false,
+    "survives_fdr": true
+   },
+   {
+    "stock": "FATIMA",
+    "beta": 0.0835,
+    "corr": 0.047,
+    "p_value": 0.00242,
+    "days": 4292,
+    "survives_bonferroni": false,
+    "survives_fdr": true
+   },
+   {
+    "stock": "NBP",
+    "beta": 0.0716,
+    "corr": 0.0429,
+    "p_value": 0.00256,
+    "days": 4852,
+    "survives_bonferroni": false,
+    "survives_fdr": true
+   },
+   {
+    "stock": "SRVI",
+    "beta": 0.0806,
+    "corr": 0.0427,
+    "p_value": 0.00286,
+    "days": 4856,
+    "survives_bonferroni": false,
+    "survives_fdr": true
+   },
+   {
+    "stock": "TREET",
+    "beta": 0.0917,
+    "corr": 0.0435,
+    "p_value": 0.00286,
+    "days": 4858,
+    "survives_bonferroni": false,
+    "survives_fdr": true
+   },
+   {
+    "stock": "LOTCHEM",
+    "beta": 0.0905,
+    "corr": 0.046,
+    "p_value": 0.00294,
+    "days": 4854,
+    "survives_bonferroni": false,
+    "survives_fdr": true
+   },
+   {
+    "stock": "PIBTL",
+    "beta": 0.1355,
+    "corr": 0.0527,
+    "p_value": 0.00312,
+    "days": 3302,
+    "survives_bonferroni": false,
+    "survives_fdr": true
+   },
+   {
+    "stock": "KOHC",
+    "beta": 0.0816,
+    "corr": 0.0392,
+    "p_value": 0.0059,
+    "days": 4859,
+    "survives_bonferroni": false,
+    "survives_fdr": true
+   },
+   {
+    "stock": "GHNI",
+    "beta": 0.1017,
+    "corr": 0.0401,
+    "p_value": 0.00622,
+    "days": 4859,
+    "survives_bonferroni": false,
+    "survives_fdr": true
+   },
+   {
+    "stock": "CNERGY",
+    "beta": 0.1001,
+    "corr": 0.0409,
+    "p_value": 0.0064,
+    "days": 4849,
+    "survives_bonferroni": false,
+    "survives_fdr": true
+   },
+   {
+    "stock": "CHCC",
+    "beta": 0.0887,
+    "corr": 0.0403,
+    "p_value": 0.00652,
+    "days": 4856,
+    "survives_bonferroni": false,
+    "survives_fdr": true
+   },
+   {
+    "stock": "GADT",
+    "beta": 0.0755,
+    "corr": 0.0382,
+    "p_value": 0.0067,
+    "days": 4854,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "PIOC",
+    "beta": 0.0934,
+    "corr": 0.0395,
+    "p_value": 0.00724,
+    "days": 4859,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "ABL",
+    "beta": 0.053,
+    "corr": 0.0383,
+    "p_value": 0.00878,
+    "days": 4857,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "PKGS",
+    "beta": 0.0629,
+    "corr": 0.0385,
+    "p_value": 0.0102,
+    "days": 4856,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "KAPCO",
+    "beta": 0.0503,
+    "corr": 0.0375,
+    "p_value": 0.0105,
+    "days": 4853,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "NRL",
+    "beta": 0.074,
+    "corr": 0.0363,
+    "p_value": 0.0109,
+    "days": 4859,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "INIL",
+    "beta": 0.071,
+    "corr": 0.037,
+    "p_value": 0.011,
+    "days": 4859,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "BNWM",
+    "beta": 0.0819,
+    "corr": 0.0372,
+    "p_value": 0.0115,
+    "days": 4853,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "HCAR",
+    "beta": 0.0766,
+    "corr": 0.0353,
+    "p_value": 0.0125,
+    "days": 4853,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "SYS",
+    "beta": 0.0952,
+    "corr": 0.0469,
+    "p_value": 0.013,
+    "days": 3002,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "ABOT",
+    "beta": 0.054,
+    "corr": 0.0354,
+    "p_value": 0.0135,
+    "days": 4861,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "SSGC",
+    "beta": 0.073,
+    "corr": 0.0357,
+    "p_value": 0.0135,
+    "days": 4858,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "BWCL",
+    "beta": 0.0609,
+    "corr": 0.0347,
+    "p_value": 0.0145,
+    "days": 4849,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "NESTLE",
+    "beta": 0.056,
+    "corr": 0.0373,
+    "p_value": 0.018,
+    "days": 4867,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "PABC",
+    "beta": 0.153,
+    "corr": 0.0675,
+    "p_value": 0.018,
+    "days": 1330,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "UPFL",
+    "beta": 0.0562,
+    "corr": 0.0364,
+    "p_value": 0.018,
+    "days": 4890,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "GLAXO",
+    "beta": 0.0527,
+    "corr": 0.0323,
+    "p_value": 0.0205,
+    "days": 4856,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "AIRLINK",
+    "beta": 0.175,
+    "corr": 0.0632,
+    "p_value": 0.0215,
+    "days": 1281,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "POWER",
+    "beta": 0.0812,
+    "corr": 0.0344,
+    "p_value": 0.022,
+    "days": 4856,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "GHGL",
+    "beta": 0.0535,
+    "corr": 0.0316,
+    "p_value": 0.0235,
+    "days": 4860,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "AHCL",
+    "beta": 0.0609,
+    "corr": 0.0332,
+    "p_value": 0.024,
+    "days": 4854,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "JDWS",
+    "beta": 0.0585,
+    "corr": 0.0328,
+    "p_value": 0.025,
+    "days": 4863,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "JVDC",
+    "beta": 0.0559,
+    "corr": 0.0313,
+    "p_value": 0.0275,
+    "days": 4862,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "MTL",
+    "beta": 0.0443,
+    "corr": 0.0324,
+    "p_value": 0.0285,
+    "days": 4860,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "RMPL",
+    "beta": 0.0532,
+    "corr": 0.0327,
+    "p_value": 0.029,
+    "days": 4863,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "CPHL",
+    "beta": 0.1443,
+    "corr": 0.058,
+    "p_value": 0.0305,
+    "days": 1332,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "FCCL",
+    "beta": 0.066,
+    "corr": 0.0321,
+    "p_value": 0.032,
+    "days": 4860,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "SCBPL",
+    "beta": 0.0615,
+    "corr": 0.0319,
+    "p_value": 0.0355,
+    "days": 4861,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "SEARL",
+    "beta": 0.0555,
+    "corr": 0.0292,
+    "p_value": 0.036,
+    "days": 4861,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "FABL",
+    "beta": 0.0554,
+    "corr": 0.0293,
+    "p_value": 0.0365,
+    "days": 4859,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "LCI",
+    "beta": 0.0445,
+    "corr": 0.03,
+    "p_value": 0.037,
+    "days": 4856,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "ISL",
+    "beta": 0.0755,
+    "corr": 0.0323,
+    "p_value": 0.041,
+    "days": 3973,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "EFERT",
+    "beta": 0.053,
+    "corr": 0.035,
+    "p_value": 0.0425,
+    "days": 3283,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "FFL",
+    "beta": 0.0669,
+    "corr": 0.0282,
+    "p_value": 0.049,
+    "days": 4857,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "DCR",
+    "beta": 0.0338,
+    "corr": 0.0353,
+    "p_value": 0.0595,
+    "days": 2888,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "SAZEW",
+    "beta": 0.0575,
+    "corr": 0.0264,
+    "p_value": 0.0615,
+    "days": 4863,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "KEL",
+    "beta": 0.0738,
+    "corr": 0.0275,
+    "p_value": 0.0625,
+    "days": 4858,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "AGP",
+    "beta": 0.0759,
+    "corr": 0.0389,
+    "p_value": 0.074,
+    "days": 2159,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "NATF",
+    "beta": 0.0406,
+    "corr": 0.0235,
+    "p_value": 0.0865,
+    "days": 4863,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "THALL",
+    "beta": 0.0423,
+    "corr": 0.0247,
+    "p_value": 0.0925,
+    "days": 4858,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "FFC",
+    "beta": 0.0286,
+    "corr": 0.0227,
+    "p_value": 0.099,
+    "days": 4859,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "MARI",
+    "beta": 0.0385,
+    "corr": 0.0225,
+    "p_value": 0.102,
+    "days": 4855,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "HMB",
+    "beta": 0.0324,
+    "corr": 0.0223,
+    "p_value": 0.115,
+    "days": 4853,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "INDU",
+    "beta": 0.0327,
+    "corr": 0.0227,
+    "p_value": 0.12,
+    "days": 4862,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "MUREB",
+    "beta": 0.0355,
+    "corr": 0.0205,
+    "p_value": 0.13,
+    "days": 4855,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "PAKT",
+    "beta": 0.0383,
+    "corr": 0.0216,
+    "p_value": 0.134,
+    "days": 4865,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "MLCF",
+    "beta": 0.0521,
+    "corr": 0.0215,
+    "p_value": 0.14,
+    "days": 4859,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "BAHL",
+    "beta": 0.0277,
+    "corr": 0.021,
+    "p_value": 0.151,
+    "days": 4854,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "PSX",
+    "beta": 0.0677,
+    "corr": 0.028,
+    "p_value": 0.155,
+    "days": 2386,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "ATRL",
+    "beta": 0.0357,
+    "corr": 0.0175,
+    "p_value": 0.226,
+    "days": 4857,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "HALEON",
+    "beta": 0.0488,
+    "corr": 0.0236,
+    "p_value": 0.241,
+    "days": 2441,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "YOUW",
+    "beta": 0.0714,
+    "corr": 0.0166,
+    "p_value": 0.254,
+    "days": 4811,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "SHFA",
+    "beta": 0.0303,
+    "corr": 0.0167,
+    "p_value": 0.256,
+    "days": 4863,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "COLG",
+    "beta": 0.0263,
+    "corr": 0.0152,
+    "p_value": 0.281,
+    "days": 4854,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "IBFL",
+    "beta": 0.0267,
+    "corr": 0.0151,
+    "p_value": 0.297,
+    "days": 4858,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "PSEL",
+    "beta": 0.0222,
+    "corr": 0.0133,
+    "p_value": 0.345,
+    "days": 4865,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "SSOM",
+    "beta": 0.0339,
+    "corr": 0.0121,
+    "p_value": 0.395,
+    "days": 4854,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "HUMNL",
+    "beta": 0.0218,
+    "corr": 0.009,
+    "p_value": 0.516,
+    "days": 4859,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "PGLC",
+    "beta": 0.0257,
+    "corr": 0.0089,
+    "p_value": 0.519,
+    "days": 4930,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "MEHT",
+    "beta": 0.0108,
+    "corr": 0.0062,
+    "p_value": 0.635,
+    "days": 4850,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "FHAM",
+    "beta": 0.0011,
+    "corr": 0.0008,
+    "p_value": 0.957,
+    "days": 4858,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   }
+  ],
+  "us10y": [
+   {
+    "stock": "POL",
+    "beta": 0.2514,
+    "corr": 0.0876,
+    "p_value": 2e-05,
+    "days": 4859,
+    "survives_bonferroni": true,
+    "survives_fdr": true
+   },
+   {
+    "stock": "PPL",
+    "beta": 0.2012,
+    "corr": 0.0602,
+    "p_value": 0.00014,
+    "days": 4858,
+    "survives_bonferroni": false,
+    "survives_fdr": true
+   },
+   {
+    "stock": "SCBPL",
+    "beta": 0.2228,
+    "corr": 0.0533,
+    "p_value": 0.00022,
+    "days": 4861,
+    "survives_bonferroni": false,
+    "survives_fdr": true
+   },
+   {
+    "stock": "HINOON",
+    "beta": 0.1695,
+    "corr": 0.0466,
+    "p_value": 0.00114,
+    "days": 4859,
+    "survives_bonferroni": false,
+    "survives_fdr": true
+   },
+   {
+    "stock": "UBL",
+    "beta": 0.1595,
+    "corr": 0.0482,
+    "p_value": 0.00122,
+    "days": 4856,
+    "survives_bonferroni": false,
+    "survives_fdr": true
+   },
+   {
+    "stock": "APL",
+    "beta": 0.1301,
+    "corr": 0.0438,
+    "p_value": 0.00162,
+    "days": 4858,
+    "survives_bonferroni": false,
+    "survives_fdr": true
+   },
+   {
+    "stock": "OGDC",
+    "beta": 0.1478,
+    "corr": 0.0466,
+    "p_value": 0.00188,
+    "days": 4861,
+    "survives_bonferroni": false,
+    "survives_fdr": true
+   },
+   {
+    "stock": "FFC",
+    "beta": 0.1142,
+    "corr": 0.0418,
+    "p_value": 0.00306,
+    "days": 4859,
+    "survives_bonferroni": false,
+    "survives_fdr": true
+   },
+   {
+    "stock": "SNGP",
+    "beta": 0.1612,
+    "corr": 0.038,
+    "p_value": 0.00778,
+    "days": 4859,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "SRVI",
+    "beta": 0.131,
+    "corr": 0.032,
+    "p_value": 0.0215,
+    "days": 4856,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "BOP",
+    "beta": 0.1606,
+    "corr": 0.0325,
+    "p_value": 0.024,
+    "days": 4857,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "MTL",
+    "beta": 0.0992,
+    "corr": 0.0336,
+    "p_value": 0.0295,
+    "days": 4860,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "PSO",
+    "beta": 0.1059,
+    "corr": 0.0306,
+    "p_value": 0.035,
+    "days": 4859,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "BAFL",
+    "beta": 0.1074,
+    "corr": 0.031,
+    "p_value": 0.038,
+    "days": 4853,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "KEL",
+    "beta": 0.1708,
+    "corr": 0.0294,
+    "p_value": 0.0425,
+    "days": 4858,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "LOTCHEM",
+    "beta": 0.12,
+    "corr": 0.0282,
+    "p_value": 0.047,
+    "days": 4854,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "HUBC",
+    "beta": 0.0847,
+    "corr": 0.0274,
+    "p_value": 0.0485,
+    "days": 4856,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "ABL",
+    "beta": 0.0865,
+    "corr": 0.0289,
+    "p_value": 0.051,
+    "days": 4857,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "EFERT",
+    "beta": 0.1077,
+    "corr": 0.034,
+    "p_value": 0.0515,
+    "days": 3283,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "NATF",
+    "beta": 0.0982,
+    "corr": 0.0262,
+    "p_value": 0.0705,
+    "days": 4863,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "SSGC",
+    "beta": 0.1164,
+    "corr": 0.0263,
+    "p_value": 0.077,
+    "days": 4858,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "AGP",
+    "beta": 0.1573,
+    "corr": 0.0378,
+    "p_value": 0.0775,
+    "days": 2159,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "GLAXO",
+    "beta": 0.0872,
+    "corr": 0.0247,
+    "p_value": 0.083,
+    "days": 4856,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "GADT",
+    "beta": 0.1037,
+    "corr": 0.0242,
+    "p_value": 0.084,
+    "days": 4854,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "MUREB",
+    "beta": 0.0911,
+    "corr": 0.0243,
+    "p_value": 0.0885,
+    "days": 4855,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "DCR",
+    "beta": 0.0652,
+    "corr": 0.032,
+    "p_value": 0.09,
+    "days": 2888,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "KAPCO",
+    "beta": 0.0701,
+    "corr": 0.0241,
+    "p_value": 0.092,
+    "days": 4853,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "JDWS",
+    "beta": 0.0878,
+    "corr": 0.0227,
+    "p_value": 0.107,
+    "days": 4863,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "MARI",
+    "beta": 0.0832,
+    "corr": 0.0225,
+    "p_value": 0.113,
+    "days": 4855,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "AKBL",
+    "beta": 0.0813,
+    "corr": 0.0217,
+    "p_value": 0.117,
+    "days": 4852,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "CHCC",
+    "beta": -0.1031,
+    "corr": -0.0218,
+    "p_value": 0.119,
+    "days": 4856,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "NPL",
+    "beta": -0.094,
+    "corr": -0.0229,
+    "p_value": 0.135,
+    "days": 4301,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "BAHL",
+    "beta": 0.0622,
+    "corr": 0.0218,
+    "p_value": 0.139,
+    "days": 4854,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "ATLH",
+    "beta": 0.0684,
+    "corr": 0.0201,
+    "p_value": 0.153,
+    "days": 4857,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "CNERGY",
+    "beta": 0.1081,
+    "corr": 0.0204,
+    "p_value": 0.156,
+    "days": 4849,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "MEHT",
+    "beta": 0.0757,
+    "corr": 0.0202,
+    "p_value": 0.159,
+    "days": 4850,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "HBL",
+    "beta": 0.0661,
+    "corr": 0.0204,
+    "p_value": 0.161,
+    "days": 4854,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "FHAM",
+    "beta": -0.0641,
+    "corr": -0.02,
+    "p_value": 0.164,
+    "days": 4858,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "MEBL",
+    "beta": 0.0643,
+    "corr": 0.0193,
+    "p_value": 0.178,
+    "days": 4860,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "SYS",
+    "beta": 0.1048,
+    "corr": 0.0246,
+    "p_value": 0.188,
+    "days": 3002,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "TGL",
+    "beta": 0.0853,
+    "corr": 0.0185,
+    "p_value": 0.194,
+    "days": 4861,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "IBFL",
+    "beta": 0.0721,
+    "corr": 0.0188,
+    "p_value": 0.207,
+    "days": 4858,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "LUCK",
+    "beta": 0.0645,
+    "corr": 0.0187,
+    "p_value": 0.208,
+    "days": 4858,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "PIBTL",
+    "beta": -0.1149,
+    "corr": -0.0214,
+    "p_value": 0.214,
+    "days": 3302,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "SHFA",
+    "beta": 0.0693,
+    "corr": 0.0177,
+    "p_value": 0.22,
+    "days": 4863,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "UPFL",
+    "beta": 0.0569,
+    "corr": 0.0171,
+    "p_value": 0.233,
+    "days": 4890,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "PIOC",
+    "beta": -0.084,
+    "corr": -0.0166,
+    "p_value": 0.269,
+    "days": 4859,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "RMPL",
+    "beta": 0.0554,
+    "corr": 0.0158,
+    "p_value": 0.269,
+    "days": 4863,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "PGLC",
+    "beta": -0.0963,
+    "corr": -0.0154,
+    "p_value": 0.275,
+    "days": 4930,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "HMB",
+    "beta": 0.0481,
+    "corr": 0.0153,
+    "p_value": 0.279,
+    "days": 4853,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "NBP",
+    "beta": 0.0544,
+    "corr": 0.015,
+    "p_value": 0.299,
+    "days": 4852,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "HCAR",
+    "beta": 0.0657,
+    "corr": 0.014,
+    "p_value": 0.334,
+    "days": 4853,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "FABL",
+    "beta": 0.0558,
+    "corr": 0.0136,
+    "p_value": 0.341,
+    "days": 4859,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "ATRL",
+    "beta": 0.0613,
+    "corr": 0.0139,
+    "p_value": 0.347,
+    "days": 4857,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "AHCL",
+    "beta": 0.0522,
+    "corr": 0.0131,
+    "p_value": 0.395,
+    "days": 4854,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "MLCF",
+    "beta": 0.06,
+    "corr": 0.0115,
+    "p_value": 0.412,
+    "days": 4859,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "PAKT",
+    "beta": 0.0433,
+    "corr": 0.0113,
+    "p_value": 0.413,
+    "days": 4865,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "GHGL",
+    "beta": 0.0409,
+    "corr": 0.0111,
+    "p_value": 0.426,
+    "days": 4860,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "YOUW",
+    "beta": -0.0962,
+    "corr": -0.0103,
+    "p_value": 0.443,
+    "days": 4811,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "KTML",
+    "beta": 0.0596,
+    "corr": 0.0106,
+    "p_value": 0.447,
+    "days": 4859,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "SEARL",
+    "beta": 0.0436,
+    "corr": 0.0106,
+    "p_value": 0.448,
+    "days": 4861,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "SAZEW",
+    "beta": 0.0507,
+    "corr": 0.0108,
+    "p_value": 0.461,
+    "days": 4863,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "PRL",
+    "beta": 0.0492,
+    "corr": 0.0103,
+    "p_value": 0.463,
+    "days": 4863,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "PSEL",
+    "beta": -0.0348,
+    "corr": -0.0097,
+    "p_value": 0.48,
+    "days": 4865,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "HALEON",
+    "beta": 0.0574,
+    "corr": 0.0129,
+    "p_value": 0.487,
+    "days": 2441,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "ISL",
+    "beta": -0.0569,
+    "corr": -0.0118,
+    "p_value": 0.489,
+    "days": 3973,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "TRG",
+    "beta": 0.0616,
+    "corr": 0.0098,
+    "p_value": 0.497,
+    "days": 4853,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "COLG",
+    "beta": 0.0344,
+    "corr": 0.0092,
+    "p_value": 0.509,
+    "days": 4854,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "KOHC",
+    "beta": 0.0398,
+    "corr": 0.0089,
+    "p_value": 0.539,
+    "days": 4859,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "FATIMA",
+    "beta": 0.033,
+    "corr": 0.0092,
+    "p_value": 0.543,
+    "days": 4292,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "SSOM",
+    "beta": 0.0508,
+    "corr": 0.0084,
+    "p_value": 0.552,
+    "days": 4854,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "ABOT",
+    "beta": 0.0276,
+    "corr": 0.0084,
+    "p_value": 0.553,
+    "days": 4861,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "JVDC",
+    "beta": 0.0348,
+    "corr": 0.009,
+    "p_value": 0.553,
+    "days": 4862,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "TREET",
+    "beta": -0.0401,
+    "corr": -0.0088,
+    "p_value": 0.567,
+    "days": 4858,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "CPHL",
+    "beta": 0.0638,
+    "corr": 0.0149,
+    "p_value": 0.579,
+    "days": 1332,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "AICL",
+    "beta": 0.029,
+    "corr": 0.0074,
+    "p_value": 0.6,
+    "days": 4854,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "FFL",
+    "beta": -0.0352,
+    "corr": -0.0069,
+    "p_value": 0.617,
+    "days": 4857,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "AIRLINK",
+    "beta": -0.067,
+    "corr": -0.0141,
+    "p_value": 0.626,
+    "days": 1281,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "THALL",
+    "beta": 0.0246,
+    "corr": 0.0066,
+    "p_value": 0.657,
+    "days": 4858,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "NML",
+    "beta": 0.0246,
+    "corr": 0.0065,
+    "p_value": 0.658,
+    "days": 4859,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "PTC",
+    "beta": 0.0234,
+    "corr": 0.0057,
+    "p_value": 0.675,
+    "days": 4860,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "INIL",
+    "beta": 0.0212,
+    "corr": 0.0051,
+    "p_value": 0.721,
+    "days": 4859,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "MCB",
+    "beta": 0.0138,
+    "corr": 0.0045,
+    "p_value": 0.745,
+    "days": 4859,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "PABC",
+    "beta": 0.0294,
+    "corr": 0.0075,
+    "p_value": 0.79,
+    "days": 1330,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "LCI",
+    "beta": 0.0101,
+    "corr": 0.0031,
+    "p_value": 0.819,
+    "days": 4856,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "BWCL",
+    "beta": 0.0127,
+    "corr": 0.0033,
+    "p_value": 0.821,
+    "days": 4849,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "PKGS",
+    "beta": -0.0108,
+    "corr": -0.0031,
+    "p_value": 0.833,
+    "days": 4856,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "INDU",
+    "beta": 0.0074,
+    "corr": 0.0024,
+    "p_value": 0.856,
+    "days": 4862,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "HUMNL",
+    "beta": -0.0121,
+    "corr": -0.0023,
+    "p_value": 0.868,
+    "days": 4859,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "FCCL",
+    "beta": 0.0075,
+    "corr": 0.0017,
+    "p_value": 0.896,
+    "days": 4860,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "DGKC",
+    "beta": 0.0072,
+    "corr": 0.0018,
+    "p_value": 0.911,
+    "days": 4856,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "ILP",
+    "beta": -0.0091,
+    "corr": -0.0023,
+    "p_value": 0.916,
+    "days": 1925,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "GHNI",
+    "beta": 0.0045,
+    "corr": 0.0008,
+    "p_value": 0.956,
+    "days": 4859,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "POWER",
+    "beta": -0.0031,
+    "corr": -0.0006,
+    "p_value": 0.967,
+    "days": 4856,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "PSX",
+    "beta": -0.004,
+    "corr": -0.0008,
+    "p_value": 0.969,
+    "days": 2386,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "NRL",
+    "beta": -0.0022,
+    "corr": -0.0005,
+    "p_value": 0.973,
+    "days": 4859,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "BNWM",
+    "beta": -0.0001,
+    "corr": -0.0,
+    "p_value": 0.999,
+    "days": 4853,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "NESTLE",
+    "beta": 0.0001,
+    "corr": 0.0,
+    "p_value": 0.999,
+    "days": 4867,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "PAEL",
+    "beta": 0.0002,
+    "corr": 0.0,
+    "p_value": 1.0,
+    "days": 4859,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   }
+  ],
+  "usdpkr": [
+   {
+    "stock": "LCI",
+    "beta": -0.0001,
+    "corr": -0.0746,
+    "p_value": 0.00114,
+    "days": 4856,
+    "survives_bonferroni": false,
+    "survives_fdr": true
+   },
+   {
+    "stock": "BWCL",
+    "beta": 0.0001,
+    "corr": 0.0474,
+    "p_value": 0.0125,
+    "days": 4849,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "YOUW",
+    "beta": -0.0002,
+    "corr": -0.0471,
+    "p_value": 0.017,
+    "days": 4811,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "PAKT",
+    "beta": -0.0001,
+    "corr": -0.0337,
+    "p_value": 0.034,
+    "days": 4865,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "PIOC",
+    "beta": -0.0001,
+    "corr": -0.0304,
+    "p_value": 0.0485,
+    "days": 4859,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "FFC",
+    "beta": -0.0,
+    "corr": -0.0305,
+    "p_value": 0.064,
+    "days": 4859,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "HMB",
+    "beta": -0.0,
+    "corr": -0.0245,
+    "p_value": 0.085,
+    "days": 4853,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "KOHC",
+    "beta": -0.0,
+    "corr": -0.0265,
+    "p_value": 0.092,
+    "days": 4859,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "AHCL",
+    "beta": 0.0,
+    "corr": 0.0271,
+    "p_value": 0.094,
+    "days": 4854,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "PIBTL",
+    "beta": 0.0009,
+    "corr": 0.0288,
+    "p_value": 0.102,
+    "days": 3302,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "COLG",
+    "beta": 0.0,
+    "corr": 0.0291,
+    "p_value": 0.104,
+    "days": 4854,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "PSX",
+    "beta": 0.1023,
+    "corr": 0.0338,
+    "p_value": 0.104,
+    "days": 2386,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "JVDC",
+    "beta": 0.0,
+    "corr": 0.0217,
+    "p_value": 0.151,
+    "days": 4862,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "BAFL",
+    "beta": -0.0,
+    "corr": -0.0166,
+    "p_value": 0.184,
+    "days": 4853,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "KTML",
+    "beta": -0.0,
+    "corr": -0.0171,
+    "p_value": 0.19,
+    "days": 4859,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "SNGP",
+    "beta": -0.0,
+    "corr": -0.0176,
+    "p_value": 0.19,
+    "days": 4859,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "FCCL",
+    "beta": -0.0,
+    "corr": -0.0137,
+    "p_value": 0.215,
+    "days": 4860,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "HALEON",
+    "beta": -0.0593,
+    "corr": -0.0231,
+    "p_value": 0.217,
+    "days": 2441,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "NPL",
+    "beta": 0.0,
+    "corr": 0.0155,
+    "p_value": 0.226,
+    "days": 4301,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "NATF",
+    "beta": 0.0,
+    "corr": 0.0147,
+    "p_value": 0.231,
+    "days": 4863,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "INIL",
+    "beta": -0.0,
+    "corr": -0.0138,
+    "p_value": 0.276,
+    "days": 4859,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "NRL",
+    "beta": -0.0,
+    "corr": -0.013,
+    "p_value": 0.288,
+    "days": 4859,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "MEHT",
+    "beta": -0.0,
+    "corr": -0.0019,
+    "p_value": 0.291,
+    "days": 4850,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "APL",
+    "beta": -0.0,
+    "corr": -0.0103,
+    "p_value": 0.306,
+    "days": 4858,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "POL",
+    "beta": -0.0,
+    "corr": -0.0102,
+    "p_value": 0.31,
+    "days": 4859,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "MUREB",
+    "beta": -0.0,
+    "corr": -0.0105,
+    "p_value": 0.323,
+    "days": 4855,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "UBL",
+    "beta": -0.0,
+    "corr": -0.0105,
+    "p_value": 0.325,
+    "days": 4856,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "EFERT",
+    "beta": 0.0002,
+    "corr": 0.0126,
+    "p_value": 0.329,
+    "days": 3283,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "ABL",
+    "beta": -0.0,
+    "corr": -0.0091,
+    "p_value": 0.35,
+    "days": 4857,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "AKBL",
+    "beta": -0.0,
+    "corr": -0.008,
+    "p_value": 0.364,
+    "days": 4852,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "ABOT",
+    "beta": 0.0,
+    "corr": 0.0088,
+    "p_value": 0.372,
+    "days": 4861,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "IBFL",
+    "beta": -0.0,
+    "corr": -0.0041,
+    "p_value": 0.38,
+    "days": 4858,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "SSOM",
+    "beta": 0.0,
+    "corr": 0.005,
+    "p_value": 0.39,
+    "days": 4854,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "GHGL",
+    "beta": -0.0,
+    "corr": -0.0083,
+    "p_value": 0.393,
+    "days": 4860,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "NBP",
+    "beta": -0.0,
+    "corr": -0.0082,
+    "p_value": 0.394,
+    "days": 4852,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "PKGS",
+    "beta": -0.0,
+    "corr": -0.0085,
+    "p_value": 0.397,
+    "days": 4856,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "THALL",
+    "beta": 0.0,
+    "corr": 0.008,
+    "p_value": 0.41,
+    "days": 4858,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "CNERGY",
+    "beta": -0.0,
+    "corr": -0.008,
+    "p_value": 0.413,
+    "days": 4849,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "ISL",
+    "beta": -0.0003,
+    "corr": -0.0105,
+    "p_value": 0.414,
+    "days": 3973,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "SHFA",
+    "beta": -0.0,
+    "corr": -0.0069,
+    "p_value": 0.42,
+    "days": 4863,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "TRG",
+    "beta": -0.0,
+    "corr": -0.0086,
+    "p_value": 0.422,
+    "days": 4853,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "PGLC",
+    "beta": -0.0,
+    "corr": -0.0006,
+    "p_value": 0.426,
+    "days": 4930,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "BNWM",
+    "beta": -0.0,
+    "corr": -0.0077,
+    "p_value": 0.448,
+    "days": 4853,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "RMPL",
+    "beta": -0.0,
+    "corr": -0.0017,
+    "p_value": 0.449,
+    "days": 4863,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "KEL",
+    "beta": -0.0,
+    "corr": -0.0058,
+    "p_value": 0.461,
+    "days": 4858,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "MARI",
+    "beta": 0.0,
+    "corr": 0.0063,
+    "p_value": 0.469,
+    "days": 4855,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "DGKC",
+    "beta": -0.0,
+    "corr": -0.0067,
+    "p_value": 0.487,
+    "days": 4856,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "NESTLE",
+    "beta": 0.0,
+    "corr": 0.0024,
+    "p_value": 0.501,
+    "days": 4867,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "FHAM",
+    "beta": -0.0,
+    "corr": -0.0043,
+    "p_value": 0.502,
+    "days": 4858,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "FATIMA",
+    "beta": -0.0,
+    "corr": -0.0066,
+    "p_value": 0.505,
+    "days": 4292,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "MLCF",
+    "beta": -0.0,
+    "corr": -0.0057,
+    "p_value": 0.518,
+    "days": 4859,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "PSEL",
+    "beta": -0.0,
+    "corr": -0.0004,
+    "p_value": 0.518,
+    "days": 4865,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "TGL",
+    "beta": 0.0,
+    "corr": 0.0058,
+    "p_value": 0.522,
+    "days": 4861,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "PSO",
+    "beta": -0.0,
+    "corr": -0.0058,
+    "p_value": 0.528,
+    "days": 4859,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "SRVI",
+    "beta": -0.0,
+    "corr": -0.0054,
+    "p_value": 0.531,
+    "days": 4856,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "SCBPL",
+    "beta": 0.0,
+    "corr": 0.0038,
+    "p_value": 0.545,
+    "days": 4861,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "AGP",
+    "beta": 0.0296,
+    "corr": 0.012,
+    "p_value": 0.546,
+    "days": 2159,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "GADT",
+    "beta": -0.0,
+    "corr": -0.0046,
+    "p_value": 0.55,
+    "days": 4854,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "PAEL",
+    "beta": -0.0,
+    "corr": -0.0055,
+    "p_value": 0.558,
+    "days": 4859,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "CPHL",
+    "beta": 0.0378,
+    "corr": 0.0147,
+    "p_value": 0.56,
+    "days": 1332,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "ATRL",
+    "beta": 0.0,
+    "corr": 0.0048,
+    "p_value": 0.571,
+    "days": 4857,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "BAHL",
+    "beta": -0.0,
+    "corr": -0.0044,
+    "p_value": 0.582,
+    "days": 4854,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "AICL",
+    "beta": -0.0,
+    "corr": -0.0045,
+    "p_value": 0.598,
+    "days": 4854,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "NML",
+    "beta": -0.0,
+    "corr": -0.0049,
+    "p_value": 0.61,
+    "days": 4859,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "PABC",
+    "beta": -0.0317,
+    "corr": -0.0135,
+    "p_value": 0.611,
+    "days": 1330,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "TREET",
+    "beta": -0.0,
+    "corr": -0.0041,
+    "p_value": 0.613,
+    "days": 4858,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "CHCC",
+    "beta": -0.0,
+    "corr": -0.0037,
+    "p_value": 0.628,
+    "days": 4856,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "ATLH",
+    "beta": 0.0,
+    "corr": 0.0022,
+    "p_value": 0.635,
+    "days": 4857,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "MEBL",
+    "beta": -0.0,
+    "corr": -0.0035,
+    "p_value": 0.637,
+    "days": 4860,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "SYS",
+    "beta": 0.0008,
+    "corr": 0.0057,
+    "p_value": 0.653,
+    "days": 3002,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "HCAR",
+    "beta": -0.0,
+    "corr": -0.0037,
+    "p_value": 0.667,
+    "days": 4853,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "MCB",
+    "beta": -0.0,
+    "corr": -0.0026,
+    "p_value": 0.669,
+    "days": 4859,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "JDWS",
+    "beta": 0.0,
+    "corr": 0.0008,
+    "p_value": 0.676,
+    "days": 4863,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "HBL",
+    "beta": -0.0,
+    "corr": -0.0029,
+    "p_value": 0.68,
+    "days": 4854,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "PRL",
+    "beta": 0.0,
+    "corr": 0.003,
+    "p_value": 0.689,
+    "days": 4863,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "SSGC",
+    "beta": -0.0,
+    "corr": -0.0031,
+    "p_value": 0.69,
+    "days": 4858,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "LOTCHEM",
+    "beta": -0.0,
+    "corr": -0.0009,
+    "p_value": 0.705,
+    "days": 4854,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "OGDC",
+    "beta": -0.0,
+    "corr": -0.0026,
+    "p_value": 0.705,
+    "days": 4861,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "ILP",
+    "beta": 0.0194,
+    "corr": 0.008,
+    "p_value": 0.72,
+    "days": 1925,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "KAPCO",
+    "beta": 0.0,
+    "corr": 0.0015,
+    "p_value": 0.738,
+    "days": 4853,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "FABL",
+    "beta": 0.0,
+    "corr": 0.0019,
+    "p_value": 0.747,
+    "days": 4859,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "HUBC",
+    "beta": -0.0,
+    "corr": -0.002,
+    "p_value": 0.748,
+    "days": 4856,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "GHNI",
+    "beta": 0.0,
+    "corr": 0.0019,
+    "p_value": 0.761,
+    "days": 4859,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "BOP",
+    "beta": -0.0,
+    "corr": -0.0017,
+    "p_value": 0.762,
+    "days": 4857,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "MTL",
+    "beta": 0.0,
+    "corr": 0.0014,
+    "p_value": 0.773,
+    "days": 4860,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "SEARL",
+    "beta": -0.0,
+    "corr": -0.0014,
+    "p_value": 0.791,
+    "days": 4861,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "AIRLINK",
+    "beta": 0.017,
+    "corr": 0.006,
+    "p_value": 0.806,
+    "days": 1281,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "SAZEW",
+    "beta": -0.0,
+    "corr": -0.0012,
+    "p_value": 0.806,
+    "days": 4863,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "LUCK",
+    "beta": -0.0,
+    "corr": -0.0011,
+    "p_value": 0.821,
+    "days": 4858,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "FFL",
+    "beta": 0.0,
+    "corr": 0.0007,
+    "p_value": 0.825,
+    "days": 4857,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "PTC",
+    "beta": -0.0,
+    "corr": -0.0008,
+    "p_value": 0.841,
+    "days": 4860,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "UPFL",
+    "beta": 0.0,
+    "corr": 0.0005,
+    "p_value": 0.895,
+    "days": 4890,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "INDU",
+    "beta": 0.0,
+    "corr": 0.0004,
+    "p_value": 0.903,
+    "days": 4862,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "PPL",
+    "beta": -0.0,
+    "corr": -0.0004,
+    "p_value": 0.918,
+    "days": 4858,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "POWER",
+    "beta": -0.0,
+    "corr": -0.0001,
+    "p_value": 0.927,
+    "days": 4856,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "HINOON",
+    "beta": 0.0,
+    "corr": 0.0002,
+    "p_value": 0.974,
+    "days": 4859,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "DCR",
+    "beta": 0.0003,
+    "corr": 0.0003,
+    "p_value": 0.987,
+    "days": 2888,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "HUMNL",
+    "beta": -0.0,
+    "corr": -0.0001,
+    "p_value": 0.988,
+    "days": 4859,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   },
+   {
+    "stock": "GLAXO",
+    "beta": -0.0,
+    "corr": -0.0,
+    "p_value": 0.999,
+    "days": 4856,
+    "survives_bonferroni": false,
+    "survives_fdr": false
+   }
+  ]
+ },
+ "stocks": {
+  "ABL": {
+   "name": "Allied Bank Limited",
+   "sector": "Commercial Banks",
+   "weight_pct": 0.41
+  },
+  "ABOT": {
+   "name": "Abbott Laboratories (Pakistan) Limited",
+   "sector": "Pharmaceuticals",
+   "weight_pct": 0.41
+  },
+  "AGP": {
+   "name": "AGP Limited",
+   "sector": "Pharmaceuticals",
+   "weight_pct": 0.27
+  },
+  "AHCL": {
+   "name": "Arif Habib Corporation Limited",
+   "sector": "Fertilizer",
+   "weight_pct": 0.2
+  },
+  "AICL": {
+   "name": "Adamjee Insurance Company Limited",
+   "sector": "Insurance",
+   "weight_pct": 0.43
+  },
+  "AIRLINK": {
+   "name": "Air Link Communication Limited",
+   "sector": "Technology & Communication",
+   "weight_pct": 0.31
+  },
+  "AKBL": {
+   "name": "Askari Bank Limited",
+   "sector": "Commercial Banks",
+   "weight_pct": 0.97
+  },
+  "APL": {
+   "name": "Attock Petroleum Limited",
+   "sector": "Oil & Gas Marketing Companies",
+   "weight_pct": 0.38
+  },
+  "ATLH": {
+   "name": "Atlas Honda Limited",
+   "sector": "Automobile Assembler",
+   "weight_pct": 0.41
+  },
+  "ATRL": {
+   "name": "Attock Refinery Limited",
+   "sector": "Refinery",
+   "weight_pct": 1.02
+  },
+  "BAFL": {
+   "name": "Bank Alfalah Limited",
+   "sector": "Commercial Banks",
+   "weight_pct": 1.67
+  },
+  "BAHL": {
+   "name": "Bank AL Habib Limited",
+   "sector": "Commercial Banks",
+   "weight_pct": 2.63
+  },
+  "BNWM": {
+   "name": "Bannu Woollen Mills Limited",
+   "sector": "Woollen",
+   "weight_pct": 0.01
+  },
+  "BOP": {
+   "name": "The Bank of Punjab",
+   "sector": "Commercial Banks",
+   "weight_pct": 0.88
+  },
+  "BWCL": {
+   "name": "Bestway Cement Limited",
+   "sector": "Cement",
+   "weight_pct": 0.55
+  },
+  "CHCC": {
+   "name": "Cherat Cement Company Limited",
+   "sector": "Cement",
+   "weight_pct": 0.67
+  },
+  "CNERGY": {
+   "name": "Cnergyico PK  Limited",
+   "sector": "Refinery",
+   "weight_pct": 0.38
+  },
+  "COLG": {
+   "name": "Colgate-Palmolive (Pakistan) Limited",
+   "sector": "Food & Personal Care Products",
+   "weight_pct": 0.57
+  },
+  "CPHL": {
+   "name": "Citi Pharma Ltd.",
+   "sector": "Pharmaceuticals",
+   "weight_pct": 0.18
+  },
+  "DCR": {
+   "name": "Dolmen City REIT",
+   "sector": "Real Estate Investment Trust",
+   "weight_pct": 0.46
+  },
+  "DGKC": {
+   "name": "D.G. Khan Cement Company Limited",
+   "sector": "Cement",
+   "weight_pct": 0.89
+  },
+  "EFERT": {
+   "name": "Engro Fertilizers Limited",
+   "sector": "Fertilizer",
+   "weight_pct": 2.43
+  },
+  "FABL": {
+   "name": "Faysal Bank Limited",
+   "sector": "Commercial Banks",
+   "weight_pct": 1.04
+  },
+  "FATIMA": {
+   "name": "Fatima Fertilizer Company Limited",
+   "sector": "Fertilizer",
+   "weight_pct": 0.94
+  },
+  "FCCL": {
+   "name": "Fauji Cement Company Limited",
+   "sector": "Cement",
+   "weight_pct": 0.96
+  },
+  "FFC": {
+   "name": "Fauji Fertilizer Company Limited",
+   "sector": "Fertilizer",
+   "weight_pct": 8.93
+  },
+  "FFL": {
+   "name": "Fauji Foods Limited",
+   "sector": "Food & Personal Care Products",
+   "weight_pct": 0.16
+  },
+  "FHAM": {
+   "name": "First Habib Modaraba",
+   "sector": "Modarabas",
+   "weight_pct": 0.06
+  },
+  "GADT": {
+   "name": "Gadoon Textile Mills Limited",
+   "sector": "Textile Spinning",
+   "weight_pct": 0.05
+  },
+  "GHGL": {
+   "name": "Ghani Glass Limited",
+   "sector": "Glass & Ceramics",
+   "weight_pct": 0.29
+  },
+  "GHNI": {
+   "name": "Ghandhara Industries Limited",
+   "sector": "Automobile Assembler",
+   "weight_pct": 0.34
+  },
+  "GLAXO": {
+   "name": "GlaxoSmithKline Pakistan Limited",
+   "sector": "Pharmaceuticals",
+   "weight_pct": 0.42
+  },
+  "HALEON": {
+   "name": "Haleon Pakistan Limited",
+   "sector": "Pharmaceuticals",
+   "weight_pct": 0.22
+  },
+  "HBL": {
+   "name": "Habib Bank Limited",
+   "sector": "Commercial Banks",
+   "weight_pct": 3.73
+  },
+  "HCAR": {
+   "name": "Honda Atlas Cars (Pakistan) Limited",
+   "sector": "Automobile Assembler",
+   "weight_pct": 0.13
+  },
+  "HGFA": {
+   "name": "HBL Growth Fund",
+   "sector": "Close - End Mutual Fund",
+   "weight_pct": 0.08
+  },
+  "HINOON": {
+   "name": "Highnoon Laboratories Limited",
+   "sector": "Pharmaceuticals",
+   "weight_pct": 0.42
+  },
+  "HMB": {
+   "name": "Habib Metropolitan Bank Limited",
+   "sector": "Commercial Banks",
+   "weight_pct": 0.96
+  },
+  "HUBC": {
+   "name": "The Hub Power Company Limited",
+   "sector": "Power Generation & Distribution",
+   "weight_pct": 4.11
+  },
+  "HUMNL": {
+   "name": "Hum Network Limited",
+   "sector": "Technology & Communication",
+   "weight_pct": 0.08
+  },
+  "IBFL": {
+   "name": "Ibrahim Fibres Limited",
+   "sector": "Synthetic & Rayon",
+   "weight_pct": 0.08
+  },
+  "ILP": {
+   "name": "Interloop Limited",
+   "sector": "Textile Composite",
+   "weight_pct": 0.57
+  },
+  "INDU": {
+   "name": "Indus Motor Company Limited",
+   "sector": "Automobile Assembler",
+   "weight_pct": 0.52
+  },
+  "INIL": {
+   "name": "International Industries Limited",
+   "sector": "Engineering",
+   "weight_pct": 0.21
+  },
+  "ISL": {
+   "name": "International Steels Limited",
+   "sector": "Engineering",
+   "weight_pct": 0.26
+  },
+  "JDWS": {
+   "name": "JDW Sugar Mills Limited",
+   "sector": "Sugar & Allied Industries",
+   "weight_pct": 0.16
+  },
+  "JVDC": {
+   "name": "Javedan Corporation Limited",
+   "sector": "Property",
+   "weight_pct": 0.58
+  },
+  "KAPCO": {
+   "name": "Kot Addu Power Company Limited",
+   "sector": "Power Generation & Distribution",
+   "weight_pct": 0.25
+  },
+  "KEL": {
+   "name": "K-Electric Limited",
+   "sector": "Power Generation & Distribution",
+   "weight_pct": 0.35
+  },
+  "KOHC": {
+   "name": "Kohat Cement Company Limited",
+   "sector": "Cement",
+   "weight_pct": 0.43
+  },
+  "KTML": {
+   "name": "Kohinoor Textile Mills Limited",
+   "sector": "Textile Composite",
+   "weight_pct": 0.23
+  },
+  "LCI": {
+   "name": "Lucky Core Industries Limited",
+   "sector": "Chemical",
+   "weight_pct": 0.4
+  },
+  "LOTCHEM": {
+   "name": "Lotte Chemical Pakistan Limited",
+   "sector": "Chemical",
+   "weight_pct": 0.2
+  },
+  "LUCK": {
+   "name": "Lucky Cement Limited",
+   "sector": "Cement",
+   "weight_pct": 3.79
+  },
+  "MARI": {
+   "name": "Mari Energies Limited",
+   "sector": "Oil & Gas Exploration Companies",
+   "weight_pct": 3.2
+  },
+  "MCB": {
+   "name": "MCB Bank Limited",
+   "sector": "Commercial Banks",
+   "weight_pct": 3.35
+  },
+  "MEBL": {
+   "name": "Meezan Bank Limited",
+   "sector": "Commercial Banks",
+   "weight_pct": 5.15
+  },
+  "MEHT": {
+   "name": "Mehmood Textile Mills Limited",
+   "sector": "Textile Composite",
+   "weight_pct": 0.06
+  },
+  "MLCF": {
+   "name": "Maple Leaf Cement Factory Limited",
+   "sector": "Cement",
+   "weight_pct": 0.92
+  },
+  "MTL": {
+   "name": "Millat Tractors Limited",
+   "sector": "Automobile Assembler",
+   "weight_pct": 1.12
+  },
+  "MUREB": {
+   "name": "Murree Brewery Company Limited",
+   "sector": "Food & Personal Care Products",
+   "weight_pct": 0.22
+  },
+  "NATF": {
+   "name": "National Foods Limited",
+   "sector": "Food & Personal Care Products",
+   "weight_pct": 0.42
+  },
+  "NBP": {
+   "name": "National Bank of Pakistan",
+   "sector": "Commercial Banks",
+   "weight_pct": 1.76
+  },
+  "NESTLE": {
+   "name": "Nestle Pakistan Limited",
+   "sector": "Food & Personal Care Products",
+   "weight_pct": 0.7
+  },
+  "NML": {
+   "name": "Nishat Mills Limited",
+   "sector": "Textile Composite",
+   "weight_pct": 0.44
+  },
+  "NPL": {
+   "name": "Nishat Power Limited",
+   "sector": "Power Generation & Distribution",
+   "weight_pct": 0.23
+  },
+  "NRL": {
+   "name": "National Refinery Limited",
+   "sector": "Refinery",
+   "weight_pct": 0.6
+  },
+  "OGDC": {
+   "name": "Oil & Gas Development Company Limited",
+   "sector": "Oil & Gas Exploration Companies",
+   "weight_pct": 4.27
+  },
+  "PABC": {
+   "name": "Pakistan Aluminium Beverage Cans Limited",
+   "sector": "Miscellaneous",
+   "weight_pct": 0.11
+  },
+  "PAEL": {
+   "name": "Pak Elektron Limited",
+   "sector": "Cable & Electrical Goods",
+   "weight_pct": 0.38
+  },
+  "PAKT": {
+   "name": "Pakistan Tobacco Company Limited",
+   "sector": "Tobacco",
+   "weight_pct": 0.37
+  },
+  "PGLC": {
+   "name": "Pak-Gulf Leasing Company Limited",
+   "sector": "Leasing Companies",
+   "weight_pct": 0
+  },
+  "PIBTL": {
+   "name": "Pakistan International Bulk Terminal",
+   "sector": "Transport",
+   "weight_pct": 0.26
+  },
+  "PIOC": {
+   "name": "Pioneer Cement Limited",
+   "sector": "Cement",
+   "weight_pct": 0.17
+  },
+  "PKGS": {
+   "name": "Packages Limited",
+   "sector": "Paper, Board & Packaging",
+   "weight_pct": 0.27
+  },
+  "POL": {
+   "name": "Pakistan Oilfields Limited",
+   "sector": "Oil & Gas Exploration Companies",
+   "weight_pct": 2.02
+  },
+  "POWER": {
+   "name": "Power Cement Limited",
+   "sector": "Cement",
+   "weight_pct": 0.21
+  },
+  "PPL": {
+   "name": "Pakistan Petroleum Limited",
+   "sector": "Oil & Gas Exploration Companies",
+   "weight_pct": 3.25
+  },
+  "PRL": {
+   "name": "Pakistan Refinery Limited",
+   "sector": "Refinery",
+   "weight_pct": 0.88
+  },
+  "PSEL": {
+   "name": "Pakistan Services Limited",
+   "sector": "Miscellaneous",
+   "weight_pct": 0.74
+  },
+  "PSO": {
+   "name": "Pakistan State Oil Company Limited",
+   "sector": "Oil & Gas Marketing Companies",
+   "weight_pct": 1.73
+  },
+  "PSX": {
+   "name": "Pakistan Stock Exchange Limited",
+   "sector": "Inv. Banks / Inv. Cos. / Securities Cos.",
+   "weight_pct": 0.47
+  },
+  "PTC": {
+   "name": "Pakistan Telecommunication Company Ltd",
+   "sector": "Technology & Communication",
+   "weight_pct": 0.77
+  },
+  "RMPL": {
+   "name": "Rafhan Maize Products Company Limited",
+   "sector": "Food & Personal Care Products",
+   "weight_pct": 0.09
+  },
+  "SAZEW": {
+   "name": "Sazgar Engineering Works Limited",
+   "sector": "Automobile Assembler",
+   "weight_pct": 0.77
+  },
+  "SCBPL": {
+   "name": "Standard Chartered Bank (Pak) Ltd",
+   "sector": "Commercial Banks",
+   "weight_pct": 0.24
+  },
+  "SEARL": {
+   "name": "The Searle Company Limited",
+   "sector": "Pharmaceuticals",
+   "weight_pct": 0.52
+  },
+  "SHFA": {
+   "name": "Shifa International Hospitals Limited",
+   "sector": "Miscellaneous",
+   "weight_pct": 0.27
+  },
+  "SNGP": {
+   "name": "Sui Northern Gas Pipelines Limited",
+   "sector": "Oil & Gas Marketing Companies",
+   "weight_pct": 0.49
+  },
+  "SRVI": {
+   "name": "Service Industries Limited",
+   "sector": "Leather & Tanneries",
+   "weight_pct": 0.88
+  },
+  "SSGC": {
+   "name": "Sui Southern Gas Company Limited",
+   "sector": "Oil & Gas Marketing Companies",
+   "weight_pct": 0.17
+  },
+  "SSOM": {
+   "name": "S.S.Oil Mills Limited",
+   "sector": "Vanaspati & Allied Industries",
+   "weight_pct": 0.01
+  },
+  "SYS": {
+   "name": "Systems Limited",
+   "sector": "Technology & Communication",
+   "weight_pct": 2.39
+  },
+  "TGL": {
+   "name": "Tariq Glass Industries Limited",
+   "sector": "Glass & Ceramics",
+   "weight_pct": 0.23
+  },
+  "THALL": {
+   "name": "Thal Limited",
+   "sector": "Automobile Parts & Accessories",
+   "weight_pct": 0.35
+  },
+  "TREET": {
+   "name": "Treet Corporation Limited",
+   "sector": "Food & Personal Care Products",
+   "weight_pct": 0.17
+  },
+  "TRG": {
+   "name": "TRG Pakistan Limited",
+   "sector": "Technology & Communication",
+   "weight_pct": 0.39
+  },
+  "UBL": {
+   "name": "United Bank Limited",
+   "sector": "Commercial Banks",
+   "weight_pct": 7.76
+  },
+  "UPFL": {
+   "name": "Unilever Pakistan Foods Limited",
+   "sector": "Food & Personal Care Products",
+   "weight_pct": 0.27
+  },
+  "YOUW": {
+   "name": "Yousaf Weaving Mills Limited",
+   "sector": "Textile Weaving",
+   "weight_pct": 0.01
+  }
+ },
+ "note": "Descriptive attribution, not a trading signal and not advice. A demonstrated beta says what a stock's price HAS tended to do alongside a factor, not what it will do."
+}
