@@ -3266,27 +3266,7 @@ async function pageCalendar() {
     `${earnings.length} dated results across the coming months, each verified against a board-meeting notice — the dates that gap prices, known before they land.`) : ""}`;
 }
 
-let newsFilter = { imp: 0, q: "" };
-async function pageNews() {
-  const news = (await j("newslog.json")) || [];
-  const rows = news.filter(n => (n.impact || 0) >= newsFilter.imp
-    && (!newsFilter.q || (n.tickers || []).join(" ").toUpperCase().includes(newsFilter.q) || (n.headline || "").toUpperCase().includes(newsFilter.q)))
-    .slice(-80).reverse();
-  $("view").innerHTML = `
-  <div class="card"><h2>News wire</h2><div class="sub">${news.length} items logged · nothing is ever deleted — this is the desk's memory</div>
-    <div class="ranges">
-      ${[0, 3, 4, 5].map(i => `<button data-imp="${i}" class="${newsFilter.imp === i ? "on" : ""}">${i ? "impact ≥" + i : "all"}</button>`).join("")}
-      <input id="nq" type="search" inputmode="search" enterkeyhint="search" placeholder="filter ticker/text" value="${esc(newsFilter.q)}" style="font:inherit;padding:4px 10px;border:1px solid currentColor;opacity:.7;background:transparent;color:inherit;border-radius:0">
-    </div>
-    <div class="wire">${rows.length ? rows.map(n => `<p><span class="tag">${n.impact}</span> <span class="t">${esc((n.ts || "").slice(0, 16))}</span>
-      ${(n.tickers || []).map(t => `<a href="/ticker/${esc(t)}" style="color:var(--accent);font-weight:700">${esc(t)}</a>`).join(" ")}
-      <b>${esc(tp(n, "headline"))}</b> ${externalLink(n.url, "↗", 'style="color:var(--accent)"')}<br>
-      <span class="t">${esc(tp(n, "summary"))} · ${esc(n.source || "")}</span></p>`).join("") : '<div class="empty">Wire silent — sentinel runs every cycle during market hours.</div>'}</div></div>`;
-  $("view").querySelector(".ranges").addEventListener("click", e => {
-    if (e.target.dataset.imp != null) { newsFilter.imp = +e.target.dataset.imp; pageNews(); }
-  });
-  $("nq").addEventListener("change", e => { newsFilter.q = e.target.value.toUpperCase(); pageNews(); });
-}
+// pageNews() moved to dashboard/page-news.js (redesign port of docs/redesign-mockups/news-mockup.html)
 
 /* ---------- Research library (broker notes + filings, digested) ---------- */
 async function pageResearch() {
