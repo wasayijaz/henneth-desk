@@ -3229,45 +3229,7 @@ async function pageCalendar() {
 
 // pageNews() moved to dashboard/page-news.js (redesign port of docs/redesign-mockups/news-mockup.html)
 
-/* ---------- Research library (broker notes + filings, digested) ---------- */
-async function pageResearch() {
-  const idx = await j("research_index.json");
-  const docs = Object.values(idx?.documents || {}).sort((a, b) => (b.date || "").localeCompare(a.date || ""));
-  const followed = new Set(followedBrokers());
-  // followed broker desks surface first on the wire, then by date
-  const brokers = docs.filter(d => d.source_type === "broker")
-    .sort((a, b) => (followed.has(b.source) ? 1 : 0) - (followed.has(a.source) ? 1 : 0));
-  const filings = docs.filter(d => d.source_type !== "broker");
-  const dtLabel = { corporate_briefing: "corporate briefing", agm: "AGM", results: "results", board_meeting: "board meeting", filing: "filing", morning_note: "morning note", company_note: "broker note" };
-  const docRow = d => `<div class="rdoc">
-    <div class="rdoc-top"><span class="tag">${esc(dtLabel[d.doc_type] || d.doc_type)}</span>
-      <span class="rdoc-src">${esc(d.source)}${followed.has(d.source) ? ' <span class="wbadge">★ following</span>' : ""}${d.digest_level === "headline" ? ' · <span class="sub">headline only</span>' : ""}</span>
-      <span class="t">${esc(d.date || "")}</span>
-      ${(d.tickers || []).slice(0, 4).map(t => `<a href="/ticker/${esc(t)}" class="tag clickable">${esc(t)}</a>`).join(" ")}</div>
-    <div class="rdoc-digest">${esc(d.digest || "")}${externalLink(d.url, "source ↗", 'style="color:var(--accent)"') ? ` ${externalLink(d.url, "source ↗", 'style="color:var(--accent)"')}` : ""}</div>
-    ${(d.claims || []).length ? `<div class="sub" style="margin-top:4px"><b>Claims (scored later):</b> ${d.claims.map(c => esc(c.claim?.text || "")).join(" · ")}</div>` : ""}
-    ${d.omissions ? `<div class="sub" style="margin-top:4px"><b class="dn">What it glosses over:</b> ${esc(d.omissions)}</div>` : ""}</div>`;
-  // glance row: what's in the library and how much of it is on the record
-  const sTile = (label, val, sub, k) => `<div class="sumtile"><span class="sk">${label}</span><b class="${k || ""}">${val}</b>${sub ? `<i>${sub}</i>` : ""}</div>`;
-  const nClaims = docs.reduce((a, d) => a + ((d.claims || []).length), 0);
-  const houses = new Set(docs.filter(d => d.source_type === "broker").map(d => d.source));
-  const latest = docs[0]?.date || "—";
-  $("view").innerHTML = `
-  <div class="seg" style="margin-top:4px"><h2>Research library</h2><div class="ln"></div><span class="pill">${docs.length} documents</span></div>
-  <div class="sumstrip s4">
-    ${sTile("Broker notes", brokers.length, `${houses.size} house${houses.size === 1 ? "" : "s"}${followed.size ? ` · ${followed.size} you follow` : ""}`, "")}
-    ${sTile("Filings & briefings", filings.length, "results · AGM · board", "")}
-    ${sTile("Claims on the record", nClaims, "each scored when it resolves", nClaims ? "up" : "")}
-    ${sTile("Latest document", esc(latest), "the wire updates weekly", "")}
-  </div>
-  <div class="disclaimer">Broker research and company filings are <b>evidence the desk cross-examines, never takes at face value</b>. Brokers miss things, carry sector bias, and are often wrong — every broker claim here is extracted, scored against what actually happens, and ranked on the <a href="/leaderboard" style="color:inherit;text-decoration:underline">broker leaderboard</a>. Educational, not advice.</div>
-  <div class="seg"><h2>Broker notes</h2><div class="ln"></div><span class="pill">${brokers.length}</span></div>
-  <div class="card">${brokers.length ? (isSubscribed() ? brokers : brokers.slice(0, 2)).map(docRow).join("") : '<div class="empty">No broker notes digested yet. Add public sources in config/broker_sources.json; the desk digests each once and scores its calls. Until then, the desk forms its own view without leaning on brokers.</div>'}</div>
-  <div class="seg"><h2>Company filings & briefings</h2><div class="ln"></div><span class="pill">${filings.length}</span></div>
-  <div class="card">${filings.length ? (isSubscribed() ? filings : filings.slice(0, 2)).map(docRow).join("") : '<div class="empty">No filings tagged yet — the news sentinel surfaces results, board-meeting and corporate-briefing notices here as companies file them.</div>'}</div>
-  ${docs.length > 4 ? planWall("The full research library",
-    `${docs.length} digested documents — broker notes, results filings and corporate briefings, each cross-examined with every claim extracted for public scoring.`) : ""}`;
-}
+// pageResearch() moved to dashboard/page-research.js (redesign port of docs/redesign-mockups/research-mockup.html)
 
 /* ---------- Leaderboards: our analysts + the brokers, scored on real outcomes ---------- */
 async function pageLeaderboard() {
